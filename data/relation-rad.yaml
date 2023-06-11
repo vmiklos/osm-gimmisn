@@ -21,12 +21,21 @@ filters:
     # 185: ez helyrajzi szám, nem házszám.
     # 185/1: ez helyrajzi szám, nem házszám.
     invalid: ['130', '161/2', '168', '169/2', '170', '170/9', '185', '185/1']
+  József Attila utca:
+    # 9/a: nincs ilyen, csak sima 9 van.
+    # 15/a: két 15-ös házszámú épület van egymás mellett, de egyiken sincs /a alátörés.
+    # 33, 33/1: a kerítésen 33 van, de a ház falán 33/1.
+    # 33/b: ez és a Május 1. utca 32. ugyanaz a telek, de házszám a Május 1. utcáról van csak.
+    # 10/2: nincs ilyen, csak 10 és 10/a.
+    invalid: ['9a', '33/b', '10/2']
   Kertész utca:
     # 31: ez helyrajzi szám, nem házszám.
     # 31/2: ez helyrajzi szám, nem házszám.
     invalid: ['31', '31/2']
   Kossuth utca:
     # 211: ez helyrajzi szám, nem házszám.
+    # 14/b: van kettő 14-es és köztük a 14/a, de a 14/b és a 14/c nincs kitáblázva (2023).
+    # 14/c: van kettő 14-es és köztük a 14/a, de a 14/b és a 14/c nincs kitáblázva (2023).
     invalid: ['211']
   Liget utca:
     # 14/2: ez helyrajzi szám, nem házszám.
@@ -36,10 +45,25 @@ filters:
   Nefelejcs utca:
     # 24: a páros oldalon a 22 az utolsó házszám.
     invalid: ['24']
+  Petőfi út:
+    # 91: összenyitott telek a 89-cel, de csak 89 van kitáblázva.
+    # 20/a: nincs ilyen, csak sima 20 van.
+    invalid: ['91', '20a']
   Rákóczi út:
     # 45/4: ez helyrajzi szám, nem házszám.
     invalid: ['45/4']
+  Rózsa utca:
+    # 13: a páratlan oldalon a 9 az utolsó házszám.
+    # 2: a páros oldalon a 4 az első házszám.
+    invalid: ['13', '2']
+  Temető utca:
+    # 54/13: ez helyrajzi szám, nem házszám. Az Álomvölgy tanya helyrajzi száma.
+    invalid: ['54/13']
+  Váci út:
+    # 17/b: nincs ilyen, csak sima 17 van.
+    invalid: ['17b']
   Viola utca:
+    # 1: két 1-es házszámú épület van egymás mellett az 1/b felé vezető út két oldalán.
     # 35/4: ez helyrajzi szám, nem házszám.
     # 44/1: ez helyrajzi szám, nem házszám.
     # 46/5: ez helyrajzi szám, nem házszám.
