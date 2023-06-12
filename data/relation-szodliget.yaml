@@ -13,15 +13,16 @@ street-filters:
   - Szociális otthon
   - Trafóház
 refstreets:
-  'Akácos utca': 'Akácos út'  # https://www.openstreetmap.org/note/3724173
-  'Barack köz': 'Barackos köz'  # https://www.openstreetmap.org/note/3724174
-  'Bánya utca': 'Bánya út'  # https://www.openstreetmap.org/note/3724175
-  'Határ utca': 'Határ út'  # https://www.openstreetmap.org/note/3724177
-  'Hunyadi János utca': 'Hunyadi utca'  # https://www.openstreetmap.org/note/3724179
-  'Jókai Mór utca': 'Jókai utca'  # https://www.openstreetmap.org/note/3724181
-  'Klapka György utca': 'Klapka utca'  #https://www.openstreetmap.org/note/3724182
-  'Kossuth utca': 'Kossuth Lajos utca'  # https://www.openstreetmap.org/note/3724184
-  'Árpád-házi Szent Erzsébet sétány': 'Árpádházi Szent Ezsébet sétány'  # https://www.openstreetmap.org/note/3724187
+  # ellenőrzött
+  'Árpád-házi Szent Erzsébet sétány': 'Árpádházi Szent Ezsébet sétány' # Kötőjellel, Árpád-házi Szent Erzsébet sétány van az utcanévtáblán.
+  'Jókai Mór utca': 'Jókai utca'  # A régi utcanévtáblán csak vezetéknévvel van, az új táblán teljes néven. Jó így, nem nyúltam hozzá.
+  # 'Akácos utca': 'Akácos út'  # Egyik sarkon sincs utcanévtábla. A szabályozási terven útként van, ahogy a földhivatalnál is.
+  # 'Barack köz': 'Barackos köz'  # Barackos köz szerepel az utcanévtáblán.
+  # 'Bánya utca': 'Bánya út'  # Bánya út van kitáblázva.
+  # 'Határ utca': 'Határ út'  # Határ út van kitáblázva.
+  # 'Hunyadi János utca': 'Hunyadi utca'  # Csak vezetéknévvel, Hunyadi utca van kitáblázva.
+  # 'Klapka György utca': 'Klapka utca' # Csak vezetéknévvel, Klapka utca van kitáblázva.
+  # 'Kossuth utca': 'Kossuth Lajos utca'  # Az új utcanévtáblán teljes névvel, a régi utcanévtáblán csak vezetéknévvel szerepel.
 source: survey
 housenumber-letters: false
 inactive: false
