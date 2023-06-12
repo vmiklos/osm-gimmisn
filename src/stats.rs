@@ -515,14 +515,25 @@ pub fn update_invalid_addr_cities(ctx: &context::Context, state_dir: &str) -> an
         let mut conn = ctx.get_database_connection()?;
         conn.execute("delete from stats_invalid_addr_cities", [])?;
         let tx = conn.transaction()?;
+        let mut count = 0;
         for result in csv_reader.deserialize() {
             let row: util::OsmLightHouseNumber = result?;
             let city = row.city.to_lowercase();
             if !valid_settlements.contains(&city) && city != "budapest" {
                 tx.execute("insert into stats_invalid_addr_cities (osm_id, osm_type, postcode, city, street, housenumber, user, timestamp, fixme) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
                        [row.osm_id, row.osm_type, row.postcode, row.city, row.street, row.housenumber, row.user, row.timestamp, row.fixme])?;
+                count += 1;
             }
         }
+
+        // Also append a row in the stats_invalid_addr_cities_counts table so we can chart this.
+        let now = ctx.get_time().now();
+        let format = time::format_description::parse("[year]-[month]-[day]")?;
+        let today = now.format(&format)?;
+        tx.execute(
+            "insert into stats_invalid_addr_cities_counts (date, count) values (?1, ?2)",
+            [today, count.to_string()],
+        )?;
         tx.commit()?;
     }
 
