@@ -1,16 +1,20 @@
 missing-streets: 'yes'
 filters:
+  István király tér:
+    show-refstreet: false
   Radnóti Miklós utca:
     show-refstreet: false
+  Táncsics utca:
+    # 1: nincs kiírva, az utcában csak 3 és 3/a van és egy ház szám nélkül ami szintén 3
+    invalid: ['1']
 refstreets:
+  # helyesírás
+  'Zrínyi utca': 'Zrinyi utca'
   # ellenőrzött, tábla = osm
   'Radnóti Miklós utca': 'Radnóti utca'
   'István király tér': 'Istvánkirály tér'
   # kérdéses
   'Gárdonyi Géza utca': 'Gárdonyi utca'
-  # 'Horváth Károly utca': 'Horváth utca'
-  # 'Jókai Mór utca': 'Jókai utca'
-  'Zrínyi utca': 'Zrinyi utca'
 street-filters:
   # nem igazi utcák
   - Kültelek
