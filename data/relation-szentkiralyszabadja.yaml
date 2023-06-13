@@ -2,6 +2,9 @@ missing-streets: 'yes'
 filters:
   István király tér:
     show-refstreet: false
+  Petőfi Sándor utca:
+    # 28, 32: nincsenek beépítve a telkek. utolsó kiírt házszám a 26. RESUREY 2024
+    invalid: ['28', '32']
   Radnóti Miklós utca:
     show-refstreet: false
   Táncsics utca:
