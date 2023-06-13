@@ -5,11 +5,11 @@ filters:
 refstreets:
   # ellenőrzött, tábla = osm
   'Radnóti Miklós utca': 'Radnóti utca'
+  'István király tér': 'Istvánkirály tér'
   # kérdéses
   'Gárdonyi Géza utca': 'Gárdonyi utca'
-  'Horváth Károly utca': 'Horváth utca'
-  'István király tér': 'Istvánkirály tér'
-  'Jókai Mór utca': 'Jókai utca'
+  # 'Horváth Károly utca': 'Horváth utca'
+  # 'Jókai Mór utca': 'Jókai utca'
   'Zrínyi utca': 'Zrinyi utca'
 street-filters:
   # nem igazi utcák
