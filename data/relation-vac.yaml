@@ -139,14 +139,12 @@ refstreets:
   'Felsőnyulas utca': 'Felső-nyulas utca'  # https://www.openstreetmap.org/note/3643314
   'Határ utca': 'Határ út'  # https://www.openstreetmap.org/note/3673564
   'Homokdűlő út': 'Homok dűlő'  # https://www.openstreetmap.org/note/3485459
-  'Horgásztó utca': 'Horgásztói utca'  # táblán talán Horgásztó út
   'Kálvária': 'Kálvária dűlő'  # https://www.openstreetmap.org/note/3673566
   'Kaszálórét': 'Kaszálórét utca'  # https://www.openstreetmap.org/note/3673568
   'Kertvárosi utca': 'Kertvárosi út'  # táblán Kertváros (2019) - https://www.openstreetmap.org/note/3673569
   'Konstantin tér': 'Schuszter Konstantin tér'  # https://www.openstreetmap.org/note/3716227
   'Ordítóárok utca': 'Ordító-árok utca'  # https://www.openstreetmap.org/note/3643313
   'Szederfa sor': 'Szederfasor'  # https://www.openstreetmap.org/note/3643320
-  'Tó utca': 'Tó út'  # https://www.openstreetmap.org/note/3643333 - Vác excel: Tó utca
   # önkormányzati excel ellenőrizendő -----------------------------------------
   'Batthyány Lajos tér': 'Batthyányi Lajos tér'  # https://www.openstreetmap.org/note/3716178
   'Edison utca': 'Thomas Edison utca'  # https://www.openstreetmap.org/note/3715745
@@ -174,7 +172,9 @@ refstreets:
   # 'Damjanich utca': 'Damjanich János utca'  # Az utca egyik végén csak vezetéknévvel, a másik végén teljes névvel van kitáblázva. (2023)
   'Törökhegyi utca': 'Törökhegyi út'  # A régi utcanévtáblán Törökhegyi út az egyik sarkon, az új utcanévtáblán Törökhegyi utca a másik sarkon, miközben a földhivatal szerint Török-hegyi utca, Vác excelben Törökhegyi út (2023) - https://www.openstreetmap.org/note/3643334
   # ref és excel eltérések (ref:excel) - ellenőrzött --------------------------
+  # 'Horgásztó utca': 'Horgásztói utca'  # van Horgásztó út és Horgásztói utca is kitáblázva. A váci Excel szerint is Horgásztói utca.
   # Quell Rudolf utca: Qwell Rudolf utca  # táblán: Quell Rudolf utca (2023)
+  'Tó utca': 'Tó út'  # https://www.openstreetmap.org/note/3643333 - táblán Tó utca, Vác excel: Tó utca.
   # egyéb ---------------------------------------------------------------------
   # Fekete utca -  táblán Fekete utca (2019) - https://www.openstreetmap.org/note/3673577 - ref hiba, Fekete utca + Fekete út is volt, excel szerint a régi név a Fekete út
 source: survey
