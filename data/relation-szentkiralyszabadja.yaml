@@ -24,6 +24,7 @@ street-filters:
   # - Vödörvölgy
 osm-street-filters:
   # átlógó/határoló utcák
+  - Pinkóczi út
   - Pint utca
   - Vödörvölgyi út
   # nem igazi utcák
