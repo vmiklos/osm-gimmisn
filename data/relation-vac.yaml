@@ -163,7 +163,7 @@ refstreets:
   # 'Nagy Sándor József utca': 'Nagysándor József utca'  # régi táblán Nagy Sándor József utca, az új táblán Nagysándor József utca, az Excelben Nagysándor József utca - https://www.openstreetmap.org/note/3643298
   # 'Németh László utca': 'Németh László út'  # mindenhol Németh László út (2023.06) - https://www.openstreetmap.org/note/3716215
   # 'Pálffy utca': 'Pálffy Miklós utca'  # az utca nyugati végén csak vezetéknévvel van, a keleti végén pedig teljes névvel (2023.06), az Excelben Pálffy Miklós utca, ami ellentmond az utcatábla melletti emléktáblával. - https://www.openstreetmap.org/note/3673514
-  'Park út': 'Park utca'  # az utcatáblán Park utca van kiírva (2023.06), de ez nem tűnik hivatalos utcatáblának. Az Excel szerint Park út, és a régi neve a Park utca.
+  'Park utca': 'Park út'  # az utcatáblán Park utca van kiírva (2023.06), de ez nem tűnik hivatalos utcatáblának. Az Excel szerint Park út, és a régi neve a Park utca.
   'Petróczy utca': 'Petróczy László utca'  # utcatáblán Petróczy utca (2023.06), az Excelben Petróczy László utca -  https://www.openstreetmap.org/note/3673516
   # 'Quell Rudolf utca': 'Qwell Rudolf utca'  # utcatáblán és az emléktáblán Quell Rudolf utca (2023.05), az Excelben Qwell Rudolf utca
   # 'Radnóti Miklós utca': 'Radnóti Miklós út'  # utcatábák vegyesen (Radnóti Miklós út, de van Radnóti utca - 2023.04) - https://www.openstreetmap.org/note/3673518
