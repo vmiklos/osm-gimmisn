@@ -1,4 +1,4 @@
-# Vác hivatalos közterület nevek excel: https://www.vacarchivum.hu/storage/dokumentumok/Utcanevek_Abonyi_Petertol_2022_02_24.xlsx
+# Vác hivatalos közterület nevek Excel - továbbiakban Excel: https://www.vacarchivum.hu/storage/dokumentumok/Utcanevek_Abonyi_Petertol_2022_02_24.xlsx
 missing-streets: 'yes'
 filters:
   Külső Rádi út:
@@ -24,12 +24,11 @@ street-filters:
   - DCM B. telep
   - DCM C. telep
   - Felső Gombás patak
-  - Kertváros  # https://www.openstreetmap.org/note/3673569
   - MÁV állomás pályaudvar
   - MÁV laktanya pályaudvar
   # nem létezik
+  - Csukatelep utca  # Csukatelep: az OSM-en fent volt ilyen névvel, az Excelben pedig Csukatelep utcaként, de a valóságban ez egy ipartelep belső útja. utcatábla nem volt, és nehezen hihető, hogy el van nevezve. Földhivatal szerint felülvizsgálat alatt. - https://www.openstreetmap.org/note/3716209
   - Görög köz  # A Görög köz (hrsz. 3117/2) nem létezik, ott egy társasház van.
-  # - Vörösszőlő utca # A Vörösszőlő utca (hrsz. 0364) nincs kiépítve. - https://www.openstreetmap.org/note/3485462
   # területként van fent
   - Buki sziget  # https://www.openstreetmap.org/relation/3974010
   # dűlők - később vissza kell tenni, amikor a normál utcák már rendben vannak, így túl nagy a zaj (2023-05-26)
@@ -98,85 +97,86 @@ street-filters:
 refstreets:
   # helyesírás ----------------------------------------------------------------
   'Görgey Artúr utca': 'Görgey Artur utca'  # Vác excel: Görgey Artúr utca
-  'Krakkó köz': 'Krakó köz'  # táblán Krakkó köz (2019)  # https://www.openstreetmap.org/note/3716580
-  'Vizimalom utca': 'Vízimalom utca'
-  # valószínű az utcatáblán is ez van -----------------------------------------
-  'Bottyán utca': 'Bottyán János utca'  # https://www.openstreetmap.org/note/3673467
-  'Csávolszky utca': 'Csávolszky József utca'  # https://www.openstreetmap.org/note/3673487
-  'Damjanich tér': 'Damjanich János tér'  # https://www.openstreetmap.org/note/3673491
-  'Dombay utca': 'Dombay Sándor utca'  # https://www.openstreetmap.org/note/3673494
-  'Eötvös utca': 'Eötvös József utca' # https://www.openstreetmap.org/note/3673495
-  'Eszterházy utca': 'Eszterházy Károly utca'  # https://www.openstreetmap.org/note/3673521
-  'Farkasfalvi Imre utca': 'Farkasfalvy Imre utca'  # https://www.openstreetmap.org/note/3673497 - Vác excel: Farkasfalvi Imre utca
-  'Földváry tér': 'Földváry Károly tér'  # https://www.openstreetmap.org/note/3673499
-  'Galcsek utca': 'Galcsek György utca'  # https://www.openstreetmap.org/note/3673520
-  'Hunyadi utca': 'Hunyadi János utca'  # https://www.openstreetmap.org/note/3673523
-  'Jókai utca': 'Jókai Mór utca'  # https://www.openstreetmap.org/note/3673502
-  'Kálvin utca': 'Kálvin János utca'  # https://www.openstreetmap.org/note/3673524
-  'Kossuth tér': 'Kossuth Lajos tér'  # https://www.openstreetmap.org/note/3673504
-  'Kossuth utca': 'Kossuth Lajos utca'  # https://www.openstreetmap.org/note/3673506
-  'Madách utca': 'Madách Imre utca'  # https://www.openstreetmap.org/note/3673508
-  'Oswald utca': 'Oswald Gáspár utca'  # https://www.openstreetmap.org/note/3673512
-  'Pálffy utca': 'Pálffy Miklós utca'  # https://www.openstreetmap.org/note/3673514
-  'Petróczy utca': 'Petróczy László utca'  # https://www.openstreetmap.org/note/3673516
-  'Radnóti Miklós utca': 'Radnóti Miklós út'  # https://www.openstreetmap.org/note/3673518
-  'Somogyi utca': 'Somogyi Imre utca'  # https://www.openstreetmap.org/note/3673517
-  'Széchenyi utca': 'Széchenyi István utca'  # https://www.openstreetmap.org/note/3673525
-  'Szilassy utca': 'Szilassy Vince utca'  # https://www.openstreetmap.org/note/3673526
-  # hibás ---------------------------------------------------------------------
-  'Makay utca': 'Makay Imre utca'  # https://www.openstreetmap.org/note/3673530
-  'Mátyás utca': 'Mátyás király utca'  # https://www.openstreetmap.org/note/3643296
-  'Nagy Sándor József utca': 'Nagysándor József utca'  # https://www.openstreetmap.org/note/3643298
-  'Ulrich köz': 'Ulrich Károly köz'  # https://www.openstreetmap.org/note/3673556
-  'Vörösmarty tér': 'Vörösmarty Mihály tér'  # https://www.openstreetmap.org/note/3673558
-  'Wolkóber utca': 'Wolkóber János utca'  # https://www.openstreetmap.org/note/3673559
-  'Zrínyi utca': 'Zrínyi Miklós utca'  # https://www.openstreetmap.org/note/3673561
   # kérdéses ------------------------------------------------------------------
   'Alsónyulas utca': 'Alsó-nyulas utca'  # https://www.openstreetmap.org/note/3643283 - Vác excel: Alsó-Nyulas utca
+  'Báthori utca': 'Báthori Miklós utca'  # utcatáblán Báthori utca (2023.06), az Excelben Báthori Miklós utca - https://www.openstreetmap.org/note/3673572
   'Belgakert út': 'Belgakert utca'  # https://www.openstreetmap.org/note/3643293
   'Csurgóbánya utca': 'Csurgó bánya utca'  # https://www.openstreetmap.org/note/3673562
   'Deres utca': 'Deres út'  # https://www.openstreetmap.org/note/3643305
   'Felsőnyulas utca': 'Felső-nyulas utca'  # https://www.openstreetmap.org/note/3643314
-  'Határ utca': 'Határ út'  # https://www.openstreetmap.org/note/3673564
   'Homokdűlő út': 'Homok dűlő'  # https://www.openstreetmap.org/note/3485459
   'Kálvária': 'Kálvária dűlő'  # https://www.openstreetmap.org/note/3673566
   'Kaszálórét': 'Kaszálórét utca'  # https://www.openstreetmap.org/note/3673568
   'Kertvárosi utca': 'Kertvárosi út'  # táblán Kertváros (2019) - https://www.openstreetmap.org/note/3673569
-  'Konstantin tér': 'Schuszter Konstantin tér'  # https://www.openstreetmap.org/note/3716227
   'Ordítóárok utca': 'Ordító-árok utca'  # https://www.openstreetmap.org/note/3643313
   'Szederfa sor': 'Szederfasor'  # https://www.openstreetmap.org/note/3643320
+  'Ulrich köz': 'Ulrich Károly köz'  # https://www.openstreetmap.org/note/3673556
   # önkormányzati excel ellenőrizendő -----------------------------------------
   'Batthyány Lajos tér': 'Batthyányi Lajos tér'  # https://www.openstreetmap.org/note/3716178
-  'Edison utca': 'Thomas Edison utca'  # https://www.openstreetmap.org/note/3715745
-  'Jávorszky sétány': 'Dr. Jávorszky Ödön sétány'  # https://www.openstreetmap.org/note/3715869
   'Mogyoróspele utca': 'Mogyorós pele utca'  # https://www.openstreetmap.org/note/3716180
-  'Németh László utca': 'Németh László út'  # https://www.openstreetmap.org/note/3716215
   'Pasa utca': 'Pasa út'  # https://www.openstreetmap.org/note/3715870
-  'Lehotka park': 'Lehotka Gábor park'  # https://www.openstreetmap.org/note/3718932
   'Gérbics utca': 'Zsellér utca'  # https://www.openstreetmap.org/note/3718949
   # ref és önkormányzati excel eltérések (ref:excel) - ellenőrizendő ----------
   # Alsó-nyulas utca: Alsó-Nyulas utca  # https://www.openstreetmap.org/note/3643283
-  # Csukatelep: Csukatelep utca  # https://www.openstreetmap.org/note/3716209
   # Görgey Artur utca: Görgey Artúr utca
   # Gyöngyház lepke utca: Gyöngyházlepke utca  # https://www.openstreetmap.org/note/3716210
   # Oberlander tér: Oberländer Endre tér
-  # Papvölgyi út: Papvölgy út  # https://www.openstreetmap.org/note/3716220
   # Homok dűlő: Homok-dűlő út
-  # egyéb forrásból ellenőrzött  ----------------------------------------------
-  'Báthori utca': 'Báthori Miklós utca'  # táblán Báthori utca (2019) - https://www.openstreetmap.org/note/3673572
-  'Bocskai utca': 'Bocskai István utca'  # táblán Bocskai utca (2019) - https://www.openstreetmap.org/note/3673573
-  'Karcsu Arzén utca': 'Karcsu Antal Arzén utca'  # táblán Karcsu Arzén utca (2019) - https://www.openstreetmap.org/note/3673528
-  'Kép utca': 'Kép János utca'  # táblán Kép utca (2019) - https://www.openstreetmap.org/note/3673578
-  'Kórház út': 'Kórház utca'  # táblán Kórház út (2019) - https://www.openstreetmap.org/note/3673581
-  # felmért -------------------------------------------------------------------
-  # 'Damjanich utca': 'Damjanich János utca'  # Az utca egyik végén csak vezetéknévvel, a másik végén teljes névvel van kitáblázva. (2023)
-  'Törökhegyi utca': 'Törökhegyi út'  # A régi utcanévtáblán Törökhegyi út az egyik sarkon, az új utcanévtáblán Törökhegyi utca a másik sarkon, miközben a földhivatal szerint Török-hegyi utca, Vác excelben Törökhegyi út (2023) - https://www.openstreetmap.org/note/3643334
-  # ref és excel eltérések (ref:excel) - ellenőrzött --------------------------
-  # 'Horgásztó utca': 'Horgásztói utca'  # van Horgásztó út és Horgásztói utca is kitáblázva. A váci Excel szerint is Horgásztói utca.
-  # Quell Rudolf utca: Qwell Rudolf utca  # táblán: Quell Rudolf utca (2023)
-  'Tó utca': 'Tó út'  # https://www.openstreetmap.org/note/3643333 - táblán Tó utca, Vác excel: Tó utca.
-  # egyéb ---------------------------------------------------------------------
-  # Fekete utca -  táblán Fekete utca (2019) - https://www.openstreetmap.org/note/3673577 - ref hiba, Fekete utca + Fekete út is volt, excel szerint a régi név a Fekete út
+  # -- egyéb forrásból ellenőrzött  ----------------------------------------------
+  'Bottyán utca': 'Bottyán János utca'  # utcatáblán vegyesen (Bottyán utca, Bottyán út - 2023.04), a váci Excel szerint Bottyán János utca, közhasználatú neve Bottyán utca - https://www.openstreetmap.org/note/3673467
+  # 'Földváry tér': 'Földváry Károly tér'  # mindenhol Földváry Károly tér (2023.04) - https://www.openstreetmap.org/note/3673499
+  'Kép utca': 'Kép János utca'  # utcatáblán Kép utca (2019), az Excelben Kép János utca - https://www.openstreetmap.org/note/3673578
+  'Oswald utca': 'Oswald Gáspár utca'  # utcatáblán Oswald utca (2023.04), az Excelben Oswald Gáspár utca - https://www.openstreetmap.org/note/3673512
+  'Papvölgyi utca': 'Papvölgy út'  # utcatáblán Papvölgyi utca (2023.04), az Excelben Papvölgy út - https://www.openstreetmap.org/note/3716220
+  'Somogyi utca': 'Somogyi Imre utca'  # utcatáblán Somogyi utca (2023.04), az Excelben Somogyi Imre utca -  https://www.openstreetmap.org/note/3673517
+  'Vörösmarty tér': 'Vörösmarty Mihály tér' # utcatáblán Vörösmarty tér (2023.04), az Excelben Vörösmarty Mihály tér -  https://www.openstreetmap.org/note/3673558
+  'Wolkóber utca': 'Wolkóber János utca'  # utcatáblán Wolkóber utca (2023.04), az Excelben Wolkóber János utca -  https://www.openstreetmap.org/note/3673559
+  # -- felmért -------------------------------------------------------------------
+  'Bocskai utca': 'Bocskai István utca'  # utcatáblán Bocskai utca (2023.06), az Excelben Bocskai István utca - https://www.openstreetmap.org/note/3673573
+  'Csávolszky utca': 'Csávolszky József utca'  # utcatáblán Csávolszky utca (2023.06), az Excelben Csávolszky József utca - https://www.openstreetmap.org/note/3673487
+  # 'Damjanich tér': 'Damjanich János tér'  # utcatáblák vegyesen (Damjanich János tér, Damjanich tér - 2023.06), az Excelben Damjanich János tér - https://www.openstreetmap.org/note/3673491
+  # 'Damjanich utca': 'Damjanich János utca'  # Az utca egyik végén csak vezetéknévvel, a másik végén teljes névvel van kitáblázva. (2023.06)
+  'Dombay utca': 'Dombay Sándor utca'  # utcatáblán Dombay utca (2023.06), az Excelben Dombay Sándor utca - https://www.openstreetmap.org/note/3673494
+  'Edison utca': 'Thomas Edison utca'  # utcatáblán Edison utca (2023.06), az Excelben Thomas Edison utca - https://www.openstreetmap.org/note/3715745
+  'Eötvös utca': 'Eötvös József utca' # utcatáblán Eötvös utca (2023.06), az Excelben Eötvös József utca - https://www.openstreetmap.org/note/3673495
+  'Eszterházy utca': 'Eszterházy Károly utca'  # utcatáblán Eszterházy utca (2023.06), az Excelben Eszterházy Károly utca - https://www.openstreetmap.org/note/3673521
+  'Farkasfalvi utca': 'Farkasfalvy Imre utca' # utcatáblán Farkasfalvi utca,  (2023.06), az Excelben Farkasfalvy Imre utca - https://www.openstreetmap.org/note/3673497
+  'Galcsek utca': 'Galcsek György utca'  # a régi és az új táblán is Galcsek utca (2023.06), az Excelben Galcsek György utca - https://www.openstreetmap.org/note/3673520
+  # 'Határ utca': 'Határ út'  # nincs utcatábla, az Excelben Határ út - https://www.openstreetmap.org/note/3673564
+  # 'Horgásztó utca': 'Horgásztói utca'  # van Horgásztó út és Horgásztói utca is kitáblázva (2023.06), az Excelben is Horgásztói utca.
+  # 'Hunyadi utca': 'Hunyadi János utca'  #  utcatábla vegyesen (Hunyadi János utca, Hunyadi János út - 2023.06), az Exceben Hunyadi János utca - https://www.openstreetmap.org/note/3673523
+  'Jávorszky sétány': 'Dr. Jávorszky Ödön sétány'  # utcatáblán Jávorszky sétány (2023.06), az Excelben a Dr. Jávorszky Ödön sétány - https://www.openstreetmap.org/note/3715869
+  # 'Jókai utca': 'Jókai Mór utca'  # minenhol Jókai Mór utca (2023.06) - https://www.openstreetmap.org/note/3673502
+  'Karcsu Arzén utca': 'Karcsu Antal Arzén utca'  # utcatáblán Karcsu Arzén utca (2023.06), az Excelben Karcsu Antal Arzén utca - https://www.openstreetmap.org/note/3673528
+  'Kálvin utca': 'Kálvin János utca'  # nincs tábla (2023.06), az Excelben Kálvin János utca - https://www.openstreetmap.org/note/3673524
+  'Konstantin tér': 'Schuszter Konstantin tér'  # utcatáblán Konstantin tér (2023.06), az Excelben  Schuszter Konstantin tér - # https://www.openstreetmap.org/note/3716227
+  'Kórház út': 'Kórház utca'  # utcatáblán Kórház út (2023.06), az Excelben Kórház utca - https://www.openstreetmap.org/note/3673581
+  'Kossuth tér': 'Kossuth Lajos tér'  # utcatáblán Kossuth tér (2023.06), az Excelben Kossuth Lajos tér - https://www.openstreetmap.org/note/3673504
+  'Kossuth utca': 'Kossuth Lajos utca'  # utcatáblán Kossuth utca (2023.06), az Excelben Kossuth Lajos utca -  https://www.openstreetmap.org/note/3673506
+  'Krakkó köz': 'Krakó köz'  # utcatáblán Krakkó köz (2023.06), az Excelben Krakó köz (előző név Krakkó köz) - # https://www.openstreetmap.org/note/3716580
+  'Kukorica út': 'Kukorica utca'  # utcatáblán Kukorica utca (2023.06)
+  'Lehotka park': 'Lehotka Gábor park'  # nincs tábla (2023.06) - https://www.openstreetmap.org/note/3718932
+  'Madách Imre út': 'Madách Imre utca'  # utcatáblán Madách Imre út (2023.06), az Excelben Madách Imre utca - https://www.openstreetmap.org/note/3673508
+  'Makay utca': 'Makay Imre utca'  # utcatáblán Makay utca (2023.06), az Excelben Makay Imre utca - https://www.openstreetmap.org/note/3673530
+  # 'Mátyás utca': 'Mátyás király utca'  # mindenhol Mátyás király utca - # https://www.openstreetmap.org/note/3643296
+  # 'Nagy Sándor József utca': 'Nagysándor József utca'  # régi táblán Nagy Sándor József utca, az új táblán Nagysándor József utca, az Excelben Nagysándor József utca - https://www.openstreetmap.org/note/3643298
+  # 'Németh László utca': 'Németh László út'  # mindenhol Németh László út (2023.06) - https://www.openstreetmap.org/note/3716215
+  # 'Pálffy utca': 'Pálffy Miklós utca'  # az utca nyugati végén csak vezetéknévvel van, a keleti végén pedig teljes névvel (2023.06), az Excelben Pálffy Miklós utca, ami ellentmond az utcatábla melletti emléktáblával. - https://www.openstreetmap.org/note/3673514
+  'Park út': 'Park utca'  # az utcatáblán Park utca van kiírva (2023.06), de ez nem tűnik hivatalos utcatáblának. Az Excel szerint Park út, és a régi neve a Park utca.
+  'Petróczy utca': 'Petróczy László utca'  # utcatáblán Petróczy utca (2023.06), az Excelben Petróczy László utca -  https://www.openstreetmap.org/note/3673516
+  # 'Quell Rudolf utca': 'Qwell Rudolf utca'  # utcatáblán és az emléktáblán Quell Rudolf utca (2023.05), az Excelben Qwell Rudolf utca
+  # 'Radnóti Miklós utca': 'Radnóti Miklós út'  # utcatábák vegyesen (Radnóti Miklós út, de van Radnóti utca - 2023.04) - https://www.openstreetmap.org/note/3673518
+  'Rákóczi tér': 'II. Rákóczi Ferenc tér'  # utcatáblán Rákóczi tér. az Excelben II. Rákóczi Ferenc tér - https://www.openstreetmap.org/note/3721378
+  'Széchenyi utca': 'Széchenyi István utca'  # utcatáblán Széchenyi utca, az Excelben Széchenyi István utca - https://www.openstreetmap.org/note/3673525
+  'Szilassy utca': 'Szilassy Vince utca'  # utcatáblán Szilassy utca (2023.06), az Excelben Szilassy Vince utca  - https://www.openstreetmap.org/note/3673526
+  'Takács Ádám út': 'Takács Ádám köz'  # utcatáblán Takács Ádám út (2023.06), az Excelben Takács Ádám köz
+  'Tó utca': 'Tó út'  # utcatáblán Tó utca (2023.06), az Excelben Tó utca - https://www.openstreetmap.org/note/3643333
+  'Törökhegyi utca': 'Törökhegyi út'  # A régi utcatáblán Törökhegyi út az egyik sarkon, az új utcatáblán Törökhegyi utca a másik sarkon (2023.05), miközben a földhivatal szerint Török-hegyi utca, az Excelben Törökhegyi út - https://www.openstreetmap.org/note/3643334
+  # 'Vizimalom utca': 'Vízimalom utca'  # csak egy nem hivatalos utcatábla van kitéve rövid I-vel. Az épületeken lévő házszámtáblán már hosszú Í-vel van írva (2023.06)
+  # 'Zrínyi utca': 'Zrínyi Miklós utca'  # utcatáblákon vegyesen (Zrínyi utca, Zrínyi Miklós utca, Zrínyi Miklós út - 2023.06), az Excelben Zrínyi Miklós út - https://www.openstreetmap.org/note/3673561
+  # -- egyéb ---------------------------------------------------------------------
+  # Fekete utca -  táblán Fekete utca (2023.04) - https://www.openstreetmap.org/note/3673577 - ref hiba, Fekete utca + Fekete út is volt, excel szerint a régi név a Fekete út
+  # Kosdi út/utca - valóban van Kosdi utca, amely a Honvéd utcából nyílik. A Kosdi utcától a vasút utáni körforgalomig viszont Honvéd utca, csak onnantól lesz észak felé Kosdi út, így a Kosdi utca nem a Kosdi útból nyílik.
 source: survey
 housenumber-letters: true
 inactive: false
