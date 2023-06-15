@@ -31,6 +31,8 @@ street-filters:
   - Görög köz  # A Görög köz (hrsz. 3117/2) nem létezik, ott egy társasház van.
   # területként van fent
   - Buki sziget  # https://www.openstreetmap.org/relation/3974010
+  # megváltozott
+  - Felsőcsipkés dűlő  # új neve Kőtörőfű utca
   # dűlők - később vissza kell tenni, amikor a normál utcák már rendben vannak, így túl nagy a zaj (2023-05-26)
   # Alsókőhídpart (D-42)
   # Althann (D-46)
