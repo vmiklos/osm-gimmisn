@@ -54,6 +54,7 @@ street-filters:
   - Fenyves dűlő
   # Forrás (D-52)
   - Grónár dűlő  # Grónár (D-19)
+  - Gombás dűlő
   # Gyadairét (D-1)
   - Hermány dűlő  # Hermány (D-15)
   # Homok (D-56)
@@ -129,7 +130,7 @@ refstreets:
   # 'Földváry tér': 'Földváry Károly tér'  # mindenhol Földváry Károly tér (2023.04) - https://www.openstreetmap.org/note/3673499
   'Kép utca': 'Kép János utca'  # utcatáblán Kép utca (2019), az Excelben Kép János utca - https://www.openstreetmap.org/note/3673578
   'Oswald utca': 'Oswald Gáspár utca'  # utcatáblán Oswald utca (2023.04), az Excelben Oswald Gáspár utca - https://www.openstreetmap.org/note/3673512
-  'Papvölgyi utca': 'Papvölgy út'  # utcatáblán Papvölgyi utca (2023.04), az Excelben Papvölgy út - https://www.openstreetmap.org/note/3716220
+  'Papvölgyi utca': 'Papvölgyi út'  # utcatáblán Papvölgyi utca (2023.04), az Excelben Papvölgy út - https://www.openstreetmap.org/note/3716220
   'Somogyi utca': 'Somogyi Imre utca'  # utcatáblán Somogyi utca (2023.04), az Excelben Somogyi Imre utca -  https://www.openstreetmap.org/note/3673517
   'Vörösmarty tér': 'Vörösmarty Mihály tér' # utcatáblán Vörösmarty tér (2023.04), az Excelben Vörösmarty Mihály tér -  https://www.openstreetmap.org/note/3673558
   'Wolkóber utca': 'Wolkóber János utca'  # utcatáblán Wolkóber utca (2023.04), az Excelben Wolkóber János utca -  https://www.openstreetmap.org/note/3673559
@@ -164,8 +165,8 @@ refstreets:
   # 'Mátyás utca': 'Mátyás király utca'  # mindenhol Mátyás király utca - # https://www.openstreetmap.org/note/3643296
   # 'Nagy Sándor József utca': 'Nagysándor József utca'  # régi táblán Nagy Sándor József utca, az új táblán Nagysándor József utca, az Excelben Nagysándor József utca - https://www.openstreetmap.org/note/3643298
   # 'Németh László utca': 'Németh László út'  # mindenhol Németh László út (2023.06) - https://www.openstreetmap.org/note/3716215
-  # 'Pálffy utca': 'Pálffy Miklós utca'  # az utca nyugati végén csak vezetéknévvel van, a keleti végén pedig teljes névvel (2023.06), az Excelben Pálffy Miklós utca, ami ellentmond az utcatábla melletti emléktáblával. - https://www.openstreetmap.org/note/3673514
-  'Park utca': 'Park út'  # az utcatáblán Park utca van kiírva (2023.06), de ez nem tűnik hivatalos utcatáblának. Az Excel szerint Park út, és a régi neve a Park utca.
+  'Pálffy János utca': 'Pálffy Miklós utca'  # az utca nyugati végén csak vezetéknévvel van, a keleti végén pedig teljes névvel (2023.06), az Excelben Pálffy Miklós utca, ami ellentmond az utcatábla melletti emléktáblával. - https://www.openstreetmap.org/note/3673514
+  # 'Park utca': 'Park út'  # az utcatáblán Park utca van kiírva (2023.06), de ez nem tűnik hivatalos utcatáblának. Az Excel szerint Park út, és a régi neve a Park utca, ref szerint Park utca
   'Petróczy utca': 'Petróczy László utca'  # utcatáblán Petróczy utca (2023.06), az Excelben Petróczy László utca -  https://www.openstreetmap.org/note/3673516
   # 'Quell Rudolf utca': 'Qwell Rudolf utca'  # utcatáblán és az emléktáblán Quell Rudolf utca (2023.05), az Excelben Qwell Rudolf utca
   # 'Radnóti Miklós utca': 'Radnóti Miklós út'  # utcatábák vegyesen (Radnóti Miklós út, de van Radnóti utca - 2023.04) - https://www.openstreetmap.org/note/3673518
