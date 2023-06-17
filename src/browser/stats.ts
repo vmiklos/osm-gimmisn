@@ -402,6 +402,7 @@ function addCharts(stats: Stats) {
                     },
                 },
                 y: {
+                    beginAtZero: false, // default would be false
                     title: {
                         display: true,
                         text: getString("str-usertotal-y-axis"),
