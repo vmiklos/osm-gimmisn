@@ -14,6 +14,7 @@ import {
     CategoryScale,
     LinearScale,
     Legend,
+    Filler,
     Title
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -30,6 +31,7 @@ Chart.register(
     CategoryScale,
     LinearScale,
     Legend,
+    Filler,
     Title,
     ChartTrendline,
     ChartDataLabels
@@ -176,6 +178,7 @@ function addCharts(stats: Stats) {
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
             data: monthlytotal.map(function(x: [string, number]) { return x[1]; }),
+            fill: true,
             trendlineLinear: trendlineOptions,
         }]
     };
@@ -222,6 +225,7 @@ function addCharts(stats: Stats) {
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
             data: dailytotal.map(function(x: [string, number]) { return x[1]; }),
+            fill: true,
             trendlineLinear: trendlineOptions,
         }]
     };
@@ -355,6 +359,7 @@ function addCharts(stats: Stats) {
                     },
                 },
                 y: {
+                    beginAtZero: false, // default would be false
                     title: {
                         display: true,
                         text: getString("str-topcities-y-axis"),
