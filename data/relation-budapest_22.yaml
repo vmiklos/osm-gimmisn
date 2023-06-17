@@ -771,18 +771,20 @@ filters:
     # 12: sima 12 nincs, csak 12/a, 12/b.
     invalid: ['12']
   Ringló út:
-    # Területhatár, a páros oldal Kelenvölgy.
+    # Területhatár, a páros oldal XI. kerület, Kelenvölgy.
     # TODO: 57, 57/a: elsőre nem találtam kiírva.
     # 35/a: nincs ilyen, csak sima 35 van.
     # 35/b: nincs ilyen, csak sima 35 van.
     # 43: sima 43 nincs, csak 43/a, 43/b.
+    # 59/o: nincs ilyen, csak 59/a, 59/b.
     # 67-69: nincs ilyen, csak 67 és 71-73/* van.
+    # 87: sima 87 nincs, csak 87/a, 87/b.
     # 87/6: a 87/b táblája megkopott, és olyan a betűtípus, hogy lehetne 87/6-nak is olvasni.
     # 107/a: nincs ilyen, csak sima 107 van.
     # 113/a: nincs ilyen, csak 113 és 113/b van.
     # 115/a: nincs ilyen, csak sima 115 van.
     # 133: sima 133 nincs, csak 133/a, 133/b. (TODO: helyszínen nem ellenőriztem 2020-ban, 2017-ben felrajzolva)
-    invalid: ['35a', '35b', '43', '69', '87/6', '107a', '113a', '115a', '133']
+    invalid: ['35a', '35b', '43', '59o', '69', '87', '87/6', '107a', '113a', '115a', '133']
     ranges:
       - {start: '1', end: '139'}
   Római utca:
