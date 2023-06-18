@@ -16,12 +16,10 @@ refstreets:
   # ellenőrzött, tábla = osm
   'Radnóti Miklós utca': 'Radnóti utca'
   'István király tér': 'Istvánkirály tér'
-  # kérdéses
-  'Gárdonyi Géza utca': 'Gárdonyi utca'
 street-filters:
   # nem igazi utcák
   - Kültelek
-  # - Vasútállomás  # nincs is vasút már 50 éve
+  - Vasútállomás  # nincs is vasút már 50 éve, az régi állomás elhagyatott, nincs kiírva semmi
   # területként
   # - Meggyespuszta
   # - Vödörvölgy
