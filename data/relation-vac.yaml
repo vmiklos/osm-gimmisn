@@ -41,7 +41,7 @@ street-filters:
   - Alsó-Törökhegy dűlő  # Alsótörökhegy (D-48)
   - Cindróka dűlő  # Cindróka (D-47)
   - Csatamező dűlő  # Csatamező (D-55)
-  # Csipkés (D-21)
+  - Csipkés dűlő  # Csipkés (D-21)
   # Csörögi rétre járó (D-53)
   # Derecske (D-57)
   - Diósvölgy dűlő  # Diósvölgy (D-26)
@@ -52,6 +52,7 @@ street-filters:
   # Felsőkőhídpart (D-41)
   - Felsőspinyér dűlő  # Felső-Spinyér (D-16)
   - Felsőtörökhegy dűlő
+  - Felsőzsobrák dűlő
   - Fenyves dűlő
   # Forrás (D-52)
   - Grónár dűlő  # Grónár (D-19)
