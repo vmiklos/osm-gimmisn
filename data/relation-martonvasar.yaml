@@ -9,17 +9,8 @@ street-filters:
   - Máv vasútállomás
 refstreets:
   'Aradi vértanúk tere': 'Aradi vértanuk tere'
-  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Bocskai utca': 'Bocskay utca'
-  'Brunszvik utca': 'Brunszvik út'
-  'Dr. Gyulay Gyula utca': 'Gyulay utca'
   'Dréher utca': 'Dreher utca'
-  'Határ út': 'Határ utca'
-  'Karinthy Frigyes utca': 'Karinthy utca'
   'Kassák köz': 'Kassák Lajos köz'
-  'Orbánhegy utca': 'Orbánhegyi utca'
-  'Rákóczi utca': 'Rákóczi Ferenc utca'
-  'Táncsics Mihály utca': 'Táncsics utca'
-  'Vörösmarty utca': 'Vörösmarty Mihály utca'
 source: survey
 inactive: true
