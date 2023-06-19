@@ -39,10 +39,37 @@ filters:
     # 12: egy privát parkoló van a helyén
     invalid: ['4', '12']
 osm-street-filters:
+  # parkok
+  - Ady park
+  - Belső városi tó és parkja
+  - Dióskert
+  - Kálvária
+  - Kecskés park
+  - Kereszt park
+  - Kis park
+  - Múzeum park
+  - Nyár park
+  - Sváb park
+  - Széchenyi park
+  - Szérüskert
+  - Téglagyár park
+  - Temető park
+  - Templom park
+  - Tó park
+  - Trianoni park
   # nem igazi utcák
   - Benőtt
   - Benőtt, járhatatlan, szúrós
   - Benőtt, ránézésre járhatatlan
+  - FSD Park 1
+  - FSD Park 2
+  - FSD Park 3
+  - FSD Park 4
+  - FSD Park 5
+  # településrész
+  - Hosszúrét
+  # településhatár/átlógó
+  - Méhecske utca
 street-filters:
   # nem igazi utca
   - Falvitanya  # fent van farmként
@@ -51,16 +78,14 @@ street-filters:
 refstreets:
   'Baross Gábor utca': 'Baross utca'
   'Báthori István utca': 'Báthori utca'
-  'Csalogány utca': 'Csalogány tanya'
   'Damjanich János utca': 'Damjanich utca'
   'Dr. Léber Lajos utca': 'Léber Lajos utca'
-  # 'Dulácska utca': 'Dulácska tanya'
-  # 'Hosszúrét utca': 'Hosszúrét tanya'
   'Hunyadi János utca': 'Hunyadi utca'
   'Idamajor': 'Ida major'
   'Kinizsi Pál utca': 'Kinizsi utca'
   'Majláth József utca': 'Majláth utca'
   'Petőfi Sándor utca': 'Petőfi utca'
+  'Rác tér': 'Rácz tér'
   'Ráczug utca': 'Ráczug tanya'
   'Rákóczi Ferenc utca': 'Rákóczi utca'
   'Régi Vasút sor': 'Régivasútsor utca'
