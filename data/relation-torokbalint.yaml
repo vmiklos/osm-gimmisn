@@ -72,13 +72,17 @@ osm-street-filters:
   - Hosszúrét
   # településhatár/átlógó
   - Méhecske utca
+  - Temető utca
 street-filters:
   # tanyák
   - Csalogány tanya
   - Dulácska tanya
   - Falvitanya  # fent van farmként
+  - Petőfitanya
   # - Hosszúrét tanya  # Hosszúrétitanya
   - MÁV állomás
+  # településrész
+  - Annahegy
 refstreets:
   'Baross Gábor utca': 'Baross utca'
   'Báthori István utca': 'Báthori utca'
