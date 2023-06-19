@@ -42,6 +42,7 @@ osm-street-filters:
   # parkok
   - Ady park
   - Belső városi tó és parkja
+  - Családi park
   - Dióskert
   - Kálvária
   - Kecskés park
@@ -61,6 +62,7 @@ osm-street-filters:
   - Benőtt
   - Benőtt, járhatatlan, szúrós
   - Benőtt, ránézésre járhatatlan
+  - FSD Park
   - FSD Park 1
   - FSD Park 2
   - FSD Park 3
@@ -71,7 +73,9 @@ osm-street-filters:
   # településhatár/átlógó
   - Méhecske utca
 street-filters:
-  # nem igazi utca
+  # tanyák
+  - Csalogány tanya
+  - Dulácska tanya
   - Falvitanya  # fent van farmként
   # - Hosszúrét tanya  # Hosszúrétitanya
   - MÁV állomás
@@ -79,21 +83,21 @@ refstreets:
   'Baross Gábor utca': 'Baross utca'
   'Báthori István utca': 'Báthori utca'
   'Damjanich János utca': 'Damjanich utca'
+  'Dr. Grimm Ferenc tér': 'Grimm Ferenc tér'
   'Dr. Léber Lajos utca': 'Léber Lajos utca'
   'Hunyadi János utca': 'Hunyadi utca'
   'Idamajor': 'Ida major'
   'Kinizsi Pál utca': 'Kinizsi utca'
   'Majláth József utca': 'Majláth utca'
   'Petőfi Sándor utca': 'Petőfi utca'
-  'Rác tér': 'Rácz tér'
   'Ráczug utca': 'Ráczug tanya'
   'Rákóczi Ferenc utca': 'Rákóczi utca'
   'Régi Vasút sor': 'Régivasútsor utca'
   'Somlyói utca': 'Somlyói út'
   'Szabadházi utca': 'Szabadházi út'
   'Szőlőskert utca': 'Szőlőskerti út'
+  'Tátika köz': 'Tátika-köz'
   'Virágtanya': 'Virág tanya'
-  # ref-ben, táblákon és földhivatalban is Villányi út, csak az eligazító táblán Villányi utca
-  # 'Villányi utca': 'Villányi út'
+  # 'Villányi utca': 'Villányi út'  # ref-ben, táblákon és földhivatalban is Villányi út, csak az eligazító táblán Villányi utca
 source: survey
 inactive: true
