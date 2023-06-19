@@ -1,18 +1,20 @@
 missing-streets: 'yes'
 filters: {}
 street-filters:
+  # Tanyák
   - Tanyák
-  # - Jégvermikert IX
-  # - Malomasszonykert X
-  # - Nagykert IX
-  # - Szécsénykert IX
-  # - Tanya IX
-  # - Tanya VI
-  # - Tanya VII
-  # - Tanya VIII
-  # - Tanya X tanya
-  # Hiányzó
-  # - Csipke utca
+  - Jégvermikert IX
+  - Malomasszonykert X
+  - Nagykert IX
+  - Szécsénykert IX
+  - Tanya IX
+  - Tanya VI
+  - Tanya VII
+  - Tanya VIII. kerület
+  - Tanya X tanya
+osm-street-filters:
+  # nem igazi utcák
+  - Gasztrosziget
 refstreets:
   'Bolyai utca': 'Bólyai utca'
   'Damjanich János utca': 'Damjanich utca'
