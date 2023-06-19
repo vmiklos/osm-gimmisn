@@ -147,6 +147,7 @@ osm-street-filters:
   - Gázgyári lakótelep III. csoport
   - Perényi lejtő
   - Szőlőkert köz  # valószínű magánút
+  - Orgona utca  # nincs külön hrsz.
   # Hivatalosan nincs, de régi térképen szerepel -----------------
   # - Gázos utca
   # - Hősök tere  # megszűnt, de BKV megálló is van
