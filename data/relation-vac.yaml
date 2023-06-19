@@ -29,10 +29,13 @@ street-filters:
   # nem létezik
   - Csukatelep utca  # Csukatelep: az OSM-en fent volt ilyen névvel, az Excelben pedig Csukatelep utcaként, de a valóságban ez egy ipartelep belső útja. utcatábla nem volt, és nehezen hihető, hogy el van nevezve. Földhivatal szerint felülvizsgálat alatt. - https://www.openstreetmap.org/note/3716209
   - Görög köz  # A Görög köz (hrsz. 3117/2) nem létezik, ott egy társasház van.
-  # táblán mSzent Mihály dűlő van
+  # táblán Szent Mihály dűlő van
   - Csengő utca
   - Harang utca
   - Kereszt utca
+  # három utca ugyanazon a hrsz-on, az Árvácska utca és a Homok utca a Vörösszőlő utca régi neve (hrsz 0364), viszont az utcára nyíló telkek továbbra is a régi címet viselik a Földhivatalnál. TODO: resurvey, https://www.openstreetmap.org/note/3485462
+  - Árvácska utca
+  - Homok utca
   # területként van fent
   - Buki sziget  # https://www.openstreetmap.org/relation/3974010
   # megváltozott
