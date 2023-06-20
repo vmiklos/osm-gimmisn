@@ -24,7 +24,7 @@ out;
 relation(area.searchArea)["leisure"="park"][name];
 out;
 // include squares
-way(area.searchArea)["place"="square"][name];
+way(area.searchArea)["place"="square"]["leisure"!="park"]["highway"!="pedestrian"][name];
 out;
 relation(area.searchArea)["leisure"="square"][name];
 out;
