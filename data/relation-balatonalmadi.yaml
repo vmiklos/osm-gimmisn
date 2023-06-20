@@ -403,11 +403,11 @@ filters:
     invalid: ['28']
     show-refstreet: false
   Szabolcs utca:
-    # 1-7 nincs, 9-től indul a számozás
+    # Páratlan újraszámozva 11-35 -> 1-9 alátörésekkel, KCR szerint ezek lépcsőházak de nem így van kiírva
     # 28, 30 nincs, Rákóczi 28, 30 van a Szabolcs utca másik oldalán
-    # páros oldalon csak az Aldi tömbnek van száma (2), Balkom a Rákóczira van számozva
+    # páros oldalon az Aldi tömb 2, Balkom 4
     ranges:
-      - {start: '9', end: '35'}
+      - {start: '1', end: '9'}
       - {start: '2', end: '6'}
   Széchenyi utca:
     # 25 = Erkel Ferenc utca 40
