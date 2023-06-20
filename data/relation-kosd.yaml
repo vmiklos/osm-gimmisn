@@ -1,7 +1,8 @@
 missing-streets: 'yes'
 osm-street-filters:
-  # átlógó utcák
+  # átlógó  utcák/területhatár
   - Bácska utca
+  - Tátorján utca
 # street-filters:
 # refstreets:
 source: survey
