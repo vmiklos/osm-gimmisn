@@ -1,4 +1,7 @@
 missing-streets: 'yes'
+osm-street-filters:
+  # Nem igazi utcák
+  - Kastélypark
 street-filters:
   # Nem igazi utcák
   - Bulgárház  # külterület, mezőgazdasági jellegű lakótelep: https://www.openstreetmap.org/node/5532635145
