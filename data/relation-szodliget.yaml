@@ -1,7 +1,8 @@
 missing-streets: 'yes'
-# osm-street-filters:
+osm-street-filters:
   # park
-  # átlógó
+  # átlógó - Vác
+  - Horgásztói utca
 street-filters:
   # nem igazi utcák
   - 165-ös őrház
@@ -12,8 +13,6 @@ street-filters:
   - MÁV állomás
   - Szociális otthon
   - Trafóház
-  # Vác
-  - Horgásztói utca
 refstreets:
   # ellenőrzött
   'Árpád-házi Szent Erzsébet sétány': 'Árpádházi Szent Ezsébet sétány' # Kötőjellel, Árpád-házi Szent Erzsébet sétány van az utcanévtáblán.
