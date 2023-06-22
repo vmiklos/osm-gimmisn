@@ -531,7 +531,8 @@ pub fn update_invalid_addr_cities(ctx: &context::Context, state_dir: &str) -> an
         let format = time::format_description::parse("[year]-[month]-[day]")?;
         let today = now.format(&format)?;
         tx.execute(
-            "insert into stats_invalid_addr_cities_counts (date, count) values (?1, ?2)",
+            r#"insert into stats_invalid_addr_cities_counts (date, count) values (?1, ?2)
+               on conflict(date) do update set count = excluded.count"#,
             [today, count.to_string()],
         )?;
         tx.commit()?;
