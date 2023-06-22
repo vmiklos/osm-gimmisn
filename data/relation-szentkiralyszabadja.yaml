@@ -1,15 +1,42 @@
 missing-streets: 'yes'
 filters:
+  Árnyas utca:
+    interpolation: all
+  Bartók Béla utca:
+    interpolation: all
+  Gárdonyi utca:
+    interpolation: all
+  Horváth utca:
+   interpolation: all
+  Hunyadi utca:
+    interpolation: all
   István király tér:
+    interpolation: all
     show-refstreet: false
+  Király utca:
+    interpolation: all
+  Köztársaság utca:
+   interpolation: all
   Petőfi Sándor utca:
     # 28, 32: nincsenek beépítve a telkek. utolsó kiírt házszám a 26. RESUREY 2024
     invalid: ['28', '32']
   Radnóti Miklós utca:
     show-refstreet: false
+  Szabadság utca:
+    interpolation: all
+  Széchenyi utca:
+    # 2: 1 mellett 3, elvileg 2 = Gárdonyi utca 7, de épül/nincs kiírva
+    invalid: ['2']
+    interpolation: all
   Táncsics utca:
     # 1: nincs kiírva, az utcában csak 3 és 3/a van és egy ház szám nélkül ami szintén 3
     invalid: ['1']
+    interpolation: all
+  Zrínyi utca:
+    # 110/7: hrsz, valóságban 7-es szám
+    show-refstreet: false
+    interpolation: all
+    invalid: ['110']
 refstreets:
   # helyesírás
   'Zrínyi utca': 'Zrinyi utca'
