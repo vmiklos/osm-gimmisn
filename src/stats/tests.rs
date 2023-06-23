@@ -239,6 +239,34 @@ fn test_hanle_daily_new() {
     assert_eq!(daily[0], serde_json::json!(["2020-04-26", 364]));
 }
 
+/// Tests handle_invalid_addr_cities().
+#[test]
+fn test_handle_invalid_addr_cities() {
+    let ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_invalid_addr_cities_counts (date, count) values (?1, ?2)"#,
+            ["2020-04-26", "1"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_invalid_addr_cities_counts (date, count) values (?1, ?2)"#,
+            ["2020-04-27", "2"],
+        )
+        .unwrap();
+    }
+    let mut j = serde_json::json!({});
+
+    handle_invalid_addr_cities(&ctx, &mut j, /*day_range=*/ 1).unwrap();
+
+    let invalids = &j.as_object().unwrap()["invalidAddrCities"]
+        .as_array()
+        .unwrap();
+    assert_eq!(invalids.len(), 1);
+    assert_eq!(invalids[0], serde_json::json!(["2020-04-27", 2]));
+}
+
 /// Tests handle_daily_new(): the case when the day range is empty.
 #[test]
 fn test_handle_daily_new_empty_day_range() {

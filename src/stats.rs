@@ -293,6 +293,31 @@ fn handle_daily_new(
     Ok(())
 }
 
+/// Shows # of invalid addr:city values / day.
+fn handle_invalid_addr_cities(
+    ctx: &context::Context,
+    j: &mut serde_json::Value,
+    day_range: i64,
+) -> anyhow::Result<()> {
+    let mut ret: Vec<(String, i64)> = Vec::new();
+    let conn = ctx.get_database_connection()?;
+    let mut stmt = conn.prepare(
+        "select date, count from stats_invalid_addr_cities_counts order by date desc limit ?1;",
+    )?;
+    let mut rows = stmt.query([day_range])?;
+    while let Some(row) = rows.next()? {
+        let date: String = row.get(0).unwrap();
+        let count: String = row.get(1).unwrap();
+        ret.push((date, count.parse::<i64>()?));
+    }
+    ret.reverse();
+    j.as_object_mut()
+        .unwrap()
+        .insert("invalidAddrCities".into(), serde_json::to_value(&ret)?);
+
+    Ok(())
+}
+
 /// Returns a date that was today N months ago.
 fn get_previous_month(
     today: &time::OffsetDateTime,
@@ -461,6 +486,8 @@ pub fn generate_json(
         .context("handle_monthly_new failed")?;
     handle_monthly_total(ctx, state_dir, &mut j, /*month_range=*/ 11)
         .context("handle_monthly_total failed")?;
+    handle_invalid_addr_cities(ctx, &mut j, /*day_range=*/ 14)
+        .context("invalid_addr_cities failed")?;
     let stream = ctx.get_file_system().open_write(json_path)?;
     let mut guard = stream.borrow_mut();
     let write = guard.deref_mut();
