@@ -60,6 +60,7 @@ interface Stats {
     usertotal: Array<[string, number]>;
     progress: StatsProgress;
     'capital-progress': StatsProgress;
+    invalidAddrCities: Array<[string, number]>;
 }
 
 function addCharts(stats: Stats) {
@@ -77,6 +78,7 @@ function addCharts(stats: Stats) {
         lineStyle: "dotted",
         width: 2,
     };
+    const invalidAddrCities = stats.invalidAddrCities;
 
     const dailyData = {
         // daily is a list of label-data pairs.
@@ -516,6 +518,53 @@ function addCharts(stats: Stats) {
                     title: {
                         display: true,
                         text: getString("str-progress-y-axis"),
+                    },
+                }
+            },
+        }
+    });
+
+    const invalidAddrCitiesData = {
+        // invalidAddrCities is a list of label-data pairs.
+        labels: invalidAddrCities.map(function(x: [string, number]) { return x[0]; }),
+        datasets: [{
+            backgroundColor: "rgba(0, 255, 0, 0.5)",
+            data: invalidAddrCities.map(function(x: [string, number]) { return x[1]; }),
+            trendlineLinear: trendlineOptions,
+        }]
+    };
+    const invalidAddrCitiesCanvas = <HTMLCanvasElement>document.getElementById("stats-invalid-addr-cities");
+    const invalidAddrCitiesCtx = invalidAddrCitiesCanvas.getContext("2d");
+    new Chart(invalidAddrCitiesCtx, {
+        type: "bar",
+        data: invalidAddrCitiesData,
+        options: {
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    padding: 30, // default would be 10, which may overlap
+                    text: getString("str-invalid-addr-cities-title").replace("{}", progress.date),
+                },
+                datalabels: {
+                    align: "top",
+                    anchor: "end",
+                }
+            },
+            scales: {
+                x: {
+                    suggestedMin: 0,
+                    title: {
+                        display: true,
+                        text: getString("str-invalid-addr-cities-x-axis"),
+                    },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: getString("str-invalid-addr-cities-y-axis"),
                     },
                 }
             },

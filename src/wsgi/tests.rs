@@ -1798,8 +1798,8 @@ fn test_handle_stats() {
     let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/");
 
     let results = TestWsgi::find_all(&root, "body/h2");
-    // 9 chart types + note
-    assert_eq!(results.len(), 10);
+    // 10 chart types + note
+    assert_eq!(results.len(), 11);
 }
 
 /// Tests /osm/static/: the css case.

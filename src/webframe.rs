@@ -955,6 +955,15 @@ pub fn handle_stats(
             tr("Number of house numbers in database for the capital"),
         ),
         ("str-reference", tr("Reference")),
+        (
+            "str-invalid-addr-cities-title",
+            tr("Invalid addr:city values, last 2 weeks, as of {}"),
+        ),
+        ("str-invalid-addr-cities-x-axis", tr("During this day")),
+        (
+            "str-invalid-addr-cities-y-axis",
+            tr("Invalid addr:city values"),
+        ),
     ];
     emit_l10n_strings_for_js(&doc, string_pairs);
 
@@ -972,6 +981,10 @@ pub fn handle_stats(
         (tr("Per-ZIP coverage"), "zipprogress"),
         (tr("Invalid relation settings"), "invalid-relations"),
         (tr("Invalid addr:city values"), "invalid-addr-cities"),
+        (
+            tr("Invalid addr:city values history"),
+            "stats-invalid-addr-cities",
+        ),
     ];
 
     {
