@@ -1,4 +1,7 @@
 missing-streets: 'yes'
+filters:
+  Deák Ferenc utca:
+    interpolation: all
 refstreets:
    # ellenőrzött
   'Radnóti utca': 'Radnóti Miklós utca'
