@@ -303,11 +303,11 @@ filters:
 street-filters:
   - Halász bástya  # fent van mint attraction
   - Magyar asszonyok bástyája  # fent van mint attraction
-  - Antal lépcső  # Antal utca / Antal lépcső vegyesen van táblázva
 osm-street-filters:
   # Utcatábla van, de utcajegyzékben nincs
+  - Antal lépcső  # Antal utca / Antal lépcső vegyesen
   - Korlát lépcső  # Korlát utca / Korlát lépcső vegyesen
-  - Színház köz
+  - Színház köz  # 2013-ban volt, Karmelita átépítés után kérdéses
   # Nem valós utcák
   - Bécsi kapu
   - Budavári alagút
