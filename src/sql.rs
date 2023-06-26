@@ -104,7 +104,17 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
             [],
         )?;
     }
-    conn.execute("pragma user_version = 3", [])?;
+    if user_version < 4 {
+        // Tracks the number of OSM house numbers over time.
+        conn.execute(
+            "create table stats_counts (
+            date text primary key not null,
+            count text not null
+        )",
+            [],
+        )?;
+    }
+    conn.execute("pragma user_version = 4", [])?;
     Ok(())
 }
 
