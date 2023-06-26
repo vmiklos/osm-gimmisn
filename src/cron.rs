@@ -359,8 +359,20 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
         let zip_entry = zips.entry(zip_key).or_insert_with(HashSet::new);
         zip_entry.insert(zip_value);
     }
+
+    // Old style: workdir/stats/<date>.count files.
     ctx.get_file_system()
         .write_from_string(&house_numbers.len().to_string(), &count_path)?;
+    // New style: sql row.
+    let mut conn = ctx.get_database_connection()?;
+    let tx = conn.transaction()?;
+    tx.execute(
+        r#"insert into stats_counts (date, count) values (?1, ?2)
+               on conflict(date) do update set count = excluded.count"#,
+        [today, &house_numbers.len().to_string()],
+    )?;
+    tx.commit()?;
+
     write_city_count_path(ctx, &city_count_path, &cities)
         .context("write_city_count_path() failed")?;
     write_zip_count_path(ctx, &zip_count_path, &zips).context("write_zip_count_path() failed")
