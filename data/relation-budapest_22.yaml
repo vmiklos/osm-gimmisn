@@ -700,9 +700,12 @@ filters:
     # 16: az utcatáblán 2-12 van, de 12 már biztosan nincs. A 10 is kétséges.
     invalid: ['1', '3c', '11a', '16']
   Pedellus utca:
+    # 3: sima 3 nincs, csak 3/a, 3/2.
+    # 11: sima 11 nincs, csak 11/a, 11/b.
     # 25: sima 25 nincs, csak 25/a, 25/b.
+    # 99: a páratlan oldalon a 49 az utolsó házszám.
     # 52: sima 52 nincs, csak 52/a, 52/b.
-    invalid: ['25', '52']
+    invalid: ['3', '11', '25', '99', '52']
   Péter Pál köz:
     # 21: a páratlan oldalon nincsenek házak.
     # 67: a páratlan oldalon nincsenek házak.
