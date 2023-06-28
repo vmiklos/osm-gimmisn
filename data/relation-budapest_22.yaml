@@ -327,6 +327,9 @@ filters:
   Hűség utca:
     # 25: sima 25 nincs, csak 25/a, 25/b.
     invalid: ['25']
+  Iram utca:
+    # 2/b: nincs ilyen, csak 2, 2/a van.
+    invalid: ['2b']
   Ják utca:
     # 3/b: nincs ilyen, csak sima 3 van.
     # 9: sima 9 nincs, csak 9/a, 9/b.
