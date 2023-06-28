@@ -525,10 +525,7 @@ pub fn update_invalid_addr_cities(ctx: &context::Context, state_dir: &str) -> an
     info!("stats: updating invalid_addr_cities");
     let valid_settlements =
         util::get_valid_settlements(ctx).context("get_valid_settlements() failed")?;
-    let now = ctx.get_time().now();
-    let format = time::format_description::parse("[year]-[month]-[day]")?;
-    let today = now.format(&format)?;
-    let csv_path = format!("{state_dir}/{today}.csv");
+    let csv_path = format!("{state_dir}/whole-country.csv");
     if !ctx.get_file_system().path_exists(&csv_path) {
         warn!("update_invalid_addr_cities: no such path: {csv_path}");
         return Ok(());

@@ -736,7 +736,7 @@ fn test_update_stats() {
             ("workdir/stats/2020-05-10.zipcount", &zipcount_value),
             ("workdir/stats/2020-05-10.count", &count_value),
             ("workdir/stats/2020-05-10.topusers", &topusers_value),
-            ("workdir/stats/2020-05-10.csv", &csv_value),
+            ("workdir/stats/whole-country.csv", &csv_value),
             ("workdir/stats/2020-05-10.usercount", &usercount_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
@@ -750,7 +750,7 @@ fn test_update_stats() {
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/stats/2020-05-10.csv");
+    let path = ctx.get_abspath("workdir/stats/whole-country.csv");
     mtimes.insert(path, Rc::new(RefCell::new(ctx.get_time().now())));
     let path = ctx.get_abspath("workdir/stats/old.csv");
     mtimes.insert(
@@ -761,10 +761,7 @@ fn test_update_stats() {
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
 
-    let now = ctx.get_time().now();
-    let format = time::format_description::parse("[year]-[month]-[day]").unwrap();
-    let today = now.format(&format).unwrap();
-    let path = ctx.get_abspath(&format!("workdir/stats/{today}.csv"));
+    let path = ctx.get_abspath(&format!("workdir/stats/whole-country.csv"));
 
     update_stats(&ctx, /*overpass=*/ true).unwrap();
 
@@ -1078,7 +1075,7 @@ fn test_our_main_stats() {
                 "data/street-housenumbers-hungary.overpassql",
                 &overpass_template,
             ),
-            ("workdir/stats/2020-05-10.csv", &today_csv),
+            ("workdir/stats/whole-country.csv", &today_csv),
             ("workdir/stats/2020-05-10.count", &today_count),
             ("workdir/stats/2020-05-10.citycount", &today_citycount),
             ("workdir/stats/2020-05-10.zipcount", &today_zipcount),
@@ -1089,7 +1086,7 @@ fn test_our_main_stats() {
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/stats/2020-05-10.csv");
+    let path = ctx.get_abspath("workdir/stats/whole-country.csv");
     mtimes.insert(path, Rc::new(RefCell::new(ctx.get_time().now())));
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
@@ -1212,7 +1209,7 @@ fn test_update_stats_count() {
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            ("workdir/stats/2020-05-10.csv", &today_csv_value),
+            ("workdir/stats/whole-country.csv", &today_csv_value),
             ("workdir/stats/2020-05-10.count", &today_count_value),
             ("workdir/stats/2020-05-10.citycount", &today_citycount_value),
             ("workdir/stats/2020-05-10.zipcount", &today_zipcount_value),
@@ -1263,7 +1260,7 @@ fn test_update_stats_count_no_csv() {
         ],
     );
     file_system.set_files(&files);
-    file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/2020-05-10.csv")]);
+    file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/whole-country.csv")]);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
 
@@ -1296,7 +1293,7 @@ fn test_update_stats_count_xml_as_csv() {
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            ("workdir/stats/2020-05-10.csv", &today_csv_value),
+            ("workdir/stats/whole-country.csv", &today_csv_value),
             ("workdir/stats/2020-05-10.count", &today_count_value),
             ("workdir/stats/2020-05-10.citycount", &today_citycount_value),
             ("workdir/stats/2020-05-10.zipcount", &today_zipcount_value),
@@ -1335,7 +1332,7 @@ fn test_update_stats_topusers() {
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            ("workdir/stats/2020-05-10.csv", &today_csv_value),
+            ("workdir/stats/whole-country.csv", &today_csv_value),
             ("workdir/stats/2020-05-10.topusers", &today_topusers_value),
             ("workdir/stats/2020-05-10.usercount", &today_usercount_value),
         ],
@@ -1372,7 +1369,7 @@ fn test_update_stats_topusers_no_csv() {
         ],
     );
     file_system.set_files(&files);
-    file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/2020-05-10.csv")]);
+    file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/whole-country.csv")]);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
 

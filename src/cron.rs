@@ -318,7 +318,7 @@ fn write_zip_count_path(
 /// Counts the # of all house numbers as of today.
 fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()> {
     let statedir = ctx.get_abspath("workdir/stats");
-    let csv_path = format!("{statedir}/{today}.csv");
+    let csv_path = format!("{statedir}/whole-country.csv");
     if !ctx.get_file_system().path_exists(&csv_path) {
         return Ok(());
     }
@@ -381,7 +381,7 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
 /// Counts the top housenumber editors as of today.
 fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<()> {
     let statedir = ctx.get_abspath("workdir/stats");
-    let csv_path = format!("{statedir}/{today}.csv");
+    let csv_path = format!("{statedir}/whole-country.csv");
     if !ctx.get_file_system().path_exists(&csv_path) {
         return Ok(());
     }
@@ -453,7 +453,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     let now = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
-    let csv_path = format!("{statedir}/{today}.csv");
+    let csv_path = format!("{statedir}/whole-country.csv");
 
     if overpass {
         info!("update_stats: talking to overpass");
