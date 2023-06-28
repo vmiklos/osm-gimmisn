@@ -474,7 +474,7 @@ fn test_update_invalid_addr_cities() {
         .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("workdir/stats/2020-05-10.csv", &today_csv)],
+        &[("workdir/stats/whole-country.csv", &today_csv)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
