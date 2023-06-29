@@ -226,7 +226,7 @@ fn test_handle_invalid_addr_cities() {
         .unwrap();
     }
 
-    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/invalid-addr-cities");
+    let root = test_wsgi.get_dom_for_path("/lints/whole-country/invalid-addr-cities");
 
     let results = wsgi::tests::TestWsgi::find_all(&root, "body/table/tr");
     // header + 1 row.
@@ -256,8 +256,20 @@ fn test_handle_invalid_refstreets_no_errors() {
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
 
-    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/invalid-relations");
+    let root = test_wsgi.get_dom_for_path("/lints/whole-country/invalid-relations");
 
     let results = wsgi::tests::TestWsgi::find_all(&root, "body/h1/a");
     assert_eq!(results.is_empty(), true);
+}
+
+/// Tests handle_lints().
+#[test]
+fn test_handle_lints() {
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+
+    let root = test_wsgi.get_dom_for_path("/lints/whole-country/");
+
+    let results = wsgi::tests::TestWsgi::find_all(&root, "body/ul/li");
+    // 2 lint types.
+    assert_eq!(results.len(), 2);
 }

@@ -1922,7 +1922,7 @@ fn test_handle_invalid_refstreets() {
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
 
-    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/invalid-relations");
+    let root = test_wsgi.get_dom_for_path("/lints/whole-country/invalid-relations");
 
     let mut results = TestWsgi::find_all(&root, "body/h1/a");
     assert_eq!(results.is_empty(), false);
@@ -1955,7 +1955,7 @@ fn test_handle_invalid_refstreets_no_osm_sreets() {
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
 
-    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/invalid-relations");
+    let root = test_wsgi.get_dom_for_path("/lints/whole-country/invalid-relations");
 
     let results = TestWsgi::find_all(&root, "body");
     assert_eq!(results.is_empty(), false);
@@ -1985,7 +1985,7 @@ fn test_handle_invalid_refstreets_no_invalids() {
     let file_system: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system);
 
-    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/invalid-relations");
+    let root = test_wsgi.get_dom_for_path("/lints/whole-country/invalid-relations");
 
     let results = TestWsgi::find_all(&root, "body/h1/a");
     assert_eq!(results.is_empty(), true);

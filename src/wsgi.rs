@@ -1523,6 +1523,7 @@ lazy_static! {
         ret.insert("/street-housenumbers/".into(), handle_street_housenumbers);
         ret.insert("/missing-housenumbers/".into(), handle_missing_housenumbers);
         ret.insert("/housenumber-stats/".into(), webframe::handle_stats);
+        ret.insert("/lints/".into(), webframe::handle_lints);
         ret
     };
 }

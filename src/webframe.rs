@@ -409,6 +409,19 @@ pub fn get_toolbar(
 
         let doc = yattag::Doc::new();
         {
+            let a = doc.tag(
+                "a",
+                &[(
+                    "href",
+                    &(ctx.get_ini().get_uri_prefix() + "/lints/whole-country/"),
+                )],
+            );
+            a.text(&tr("Lints"));
+        }
+        items.push(doc);
+
+        let doc = yattag::Doc::new();
+        {
             let a = doc.tag("a", &[("href", &tr("https://vmiklos.hu/osm-gimmisn"))]);
             a.text(&tr("Documentation"));
         }
@@ -789,7 +802,7 @@ fn handle_invalid_addr_cities(
     Ok(doc)
 }
 
-/// Expected request_uri: e.g. /osm/housenumber-stats/whole-country/invalid-relations."""
+/// Expected request_uri: e.g. /osm/lints/whole-country/invalid-relations."""
 fn handle_invalid_refstreets(
     ctx: &context::Context,
     relations: &mut areas::Relations<'_>,
@@ -865,14 +878,6 @@ pub fn handle_stats(
     if request_uri.ends_with("/zipprogress") {
         return handle_stats_zipprogress(ctx, relations)
             .context("handle_stats_zipprogress() failed");
-    }
-
-    if request_uri.ends_with("/invalid-relations") {
-        return handle_invalid_refstreets(ctx, relations);
-    }
-
-    if request_uri.ends_with("/invalid-addr-cities") {
-        return handle_invalid_addr_cities(ctx, relations);
     }
 
     let doc = yattag::Doc::new();
@@ -979,8 +984,6 @@ pub fn handle_stats(
         (tr("Capital coverage"), "capital-progress"),
         (tr("Per-city coverage"), "cityprogress"),
         (tr("Per-ZIP coverage"), "zipprogress"),
-        (tr("Invalid relation settings"), "invalid-relations"),
-        (tr("Invalid addr:city values"), "invalid-addr-cities"),
         (
             tr("Invalid addr:city values history"),
             "stats-invalid-addr-cities",
@@ -1014,28 +1017,6 @@ pub fn handle_stats(
                 a.text(title);
                 continue;
             }
-            if identifier == "invalid-relations" {
-                let a = li.tag(
-                    "a",
-                    &[(
-                        "href",
-                        &format!("{prefix}/housenumber-stats/whole-country/invalid-relations"),
-                    )],
-                );
-                a.text(title);
-                continue;
-            }
-            if identifier == "invalid-addr-cities" {
-                let a = li.tag(
-                    "a",
-                    &[(
-                        "href",
-                        &format!("{prefix}/housenumber-stats/whole-country/invalid-addr-cities"),
-                    )],
-                );
-                a.text(title);
-                continue;
-            }
             let a = li.tag("a", &[("href", &format!("#_{identifier}"))]);
             a.text(title);
         }
@@ -1043,11 +1024,7 @@ pub fn handle_stats(
 
     for (title, identifier) in title_ids {
         let identifier = identifier.to_string();
-        if identifier == "cityprogress"
-            || identifier == "zipprogress"
-            || identifier == "invalid-relations"
-            || identifier == "invalid-addr-cities"
-        {
+        if identifier == "cityprogress" || identifier == "zipprogress" {
             continue;
         }
         {
@@ -1072,6 +1049,72 @@ intended to reflect quality of work done by any given editor in OSM. If you want
 them to motivate yourself, that's fine, but keep in mind that a bit of useful work is
 more meaningful than a lot of useless work."#,
         ));
+    }
+
+    doc.append_value(get_footer(/*last_updated=*/ "").get_value());
+    Ok(doc)
+}
+
+/// Expected request_uri: /lints/whole-country/.
+pub fn handle_lints(
+    ctx: &context::Context,
+    relations: &mut areas::Relations<'_>,
+    request_uri: &str,
+) -> anyhow::Result<yattag::Doc> {
+    if request_uri.ends_with("/invalid-relations") {
+        return handle_invalid_refstreets(ctx, relations);
+    }
+
+    if request_uri.ends_with("/invalid-addr-cities") {
+        return handle_invalid_addr_cities(ctx, relations);
+    }
+
+    let doc = yattag::Doc::new();
+    doc.append_value(
+        get_toolbar(
+            ctx,
+            Some(relations),
+            /*function=*/ "",
+            /*relation_name=*/ "",
+            /*relation_osmid=*/ 0,
+        )?
+        .get_value(),
+    );
+
+    let prefix = ctx.get_ini().get_uri_prefix();
+
+    let title_ids = &[
+        (tr("Invalid relation settings"), "invalid-relations"),
+        (tr("Invalid addr:city values"), "invalid-addr-cities"),
+    ];
+
+    {
+        let ul = doc.tag("ul", &[]);
+        for (title, identifier) in title_ids {
+            let identifier = identifier.to_string();
+            let li = ul.tag("li", &[]);
+            if identifier == "invalid-relations" {
+                let a = li.tag(
+                    "a",
+                    &[(
+                        "href",
+                        &format!("{prefix}/lints/whole-country/invalid-relations"),
+                    )],
+                );
+                a.text(title);
+                continue;
+            }
+
+            // Assume invalid-addr-cities.
+            let a = li.tag(
+                "a",
+                &[(
+                    "href",
+                    &format!("{prefix}/lints/whole-country/invalid-addr-cities"),
+                )],
+            );
+            a.text(title);
+        }
     }
 
     doc.append_value(get_footer(/*last_updated=*/ "").get_value());
