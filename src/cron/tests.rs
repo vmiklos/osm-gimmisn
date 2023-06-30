@@ -1352,6 +1352,19 @@ fn test_update_stats_topusers() {
         let mut guard = today_usercount_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
+
+    let conn = ctx.get_database_connection().unwrap();
+    let mut stmt = conn
+        .prepare("select date, count from stats_usercounts")
+        .unwrap();
+    let mut rows = stmt.query([]).unwrap();
+    while let Some(row) = rows.next().unwrap() {
+        let date: String = row.get(0).unwrap();
+        assert_eq!(date, "2020-05-10");
+        let count: String = row.get(1).unwrap();
+        let count: i64 = count.parse().unwrap();
+        assert_eq!(count, 2);
+    }
 }
 
 /// Tests update_stats_topusers(): the case then the .csv is missing.
