@@ -34,11 +34,17 @@ filters:
     # 1: nincs kiírva, az utcában csak 3 és 3/a van és egy ház szám nélkül ami szintén 3
     invalid: ['1']
     interpolation: all
+  Vödörvölgy:
+    # 155, és 9xx helyrajzi számok
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Zrínyi utca:
+    # 24: nincs ilyen kiírva és a földhivatal szerint sincs. RESURVEY 2024.
     # 110/7: hrsz, valóságban 7-es szám
     show-refstreet: false
     interpolation: all
-    invalid: ['110']
+    invalid: ['24', '110']
 refstreets:
   # helyesírás
   'Zrínyi utca': 'Zrinyi utca'
