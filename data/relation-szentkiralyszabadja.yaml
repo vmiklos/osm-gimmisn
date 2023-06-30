@@ -22,13 +22,12 @@ filters:
   Petőfi Sándor utca:
     # 28, 32: nincsenek beépítve a telkek. utolsó kiírt házszám a 26. RESUREY 2024
     invalid: ['28', '32']
-  Radnóti Miklós utca:
-    show-refstreet: false
   Szabadság utca:
     interpolation: all
   Széchenyi utca:
     # 2: 1 mellett 3, elvileg 2 = Gárdonyi utca 7, de épül/nincs kiírva
-    invalid: ['2']
+    # 6: 9 van kiírva a helyén
+    invalid: ['2', '6']
     interpolation: all
   Táncsics utca:
     # 1: nincs kiírva, az utcában csak 3 és 3/a van és egy ház szám nélkül ami szintén 3
@@ -48,9 +47,12 @@ filters:
 refstreets:
   # helyesírás
   'Zrínyi utca': 'Zrinyi utca'
-  # ellenőrzött, tábla = osm
-  'Radnóti Miklós utca': 'Radnóti utca'
+  # ellenőrzött, tábla = osm. 
   'István király tér': 'Istvánkirály tér'
+  # Az új táblákat nem vettem figyelembe, mert többségük hibás
+  # - Radnóti Miklós utca
+  # - Rákóczi Ferenc utca
+  # - Szondi György utca
 street-filters:
   # nem igazi utcák
   - Kültelek
@@ -68,4 +70,4 @@ osm-street-filters:
   # parkok
 source: survey
 housenumber-letters: false
-inactive: true
+inactive: false
