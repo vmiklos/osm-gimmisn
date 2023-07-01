@@ -5,13 +5,13 @@ street-filters:
   - Felsőpaphegy
   - Kültelek
   - Felsőcsetény
+  - Paphegy
   - Zsöllehát
   # Nem igazi utcák
   - Magán út  # bárhol lehet ilyen névvel
   - Mihályháza
   - Vasútállomás
   # hiányzók
-  # Magyarágyi köz - valahol a Magyarágyi utca végén, ismeretlen
   # Tölgy utca     - https://www.openstreetmap.org/way/198973140 - nincs táblázva
   # Vállusi utca   - https://www.openstreetmap.org/way/533684471 - nincs táblázva
 osm-street-filters:
