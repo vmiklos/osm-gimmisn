@@ -13,6 +13,9 @@ filters:
 #street-filters:
   # Tanyák
 refstreets:
+  # ellenőrzött
+  'Vámossy Zoltán köz': 'Vámossy utca'
+  # kérdéses
   'Határ utca': 'Határ út'
   'Hermányhegyi utca': 'Hermány-hegyi utca'
   'Kálvária utca': 'Kálvária út'
