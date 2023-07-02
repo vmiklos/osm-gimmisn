@@ -1,13 +1,24 @@
 street-filters:
   # településrész
   - Bencze hegy
+  # nem igazi utcák
+  - MÁV lakások
+  # tanya/puszta
+  - Hajdú tana  # https://www.openstreetmap.org/node/9791828398
+  - Tükrös puszta
   # nincs
   # - Turisták útja - Bencehegy
-  # - Tükrös puszta - nincs hsz.
-  # - Hajdú tanya
-  # - Rozmaring utca
-  # - Honvéd lakótelep
-  # - MÁV lakások
+osm-street-filters:
+  # korzó - http://www.velence.hu/images/VH/2014/06/14.06.pdf
+  - Kígyó nyelve sétány
+  - Nádas sétány
+  - Békacsárda ösvény
+  - Öreg tisztás út
+  - Fürdető tér
+  # ösvények/parkok
+  - Hauszmann-Gschwindt-kastély
+  # átlógó/területhatár
+  - Gárdonyi út
 refstreets:
   'Bercsényi utca': 'Bercsényi Miklós utca'
   'Bogrács út': 'Bogrács utca'
