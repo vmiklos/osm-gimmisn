@@ -7,7 +7,8 @@ license = "MIT"
 [dependencies]
 accept-language = "3.0.1"
 anyhow = "1.0.71"
-clap = "4.3.10"
+# avoid color, which would be enabled by default
+clap = { version = "4.3.10", default-features = false, features = ["std", "help", "usage", "error-context", "suggestions"] }
 csv = "1.2.2"
 gettext = "0.4.0"
 git-version = "0.3.5"
