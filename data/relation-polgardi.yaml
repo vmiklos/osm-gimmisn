@@ -18,6 +18,9 @@ street-filters:
   - Tekeres puszta  # Tekerespuszta  - https://www.openstreetmap.org/node/9406751139
   # nincs kiépítve
   - Bánki Donát utca
+  # tanya/puszta
+  - Alsósomlyó puszta  # https://www.openstreetmap.org/note/3347384
+  - Kiscséri puszta  # https://www.openstreetmap.org/node/2193202497
 osm-street-filters:
   # name:left / name:right
   - Munkácsy Mihály lakótelep / Ifjúság utca
