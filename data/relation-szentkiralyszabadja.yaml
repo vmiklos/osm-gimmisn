@@ -1,8 +1,7 @@
 missing-streets: 'yes'
 filters:
-  Ady Endre út:
-    # 17-21: 1 ház 4 telek, kiírva nincs semmi. RESURVEY 2024
-    invalid: ['17', '19', '21']
+  # Ady Endre utca:
+    # 17-21: HÉSZ: 1 ház 4 telek, kiírva nincs semmi. RESURVEY 2024
   Árnyas utca:
     interpolation: all
   Balatoni út:
