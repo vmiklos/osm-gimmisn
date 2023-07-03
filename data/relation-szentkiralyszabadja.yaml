@@ -1,7 +1,13 @@
 missing-streets: 'yes'
 filters:
+  Ady Endre út:
+    # 17-21: 1 ház 4 telek, kiírva nincs semmi. RESURVEY 2024
+    invalid: ['17', '19', '21']
   Árnyas utca:
     interpolation: all
+  Balatoni út:
+    # 99: kiírva max 19, posta 21
+    invalid: ['99']
   Bartók Béla utca:
     interpolation: all
   Gárdonyi utca:
@@ -13,10 +19,18 @@ filters:
   István király tér:
     interpolation: all
     show-refstreet: false
+  József Attila utca:
+    # 3: a bódéhalmaz vagy a Béke utca 23 felől, semmi sincs kiírva. RESURVEY 2024
+    # 4: 2 és az iskola között egy lebontott ház, helyén birkál legelnek. A telek végében még 1 ház, de annak bejárata a Tóth Árpád utca felől
+    invalid: ['3', '4']
+  Kert utca:
+    # 2-4: Az utca elején van a Béke utca 15 és 17, ami lehet egyszer erre fognak számozni
+    # 15, 17: 13 után 19. 13-as ház valószínű dupla vagy tripla telek, 19-es házig terjeszkedik, de a 19-es mellett más a kerítés. 
+    invalid: ['15', '17']
   Király utca:
     interpolation: all
   Kötéssűrű utca:
-    invalid: ['6']
+    invalid: ['1', '6']
   Köztársaság utca:
    interpolation: all
   Petőfi Sándor utca:
@@ -35,6 +49,7 @@ filters:
     interpolation: all
   Vödörvölgy:
     # 155, és 9xx helyrajzi számok
+    # invalid: ['13']
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
