@@ -4,7 +4,7 @@ street-filters:
   # nem igazi utcák
   - MÁV lakások
   # tanya/puszta
-  - Hajdú tana  # https://www.openstreetmap.org/node/9791828398
+  - Hajdú tanya  # https://www.openstreetmap.org/node/9791828398
   - Tükrös puszta
   # nincs
   # - Turisták útja - Bencehegy
