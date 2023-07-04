@@ -47,8 +47,9 @@ filters:
     invalid: ['1']
     interpolation: all
   Vödörvölgy:
+    # Vödörvölgyi út Szentkirályszabadjai részén van 11 és 13, de Vödörvölgy néven nincsenek számok
+    invalid: ['13']
     # 155, és 9xx helyrajzi számok
-    # invalid: ['13']
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
@@ -72,7 +73,7 @@ street-filters:
   - Kültelek
   - Vasútállomás  # nincs is vasút már 50 éve, az régi állomás elhagyatott, nincs kiírva semmi
   # területként
-  # - Meggyespuszta
+  - Meggyespuszta
   # - Vödörvölgy
 osm-street-filters:
   # átlógó/határoló utcák
@@ -84,4 +85,4 @@ osm-street-filters:
   # parkok
 source: survey
 housenumber-letters: false
-inactive: false
+inactive: true
