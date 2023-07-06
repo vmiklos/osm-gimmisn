@@ -36,11 +36,12 @@ osm-street-filters:
   - Vasúti átjáró
   - Víztorony park
   - Zugló vasútállomás környéki park
-  # Létezik, de nincs házszám
-  - Kántorné utca
-  - Rákosfalva utca
+  # Intézmény címében használt
   - Rózsavölgyi köz  # https://www.openstreetmap.org/node/3535130937
-  - Tapló köz
+  # Nem létezik
+  # - Kántorné utca - https://www.openstreetmap.org/note/3715737
+  # - Rákosfalva utca  - https://www.openstreetmap.org/note/3715755
+  # - Tapló köz
   # IV. kerület
   - Madridi utca
   # XIII. kerület
