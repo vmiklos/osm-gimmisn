@@ -62,7 +62,11 @@ filters:
     # 39: nincs ilyen, a 37 után a 41 következik, össze van vonva a 41-gyel.
     # 45: nincs ilyen, a 43 után a 49 következik.
     # 47: nincs ilyen, a 43 után a 49 következik, össze van vonva a 49-cel.
-    invalid: ['39', '45', '47']
+    # 81/b: nincs ilyen, csak sima 81 van.
+    invalid: ['39', '45', '47', '81b']
+  Fráter Lóránd utca:
+    # 9: ez és a Semmelweis utca 69. közös telken van, de bejárat és házszám csak a Semmelweis utcáról van.
+    invalid: ['9']
   Halász utca:
     # 12/A: nincs ilyen, csak sima 12 van.
     invalid: ['12a']
