@@ -5,8 +5,16 @@ filters:
     interpolation: 'all'
   Köztársaság utca:
     interpolation: 'all'
+    # 45/2: a 45-ben lakópark épül, csak a 45 van a bejáratnál.
+    # 59/a: az 59 az Anchor Villapark, a lakóparkon belül nincsenek külön házszámok, csak az 59 van a bejáratnál.
     # 206: az utolsó házszám a 85.
-    invalid: ['206']
+    invalid: ['45/2', '59a', '206']
+  Lugas utca:
+    # 2: a Földhivatal szerint a 3420/2 hrsz. Lugas utca 2., de Vasút utca 25. van kitáblázva.
+    invalid: ['2']
+  Móra Ferenc utca:
+    # 7/c: a páratlan oldalon az 5 az utolsó házszám. Van ugyan egy 7-es utána, de az Vasút utca 7. Bár egy hrsz.-on vannak, több üzlet is van ezzel a házszámmal, de 7/c a Vasút utcában sem létezik.
+    invalid: ['7c']
   Pipacs sor:
     interpolation: 'all'
   Szent László utca:
