@@ -495,21 +495,6 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     update_stats_refcount(ctx, &statedir)?;
     stats::update_invalid_addr_cities(ctx, &statedir)?;
 
-    // Old style: workdir/stats/<date>.csv files.
-    // Remove old CSV files as they are created daily and each is around 11M.
-    for file_name in ctx.get_file_system().listdir(&statedir)? {
-        if !file_name.ends_with("csv") {
-            continue;
-        }
-
-        let last_modified = ctx.get_time().now() - ctx.get_file_system().getmtime(&file_name)?;
-
-        if last_modified.whole_seconds() >= 24_i64 * 3600_i64 * 7_i64 {
-            ctx.get_file_system().unlink(&file_name)?;
-            info!("update_stats: removed old {file_name}");
-        }
-    }
-
     info!("update_stats: generating json");
     let json_path = format!("{}/stats.json", &statedir);
     stats::generate_json(ctx, &statedir, &json_path).context("generate_json() failed")?;
