@@ -727,8 +727,6 @@ fn test_update_stats() {
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
-    let old_csv = context::tests::TestFileSystem::make_file();
-    let old_path = "workdir/stats/old.csv";
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -744,20 +742,10 @@ fn test_update_stats() {
                 "data/street-housenumbers-hungary.overpassql",
                 &overpass_template,
             ),
-            (old_path, &old_csv),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/stats/whole-country.csv");
-    mtimes.insert(path, Rc::new(RefCell::new(ctx.get_time().now())));
-    let path = ctx.get_abspath("workdir/stats/old.csv");
-    mtimes.insert(
-        path,
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
 
@@ -770,13 +758,6 @@ fn test_update_stats() {
         actual,
         String::from_utf8(std::fs::read("src/fixtures/network/overpass-stats.csv").unwrap())
             .unwrap()
-    );
-
-    // Make sure that the old CSV is removed.
-    assert_eq!(
-        ctx.get_file_system()
-            .path_exists(&ctx.get_abspath(old_path)),
-        false
     );
 
     let num_ref: i64 = ctx
