@@ -34,7 +34,8 @@ street-filters:
   # dűlők, tanyák
   - Sömögye dűlő
   - Koponár utca       # w204692963 Öv utca nyugat - nincs beépítve, földút, nincs tábla az elején
-  # - Ipar utca        # Lidl mellett?
+  #
+  - Ipar utca          # Lidl mellett? -> nincs
 osm-street-filters:
   # nem igazi utcák
   - Keszthely nyugati elkerülő út
