@@ -41,10 +41,11 @@ filters:
     # 11: sima 11 nincs, csak 11/A, 11/B, 11/C.
     invalid: ['11']
   Berzsenyi Dániel utca:
+    # 157: a 67 az utolsó házszám.
     # 226/3: a 67 az utolsó házszám.
     # 226/5: a 67 az utolsó házszám.
     interpolation: 'all'
-    invalid: ['226/3', '226/5']
+    invalid: ['157', '226/3', '226/5']
   Bocskai István utca:
     # 7: sima 7 nincs, csak 7/A, 7/B.
     invalid: ['7']
@@ -88,7 +89,8 @@ filters:
     # Ez mindenhogy ki van táblázva: Kikötő utca, Kikötő út, Kikötő sor
     # 1/A: nincs ilyen, csak Kikötő utca 1. A épület.
     # 1/B: nincs ilyen, csak Kikötő utca 1. B épület.
-    invalid: ['1a', '1b']
+    # 147/2: ez helyrajzi szám, nem házszám.
+    invalid: ['1a', '1b', '147/2']
   Kinizsi Pál utca:
     # 17: a páratlan oldalon a 15 az utolsó házszám.
     # 21: a páratlan oldalon a 15 az utolsó házszám.
