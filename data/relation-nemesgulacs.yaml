@@ -12,6 +12,12 @@ osm-street-filters:
   - Lóczy Lajos út
   - Millennium park
   - Templom park
+  # kiírva nincsenk, de helyi erő fejből sorolta ezeket az utcákat, hogy már rég léteznek
+  - Beke köz
+  - Kis köz
+  - Malom útja  # vagy Malom út
+  - Pákai köz
+  - Spiccer köz
 refstreets:
   'Hegyalja út': 'Hegyalja utca'  # nincs tábla
   'Gyártelep utca': 'Bányatelep'
