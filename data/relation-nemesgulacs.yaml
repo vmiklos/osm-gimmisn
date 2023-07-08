@@ -6,6 +6,12 @@ street-filters:
   - Tücsök tanya  # Villa Gulács ezzel a címmel fent van
   - Vasútállomás
   - Köbölkúthegy  # Köbölkút néven egy szórt terület
+osm-street-filters:
+  # park, ösvény
+  - Kuruc-körút tanösvény
+  - Lóczy Lajos út
+  - Millennium park
+  - Templom park
 refstreets:
   'Hegyalja út': 'Hegyalja utca'  # nincs tábla
   'Gyártelep utca': 'Bányatelep'
