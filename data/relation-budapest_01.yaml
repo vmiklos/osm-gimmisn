@@ -115,7 +115,8 @@ filters:
     # 4: 4/a, 4/b
     invalid: ['4']
   Hattyú utca:
-    invalid: ['44']
+    # 1-18
+    invalid: ['22', '44']
   Hegyalja út:
     # 2a = Sánc utca 1, illetve 2=Mambo
     # 7-13 egyben
