@@ -5,9 +5,23 @@ refstreets:
   'Jókai Mór utca': 'Jókai utca'
   'Kossuth Lajos utca': 'Kossuth Lajos út'  # Pettenden. Van a központban Kossuth utca
   'Petőfi Sándor utca': 'Petőfi Sándor út'  # Pettenden. Van a központban Petőfi utca
+  # ellenőrzött
+  # Ady utca: csak vezetéknévvel van kitáblázva, és a Földhivatalnál is így van. Viszont a kiágazó szakasz a Földhivatal szerint Ady Endre utca.
+  # Bágyom utca: a helyszínen nincs utcanévtábla. A Földhivatal szerint: 2475 KÁPOLNÁSNYÉK Bajcsy-Zs. utca 876/*.
+  # Bartók utca: csak vezetéknévvel van kitáblázva, és a Földhivatalnál is így van.
+  # Bem utca - csak vezetéknévvel van kitáblázva, és a Földhivatalnál is így van.
+  # Dózsa utca: csak vezetéknévvel van kitáblázva, és a Földhivatalnál is így van.
+  # Ercsi út: útként van kitáblázva, de a Földhivatalnál Ercsi utca.
+  # Fő utca: az Ercsi út sarkán lévő táblán Fő út van, de nem írtam át OSM-en. A Földhivatalnál is Fő utca.
+  # Gárdonyi út: csak vezetéknévvel van kitáblázva, és a Földhivatalnál is így van.
+  # Kossuth utca: csak vezetéknévvel van kitáblázva, de a Földhivatalnál Kossuth Lajos utca.
+  # Ország út: így van kitáblázva, de a Földhivatalnál Országút utca. Ilyet nincs egyik kereszteződésben sem.
+  # Petőfi utca: csak vezetéknévvel van kitáblázva, és a Földhivatalnál is így van.
+  # Vörösmarty utca: csak vezetéknévvel van kitáblázva a Fő utcánál, és a Földhivatalnál is így van. Van egy régi tábla Vörösmarty M utca felirattal a Dózsa utca sarkán.
 # street-filters:
 osm-street-filters:
   # átlógó utcák
+  - Tél utca
   # nem igazi utcák
   - 7-es főút
   # parkok
