@@ -1,7 +1,6 @@
 missing-streets: 'yes'
 refstreets:
   # kérdéses
-  'Bem József utca': 'Bem utca'
   'Jókai Mór utca': 'Jókai utca'
   'Kossuth Lajos utca': 'Kossuth Lajos út'  # Pettenden. Van a központban Kossuth utca
   'Petőfi Sándor utca': 'Petőfi Sándor út'  # Pettenden. Van a központban Petőfi utca
