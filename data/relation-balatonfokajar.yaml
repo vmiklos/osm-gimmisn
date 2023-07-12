@@ -4,6 +4,8 @@ refstreets:
   'Perczeltelep': 'Perczel telep'
   # nincs tábla
   'Reptér út': 'Reptér'
+  # ellenőrzött
+  'Aranyoshegy': 'Aranyos hegy'
 street-filters:
   # nem igazi utcák
   - Állomás
