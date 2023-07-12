@@ -2,7 +2,20 @@ missing-streets: 'yes'
 filters: {}
 # street-filters:
 # Bíbic utca - https://www.openstreetmap.org/note/3181302
-# Bevásárló utca - https://www.openstreetmap.org/note/3181305
+osm-street-filters:
+  # parkok
+  - Batya és Tanösvény park
+  - Kéktó Szabadidőpark
+  - Kőpark
+  - Nemzeti Összetartozás park
+  #- Nóra sétány
+  - Református gyülekezet park
+  - Sziget színház park
+  - Üdvözlő park
+  - Városháza park
+  # nem igazi utcák
+  - Leshegy dűlő  # Nemzeti Közlekedési Hatóság
+  - M0
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Alma utca': 'Almafa utca'
