@@ -13,6 +13,15 @@ street-filters:
   # place
   - Öreghegy  # https://www.openstreetmap.org/node/5446074977
 osm-street-filters:
+  # nincs tábla
+  # - Karikahegy köz - https://www.openstreetmap.org/note/3346381
+  # BALATONFŐKAJÁR belterület 442  Karikahegy köz 1.
+  # BALATONFŐKAJÁR belterület 447/3  Karikahegy köz 2.
+  # - Kossuth köz - https://www.openstreetmap.org/note/3346384
+  # BALATONFŐKAJÁR belterület 776/1  Vasvári Pál utca 12. = Kossuth köz 2.
+  # BALATONFŐKAJÁR belterület 776/2  Vasvári Pál utca 12/A. = Kossuth köz 3.
+  # nincs
+  - Vilmos-tanya  # https://www.openstreetmap.org/note/3344606
   # átlógó utcák
   - Aligai út  # valójában a Lego kiállítás Balatonvilágos-ra számozza magát
   - Sirály utca
