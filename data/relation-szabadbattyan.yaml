@@ -1,11 +1,11 @@
 missing-streets: 'yes'
 refstreets:
-  # kérdéses
-  'Jókai Mór köz': 'Jókai köz'
-  'Jókai Mór telep': 'Jókai telep'
-  'Jókai Mór utca': 'Jókai utca'
-  'Kossuth Lajos utca': 'Kossuth utca'
-  'Petőfi Sándor utca': 'Petőfi utca'
+  # ellenőrzött
+  'Jókai Mór köz': 'Jókai köz'  # Jókai Mór köz: nincs kint utcanévtábla, de a Földhivatalnál teljes névvel van. Az épületek viszont csak vezetéknévvel vannak a Földhivatalnál.
+  # 'Jókai Mór telep': 'Jókai telep' nincs kint utcanévtábla, és a Földhivatalnál sincs neve 45/25 hrsz útnak. Egy ott lakó szerint Jókai telep az utca neve, és a házak címe is Jókai telep a Földhivatalnál.
+  'Jókai Mór utca': 'Jókai utca'  # - Jókai Mór utca: teljes névvel van kitáblázva, és a Földhivatalnál is teljes névvel van.
+  'Kossuth Lajos utca': 'Kossuth utca'  # teljes névvel van kitáblázva, és a Földhivatalnál is teljes névvel van.
+  'Petőfi Sándor utca': 'Petőfi utca'  # a keleti végén Petőfi Sándor utca, a nyugati végén csak Petőfi utca.
 street-filters:
   # nem igazi utcák
   - Vasútállomás
