@@ -1227,6 +1227,7 @@ pub struct Relations<'a> {
     relations: HashMap<String, Relation<'a>>,
     activate_all: bool,
     activate_new: bool,
+    activate_invalid: bool,
     refcounty_names: HashMap<String, String>,
     refsettlement_names: HashMap<String, HashMap<String, String>>,
 }
@@ -1248,6 +1249,7 @@ impl<'a> Relations<'a> {
         let relations: HashMap<String, Relation<'a>> = HashMap::new();
         let activate_all = false;
         let activate_new = false;
+        let activate_invalid = false;
         let refcounty_names: HashMap<String, String> = match yaml_cache.get("refcounty-names.yaml")
         {
             Some(value) => serde_json::from_value(value.clone())
@@ -1267,6 +1269,7 @@ impl<'a> Relations<'a> {
             relations,
             activate_all,
             activate_new,
+            activate_invalid,
             refcounty_names,
             refsettlement_names,
         })
@@ -1318,11 +1321,36 @@ impl<'a> Relations<'a> {
         true
     }
 
+    fn is_invalid(&self, relation: &Relation<'a>) -> anyhow::Result<bool> {
+        if !self.activate_invalid {
+            return Ok(false);
+        }
+
+        let file_system = self.ctx.get_file_system();
+        if !file_system.path_exists(&relation.get_files().get_osm_streets_path()) {
+            return Ok(false);
+        }
+
+        if !file_system.path_exists(&relation.get_files().get_ref_streets_path()) {
+            return Ok(false);
+        }
+
+        let (osm_invalids, ref_invalids) = relation.get_invalid_refstreets()?;
+
+        let key_invalids = relation.get_invalid_filter_keys()?;
+
+        Ok(!osm_invalids.is_empty() || !ref_invalids.is_empty() || !key_invalids.is_empty())
+    }
+
     /// Gets a sorted list of active relation names.
     pub fn get_active_names(&mut self) -> anyhow::Result<Vec<String>> {
         let mut active_relations: Vec<Relation<'a>> = Vec::new();
         for relation in self.get_relations()? {
-            if self.activate_all || relation.config.is_active() || self.is_new(&relation) {
+            if self.activate_all
+                || relation.config.is_active()
+                || self.is_new(&relation)
+                || self.is_invalid(&relation)?
+            {
                 active_relations.push(relation.clone())
             }
         }
@@ -1374,6 +1402,11 @@ impl<'a> Relations<'a> {
     /// Activates relations which don't have state in workdir/ yet.
     pub fn activate_new(&mut self) {
         self.activate_new = true;
+    }
+
+    /// Activates relations with invalid refstreets / filter keys.
+    pub fn activate_invalid(&mut self) {
+        self.activate_invalid = true;
     }
 
     /// If refcounty is not None, forget about all relations outside that refcounty.

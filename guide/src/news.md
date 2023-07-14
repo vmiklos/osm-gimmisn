@@ -5,10 +5,11 @@
 - Rouille: new `--host` parameter to specify the bind address
 - The `/missing-housenumbers/.../update-result` is now about 6 times faster (replaced home-grown
   JSON cache with SQL indexes)
-- New `/housenumber-stats/.../invalid-addr-cities` endpoint, tries to find invalid addr:city values
+- New `/lints/.../invalid-addr-cities` endpoint, tries to find invalid addr:city values
 - Resolves: gh#2986 stats: the length of the invalid addr:city values list now has a chart
 - Resolves: gh#2987 stats: extract 2 lints from the stats page to an own lints page
 - Resolves: gh#2994 areas: find ref-not-in-reflist problems in `Relation.get_invalid_refstreets()`
+- Resolves: gh#2988 cron: enable inactive relations which are invalid
 
 ## 7.5
 
