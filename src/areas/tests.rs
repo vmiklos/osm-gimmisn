@@ -3013,3 +3013,114 @@ fn test_relations_is_new() {
 
     assert!(actual.is_empty());
 }
+
+/// Tests Relations::is_inactive().
+#[test]
+fn test_relations_is_inactive() {
+    // Case 1: active-invalid is false -> myrelation is not found.
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 2713748,
+            },
+        },
+        "relation-gazdagret.yaml": {
+            "refstreets": {
+                "Misspelled OSM Name 1": "OSM Name 1",
+            },
+            "inactive": true,
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = Relations::new(&ctx).unwrap();
+
+    let actual = relations.get_active_names().unwrap();
+
+    assert!(actual.is_empty());
+
+    // Case 2: active-invalid is true -> myrelation is found.
+    relations.activate_invalid();
+
+    let actual = relations.get_active_names().unwrap();
+
+    assert_eq!(actual, vec!["gazdagret".to_string()]);
+}
+
+/// Tests Relations::is_inactive(), the no-osm-streets case.
+#[test]
+fn test_relations_is_inactive_no_osm_streets() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 2713748,
+            },
+        },
+        "relation-gazdagret.yaml": {
+            "refstreets": {
+                "Misspelled OSM Name 1": "OSM Name 1",
+            },
+            "inactive": true,
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let hide_path = ctx.get_abspath("workdir/streets-gazdagret.csv");
+    file_system.set_hide_paths(&[hide_path]);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
+    let mut relations = Relations::new(&ctx).unwrap();
+    relations.activate_invalid();
+
+    let actual = relations.get_active_names().unwrap();
+
+    assert!(actual.is_empty());
+}
+
+/// Tests Relations::is_inactive(), the no-ref-streets case.
+#[test]
+fn test_relations_is_inactive_no_ref_streets() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 2713748,
+            },
+        },
+        "relation-gazdagret.yaml": {
+            "refstreets": {
+                "Misspelled OSM Name 1": "OSM Name 1",
+            },
+            "inactive": true,
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let hide_path = ctx.get_abspath("workdir/streets-reference-gazdagret.lst");
+    file_system.set_hide_paths(&[hide_path]);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
+    let mut relations = Relations::new(&ctx).unwrap();
+    relations.activate_invalid();
+
+    let actual = relations.get_active_names().unwrap();
+
+    assert!(actual.is_empty());
+}

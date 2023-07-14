@@ -577,6 +577,7 @@ pub fn our_main(
     let first_day_of_month = now.date().day() == 1;
     relations.activate_all(ctx.get_ini().get_cron_update_inactive() || first_day_of_month);
     relations.activate_new();
+    relations.activate_invalid();
     let refcounty: Option<&String> = args.get_one("refcounty");
     relations.limit_to_refcounty(&refcounty)?;
     // Use map(), which handles optional values.
