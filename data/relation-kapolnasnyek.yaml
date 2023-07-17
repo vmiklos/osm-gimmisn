@@ -1,7 +1,6 @@
 missing-streets: 'yes'
 refstreets:
   # kérdéses
-  'Jókai Mór utca': 'Jókai utca'
   'Kossuth Lajos utca': 'Kossuth Lajos út'  # Pettenden. Van a központban Kossuth utca
   'Petőfi Sándor utca': 'Petőfi Sándor út'  # Pettenden. Van a központban Petőfi utca
   # ellenőrzött
@@ -14,6 +13,7 @@ refstreets:
   # Fő utca: az Ercsi út sarkán lévő táblán Fő út van, de nem írtam át OSM-en. A Földhivatalnál is Fő utca.
   # Gárdonyi út: csak vezetéknévvel van kitáblázva, és a Földhivatalnál is így van.
   # Kossuth utca: csak vezetéknévvel van kitáblázva, de a Földhivatalnál Kossuth Lajos utca.
+  # Jókai utca: Jókai utca van kitáblázva.
   # Ország út: így van kitáblázva, de a Földhivatalnál Országút utca. Ilyet nincs egyik kereszteződésben sem.
   # Petőfi utca: csak vezetéknévvel van kitáblázva, és a Földhivatalnál is így van.
   # Vörösmarty utca: csak vezetéknévvel van kitáblázva a Fő utcánál, és a Földhivatalnál is így van. Van egy régi tábla Vörösmarty M utca felirattal a Dózsa utca sarkán.
