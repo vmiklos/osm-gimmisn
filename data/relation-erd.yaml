@@ -18,11 +18,6 @@ refstreets:
   'Mély utca': 'Mély út'  # https://www.openstreetmap.org/note/3701586
   'Sánchegyi út': 'Sánchegyi utca'  # https://www.openstreetmap.org/note/3701589
   'Simonpuszta': 'Simon puszta'  # https://www.openstreetmap.org/note/3701592
-  # nem kiszabályozott utcák, kérdéses - https://www.openstreetmap.org/note/3701551
-  'Sárgarigó utca': 'Sárgarigó köz'
-  'Seregély utca': 'Seregély köz'
-  'Sirály utca': 'Sirály köz'
-  'Stiglice utca': 'Stiglic köz'
   # helyesírás hibás tábla
   'Ínfű utca': 'Infű utca'
 street-filters:
@@ -48,6 +43,7 @@ osm-street-filters:
   # átlógó/területhatár
   - Hegyalja utca
   - Régi honvédelmi út
+  - Gyár utca / Muskátli utca
 source: survey
 housenumber-letters: true
 inactive: true
