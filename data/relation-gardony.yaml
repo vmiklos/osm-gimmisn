@@ -38,7 +38,7 @@ refstreets:
   'Semmelweis Ignác utca': 'Semmelweis utca'  # táblán Semmelweis I. utca
   'Szúnyog utca': 'Szunyog utca'  # új táblákon Szúnyog utca
   # táblán Szántó Kovács János utca, a földhivatalnál Szántó-Kovács J. utca
-  'Tímár utca': 'Timár utca'  # helyesírási hiba
+  'Tímár utca': 'Timár utca'  # helyesírási hiba, táblán Tímár utca
   'Vasvári Pál köz': 'Vasvári köz'  # táblán Vasvári Pál köz
   # Agárd
   'Alkotmány utca': 'Agárd-Alkotmány utca'
