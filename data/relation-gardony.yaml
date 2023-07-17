@@ -21,8 +21,8 @@ refstreets:
   # táblán Batsányi János utca
   'Bem József utca': 'Bem köz'  # az utca egyik végén Bem köz (régi tábla), a másik végén Bem József utca (új tábla) van kitéve. földhivatal Bem utca
   # táblán Béri Balog Ádám utca
-  'Berzsenyi Dániel utca': 'Berzsenyi utca'  # önkormányzati dokumentumban Berzsenyi utca
-  'Csokonai Vitéz Mihály utca': 'Csokonai utca'
+  # Berzsenyi utca  # önkormányzati dokumentumban Berzsenyi utca, régi táblán teljes névvel, új táblán csak vezetéknévvel
+  # táblán Csokonai utca
   # táblán Csontváry utca
   'Diófa utca': 'Diófa út'
   'Erkel köz': 'Erkel Ferenc köz'  # táblán Erkel köz
@@ -57,12 +57,12 @@ refstreets:
   # 'Ady Endre utca': 'Dinnyés-Ady Endre utca' -- Agárd: Ady Endre utca
   # 'Alkotmány utca': 'Dinnyés-Alkotmány utca' -- Agárd: Alkotmány utca
   'Gárdonyi utca': 'Dinnyés-Gárdonyi utca'  # Dinnyés: Gárdonyi - Agárd: Gárdonyi Géza utca
-  'Kossuth Lajos utca': 'Dinnyés-Kossuth utca'  # Agárd: Kossuth utca
-  'Ipar utca': 'Dinnyés-Ipar út'
+  'Kossuth Lajos utca': 'Dinnyés-Kossuth utca'  # Agárd: Kossuth utca, Dinnyés táblán: Kossuth Lajos utca
+  'Ipar út': 'Dinnyés-Ipar út'  # Dinnyés táblán: Ipar út
   # 'Petőfi Sándor utca': Dinnyés-Petőfi utca  # Agárd: Petőfi Sándor utca
   'Rákóczi Ferenc utca': 'Dinnyés-Rákóczi utca'  # Agárd: Rákóczi utca
   # 'Rózsa utca': 'Dinnyés-Rózsa utca'  # Gárdony: Rózsa utca
-  'Vörösmarty Mihály utca': 'Dinnyés-Vörösmarty utca'  # Agárd: Vörösmarty utca
+  'Vörösmarty Mihály utca': 'Dinnyés-Vörösmarty utca'  # Agárd: Vörösmarty utca; Dinnyés táblán: Vörösmarty Mihály utca
 osm-street-filters:
   - Pálmajorpuszta  # Pálmajor puszta, nem mappelhető
 source: survey
