@@ -27,5 +27,7 @@ refstreets:
   'Nádasdy utca': 'Csiribpuszta-Nádasdy utca'
   'Pál utca': 'Csiribpuszta-Pál utca'
   'Tamás utca': 'Csiribpuszta-Tamás utca'
+  # 'Agárdi utca': 'Csiribpuszta-Agárdi utca' - https://www.openstreetmap.org/note/3787213
+  # 'Elza utca': 'Csiribpuszta-Elza utca'     - https://www.openstreetmap.org/note/3787217
 source: survey
 inactive: true
