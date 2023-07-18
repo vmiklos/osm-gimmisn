@@ -8,7 +8,7 @@ street-filters:
   # place
   - Alsóhegy  # Alsó-hegy - https://www.openstreetmap.org/node/3704733993
   - Kölestelek puszta  # Kölestelek - https://www.openstreetmap.org/node/1123388413
-  # Kőhegy szőlőhegy - Kőhegy - https://www.openstreetmap.org/node/3704734002
+  - Kőhegy szőlőhegy # Kőhegy - https://www.openstreetmap.org/node/3704734002
   - Sándorkapuszta  # https://www.openstreetmap.org/node/1123396498
 osm-street-filters:
   # nem igazi utcák
