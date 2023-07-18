@@ -1,4 +1,7 @@
 missing-streets: 'yes'
+refstreets:
+  # nincs tábla
+  'Sándorkai utca': 'Sándorkai út'
 street-filters:
   # nem igazi utcák
   - Vasútállomás
