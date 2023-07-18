@@ -14,6 +14,8 @@ street-filters:
   - Dinnyés-Rózsa utca
   - Akácfa út  # Akácfa utca
   - Pálmajor puszta  # Pálmajorpuszta, place nem mappelhető
+  # place
+  - Agárdpuszta  # https://www.openstreetmap.org/node/4159119774
 refstreets:
   # 'Pálmajorpuszta': 'Pálmajor puszta' - place, nem mappelhető
   # táblán Achim András utca
@@ -53,6 +55,8 @@ refstreets:
   'Nádasdy utca': 'Csiribpuszta-Nádasdy utca'
   'Pál utca': 'Csiribpuszta-Pál utca'
   'Tamás utca': 'Csiribpuszta-Tamás utca'
+  # 'Agárdi utca': 'Csiribpuszta-Agárdi utca' - https://www.openstreetmap.org/note/3787213
+  # 'Elza utca': 'Csiribpuszta-Elza utca'     - https://www.openstreetmap.org/note/3787217
   # Dinnyés
   # 'Ady Endre utca': 'Dinnyés-Ady Endre utca' -- Agárd: Ady Endre utca
   # 'Alkotmány utca': 'Dinnyés-Alkotmány utca' -- Agárd: Alkotmány utca
