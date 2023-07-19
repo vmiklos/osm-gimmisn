@@ -29,8 +29,6 @@ filters:
     interpolation: 'all'
 refstreets:
   'Bem József utca': 'Bem köz'  # az utca egyik végén Bem köz (régi tábla), a másik végén Bem József utca (új tábla) van kitéve. földhivatal Bem utca
-  'Berzsenyi Dániel utca': 'Berzsenyi utca'
-  'Csokonai Vitéz Mihály utca': 'Csokonai utca'
   'Diófa utca': 'Diófa út'
   'Erkel köz': 'Erkel Ferenc köz'  # táblán Erkel köz
   'Mandula utca': 'Mandula út'
