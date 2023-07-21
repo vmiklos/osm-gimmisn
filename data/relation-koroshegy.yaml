@@ -6,7 +6,10 @@ refstreets:
   'Kaposvári út': 'Kaposvári utca'
   'Kossuth Lajos út': 'Kossuth Lajos utca'
 # street-filters:
-# osm-street-filters:
+osm-street-filters:
+  # parkok
+  - Hosszú-rét
+  - Széchenyi park
 source: survey
 housenumber-letters: true
 inactive: true
