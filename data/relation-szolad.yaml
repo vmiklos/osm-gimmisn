@@ -1,0 +1,10 @@
+missing-streets: 'yes'
+# filters:
+refstreets:
+  # kérdéses
+  'Őszödi utca': 'Öszödi utca'
+# street-filters:
+# osm-street-filters:
+source: survey
+housenumber-letters: true
+inactive: true
