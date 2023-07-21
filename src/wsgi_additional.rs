@@ -13,11 +13,92 @@
 use crate::areas;
 use crate::context;
 use crate::i18n::translate as tr;
+use crate::overpass_query;
 use crate::util;
 use crate::webframe;
 use crate::yattag;
 use anyhow::Context;
 
+/// OverpassElement represents one result from Overpass.
+#[derive(serde::Deserialize)]
+struct OverpassElement {
+    id: u64,
+    nodes: Option<Vec<u64>>,
+    lat: Option<f64>,
+    lon: Option<f64>,
+}
+
+/// OverpassResult is the result from Overpass.
+#[derive(serde::Deserialize)]
+struct OverpassResult {
+    elements: Vec<OverpassElement>,
+}
+
+/// Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-result.gpx.
+pub fn additional_streets_view_gpx(
+    ctx: &context::Context,
+    relations: &mut areas::Relations<'_>,
+    request_uri: &str,
+) -> anyhow::Result<(String, String)> {
+    let mut tokens = request_uri.split('/');
+    tokens.next_back();
+    let relation_name = tokens.next_back().context("next_back() failed")?;
+    let relation = relations
+        .get_relation(relation_name)
+        .context("get_relation() failed")?;
+    let mut streets = relation.get_additional_streets(/*sorted_result=*/ true)?;
+    let query = areas::make_turbo_query_for_street_objs(&relation, &streets);
+    let buf = overpass_query::overpass_query(ctx, &query)?;
+    let overpass: OverpassResult =
+        serde_json::from_str(&buf).context("failed to parse overpass result as json")?;
+
+    let doc = yattag::Doc::new();
+    doc.append_value("<?xml version='1.0' encoding='UTF-8'?>".into());
+    {
+        let gpx = doc.tag(
+            "gpx",
+            &[
+                ("version", "1.1"),
+                ("creator", "osm-gimmisn"),
+                ("xmlns", "http://www.topografix.com/GPX/1/1"),
+                ("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance"),
+                (
+                    "xsi:schemaLocation",
+                    "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd",
+                ),
+            ],
+        );
+        {
+            let metadata = gpx.tag("metadata", &[]);
+            {
+                let desc = metadata.tag("desc", &[]);
+                desc.text(relation_name);
+            }
+            {
+                let time = metadata.tag("time", &[]);
+                let now = ctx.get_time().now();
+                time.text(&now.format(&time::format_description::well_known::Rfc3339)?);
+            }
+        }
+        streets.sort_by_key(|street| util::get_sort_key(street.get_osm_name()));
+        for street in streets {
+            let overpass_way = overpass
+                .elements
+                .iter()
+                .find(|i| i.id == street.get_osm_id())
+                .unwrap();
+            let node_id = overpass_way.nodes.clone().unwrap()[0];
+            let overpass_node = overpass.elements.iter().find(|i| i.id == node_id).unwrap();
+            let lat = overpass_node.lat.unwrap().to_string();
+            let lon = overpass_node.lon.unwrap().to_string();
+            let wpt = gpx.tag("wpt", &[("lat", &lat), ("lon", &lon)]);
+            let name = wpt.tag("name", &[]);
+            name.text(street.get_osm_name());
+        }
+    }
+    let output = doc.get_value();
+    Ok((output, relation_name.into()))
+}
 /// Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-result.txt.
 pub fn additional_streets_view_txt(
     ctx: &context::Context,
@@ -140,6 +221,17 @@ pub fn additional_streets_view_result(
                     )],
                 );
                 a.text(&tr("Checklist format"));
+            }
+            p.stag("br", &[]);
+            {
+                let a = p.tag(
+                    "a",
+                    &[(
+                        "href",
+                        &format!("{prefix}/additional-streets/{relation_name}/view-result.gpx"),
+                    )],
+                );
+                a.text(&tr("GPX format"));
             }
             p.stag("br", &[]);
             {

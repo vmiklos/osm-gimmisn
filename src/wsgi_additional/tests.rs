@@ -49,6 +49,44 @@ fn test_streets_view_result_txt() {
     assert_eq!(result, "Only In OSM utca\nSecond Only In OSM utca\n");
 }
 
+/// Tests additional streets: the gpx output.
+#[test]
+fn test_streets_view_result_gpx() {
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 42,
+            },
+        },
+        "relation-gazdagret.yaml": {
+            "refstreets": {
+                "OSM Name 1": "Ref Name 1",
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        test_wsgi.get_ctx(),
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.get_ctx().set_file_system(&file_system);
+    let routes = vec![context::tests::URLRoute::new(
+        /*url=*/ "https://overpass-api.de/api/interpreter",
+        /*data_path=*/ "src/fixtures/network/overpass-additional-streets.overpassql",
+        /*result_path=*/ "src/fixtures/network/overpass-additional-streets.json",
+    )];
+    let network = context::tests::TestNetwork::new(&routes);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.get_ctx().set_network(network_rc);
+    test_wsgi.set_content_type("text/xml; charset=utf-8");
+
+    let _root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result.gpx");
+
+    // TODO assert that there are two results here
+}
+
 /// Tests additional streets: the chkl output.
 #[test]
 fn test_streets_view_result_chkl() {

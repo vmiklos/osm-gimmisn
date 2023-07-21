@@ -27,6 +27,7 @@ pub struct TestWsgi {
     bytes: Vec<u8>,
     absolute_path: bool,
     expected_status: u16,
+    content_type: String,
 }
 
 impl TestWsgi {
@@ -37,6 +38,7 @@ impl TestWsgi {
         let bytes: Vec<u8> = Vec::new();
         let absolute_path = false;
         let expected_status = 200_u16;
+        let content_type = "text/html; charset=utf-8".into();
         TestWsgi {
             gzip_compress,
             ctx,
@@ -44,6 +46,7 @@ impl TestWsgi {
             bytes,
             absolute_path,
             expected_status,
+            content_type,
         }
     }
 
@@ -60,6 +63,10 @@ impl TestWsgi {
             ret = nodeset.iter().map(|i| i.string_value()).collect();
         };
         ret
+    }
+
+    pub fn set_content_type(&mut self, content_type: &str) {
+        self.content_type = content_type.to_string();
     }
 
     /// Generates an XML DOM for a given wsgi path.
@@ -85,7 +92,7 @@ impl TestWsgi {
         for (key, value) in response.headers {
             headers_map.insert(key, value);
         }
-        assert_eq!(headers_map["Content-type"], "text/html; charset=utf-8");
+        assert_eq!(headers_map["Content-type"], self.content_type);
         assert_eq!(data.is_empty(), false);
         let mut output: Vec<u8> = Vec::new();
         if self.gzip_compress {
