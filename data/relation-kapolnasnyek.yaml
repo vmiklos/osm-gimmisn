@@ -1,8 +1,15 @@
 missing-streets: 'yes'
+filters:
+  # Pettend
+  Fehérvári út:
+    interpolation: 'all'
+  Kossuth Lajos utca:
+    # 26: utolsó házszám 24, utána vasútállomás parkolója
+    invalid: ['26']
 refstreets:
   # kérdéses
-  'Kossuth Lajos utca': 'Kossuth Lajos út'  # Pettenden. Van a központban Kossuth utca
-  'Petőfi Sándor utca': 'Petőfi Sándor út'  # Pettenden. Van a központban Petőfi utca
+  'Kossuth Lajos utca': 'Kossuth Lajos út'  # Pettenden, táblán Kossuth Lajos utca. Van a központban Kossuth utca
+  'Petőfi Sándor utca': 'Petőfi Sándor út'  # Pettenden, 2 táblán Petőfi Sándor utca, 1 táblán út. Néni szerint út. Van a központban Petőfi utca
   # ellenőrzött
   # Ady utca: csak vezetéknévvel van kitáblázva, és a Földhivatalnál is így van. Viszont a kiágazó szakasz a Földhivatal szerint Ady Endre utca.
   # Bágyom utca: a helyszínen nincs utcanévtábla. A Földhivatal szerint: 2475 KÁPOLNÁSNYÉK Bajcsy-Zs. utca 876/*.
@@ -17,7 +24,10 @@ refstreets:
   # Ország út: így van kitáblázva, de a Földhivatalnál Országút utca. Ilyet nincs egyik kereszteződésben sem.
   # Petőfi utca: csak vezetéknévvel van kitáblázva, és a Földhivatalnál is így van.
   # Vörösmarty utca: csak vezetéknévvel van kitáblázva a Fő utcánál, és a Földhivatalnál is így van. Van egy régi tábla Vörösmarty M utca felirattal a Dózsa utca sarkán.
-# street-filters:
+street-filters:
+  # nincs nyoma
+  - Központi tanya
+  - Felső major
 osm-street-filters:
   # átlógó utcák
   - Tél utca
