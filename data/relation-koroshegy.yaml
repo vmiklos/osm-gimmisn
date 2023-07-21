@@ -1,0 +1,12 @@
+missing-streets: 'yes'
+# filters:
+refstreets:
+  # kérdéses
+  'Bercsényi Miklós út': 'Bercsényi utca'
+  'Kaposvári út': 'Kaposvári utca'
+  'Kossuth Lajos út': 'Kossuth Lajos utca'
+# street-filters:
+# osm-street-filters:
+source: survey
+housenumber-letters: true
+inactive: true
