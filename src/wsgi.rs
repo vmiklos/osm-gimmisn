@@ -1444,6 +1444,26 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> an
     Ok(())
 }
 
+/// Dispatches GPX requests based on their URIs.
+fn our_application_gpx(
+    ctx: &context::Context,
+    relations: &mut areas::Relations<'_>,
+    request_uri: &str,
+) -> anyhow::Result<rouille::Response> {
+    let content_type = "text/xml; charset=utf-8";
+    let mut headers: webframe::Headers = Vec::new();
+    // assume prefix + "/additional-streets/"
+    let (output, relation_name) =
+        wsgi_additional::additional_streets_view_gpx(ctx, relations, request_uri)?;
+    headers.push((
+        "Content-Disposition".into(),
+        format!(r#"attachment;filename="{relation_name}.gpx""#).into(),
+    ));
+    let data = output.as_bytes().to_vec();
+    headers.push(("Content-type".into(), content_type.into()));
+    Ok(webframe::make_response(200_u16, headers, data))
+}
+
 /// Dispatches plain text requests based on their URIs.
 fn our_application_txt(
     ctx: &context::Context,
@@ -1558,6 +1578,10 @@ fn our_application(
 
     if ext == "txt" || ext == "chkl" {
         return our_application_txt(ctx, &mut relations, &request_uri);
+    }
+
+    if ext == "gpx" {
+        return our_application_gpx(ctx, &mut relations, &request_uri);
     }
 
     let prefix = ctx.get_ini().get_uri_prefix();

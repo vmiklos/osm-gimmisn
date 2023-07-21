@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-29 13:15+0000\n"
+"POT-Creation-Date: 2023-07-21 21:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "street"
 msgstr ""
 
-#: src/areas.rs:915 src/wsgi.rs:348 src/wsgi_additional.rs:94
+#: src/areas.rs:915 src/wsgi.rs:348 src/wsgi_additional.rs:175
 msgid "Street name"
 msgstr ""
 
@@ -207,11 +207,11 @@ msgid "These statistics are estimates, not taking house number filters into acco
 "Only zip codes with house numbers in OSM are considered."
 msgstr ""
 
-#: src/webframe.rs:748 src/wsgi_additional.rs:91
+#: src/webframe.rs:748 src/wsgi_additional.rs:172
 msgid "Identifier"
 msgstr ""
 
-#: src/webframe.rs:749 src/wsgi_additional.rs:92
+#: src/webframe.rs:749 src/wsgi_additional.rs:173
 msgid "Type"
 msgstr ""
 
@@ -470,23 +470,23 @@ msgstr ""
 msgid " (existing: {0}, ready: {1})."
 msgstr ""
 
-#: src/wsgi.rs:228 src/wsgi_additional.rs:239
+#: src/wsgi.rs:228 src/wsgi_additional.rs:331
 msgid "https://vmiklos.hu/osm-gimmisn/usage.html#filtering-out-incorrect-information"
 msgstr ""
 
-#: src/wsgi.rs:231 src/wsgi_additional.rs:243
+#: src/wsgi.rs:231 src/wsgi_additional.rs:335
 msgid "Filter incorrect information"
 msgstr ""
 
-#: src/wsgi.rs:243 src/wsgi_additional.rs:153
+#: src/wsgi.rs:243 src/wsgi_additional.rs:245
 msgid "Overpass turbo query for the below streets"
 msgstr ""
 
-#: src/wsgi.rs:254 src/wsgi.rs:386 src/wsgi_additional.rs:131
+#: src/wsgi.rs:254 src/wsgi.rs:386 src/wsgi_additional.rs:212
 msgid "Plain text format"
 msgstr ""
 
-#: src/wsgi.rs:265 src/wsgi.rs:397 src/wsgi_additional.rs:142
+#: src/wsgi.rs:265 src/wsgi.rs:397 src/wsgi_additional.rs:223
 msgid "Checklist format"
 msgstr ""
 
@@ -498,7 +498,7 @@ msgstr ""
 msgid "Overpass turbo query for streets with questionable names"
 msgstr ""
 
-#: src/wsgi.rs:425 src/wsgi.rs:494 src/wsgi.rs:564 src/wsgi_additional.rs:40
+#: src/wsgi.rs:425 src/wsgi.rs:494 src/wsgi.rs:564 src/wsgi_additional.rs:121
 msgid "No existing streets"
 msgstr ""
 
@@ -506,7 +506,7 @@ msgstr ""
 msgid "No reference house numbers"
 msgstr ""
 
-#: src/wsgi.rs:569 src/wsgi_additional.rs:45
+#: src/wsgi.rs:569 src/wsgi_additional.rs:126
 msgid "No reference streets"
 msgstr ""
 
@@ -606,14 +606,18 @@ msgstr ""
 msgid "existing streets"
 msgstr ""
 
-#: src/wsgi_additional.rs:93
+#: src/wsgi_additional.rs:174
 msgid "Source"
 msgstr ""
 
-#: src/wsgi_additional.rs:119
+#: src/wsgi_additional.rs:200
 msgid "OpenStreetMap additionally has the below {0} streets."
 msgstr ""
 
-#: src/wsgi_additional.rs:229
+#: src/wsgi_additional.rs:234
+msgid "GPX format"
+msgstr ""
+
+#: src/wsgi_additional.rs:321
 msgid "OpenStreetMap additionally has the below {0} house numbers for {1} streets."
 msgstr ""

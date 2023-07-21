@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: osm-gimmisn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-29 13:15+0000\n"
-"PO-Revision-Date: 2023-06-29 15:15+0200\n"
+"POT-Creation-Date: 2023-07-21 21:16+0000\n"
+"PO-Revision-Date: 2023-07-21 23:16+0200\n"
 "Last-Translator: Miklos Vajna <osm-gimmisn@vmiklos.hu>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "street"
 msgstr "utca"
 
-#: src/areas.rs:915 src/wsgi.rs:348 src/wsgi_additional.rs:94
+#: src/areas.rs:915 src/wsgi.rs:348 src/wsgi_additional.rs:175
 msgid "Street name"
 msgstr "Utcanév"
 
@@ -232,11 +232,11 @@ msgstr ""
 "Csak olyan irányítószámok szerepelnek benne, amiknek van az OSM-ben "
 "házszámuk."
 
-#: src/webframe.rs:748 src/wsgi_additional.rs:91
+#: src/webframe.rs:748 src/wsgi_additional.rs:172
 msgid "Identifier"
 msgstr "Azonosító"
 
-#: src/webframe.rs:749 src/wsgi_additional.rs:92
+#: src/webframe.rs:749 src/wsgi_additional.rs:173
 msgid "Type"
 msgstr "Típus"
 
@@ -511,26 +511,26 @@ msgstr ""
 msgid " (existing: {0}, ready: {1})."
 msgstr " (meglévő: {0}, készültség: {1})."
 
-#: src/wsgi.rs:228 src/wsgi_additional.rs:239
+#: src/wsgi.rs:228 src/wsgi_additional.rs:331
 msgid ""
 "https://vmiklos.hu/osm-gimmisn/usage.html#filtering-out-incorrect-information"
 msgstr ""
 "https://wiki.openstreetmap.org/wiki/Hungary/osm-gimmisn#T%C3%A9ves_inform"
 "%C3%A1ci%C3%B3_kisz%C5%B1r%C3%A9se"
 
-#: src/wsgi.rs:231 src/wsgi_additional.rs:243
+#: src/wsgi.rs:231 src/wsgi_additional.rs:335
 msgid "Filter incorrect information"
 msgstr "Téves információ szűrése"
 
-#: src/wsgi.rs:243 src/wsgi_additional.rs:153
+#: src/wsgi.rs:243 src/wsgi_additional.rs:245
 msgid "Overpass turbo query for the below streets"
 msgstr "Overpass lekérdezés a lenti utcákra"
 
-#: src/wsgi.rs:254 src/wsgi.rs:386 src/wsgi_additional.rs:131
+#: src/wsgi.rs:254 src/wsgi.rs:386 src/wsgi_additional.rs:212
 msgid "Plain text format"
 msgstr "Egyszerű szöveg formátum"
 
-#: src/wsgi.rs:265 src/wsgi.rs:397 src/wsgi_additional.rs:142
+#: src/wsgi.rs:265 src/wsgi.rs:397 src/wsgi_additional.rs:223
 msgid "Checklist format"
 msgstr "Csekklista formátum"
 
@@ -542,7 +542,7 @@ msgstr "Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti {0} utcát
 msgid "Overpass turbo query for streets with questionable names"
 msgstr "Overpass lekérdezés a kérdéses nevű utcákra"
 
-#: src/wsgi.rs:425 src/wsgi.rs:494 src/wsgi.rs:564 src/wsgi_additional.rs:40
+#: src/wsgi.rs:425 src/wsgi.rs:494 src/wsgi.rs:564 src/wsgi_additional.rs:121
 msgid "No existing streets"
 msgstr "Nincsenek meglévő utcák"
 
@@ -550,7 +550,7 @@ msgstr "Nincsenek meglévő utcák"
 msgid "No reference house numbers"
 msgstr "Nincsenek referencia házszámok"
 
-#: src/wsgi.rs:569 src/wsgi_additional.rs:45
+#: src/wsgi.rs:569 src/wsgi_additional.rs:126
 msgid "No reference streets"
 msgstr "Nincsenek referencia utcák"
 
@@ -652,15 +652,19 @@ msgstr "meglévő házszámok"
 msgid "existing streets"
 msgstr "meglévő utcák"
 
-#: src/wsgi_additional.rs:93
+#: src/wsgi_additional.rs:174
 msgid "Source"
 msgstr "Forrás"
 
-#: src/wsgi_additional.rs:119
+#: src/wsgi_additional.rs:200
 msgid "OpenStreetMap additionally has the below {0} streets."
 msgstr "Az OpenStreetMap tartalmazza a lenti {0} további utcát."
 
-#: src/wsgi_additional.rs:229
+#: src/wsgi_additional.rs:234
+msgid "GPX format"
+msgstr "GPX formátum"
+
+#: src/wsgi_additional.rs:321
 msgid ""
 "OpenStreetMap additionally has the below {0} house numbers for {1} streets."
 msgstr ""
