@@ -37,7 +37,6 @@ filters:
   Wesselényi Miklós utca:
     invalid: ['44', '45']
   # kozpont
-  # hászám szűrők
   Áchim András utca:
     # 17 a Tesco területére esne, de az máshonnan számozódik
     invalid: ['17']
@@ -52,6 +51,9 @@ filters:
       - {start: '2', end: '98'}
   Bajóti Simon utca:
     invalid: ['2', '4']
+  Bánomi dűlő:
+    # hrsz szűrés - 0701/4
+    invalid: ['701']
   Bánomi út:
     ranges:
       - {start: '1', end: '99'}
@@ -85,8 +87,20 @@ filters:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '22'}
+  Diósvölgy dűlő:
+    # hrsz szűrés - 172/20
+    invalid: ['172']
+  Dobogókői út:
+    # hrsz szűrés - 190/6 - itt már csak 1111-es út
+    invalid: ['190']
+  Dorogi út:
+    # hrsz szűrés - 361/11, 537, 544/3
+    invalid: ['361', '537', '544']
   Dózsa György tér:
     invalid: ['25']
+  Erdélyi völgy:
+    # hrsz szűrés - 138/41
+    invalid: ['138']
   Garam utca:
     ranges:
       - {start: '1', end: '21'}
@@ -97,6 +111,9 @@ filters:
   Helischer József út:
     # páros vége 4
     invalid: ['16']
+  Hidegvölgyi utca:
+    # hrsz szűrés - 084/1, 0218/1
+    invalid: ['84', '218']
   Holopkút dűlő:
     # csak hrsz
     invalid: ['655', '660']
@@ -137,7 +154,7 @@ filters:
       - {start: '2', end: '12'}
   Nixbród dűlő:
     # hrsz szűrés - 0464/1
-    invalid: ['4641']
+    invalid: ['464']
   Nyaktekercs utca:
     # hrsz
     invalid: ['355']
@@ -155,6 +172,9 @@ filters:
     ranges:
       - {start: '2', end: '36'}
       - {start: '48', end: '62'}
+  Pöltenberg Ernő utca:
+    # hrsz szűrés - 0398/1
+    invalid: ['398']
   Sugár út:
     ranges:
       - {start: '1', end: '17'}
