@@ -173,7 +173,7 @@ filters:
     # 9/2: az épület ikerház, de nincs kitéve házszám. Feltételezhetően 9-es.
     # 9/a: az épület ikerház, de nincs kitéve házszám. Feltételezhetően 9-es.
     # 9/i: az épület ikerház, de nincs kitéve házszám. Feltételezhetően 9-es.
-    invalid: ['9/1', '9/2', '9a', '9/i']
+    invalid: ['9/1', '9/2', '9a', '9i']
   Tompa Mihály utca:
     # https://www.balatonszemes.hu/wp-content/uploads/files/rajk-laszlo-utca-nevvaltozasa-es-hazszam-megallapitas.pdf
     # 29: a fenti határozat alapján a 13 az utolsó házszám. De korábban is csak 26-ig számozódott.
