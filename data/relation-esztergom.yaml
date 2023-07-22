@@ -1,4 +1,4 @@
-missing-streets: 'only'
+missing-streets: 'yes'
 filters:
   # nincs frissítve, majd a legvégén frissíteni kell a szűrőket a kertvaros és koztpont részekből
   # pilisszentlelek
@@ -6,6 +6,10 @@ filters:
     invalid: ['114']
   Pálosok utcája:
     invalid: ['17']
+  # dupla utcanevek, nem szűrhetők
+  # Petőfi Sándor utca:
+  # Kossuth Lajos utca:
+  # Hunyadi János utca:
   # kertvaros
   Bocskai sor:
     # 166 a vége
@@ -33,6 +37,7 @@ filters:
   Wesselényi Miklós utca:
     invalid: ['44', '45']
   # kozpont
+  # hászám szűrők
   Áchim András utca:
     # 17 a Tesco területére esne, de az máshonnan számozódik
     invalid: ['17']
@@ -59,6 +64,8 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '26'}
+  Béke tér:
+    invalid: ['9']
   Bocskoroskút dűlő:
     # nincsenek számok
     invalid: ['2', '4', '6', '14', '30', '38', '40']
