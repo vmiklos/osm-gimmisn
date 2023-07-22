@@ -155,6 +155,7 @@ filters:
   Szabadság utca:
     # 32/1: nincs ilyen, csak 32 és 32/b van.
     # 32/a: nincs ilyen, csak 32 és 32/b van.
+    invalid: ['32/1', '32a']
   Széchenyi utca:
     # 2/1: nincs ilyen, csak 2 és 2/a van.
     # 6/a: nincs ilyen, csak sima 6 van. A 10-es házon van festékkel 6/a, de az nem illik a sorba.
