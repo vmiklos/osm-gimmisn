@@ -74,6 +74,12 @@ filters:
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '36'}
+  Bokréta utca:
+    # hrsz szűrés - 912/128
+    invalid: ['912']
+  Csapási dűlő:
+    # hrsz szűrés - 362, 365/3
+    invalid: ['362', '365']
   Dessewffy Arisztid utca:
     # 2 Szt Rita fogyatékosok,  és 25 a páratlan oldal vége....
     ranges:
@@ -85,9 +91,15 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '16'}
+  Gesztenye fasor:
+    # hrsz szűrés - 415/6
+    invalid: ['415']
   Helischer József út:
     # páros vége 4
     invalid: ['16']
+  Holopkút dűlő:
+    # csak hrsz
+    invalid: ['655', '660']
   Hősök tere:
     ranges:
       - {start: '1', end: '15'}
@@ -95,9 +107,6 @@ filters:
   Juliánus barát utca:
     # 35 a vége
     invalid: ['37', '39']
-  Holopkút dűlő:
-    # csak hrsz
-    invalid: ['655', '660']
   Keresztelő Szent János utca:
     # nincs kint tábla, a házak a Szent János-kúti útra vannak számozva
     ranges: []
@@ -110,6 +119,9 @@ filters:
   Kis Duna sétány:
     # 59 nincs kiírva, a gátőrház lehetne
     invalid: ['59']
+  Kőalja dűlő:
+    # csak hrsz - 089/7
+    invalid: ['89']
   Külső Bánomi út:
     # 37 a vége, tovább már nem Külső Bánomi út
     invalid: ['57', '87']
@@ -123,6 +135,9 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '12'}
+  Nixbród dűlő:
+    # hrsz szűrés - 0464/1
+    invalid: ['4641']
   Nyaktekercs utca:
     # hrsz
     invalid: ['355']
@@ -149,6 +164,9 @@ filters:
     invalid: ['14']
   Szabó Erna utca:
     invalid: ['701']
+  Szarvashegyi út:
+    # hrsz szűrés - 0186/3
+    invalid: ['186']
   Széchy Dénes utca:
     ranges:
       - {start: '1', end: '55'}
@@ -159,18 +177,25 @@ filters:
       - {start: '1', end: '17'}
   Szent Miklós utca:
     invalid: ['14']
+  Szentkirály dűlő:
+    # hrsz szűrés - 0409/11
+    invalid: ['409']
   Szentkirályi utca:
     # 77 a vége
     ranges:
       - {start: '1', end: '77'}
       - {start: '2', end: '98'}
+  Szlanka utca:
+    # hrsz szűrés - 0108/26
+    invalid: ['108']
   Táncsics Mihály utca:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '6'}
   Táti út:
     # 36 a vége páros oldalon, város széle van még hely
-    invalid: ['54']
+    # hrsz szűrés - 0428/23 - itt már nincs neve
+    invalid: ['54', '428']
   Telegdy Csanád utca:
     # 21 a vége
     invalid: ['25']
@@ -190,6 +215,9 @@ filters:
   Várfok utca:
     # 1 és 3 nem látni helyszínen, páratlan oldalon házak sincsenek, csak a páros oldal van számozva
     invalid: ['1', '3']
+  Vaskapui út:
+    # hrsz szűrés - 0661/30
+    invalid: ['661']
   Visegrádi út:
     # ezek nincsenek kint
     invalid: ['161', '4', '8', '12', '44', '66', '856']
