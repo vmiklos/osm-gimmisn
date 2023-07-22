@@ -1,21 +1,21 @@
 missing-streets: 'yes'
 filters:
   Ady Endre utca:
-    # 11/B: nincs ilyen, csak sima 11 van.
+    # 11/b: nincs ilyen, csak sima 11 van.
     # 159: a páratlan oldalon a 39 az utolsó házszám. Ez a Party sétány 159. alatt lévő OTP Hotel lesz.
-    # 26/A: nincs ilyen, csak sima 26 van. Ez most már egy lakópark.
-    # 26/B: nincs ilyen, csak sima 26 van. Ez most már egy lakópark.
-    # 30/D: nincs ilyen, csak sima 30 van.
-    # 32/A: nincs ilyen, csak sima 32 van.
+    # 26/a: nincs ilyen, csak sima 26 van. Ez most már egy lakópark.
+    # 26/b: nincs ilyen, csak sima 26 van. Ez most már egy lakópark.
+    # 30/d: nincs ilyen, csak sima 30 van.
+    # 32/a: nincs ilyen, csak sima 32 van.
     # 184: a páros oldalon a 46 az utolsó házszám. A 184 a Parti sétányon lévő étterem helyrajzi száma.
     # 184/4: a páros oldalon a 46 az utolsó házszám. A 184/4 a Parti sétányon lévő étterem helyrajzi száma.
     # 192: a páros oldalon a 46 az utolsó házszám. A 192 a Pék-Lángos helyrajzi száma.
     invalid: ['11b', '159', '26a', '26b', '30d', '32a', '184', '184/4', '192']
   Arany János utca:
-    # 19: sima 19 nincs, csak 19/A, 19/B.
+    # 19: sima 19 nincs, csak 19/a, 19/b.
     # 27: ez és a Semmelweis utca 58. közös telken van, de bejárat és házszám csak a Semmelweis utcáról van.
     # 26: ez és a Semmelweis utca 58. közös telken van, de bejárat és házszám csak a Semmelweis utcáról van.
-    # 74/A, 74/B: a 74 egy ikerház, de csak sima 74 van kitáblázva.
+    # 74/a, 74/b: a 74 egy ikerház, de csak sima 74 van kitáblázva.
     # 88: nem találtam meg, nincs kitáblázva. Talán a 89 mellett lenne?
     interpolation: 'all'
     invalid: ['19', '27', '26']
@@ -23,23 +23,25 @@ filters:
     # 37: nincs ilyen, a 35 után a 39 következik.
     invalid: ['37']
   Bajcsy-Zsilinszky utca:
-    # 41/A: nincs ilyen, csak sima 41 van.
+    # 41/a: nincs ilyen, csak sima 41 van.
     # 47: ez és a Nagy Imre utca 62. közös telken van, de házszám a Nagy Imre utcáról van csak.
     # 109: a páratlan oldalon a 45 az utolsó házszám. Aztán van még 4 telek, amely számózódhat a Bajcsy-Zsilinszky utcáról, de akor is csak legfeljebb 53 lehetne.
     # 159: a páratlan oldalon a 45 az utolsó házszám. Aztán van még 4 telek, amely számózódhat a Bajcsy-Zsilinszky utcáról, de akor is csak legfeljebb 53 lehetne.
-    # 82: sima 82 nincs, csak 82/A, 82/B.
-    # 110/A: nincs ilyen, csak sima 110 van.
+    # 82: sima 82 nincs, csak 82/a, 82/b.
+    # 110/a: nincs ilyen, csak sima 110 van.
     # 212: a páros oldalon a 184 az utolsó házszám. Aztán van még 2 telek, amely számózódhat a Bajcsy-Zsilinszky utcáról, de akor is csak legfeljebb 188 lehetne.
     # 226: a páros oldalon a 184 az utolsó házszám. Aztán van még 2 telek, amely számózódhat a Bajcsy-Zsilinszky utcáról, de akor is csak legfeljebb 188 lehetne.
-    # 244/B: a páros oldalon a 184 az utolsó házszám. Aztán van még 2 telek, amely számózódhat a Bajcsy-Zsilinszky utcáról, de akor is csak legfeljebb 188 lehetne.
+    # 244/b: a páros oldalon a 184 az utolsó házszám. Aztán van még 2 telek, amely számózódhat a Bajcsy-Zsilinszky utcáról, de akor is csak legfeljebb 188 lehetne.
     invalid: ['41a', '47', '109', '159', '82', '110a', '212', '226', '244b']
   Bánk bán utca:
     # 14: csak páratlan oldal van, a páros oldal a vasút.
     # 802/0: ez helyrajzi szám, nem házszám.
     invalid: ['14', '802/0']
   Bem József utca:
-    # 11: sima 11 nincs, csak 11/A, 11/B, 11/C.
-    invalid: ['11']
+    # 9/a: ikerház, de csak 9 van kitáblázva.
+    # 11: sima 11 nincs, csak 11/a, 11/b, 11/c.
+    # 12/a: nincs ilyen, csak sima 12 van.
+    invalid: ['9a', '11', '12a']
   Berzsenyi Dániel utca:
     # 157: a 67 az utolsó házszám.
     # 226/3: a 67 az utolsó házszám.
@@ -47,18 +49,21 @@ filters:
     interpolation: 'all'
     invalid: ['157', '226/3', '226/5']
   Bocskai István utca:
-    # 7: sima 7 nincs, csak 7/A, 7/B.
+    # 7: sima 7 nincs, csak 7/a, 7/b.
     invalid: ['7']
   Cinka Panna utca:
     interpolation: 'all'
   Csokonai utca:
-    # 29/A: nincs ilyen, csak sima 29 van.
+    # 29/a: nincs ilyen, csak sima 29 van.
     invalid: ['29a']
   Dózsa György utca:
     # A páros oldalon címrendezés lehetett, mert nagyon sok a duplikált házszám.
-    # 9: nincs ilyen, a 7 után a 11 következik.
-    # 10/A: nincs ilyen, csak sima 10 van.
-    invalid: ['9', '10a']
+    # 17/a: nincs ilyen, csak sima 17 van.
+    # 51/b: nincs ilyen, csak sima 51 van.
+    # 10/a: nincs ilyen, csak sima 10 van.
+    # 16: nincs ilyen, csak 16/a, 16/b, 16/c.
+    # 50: a Földhivatal szerint ez a 1833/5 hrsz. épület, de ott 34 van kitáblázva.
+    invalid: ['17a', '51b', '10a', '16', '50']
   Fő utca:
     # 39: nincs ilyen, a 37 után a 41 következik, össze van vonva a 41-gyel.
     # 45: nincs ilyen, a 43 után a 49 következik.
@@ -69,7 +74,7 @@ filters:
     # 9: ez és a Semmelweis utca 69. közös telken van, de bejárat és házszám csak a Semmelweis utcáról van.
     invalid: ['9']
   Halász utca:
-    # 12/A: nincs ilyen, csak sima 12 van.
+    # 12/a: nincs ilyen, csak sima 12 van.
     invalid: ['12a']
   Határ utca:
     interpolation: 'all'
@@ -87,8 +92,8 @@ filters:
     interpolation: 'all'
   Kikötő utca:
     # Ez mindenhogy ki van táblázva: Kikötő utca, Kikötő út, Kikötő sor
-    # 1/A: nincs ilyen, csak Kikötő utca 1. A épület.
-    # 1/B: nincs ilyen, csak Kikötő utca 1. B épület.
+    # 1/a: nincs ilyen, csak Kikötő utca 1. A épület.
+    # 1/b: nincs ilyen, csak Kikötő utca 1. B épület.
     # 147/2: ez helyrajzi szám, nem házszám.
     invalid: ['1a', '1b', '147/2']
   Kinizsi Pál utca:
@@ -96,10 +101,12 @@ filters:
     # 21: a páratlan oldalon a 15 az utolsó házszám.
     invalid: ['17', '21']
   Kölcsey Ferenc utca:
-    # 17/A: az épületen csak sima 17 van. Mellette viszont van 17/B.
-    invalid: ['17a']
+    # 17/a: az épületen csak sima 17 van. Mellette viszont van 17/b.
+    # 21/a: nincs ilyen, csak 21 és 21/b van.
+    # 29/b: nincs ilyen, csak 29 és 29/a van.
+    invalid: ['17a', '21a', '29b']
   Kossuth Lajos utca:
-    # 13/A: nincs ilyen, csak sima 13 van.
+    # 13/a: nincs ilyen, csak sima 13 van.
     # 17: a páratlan oldalon a 15 az utolsó házszám.
     # 25: a páratlan oldalon a 15 az utolsó házszám.
     # 31: a páratlan oldalon a 15 az utolsó házszám.
@@ -112,54 +119,65 @@ filters:
   Lellei utca:
     # 694/0: ez helyrajzi szám, nem házszám.
     # 695: ez helyrajzi szám, nem házszám.
-    # 695/B: ez helyrajzi szám, nem házszám.
+    # 695/b: ez helyrajzi szám, nem házszám.
     interpolation: 'all'
     invalid: ['694/0', '695', '695b']
   Madách Imre utca:
-    # 9/A: nincs ilyen, csak sima 9 van. A 15 után viszont van egy 9/B.
-    # 16/B: nincs ilyen, csak sima 16 van. A páros oldalon a 16 az utolsó házszám.
+    # 9/a: nincs ilyen, csak sima 9 van. A 15 után viszont van egy 9/b.
+    # 16/b: nincs ilyen, csak sima 16 van. A páros oldalon a 16 az utolsó házszám.
     invalid: ['9a', '16b']
   Mártírok útja:
     # 3: nincs ilyen, az 1 után az 5 következik.
     # 7: ez a kertmozi, de annak a címe Kossuth Lajos utca 2.
     # 11/2: nincs ilyen, csak sima 11 van.
     # 17: nincs ilyen, a 15 után a 19 követközik.
-    # 31/A: több épület is van egy összenyitott telken, de egyiken sincs házszám.
-    # 14: sima 14 nincs, csak 14/A, 14/B.
-    # 32/B: nincs ilyen, csak sima 32 van. A páros oldalon a 32 az utolsó házszám.
-    invalid: ['3', '7', '11/2', '17', '14', '32b']
+    # 31/a: több épület is van egy összenyitott telken, de egyiken sincs házszám.
+    # 4/a: nincs ilyen, a 6-os épületen még látszik, hogy korábban 4/a volt a házszám, ott a ragasztó nyoma. De már 6-os.
+    # 32/b: nincs ilyen, csak sima 32 van. A páros oldalon a 32 az utolsó házszám.
+    invalid: ['3', '7', '11/2', '17', '4a', '32b']
   Nagy Imre utca:
-    # 66: sima 66 nincs, csak 66/A, 66/B, 66/C, 66/D.
+    # 66: sima 66 nincs, csak 66/a, 66/b, 66/c, 66/d.
     invalid: ['66']
   Petőfi Sándor utca:
-    # 29/A: a 29 egy ikerház, de minkét felén sima 29 van.
-    # 12/C: az utcában kettő 12 is van, de mindkettő csak sima 12.
-    # 36/A: ilyen nincs, csak sima 36 és 36/B van egy ikerházon.
+    # 29/a: a 29 egy ikerház, de minkét felén sima 29 van.
+    # 12/c: az utcában kettő 12 is van, de mindkettő csak sima 12.
+    # 36/a: ilyen nincs, csak sima 36 és 36/b van egy ikerházon.
     invalid: ['36a']
   Rádi utca:
     # 28: a páros oldalon a 6 az utolsó házszám (Mobilkemping).
     invalid: ['28']
   Semmelweis utca:
     # 21: nincs ilyen, a 19 után a 23 következik.
-    # 25/A: nincs ilyen, 25 és 25/B van kitáblázva.
-    # 34: sima 34 nincs, csak 34/A, 34/B.
-    # 64: sima 64 nincs, csak 64/A, 64/B.
+    # 25/a: nincs ilyen, 25 és 25/b van kitáblázva.
+    # 34: sima 34 nincs, csak 34/a, 34/b.
+    # 64: sima 64 nincs, csak 64/a, 64/b.
     invalid: ['21', '25a', '34', '64']
+  Szabadság utca:
+    # 32/1: nincs ilyen, csak 32 és 32/b van.
+    # 32/a: nincs ilyen, csak 32 és 32/b van.
   Széchenyi utca:
-    # 6/A: nincs ilyen, csak sima 6 van.
-    # 52/B: nincs ilyen, csak sima 52 van.
-    invalid: ['6a', '52b']
+    # 2/1: nincs ilyen, csak 2 és 2/a van.
+    # 6/a: nincs ilyen, csak sima 6 van. A 10-es házon van festékkel 6/a, de az nem illik a sorba.
+    # 52/b: nincs ilyen, csak sima 52 van.
+    # 56: nincs ilyen, az 54 után az 58 következik.
+    invalid: ['2/1', '6a', '52b', '56']
   Szél utca:
-    # 5: sima 5 nincs, csak 5/A, 5/B.
+    # 5: sima 5 nincs, csak 5/a, 5/b.
     invalid: ['5']
   Szemesi út:
     # 91: a páratlan oldalon a 25 az utolsó házszám.
     # 165: a páratlan oldalon a 25 az utolsó házszám.
     invalid: ['91', '165']
+  Toldi Miklós utca:
+    # 9/1: az épület ikerház, de nincs kitéve házszám. Feltételezhetően 9-es.
+    # 9/2: az épület ikerház, de nincs kitéve házszám. Feltételezhetően 9-es.
+    # 9/a: az épület ikerház, de nincs kitéve házszám. Feltételezhetően 9-es.
+    # 9/i: az épület ikerház, de nincs kitéve házszám. Feltételezhetően 9-es.
+    invalid: ['9/1', '9/2', '9a', '9/i']
   Tompa Mihály utca:
     # https://www.balatonszemes.hu/wp-content/uploads/files/rajk-laszlo-utca-nevvaltozasa-es-hazszam-megallapitas.pdf
     # 29: a fenti határozat alapján a 13 az utolsó házszám. De korábban is csak 26-ig számozódott.
-    # 2: ikerház, ketté van osztva, de csak a 2 van kitáblázva. Az OSM-en 2/A és 2/B van. Hagyom így, mert jobban megfelel a valóságnak.
+    # 2: ikerház, ketté van osztva, de csak a 2 van kitáblázva. Az OSM-en 2/a és 2/b van. Hagyom így, mert jobban megfelel a valóságnak.
     interpolation: 'all'
     invalid: ['29', '2']
   Tűzoltó utca:
@@ -175,11 +193,11 @@ filters:
     interpolation: 'all'
     invalid: ['39/1']
   Vörösmarty utca:
-    # 37/A: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 62.
-    # 39/A: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 64.
-    # 47/A: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 74.
-    # 59/B: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 86.
-    # 73/A: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 100.
+    # 37/a: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 62.
+    # 39/a: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 64.
+    # 47/a: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 74.
+    # 59/b: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 86.
+    # 73/a: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 100.
     invalid: ['37a', '39a', '47a', '59b', '73a']
 street-filters:
   # Nem igazi utcák
