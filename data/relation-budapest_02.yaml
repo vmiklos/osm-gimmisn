@@ -12,7 +12,7 @@ street-filters:
   - Városhatár utca  # létezik, kerülethatáron megy, ezért nem ismeri fel
   - Láncfű utca  # nincs, valóságban: Bátori László utca 48-54
   - Apáthy-szikla köz  # nincs a valóságban, ösvény van helyette az Apáthy sziklához
-  - Malom csárda utca  # vagy google: Hidegkúti útnál Örökzöld utca mellett, leírás Máriaremetei út 129: ott nincs - https://www.openstreetmap.org/note/3695680
+  - Malom csárda utca  # google: Hidegkúti útnál Örökzöld utca mellett, utcajegyzék: Máriaremetei út 129: ott nincs - https://www.openstreetmap.org/note/3695680
 osm-street-filters:
   # Nem valós utcák
   - EuroVelo-6 budai Duna-parti kerékpárút
