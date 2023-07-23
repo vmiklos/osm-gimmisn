@@ -3,6 +3,13 @@ filters: {}
 osm-street-filters:
   # Budakalász
   - Ország út
+  # park
+  - Margitliget
+  - Templomkert
+  - Városháza parkja
+  # turistautak
+  - Görbe hajtás
+  - Meteor létra
 street-filters:
   # Településrészként fent vannak
   # - Dolina  # Dolinapuszta
@@ -13,7 +20,7 @@ street-filters:
   - Susnyár  # Susnyár dűlőként már fent van
   # Településrész, még nincs fent
   - Kiskovácsi  # Pankos tetőként van fent
-  - Liszenkó  # Podmanyczkymajorként
+  #- Liszenkó  # Podmanyczkymajorként, házszámként Liszenkó telep
   - Vróc
   # Budakalász
   - Ország út  # Pomáz Országút utca
@@ -49,9 +56,9 @@ refstreets:
   'Dolina puszta': 'Dolina'
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Felsőhegy utca': 'Felső-Hegy utca'
+  'Liszenkó telep': 'Liszenkó'
   'Messelia utca': 'Meselia utca'
   'Naspolya utca': 'Naspolya út'
-  'Ugralovica dűlő': 'Uglarovica dűlő'
   'Wattay utca': 'Watthay utca'
   'Wagner utca': 'Wágner utca'
 source: survey
