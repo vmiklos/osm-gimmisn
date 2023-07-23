@@ -8,12 +8,40 @@ street-filters:
   # - Dolina  # Dolinapuszta
   - Kőhegy
   - Meselia
+  - Nagykovácsi
   - Pankos tető  # Pankostető
   - Susnyár  # Susnyár dűlőként már fent van
   # Településrész, még nincs fent
+  - Kiskovácsi  # Pankos tetőként van fent
+  - Liszenkó  # Podmanyczkymajorként
   - Vróc
   # Budakalász
   - Ország út  # Pomáz Országút utca
+  # tervezett utcák
+  - Bánóczi Fülöp János utca
+  - Barakk utca
+  - Barikád utca
+  - Bóna Zsigmond utca
+  - Czimer Tibor utca
+  - Demeter József utca
+  - Farkas Zoltán utca
+  - Forradalom utca
+  - Haszmann László utca
+  - Kopjafa utca
+  - Lobogó utca
+  - Mészáros György utca
+  - Nemzetőr utca
+  - Október 23-a utca
+  - Rudas András utca
+  - Szutter János utca
+  - Toborzó utca
+  # hiányzó
+  # Árvácska köz      - https://www.openstreetmap.org/note/3794697
+  # Kőhegyi Kecskefarm tanya
+  # Közép major
+  # Rigó út
+  # Tamási Áron köz
+  # Tűzhányó utca
 refstreets:
   'Alma sor': 'Almasor utca'
   'Bolyai utca': 'Bólyai utca'
