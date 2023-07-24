@@ -20,6 +20,9 @@ osm-street-filters:
   # átlógó/területhatár
   - Gárdonyi út
 refstreets:
+  # településhatár, az utca 2 oldalán eltérő név
+  'Meggyfasor': 'Meggyfa sor'
+  #
   'Bercsényi utca': 'Bercsényi Miklós utca'
   'Bogrács út': 'Bogrács utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai utca'
