@@ -1450,7 +1450,7 @@ fn our_application_gpx(
     relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<rouille::Response> {
-    let content_type = "text/xml; charset=utf-8";
+    let content_type = "text/gpx+xml; charset=utf-8";
     let mut headers: webframe::Headers = Vec::new();
     // assume prefix + "/additional-streets/"
     let (output, relation_name) =

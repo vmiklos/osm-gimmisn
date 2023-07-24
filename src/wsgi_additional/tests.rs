@@ -80,7 +80,7 @@ fn test_streets_view_result_gpx() {
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     test_wsgi.get_ctx().set_network(network_rc);
-    test_wsgi.set_content_type("text/xml; charset=utf-8");
+    test_wsgi.set_content_type("text/gpx+xml; charset=utf-8");
 
     let _root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result.gpx");
 
