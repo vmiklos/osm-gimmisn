@@ -1,3 +1,7 @@
+missing-streets: yes
+filters:
+  Meggyfa sor:
+    interpolation: all
 street-filters:
   # településrész
   - Bencze hegy
