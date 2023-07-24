@@ -17,6 +17,7 @@ street-filters:
   # place
   - Agárdpuszta  # https://www.openstreetmap.org/node/4159119774
 refstreets:
+  # Gárdony ------------------------------------------------------------------
   # 'Pálmajorpuszta': 'Pálmajor puszta' - place, nem mappelhető
   # táblán Achim András utca
   # táblán Babits Mihály utca
@@ -32,7 +33,7 @@ refstreets:
   # táblán Katona József lakópark
   # táblán Lehel utca
   'Mandula utca': 'Mandula út'
-  'Meggyfa sor': 'Meggyfasor utca'
+  'Meggyfasor': 'Meggyfasor utca'  # településhatár, az utca 2 oldalán eltérő név
   # táblán Mikszáth Kálmán utca
   'Munkácsy Mihály körút': 'Munkácsy Mihály utca'  # táblán Munkácsy Mihály körút - https://www.openstreetmap.org/note/3518399
   # táblán Táncsics köz
@@ -42,14 +43,14 @@ refstreets:
   # táblán Szántó Kovács János utca, a földhivatalnál Szántó-Kovács J. utca
   'Tímár utca': 'Timár utca'  # helyesírási hiba, táblán Tímár utca
   'Vasvári Pál köz': 'Vasvári köz'  # táblán Vasvári Pál köz
-  # Agárd
+  # Agárd --------------------------------------------------------------------
   'Alkotmány utca': 'Agárd-Alkotmány utca'
   # 'Balatoni út': 'Agárd-Balatoni út'  # Balatoni út
   # 'Gárdonyi Géza utca': 'Agárd-Gárdonyi utca'
   'Petőfi Sándor utca': 'Agárd-Petőfi utca'  # Az ÉK-i oldalon "Petőfi utca", a DNY-i oldalon "Petőfi Sándor utca". Mindkettő önkormányzati tábla.
   'Iskola utca': 'Agárd-Iskola utca'
   'Vasút utca': 'Agárd-Vasút utca'
-  # Csiribpuszta
+  # Csiribpuszta -------------------------------------------------------------
   'Ferenc utca': 'Csiribpuszta-Ferenc utca'
   'Gazdász utca': 'Csiribpuszta-Gazdász utca'
   'Nádasdy utca': 'Csiribpuszta-Nádasdy utca'
@@ -57,7 +58,7 @@ refstreets:
   'Tamás utca': 'Csiribpuszta-Tamás utca'
   # 'Agárdi utca': 'Csiribpuszta-Agárdi utca' - https://www.openstreetmap.org/note/3787213
   # 'Elza utca': 'Csiribpuszta-Elza utca'     - https://www.openstreetmap.org/note/3787217
-  # Dinnyés
+  # Dinnyés ------------------------------------------------------------------
   # 'Ady Endre utca': 'Dinnyés-Ady Endre utca' -- Agárd: Ady Endre utca
   # 'Alkotmány utca': 'Dinnyés-Alkotmány utca' -- Agárd: Alkotmány utca
   'Gárdonyi utca': 'Dinnyés-Gárdonyi utca'  # Dinnyés: Gárdonyi - Agárd: Gárdonyi Géza utca
