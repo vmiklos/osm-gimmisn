@@ -50,7 +50,7 @@ pub fn additional_streets_view_gpx(
     let query = areas::make_turbo_query_for_street_objs(&relation, &streets);
     let buf = overpass_query::overpass_query(ctx, &query)?;
     let overpass: OverpassResult =
-        serde_json::from_str(&buf).context("failed to parse overpass result as json")?;
+        serde_json::from_str(&buf).context(format!("failed to parse '{buf}' as json"))?;
 
     let doc = yattag::Doc::new();
     doc.append_value("<?xml version='1.0' encoding='UTF-8'?>".into());
