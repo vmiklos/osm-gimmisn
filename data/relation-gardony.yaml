@@ -1,7 +1,4 @@
 missing-streets: 'only'
-filters:
-  Meggyfa sor:
-    interpolation: all
 street-filters:
   # nem igazi utcák / csak hrsz.
   - 162-es őrház
