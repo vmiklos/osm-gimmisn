@@ -33,7 +33,7 @@ refstreets:
   # táblán Katona József lakópark
   # táblán Lehel utca
   'Mandula utca': 'Mandula út'
-  'Meggyfasor': 'Meggyfasor utca'  # településhatár, az utca 2 oldalán eltérő név
+  'Meggyfa sor': 'Meggyfasor utca'  # településhatár, az utca 2 oldalán eltérő név. OSM-ben a házszámok Meggyfa soron vannak.
   # táblán Mikszáth Kálmán utca
   'Munkácsy Mihály körút': 'Munkácsy Mihály utca'  # táblán Munkácsy Mihály körút - https://www.openstreetmap.org/note/3518399
   # táblán Táncsics köz
@@ -70,5 +70,6 @@ refstreets:
   'Vörösmarty Mihály utca': 'Dinnyés-Vörösmarty utca'  # Agárd: Vörösmarty utca; Dinnyés táblán: Vörösmarty Mihály utca
 osm-street-filters:
   - Pálmajorpuszta  # Pálmajor puszta, nem mappelhető
+  - Meggyfasor  # településhatár, az utca 2 oldalán eltérő név, OSM-ben a házszámok Meggyfa soron vannak, ezért ezt el kell nyomni
 source: survey
 inactive: true
