@@ -1,7 +1,7 @@
 missing-streets: yes
 filters:
-  Meggyfa sor:
-    interpolation: all
+  Meggyfasor:
+    interpolation: 'all'
 street-filters:
   # településrész
   - Bencze hegy
