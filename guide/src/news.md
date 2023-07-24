@@ -10,6 +10,7 @@
 - Resolves: gh#2987 stats: extract 2 lints from the stats page to an own lints page
 - Resolves: gh#2994 areas: find ref-not-in-reflist problems in `Relation.get_invalid_refstreets()`
 - Resolves: gh#2988 cron: enable inactive relations which are invalid
+- Resolves: gh#3018 additional streets is now available in gpx format as well
 
 ## 7.5
 
