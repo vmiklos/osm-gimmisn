@@ -5,11 +5,12 @@ refstreets:
   'Dr. Szőllőssy Árpád utca': 'Dr.Szőllőssy Árpád utca'
   'Malomvölgyi utca': 'Malomvölgy utca'
   # ellenőrzött
-  'Pityorka dűlő': 'Szél utca'  # táblán Pityorka dűlő (2022-10-16)
   'Szegedy Róza utca': 'Szegedi Róza utca'  # táblán Szegedy Róza utca (2021-09-25)
+  'Pocca utca': 'Pocca út'  # táblán: Pocca utca, helyi téképen Pocca út (2023-07)
 street-filters:
   # területként fent van
   - Köveskút puszta
+  - Potza dűlő  # Pocca
 osm-street-filters:
   # átlógó / területhatár
   - Felsőörsi út
