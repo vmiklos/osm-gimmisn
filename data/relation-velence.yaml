@@ -23,9 +23,10 @@ osm-street-filters:
   - Hauszmann-Gschwindt-kastély
   # átlógó/területhatár
   - Gárdonyi út
+  - Meggyfa sor / Meggyfasor utca  # településhatár, az utca 2 oldalán eltérő név, OSM-ben a házszámok Meggyfa soron vannak, ezért ezt el kell nyomni
 refstreets:
   # településhatár, az utca 2 oldalán eltérő név
-  'Meggyfasor': 'Meggyfa sor'
+  # 'Meggyfasor': 'Meggyfa sor'  # Gáron
   #
   'Bercsényi utca': 'Bercsényi Miklós utca'
   'Bogrács út': 'Bogrács utca'
