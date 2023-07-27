@@ -35,12 +35,12 @@ refstreets:
   'Szépvölgyi utca': 'Szép-völgyi utca'  # Egybe van írva, Szépvölgyi utca.
   'Szűcs utca': 'Szücs utca'
   'Thököly Imre utca': 'Thököly utca'
+  'Újpiac tér': 'Új-piac tér'  # többféleképpen. https://www.openstreetmap.org/note/3236410
   'Wesselényi Miklós utca': 'Wesselényi utca'  # A régi utcanévtáblán teljes név van, az újon már csak vezetéknév. Marad az OSM-en, ahogy van, teljes névvel.
    # kérdéses
   'Jodi hegy': 'Jódi hegy'
   'Millennium park': 'Millenium park'
   'Régi Reptér utca': 'Régi reptér utca'
-  'Új Piac tér': 'Új-piac tér'
   # javítva
   # - Alsó utca, Rét utca, Szigeti dűlő: ezen a három néven futott az utca, de valójában végig Alsó utca a házszámtáblák alapján. Átneveztem az összes szakaszt.
   # - Cseppkő utca: kint van a Cseppkő utca tábla, de nincs meg az utca :) A FÖMI-n még látszik egy földút, de a Maxaron már parcellázott, beépített terület. Az „utca” valószínűleg a fasor helyén lesz majd valamikor. vagy volt, csak a természet visszahódította.
