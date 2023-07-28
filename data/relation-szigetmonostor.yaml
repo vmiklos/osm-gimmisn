@@ -219,7 +219,7 @@ filters:
     invalid: ['6', '8']
   Galagonya tér:
     # 1-13, 2-10
-    invalid: ['12', '14']
+    invalid: ['12', '14', '845/4']
 source: survey
 street-filters:
   - Nagydunasétány utca
