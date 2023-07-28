@@ -477,3 +477,14 @@ fn test_end_whitespace() {
     let expected = "expected value type for 'filters.Budaörsi út.ranges[0].end' is a digit str\nfailed to validate {0}\n";
     assert_failure_msg(content, expected);
 }
+
+/// Tests that we do not accept keys with null values.
+#[test]
+fn test_null_value() {
+    let content = r#"filters:
+  'Budaörsi út':
+"#;
+    let expected =
+        "expected at least one sub-key for 'filters.Budaörsi út'\nfailed to validate {0}\n";
+    assert_failure_msg(content, expected);
+}

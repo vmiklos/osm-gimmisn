@@ -135,6 +135,12 @@ fn validate_filters(
 ) -> anyhow::Result<()> {
     let context = format!("{parent}.");
     for (key, value) in filters {
+        if !value.is_some() {
+            errors.push(format!(
+                "expected at least one sub-key for '{context}{key}'"
+            ));
+        }
+
         validate_filter(errors, &format!("{context}{key}"), value)?;
     }
 
