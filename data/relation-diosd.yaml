@@ -16,7 +16,9 @@ refstreets:
   'Szabadság út': 'Szabadság utca'
   'Székely András utca': 'Székely András út'
   'Vadrózsa utca': 'Vadrózsa út'
-  # osm-street-filters:
+osm-street-filters:
+  # átlógó/területhatár
+  - Gyár utca / Muskátli utca
 source: survey
 housenumber-letters: true
 inactive: true
