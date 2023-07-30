@@ -1,5 +1,6 @@
 missing-streets: 'yes'
 filters:
+  devnull utca:
 refstreets:
   # kérdéses
   'Dália utca': 'Dália köz'
