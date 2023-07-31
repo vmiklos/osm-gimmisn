@@ -32,6 +32,8 @@ osm-street-filters:
   - Heimann birtok bekötőút
   - Szekszárd autóbusz állomás
   - Temető hátsó bejárat 
+  # kerékpárút
+  - Szekszárd - Keselyűs kerékpárút
   # átlógó
   - Lajvér
   # parkok
