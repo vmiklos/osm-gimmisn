@@ -17,5 +17,14 @@ refstreets:
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
   # ellenőrzött
   'Marczibányi utca': 'Marcibányi utca'
+street-filters:
+  # nem igazi utcák
+  - Vasúti őrházak
+  - Zsíroshegyi turistaház
+osm-street-filters:
+  # parkok
+  - Szentesi Ferencné Ritter Borbála park
+  # ösvény
+  - Rózsika sétány
 source: survey
 inactive: true
