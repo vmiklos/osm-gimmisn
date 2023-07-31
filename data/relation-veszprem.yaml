@@ -81,7 +81,26 @@ refstreets:
   # Csatárhegy kérdéses
   'Hegybíró utca': 'Csatárh. Hegybíró út'
   'Lilaakác utca': 'Csatárh. Lila akác utca'
-  # osm-street-filters:
+street-filters:
+  # nem igazi utcák
+  - Eplény vasútállomás
+  # terület
+  - Csatár-hegy
+  - Külterület
+osm-street-filters:
+  # parkok, sétányok, ösvények
+  - Carlos Perez sétány
+  - Dévai Bíró Mátyás park
+  - Haubner Máté park
+  - Magyar-lengyel barátság park
+  - Magyar Nobel-díjasok parkja
+  - Séd-völgyi sétaút
+  - Simonyi iskola park
+  - Szent Katalin sétány
+  - Szerelem-sziget
+  # nem igazi utcák
+  - Alakulótér
+  - Szent István völgyhíd
 source: survey
 housenumber-letters: false
 inactive: true
