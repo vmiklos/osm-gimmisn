@@ -1,4 +1,11 @@
 missing-streets: 'yes'
+filters:
+  Almádi út:
+    # hrsz: 58/9, 60/1
+    invalid: ['58', '60']
+  Hosszú utca:
+    # 50/34: hrsz 050/34 - https://www.openstreetmap.org/node/11076865831
+    invalid: ['50']
 refstreets:
   # kérdéses
   'Dália utca': 'Dália köz'
