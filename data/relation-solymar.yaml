@@ -15,5 +15,7 @@ refstreets:
   'Rákóczi Ferenc utca': 'Rákóczi utca'
   'Terstyánszky utca': 'Terstyánszky Ödön utca'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
+  # ellenőrzött
+  'Marczibányi utca': 'Marcibányi utca'
 source: survey
 inactive: true
