@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## 7.6
 
 - Rouille: new `--host` parameter to specify the bind address
 - The `/missing-housenumbers/.../update-result` is now about 6 times faster (replaced home-grown
