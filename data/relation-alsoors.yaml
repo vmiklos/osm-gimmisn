@@ -1,4 +1,8 @@
 missing-streets: 'yes'
+filters:
+  Fő utca:
+    # 20: nincs, 18 után 22
+    invalid: ['20']
 refstreets:
   # helyesírás
   'Búzavirág köz': 'Buzavirág köz'

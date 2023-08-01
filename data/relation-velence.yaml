@@ -1,6 +1,6 @@
 missing-streets: yes
 filters:
-  Meggyfasor:
+  Meggyfa sor:
     interpolation: 'all'
 street-filters:
   # településrész
