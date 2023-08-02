@@ -3,6 +3,9 @@ filters:
   Fő utca:
     # 20: nincs, 18 után 22
     invalid: ['20']
+  Gárdonyi Géza utca:
+    # 34: utolsó kiírt páros 14 és egy sarki ház van amint nincs szám
+    invalid: ['34']
 refstreets:
   # helyesírás
   'Búzavirág köz': 'Buzavirág köz'
