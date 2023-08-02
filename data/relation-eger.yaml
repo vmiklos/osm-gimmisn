@@ -68,13 +68,13 @@ refstreets:
   'Vízimolnár utca': 'Vizimolnár utca'
   # Ellenőrzött
   'Csákósor utca': 'Csákó sor utca'  # Az utcanévtábla szerint Csákósor utca
+  'Foglár utca': 'Foglár György utca'  # Táblán Foglár u. - 2023.07 - https://www.openstreetmap.org/note/2803211
   # note
   # Akácfa utca - Akácos utca: dupla nem mappelhető
   'Bem tábornok utca': 'Bem tábornok tér'  # Note 2803168
   'Deméndi utca': 'Deméndi út'  # Note 2803218
   'Disznófő-sor': 'Szépasszonyvölgy-Disznófősor utca'  # Note 2803215
   'Egri út': 'Egri utca'  # Note 2803225
-  'Foglár utca': 'Foglár György utca'  # Note 2803211
   'Hevesi Sándor utca': 'Hevesy Sándor utca'  # Note 2803219
   'II. Rákóczi Ferenc út': 'II. Rákóczi Ferenc utca'
   'Maczki Valér utca': 'Macki Valér utca'  # Note 2803212
