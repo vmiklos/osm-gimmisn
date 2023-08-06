@@ -273,6 +273,9 @@ filters:
   Táncsics Mihály utca:
     # 1-27, 2-28
     invalid: ['58', '65']
+  Toldy lépcső:
+    # 55 = Toldy Ferenc utca 55
+    invalid: ['55']
   Tündérlaki mélyút:
     # 3b: csak sima 3 van
     invalid: ['3b']
