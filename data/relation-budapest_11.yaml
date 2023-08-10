@@ -51,9 +51,7 @@ filters:
   Brassó út:
     # <=152 is just the Sasad part, 169 is actually 169-179/a .. 169-179/h
     # 1b: csak sima 1
-    # 6a: csak sima 6
     # 10: 10/a, 10/b
-    # 26: 26/a, 26/b
     # 28: 28/a, 28/b
     # 21,29: 19, 25, 27, x, 27/a, 27/b; x=29? CHECK 2021-10 RESURVEY
     # 40a, 40b: csak sima 40 van
@@ -71,7 +69,7 @@ filters:
     # 144: Domboldal utca 8 = Brassó út 144: A és B épület
     # 147: 147/a, 147/b
     # 154: 154/a, 154/b
-    invalid: ['1b', '6a', '10', '14', '21', '26', '29', '28', '40a', '40b', '45', '51', '52', '54a', '54b', '55a', '55b', '57b', '95', '107a', '113', '119', '144a', '144b', '147', '154', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
+    invalid: ['1b', '10', '14', '21', '29', '28', '40a', '40b', '45', '51', '52', '54a', '54b', '55a', '55b', '57b', '95', '107a', '113', '119', '144a', '144b', '147', '154', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
     ranges:
       - {start: '1', end: '169'}
       - {start: '2', end: '74'}
@@ -1297,7 +1295,7 @@ filters:
       - {start: '2', end: '20'}
   Nándorfejérvári út:
     # 36-40: a, b, c, d épületek, a kapun 40, a portás szerint viszont 36-40. Ezen kívül van még egy 40/a bejárat is a fitnessnél
-    invalid: ['5a', '7', '8', '15a', '16a', '17b', '20c', '31a', '31b', '31c', '31d', '40d']
+    invalid: ['5a', '8', '16a', '17b', '20c', '31a', '31b', '31c', '31d', '40d']
     ranges:
       - {start: '1', end: '9'}
       - {start: '13', end: '25'}
@@ -2202,10 +2200,8 @@ filters:
     # A Kápolna út 2. és a Péterhegyi út 67. közös telken van, házszám a Péterhegyi útról van csak.
     # 3a, 3b, 3c: Nincsenek, sima 3 van a kapun. Van 3 épület, ezért valószínű belül vannak épület betűjelek, kivűlről nem látható.
     # 10a, 10b: Nincsenek, bár 2 ház van de a kapun csak sima 10 van.
-    # 11a: Nincs, csak sima 11 van.
-    # 15b: Nincs, csak sima 15 van.
     # 40a, 40b: Nincsenek, csak sima 40 van.
-    invalid: ['3a', '3b', '3c', '10a', '10b', '11a', '15b', '40a', '40b']
+    invalid: ['3a', '3b', '3c', '10a', '10b', '40a', '40b']
     ranges:
       - {start: '3', end: '53'}
       - {start: '4', end: '56'}
@@ -2403,7 +2399,7 @@ filters:
     # 88: 88/a, 88/b
     # 99: 99/a, 99/b
     # 100a, 100/2: csak sima 100 van
-    invalid: ['4a', '6', '16a', '32/1', '36/2', '40/1', '40/2', '40/3', '40/4', '40/5', '40a', '40b', '40d', '42', '46a', '48a', '48b', '48c', '50b', '50d', '56', '56b', '56c', '56d', '56e', '57b', '59a', '60b', '62a', '62b', '74', '76b', '78b', '80b', '82', '87', '87c', '88', '99', '100/2', '100a']
+    invalid: ['4a', '6', '16a', '32/1', '36/2', '40/1', '40/2', '40/3', '40/4', '40/5', '40a', '40b', '40d', '42', '46a', '48a', '48b', '48c', '50b', '50d', '56', '56b', '56c', '56d', '56e', '57b', '59a', '60b', '62a', '74', '76b', '78b', '80b', '82', '87', '87c', '88', '99', '100/2', '100a']
     ranges:
       - {start: '1', end: '101'}
       - {start: '4', end: '100'}
