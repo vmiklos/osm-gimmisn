@@ -4,6 +4,9 @@ filters:
     ranges:
       - {start: '2', end: '26'}
       - {start: '1', end: '29'}
+  Rákóczi utca:
+    # 10: 2 db 8-as van, majd 12
+    invalid: ['10']
 refstreets:
   # kérdéses
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
