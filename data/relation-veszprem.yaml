@@ -1,14 +1,28 @@
 missing-streets: 'yes'
 filters:
+  Árpád utca:
+    # 10: nincs, valószínű a Pajta utca 27 másik fele volt
+    # 17: 15 után 19
+    # 49: utolsó páratlan ház a 47
+    invalid: ['10', '17', '49']
   Bajcsy-Zsilinszky Endre utca:
     # 26-nál véget ér a páros oldal, talán 28 még lehet
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '28'}
+  Céhház utca:
+    # 35, 37: utolsó házszám 33, utána a Dózsa György Általános Iskola tömbje
+    invalid: ['35', '37']
   Kórház utca:
     # páros oldal nincs, páratlanon az egyetlen házszám a kórház
     ranges:
       - {start: '1', end: '1'}
+  Liliom utca:
+    # 49: a számozás káoszos, de a maximum 12
+    invalid: ['49']
+  Pajta utca:
+    # 26, 34: maximum páros a 24
+    invalid: ['26', '34']
 refstreets:
   # kérdéses
   'Alsóújsor utca': 'Alsó-újsor'
