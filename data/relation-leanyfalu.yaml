@@ -23,7 +23,7 @@ refstreets:
   'Hermányhegyi utca': 'Hermány-hegyi utca'
   'Kálvária utca': 'Kálvária út'
   'Lázár-köz': 'Lázár köz'
-  'Ravasz püspök utca': 'Ravasz László püspök utca'
+  # 'Ravasz László utca': 'Ravasz László püspök utca'  # egyik táblán Ravasz László utca, másikon Ravasz László püspök út
   'Szendrei Júlia utca': 'Szendrey Júlia utca'
   # 'Szent Imre herceg útja': 'Szent Imre herceg utca'
 source: survey
