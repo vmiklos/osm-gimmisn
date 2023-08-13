@@ -6,6 +6,8 @@ filters:
     show-refstreet: false
   Keleti Schriffert József utca:
     show-refstreet: false
+  Körös utca:
+    show-refstreet: false
   Líceum tér:
     show-refstreet: false
   Október 23. tér:
@@ -74,19 +76,18 @@ refstreets:
   'Fenyő út': 'Fenyő utca'
   'Ferenczi Béni utca': 'Ferenczy Béni utca'  # A házszámok nagy része az y-os írásmódon jön
   # 'Hosszú utca': 'Hosszúkás utca' -- van másik Hosszú utca, nem lehet mappelni
-  'Körös utca': 'Kőrös utca'
   'Lilaakác utca': 'Lila akác utca'
   'Rigó út': 'Rigó utca'
   'Rita út': 'Rita utca'
   'Szabadkai út': 'Szabadkai utca'
   'Széchenyi út': 'Széchenyi utca'
   'Sándorhegytanya': 'Sándorhegy tanya'
-  'T. utca': 'T utca'
-  'Thököly Imre utca': 'Thököly utca'
   'Víz utca': 'Vízi utca'
   'Új élet utca': 'Újélet utca'
   'Újülés utca': 'Újűlés utca'
   'Zöld utca': 'Zöldi utca'
+  # ellenőrzött
+  'Körös utca': 'Kőrös utca'  # táblán Körös utca - https://www.openstreetmap.org/note/2796498
   # helyesírás, rövidítés
   'Balázs deák utca': 'Balázs Deák utca'
   'Keleti Schriffert József utca': 'K. Schriffert József út'
@@ -94,5 +95,6 @@ refstreets:
   'Líceum tér': 'Liceum tér'
   'Október 23. tér': 'Október 23-a tér'
   'Szikfű utca': 'Szíkfű utca'  # táblák vegyesen, de a megfelelő helyesírás a szikfű
+  'T. utca': 'T utca'
 source: survey
 inactive: true
