@@ -19,6 +19,9 @@ filters:
     # 28 Lucart kft toyo mellett
     show-refstreet: false
     invalid: ['3', '6', '7', '9', '10', '12']
+  Klapka György utca:
+    # 4: nincs kint 4 szám és ház sem, csak 2 az egyetlen ház az ovi mellett.
+    invalid: ['4']
   Május 1. tér:
     # 11 az utolsó szám
     invalid: ['14']
