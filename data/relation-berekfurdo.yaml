@@ -1,5 +1,8 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Veres Péter utca:
+    # 328: ez helyrajzi szám, nem házszám.
+    invalid: ['328']
 street-filters:
   # Tanyák
   - Tanya
