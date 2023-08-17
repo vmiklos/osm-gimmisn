@@ -1,9 +1,24 @@
 missing-streets: 'yes'
 filters:
+  Bercsényi utca:
+    ranges:
+      - {start: '1', end: '49'}
+      - {start: '2', end: '14'}
   Gagarin utca:
     ranges:
-      - {start: '2', end: '26'}
       - {start: '1', end: '29'}
+      - {start: '2', end: '26'}
+  Jankovich Ferenc utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '40'}
+  Jedlik Ányos utca:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '22'}
+  Móricz Zsigmond utca:
+    # 14: max páros a 8.
+    invalid: ['14']
   Rákóczi utca:
     # 10: 2 db 8-as van, majd 12
     invalid: ['10']
@@ -30,4 +45,4 @@ osm-street-filters:
   # parkok
 source: survey
 housenumber-letters: false
-inactive: true
+inactive: false
