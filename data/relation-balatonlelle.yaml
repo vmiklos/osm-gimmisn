@@ -1,6 +1,8 @@
 filters:
   Dr. Kiss Károly utca:
     show-refstreet: false
+  Hullám utca:
+    interpolation: 'all'
   Kanizsa utca:
     interpolation: 'all'
   Köztársaság utca:
@@ -23,6 +25,8 @@ filters:
     interpolation: 'all'
   Vasúti sétány:
     interpolation: 'all'
+  Vitorlás utca:
+    interpolation: 'all'
   Zrínyi Miklós utca:
     show-refstreet: false
 street-filters:
@@ -35,11 +39,6 @@ street-filters:
   - Rádpuszta
   - Tóthegy tanya
   - Várszó dűlő
-  # Fonyó utca - https://www.openstreetmap.org/way/810235926
-  # nem találtam
-  # Kastély utca  - Rádpuszta
-  # Szőlősor utca - Rádpuszta
-  # Római út - talán ez: https://www.openstreetmap.org/way/95976804
 osm-street-filters:
   # nem igazi utcák
   - Színpad előtér
@@ -58,7 +57,6 @@ refstreets:
   'Dr. Kiss Károly utca': 'Dr.Kiss Károly utca'
   'Szent László utca': 'Szt.László utca'
   'Zrínyi Miklós utca': 'Zrinyi Miklós utca'
-  # todo - mi szerepel az utcatáblán?
   # ellenőrzött
   'Margaréta köz': 'Margaréta utca'  # https://www.openstreetmap.org/note/3286437
   # A régi utcanévtáblákon Vezetéknév Keresztnév szerepel, az új utcanévtáblákon csak Vezetéknév. Feltételezem, hogy minden utca teljes nevű. Ez az egész településre értendő.
