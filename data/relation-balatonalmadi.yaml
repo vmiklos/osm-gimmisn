@@ -531,7 +531,7 @@ filters:
     invalid: ['31']
 osm-street-filters:
   # Területhatár
-  - Balaton körút  # Balatonfűzfő
+  - Almádi út  # Balatonfűzfő
   - Kötéssűrű utca  # Szentkirályszabadja
   - Uszodai út  # Balatonfűzfő
   # Sétányok, parkok
