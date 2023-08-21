@@ -4,6 +4,8 @@ filters:
     ranges:
       - {start: '1', end: '49'}
       - {start: '2', end: '14'}
+  Berzsenyi Dániel utca:
+    interpolation: all
   Gagarin utca:
     ranges:
       - {start: '1', end: '29'}
@@ -19,6 +21,9 @@ filters:
   Móricz Zsigmond utca:
     # 14: max páros a 8.
     invalid: ['14']
+  Munkácsy Mihály utca:
+    interpolation: all
+    invalid: ['7']
   Rákóczi utca:
     # 10: 2 db 8-as van, majd 12
     invalid: ['10']
