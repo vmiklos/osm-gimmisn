@@ -4,6 +4,10 @@ filters:
     # 225: a páratlan oldalon az 51 az utolsó házszám.
     # 300/8: a páros oldalon a 46 az utolsó házszám.
     invalid: ['225', '300/8']
+  Kodály Zoltán utca:
+    interpolation: 'all'
+    # 67: a 64-66 az utolsó házszám.
+    invalid: ['67']
 street-filters:
   # nem igazi utcák
   - Borkombinát egyéb
@@ -20,6 +24,8 @@ osm-street-filters:
   - Cédrus sétány
   - Kápolna-domb
   - Strand sétány
+  # Balatonlelléről átlógó utcák
+  - Vasúti sétány
 refstreets:
   # ellenőrzött
   # 'Berzsenyi Dániel utca': 'Berzsenyi utca' - csak vezetéknévvel van kitáblázva. ott lakó lakcímkártyáján is csak Berzsenyi utca van.
