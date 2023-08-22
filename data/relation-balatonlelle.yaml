@@ -7,10 +7,14 @@ filters:
     interpolation: 'all'
   Köztársaság utca:
     interpolation: 'all'
+    # 2, 3, 4, 6: a 11 az első házszám, és két egymás melletti épületen is rajta van.
+    # 13: ez a házszám az 5121-es hrsz-hez tartozott, de azt felosztották 4 részre, és a Köztársaság utca felüli rész lett a 12, a 13 megszűnt (forrás: ÉTDR).
+    # 18/c: nincs ilyen, csak sima 18 van.
+    # 41/b, 41/i: sima 41 van kitáblázva, a többi épület a kerítés mögött van, az utcáról nem látható.
     # 45/2: a 45-ben lakópark épül, csak a 45 van a bejáratnál.
     # 59/a: az 59 az Anchor Villapark, a lakóparkon belül nincsenek külön házszámok, csak az 59 van a bejáratnál.
     # 206: az utolsó házszám a 85.
-    invalid: ['45/2', '59a', '206']
+    invalid: ['2', '3', '4', '6', '13', '18c', '41b', '41i', '45/2', '59a', '206']
   Lugas utca:
     # 2: a Földhivatal szerint a 3420/2 hrsz. Lugas utca 2., de Vasút utca 25. van kitáblázva.
     invalid: ['2']
@@ -19,6 +23,9 @@ filters:
     invalid: ['7c']
   Pipacs sor:
     interpolation: 'all'
+  Százszorszép utca:
+    # 3: nincs ilyen, az 1 után az 5 következik. Az 1 ikerház, de mindkét felén 1 van.
+    invalid: ['3']
   Szent László utca:
     show-refstreet: false
   Vasút utca:
@@ -27,6 +34,9 @@ filters:
     interpolation: 'all'
   Vitorlás utca:
     interpolation: 'all'
+  Zengő utca:
+    # 20: nincs ilyen, csak 20/b van a kukán, az épület egy szolgalmi út végén van, az utcáról nem látható.
+    invalid: ['20']
   Zrínyi Miklós utca:
     show-refstreet: false
 street-filters:
