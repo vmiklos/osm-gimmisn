@@ -20,7 +20,7 @@ filters:
   Feketehida dűlő:
     ranges: []
 osm-street-filters:
-  - Öreghegy dűlő	
+  - Öreghegy dűlő
 street-filters:
   # dűlők
   - Tagyon-hegy dűlő  # csak hrsz
