@@ -1417,7 +1417,8 @@ fn test_relation_get_lints() {
     let lint = lints[0].clone();
     assert_eq!(lint.relation_name, "gazdagret");
     assert_eq!(lint.street_name, "Törökugrató utca");
-    assert_eq!(lint.source, "invalid");
+    assert_eq!(lint.source, RelationLintSource::Invalid);
+    assert_eq!(format!("{:?}", lint.source), "Invalid");
     assert_eq!(lint.housenumber, "1");
     assert_eq!(lint.reason, "created-in-osm");
 }

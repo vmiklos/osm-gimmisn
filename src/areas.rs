@@ -359,10 +359,23 @@ pub struct RelationLint {
     pub relation_name: String,
     pub street_name: String,
     /// Type, e.g. invalid or range.
-    pub source: String,
+    pub source: RelationLintSource,
     pub housenumber: String,
     /// E.g. missing from reference or present in OSM
     pub reason: String,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub enum RelationLintSource {
+    Invalid,
+}
+
+impl std::fmt::Display for RelationLintSource {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            RelationLintSource::Invalid => write!(f, "invalid"),
+        }
+    }
 }
 
 /// A relation is a closed polygon on the map.
@@ -603,7 +616,7 @@ impl<'a> Relation<'a> {
                     if invalids.contains(&housenumber.get_number().to_string()) {
                         let relation_name = self.get_name();
                         let street_name = street_name.to_string();
-                        let source = "invalid".to_string();
+                        let source = RelationLintSource::Invalid;
                         let housenumber = housenumber.get_number().to_string();
                         let reason = "created-in-osm".to_string();
                         let lint = RelationLint {
@@ -812,7 +825,7 @@ impl<'a> Relation<'a> {
                 if !used_invalids.contains(&invalid) {
                     let relation_name = self.get_name();
                     let street_name = osm_street.get_osm_name().to_string();
-                    let source = "invalid".to_string();
+                    let source = RelationLintSource::Invalid;
                     let housenumber = invalid.to_string();
                     let reason = "deleted-from-ref".to_string();
                     let lint = RelationLint {
@@ -1246,7 +1259,7 @@ impl<'a> Relation<'a> {
         for lint in self.lints.iter() {
             conn.execute(
                 r#"insert into relation_lints (relation_name, street_name, source, housenumber, reason) values (?1, ?2, ?3, ?4, ?5)"#,
-                 [&lint.relation_name, &lint.street_name, &lint.source, &lint.housenumber, &lint.reason],
+                 [&lint.relation_name, &lint.street_name, &lint.source.to_string(), &lint.housenumber, &lint.reason],
                  )?;
         }
         Ok(())
