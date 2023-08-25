@@ -261,8 +261,13 @@ impl HouseNumber {
     }
 
     /// Decides if house_number is invalid according to invalids.
-    pub fn is_invalid(house_number: &str, invalids: &[String]) -> bool {
+    pub fn is_invalid(
+        house_number: &str,
+        invalids: &[String],
+        used_invalids: &mut Vec<String>,
+    ) -> bool {
         if invalids.contains(&house_number.to_string()) {
+            used_invalids.push(house_number.to_string());
             return true;
         }
 
@@ -285,7 +290,11 @@ impl HouseNumber {
         }
 
         let house_number = number + &suffix;
-        invalids.contains(&house_number)
+        let ret = invalids.contains(&house_number);
+        if ret {
+            used_invalids.push(house_number);
+        }
+        ret
     }
 
     /// Determines if the input is a house number, allowing letter suffixes. This means not only

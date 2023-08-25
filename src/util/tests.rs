@@ -397,16 +397,29 @@ fn test_house_number() {
 /// Tests HouseNumber::is_invalid().
 #[test]
 fn test_house_number_is_invalid() {
-    assert_eq!(HouseNumber::is_invalid("15 a", &["15a".to_string()]), true);
-    assert_eq!(HouseNumber::is_invalid("15/a", &["15a".to_string()]), true);
-    assert_eq!(HouseNumber::is_invalid("15A", &["15a".to_string()]), true);
+    let mut used_invalids: Vec<String> = Vec::new();
     assert_eq!(
-        HouseNumber::is_invalid("67/5*", &["67/5".to_string()]),
+        HouseNumber::is_invalid("15 a", &["15a".to_string()], &mut used_invalids),
+        true
+    );
+    assert_eq!(
+        HouseNumber::is_invalid("15/a", &["15a".to_string()], &mut used_invalids),
+        true
+    );
+    assert_eq!(
+        HouseNumber::is_invalid("15A", &["15a".to_string()], &mut used_invalids),
+        true
+    );
+    assert_eq!(
+        HouseNumber::is_invalid("67/5*", &["67/5".to_string()], &mut used_invalids),
         true
     );
 
     // Make sure we don't panic on input which does not start with a number.
-    assert_eq!(HouseNumber::is_invalid("A", &["15a".to_string()]), false);
+    assert_eq!(
+        HouseNumber::is_invalid("A", &["15a".to_string()], &mut used_invalids),
+        false
+    );
 }
 
 /// Tests HouseNumber::has_letter_suffix().
