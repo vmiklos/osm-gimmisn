@@ -354,6 +354,17 @@ pub struct OsmStreet {
     pub object_type: Option<String>,
 }
 
+#[derive(Clone)]
+pub struct RelationLint {
+    pub relation_name: String,
+    pub street_name: String,
+    /// Type, e.g. invalid or range.
+    pub source: String,
+    pub housenumber: String,
+    /// E.g. missing from reference or present in OSM
+    pub reason: String,
+}
+
 /// A relation is a closed polygon on the map.
 #[derive(Clone)]
 pub struct Relation<'a> {
@@ -362,6 +373,7 @@ pub struct Relation<'a> {
     file: area_files::RelationFiles,
     config: RelationConfig,
     osm_housenumbers: HashMap<String, Vec<util::HouseNumber>>,
+    lints: Vec<RelationLint>,
 }
 
 impl<'a> Relation<'a> {
@@ -384,13 +396,19 @@ impl<'a> Relation<'a> {
         // osm street name -> house number list map, so we don't have to read the on-disk list of the
         // relation again and again for each street.
         let osm_housenumbers: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
+        let lints: Vec<RelationLint> = Vec::new();
         Ok(Relation {
             ctx,
             name: name.into(),
             file,
             config,
             osm_housenumbers,
+            lints,
         })
+    }
+
+    pub fn get_lints(&self) -> &Vec<RelationLint> {
+        &self.lints
     }
 
     /// Gets the name of the relation.
@@ -573,6 +591,32 @@ impl<'a> Relation<'a> {
                 self.osm_housenumbers
                     .insert(key, util::sort_numerically(&value));
             }
+
+            let streets_invalids = self.get_street_invalid();
+            for (street_name, housenumbers) in &self.osm_housenumbers {
+                let mut invalids: Vec<String> = Vec::new();
+                if let Some(value) = streets_invalids.get(street_name) {
+                    invalids = value.clone();
+                    invalids = self.normalize_invalids(street_name, &invalids)?;
+                }
+                for housenumber in housenumbers {
+                    if invalids.contains(&housenumber.get_number().to_string()) {
+                        let relation_name = self.get_name();
+                        let street_name = street_name.to_string();
+                        let source = "invalid".to_string();
+                        let housenumber = housenumber.get_number().to_string();
+                        let reason = "created-in-osm".to_string();
+                        let lint = RelationLint {
+                            relation_name,
+                            street_name,
+                            source,
+                            housenumber,
+                            reason,
+                        };
+                        self.lints.push(lint);
+                    }
+                }
+            }
         }
         Ok(match self.osm_housenumbers.get(street_name) {
             Some(value) => value.clone(),
@@ -697,7 +741,7 @@ impl<'a> Relation<'a> {
 
     /// Gets house numbers from reference, produced by write_ref_housenumbers()."""
     fn get_ref_housenumbers(
-        &self,
+        &mut self,
         osm_street_names: &[util::Street],
     ) -> anyhow::Result<HashMap<String, Vec<util::HouseNumber>>> {
         let mut ret: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
@@ -737,6 +781,7 @@ impl<'a> Relation<'a> {
                 street_invalid = self.normalize_invalids(osm_street_name, &street_invalid)?;
             }
 
+            let mut used_invalids: Vec<String> = Vec::new();
             if let Some(value) = lines.get(&ref_street_name) {
                 for house_number in value {
                     let normalized = normalize(
@@ -750,13 +795,37 @@ impl<'a> Relation<'a> {
                         &mut normalized
                             .iter()
                             .filter(|i| {
-                                !util::HouseNumber::is_invalid(i.get_number(), &street_invalid)
+                                let is_invalid = util::HouseNumber::is_invalid(
+                                    i.get_number(),
+                                    &street_invalid,
+                                    &mut used_invalids,
+                                );
+                                !is_invalid
                             })
                             .cloned()
                             .collect(),
                     );
                 }
             }
+
+            for invalid in street_invalid {
+                if !used_invalids.contains(&invalid) {
+                    let relation_name = self.get_name();
+                    let street_name = osm_street.get_osm_name().to_string();
+                    let source = "invalid".to_string();
+                    let housenumber = invalid.to_string();
+                    let reason = "deleted-from-ref".to_string();
+                    let lint = RelationLint {
+                        relation_name,
+                        street_name,
+                        source,
+                        housenumber,
+                        reason,
+                    };
+                    self.lints.push(lint);
+                }
+            }
+
             house_numbers.sort_unstable();
             house_numbers.dedup();
             ret.insert(
@@ -1023,10 +1092,17 @@ impl<'a> Relation<'a> {
             let ref_house_numbers = &all_ref_house_numbers[osm_street_name];
             let mut osm_house_numbers = self.get_osm_housenumbers(osm_street_name)?;
 
+            let mut used_valids: Vec<String> = Vec::new();
             if let Some(street_valid) = streets_valid.get(osm_street_name) {
                 let filtered: Vec<_> = osm_house_numbers
                     .iter()
-                    .filter(|i| !util::HouseNumber::is_invalid(i.get_number(), street_valid))
+                    .filter(|i| {
+                        !util::HouseNumber::is_invalid(
+                            i.get_number(),
+                            street_valid,
+                            &mut used_valids,
+                        )
+                    })
                     .cloned()
                     .collect();
                 osm_house_numbers = filtered;

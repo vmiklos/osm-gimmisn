@@ -29,8 +29,8 @@ fn test_main() {
     let mut actual: Vec<u8> = Vec::new();
     buf.read_to_end(&mut actual).unwrap();
     assert_eq!(
-        actual,
-        b"Kalotaszeg utca\t3\n[\"25\", \"27-37\", \"31*\"]\n"
+        String::from_utf8(actual).unwrap(),
+        "Kalotaszeg utca\t3\n[\"25\", \"27-37\", \"31*\"]\n"
     );
 }
 
