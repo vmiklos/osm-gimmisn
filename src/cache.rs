@@ -69,6 +69,9 @@ pub fn get_missing_housenumbers_json(relation: &mut areas::Relation<'_>) -> anyh
         .get_ctx()
         .get_file_system()
         .write_from_string(&output, &jsoncache_path)?;
+
+    relation.write_lints()?;
+
     Ok(output)
 }
 

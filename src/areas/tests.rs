@@ -1422,6 +1422,44 @@ fn test_relation_get_lints() {
     assert_eq!(lint.reason, "created-in-osm");
 }
 
+/// Tests Relation::write_lints().
+#[test]
+fn test_relation_write_lints() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+        },
+        "relation-gazdagret.yaml": {
+            "filters": {
+                "Törökugrató utca": {
+                    "invalid": [ "1", "11", "12" ],
+                }
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = Relations::new(&ctx).unwrap();
+    let relation_name = "gazdagret";
+    let mut relation = relations.get_relation(relation_name).unwrap();
+    let _missing_housenumbers = relation.get_missing_housenumbers().unwrap();
+
+    relation.write_lints().unwrap();
+
+    let conn = ctx.get_database_connection().unwrap();
+    let mut stmt = conn.prepare("select count(*) from relation_lints").unwrap();
+    let mut rows = stmt.query([]).unwrap();
+    while let Some(row) = rows.next().unwrap() {
+        let count: i64 = row.get(0).unwrap();
+        assert_eq!(count, 1);
+    }
+}
+
 /// Sets the housenumber_letters property from code.
 fn set_config_housenumber_letters(config: &mut RelationConfig, housenumber_letters: bool) {
     config.dict.housenumber_letters = Some(housenumber_letters);

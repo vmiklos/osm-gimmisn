@@ -124,7 +124,21 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
             [],
         )?;
     }
-    conn.execute("pragma user_version = 5", [])?;
+    if user_version < 6 {
+        // Tracks lint results for a relation.
+        conn.execute(
+            "create table relation_lints (
+            id integer primary key autoincrement,
+            relation_name text not null,
+            street_name text not null,
+            source text not null,
+            housenumber text not null,
+            reason text not null
+        )",
+            [],
+        )?;
+    }
+    conn.execute("pragma user_version = 6", [])?;
     Ok(())
 }
 

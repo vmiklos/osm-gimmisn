@@ -1237,6 +1237,21 @@ impl<'a> Relation<'a> {
         Ok(())
     }
 
+    pub fn write_lints(&self) -> anyhow::Result<()> {
+        let conn = self.ctx.get_database_connection()?;
+        conn.execute(
+            "delete from relation_lints where relation_name = ?1",
+            [&self.name],
+        )?;
+        for lint in self.lints.iter() {
+            conn.execute(
+                r#"insert into relation_lints (relation_name, street_name, source, housenumber, reason) values (?1, ?2, ?3, ?4, ?5)"#,
+                 [&lint.relation_name, &lint.street_name, &lint.source, &lint.housenumber, &lint.reason],
+                 )?;
+        }
+        Ok(())
+    }
+
     pub fn get_osm_housenumber_coverage(&self) -> anyhow::Result<String> {
         let conn = self.ctx.get_database_connection()?;
         let mut stmt = conn
