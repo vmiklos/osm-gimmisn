@@ -194,6 +194,55 @@ fn missing_housenumbers_view_turbo(
     Ok(doc)
 }
 
+/// Expected request uri: /osm/missing-housenumbers/ormezo/view-lints.
+fn missing_housenumbers_view_lints(
+    ctx: &context::Context,
+    relation: &areas::Relation<'_>,
+) -> anyhow::Result<yattag::Doc> {
+    let doc = yattag::Doc::new();
+
+    let mut table: Vec<Vec<yattag::Doc>> = Vec::new();
+    let mut count = 0;
+    {
+        let conn = ctx.get_database_connection()?;
+        let mut stmt = conn
+        .prepare("select street_name, source, housenumber, reason from relation_lints where relation_name = ?1")?;
+        let mut lints = stmt.query([relation.get_name()])?;
+        {
+            let cells: Vec<yattag::Doc> = vec![
+                yattag::Doc::from_text(&tr("Street")),
+                yattag::Doc::from_text(&tr("Source")),
+                yattag::Doc::from_text(&tr("Housenumber")),
+                yattag::Doc::from_text(&tr("Reason")),
+            ];
+            table.push(cells);
+        }
+        while let Some(lint) = lints.next()? {
+            let mut cells: Vec<yattag::Doc> = Vec::new();
+            let street: String = lint.get(0).unwrap();
+            let source: String = lint.get(1).unwrap();
+            let housenumber: String = lint.get(2).unwrap();
+            let reason: String = lint.get(3).unwrap();
+            cells.push(yattag::Doc::from_text(&street));
+            cells.push(yattag::Doc::from_text(&source));
+            cells.push(yattag::Doc::from_text(&housenumber));
+            cells.push(yattag::Doc::from_text(&reason));
+            table.push(cells);
+            count += 1;
+        }
+    }
+    {
+        let p = doc.tag("p", &[]);
+        p.text(
+            &tr("The below {0} filters for this relation are probably no longer necessary.")
+                .replace("{0}", &count.to_string()),
+        );
+    }
+    doc.append_value(util::html_table_from_list(&table).get_value());
+
+    Ok(doc)
+}
+
 /// The actual HTML part of missing_housenumbers_view_res().
 fn missing_housenumbers_view_res_html(
     ctx: &context::Context,
@@ -263,6 +312,17 @@ fn missing_housenumbers_view_res_html(
                 )],
             );
             a.text(&tr("Checklist format"));
+        }
+        doc.stag("br");
+        {
+            let a = doc.tag(
+                "a",
+                &[(
+                    "href",
+                    &format!("{prefix}/missing-housenumbers/{relation_name}/view-lints"),
+                )],
+            );
+            a.text(&tr("View lints"));
         }
     }
 
@@ -665,6 +725,8 @@ fn handle_missing_housenumbers(
         date = get_last_modified(ctx, &relation.get_files().get_ref_housenumbers_path())?;
     } else if action == "update-result" {
         doc.append_value(missing_housenumbers_update(ctx, relations, relation_name)?.get_value())
+    } else if action == "view-lints" {
+        doc.append_value(missing_housenumbers_view_lints(ctx, &relation)?.get_value())
     } else {
         // assume view-result
         let ret = missing_housenumbers_view_res(ctx, relations, request_uri);
