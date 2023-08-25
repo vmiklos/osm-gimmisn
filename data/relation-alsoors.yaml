@@ -20,13 +20,13 @@ refstreets:
   'Mandula út': 'Mandula utca'
   'Napsugár út': 'Napsugár utca'
   # 119/2018 (IX. 13) határozatban javítva teljes névre, utcatáblák ellenőrizendők
-  'Bihari János utca': 'Bihari utca'
-  'Hunyadi János utca': 'Hunyadi utca'
-  'Kinizsi Pál utca': 'Kinizsi utca'
   'Petőfi Sándor köz': 'Petőfi köz'
   # 119/2018 (IX. 13) határozatban javítva teljes névre, ellenőrzött
+  'Bihari János utca': 'Bihari utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai utca'
+  'Hunyadi János utca': 'Hunyadi utca'  # kék-sárga javítva, de a régi táblák is kint vannak
   'Jókai Mór utca': 'Jókai utca'
+  'Kinizsi Pál utca': 'Kinizsi utca'  # kék-sárga javítva, de a régi táblák is kint vannak
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
 street-filters:
   - Halacs dűlő  # már utcákra osztva - 119/2018 (IX. 13) határozatban törölve
