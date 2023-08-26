@@ -11,6 +11,7 @@
 //! Tests for the areas module.
 
 use super::*;
+use rusqlite::types::FromSql as _;
 use std::io::Seek;
 use std::io::SeekFrom;
 use std::io::Write;
@@ -3200,4 +3201,21 @@ fn test_relations_is_inactive_no_ref_streets() {
     let actual = relations.get_active_names().unwrap();
 
     assert!(actual.is_empty());
+}
+
+/// Tests RelationLintSource::try_from().
+#[test]
+fn test_relation_lint_source_try_from() {
+    let result = RelationLintSource::try_from("test");
+    assert_eq!(result.is_err(), true);
+}
+
+/// Tests RelationLintSource::column_result().
+#[test]
+fn test_relation_lint_source_column_result() {
+    let value_ref = rusqlite::types::ValueRef::from("test");
+
+    let result = RelationLintSource::column_result(value_ref);
+
+    assert_eq!(result.is_err(), true);
 }
