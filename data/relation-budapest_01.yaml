@@ -34,7 +34,7 @@ filters:
       - {start: '2', end: '6'}
   Attila út:
     # 1-3 lakóház után 11 templom jön
-    invalid: ['4a', '5', '7', '9', '12b', '14a', '16b', '57a', '61a', '65a', '65b']
+    invalid: ['5', '7', '9']
   Avar utca:
     # területhatár
     # 4 = Hegyalja út 30
@@ -47,8 +47,6 @@ filters:
     # 17-21: Mária tér
     invalid: ['5', '7', '17', '21']
   Batthyány tér:
-    # 2 = Batthány utca 2
-    invalid: ['2']
     interpolation: 'all'
   Bem rakpart:
     # 1-29: I. kerület, 30+ II. kerület (posta szerint 1-28 I. kerület)
@@ -57,14 +55,9 @@ filters:
     invalid: ['27']
     ranges:
       - {start: '1', end: '29'}
-  Bérc utca:
-    # 11ab: csak sima 11
-    invalid: ['11a', '11b']
   Berényi utca:
     # 1 = Hegyalja út 16.
-    # 6: 6/a (üres telek), 6/b
-    # 9: 9/a, 9/b
-    invalid: ['1', '6', '9']
+    invalid: ['1']
   Corvin tér:
     interpolation: 'all'
   Czakó utca:
@@ -89,9 +82,8 @@ filters:
     # 20-22: Pavilon de Paris csak 20-nak mondja magát
     # 38: Vám utca 5-7 NFM
     # 47+: II. kerület
-    # 54 = Batthány utca 1
     # 62+: II. kerület
-    invalid: ['22', '38', '54']
+    invalid: ['22', '38']
     ranges:
       - {start: '1', end: '45'}
       - {start: '2', end: '60'}
@@ -111,18 +103,12 @@ filters:
     ranges:
       - {start: '1', end: '1'}
       - {start: '2', end: '2'}
-  Harkály utca:
-    # 4: 4/a, 4/b
-    invalid: ['4']
   Hattyú utca:
     # 1-18
     invalid: ['22', '44']
   Hegyalja út:
-    # 2a = Sánc utca 1, illetve 2=Mambo
     # 7-13 egyben
-    # 20: 20/a, 20/b
     # 32+: XI. kerület
-    invalid: ['2a', '20']
     ranges:
       - {start: '2', end: '30'}
       - {start: '1', end: '27'}
@@ -144,7 +130,6 @@ filters:
   Krisztina körút:
     # 1-35: XII. kerület, 37+ I. kerület
     # 2-8: XII. kerület, 10+: I. kerület
-    invalid: ['61']
     ranges:
       - {start: '37', end: '101'}
       - {start: '10', end: '38'}
@@ -165,7 +150,7 @@ filters:
   Márvány utca:
     # 1-17: I. kerület, 19-35: XII. kerület 
     # 2-20: I. kerület, 22-50: XII. kerület 
-    invalid: ['1', '3', '24', '24c']
+    invalid: ['24', '24c']
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '20'}
@@ -178,11 +163,9 @@ filters:
       - {start: '40', end: '48'}
       - {start: '54', end: '64'}
   Mihály utca:
-    # 4b: 4/B-6, nem tudjuk kezelni, ezért kell a filter
-    # 13ab: 2 épület, de csak sima 13
     # 16: csak 16/a
     # 18: XI. kerület
-    invalid: ['4b', '13a', '13b', '16']
+    invalid: ['16']
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '16'}
@@ -196,16 +179,12 @@ filters:
   Orom utca:
     # páratlan oldal Tabán, de ott nincs házszám
     # 2: Bérc utca 1
-    # 18, 18c: 18/a, 18/b
-    # 20: 20/a, 20/b
-    invalid: ['18', '18c', '20']
     ranges:
       - {start: '4', end: '24'}
   Ostrom utca:
     # 1-33, 2-18
     invalid: ['24']
   Pálya utca:
-    invalid: ['2']
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '6'}
@@ -216,10 +195,6 @@ filters:
     ranges:
       - {start: '3', end: '7'}
       - {start: '2', end: '16'}
-  Sánc utca:
-    # 3: 3/a, 3/b
-    # 22a: 22 és 22/b
-    invalid: ['3', '22a']
   Somlói út:
     # 1-47 és páros: XI. kerület
     ranges:
@@ -258,15 +233,8 @@ filters:
     invalid: ['1', '3', '4', '9', '10', '11', '15']
     interpolation: all
   Szirtes út:
-    # 3: 3/a, 3/b
-    # 5: 5/a, 5/b
-    # 6b = Mihály utca 3/b
-    # 14b: csak sima 14 van
-    # 17ab: csak sima 17 van
     # 27: nincs utolsó házszám a 19, utána park
-    # 28: 28/a, 28/b
-    # 32a: govcenter Pálinka terasz, facebook szerint csak 32 a cím, kiírva nincs
-    invalid: ['3', '5', '6b', '14b', '17a', '17b', '27', '28', '32a']
+    invalid: ['27']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '34'}
@@ -276,9 +244,6 @@ filters:
   Toldy lépcső:
     # 55 = Toldy Ferenc utca 55
     invalid: ['55']
-  Tündérlaki mélyút:
-    # 3b: csak sima 3 van
-    invalid: ['3b']
   Úri utca:
     # 1-55, 2-72
     invalid: ['107']
