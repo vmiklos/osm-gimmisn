@@ -220,11 +220,14 @@ fn missing_housenumbers_view_lints(
         while let Some(lint) = lints.next()? {
             let mut cells: Vec<yattag::Doc> = Vec::new();
             let street: String = lint.get(0).unwrap();
-            let source: String = lint.get(1).unwrap();
+            let source: areas::RelationLintSource = lint.get(1).unwrap();
+            let source_string = match source {
+                areas::RelationLintSource::Invalid => tr("invalid housenumbers"),
+            };
             let housenumber: String = lint.get(2).unwrap();
             let reason: String = lint.get(3).unwrap();
             cells.push(yattag::Doc::from_text(&street));
-            cells.push(yattag::Doc::from_text(&source));
+            cells.push(yattag::Doc::from_text(&source_string));
             cells.push(yattag::Doc::from_text(&housenumber));
             cells.push(yattag::Doc::from_text(&reason));
             table.push(cells);

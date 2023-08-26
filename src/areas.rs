@@ -370,6 +370,26 @@ pub enum RelationLintSource {
     Invalid,
 }
 
+impl TryFrom<&str> for RelationLintSource {
+    type Error = anyhow::Error;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        match value {
+            "invalid" => Ok(RelationLintSource::Invalid),
+            _ => Err(anyhow::anyhow!("invalid value: {value}")),
+        }
+    }
+}
+
+impl rusqlite::types::FromSql for RelationLintSource {
+    fn column_result(value: rusqlite::types::ValueRef<'_>) -> rusqlite::types::FromSqlResult<Self> {
+        let i = String::column_result(value)?;
+        i.as_str()
+            .try_into()
+            .map_err(|_| rusqlite::types::FromSqlError::InvalidType)
+    }
+}
+
 impl std::fmt::Display for RelationLintSource {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
