@@ -4,12 +4,10 @@ filters:
   Alsóhegy utca:
     # 1-11, 2-8: I. kerület
     # 13-17: nincs
-    # 25: csak sima 25 van
     # 10-18: Mathias Corvinus Collegium, Somlói útra van számozva
     # 15-17: zöld terület, Csukló utcai garázsok
     # 20-22 zöld terület
     # 24 = Gombocz Zoltán utca 18
-    invalid: ['25/2', '25b']
     ranges:
       - {start: '19', end: '29'}
       - {start: '26', end: '50'}
@@ -29,7 +27,7 @@ filters:
     # 106-110: A Tétényi úti csomópont
     # 138-154: Griff, a 152/* számot használja
     # 152a: 152, 152/a, 152/b, 152/i, 152/h
-    invalid: ['15e', '95', '127', '129', '52a', '52b', '84', '114a']
+    invalid: ['15e', '95', '129', '52a', '52b', '84', '114a']
     ranges:
       - {start: '1', end: '149'}
       - {start: '2', end: '104'}
@@ -42,7 +40,7 @@ filters:
     # 52-53: hibás, 52-54 lenne, 53-at szűrni kell
     # 54-54: a ház csak az 50-es számot használja
     # 56-72: park
-    invalid: ['1a', '1b', '20', '28', '42a', '50a', '53', '54', '73b']
+    invalid: ['1a', '20', '28', '50a', '53', '54', '73b']
     ranges:
       - {start: '1', end: '79'}
       - {start: '2', end: '54'}
@@ -52,7 +50,6 @@ filters:
     # <=152 is just the Sasad part, 169 is actually 169-179/a .. 169-179/h
     # 1b: csak sima 1
     # 10: 10/a, 10/b
-    # 28: 28/a, 28/b
     # 21,29: 19, 25, 27, x, 27/a, 27/b; x=29? CHECK 2021-10 RESURVEY
     # 40a, 40b: csak sima 40 van
     # 45: 45/a, 45/b
@@ -66,10 +63,9 @@ filters:
     # 107a: semmi sincs kiírva a házra
     # 113: 113/a, 113/b, 113/c
     # 119: 119/a, 119/b
-    # 144: Domboldal utca 8 = Brassó út 144: A és B épület
     # 147: 147/a, 147/b
     # 154: 154/a, 154/b
-    invalid: ['1b', '10', '14', '21', '29', '28', '40a', '40b', '45', '51', '52', '54a', '54b', '55a', '55b', '57b', '95', '107a', '113', '119', '144a', '144b', '147', '154', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
+    invalid: ['1b', '10', '21', '28', '40a', '40b', '45', '51', '52', '54a', '54b', '55a', '55b', '95', '107a', '113', '119', '147', '154']
     ranges:
       - {start: '1', end: '169'}
       - {start: '2', end: '74'}
@@ -90,11 +86,10 @@ filters:
     # 34c: 34/c-d, fel van rögzítve így
     # 36: nincs
     # 40-50 között nincs semmi, 52 az erőmű, Budapart miatt valtozhat
-    # 60g: 60 G. épület
     # 62-64: csak a 64 használatos
     # 76, 78, 82/A, 82/B: zöldmező
     # 84: Albertfalva
-    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '51', '52a', '56c', '57', '60g', '62', '76', '78', '82a', '82b', '23', '83b', '101', '103', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
+    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '57', '62', '76', '78', '82a', '82b', '23', '83b', '101', '103', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
     ranges:
       - {start: '1', end: '59'}
       - {start: '79', end: '229'}
@@ -106,7 +101,7 @@ filters:
     # 43: 43/a, 43/b
     # 45-55, 47-49: 45 MTA kutatóház, 47 nincs, laktanya 49-53, 55-71 között nincs szám, 73-75 volt Balassi kollégium telke
     # 83-99 között gyakorlatilag nincs számozva semmi
-    # 101/2: csak 101
+    # 101*: csak 101
     # 105: csak 105/b
     # 109: 109/a..c fent
     # 125: 125/a..d
@@ -117,7 +112,6 @@ filters:
     # 185-195: Autó Buda
     # 201-223 közt semmi nincs
     # páros ------------------------------------------------------------------
-    # 24a: csak sima 24 van.
     # 34: 34/a, 34/b, 34/c
     # 36-nál lekopott házszámok
     # 44a kint van a kapun, de a házon 44 van és nincs 44b kiírva
@@ -137,7 +131,7 @@ filters:
     # 170: Safru
     # 178: nincs
     # 180: 180/b - 180/i között
-    invalid: ['23', '23b', '25', '29a', '29b', '33', '33/3', '34', '41b', '43', '47', '55', '101/2', '101a', '101b', '101c', '105', '109', '123', '125', '125e', '125g', '127', '129', '129d', '129g', '141a', '149', '151', '163', '181', '181b', '183', '187a', '201', '259b', '24a', '32', '32e', '36a', '36b', '36d', '40', '44a', '44b', '48a', '48b', '50b', '58', '112a', '112b', '112c', '120c', '140', '146', '148a', '168', '178b', '180/1', '180a']
+    invalid: ['23', '23b', '32', '32e', '33', '34', '36a', '36b', '36d', '40', '41b', '43', '44a', '44b', '48a', '48b', '50b', '47', '55', '58', '101/2', '101a', '101c', '105', '109', '112a', '112b', '112c', '120c', '123', '125', '125e', '125g', '127', '129', '129d', '129g', '140', '141a', '146', '148a', '149', '151', '163', '168', '178b', '180/1', '180a', '181', '181b', '183', '187a', '201', '259b']
     ranges:
       - {start: '1', end: '81'}
       - {start: '101', end: '999'}
@@ -147,12 +141,8 @@ filters:
       - {start: '112', end: '120'}
       - {start: '126', end: '126'}
       - {start: '138', end: '180'}
-  Citadella utca:
-    # 8 = Somlói út 31
-    invalid: ['8']
   Dayka Gábor utca:
     # páratlan ---------------------------------------------------------------
-    # 5b: csak sima 5 van
     # 17, 19: 17/a, 17/b, 17/c, 19/a, 19/b, 19/c
     # alsó rész: 21-41-ig aztán erdő, felül első ház 81/a
     # 81: 81/a, 81/b, 81/c
@@ -160,24 +150,22 @@ filters:
     # páros ------------------------------------------------------------------
     # 4a: 4 a kollégium, 4/b az óvoda
     # 6a: 6-os ház 2 részből áll, felvettem a 6/a-t arra a felére amin nem volt szám
-    # 8: 8/a, 8/b
     # 12: 12/a, 12/b
     # 24: Dayka tér
     # 32: 32/a, 32/b, 32/c, 32/d, 32/e
     # átszámozva: 46a -> 46, 48c-> 54, 48d-> 56; 48 nincs kiírva helyén még a 46c van
     # 62: 62/a, 62/b, 62/c, 62/d
     # 92, 92b, 94, 96, 98, 100
-    invalid: ['5b', '17', '19', '43', '79', '81', '83a', '85a', '4a', '8', '12', '24', '32', '46a', '48', '48c', '48d', '62', '66', '92a', '94a', '98a']
+    invalid: ['19', '43', '79', '81', '83a', '85a', '4a', '12', '24', '32', '48', '48c', '48d', '62', '66', '92a', '94a', '98a']
     ranges:
       - {start: '1', end: '91'}
       - {start: '2', end: '104'}
   Diószegi út:
     # 48/b: csak sima 48
-    # 50: 50/a, 52/b
     # 52: 52/a, 52/b
     # 54: 54/a, 54/b
     # 60: 60/a, 60/b
-    invalid: ['48b', '50', '52', '54', '60']
+    invalid: ['48b', '52', '54', '60']
     ranges:
       - {start: '35', end: '67'}
       - {start: '36', end: '64'}
@@ -185,11 +173,10 @@ filters:
     # páratlan oldal Őrmezőn van beépítve
     # páros oldal Péterhegyi részen van beépítve
     # 8 nincs
-    # 16/2: 16a van
     # 36 nincs
     # 38a: 2 ház van de mindkettőhöz a 38 van kiírva
     # 61/b: nincs
-    invalid: ['8', '16/2', '36', '36a', '38a', '61b']
+    invalid: ['8', '36', '36a', '38a', '61b']
     ranges:
       - {start: '49', end: '61'}  # Őrmező
       - {start: '2', end: '38'}  # Péterhegy
@@ -201,13 +188,10 @@ filters:
     # 24-27 nadorkert
     # 28- ismet kelenfold
     interpolation: 'all'
-    invalid: ['1a', '4', '5', '15', '21']
+    invalid: ['4', '5', '15', '21']
   Előpatak utca:
     # 4: A számozás 8-tól indul valójában
-    # 17a: valószínű Dayka Gábor utca 17/a-val van keverve, mert az a sarkon van, egyébként csak 17 van
-    # 50a, 50b: ikerház de csak 50-es szám van kint
     # 78g: 78 ; 78/a, 78/b, 78/c, 78/d
-    invalid: ['17a', '50a', '50b', '78g']
     ranges:
       - {start: '1', end: '75'}
       - {start: '6', end: '82'}
@@ -226,7 +210,6 @@ filters:
     # 83/a, 83/b: csak 83 van számtalan üzlettel
     # 107: 107/a, 107/b
     # 161 Andor utca sarka-179 Ventura között semmi nincs, 183-tól jön a panel
-    # 215: panel, nincs betű
     # 225-233: panel, nincs betű
     # 235-243: panel, nincs betű
     # 245 a kocsiszín azon épületének házszáma, ahol a lángosos volt, lebontották
@@ -242,7 +225,7 @@ filters:
     # 150 = Temesvár utca 2
     # 154-164: 152 után 160 jön, majd 166 a benzinkút
     # 182-190: lakóház egyben, a és b épület/lépcsőház
-    invalid: ['21a', '45a', '79a', '81', '83a', '83b', '85c', '107', '145a', '179a', '179c', '179d', '181', '189a', '215l', '225b', '231b', '245', '40', '44a', '44h', '64a', '96', '100a', '102', '102a', '102b', '106', '114', '118', '122', '124', '130a', '146a', '146b', '146z', '150', '168b', '180a', '182a']
+    invalid: ['21a', '45a', '79a', '81', '83a', '83b', '85c', '107', '181', '231b', '245', '40', '44a', '44h', '64a', '96', '100a', '102', '102a', '102b', '106', '118', '122', '124', '130a', '150', '182a']
     ranges:
       - {start: '1', end: '161'}
       - {start: '179', end: '247'}
@@ -609,10 +592,7 @@ filters:
       - {start: '2', end: '12'}
   Fegyvernek utca:
     # panel építés megszűntette a 14-50 közti házszámokat
-    # 54a,54b: 54/I, 54/II
     # 56-58: A házra ez ki van rakva, de vannak külön bejáratok: 56/1, 56/2, 58/1, 58/2
-    # 115a, 119c: épület betűjelek vannak, de a nem a házszámok részei, ref mezőben szerepelnek
-    invalid: ['54a', '54b', '115a', '119c']
     ranges:
       - {start: '1', end: '123'}
       - {start: '2', end: '12'}
@@ -620,7 +600,7 @@ filters:
   Fonyód utca:
     # 4: 4/b
     # 6/c: 6/a, 6/b
-    invalid: ['3/0', '4a', '4', '6', '6c']
+    invalid: ['4', '6c']
     ranges:
       - {start: '1', end: '7'}
       - {start: '17', end: '17'}
@@ -774,14 +754,11 @@ filters:
       - {start: '2', end: '50'}
   # Gazdagrét ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Csíkihegyek utca:
-    # valójában lépcsőházak betűi voltak, függetlenek a számozástól, nem használják már
-    invalid: ['14b', '16a', '18e', '20d', '22c', '24b', '26a']
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '26'}
   Frankhegy utca:
     interpolation: all
-    invalid: ['9d', '11b']
   Gazdagréti tér:
     invalid: ['2']
     ranges:
@@ -843,9 +820,8 @@ filters:
     # 2 = Somlói út 46/a
     invalid: ['1b', '2']
   Balogh Tihamér utca:
-    # 4: 4 és 4/b
     # 5: 5/a és 5/b
-    invalid: ['4a', '5']
+    invalid: ['5']
   Csukló utca:
     # 2: park, illeve a vasúti alagút teteje
     # 6: 6/a, 6/b
@@ -969,7 +945,7 @@ filters:
     # 21: 21a,21b,21c,21d van
     # 27-31 egyben
     # 60 után 76: Solt 44 társasház egyik bejárata
-    invalid: ['21', '52', '58']
+    invalid: ['21', '58']
     ranges:
       - {start: '1', end: '31'}
       - {start: '47', end: '49'}
@@ -1000,7 +976,7 @@ filters:
       - {start: '14', end: '30'}
       - {start: '38', end: '44'}
   Bártfai utca:
-    invalid: ['2a', '8', '9', '12', '22', '26b', '35b', '38b', '49b', '59b']
+    invalid: ['35b']
     ranges:
       - {start: '1', end: '65'}
       - {start: '2', end: '52'}
@@ -1024,7 +1000,6 @@ filters:
     ranges: []
   Bogyó utca:
     # valosagban 1-7 a kiirt, de van meg egy epulet
-    invalid: ['7a']
     ranges:
       - {start: '1', end: '9'}
   Bor utca:
@@ -1040,7 +1015,7 @@ filters:
     # 20: 20/a, 20/b
     # 28: 28/a, 28/b
     # 31-37/a: 31 = Bornemissza tér 16, 37/a van
-    invalid: ['20', '28', '31', '34a', '35a', '35b']
+    invalid: ['20', '28', '34a', '35a', '35b']
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '34'}
@@ -1060,7 +1035,7 @@ filters:
   Csonka János tér:
     ranges: []
   Csorbai utca:
-    invalid: ['2', '2a', '3', '5', '6', '10c', '13a', '16c', '18', '22', '28a']
+    invalid: ['2', '2a', '3', '6', '10c', '13a', '18', '22', '28a']
     # 2b után 12 jön, közben a CBA és egy nyomásszabályozó állomás van
     ranges:
       - {start: '3', end: '23'}
@@ -1070,7 +1045,7 @@ filters:
     # 2-16 masik utcakra számozva
     # 22-32-t felbontották úgy, hogy minden háznak külön házszáma van, de közben megmaradt a betűje is
     # 36: 36/a, 36/b
-    invalid: ['18', '20', '21a', '22a', '24e', '24o', '36', '38', '38b', '39']
+    invalid: ['18', '20', '21a', '22a', '36', '38', '38b', '39']
     ranges:
       - {start: '11', end: '39'}
       - {start: '18', end: '40'}
@@ -1080,7 +1055,6 @@ filters:
       - {start: '23', end: '49'}
       - {start: '2', end: '84'}
   Ercsi út:
-    invalid: ['20']
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '24'}
@@ -1094,24 +1068,21 @@ filters:
     # 32: 32/a, 32/b, 32/c
     # 54-58 panel, bejáratok: 54/a, 54/b, 56/a, 56/b, 58/a
     # 68: volt Számalk. Elete Plaza már Hadak útja 1-re van számozva
-    invalid: ['32', '56', '58b', '67/5']
+    invalid: ['32', '58b', '67/5']
     ranges:
       - {start: '1', end: '3'}
       - {start: '15', end: '73'}
       - {start: '2', end: '66'}
   Fejér Lipót utca:
-    invalid: ['8a']
     ranges:
       - {start: '13', end: '15'}
       - {start: '55', end: '67'}
       - {start: '2', end: '70'}
   Fiatal utca:
     ranges: []
-  Fogócska utca:
-    invalid: ['1b', '3b', '11b', '15b']
   Fraknó utca:
     # Panelek, minde számra a és b: 6a-28b-ig: 6a,6b,8a,8b stb..
-    invalid: ['4a', '6', '8', '10', '10/6', '10/9', '10h', '12', '14', '16', '16d', '18', '18c', '20', '22', '22d', '24', '26', '28', '30', '40']
+    invalid: ['4a', '6', '8', '10', '12', '14', '16', '16d', '18', '18c', '20', '22', '22d', '24', '26', '28', '30', '40']
     ranges:
       - {start: '1', end: '7'}
       - {start: '11', end: '23'}
@@ -1490,9 +1461,8 @@ filters:
     invalid: ['7']
   Csupor utca:
     # 1: 1a van csak
-    # 3b: csak sima 3 van
     # 10a, 10b: csak sima 10 van
-    invalid: ['1', '3b', '10a', '10b']
+    invalid: ['1', '10a', '10b']
     ranges:
       - {start: '1', end: '11'}
       - {start: '8', end: '10'}
@@ -1784,7 +1754,6 @@ filters:
   Fülőke utca:
     # utcára eső hrsz tartomány: 197-220, illetve 308/11, 308/16 saroktelkek
     interpolation: all
-    invalid: ['2/6']
     ranges:
       - {start: '1', end: '99'}
   Pereszke utca:
@@ -1811,17 +1780,11 @@ filters:
   Bercsényi utca:
     # 26: 26/b van csak
     invalid: ['9f', '26']
-  Bertalan Lajos utca:
-    invalid: ['2z']
   Bogdánfy utca:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
-  Bölcső utca:
-    invalid: ['13b']
   Egry József utca:
-    # 1/E: 1. E épület (BME)
-    invalid: ['1e']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
@@ -1912,7 +1875,7 @@ filters:
     # 2-4 = Facsemete utca 1/1-1/21
     # 3: 3/a és 3/b van kiírva
     # 8a, 8b: bár 2 épület van, csak sima 8 van kiírva
-    invalid: ['3', '4', '8a', '8b']
+    invalid: ['3', '4', '8b']
   Hosszúréti utca:
     # hosszúréti páratlan madárhegy, páros hosszúrét
     # Madárhegy lakópark G épület = 27, nem a házszám része (E=25, F,H=Bakfű utca 4-6, A-D Pacsirtafű utca 2-8 nincs kiírva)
@@ -2012,7 +1975,7 @@ filters:
     ranges: []
   Cirmos utca:
     # 1-3, 4-6: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
-    invalid: ['1b', '3a', '3c', '4a', '6b']
+    invalid: ['1b']
     ranges:
       - {start: '1', end: '3'}
       - {start: '4', end: '8'}
@@ -2153,10 +2116,10 @@ filters:
     # itt csak elméletben vannak házszámok 1-3, 2-4, gyakorlatban Kapolcs utca 2/a címet visel minden
     ranges: []
   Csenger utca:
-    # 10c, 11d, 13c, 15b, 17b: Csak sima házszámok vannak.
+    # 11d, 13c, 15b: Csak sima házszámok vannak.
     # 18: Nincs, 18a, 18b van.
     # 20: Nincs, 20a, 20b van.
-    invalid: ['10c', '11d', '13c', '15b', '17b', '18', '20']
+    invalid: ['11d', '13c', '15b', '18', '20']
   Éva utca:
     # Az Éva utca 1. és a Péterhegyi út 51/B. közös telken van, házszám a Péterhegyi útról van csak.
     # Az Éva utca 2. és a Péterhegyi út 53. közös telken van, házszám a Péterhegyi útról van csak.
@@ -2353,9 +2316,6 @@ filters:
     # 6a, 6b: csak sima hat van kiírva
     # 11-13: jobb oldali kapun a "13a" felül lett ragasztva 11-essel, és az "a" betűjel lekaparva (13a > 11), házon bal oldalt 13/b maradt
     invalid: ['4a', '6a', '6b', '13']
-  Bereck utca:
-    # csak sima 4 van
-    invalid: ['4/1']
   Beregszász tér:
     interpolation: all
     ranges:
@@ -2379,18 +2339,17 @@ filters:
     # 76b: csak sima 76 van
     # 78b: csak sima 78 van
     # 80: 80, 80/a-b
-    # 82: 82/a, 82/b
     # 87, 87c: 87/a, 87/b
     # 88: 88/a, 88/b
     # 99: 99/a, 99/b
     # 100a, 100/2: csak sima 100 van
-    invalid: ['4a', '6', '16a', '32/1', '36/2', '40/1', '40/2', '40/3', '40/4', '40/5', '40a', '40b', '40d', '42', '46a', '48a', '48b', '48c', '50b', '50d', '56', '56b', '56c', '56d', '56e', '57b', '59a', '60b', '62a', '74', '76b', '78b', '80b', '82', '87', '87c', '88', '99', '100/2', '100a']
+    invalid: ['4a', '6', '16a', '32/1', '36/2', '40d', '42', '46a', '48a', '48b', '48c', '50b', '50d', '56b', '56c', '56e', '57b', '59a', '60b', '62a', '74', '76b', '78b', '80b', '87', '87c', '88', '99', '100/2']
     ranges:
       - {start: '1', end: '171'}
       - {start: '4', end: '118'}
   Birs utca:
     # Beregszász út 56d, 56e át lettek számozva Birs utcára: 3/a, 3/b
-    invalid: ['3', '3d']
+    invalid: ['3']
   Bodajk utca:
     # 10: 10/a, 10/b - kerítésen ócska házszám: 10
     # 13: 13/a, 13/b - a /a utólag van odatéve
@@ -2442,25 +2401,19 @@ filters:
   Dayka tér:
     # 5: 5/a, 5/b
     invalid: ['5']
-  Domboldal utca:
-    # Domboldal utca 8 = Brassó út 144: A és B épület
-    invalid: ['8a', '8b']
   Eper köz:
-    # 1b,1d: 1
     # 2a,2c: 2
-    invalid: ['1b', '1d', '2a', '2c']
+    invalid: ['2a']
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '14'}
   Eper utca:
-    # 6: 6/a, 6/b
     # 7b: csak 7 van kiírva
     # 10: 10/a, 10/b
-    # 12: 12/a, 12/b
     # 23: 23/a és 23 ki van írva, illetve az egyik kapun le van kopva a 23/ vége
     # 32/*: 5 részből álló ház, 2 oldalon 32, egyik kapunk 32/4
     # 57: 57/b, 57/2 -> 57/a
-    invalid: ['2', '2c', '6', '7b', '10', '12', '23/1', '23b', '23c', '32/1', '32/2', '57', '57/2']
+    invalid: ['2c', '7b', '10', '23/1', '32/1', '32/2', '57', '57/2']
     ranges:
       - {start: '1', end: '77'}
       - {start: '2', end: '56'}
@@ -2828,9 +2781,8 @@ filters:
     # 3: 3/a, 3/b
     invalid: ['3']
   Fehérló utca:
-    # 22a: 22 és 22/b
     # 29a: ld. Töhötöm utca 19/b
-    invalid: ['22a', '29a']
+    invalid: ['29a']
   Hegytető utca:
     # 7: 7/a, 7/b
     # 11a: csak 11
@@ -2926,11 +2878,10 @@ filters:
       - {start: '1', end: '13'}
       - {start: '2', end: '12'}
   Dávid Ferenc utca:
-    # 1: 1/a, 1/b
     # 2: 2/a, 2/b
     # 4-6: Henkel csak a 6-ot használja
     # 21, 21b = Bocskai út 47-49
-    invalid: ['1', '1/1', '2', '2d', '4', '21b']
+    invalid: ['2', '2d', '4', '21b']
   Edömér utca:
     # 6/2: csak sima 6 van "Géza-udvar"
     invalid: ['6/2']
@@ -2943,11 +2894,8 @@ filters:
       - {start: '1', end: '15'}
       - {start: '2', end: '28'}
   Eszék utca:
-    # 6: 6/a, 6/b
-    # 14: 14/a, 14/b
-    # 16: 16/a, 16/b
     # 18c: csak sima 18
-    invalid: ['6', '14', '16', '18c']
+    invalid: ['18c']
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '20'}
