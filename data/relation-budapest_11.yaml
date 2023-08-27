@@ -19,7 +19,7 @@ filters:
     # ref-ben levo hrsz-ek kiszurese
     # 36,38,141,151: nincsenek ilyen számok, alig van pár épület aminenk van száma, ráadásul a 44 és a 143 ugyanazon az oldalon van
     # 144/4: hrsz
-    invalid: ['2', '36', '38', '141', '144/4', '151']
+    invalid: ['2', '36', '38', '144/4', '151']
     ranges:
       - {start: '2', end: '158'}
       - {start: '141', end: '151'}
@@ -29,7 +29,7 @@ filters:
     # 106-110: A Tétényi úti csomópont
     # 138-154: Griff, a 152/* számot használja
     # 152a: 152, 152/a, 152/b, 152/i, 152/h
-    invalid: ['15e', '91a', '91b', '95', '103b', '109a', '117a', '119a', '127', '127d', '127e', '129', '131', '28a', '28b', '52a', '52b', '84', '88a', '88b', '88j', '114a', '126a', '128a', '132b', '138a', '142', '150', '152a', '152d', '152e', '154']
+    invalid: ['15e', '95', '127', '129', '52a', '52b', '84', '114a']
     ranges:
       - {start: '1', end: '149'}
       - {start: '2', end: '104'}
@@ -832,11 +832,10 @@ filters:
     invalid: ['3b', '5a', '7a']
   # Gellérthegy, csak a XI. kerületi rész +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Avar utca:
-    # 4 = Hegyalja út 30
     # 31b: 31a, 31. Ami most 31-re van jelölve ott semmi sincs kiírva
     # 33a: 33 és 33/b
     # 35 = Otthon utca 37
-    invalid: ['4', '31b', '33a', '35']
+    invalid: ['31b']
     ranges:
       - {start: '31', end: '37'}
   Bakator utca:
@@ -953,16 +952,11 @@ filters:
   # Infopark -> Lágymányos
   # Kelenföld +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Albert utca:
-    # 32: Andor utca 4-12 panel oldala
-    # 35: Andor utca 14-18 panel oldala
     # 43/a: nincs: 43 és 43/b .. 43/g
-    invalid: ['32', '35', '43a']
+    invalid: ['43a']
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '48'}
-  Alíz utca:
-    # 2 egy irodaház egyben
-    invalid: ['2b']
   Alsókubin utca:
     ranges:
       - {start: '3', end: '11'}
@@ -973,10 +967,9 @@ filters:
       - {start: '4', end: '12'}
   Andor utca:
     # 21: 21a,21b,21c,21d van
-    # 23: 23/A: I,II,III lépcsőházak vannak
     # 27-31 egyben
     # 60 után 76: Solt 44 társasház egyik bejárata
-    invalid: ['21', '23', '52', '58']
+    invalid: ['21', '52', '58']
     ranges:
       - {start: '1', end: '31'}
       - {start: '47', end: '49'}
@@ -987,7 +980,6 @@ filters:
       - {start: '1', end: '17'}
       - {start: '4', end: '6'}
   Ballagi Mór utca:
-    invalid: ['14a', '14b', '14c', '14d']
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '14'}
@@ -1449,9 +1441,6 @@ filters:
       - {start: '1', end: '39'}
       - {start: '2', end: '36'}
   # Kelenvölgy ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Abroncs utca:
-    # 6a: régi hírdetésben az utca eleján kint van a 6/a, ahogy régi képen is, de most már a házon 6 van
-    invalid: ['6a']
   Adács utca:
     # 21a1, 21/a (21a1, 21a2), 21/b
     invalid: ['21']
@@ -1460,10 +1449,9 @@ filters:
       - {start: '4', end: '22'}
   Alabástrom utca:
     # 13-15: játszótér van a helyén
-    # 19a, 19b, 19c: nincs kiírva, csak block-end: 19
     # 20b: csak sima 20 van
     # 22a: 22 és 22b van
-    invalid: ['13', '15', '19a', '19b', '19c', '20b', '22a']
+    invalid: ['13', '15', '20b', '22a']
   Állvány utca:
     # 5: 5a, 5b
     # 6a: 6
@@ -2342,19 +2330,16 @@ filters:
       - {start: '2', end: '2'}
   Barackfa utca:
     # 12: 12/a van kiírva, viszont a 10 és 12/a között van még egy bejárat szám nélkül
-    # 15/1: csak sima 15 van
-    # 17: 17/b a bal oldali, a másik kapun nincs szám
     # 18b: csak sima 18 van
-    invalid: ['12', '15/1', '17', '18b']
+    invalid: ['12', '18b']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
   Barackos köz:
     # 4a: csak 4
     # 5: 5/a, 5/b
-    # 7/a: 7 és 7/b
     # 8/b: 8 és 8/a
-    invalid: ['5', '7a', '8b']
+    invalid: ['5', '8b']
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
@@ -2366,8 +2351,8 @@ filters:
   Baradla utca:
     # 4-es kapun nem láttam semmit, nem derült ki hogy 4a vagy 4
     # 6a, 6b: csak sima hat van kiírva
-    # jobb oldali kapun a "13a" felül lett ragasztva 11-essel, és az "a" betűjel lekaparva (13a > 11), házon bal oldalt 13/b maradt
-    invalid: ['4a', '6a', '6b', '13', '13a']
+    # 11-13: jobb oldali kapun a "13a" felül lett ragasztva 11-essel, és az "a" betűjel lekaparva (13a > 11), házon bal oldalt 13/b maradt
+    invalid: ['4a', '6a', '6b', '13']
   Bereck utca:
     # csak sima 4 van
     invalid: ['4/1']
@@ -2934,10 +2919,8 @@ filters:
     invalid: ['33', '6/0']
   Badacsonyi utca:
     # 1b = Villányi út 38
-    # 5: 5/a, 5/b
-    # 13b = Diószegi út 49-51
     # 15b = Diószegi út 50/a
-    invalid: ['1b', '5', '13a', '13b', '15b']
+    invalid: ['1b', '15b']
   Csetneki utca:
     ranges:
       - {start: '1', end: '13'}
@@ -2996,7 +2979,7 @@ street-filters:
   - Talaj köz  # nem létezik
   - Poprádi köz  # nem létezik, a helyszínen erdő van
   - Kikinda köz  # nem létezik, a helyszínen az Etele úti panel hátulja
-  - Szonáta utca  # nem lett kiépítve, Lőportorony utcáról fog nyílni
+  - Szonáta utca  # nem lett kiépítve, Lőportorony utcáról fog nyílni: https://www.openstreetmap.org/way/1008204808
   - Elemér köz  # Hetény utca és a Balatoni út között, Shell kúttól délre, nincs kiépítve
   - Faház köz  # Kőérberek, nincs neve helyben: https://www.openstreetmap.org/way/891778561
   - Fischer köz  # Kőérberek, nincs neve helyben: https://www.openstreetmap.org/way/893445329
