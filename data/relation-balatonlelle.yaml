@@ -23,6 +23,16 @@ filters:
     invalid: ['7c']
   Pipacs sor:
     interpolation: 'all'
+    # 2: ez a Spar épülete, de az a Rákóczi útról számozódik: https://www.openstreetmap.org/way/116730869
+    # 66/3: nincs ilyen, csak 66/a, 66/b van.
+    invalid: ['2', '66/3']
+  Rákóczi út:
+    # 38/1, 38/2, 38/3, 38/4, 38/5, 38/6: a kerítésen egy csempedarabra festett 38/1-6 van kitéve, de ezek inkább ajtónak tűnnek, nem valódi házszámnak, és nincsenek is külön helyrajzi számon, ezért hagyom 38-ként.
+    # 58: nincs ilyen, csak 58/b van, lásd: 5413 hrsz., https://www.openstreetmap.org/way/1201565881
+    # 58/a: nincs ilyen, csak 58/b van, lásd: 5413 hrsz., https://www.openstreetmap.org/way/1201565881
+    # 60b: a Földhivatal szerint az 5432 hrsz. a 60/b, de csak 60 van kitáblázva.
+    # 194/a: régen itt volt a Rock Burger, talán annak a címe volt a 194/a, de átköltözött Balatonszemesre. Most csak sima 194 van kitáblázva.
+    invalid: ['38/1', '38/2', '38/3', '38/4', '38/5', '38/6', '58', '58a', '60b', '194a']
   Százszorszép utca:
     # 3: nincs ilyen, az 1 után az 5 következik. Az 1 ikerház, de mindkét felén 1 van.
     invalid: ['3']
