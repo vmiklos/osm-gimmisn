@@ -691,7 +691,7 @@ pub fn parse_filters(tokens: &[String]) -> HashMap<String, String> {
             continue;
         }
 
-        if vec!["refcounty", "refsettlement", "relations"].contains(&value.as_str()) {
+        if ["refcounty", "refsettlement", "relations"].contains(&value.as_str()) {
             ret.insert(value.clone(), tokens[index + 1].clone());
         }
     }
