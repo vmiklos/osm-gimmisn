@@ -8,6 +8,9 @@ filters:
     interpolation: 'all'
     # 67: a 64-66 az utolsó házszám.
     invalid: ['67']
+  Török Bálint utca:
+    # 1/I: noha valóban így van kitáblázva, az I itt római 1-et jelöl, és 1/1-ként került fel az OSM-re.
+    invalid: ['1i']
 street-filters:
   # nem igazi utcák
   - Borkombinát egyéb
