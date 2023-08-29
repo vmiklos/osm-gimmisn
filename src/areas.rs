@@ -362,7 +362,7 @@ pub struct RelationLint {
     pub source: RelationLintSource,
     pub housenumber: String,
     /// E.g. missing from reference or present in OSM
-    pub reason: String,
+    pub reason: RelationLintReason,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -394,6 +394,21 @@ impl std::fmt::Display for RelationLintSource {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             RelationLintSource::Invalid => write!(f, "invalid"),
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub enum RelationLintReason {
+    CreatedInOsm,
+    DeletedFromRef,
+}
+
+impl std::fmt::Display for RelationLintReason {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            RelationLintReason::CreatedInOsm => write!(f, "created-in-osm"),
+            RelationLintReason::DeletedFromRef => write!(f, "deleted-from-ref"),
         }
     }
 }
@@ -638,7 +653,7 @@ impl<'a> Relation<'a> {
                         let street_name = street_name.to_string();
                         let source = RelationLintSource::Invalid;
                         let housenumber = housenumber.get_number().to_string();
-                        let reason = "created-in-osm".to_string();
+                        let reason = RelationLintReason::CreatedInOsm;
                         let lint = RelationLint {
                             relation_name,
                             street_name,
@@ -847,7 +862,7 @@ impl<'a> Relation<'a> {
                     let street_name = osm_street.get_osm_name().to_string();
                     let source = RelationLintSource::Invalid;
                     let housenumber = invalid.to_string();
-                    let reason = "deleted-from-ref".to_string();
+                    let reason = RelationLintReason::DeletedFromRef;
                     let lint = RelationLint {
                         relation_name,
                         street_name,
@@ -1279,7 +1294,7 @@ impl<'a> Relation<'a> {
         for lint in self.lints.iter() {
             conn.execute(
                 r#"insert into relation_lints (relation_name, street_name, source, housenumber, reason) values (?1, ?2, ?3, ?4, ?5)"#,
-                 [&lint.relation_name, &lint.street_name, &lint.source.to_string(), &lint.housenumber, &lint.reason],
+                 [&lint.relation_name, &lint.street_name, &lint.source.to_string(), &lint.housenumber, &lint.reason.to_string()],
                  )?;
         }
         Ok(())

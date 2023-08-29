@@ -1421,7 +1421,15 @@ fn test_relation_get_lints() {
     assert_eq!(lint.source, RelationLintSource::Invalid);
     assert_eq!(format!("{:?}", lint.source), "Invalid");
     assert_eq!(lint.housenumber, "1");
-    assert_eq!(lint.reason, "created-in-osm");
+    assert_eq!(lint.reason, RelationLintReason::CreatedInOsm);
+    assert_eq!(
+        RelationLintReason::DeletedFromRef.to_string(),
+        "deleted-from-ref"
+    );
+    assert_eq!(
+        format!("{:?}", RelationLintReason::CreatedInOsm),
+        "CreatedInOsm"
+    );
 }
 
 /// Tests Relation::write_lints().
