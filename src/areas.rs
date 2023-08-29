@@ -1649,7 +1649,7 @@ fn normalize_expand(
         let start = numbers_nofilter[0];
         let stop = new_stop;
         if stop == 0 {
-            ret_numbers = vec![start]
+            ret_numbers = [start]
                 .iter()
                 .filter(|number| normalizer.contains(**number))
                 .cloned()
