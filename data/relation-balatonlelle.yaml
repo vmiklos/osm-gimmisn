@@ -1,6 +1,8 @@
 filters:
   Dr. Kiss Károly utca:
     show-refstreet: false
+  Fortuna utca:
+    interpolation: 'all'
   Hullám utca:
     interpolation: 'all'
   Kanizsa utca:
