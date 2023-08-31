@@ -1,3 +1,4 @@
+missing-streets: 'yes'
 filters:
   Alsójárás tanya:
     interpolation: all
