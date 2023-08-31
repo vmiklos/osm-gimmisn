@@ -1,3 +1,4 @@
+missing-streets: 'yes'
 street-filters:
   # nem igazi utcák
   - Gátőrház
