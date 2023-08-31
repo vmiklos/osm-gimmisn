@@ -1,11 +1,20 @@
 missing-streets: 'yes'
 filters:
+  Erkel Ferenc utca:
+    # 59: csak páros oldal van, páratlan oldalon szántóföld és Lovashoz tartozik
+    invalid: ['59']
   Fő utca:
     # 20: nincs, 18 után 22
     invalid: ['20']
   Gárdonyi Géza utca:
     # 34: utolsó kiírt páros 14 és egy sarki ház van amint nincs szám
     invalid: ['34']
+  Honvéd utca:
+    # 22: max páros a 20, utána van egy telek aminek innen nincs bejárata
+    invalid: ['22']
+  Hunyadi János utca:
+    # 19: max páratlan a 11
+    invalid: ['19']
 refstreets:
   # helyesírás
   'Búzavirág köz': 'Buzavirág köz'
