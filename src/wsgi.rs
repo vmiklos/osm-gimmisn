@@ -225,11 +225,15 @@ fn missing_housenumbers_view_lints(
                 areas::RelationLintSource::Invalid => tr("invalid housenumbers"),
             };
             let housenumber: String = lint.get(2).unwrap();
-            let reason: String = lint.get(3).unwrap();
+            let reason: areas::RelationLintReason = lint.get(3).unwrap();
+            let reason_string = match reason {
+                areas::RelationLintReason::CreatedInOsm => tr("created in OSM"),
+                areas::RelationLintReason::DeletedFromRef => tr("deleted from reference"),
+            };
             cells.push(yattag::Doc::from_text(&street));
             cells.push(yattag::Doc::from_text(&source_string));
             cells.push(yattag::Doc::from_text(&housenumber));
-            cells.push(yattag::Doc::from_text(&reason));
+            cells.push(yattag::Doc::from_text(&reason_string));
             table.push(cells);
             count += 1;
         }

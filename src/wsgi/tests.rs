@@ -388,7 +388,7 @@ fn test_per_relation_lints_well_formed() {
         "relation-gazdagret.yaml": {
             "filters": {
                 "Törökugrató utca": {
-                    "invalid": [ "1", "11", "12" ],
+                    "invalid": [ "1", "11", "12", "42" ],
                 }
             },
         },
@@ -421,8 +421,8 @@ fn test_per_relation_lints_well_formed() {
     let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-lints");
 
     let results = TestWsgi::find_all(&root, "body/table/tr");
-    // Header + "1" from above.
-    assert_eq!(results.len(), 2);
+    // Header + "1" (craeted-in-osm) + "42" (deleted-from-ref) from above.
+    assert_eq!(results.len(), 3);
 }
 
 /// Tests the missing house numbers page: if the output is well-formed.
