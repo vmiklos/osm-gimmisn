@@ -92,6 +92,13 @@ filters:
     invalid: ['19']
   Zrínyi utca:
     invalid: ['54', '64', '148']
+osm-street-filters:
+  # ösvények
+  - Bükkös-árok
+  - Gábor útja
+  - Kőris-völgy
+  # park
+  - Forrás park
 street-filters:
   # nem igazi utcák
   - 21. sz. vasúti őrház
