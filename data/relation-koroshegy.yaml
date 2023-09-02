@@ -7,6 +7,8 @@ refstreets:
   'Kossuth Lajos út': 'Kossuth Lajos utca'
 # street-filters:
 osm-street-filters:
+  # Balatonföldvárról átlógó
+  - Kismartoni utca  # Naro Camping balatonföldvári címmel, de Kőröshegy területén, https://www.openstreetmap.org/way/1090788203
   # parkok
   - Hosszú-rét
   - Széchenyi park
