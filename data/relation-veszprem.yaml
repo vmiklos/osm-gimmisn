@@ -105,16 +105,15 @@ osm-street-filters:
   # parkok, sétányok, ösvények
   - Carlos Perez sétány
   - Dévai Bíró Mátyás park
-  - Haubner Máté park
   - Magyar-lengyel barátság park
   - Magyar Nobel-díjasok parkja
   - Séd-völgyi sétaút
   - Simonyi iskola park
   - Szent Benedek-hegy
-  - Szent Katalin sétány
   - Szerelem-sziget
   # nem igazi utcák
   - Alakulótér
+  - Északi hadiút
   - Szent István völgyhíd
 source: survey
 housenumber-letters: false
