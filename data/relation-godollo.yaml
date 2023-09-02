@@ -7,7 +7,6 @@ osm-street-filters:
   # parkok, sétányok
   - Csörsz-árok tanösvény
   - Erzsébet park
-  - Felső park
   - Gödöllői Arborétum
   - Mária kert
   - Meseösvény
@@ -27,6 +26,10 @@ osm-street-filters:
   - Valdemoro sétány
   - Zenta sétány
   - Żywiec sétány
+  # Felső park és kertjei
+  - Felső park
+  - Erzsébet-előkert
+  - Ferenc József-előkert
 street-filters:
   - Szadai utca  # Rossz helyen fut a Szada/Gödöllő határ, vagy az utca van rossz helyen
   # Dűlők/tanyák
