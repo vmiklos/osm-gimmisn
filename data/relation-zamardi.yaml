@@ -39,6 +39,8 @@ osm-street-filters:
    # Parkok
    - Honfoglalás park
    - Lengyel Testvérvárosi Park
+   # Nem igazi utcák
+   - Kálvária
 refstreets:
   # helyesírás / rövidítés
   'Nyírfa utca': 'Nyirfa utca'
