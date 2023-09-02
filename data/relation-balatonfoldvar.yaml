@@ -1,16 +1,39 @@
 missing-streets: 'yes'
 filters:
+  Berzsenyi Dániel utca:
+    # 25: sima 25 nincs, csak 25/a, 25/b.
+    # 87: sima 87 nincs, csak 87/a, 87/b.
+    # 89: a páratlan oldalon a 87/b az utolsó házszám.
+    # 80: a páros oldalon az 56 vagy 58 az utolsó házszám. A Földhivatal szerint az 523 hrsz. a 80, de az a páratlan oldalon van és 85 van kitáblázva.
+    invalid: ['25', '87', '89', '80']
+  Budapesti út:
+    # 139: sima 139 nincs, csak 139/1, 139/2.
+    # 143: sima 143 nincs, csak 143/a, 143/2.
+    invalid: ['139', '143']
   Camping utca:
     show-refstreet: false
   Hunyadi János utca:
     interpolation: 'all'
   Jókai Mór utca:
     show-refstreet: false
+  Kis János altábornagy utca:
+    # 4/1: nincs ilyen, csak 4/a, 4/b.
+    invalid: ['4/1']
+  Nyírfa utca:
+    # 4/4: a 4 társasház, csak 4 van kitáblázva. A 4/4 emelet/ajtónak tűnik.
+    invalid: ['4/4']
   Radnóti Miklós utca:
     interpolation: 'all'
+  Somfa utca:
+    # 4: sima 4 nincs, csak 4/a, 4/b.
+    invalid: ['4']
   Sport köz:
     # 9: ilyet nem láttam; a páratlan oldalon a 9-es szám az Ady Endre utca 2. lenne, a páros oldal végén pedig van egy Gábor Áron utca 9.
     invalid: ['9']
+  Székely Bertalan utca:
+    # 3: ikerház, az észak-nyugati felén kint van a 3, de a hozzá tartozó bejáraton 3/a van, így azt tettem fel a térképre.
+    # 3/b: nincs ilyen, 3/a és 3/2 van kitáblázva.
+    invalid: ['3', '3b']
 refstreets:
   # rövidítés
   'Kis János altábornagy utca': 'Kiss János atb. utca'
