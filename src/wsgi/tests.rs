@@ -374,9 +374,9 @@ fn test_handle_streets_update_result_missing_streets_well_formed() {
     assert_eq!(results.len(), 1);
 }
 
-/// Tests the per-relation lints page: if the output is well-formed.
+/// Tests the per-relation lints page.
 #[test]
-fn test_per_relation_lints_well_formed() {
+fn test_per_relation_lints() {
     let mut test_wsgi = TestWsgi::new();
     let mut file_system = context::tests::TestFileSystem::new();
     let yamls_cache = serde_json::json!({
@@ -420,9 +420,20 @@ fn test_per_relation_lints_well_formed() {
 
     let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-lints");
 
-    let results = TestWsgi::find_all(&root, "body/table/tr");
-    // Header + "1" (craeted-in-osm) + "42" (deleted-from-ref) from above.
-    assert_eq!(results.len(), 3);
+    // 1 is created-in-osm
+    assert_eq!(
+        TestWsgi::find_all(&root, "body/table/tr/td/div[@data-value='created-in-osm']").len(),
+        1
+    );
+    // 42 is deleted-from-ref
+    assert_eq!(
+        TestWsgi::find_all(
+            &root,
+            "body/table/tr/td/div[@data-value='deleted-from-ref']"
+        )
+        .len(),
+        1
+    );
 }
 
 /// Tests the missing house numbers page: if the output is well-formed.

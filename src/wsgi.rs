@@ -233,7 +233,12 @@ fn missing_housenumbers_view_lints(
             cells.push(yattag::Doc::from_text(&street));
             cells.push(yattag::Doc::from_text(&source_string));
             cells.push(yattag::Doc::from_text(&housenumber));
-            cells.push(yattag::Doc::from_text(&reason_string));
+            {
+                let doc = yattag::Doc::new();
+                let div = doc.tag("div", &[("data-value", &reason.to_string())]);
+                div.text(&reason_string);
+                cells.push(doc);
+            }
             table.push(cells);
             count += 1;
         }
