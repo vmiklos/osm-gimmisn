@@ -9,12 +9,24 @@ filters:
   Gárdonyi Géza utca:
     # 34: utolsó kiírt páros 14 és egy sarki ház van amint nincs szám
     invalid: ['34']
+  Kisloki út:
+    # 14: 6 és 16 között nincs kiírva semmi. RESURVEY 2024
+    invalid: ['14']
   Honvéd utca:
     # 22: max páros a 20, utána van egy telek aminek innen nincs bejárata
     invalid: ['22']
   Hunyadi János utca:
     # 19: max páratlan a 11
     invalid: ['19']
+  Római út:
+    # Hrsz 1066-os telek földhivatal szerint a 61-85 közötti házszámok. RESURVEY 2024
+    # A telken 4 ház van, az egyiken 1066/6 van kiírva, a többin semmi.
+    ranges:
+      - {start: '1', end: '59'}
+      - {start: '2', end: '120'}
+  Sarló utca:
+    # 6: helyén 4 van kiírva
+    invalid: ['6']
 refstreets:
   # helyesírás
   'Búzavirág köz': 'Buzavirág köz'
@@ -28,6 +40,7 @@ refstreets:
   'Kisloki utca': 'Kisloki út'
   'Mandula út': 'Mandula utca'
   'Napsugár út': 'Napsugár utca'
+  'Óvoda köz': 'Óvoda utca'  # táblán Óvoda köz, rendelőn Óvoda utca
   # 119/2018 (IX. 13) határozatban javítva teljes névre, utcatáblák ellenőrizendők
   'Petőfi Sándor köz': 'Petőfi köz'
   # 119/2018 (IX. 13) határozatban javítva teljes névre, ellenőrzött
