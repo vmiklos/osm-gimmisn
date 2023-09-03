@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Babits Mihály köz:
+    # 3: valami épül. RESURVEY 2024
+    invalid: ['3']
   Erkel Ferenc utca:
     # 59: csak páros oldal van, páratlan oldalon szántóföld és Lovashoz tartozik
     invalid: ['59']
@@ -9,7 +12,7 @@ filters:
   Gárdonyi Géza utca:
     # 34: utolsó kiírt páros 14 és egy sarki ház van amint nincs szám
     invalid: ['34']
-  Kisloki út:
+  Kisloki utca:
     # 14: 6 és 16 között nincs kiírva semmi. RESURVEY 2024
     invalid: ['14']
   Honvéd utca:
@@ -18,6 +21,9 @@ filters:
   Hunyadi János utca:
     # 19: max páratlan a 11
     invalid: ['19']
+  Madách Imre utca:
+    # 72: max páros a 26
+    invalid: ['72']
   Római út:
     # Hrsz 1066-os telek földhivatal szerint a 61-85 közötti házszámok. RESURVEY 2024
     # A telken 4 ház van, az egyiken 1066/6 van kiírva, a többin semmi.
@@ -27,6 +33,10 @@ filters:
   Sarló utca:
     # 6: helyén 4 van kiírva
     invalid: ['6']
+  Vörösmarty Mihály utca:
+    # páros nincs kiírva, döntően Füredi útra számozva
+    ranges:
+      - {start: '1', end: '25'}
 refstreets:
   # helyesírás
   'Búzavirág köz': 'Buzavirág köz'
