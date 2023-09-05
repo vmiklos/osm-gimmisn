@@ -16,7 +16,7 @@ filters:
     interpolation: 'all'
   Jókai Mór utca:
     show-refstreet: false
-  Kis János altábornagy utca:
+  Kiss János altábornagy utca:
     # 4/1: nincs ilyen, csak 4/a, 4/b.
     invalid: ['4/1']
   Nyírfa utca:
@@ -36,7 +36,7 @@ filters:
     invalid: ['3', '3b']
 refstreets:
   # rövidítés
-  'Kis János altábornagy utca': 'Kiss János atb. utca'
+  'Kiss János altábornagy utca': 'Kiss János atb. utca'
   # ellenőrizve
   'Camping utca': 'Kemping utca'  # Camping utca van írva a hivatalos utcanévtáblára, de az épületeken Kemping utcaként is szerepel.
   'Jókai Mór utca': 'Jókai utca'  # Jókai Mór utca az egyik sarkon ki van írva teljes névvel, a másikon nincs. A környéken mindenhol teljes névvel vannak az utcák.
