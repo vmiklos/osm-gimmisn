@@ -191,7 +191,10 @@ filters:
     invalid: ['4', '5', '15', '21']
   Előpatak utca:
     # 4: A számozás 8-tól indul valójában
+    # 43: 43/a, 43/b
+    # 63-69: Sasasdi út 58-60-ra számozva
     # 78g: 78 ; 78/a, 78/b, 78/c, 78/d
+    invalid: ['43', '63', '65', '67', '69']
     ranges:
       - {start: '1', end: '75'}
       - {start: '6', end: '82'}
@@ -2195,7 +2198,7 @@ filters:
     # nincs ide számozva ház
     ranges: []
   Szelesdomb utca:
-    # 4 a vege de van meg egy számozatlan ház
+    # 4 a vége de van meg egy számozatlan ház
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '6'}
@@ -2256,7 +2259,7 @@ filters:
     # 32/1: Csak sima 32 van
     # 36/2: A ház két részből áll de nincs külön házszám
     # 40*: 40I, 40II, 40III, 40IV
-    # 42: 42a..c
+    # 42/a,b,c: 42 a,b,c épületek
     # 46a: csak sima 46 van
     # 48a-c: több épület, de csak sima 48 van kírva
     # 50: csak sima 50-es házszám van a 4 épületrészre
@@ -2273,8 +2276,9 @@ filters:
     # 99: 99/a, 99/b
     # 100a, 100/2: csak sima 100 van
     # 104: 104/a-b van a kapun
+    # 108/a,b,c: semmi sincs kiírva, de csak 1 épület van
     # 145ab: házszám nincs, kukán 145 van
-    invalid: ['4a', '16a', '32/1', '36/2', '40d', '42', '46a', '48a', '48b', '48c', '50d', '56b', '56c', '56e', '57b', '59a', '60b', '62a', '74', '76b', '78b', '80b', '87', '87c', '88', '99', '100/2', '104', '145a', '145b']
+    invalid: ['4a', '16a', '32/1', '36/2', '40d', '42', '42a', '42b', '42c', '46a', '48a', '48b', '48c', '50d', '56b', '56c', '56e', '57b', '59a', '60b', '62a', '74', '76b', '78b', '80b', '87', '87c', '88', '99', '100/2', '104', '108a', '108b', '108c', '145a', '145b']
     ranges:
       - {start: '1', end: '171'}
       - {start: '4', end: '118'}
@@ -2471,14 +2475,12 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
   Nagyszalonta utca:
-    # 4: 4/a, 4/b
+    # 1 = Sasadi út 58-60-ra számozva
     # 5: 5/a, 5/b
     # 7: 7/a, 7/b
-    # 8b: csak sima 8 van
     # 13: 13/a, 13/b
-    # 14: 14/a, 14/b
     # 35: 35/a, 35/b
-    invalid: ['4', '5', '7', '8b', '13', '14', '35']
+    invalid: ['1', '5', '7', '13', '35']
     ranges:
       - {start: '1', end: '57'}
       - {start: '2', end: '68'}
@@ -2673,8 +2675,9 @@ filters:
     # 16: 16/a, 16/b
     # 22: 22/a, 22/b
     # 42b: 42, 42/a
-    # 47b: építkezés
-    invalid: ['1a', '1b', '16', '22', '42b', '47b']
+    # 44b: 44, 44/a
+    # 47b: csak sima 47
+    invalid: ['1a', '1b', '16', '22', '42b', '44b', '47b']
   Ugron Gábor utca:
     # 10b: 10, 10a
     # 69a: 69, 69b
@@ -2885,6 +2888,7 @@ osm-street-filters:
   - Fehér Marcell emlékpark
   - Jubileumi-park
   - Kelenvölgyi Szentháromság Liget
+  - Kosbor út
   - Nelson Mandela park
   - Olimpia-park
   - Ottlik-kert
