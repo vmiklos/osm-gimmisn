@@ -19,6 +19,11 @@ filters:
   Kiss János altábornagy utca:
     # 4/1: nincs ilyen, csak 4/a, 4/b.
     invalid: ['4/1']
+  Munkácsy Mihály utca:
+    # 21: sima 21 nincs, csak 21/1, 21/2.
+    # 32/I: nincs ilyen, 32/a van kitáblázva.
+    # 32/2: nincs ilyen, 32/b van kitáblázva.
+    invalid: ['21', '32i', '32/2']
   Nyírfa utca:
     # 4/4: a 4 társasház, csak 4 van kitáblázva. A 4/4 emelet/ajtónak tűnik.
     invalid: ['4/4']
