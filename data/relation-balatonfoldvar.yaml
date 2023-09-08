@@ -60,6 +60,7 @@ street-filters:
 osm-street-filters:
   # Kőröshegy átlógó utcák
   - Ágos sziget
+  - Gyár utca
   # Szántód átlógó utcák
   - Telep utca
 source: survey
