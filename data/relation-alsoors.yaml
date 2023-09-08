@@ -33,6 +33,10 @@ filters:
   Sarló utca:
     # 6: helyén 4 van kiírva
     invalid: ['6']
+  Vízöntő utca:
+    # 11 = Hotel Mayer vendégháza, nincs külön száma erről az utcáról
+    invalid: ['11']
+    show-refstreet: false
   Vörösmarty Mihály utca:
     # páros nincs kiírva, döntően Füredi útra számozva
     ranges:
