@@ -664,7 +664,17 @@ fn test_get_lexical_sort_key() {
 fn test_split_house_number_by_separator() {
     let normalizer = ranges::Ranges::new(vec![ranges::Range::new(2, 4, "")]);
 
-    let ret = split_house_number_by_separator("2-6", "-", &normalizer);
+    let relation_name = "";
+    let street_name = "";
+    let mut lints = None;
+    let ret = split_house_number_by_separator(
+        "2-6",
+        "-",
+        &normalizer,
+        relation_name,
+        street_name,
+        &mut lints,
+    );
 
     assert_eq!(ret.0, vec![2]);
     assert_eq!(ret.1, vec![2, 6]);

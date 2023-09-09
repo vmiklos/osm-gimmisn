@@ -387,6 +387,14 @@ fn test_per_relation_lints() {
         },
         "relation-gazdagret.yaml": {
             "filters": {
+                "Tűzkő utca": {
+                    "ranges": [
+                        {
+                            "start": "9",
+                            "end": "9",
+                        }
+                    ],
+                },
                 "Törökugrató utca": {
                     "invalid": [ "1", "11", "12", "42" ],
                 }
@@ -420,10 +428,10 @@ fn test_per_relation_lints() {
 
     let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-lints");
 
-    // 1 is created-in-osm
+    // 2 are created-in-osm (1 range, 1 invalid)
     assert_eq!(
         TestWsgi::find_all(&root, "body/table/tr/td/div[@data-value='created-in-osm']").len(),
-        1
+        2
     );
     // 42 is deleted-from-ref
     assert_eq!(

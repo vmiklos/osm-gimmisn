@@ -367,6 +367,7 @@ pub struct RelationLint {
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum RelationLintSource {
+    Range,
     Invalid,
 }
 
@@ -375,6 +376,7 @@ impl TryFrom<&str> for RelationLintSource {
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         match value {
+            "range" => Ok(RelationLintSource::Range),
             "invalid" => Ok(RelationLintSource::Invalid),
             _ => Err(anyhow::anyhow!("invalid value: {value}")),
         }
@@ -393,6 +395,7 @@ impl rusqlite::types::FromSql for RelationLintSource {
 impl std::fmt::Display for RelationLintSource {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            RelationLintSource::Range => write!(f, "range"),
             RelationLintSource::Invalid => write!(f, "invalid"),
         }
     }
@@ -632,10 +635,10 @@ impl<'a> Relation<'a> {
             let mut guard = stream.borrow_mut();
             let mut read = guard.deref_mut();
             let mut csv_reader = util::make_csv_reader(&mut read);
+            let mut lints: Vec<RelationLint> = Vec::new();
             for result in csv_reader.deserialize() {
                 let row: util::OsmHouseNumber = result?;
                 let mut street = &row.street;
-                let street_is_even_odd = self.config.get_street_is_even_odd(street);
                 if street.is_empty() {
                     if let Some(ref value) = row.place {
                         street = value;
@@ -649,11 +652,12 @@ impl<'a> Relation<'a> {
                             self,
                             house_number,
                             street,
-                            street_is_even_odd,
                             &street_ranges,
+                            &mut Some(&mut lints),
                         )?)
                 }
             }
+            self.lints.append(&mut lints);
             for (key, mut value) in house_numbers {
                 value.sort_unstable();
                 value.dedup();
@@ -796,10 +800,8 @@ impl<'a> Relation<'a> {
 
         let mut normalized_invalids: Vec<String> = Vec::new();
         let street_ranges = self.get_street_ranges()?;
-        let street_is_even_odd = self.config.get_street_is_even_odd(osm_street_name);
         for i in street_invalid {
-            let normalizeds =
-                normalize(self, i, osm_street_name, street_is_even_odd, &street_ranges)?;
+            let normalizeds = normalize(self, i, osm_street_name, &street_ranges, &mut None)?;
             // normalize() may return an empty list if the number is out of range.
             if !normalizeds.is_empty() {
                 normalized_invalids.push(normalizeds[0].get_number().into())
@@ -838,7 +840,6 @@ impl<'a> Relation<'a> {
         let streets_invalid = self.get_street_invalid();
         for osm_street in osm_street_names {
             let osm_street_name = osm_street.get_osm_name();
-            let street_is_even_odd = self.config.get_street_is_even_odd(osm_street_name);
             let mut house_numbers: Vec<util::HouseNumber> = Vec::new();
             let ref_street_name = self.config.get_ref_street_from_osm_street(osm_street_name);
             let mut street_invalid: Vec<String> = Vec::new();
@@ -857,8 +858,8 @@ impl<'a> Relation<'a> {
                         self,
                         house_number,
                         osm_street_name,
-                        street_is_even_odd,
                         &street_ranges,
+                        &mut None,
                     )?;
                     house_numbers.append(
                         &mut normalized
@@ -1653,26 +1654,60 @@ impl<'a> Relations<'a> {
     }
 }
 
+pub fn normalizer_contains(
+    number: i64,
+    normalizer: &ranges::Ranges,
+    relation_name: &str,
+    street_name: &str,
+    lints: &mut Option<&mut Vec<RelationLint>>,
+) -> bool {
+    let ret = normalizer.contains(number);
+    if !ret {
+        if let Some(ref mut lints) = lints {
+            let relation_name = relation_name.to_string();
+            let street_name = street_name.to_string();
+            let source = RelationLintSource::Range;
+            let housenumber = number.to_string();
+            let reason = RelationLintReason::CreatedInOsm;
+            let lint = RelationLint {
+                relation_name,
+                street_name,
+                source,
+                housenumber,
+                reason,
+            };
+            lints.push(lint);
+        }
+    }
+    ret
+}
+
 /// Expands numbers_nofilter into a list of numbers, returns ret_numbers otherwise.
 fn normalize_expand(
-    street_is_even_odd: bool,
+    relation: &Relation<'_>,
     separator: &str,
     normalizer: &ranges::Ranges,
     numbers_nofilter: &[i64],
     mut ret_numbers: Vec<i64>,
+    street_name: &str,
+    lints: &mut Option<&mut Vec<RelationLint>>,
 ) -> Vec<i64> {
     if separator != "-" {
         return ret_numbers;
     }
 
+    let street_is_even_odd = relation.get_config().get_street_is_even_odd(street_name);
     let (should_expand, new_stop) = util::should_expand_range(numbers_nofilter, street_is_even_odd);
     if should_expand {
+        let relation_name = &relation.get_name();
         let start = numbers_nofilter[0];
         let stop = new_stop;
         if stop == 0 {
             ret_numbers = [start]
                 .iter()
-                .filter(|number| normalizer.contains(**number))
+                .filter(|number| {
+                    normalizer_contains(**number, normalizer, relation_name, street_name, lints)
+                })
                 .cloned()
                 .collect();
         } else if street_is_even_odd {
@@ -1680,12 +1715,16 @@ fn normalize_expand(
             // Closed interval, even only or odd only case.
             ret_numbers = (start..stop + 2)
                 .step_by(2)
-                .filter(|number| normalizer.contains(*number))
+                .filter(|number| {
+                    normalizer_contains(*number, normalizer, relation_name, street_name, lints)
+                })
                 .collect();
         } else {
             // Closed interval, but mixed even and odd.
             ret_numbers = (start..stop + 1)
-                .filter(|number| normalizer.contains(*number))
+                .filter(|number| {
+                    normalizer_contains(*number, normalizer, relation_name, street_name, lints)
+                })
                 .collect();
         }
     }
@@ -1699,8 +1738,8 @@ fn normalize(
     relation: &Relation<'_>,
     house_numbers: &str,
     street_name: &str,
-    street_is_even_odd: bool,
     normalizers: &HashMap<String, ranges::Ranges>,
+    lints: &mut Option<&mut Vec<RelationLint>>,
 ) -> anyhow::Result<Vec<util::HouseNumber>> {
     let mut comment: String = "".into();
     let mut house_numbers: String = house_numbers.into();
@@ -1728,15 +1767,23 @@ fn normalize(
 
     let normalizer = util::get_normalizer(street_name, normalizers);
 
-    let (mut ret_numbers, ret_numbers_nofilter) =
-        util::split_house_number_by_separator(&house_numbers, separator, &normalizer);
+    let (mut ret_numbers, ret_numbers_nofilter) = util::split_house_number_by_separator(
+        &house_numbers,
+        separator,
+        &normalizer,
+        &relation.get_name(),
+        street_name,
+        lints,
+    );
 
     ret_numbers = normalize_expand(
-        street_is_even_odd,
+        relation,
         separator,
         &normalizer,
         &ret_numbers_nofilter,
         ret_numbers,
+        street_name,
+        lints,
     );
 
     let check_housenumber_letters =
