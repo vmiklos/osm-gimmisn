@@ -222,6 +222,7 @@ fn missing_housenumbers_view_lints(
             let street: String = lint.get(0).unwrap();
             let source: areas::RelationLintSource = lint.get(1).unwrap();
             let source_string = match source {
+                areas::RelationLintSource::Range => tr("street ranges"),
                 areas::RelationLintSource::Invalid => tr("invalid housenumbers"),
             };
             let housenumber: String = lint.get(2).unwrap();

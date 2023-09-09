@@ -10,6 +10,7 @@
 
 //! The util module contains functionality shared between other modules.
 
+use crate::areas;
 use crate::context;
 use crate::i18n;
 use crate::i18n::translate as tr;
@@ -1120,6 +1121,9 @@ pub fn split_house_number_by_separator(
     house_numbers: &str,
     separator: &str,
     normalizer: &ranges::Ranges,
+    relation_name: &str,
+    street_name: &str,
+    lints: &mut Option<&mut Vec<areas::RelationLint>>,
 ) -> (Vec<i64>, Vec<i64>) {
     let mut ret_numbers: Vec<i64> = Vec::new();
     // Same as ret_numbers, but if the range is 2-6 and we filter for 2-4, then 6 would be lost, so
@@ -1135,7 +1139,7 @@ pub fn split_house_number_by_separator(
 
         ret_numbers_nofilter.push(number);
 
-        if !normalizer.contains(number) {
+        if !areas::normalizer_contains(number, normalizer, relation_name, street_name, lints) {
             continue;
         }
 

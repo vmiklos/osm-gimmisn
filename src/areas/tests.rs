@@ -36,15 +36,7 @@ fn test_normalize() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("myrelation").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.config.get_street_is_even_odd("mystreet");
-    let house_numbers = normalize(
-        &relation,
-        "139",
-        "mystreet",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers = normalize(&relation, "139", "mystreet", &normalizers, &mut None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["139"])
 }
@@ -82,15 +74,8 @@ fn test_normalize_not_in_range() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
-    let house_numbers = normalize(
-        &relation,
-        "999",
-        "Budaörsi út",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers =
+        normalize(&relation, "999", "Budaörsi út", &normalizers, &mut None).unwrap();
     assert_eq!(house_numbers.is_empty(), true);
 }
 
@@ -115,15 +100,7 @@ fn test_normalize_not_a_number() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
-    let house_numbers = normalize(
-        &relation,
-        "x",
-        "Budaörsi út",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers = normalize(&relation, "x", "Budaörsi út", &normalizers, &mut None).unwrap();
     assert_eq!(house_numbers.is_empty(), true);
 }
 
@@ -148,15 +125,7 @@ fn test_normalize_nofilter() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
-    let house_numbers = normalize(
-        &relation,
-        "1",
-        "Budaörs út",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers = normalize(&relation, "1", "Budaörs út", &normalizers, &mut None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["1"])
 }
@@ -182,15 +151,7 @@ fn test_normalize_separator_semicolon() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
-    let house_numbers = normalize(
-        &relation,
-        "1;2",
-        "Budaörs út",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers = normalize(&relation, "1;2", "Budaörs út", &normalizers, &mut None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["1", "2"])
 }
@@ -215,15 +176,7 @@ fn test_normalize_separator_interval() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("myrelation").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.get_config().get_street_is_even_odd("mystreet");
-    let house_numbers = normalize(
-        &relation,
-        "2-6",
-        "mystreet",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers = normalize(&relation, "2-6", "mystreet", &normalizers, &mut None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["2", "4", "6"])
 }
@@ -249,15 +202,7 @@ fn test_normalize_separator_interval_parity() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
-    let house_numbers = normalize(
-        &relation,
-        "5-8",
-        "Budaörs út",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers = normalize(&relation, "5-8", "Budaörs út", &normalizers, &mut None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["5", "8"])
 }
@@ -290,15 +235,8 @@ fn test_normalize_separator_interval_interp_all() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.config.get_street_is_even_odd("Hamzsabégi út");
-    let house_numbers = normalize(
-        &relation,
-        "2-5",
-        "Hamzsabégi út",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers =
+        normalize(&relation, "2-5", "Hamzsabégi út", &normalizers, &mut None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["2", "3", "4", "5"])
 }
@@ -336,16 +274,9 @@ fn test_normalize_separator_interval_filter() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
     // filter is 137-165
-    let house_numbers = normalize(
-        &relation,
-        "163-167",
-        "Budaörsi út",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers =
+        normalize(&relation, "163-167", "Budaörsi út", &normalizers, &mut None).unwrap();
     // Make sure there is no 167.
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["163", "165"])
@@ -371,15 +302,8 @@ fn test_normalize_separator_interval_block() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("myrelation").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.config.get_street_is_even_odd("mystreet");
-    let house_numbers = normalize(
-        &relation,
-        "2-2000",
-        "mystreet",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers =
+        normalize(&relation, "2-2000", "mystreet", &normalizers, &mut None).unwrap();
     // Make sure that we simply ignore 2000: it's larger than the default <998 filter and the
     // 2-2000 range would be too large.
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
@@ -406,15 +330,7 @@ fn test_normalize_separator_interval_block2() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("myrelation").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.config.get_street_is_even_odd("mystreet");
-    let house_numbers = normalize(
-        &relation,
-        "2-56",
-        "mystreet",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers = normalize(&relation, "2-56", "mystreet", &normalizers, &mut None).unwrap();
     // No expansions for 4, 6, etc.
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["2", "56"])
@@ -441,15 +357,8 @@ fn test_normalize_separator_interval_block3() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
-    let house_numbers = normalize(
-        &relation,
-        "0-42",
-        "Budaörs út",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers =
+        normalize(&relation, "0-42", "Budaörs út", &normalizers, &mut None).unwrap();
     // No expansion like 0, 2, 4, etc.
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["42"])
@@ -476,15 +385,8 @@ fn test_normalize_separator_interval_block4() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
-    let house_numbers = normalize(
-        &relation,
-        "42-1",
-        "Budaörs út",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers =
+        normalize(&relation, "42-1", "Budaörs út", &normalizers, &mut None).unwrap();
     // No "1", just "42".
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["42"])
@@ -511,25 +413,10 @@ fn test_normalize_keep_suffix() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
-    let house_numbers = normalize(
-        &relation,
-        "1*",
-        "Budaörs út",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers = normalize(&relation, "1*", "Budaörs út", &normalizers, &mut None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["1*"]);
-    let house_numbers = normalize(
-        &relation,
-        "2",
-        "Budaörs út",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers = normalize(&relation, "2", "Budaörs út", &normalizers, &mut None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["2"]);
 }
@@ -555,15 +442,7 @@ fn test_normalize_separator_comma() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
-    let house_numbers = normalize(
-        &relation,
-        "2,6",
-        "Budaörs út",
-        street_is_even_odd,
-        &normalizers,
-    )
-    .unwrap();
+    let house_numbers = normalize(&relation, "2,6", "Budaörs út", &normalizers, &mut None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     // Same as ";", no 4.
     assert_eq!(actual, vec!["2", "6"]);
