@@ -1,0 +1,29 @@
+missing-streets: 'yes'
+refstreets:
+  'Ifjúság utca': 'Ifjuság utca'
+  # kérdéses
+  'Baross Gábor út': 'Baross Gábor utca'
+  'Új Dankó utca': 'Dankó újtelep'
+  'Harmat út': 'Harmat utca'
+  'Napfény út': 'Napfény utca'
+  'Máriatanya': 'Mária tanya'
+  'Sólyom út': 'Sólyom utca'
+  'Tóthegyesi utca': 'Tóthegyes út'
+street-filters:
+  # nem igazi utcák
+  - 68-as vasúti őrház
+  - Fa telep
+  - Vasúti őrházak
+osm-street-filters:
+  # parkok/gyalogos
+  - Hunyadi udvar
+  - Kastélykert
+  - Millecentenáriumi park
+  - Romkert
+  - Stromfeld-udvar
+  # - Szent Imre tér park
+  - Varázsvölgy
+  - Városerdő
+  - Vasútállomás park
+source: survey
+inactive: false
