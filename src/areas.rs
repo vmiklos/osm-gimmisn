@@ -1662,7 +1662,9 @@ pub fn normalizer_contains(
     lints: &mut Option<&mut Vec<RelationLint>>,
 ) -> bool {
     let ret = normalizer.contains(number);
-    if !ret {
+    // number not in the ranges: raise a lint in case the problem is actionable (has street name,
+    // has an actual number).
+    if !ret && !street_name.is_empty() && number != 0 {
         if let Some(ref mut lints) = lints {
             let relation_name = relation_name.to_string();
             let street_name = street_name.to_string();
