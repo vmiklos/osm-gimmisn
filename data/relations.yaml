@@ -616,6 +616,10 @@ balassagyarmat:
     osmrelation: 1370323
     refcounty: "13"
     refsettlement: "003"
+paszto:
+    osmrelation: 1417422
+    refcounty: "13"
+    refsettlement: "097"
 # 14 - Pest megye
 biatorbagy:
     osmrelation: 113461
