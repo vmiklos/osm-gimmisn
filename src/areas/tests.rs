@@ -3123,3 +3123,79 @@ fn test_relation_lint_reason_column_result() {
 
     assert_eq!(result.is_err(), true);
 }
+
+/// Tests RelationLint's Ord impl for source.
+#[test]
+fn test_relation_list_ord_source() {
+    let lint1 = {
+        let relation_name = "".to_string();
+        let street_name = "".to_string();
+        let source = RelationLintSource::Range;
+        let housenumber = "1".to_string();
+        let reason = RelationLintReason::CreatedInOsm;
+        RelationLint {
+            relation_name,
+            street_name,
+            source,
+            housenumber,
+            reason,
+        }
+    };
+    let lint2 = {
+        let relation_name = "".to_string();
+        let street_name = "".to_string();
+        let source = RelationLintSource::Invalid;
+        let housenumber = "1".to_string();
+        let reason = RelationLintReason::CreatedInOsm;
+        RelationLint {
+            relation_name,
+            street_name,
+            source,
+            housenumber,
+            reason,
+        }
+    };
+    assert_eq!(lint1.cmp(&lint2), std::cmp::Ordering::Less);
+    assert_eq!(
+        lint1.source.partial_cmp(&lint2.source).unwrap(),
+        std::cmp::Ordering::Less
+    );
+}
+
+/// Tests RelationLint's Ord impl for reason.
+#[test]
+fn test_relation_list_ord_reason() {
+    let lint1 = {
+        let relation_name = "".to_string();
+        let street_name = "".to_string();
+        let source = RelationLintSource::Range;
+        let housenumber = "1".to_string();
+        let reason = RelationLintReason::CreatedInOsm;
+        RelationLint {
+            relation_name,
+            street_name,
+            source,
+            housenumber,
+            reason,
+        }
+    };
+    let lint2 = {
+        let relation_name = "".to_string();
+        let street_name = "".to_string();
+        let source = RelationLintSource::Range;
+        let housenumber = "1".to_string();
+        let reason = RelationLintReason::DeletedFromRef;
+        RelationLint {
+            relation_name,
+            street_name,
+            source,
+            housenumber,
+            reason,
+        }
+    };
+    assert_eq!(lint1.cmp(&lint2), std::cmp::Ordering::Less);
+    assert_eq!(
+        lint1.reason.partial_cmp(&lint2.reason).unwrap(),
+        std::cmp::Ordering::Less
+    );
+}
