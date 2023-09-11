@@ -354,7 +354,7 @@ pub struct OsmStreet {
     pub object_type: Option<String>,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Eq, Ord, PartialOrd, PartialEq)]
 pub struct RelationLint {
     pub relation_name: String,
     pub street_name: String,
@@ -365,7 +365,7 @@ pub struct RelationLint {
     pub reason: RelationLintReason,
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Eq, Ord, PartialOrd, PartialEq)]
 pub enum RelationLintSource {
     Range,
     Invalid,
@@ -401,7 +401,7 @@ impl std::fmt::Display for RelationLintSource {
     }
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Eq, Ord, PartialOrd, PartialEq)]
 pub enum RelationLintReason {
     CreatedInOsm,
     DeletedFromRef,
@@ -1307,12 +1307,14 @@ impl<'a> Relation<'a> {
         Ok(())
     }
 
-    pub fn write_lints(&self) -> anyhow::Result<()> {
+    pub fn write_lints(&mut self) -> anyhow::Result<()> {
         let conn = self.ctx.get_database_connection()?;
         conn.execute(
             "delete from relation_lints where relation_name = ?1",
             [&self.name],
         )?;
+        self.lints.sort();
+        self.lints.dedup();
         for lint in self.lints.iter() {
             conn.execute(
                 r#"insert into relation_lints (relation_name, street_name, source, housenumber, reason) values (?1, ?2, ?3, ?4, ?5)"#,
