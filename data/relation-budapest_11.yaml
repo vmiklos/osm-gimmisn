@@ -920,8 +920,9 @@ filters:
     # itt semmilyen bejegyzett cím nincs, ami jön a govcenterből az fals
     ranges: []
   Bikszádi utca:
+    # 17,19: iskola 11-15, utána következő ház 27
     # 35: 35/a, 35/b
-    invalid: ['3', '6', '8', '12', '35']
+    invalid: ['3', '6', '8', '12', '17', '19', '35']
   Bogyó utca:
     # valosagban 1-7 a kiirt, de van meg egy epulet
     ranges:
@@ -985,13 +986,14 @@ filters:
       - {start: '3', end: '7'}
       - {start: '9', end: '13'}
   Etele út:
-    # 3 után 14
+    # 3 után 15
     # 32: 32/a, 32/b, 32/c
     # 54-58 panel, bejáratok: 54/a, 54/b, 56/a, 56/b, 58/a
     # 68: volt Számalk. Elete Plaza már Hadak útja 1-re van számozva, de az üzletek egy része ezt a címet használja
     invalid: ['32', '58b', '67/5']
     ranges:
-      - {start: '1', end: '73'}
+      - {start: '1', end: '3'}
+      - {start: '15', end: '73'}
       - {start: '2', end: '68'}
   Fejér Lipót utca:
     ranges:
@@ -1162,7 +1164,7 @@ filters:
     invalid: ['2']
     ranges:
       - {start: '1', end: '21'}
-      - {start: '31', end: '45'}
+      - {start: '31', end: '47'}
       - {start: '2', end: '20'}
   Nándorfejérvári út:
     # 36-40: a, b, c, d épületek, a kapun 40, a portás szerint viszont 36-40. Ezen kívül van még egy 40/a bejárat is a fitnessnél
@@ -1661,6 +1663,10 @@ filters:
       - {start: '32', end: '40'}
   Egyetemisták parkja:
     ranges: []
+  Gábor Dénes utca:
+    # 2d: nincs
+    # 4c: 4 C épület, ref javítandó
+    invalid: ['2d', '4c']
   Irinyi József utca:
     # 4-20, 28/a..c, 32/a..c, 36/a..c
     invalid: ['4a', '31a', '31b']
@@ -1686,7 +1692,7 @@ filters:
     # 7-9: BME R épület
     invalid: ['3d', '3k']
     ranges:
-      - {start: '1', end: '9'}
+      - {start: '3', end: '9'}
   Október huszonharmadika utca:
     ranges:
       - {start: '1', end: '35'}
@@ -2432,7 +2438,7 @@ filters:
     invalid: ['2', '4']
   Povl Bang-Jensen utca:
     # Sasad liget: 1b, 1d, 2b, 2c: ezek épület betűjelek
-    invalid: ['1b', '1d', '2b', '2c']
+    invalid: ['1b', '2b', '2c']
   Rahó utca:
     # 9a,b: A és B lépcsőház
     invalid: ['9a', '9b']
@@ -2477,7 +2483,6 @@ filters:
     # not sure about the 16
     # 11/a: 11, 11/b
     # 12/9: 12/a, 12/b
-    invalid: ['12/9']
     ranges:
       - {start: '3', end: '19'}
       - {start: '2', end: '16'}
