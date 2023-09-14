@@ -1070,10 +1070,12 @@ filters:
       - {start: '1', end: '9'}
       - {start: '2', end: '6'}
   Ibrahim utca:
+    # 21 = Rőf utca 14.
+    # 28: 26-28
+    invalid: ['21']
     ranges:
       - {start: '1', end: '35'}
-      - {start: '2', end: '26'}
-      - {start: '30', end: '38'}
+      - {start: '2', end: '38'}
   Ildikó utca:
     ranges:
       - {start: '5', end: '33'}
@@ -1092,6 +1094,9 @@ filters:
       - {start: '5', end: '7'}
       - {start: '13', end: '15'}
       - {start: '8', end: '18'}
+  Kászony utca:
+    # 1 = Vágfarkasd utca 3.
+    invalid: ['1']
   Kelenföldi út:
     # 1-13 egyben, 
     # 15-17 csak A lépcsőház, a B lépcsőház a Thallóczy Lajos utca 23-25-re van számozva
@@ -1575,7 +1580,7 @@ filters:
     invalid: ['141']
   Löveg utca:
     # 2: 2/A, 2/B, 2/C van 1. és 2. lépcsőház mindenhol, ezért kell szűrni a 2-t (2/A/1 -> 2)
-    # 3: egyik részénél 3/X másik részénél 3. X. épület formában van, egységesen vittem fel 3/X formában
+    # 3: egyik részénél 3/X másik részénél 3. X. épület formában van, egységesen vittem fel 3 X formában
     invalid: ['2', '3']
   Kánai út:
     # páros számok 4- egyelőre a tó van üres telkek, de még nem kezdődött az építkezés 2022-05
