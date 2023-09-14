@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Ady Endre utca:
+    # 7: Alkotás köz felől, vmi épül. RESURVEY 2024
+    invalid: ['7', '22']
   Babits Mihály köz:
     # 3: valami épül. RESURVEY 2024
     invalid: ['3']
