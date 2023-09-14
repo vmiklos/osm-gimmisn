@@ -197,9 +197,12 @@ fn missing_housenumbers_view_turbo(
 /// Expected request uri: /osm/missing-housenumbers/ormezo/view-lints.
 fn missing_housenumbers_view_lints(
     ctx: &context::Context,
-    relation: &areas::Relation<'_>,
+    relation: &mut areas::Relation<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
+
+    // Update lints if they are outdated.
+    cache::get_missing_housenumbers_json(relation)?;
 
     let mut table: Vec<Vec<yattag::Doc>> = Vec::new();
     let mut count = 0;
@@ -710,7 +713,7 @@ fn handle_missing_housenumbers(
     let relation_name = tokens.next_back().context("no relation_name")?;
     let mut date = "".into();
 
-    let relation = relations.get_relation(relation_name)?;
+    let mut relation = relations.get_relation(relation_name)?;
     let osmrelation = relation.get_config().get_osmrelation();
     let doc = yattag::Doc::new();
     doc.append_value(
@@ -739,7 +742,7 @@ fn handle_missing_housenumbers(
     } else if action == "update-result" {
         doc.append_value(missing_housenumbers_update(ctx, relations, relation_name)?.get_value())
     } else if action == "view-lints" {
-        doc.append_value(missing_housenumbers_view_lints(ctx, &relation)?.get_value())
+        doc.append_value(missing_housenumbers_view_lints(ctx, &mut relation)?.get_value())
     } else {
         // assume view-result
         let ret = missing_housenumbers_view_res(ctx, relations, request_uri);
