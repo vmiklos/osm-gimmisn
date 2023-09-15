@@ -6,6 +6,7 @@ osm-street-filters:
   # Nem igazi utcák
   - M6 autópálya
   - Mentőállomás
+  - Szent István híd
   - Üzlet sor
   # Parkok
   - Muki mozdony parkja
