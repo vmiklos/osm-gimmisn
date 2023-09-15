@@ -8,6 +8,9 @@ refstreets:
 street-filters:
   - Akarattya puszta  # https://www.openstreetmap.org/node/1132273639
   - Hámán Kató tér  # Pécsi Sándor utca régi neve
+  # külterület
+  - Takács tanya
+  - Kültelek utca
 osm-street-filters:
   # Balatonkenese átlógó utcák
   - Alteleki út
