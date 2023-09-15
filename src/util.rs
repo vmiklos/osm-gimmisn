@@ -218,6 +218,10 @@ pub struct HouseNumber {
     number: String,
     source: String,
     comment: String,
+    /// Only used for osm housenumbers, not ref ones.
+    id: Option<u64>,
+    /// Only used for osm housenumbers, not ref ones.
+    object_type: Option<String>,
 }
 
 /// A list of HouseNumber values.
@@ -239,10 +243,14 @@ pub type NumberedStreets = Vec<NumberedStreet>;
 impl HouseNumber {
     /// Creates a new HouseNumber.
     pub fn new(number: &str, source: &str, comment: &str) -> Self {
+        let id: Option<u64> = None;
+        let object_type = None;
         HouseNumber {
             number: number.into(),
             source: source.into(),
             comment: comment.into(),
+            id,
+            object_type,
         }
     }
 
@@ -348,6 +356,16 @@ impl HouseNumber {
         ret += &groups[2].to_uppercase();
         ret += source_suffix;
         Ok(ret)
+    }
+
+    /// Sets the housenumber's OSM object ID, if this comes from OSM.
+    pub fn set_id(&mut self, id: u64) {
+        self.id = Some(id);
+    }
+
+    /// Sets the housenumber's OSM type ID, if this comes from OSM.
+    pub fn set_object_type(&mut self, object_type: &str) {
+        self.object_type = Some(object_type.to_string());
     }
 }
 
@@ -1124,6 +1142,7 @@ pub fn split_house_number_by_separator(
     relation_name: &str,
     street_name: &str,
     lints: &mut Option<&mut Vec<areas::RelationLint>>,
+    osm_housenumber: Option<&OsmHouseNumber>,
 ) -> (Vec<i64>, Vec<i64>) {
     let mut ret_numbers: Vec<i64> = Vec::new();
     // Same as ret_numbers, but if the range is 2-6 and we filter for 2-4, then 6 would be lost, so
@@ -1139,7 +1158,14 @@ pub fn split_house_number_by_separator(
 
         ret_numbers_nofilter.push(number);
 
-        if !areas::normalizer_contains(number, normalizer, relation_name, street_name, lints) {
+        if !areas::normalizer_contains(
+            number,
+            normalizer,
+            relation_name,
+            street_name,
+            lints,
+            osm_housenumber,
+        ) {
             continue;
         }
 

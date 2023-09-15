@@ -36,7 +36,8 @@ fn test_normalize() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("myrelation").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers = normalize(&relation, "139", "mystreet", &normalizers, &mut None).unwrap();
+    let house_numbers =
+        normalize(&relation, "139", "mystreet", &normalizers, &mut None, None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["139"])
 }
@@ -74,8 +75,15 @@ fn test_normalize_not_in_range() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers =
-        normalize(&relation, "999", "Budaörsi út", &normalizers, &mut None).unwrap();
+    let house_numbers = normalize(
+        &relation,
+        "999",
+        "Budaörsi út",
+        &normalizers,
+        &mut None,
+        None,
+    )
+    .unwrap();
     assert_eq!(house_numbers.is_empty(), true);
 }
 
@@ -100,7 +108,8 @@ fn test_normalize_not_a_number() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers = normalize(&relation, "x", "Budaörsi út", &normalizers, &mut None).unwrap();
+    let house_numbers =
+        normalize(&relation, "x", "Budaörsi út", &normalizers, &mut None, None).unwrap();
     assert_eq!(house_numbers.is_empty(), true);
 }
 
@@ -125,7 +134,8 @@ fn test_normalize_nofilter() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers = normalize(&relation, "1", "Budaörs út", &normalizers, &mut None).unwrap();
+    let house_numbers =
+        normalize(&relation, "1", "Budaörs út", &normalizers, &mut None, None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["1"])
 }
@@ -151,7 +161,15 @@ fn test_normalize_separator_semicolon() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers = normalize(&relation, "1;2", "Budaörs út", &normalizers, &mut None).unwrap();
+    let house_numbers = normalize(
+        &relation,
+        "1;2",
+        "Budaörs út",
+        &normalizers,
+        &mut None,
+        None,
+    )
+    .unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["1", "2"])
 }
@@ -176,7 +194,8 @@ fn test_normalize_separator_interval() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("myrelation").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers = normalize(&relation, "2-6", "mystreet", &normalizers, &mut None).unwrap();
+    let house_numbers =
+        normalize(&relation, "2-6", "mystreet", &normalizers, &mut None, None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["2", "4", "6"])
 }
@@ -202,7 +221,15 @@ fn test_normalize_separator_interval_parity() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers = normalize(&relation, "5-8", "Budaörs út", &normalizers, &mut None).unwrap();
+    let house_numbers = normalize(
+        &relation,
+        "5-8",
+        "Budaörs út",
+        &normalizers,
+        &mut None,
+        None,
+    )
+    .unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["5", "8"])
 }
@@ -235,8 +262,15 @@ fn test_normalize_separator_interval_interp_all() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers =
-        normalize(&relation, "2-5", "Hamzsabégi út", &normalizers, &mut None).unwrap();
+    let house_numbers = normalize(
+        &relation,
+        "2-5",
+        "Hamzsabégi út",
+        &normalizers,
+        &mut None,
+        None,
+    )
+    .unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["2", "3", "4", "5"])
 }
@@ -275,8 +309,15 @@ fn test_normalize_separator_interval_filter() {
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
     // filter is 137-165
-    let house_numbers =
-        normalize(&relation, "163-167", "Budaörsi út", &normalizers, &mut None).unwrap();
+    let house_numbers = normalize(
+        &relation,
+        "163-167",
+        "Budaörsi út",
+        &normalizers,
+        &mut None,
+        None,
+    )
+    .unwrap();
     // Make sure there is no 167.
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["163", "165"])
@@ -302,8 +343,15 @@ fn test_normalize_separator_interval_block() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("myrelation").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers =
-        normalize(&relation, "2-2000", "mystreet", &normalizers, &mut None).unwrap();
+    let house_numbers = normalize(
+        &relation,
+        "2-2000",
+        "mystreet",
+        &normalizers,
+        &mut None,
+        None,
+    )
+    .unwrap();
     // Make sure that we simply ignore 2000: it's larger than the default <998 filter and the
     // 2-2000 range would be too large.
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
@@ -330,7 +378,8 @@ fn test_normalize_separator_interval_block2() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("myrelation").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers = normalize(&relation, "2-56", "mystreet", &normalizers, &mut None).unwrap();
+    let house_numbers =
+        normalize(&relation, "2-56", "mystreet", &normalizers, &mut None, None).unwrap();
     // No expansions for 4, 6, etc.
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["2", "56"])
@@ -357,8 +406,15 @@ fn test_normalize_separator_interval_block3() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers =
-        normalize(&relation, "0-42", "Budaörs út", &normalizers, &mut None).unwrap();
+    let house_numbers = normalize(
+        &relation,
+        "0-42",
+        "Budaörs út",
+        &normalizers,
+        &mut None,
+        None,
+    )
+    .unwrap();
     // No expansion like 0, 2, 4, etc.
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["42"])
@@ -385,8 +441,15 @@ fn test_normalize_separator_interval_block4() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers =
-        normalize(&relation, "42-1", "Budaörs út", &normalizers, &mut None).unwrap();
+    let house_numbers = normalize(
+        &relation,
+        "42-1",
+        "Budaörs út",
+        &normalizers,
+        &mut None,
+        None,
+    )
+    .unwrap();
     // No "1", just "42".
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["42"])
@@ -413,10 +476,12 @@ fn test_normalize_keep_suffix() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers = normalize(&relation, "1*", "Budaörs út", &normalizers, &mut None).unwrap();
+    let house_numbers =
+        normalize(&relation, "1*", "Budaörs út", &normalizers, &mut None, None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["1*"]);
-    let house_numbers = normalize(&relation, "2", "Budaörs út", &normalizers, &mut None).unwrap();
+    let house_numbers =
+        normalize(&relation, "2", "Budaörs út", &normalizers, &mut None, None).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     assert_eq!(actual, vec!["2"]);
 }
@@ -442,7 +507,15 @@ fn test_normalize_separator_comma() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
     let normalizers = relation.get_street_ranges().unwrap();
-    let house_numbers = normalize(&relation, "2,6", "Budaörs út", &normalizers, &mut None).unwrap();
+    let house_numbers = normalize(
+        &relation,
+        "2,6",
+        "Budaörs út",
+        &normalizers,
+        &mut None,
+        None,
+    )
+    .unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
     // Same as ";", no 4.
     assert_eq!(actual, vec!["2", "6"]);
@@ -3133,12 +3206,16 @@ fn test_relation_list_ord_source() {
         let source = RelationLintSource::Range;
         let housenumber = "1".to_string();
         let reason = RelationLintReason::CreatedInOsm;
+        let id: u64 = 0;
+        let object_type = "".to_string();
         RelationLint {
             relation_name,
             street_name,
             source,
             housenumber,
             reason,
+            id,
+            object_type,
         }
     };
     let lint2 = {
@@ -3147,12 +3224,16 @@ fn test_relation_list_ord_source() {
         let source = RelationLintSource::Invalid;
         let housenumber = "1".to_string();
         let reason = RelationLintReason::CreatedInOsm;
+        let id: u64 = 0;
+        let object_type = "".to_string();
         RelationLint {
             relation_name,
             street_name,
             source,
             housenumber,
             reason,
+            id,
+            object_type,
         }
     };
     assert_eq!(lint1.cmp(&lint2), std::cmp::Ordering::Less);
@@ -3171,12 +3252,16 @@ fn test_relation_list_ord_reason() {
         let source = RelationLintSource::Range;
         let housenumber = "1".to_string();
         let reason = RelationLintReason::CreatedInOsm;
+        let id: u64 = 0;
+        let object_type = "".to_string();
         RelationLint {
             relation_name,
             street_name,
             source,
             housenumber,
             reason,
+            id,
+            object_type,
         }
     };
     let lint2 = {
@@ -3185,12 +3270,16 @@ fn test_relation_list_ord_reason() {
         let source = RelationLintSource::Range;
         let housenumber = "1".to_string();
         let reason = RelationLintReason::DeletedFromRef;
+        let id: u64 = 0;
+        let object_type = "".to_string();
         RelationLint {
             relation_name,
             street_name,
             source,
             housenumber,
             reason,
+            id,
+            object_type,
         }
     };
     assert_eq!(lint1.cmp(&lint2), std::cmp::Ordering::Less);
@@ -3198,4 +3287,22 @@ fn test_relation_list_ord_reason() {
         lint1.reason.partial_cmp(&lint2.reason).unwrap(),
         std::cmp::Ordering::Less
     );
+}
+
+/// Tests normalizer_contains(), the case when `osm_housenumber` is None.
+#[test]
+fn test_normalizer_contains_osm_housenumber_none() {
+    let number: i64 = 5;
+    let normalizer = ranges::Ranges::new(vec![ranges::Range::new(1, 3, "")]);
+    let relation_name = "";
+    let street_name = "mystreet";
+    let mut lints: Vec<RelationLint> = Vec::new();
+    assert!(!normalizer_contains(
+        number,
+        &normalizer,
+        relation_name,
+        street_name,
+        &mut Some(&mut lints),
+        None
+    ));
 }

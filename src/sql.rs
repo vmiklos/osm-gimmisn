@@ -138,7 +138,20 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
             [],
         )?;
     }
-    conn.execute("pragma user_version = 6", [])?;
+    if user_version < 7 {
+        // OSM link for relation_lints rows.
+        conn.execute(
+            "alter table relation_lints add column
+            object_id text not null default ''",
+            [],
+        )?;
+        conn.execute(
+            "alter table relation_lints add column
+            object_type text not null default ''",
+            [],
+        )?;
+    }
+    conn.execute("pragma user_version = 7", [])?;
     Ok(())
 }
 
