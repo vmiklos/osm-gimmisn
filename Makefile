@@ -143,7 +143,7 @@ data/yamls.cache: target/${TARGET_PATH}/osm-gimmisn $(YAML_OBJECTS)
 
 check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
-%.eslint : %.ts Makefile .eslintrc
+%.eslint : %.ts Makefile .eslintrc package-lock.json
 	$(QUIET_ESLINT)npx eslint $< && touch $@
 
 check-filters: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
