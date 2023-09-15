@@ -674,6 +674,7 @@ fn test_split_house_number_by_separator() {
         relation_name,
         street_name,
         &mut lints,
+        None,
     );
 
     assert_eq!(ret.0, vec![2]);

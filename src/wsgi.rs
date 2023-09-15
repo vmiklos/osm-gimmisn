@@ -209,7 +209,7 @@ fn missing_housenumbers_view_lints(
     {
         let conn = ctx.get_database_connection()?;
         let mut stmt = conn
-        .prepare("select street_name, source, housenumber, reason from relation_lints where relation_name = ?1")?;
+        .prepare("select street_name, source, housenumber, reason, object_id, object_type from relation_lints where relation_name = ?1")?;
         let mut lints = stmt.query([relation.get_name()])?;
         {
             let cells: Vec<yattag::Doc> = vec![
@@ -217,6 +217,8 @@ fn missing_housenumbers_view_lints(
                 yattag::Doc::from_text(&tr("Source")),
                 yattag::Doc::from_text(&tr("Housenumber")),
                 yattag::Doc::from_text(&tr("Reason")),
+                yattag::Doc::from_text(&tr("Identifier")),
+                yattag::Doc::from_text(&tr("Type")),
             ];
             table.push(cells);
         }
@@ -230,6 +232,8 @@ fn missing_housenumbers_view_lints(
             };
             let housenumber: String = lint.get(2).unwrap();
             let reason: areas::RelationLintReason = lint.get(3).unwrap();
+            let id: String = lint.get(4).unwrap();
+            let object_type: String = lint.get(5).unwrap();
             let reason_string = match reason {
                 areas::RelationLintReason::CreatedInOsm => tr("created in OSM"),
                 areas::RelationLintReason::DeletedFromRef => tr("deleted from reference"),
@@ -243,6 +247,18 @@ fn missing_housenumbers_view_lints(
                 div.text(&reason_string);
                 cells.push(doc);
             }
+            if id != "0" {
+                let cell = yattag::Doc::new();
+                let href = format!("https://www.openstreetmap.org/{}/{}", object_type, id,);
+                {
+                    let a = cell.tag("a", &[("href", &href), ("target", "_blank")]);
+                    a.text(&id.to_string());
+                }
+                cells.push(cell);
+            } else {
+                cells.push(yattag::Doc::new());
+            }
+            cells.push(yattag::Doc::from_text(&object_type));
             table.push(cells);
             count += 1;
         }

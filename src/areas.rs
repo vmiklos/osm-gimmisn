@@ -363,6 +363,8 @@ pub struct RelationLint {
     pub housenumber: String,
     /// E.g. missing from reference or present in OSM
     pub reason: RelationLintReason,
+    pub id: u64,
+    pub object_type: String,
 }
 
 #[derive(Clone, Debug, Eq, Ord, PartialOrd, PartialEq)]
@@ -654,6 +656,7 @@ impl<'a> Relation<'a> {
                             street,
                             &street_ranges,
                             &mut Some(&mut lints),
+                            Some(&row),
                         )?)
                 }
             }
@@ -679,12 +682,16 @@ impl<'a> Relation<'a> {
                         let source = RelationLintSource::Invalid;
                         let housenumber = housenumber.get_number().to_string();
                         let reason = RelationLintReason::CreatedInOsm;
+                        let id: u64 = 0;
+                        let object_type = "".to_string();
                         let lint = RelationLint {
                             relation_name,
                             street_name,
                             source,
                             housenumber,
                             reason,
+                            id,
+                            object_type,
                         };
                         self.lints.push(lint);
                     }
@@ -801,7 +808,7 @@ impl<'a> Relation<'a> {
         let mut normalized_invalids: Vec<String> = Vec::new();
         let street_ranges = self.get_street_ranges()?;
         for i in street_invalid {
-            let normalizeds = normalize(self, i, osm_street_name, &street_ranges, &mut None)?;
+            let normalizeds = normalize(self, i, osm_street_name, &street_ranges, &mut None, None)?;
             // normalize() may return an empty list if the number is out of range.
             if !normalizeds.is_empty() {
                 normalized_invalids.push(normalizeds[0].get_number().into())
@@ -860,6 +867,7 @@ impl<'a> Relation<'a> {
                         osm_street_name,
                         &street_ranges,
                         &mut None,
+                        None,
                     )?;
                     house_numbers.append(
                         &mut normalized
@@ -885,12 +893,16 @@ impl<'a> Relation<'a> {
                     let source = RelationLintSource::Invalid;
                     let housenumber = invalid.to_string();
                     let reason = RelationLintReason::DeletedFromRef;
+                    let id: u64 = 0;
+                    let object_type = "".to_string();
                     let lint = RelationLint {
                         relation_name,
                         street_name,
                         source,
                         housenumber,
                         reason,
+                        id,
+                        object_type,
                     };
                     self.lints.push(lint);
                 }
@@ -1118,7 +1130,8 @@ impl<'a> Relation<'a> {
     pub fn write_missing_housenumbers(
         &mut self,
     ) -> anyhow::Result<(usize, usize, usize, f64, yattag::HtmlTable)> {
-        let json = cache::get_missing_housenumbers_json(self)?;
+        let json = cache::get_missing_housenumbers_json(self)
+            .context("get_missing_housenumbers_json() failed")?;
         let missing_housenumbers: MissingHousenumbers = serde_json::from_str(&json)?;
 
         let (table, todo_count) =
@@ -1317,8 +1330,8 @@ impl<'a> Relation<'a> {
         self.lints.dedup();
         for lint in self.lints.iter() {
             conn.execute(
-                r#"insert into relation_lints (relation_name, street_name, source, housenumber, reason) values (?1, ?2, ?3, ?4, ?5)"#,
-                 [&lint.relation_name, &lint.street_name, &lint.source.to_string(), &lint.housenumber, &lint.reason.to_string()],
+                r#"insert into relation_lints (relation_name, street_name, source, housenumber, reason, object_id, object_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7)"#,
+                 [&lint.relation_name, &lint.street_name, &lint.source.to_string(), &lint.housenumber, &lint.reason.to_string(), &lint.id.to_string(), &lint.object_type],
                  )?;
         }
         Ok(())
@@ -1662,6 +1675,7 @@ pub fn normalizer_contains(
     relation_name: &str,
     street_name: &str,
     lints: &mut Option<&mut Vec<RelationLint>>,
+    osm_housenumber: Option<&util::OsmHouseNumber>,
 ) -> bool {
     let ret = normalizer.contains(number);
     // number not in the ranges: raise a lint in case the problem is actionable (has street name,
@@ -1673,17 +1687,32 @@ pub fn normalizer_contains(
             let source = RelationLintSource::Range;
             let housenumber = number.to_string();
             let reason = RelationLintReason::CreatedInOsm;
+            let id: u64 = match osm_housenumber {
+                Some(value) => value.id,
+                None => 0,
+            };
+            let object_type = match osm_housenumber {
+                Some(value) => value.object_type.to_string(),
+                None => "".to_string(),
+            };
             let lint = RelationLint {
                 relation_name,
                 street_name,
                 source,
                 housenumber,
                 reason,
+                id,
+                object_type,
             };
             lints.push(lint);
         }
     }
     ret
+}
+
+struct LintedHouseNumber<'a> {
+    lints: &'a mut Option<&'a mut Vec<RelationLint>>,
+    osm_housenumber: Option<&'a util::OsmHouseNumber>,
 }
 
 /// Expands numbers_nofilter into a list of numbers, returns ret_numbers otherwise.
@@ -1694,7 +1723,7 @@ fn normalize_expand(
     numbers_nofilter: &[i64],
     mut ret_numbers: Vec<i64>,
     street_name: &str,
-    lints: &mut Option<&mut Vec<RelationLint>>,
+    lhn: LintedHouseNumber<'_>,
 ) -> Vec<i64> {
     if separator != "-" {
         return ret_numbers;
@@ -1710,7 +1739,14 @@ fn normalize_expand(
             ret_numbers = [start]
                 .iter()
                 .filter(|number| {
-                    normalizer_contains(**number, normalizer, relation_name, street_name, lints)
+                    normalizer_contains(
+                        **number,
+                        normalizer,
+                        relation_name,
+                        street_name,
+                        lhn.lints,
+                        lhn.osm_housenumber,
+                    )
                 })
                 .cloned()
                 .collect();
@@ -1720,14 +1756,28 @@ fn normalize_expand(
             ret_numbers = (start..stop + 2)
                 .step_by(2)
                 .filter(|number| {
-                    normalizer_contains(*number, normalizer, relation_name, street_name, lints)
+                    normalizer_contains(
+                        *number,
+                        normalizer,
+                        relation_name,
+                        street_name,
+                        lhn.lints,
+                        lhn.osm_housenumber,
+                    )
                 })
                 .collect();
         } else {
             // Closed interval, but mixed even and odd.
             ret_numbers = (start..stop + 1)
                 .filter(|number| {
-                    normalizer_contains(*number, normalizer, relation_name, street_name, lints)
+                    normalizer_contains(
+                        *number,
+                        normalizer,
+                        relation_name,
+                        street_name,
+                        lhn.lints,
+                        lhn.osm_housenumber,
+                    )
                 })
                 .collect();
         }
@@ -1738,12 +1788,13 @@ fn normalize_expand(
 
 /// Strips down string input to bare minimum that can be interpreted as an
 /// actual number. Think about a/b, a-b, and so on.
-fn normalize(
+fn normalize<'a>(
     relation: &Relation<'_>,
     house_numbers: &str,
     street_name: &str,
     normalizers: &HashMap<String, ranges::Ranges>,
-    lints: &mut Option<&mut Vec<RelationLint>>,
+    lints: &'a mut Option<&'a mut Vec<RelationLint>>,
+    osm_housenumber: Option<&'a util::OsmHouseNumber>,
 ) -> anyhow::Result<Vec<util::HouseNumber>> {
     let mut comment: String = "".into();
     let mut house_numbers: String = house_numbers.into();
@@ -1778,17 +1829,24 @@ fn normalize(
         &relation.get_name(),
         street_name,
         lints,
+        osm_housenumber,
     );
 
-    ret_numbers = normalize_expand(
-        relation,
-        separator,
-        &normalizer,
-        &ret_numbers_nofilter,
-        ret_numbers,
-        street_name,
-        lints,
-    );
+    {
+        let lhn = LintedHouseNumber {
+            lints,
+            osm_housenumber,
+        };
+        ret_numbers = normalize_expand(
+            relation,
+            separator,
+            &normalizer,
+            &ret_numbers_nofilter,
+            ret_numbers,
+            street_name,
+            lhn,
+        );
+    }
 
     let check_housenumber_letters =
         ret_numbers.len() == 1 && relation.config.should_check_housenumber_letters();
@@ -1798,7 +1856,13 @@ fn normalize(
     Ok(ret_numbers
         .iter()
         .map(|number| {
-            util::HouseNumber::new(&(number.to_string() + &suffix), &house_numbers, &comment)
+            let mut housenumber =
+                util::HouseNumber::new(&(number.to_string() + &suffix), &house_numbers, &comment);
+            if let Some(osm_housenumber) = osm_housenumber {
+                housenumber.set_id(osm_housenumber.id);
+                housenumber.set_object_type(&osm_housenumber.object_type);
+            }
+            housenumber
         })
         .collect())
 }
