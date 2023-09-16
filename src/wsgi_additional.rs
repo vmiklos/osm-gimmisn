@@ -87,7 +87,10 @@ pub fn additional_streets_view_gpx(
                 .iter()
                 .find(|i| i.id == street.get_osm_id())
                 .unwrap();
-            let node_id = overpass_way.nodes.clone().unwrap()[0];
+            let node_id = overpass_way
+                .nodes
+                .clone()
+                .context(format!("street {} has no nodes", street.get_osm_id()))?[0];
             let overpass_node = overpass.elements.iter().find(|i| i.id == node_id).unwrap();
             let lat = overpass_node.lat.unwrap().to_string();
             let lon = overpass_node.lon.unwrap().to_string();
