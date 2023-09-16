@@ -3,23 +3,23 @@ filters:
   # Több településrészt érintő utcák
   Alsóhegy utca:
     # 1-11, 2-8: I. kerület
-    # 13-17: nincs
+    # 13-15: Óvoda
     # 10-18: Mathias Corvinus Collegium, Somlói útra van számozva
     # 15-17: zöld terület, Csukló utcai garázsok
     # 20-22 zöld terület
     # 24 = Gombocz Zoltán utca 18
     ranges:
-      - {start: '19', end: '29'}
-      - {start: '26', end: '50'}
+      - {start: '13', end: '29'}
+      - {start: '24', end: '50'}
   Balatoni út:
     # 2: Budapest one: Balatoni út 2/a
-    # 198-202 házszámok nincsenek a Shell kút környékén
+    # 198-202 házszámok nincsenek a Shell kút környékén, 198/4 a 41-es villamos mellet
     # ref-ben levo hrsz-ek kiszurese
     # 36,38,141,151: nincsenek ilyen számok, alig van pár épület aminenk van száma, ráadásul a 44 és a 143 ugyanazon az oldalon van
-    # 144/4: hrsz
-    invalid: ['2', '36', '38', '144/4', '151']
+    # 144/4, 160/33: hrsz
+    invalid: ['2', '36', '38', '144/4', '151', '160']
     ranges:
-      - {start: '2', end: '158'}
+      - {start: '2', end: '198'}
       - {start: '141', end: '151'}
   Bartók Béla út:
     # 15e: 15a-15c, 15b-15d hátsó épületnek nem ismert a házszáma, nincs kiírva semmi
@@ -171,9 +171,6 @@ filters:
     # 38a: 2 ház van de mindkettőhöz a 38 van kiírva
     # 61/b: nincs
     invalid: ['8', '36', '36a', '38a', '61b']
-    ranges:
-      - {start: '49', end: '61'}  # Őrmező
-      - {start: '2', end: '38'}  # Péterhegy
   Dombóvári út:
     # 3-5: Kollégium, csak a 3-as számot használja
     # 6-8: irodaház
@@ -247,9 +244,6 @@ filters:
     invalid: ['1', '2', '3', '11', '13', '38a']
   Hamzsabégi út:
     interpolation: 'all'
-    ranges:
-      - {start: '1', end: '37'}
-      - {start: '41', end: '64'}
   Hauszmann Alajos utca:
     # Budapart egy része éríntett: 13-19, 12-20 Nádorkerthez tartozik
     # 4a, 6b, 4c, 4d: Nádorliget utca 7/a-7/b-7/c-7/d-re számozva
@@ -510,13 +504,13 @@ filters:
     invalid: [ '3']
     ranges:
       - {start: '1', end: '17'}
-      - {start: '2', end: '20'}
+      - {start: '2', end: '22'}
   # --------------------------------------------------------------------------------------------------------------------------------------------------
   # Albertfalva ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Abádi tér:
     interpolation: all
     ranges:
-      - {start: '1', end: '17'}
+      - {start: '1', end: '18'}
   Albertfalva utca:
     # 3/a: csak 3 van, orvosi rendelő
     # 5: 5a, 5b
@@ -525,8 +519,8 @@ filters:
     # 21/a: 21
     invalid: ['3a', '5', '6', '10', '21a']
     ranges:
-      - {start: '2', end: '40'}
       - {start: '1', end: '43'}
+      - {start: '2', end: '40'}
   Bodola Lajos utca:
     ranges:
       - {start: '1', end: '25'}
@@ -536,9 +530,9 @@ filters:
     # 28b: panel, nincsenek betűk
     invalid: ['5', '28b']
     ranges:
-      - {start: '3', end: '31'}
+      - {start: '1', end: '31'}
       - {start: '2', end: '6'}
-      - {start: '26', end: '28'}
+      - {start: '26', end: '34'}
   Derzsi utca:
     ranges:
       - {start: '1', end: '49'}
@@ -571,10 +565,7 @@ filters:
       - {start: '2', end: '14'}
   Gerezd utca:
     ranges: []
-  Herend utca:
-    ranges:
-      - {start: '13', end: '29'}
-      - {start: '10', end: '28'}
+  # Herend utca:
   Hunyadi János út:
     # 6-10: Pappas Autó csak 6 van kiírva
     # 19 Savoya, 23 OBI, 162 volt házgyár
@@ -786,8 +777,8 @@ filters:
     # 1 = Somlói út 27
     # Lakópark 5 épülettel: Iglói 2, 4, 6a, 6b, Somlói 29, 31
     ranges:
-      - {start: '3', end: '17'}
-      - {start: '32', end: '64'}
+      - {start: '1', end: '17'}
+      - {start: '2', end: '64'}
   Otthon utca:
     # 23ab: bár 2 épület van, de csak sima 23 a kapun.
     invalid: ['23a', '23b']
@@ -894,22 +885,13 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '14'}
-  Bánát utca:
-    ranges:
-      - {start: '1', end: '3'}
-      - {start: '2', end: '14'}
-      - {start: '18', end: '20'}
+  # Bánát utca:
   Bánk bán utca:
     # 12-20 egyben
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '20'}
-  Barázda utca:
-    ranges:
-      - {start: '1', end: '1'}
-      - {start: '2', end: '10'}
-      - {start: '14', end: '30'}
-      - {start: '38', end: '44'}
+  #Barázda utca:
   Bártfai utca:
     invalid: ['35b']
     ranges:
@@ -952,9 +934,7 @@ filters:
     invalid: ['5', '9']
     ranges:
       - {start: '1', end: '17'}
-  Borszéki utca:
-    ranges:
-      - {start: '32', end: '32'}
+  #Borszéki utca:
   Csóka utca:
     invalid: ['2a', '3', '3h', '5b', '9j']
     ranges:
@@ -977,7 +957,12 @@ filters:
     ranges:
       - {start: '11', end: '39'}
       - {start: '18', end: '40'}
-  # Daróczi út:
+  Daróczi út:
+    # 5: nincs
+    # 19 = Nagyszőlős utca 11-15.
+    # 40-42: 38-40 a falon, de a Ibrahim utca 9 az épület
+    # 56 = Nagyszőlős utca 9.
+    invalid: ['5', '19', '42', '56']
   Ercsi út:
     ranges:
       - {start: '1', end: '21'}
@@ -1025,31 +1010,25 @@ filters:
       - {start: '11', end: '17'}
       - {start: '2', end: '52'}
   Györök utca:
+    # 1 = Nagyszőlős utca 16.
+    invalid: ['1']
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '26'}
   Hadak útja:
     # 45-nél nincs kiírva semmi
     invalid: ['45a', '45b', '63b']
-    ranges:
-      - {start: '5', end: '11'}
-      - {start: '17', end: '19'}
-      - {start: '29', end: '65'}
-      - {start: '2', end: '6'}
-      - {start: '30', end: '68'}
   Halmi utca:
     # 55-57
     invalid: ['3a', '3b', '5b', '38a']
-    ranges:
-      - {start: '1', end: '67'}
-      - {start: '2', end: '46'}
   Harcos tér:
     ranges:
       - {start: '5', end: '5'}
       - {start: '2', end: '2'}
   Harcos utca:
-    # 2 = Harcos tér 5
-    invalid: ['2']
+    # 2 = Harcos tér 5.
+    # 5 = Vágfarkasd utca 11.
+    invalid: ['2', '5']
     ranges:
       - {start: '5', end: '11'}
       - {start: '2', end: '8'}
@@ -1071,8 +1050,8 @@ filters:
       - {start: '2', end: '6'}
   Ibrahim utca:
     # 21 = Rőf utca 14.
-    # 28: 26-28
-    invalid: ['21']
+    # 26-28: csak 26 van kiírva
+    invalid: ['21', '28']
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '38'}
@@ -1080,12 +1059,7 @@ filters:
     ranges:
       - {start: '5', end: '33'}
       - {start: '4', end: '28'}
-  Kalotaszeg utca:
-    ranges:
-      - {start: '1', end: '25'}
-      - {start: '31', end: '31'}
-      - {start: '2', end: '26'}
-      - {start: '30', end: '38'}
+  #Kalotaszeg utca:
   Kanizsai utca:
     # 2a: 2-10 A épület, az épületen 2-es szám
     invalid: ['1a', '2a']
@@ -1101,12 +1075,8 @@ filters:
     # 1-13 egyben, 
     # 15-17 csak A lépcsőház, a B lépcsőház a Thallóczy Lajos utca 23-25-re van számozva
     # 33-45 között majd minden lebontva a 35/a kivételével
+    # 10-16 iskola másik oldala
     invalid: ['17b', '35b']
-    ranges:
-      - {start: '1', end: '21'}
-      - {start: '31', end: '45'}
-      - {start: '2', end: '2'}
-      - {start: '18', end: '52'}
   Keveháza utca:
     invalid: ['6c']
     ranges:
@@ -1265,7 +1235,8 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '32'}
   Takács Menyhért utca:
-    invalid: ['27']
+    # 1 = Nagyszőlős utca 20.
+    invalid: ['1', '27']
   Temesvár utca:
     ranges:
       - {start: '1', end: '9'}
@@ -1273,7 +1244,7 @@ filters:
       - {start: '2', end: '20'}
   Tétényi köz:
     ranges:
-      - {start: '1', end: '7'}
+      - {start: '1', end: '9'}
       - {start: '2', end: '10'}
   Tétényi út:
     # 1 = Bartók Béla út 106-110
@@ -1298,9 +1269,6 @@ filters:
       - {start: '2', end: '12'}
   Ulászló utca:
     invalid: ['37a']
-    ranges:
-      - {start: '1', end: '59'}
-      - {start: '2', end: '80'}
   Vahot utca:
     # 2 = Tétényi út 63
     # 4: nincs
@@ -1663,10 +1631,7 @@ filters:
   Bercsényi utca:
     # 26: 26/b van csak
     invalid: ['9f', '26']
-  Bogdánfy utca:
-    ranges:
-      - {start: '1', end: '7'}
-      - {start: '2', end: '8'}
+  #Bogdánfy utca:
   Egry József utca:
     ranges:
       - {start: '1', end: '23'}
@@ -1701,7 +1666,7 @@ filters:
     # 3/k: csak sima 3 - BME K épület
     # 1-3, 3-9: alternatív címek a BME-re, a honlapjukon csak sima 3 szám szerepel
     # 7-9: BME R épület
-    invalid: ['3d', '3k', '5']
+    invalid: ['5']
     ranges:
       - {start: '3', end: '9'}
   Október huszonharmadika utca:
@@ -1737,9 +1702,6 @@ filters:
   Csonttollú utca:
     # 3a: csak sima 3 van
     invalid: ['3a']
-    ranges:
-      - {start: '1', end: '11'}
-      - {start: '2', end: '6'}
   Deáki utca:
     # 12 = Üröm utca 8
     invalid: ['12']
@@ -1846,10 +1808,7 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '4', end: '8'}
-  Csárda utca:
-    ranges:
-      - {start: '1', end: '15'}
-      - {start: '2', end: '12'}
+  # Csárda utca:
   Hérics utca:
     ranges:
       - {start: '1', end: '11'}
@@ -1859,8 +1818,7 @@ filters:
   Igmándi utca:
     ranges:
       - {start: '1', end: '65'}
-      - {start: '2', end: '30'}
-      - {start: '34', end: '44'}
+      - {start: '2', end: '44'}
   Jégcsap utca:
     # 4/6: 4 és 6 külön vannak
     invalid: ['4/6']
@@ -2489,8 +2447,9 @@ filters:
       - {start: '1', end: '13'}
       - {start: '8', end: '18'}
   Rodostó utca:
+    # 1: nincs, az iskola címe: Beregszász út 10.
     # 7: nincs 7/a, csak sima 7
-    invalid: ['7a']
+    invalid: ['1', '7a']
   Rozmaring utca:
     # not sure about the 16
     # 11/a: 11, 11/b
@@ -2513,10 +2472,11 @@ filters:
     # 1: sarok, nincs kiírva semmi
     # 35/a: nincs kiírva semmi
     # Sasadi 58-60: egy lakópark több házzal, KCR és lakó szerint a cím megváltozott: 58-60. A-G épületek. Sasadiról 2 régi egyedi szám a házakon, sima 58 és 60
+    # 91: 91/a és 91/b van kiírva
     # 108/b,c: 108-110: A B C épületek
     # 152a: 152, 152b
     # 172a: 172 van a kapun
-    invalid: ['1b', '58a', '108b', '152a', '172a']
+    invalid: ['1b', '58a', '91', '108b', '152a', '172a']
   Sümegvár köz:
     # 2ab: csak sima 2 van
     # 6: 6/a, 6/b
@@ -2678,9 +2638,6 @@ filters:
   Eszék utca:
     # 18c: csak sima 18
     invalid: ['18c']
-    ranges:
-      - {start: '1', end: '15'}
-      - {start: '2', end: '20'}
   Kemenes utca:
     ranges:
       - {start: '2', end: '10'}
@@ -2689,14 +2646,7 @@ filters:
     # 11b: csak sima 11 van
     # 40/a: ez a lakótelep Villányi út 83-85-ról számozódik A-H épületig, itt csak a 40 van kint
     invalid: ['11b']
-    ranges:
-      - {start: '1', end: '43'}
-      - {start: '2', end: '40'}
-  Szabolcska Mihály utca:
-    ranges:
-      - {start: '1', end: '9'}
-      - {start: '2', end: '2'}
-      - {start: '6', end: '20'}
+  # Szabolcska Mihály utca:
   Tarcali utca:
     # 2a: 2,2b
     invalid: ['2a']
