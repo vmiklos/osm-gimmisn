@@ -6,12 +6,20 @@ filters:
   Babits Mihály köz:
     # 3: valami épül. RESURVEY 2024
     invalid: ['3']
+  Bajcsy-Zsilinszky utca:
+    # 5: Földhivatal szerint Sarló utca 8, régebben volt egy ház de a 3-as ház megette a területet
+    invalid: ['5']
+  Endrődi Sándor utca:
+    # 8 = Alkotás köz 2.
+    # 20: Jókai Mór utca 2/1 a címe a templomnak
+    invalid: ['8','20']
   Erkel Ferenc utca:
     # 59: csak páros oldal van, páratlan oldalon szántóföld és Lovashoz tartozik
     invalid: ['59']
   Fő utca:
     # 20: nincs, 18 után 22
-    invalid: ['20']
+    # 47: nincs, utolsó ház a 41.
+    invalid: ['20', '47']
   Gárdonyi Géza utca:
     # 34: utolsó kiírt páros 14 és egy sarki ház van amint nincs szám
     invalid: ['34']
@@ -27,6 +35,9 @@ filters:
   Madách Imre utca:
     # 72: max páros a 26
     invalid: ['72']
+  Petőfi köz:
+    # 2: nincs, illetve a földhivatalban Patak utca 14-re mutat, ami egész máshol van
+    invalid: ['2']
   Római út:
     # Hrsz 1066-os telek földhivatal szerint a 61-85 közötti házszámok. RESURVEY 2024
     # A telken 4 ház van, az egyiken 1066/6 van kiírva, a többin semmi.
@@ -40,6 +51,13 @@ filters:
     # 11 = Hotel Mayer vendégháza, nincs külön száma erről az utcáról
     invalid: ['11']
     show-refstreet: false
+  Vöröskő utca:
+    # Régi név: Úttörő utca
+    # 36,38,42: 32 az utolsó páros, a többi szám átkerült a Templom utcára
+    invalid: ['1']
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '32'}
   Vörösmarty Mihály utca:
     # páros nincs kiírva, döntően Füredi útra számozva
     ranges:
@@ -58,14 +76,13 @@ refstreets:
   'Mandula út': 'Mandula utca'
   'Napsugár út': 'Napsugár utca'
   'Óvoda köz': 'Óvoda utca'  # táblán Óvoda köz, rendelőn Óvoda utca
-  # 119/2018 (IX. 13) határozatban javítva teljes névre, utcatáblák ellenőrizendők
-  'Petőfi Sándor köz': 'Petőfi köz'
   # 119/2018 (IX. 13) határozatban javítva teljes névre, ellenőrzött
   'Bihari János utca': 'Bihari utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai utca'
   'Hunyadi János utca': 'Hunyadi utca'  # kék-sárga javítva, de a régi táblák is kint vannak
   'Jókai Mór utca': 'Jókai utca'
   'Kinizsi Pál utca': 'Kinizsi utca'  # kék-sárga javítva, de a régi táblák is kint vannak
+  # 'Petőfi Sándor köz': 'Petőfi köz'  # Petőfi köz van kint, a földhivatalban is így van
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
 street-filters:
   - Halacs dűlő  # már utcákra osztva - 119/2018 (IX. 13) határozatban törölve
