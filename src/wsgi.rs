@@ -1548,7 +1548,8 @@ fn our_application_gpx(
     let mut headers: webframe::Headers = Vec::new();
     // assume prefix + "/additional-streets/"
     let (output, relation_name) =
-        wsgi_additional::additional_streets_view_gpx(ctx, relations, request_uri)?;
+        wsgi_additional::additional_streets_view_gpx(ctx, relations, request_uri)
+            .context("additional_streets_view_gpx() failed")?;
     headers.push((
         "Content-Disposition".into(),
         format!(r#"attachment;filename="{relation_name}.gpx""#).into(),
@@ -1675,7 +1676,8 @@ fn our_application(
     }
 
     if ext == "gpx" {
-        return our_application_gpx(ctx, &mut relations, &request_uri);
+        return our_application_gpx(ctx, &mut relations, &request_uri)
+            .context("our_application_gpx() failed");
     }
 
     let prefix = ctx.get_ini().get_uri_prefix();
