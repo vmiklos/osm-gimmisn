@@ -3,6 +3,9 @@ filters:
   Ady Endre utca:
     # 7: Alkotás köz felől, vmi épül. RESURVEY 2024
     invalid: ['7', '22']
+  Almádi utca:
+    # nincs táblázva az Almádi utca és házszámai sem
+    invalid: ['4']
   Babits Mihály köz:
     # 3: valami épül. RESURVEY 2024
     invalid: ['3']
@@ -26,6 +29,12 @@ filters:
   Kisloki utca:
     # 14: 6 és 16 között nincs kiírva semmi. RESURVEY 2024
     invalid: ['14']
+  Kossuth Lajos utca:
+    # 10: nincs
+    # 16: 12 (nincs kiírva) után 20 jön (kiírva)
+    # 26: utolsó páros a 20.
+    # 29: nincs, utolsó épület a 27.
+    invalid: ['10', '16', '26', '29']
   Honvéd utca:
     # 22: max páros a 20, utána van egy telek aminek innen nincs bejárata
     invalid: ['22']
@@ -35,6 +44,9 @@ filters:
   Madách Imre utca:
     # 72: max páros a 26
     invalid: ['72']
+  Mátyás kirány utca:
+    # 10: helyén 8 van kiírva. tulaj nem tudta megerősíteni, hogy 10 lenne a házszáma
+    invalid: ['10']
   Petőfi köz:
     # 2: nincs, illetve a földhivatalban Patak utca 14-re mutat, ami egész máshol van
     invalid: ['2']
@@ -47,6 +59,17 @@ filters:
   Sarló utca:
     # 6: helyén 4 van kiírva
     invalid: ['6']
+  Szabadság tér:
+    # 5: A helyén 3 van a ház kukáján, és az ÉTDR-ben is.
+    # 24: Földhivatal szerint a Hegyalja utca 24 ez, ami 2 utcára van innen.
+    # 28: nincs kiírva, elvileg a 26 mögött lenne.
+    invalid: ['5', '24', '28']
+  Szegfű utca:
+    # 15: nincs, 13/a után 17
+    invalid: ['15']
+  Szent István utca:
+    # 25: nincs, 23 után 27.
+    invalid: ['25']
   Vízöntő utca:
     # 11 = Hotel Mayer vendégháza, nincs külön száma erről az utcáról
     invalid: ['11']
