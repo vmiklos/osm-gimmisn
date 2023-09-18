@@ -20,6 +20,8 @@ use crate::areas;
 use crate::context;
 use crate::wsgi;
 
+use super::*;
+
 /// Tests additional streets: the txt output.
 #[test]
 fn test_streets_view_result_txt() {
@@ -494,4 +496,30 @@ fn test_streets_no_ref_streets_well_formed() {
 
     let results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='no-ref-streets']");
     assert_eq!(results.len(), 1)
+}
+
+/// Tests get_gpx_street_lat_lon(), the case when a "street" is a node.
+#[test]
+fn test_get_gpx_street_lat_lon_node() {
+    let json = serde_json::json!({
+        "elements": [
+            {
+                "type": "node",
+                "id": 42,
+                "lat": 47,
+                "lon": 18,
+                "tags": {
+                    "addr:city": "mycity",
+                    "addr:housenumber": "43",
+                    "addr:postcode": "1234",
+                    "addr:street": "mystreet",
+                },
+            },
+        ],
+    });
+    let overpass: OverpassResult = serde_json::from_value(json).unwrap();
+    let element = &overpass.elements[0];
+    let (lat, lon) = get_gpx_street_lat_lon(&overpass, &element);
+    assert_eq!(lat, "47");
+    assert_eq!(lon, "18");
 }
