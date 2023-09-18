@@ -34,6 +34,23 @@ struct OverpassResult {
     elements: Vec<OverpassElement>,
 }
 
+fn get_gpx_street_lat_lon(
+    overpass: &OverpassResult,
+    element: &OverpassElement,
+) -> (String, String) {
+    if let Some(ref nodes) = element.nodes {
+        let node_id = nodes.clone()[0];
+        let node = overpass.elements.iter().find(|i| i.id == node_id).unwrap();
+        let lat = node.lat.unwrap().to_string();
+        let lon = node.lon.unwrap().to_string();
+        (lat, lon)
+    } else {
+        let lat = element.lat.unwrap().to_string();
+        let lon = element.lon.unwrap().to_string();
+        (lat, lon)
+    }
+}
+
 /// Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-result.gpx.
 pub fn additional_streets_view_gpx(
     ctx: &context::Context,
@@ -82,18 +99,12 @@ pub fn additional_streets_view_gpx(
         }
         streets.sort_by_key(|street| util::get_sort_key(street.get_osm_name()));
         for street in streets {
-            let overpass_way = overpass
+            let overpass_element = overpass
                 .elements
                 .iter()
                 .find(|i| i.id == street.get_osm_id())
                 .unwrap();
-            let node_id = overpass_way
-                .nodes
-                .clone()
-                .context(format!("street {} has no nodes", street.get_osm_id()))?[0];
-            let overpass_node = overpass.elements.iter().find(|i| i.id == node_id).unwrap();
-            let lat = overpass_node.lat.unwrap().to_string();
-            let lon = overpass_node.lon.unwrap().to_string();
+            let (lat, lon) = get_gpx_street_lat_lon(&overpass, overpass_element);
             let wpt = gpx.tag("wpt", &[("lat", &lat), ("lon", &lon)]);
             let name = wpt.tag("name", &[]);
             name.text(street.get_osm_name());
