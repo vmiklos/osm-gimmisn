@@ -7,15 +7,17 @@ refstreets:
   # tábla = osm
   'Bocskai István utca': 'Bocskay utca'
   'Csók István utca': 'Csók utca'
+street-filters:
+  # terület
+  - Öreghegy
+  # nem igazi utcák
+  - Máv őrház
 osm-street-filters:
   # nem igazi utcák
   - Régi játszótér
-  - Máv őrház
   # parkok
   - Liget
   - Uniós park
-  # terület
-  - Öreghegy
 source: survey
 housenumber-letters: false
 inactive: true
