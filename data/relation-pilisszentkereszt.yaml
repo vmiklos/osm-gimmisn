@@ -1,0 +1,12 @@
+missing-streets: 'yes'
+refstreets:
+  'Eötvös Loránd utca': 'Eötvös Lóránd utca'
+  'Téry Ödön út': 'Téry Ödön utca'
+street-filters:
+  # nem igazi utcák
+  - Dobogókő Mikró áll.
+  - Dobogókő erdészház
+  - Kakashegy erdészház
+# osm-street-filters:
+source: survey
+inactive: true
