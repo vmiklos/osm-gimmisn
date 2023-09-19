@@ -443,6 +443,9 @@ filters:
   Szürkebarát utca:
     # 40: Felső vízszintes részen nincsenek kint házszámok és utcanév se: 2023-04. RESURVEY 2024
     invalid: ['40']
+  Tas utca:
+    # 16-18: csak 18 van kiírva
+    invalid: ['16']
   Templom utca:
     # 4: páros oldal az Erkel Ferencről számozódik
     invalid: ['4']

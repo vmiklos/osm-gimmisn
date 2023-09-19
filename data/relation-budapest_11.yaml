@@ -107,11 +107,11 @@ filters:
     invalid: ['1b', '2']
   Balatoni út:
     # 2: Budapest one: Balatoni út 2/a
-    # 198-202 házszámok nincsenek a Shell kút környékén, 198/4 a 41-es villamos mellet
+    # 198-202 házszámok nincsenek a Shell kút környékén, 198/4 a 41-es villamos mellett
     # ref-ben levo hrsz-ek kiszurese
     # 36,38,141,151: nincsenek ilyen számok, alig van pár épület aminenk van száma, ráadásul a 44 és a 143 ugyanazon az oldalon van
     # 144/4, 160/33: hrsz
-    invalid: ['2', '36', '38', '144/4', '151', '160']
+    invalid: ['2', '36', '38', '144/4', '151', '160', '198']
     ranges:
       - {start: '2', end: '198'}
       - {start: '141', end: '151'}
@@ -2094,7 +2094,10 @@ filters:
     ranges:
       - {start: '1', end: '75'}
       - {start: '2', end: '22'}
-  #Rimaszombati út:
+  Rimaszombati út:
+    # 1: nincs
+    # 3b: 3A3 van a Május utca felőli kapun, más nincs
+    invalid: ['1', '3b']
   Ringló út:
     # Területhatár, páratlan: Budafok
     # 10a: csak 10 és 10b van
