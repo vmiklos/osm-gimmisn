@@ -38,6 +38,9 @@ osm-street-filters:
   # nem igazi utcák
   - felszedett bányavasút
   # Pilisvörösvár
-  - Szentiváni utca
+  - Szentiváni út
+  # parkok/turistaút
+  - Bükkös-árok
+  - Kuczmag rét 
 source: survey
 inactive: true
