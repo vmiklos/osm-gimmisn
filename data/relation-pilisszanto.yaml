@@ -1,7 +1,14 @@
 missing-streets: 'yes'
 refstreets:
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
-# street-filters:
+street-filters:
+  # nem igazi utcák
+  - Pest.m.tan.kisegitő iskola
+  # településrész
+  - Légrádi tanya
 osm-street-filters:
+  # turistautak
+  - Csillagösvény
+  - Szontagh Ottó útja
 source: survey
 inactive: true
