@@ -1,0 +1,7 @@
+missing-streets: 'yes'
+refstreets:
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+# street-filters:
+# osm-street-filters:
+source: survey
+inactive: true

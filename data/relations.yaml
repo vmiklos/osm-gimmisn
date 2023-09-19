@@ -697,10 +697,18 @@ pilisjaszfalu:
     osmrelation: 215938
     refcounty: "14"
     refsettlement: "107"
+pilisszanto:
+    osmrelation: 215940
+    refcounty: "14"
+    refsettlement: "108"
 pilisszentivan:
     osmrelation: 215944
     refcounty: "14"
     refsettlement: "109"
+pilisszentkereszt:
+    osmrelation: 216168
+    refcounty: "14"
+    refsettlement: "110"
 pilisvorosvar:
     osmrelation: 215943
     refcounty: "14"
