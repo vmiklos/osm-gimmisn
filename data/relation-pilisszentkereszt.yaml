@@ -7,6 +7,14 @@ street-filters:
   - Dobogókő Mikró áll.
   - Dobogókő erdészház
   - Kakashegy erdészház
-# osm-street-filters:
+  # településrész
+  - Dobogókő
+osm-street-filters:
+  # nem igazi utcák
+  - Alakulótér
+  # turistaút
+  - Szontagh Ottó útja
+  - Thirring körút
+  - Római út
 source: survey
 inactive: true
