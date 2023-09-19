@@ -541,7 +541,7 @@ osm-street-filters:
   - Kézfogás Európa Szoborpark
   - Spirál
   - Szent István park
-  - Szent Erzsébet liget
+  # - Szent Erzsébet liget
   # Településrész
   - Lozsánta
   # Ellenőrzött, létező
