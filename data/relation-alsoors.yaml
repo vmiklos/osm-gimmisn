@@ -47,6 +47,9 @@ filters:
   Mátyás kirány utca:
     # 10: helyén 8 van kiírva. tulaj nem tudta megerősíteni, hogy 10 lenne a házszáma
     invalid: ['10']
+  Mihálkovics sétány:
+    # 19, 28: nincsenek kiírva, de vannak még építkezések és nem kiírt házak a Patak utcánál is. RESURVEY 2024
+    invalid: ['19', '28']
   Petőfi köz:
     # 2: nincs, illetve a földhivatalban Patak utca 14-re mutat, ami egész máshol van
     invalid: ['2']
@@ -68,8 +71,9 @@ filters:
     # 15: nincs, 13/a után 17
     invalid: ['15']
   Szent István utca:
+    # 1: nincs, a Hotelhez tartozik a telek
     # 25: nincs, 23 után 27.
-    invalid: ['25']
+    invalid: ['1', '25']
   Vízöntő utca:
     # 11 = Hotel Mayer vendégháza, nincs külön száma erről az utcáról
     invalid: ['11']
