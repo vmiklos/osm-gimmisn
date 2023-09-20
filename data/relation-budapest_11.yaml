@@ -751,7 +751,7 @@ filters:
     # 245 a kocsiszín azon épületének házszáma, ahol a lángosos volt, lebontották
     # páros ------------------------------------------------------------------
     # 4-8: első épület a 10-es szám, az iskola, valószínű 2-10 volt régen
-    # 14-22: Fehérvári úti vásárcsarnok, Kőrőssy József utcára számozva, 22-es a sarkon kint van
+    # 14-22: Fehérvári úti vásárcsarnok, Kőrőssy József utcára számozva, de a 14-22-es a piac oldalán kint van
     # 40-42: vasúti híd
     # 44 A épület, de 44 van csak kiírva
     # 45/a: 45 és 45-53/B van kiírva
@@ -766,10 +766,7 @@ filters:
       - {start: '1', end: '161'}
       - {start: '179', end: '247'}
       - {start: '2', end: '2'}
-      - {start: '10', end: '12'}
-      - {start: '22', end: '152'}
-      - {start: '160', end: '160'}
-      - {start: '166', end: '204'}
+      - {start: '10', end: '204'}
   Fejér Lipót utca:
     ranges:
       - {start: '13', end: '15'}
@@ -906,6 +903,8 @@ filters:
     # 55-57
     invalid: ['3a', '3b', '5b', '38a']
   Hamzsabégi út:
+    # 65: max házszám a 64, a tenisz pálya
+    invalid: ['65']
     interpolation: 'all'
   Haraszt utca:
     ranges:
