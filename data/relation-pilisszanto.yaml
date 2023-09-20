@@ -1,6 +1,6 @@
 missing-streets: 'yes'
 refstreets:
-  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+  'Vörösmarty út': 'Vörösmarty utca'  # táblán Vörösmarty út
 street-filters:
   # nem igazi utcák
   - Pest.m.tan.kisegitő iskola
