@@ -44,7 +44,7 @@ filters:
   Madách Imre utca:
     # 72: max páros a 26
     invalid: ['72']
-  Mátyás kirány utca:
+  Mátyás király utca:
     # 10: helyén 8 van kiírva. tulaj nem tudta megerősíteni, hogy 10 lenne a házszáma
     invalid: ['10']
   Mihálkovics sétány:
