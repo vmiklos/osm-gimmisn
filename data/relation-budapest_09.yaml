@@ -58,7 +58,7 @@ refstreets:
   # helyesírás
   'Távíró köz': 'Táviró köz'
   # utcajegyzék = REF, OSM eltér
-  'Knézich utca': 'Knézits utca'  # utcatábla = OSM
+  # 'Knézich utca': 'Knézits utca'  # kijavították a táblát
   'Gregersen Gulbrand körönd': 'Gregersen körönd'
   'Lenkey János utca': 'Lenkei János utca'
 source: survey
