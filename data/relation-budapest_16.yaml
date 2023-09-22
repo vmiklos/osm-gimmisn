@@ -38,8 +38,6 @@ refstreets:
   'Döbrőce utca': 'Döbröce utca'
   'Fehér sas utca': 'Fehérsas utca'
   'Ladháza utca': 'Ládháza utca'
-  # utcajegyzék = REF: OSM hibás, nincs szabadon felhasználható kép
-  'Knézich utca': 'Knézits utca'
   #
   'Regős liget': 'Regös liget'
 source: survey
