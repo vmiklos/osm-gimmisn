@@ -519,7 +519,43 @@ fn test_get_gpx_street_lat_lon_node() {
     });
     let overpass: OverpassResult = serde_json::from_value(json).unwrap();
     let element = &overpass.elements[0];
-    let (lat, lon) = get_gpx_street_lat_lon(&overpass, &element);
+    let (lat, lon) = get_gpx_street_lat_lon(&overpass, &element).unwrap();
     assert_eq!(lat, "47");
     assert_eq!(lon, "18");
+}
+
+/// Tests get_gpx_street_lat_lon(), the case when a "street" is a relation.
+#[test]
+fn test_get_gpx_street_lat_lon_relation() {
+    let json = serde_json::json!({
+        "elements": [
+            {
+                "type": "relation",
+                "id": 2262333,
+                "members": [
+                    {
+                        "ref": 366696002,
+                    },
+                ],
+            },
+            {
+                "type": "way",
+                "id": 366696002,
+                "nodes": [
+                    370687421,
+                ]
+            },
+            {
+                "type": "node",
+                "id": 370687421,
+                "lat": 47.0273397,
+                "lon": 18.0187039
+            },
+        ]
+    });
+    let overpass: OverpassResult = serde_json::from_value(json).unwrap();
+    let element = &overpass.elements[0];
+    let (lat, lon) = get_gpx_street_lat_lon(&overpass, &element).unwrap();
+    assert_eq!(lat, "47.0273397");
+    assert_eq!(lon, "18.0187039");
 }

@@ -19,11 +19,19 @@ use crate::webframe;
 use crate::yattag;
 use anyhow::Context;
 
+/// OverpassMember represents one member of a relation's members.
+#[derive(serde::Deserialize)]
+struct OverpassMember {
+    #[serde(rename = "ref")]
+    ref_id: u64,
+}
+
 /// OverpassElement represents one result from Overpass.
 #[derive(serde::Deserialize)]
 struct OverpassElement {
     id: u64,
     nodes: Option<Vec<u64>>,
+    members: Option<Vec<OverpassMember>>,
     lat: Option<f64>,
     lon: Option<f64>,
 }
@@ -37,17 +45,25 @@ struct OverpassResult {
 fn get_gpx_street_lat_lon(
     overpass: &OverpassResult,
     element: &OverpassElement,
-) -> (String, String) {
-    if let Some(ref nodes) = element.nodes {
+) -> anyhow::Result<(String, String)> {
+    if let Some(ref members) = element.members {
+        let member = &members[0];
+        let way = overpass
+            .elements
+            .iter()
+            .find(|i| i.id == member.ref_id)
+            .unwrap();
+        get_gpx_street_lat_lon(overpass, way)
+    } else if let Some(ref nodes) = element.nodes {
         let node_id = nodes.clone()[0];
         let node = overpass.elements.iter().find(|i| i.id == node_id).unwrap();
         let lat = node.lat.unwrap().to_string();
         let lon = node.lon.unwrap().to_string();
-        (lat, lon)
+        Ok((lat, lon))
     } else {
-        let lat = element.lat.unwrap().to_string();
-        let lon = element.lon.unwrap().to_string();
-        (lat, lon)
+        let lat = element.lat.context("missing lat")?.to_string();
+        let lon = element.lon.context("missing lon")?.to_string();
+        Ok((lat, lon))
     }
 }
 
@@ -104,7 +120,8 @@ pub fn additional_streets_view_gpx(
                 .iter()
                 .find(|i| i.id == street.get_osm_id())
                 .unwrap();
-            let (lat, lon) = get_gpx_street_lat_lon(&overpass, overpass_element);
+            let (lat, lon) = get_gpx_street_lat_lon(&overpass, overpass_element)
+                .context("get_gpx_street_lat_lon() failed")?;
             let wpt = gpx.tag("wpt", &[("lat", &lat), ("lon", &lon)]);
             let name = wpt.tag("name", &[]);
             name.text(street.get_osm_name());
