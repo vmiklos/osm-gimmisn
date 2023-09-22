@@ -75,7 +75,6 @@ refstreets:
   'Duna sor': 'Dunasor'
   'Kossuth Lajos utca': 'Kossuth utca'  # utcatábla = OSM
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # utcatábla = OSM
-  'Venetiáner utca': 'Venetianer utca'  # utcatábla = OSM
 source: survey
 housenumber-letters: false
 inactive: true
