@@ -51,7 +51,7 @@ refstreets:
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # utcatábla Kölcsey Ferenc utca
   'Óceánárok utca': 'Óceán-árok utca'  # utcatálba Óceánárok utca
   'Ódry Árpád utca': 'Ódry utca'  # utcatábla Ódry Árpád u.
-  'Venetiáner utca': 'Venetianer utca'  # utcatábla Venetiáner utca
+  # 'Venetiáner utca': 'Venetianer utca'  # utcatábla vegyesen Venetianer/Venetiáner utca
   # utcatábla hibás
   'Lőrincz utca': 'Lőrinc utca'
 source: survey
