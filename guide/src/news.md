@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+
+- Resolves: gh#3288 additional streets, gpx: handle nodes and relations as well
+
 ## 7.6
 
 - Rouille: new `--host` parameter to specify the bind address
