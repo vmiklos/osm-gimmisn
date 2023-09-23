@@ -25,6 +25,10 @@ osm-street-filters:
   - futókör
   - vitorlázó start-rámpa
   - Virágpiac
+  # belső utcák
+  - Patakhegyi utca 17. II. sor
+  - Patakhegyi utca 17. III. sor
+  - Patakhegyi utca 17. IV. sor
   # parkok, sétányok, lépcsők, udvarok, ösvények
   - Bánffy György emlékpark
   - Emlékek útvesztője
