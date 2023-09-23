@@ -1653,7 +1653,8 @@ filters:
       - {start: '3', end: '9'}
   Nádorliget utca:
     # 7 A-D; 8 A-F
-    invalid: ['7', '8']
+    # 9 = Hauszamnn Alajos utca 3/b
+    invalid: ['7', '8', '9']
     ranges:
       - {start: '5', end: '11'}
       - {start: '4', end: '8'}
