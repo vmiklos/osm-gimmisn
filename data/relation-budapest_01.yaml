@@ -199,6 +199,9 @@ filters:
     # 1-47 és páros: XI. kerület
     ranges:
       - {start: '51', end: '51'}
+  Szalag utca:
+    # Szalag lépcső 1
+    invalid: ['1']
   Számadó utca:
     # 1-17: I. kerület, 19: XI. kerület
     # páros: XI. kerület
