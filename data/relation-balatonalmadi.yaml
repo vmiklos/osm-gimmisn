@@ -541,7 +541,7 @@ osm-street-filters:
   - Kézfogás Európa Szoborpark
   - Spirál
   - Szent István park
-  # - Szent Erzsébet liget
+  - Szent Erzsébet liget
   # Településrész
   - Lozsánta
   # Ellenőrzött, létező
@@ -551,8 +551,6 @@ osm-street-filters:
   - Ipoly köz
   - Madách köz
   - Othelló utca
-  # Teszt
-  - Vadvirág út
 street-filters:
   # Nem igazi utcák
   - Óvári kilátó
