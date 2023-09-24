@@ -147,8 +147,9 @@ filters:
     invalid: ['5']
   Felsőörsi út:
     # 9 = Rózsa utca 8
+    # 34-36: csak 34 vagy kiírva
     # 48 = 46-ra van számozva, ez az utolsó ház Balatonalmádiban
-    invalid: ['9', '48']
+    invalid: ['9', '36', '48']
   Fény utca:
     # 3-13: 3, 5, 11 van kiírva, utána van még egy ház
     invalid: ['7', '9', '13']
@@ -304,8 +305,9 @@ filters:
     show-refstreet: false
   Magyar utca:
     # az utcát átszámozták, most vegyesen vannak kint a házszámok és mellesleg az utcának sok mellékága van
-    # 12: új épület RESURVEY 2022
-    invalid: ['25', '45', '55', '75']
+    # 12: ÉTDR új épület. RESURVEY 2024
+    # 30: KCR új, még nincs épület, 10592/6. RESURVEY 2024
+    invalid: ['25', '30', '45', '55', '75']
   Malomvölgyi utca:
     # 25: domboldal, nem látszik épkézláb bejárat lentről
     # 32: tulaj megkérdezve, ok
