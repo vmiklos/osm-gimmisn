@@ -161,9 +161,11 @@ filters:
     invalid: ['4a', '6a', '6b', '13']
   Barázda utca:
     # 2 = Fehérvári út 118/b
+    # 3: még épül. RESURVEY 2024
+    # 5a = 5. A lépcsőház
     # 12-16 = Főtáv, Kalotaszeg utca 9.
     # 32-26 = Főtáv, Kalotaszeg utca 31.
-    invalid: ['2']
+    invalid: ['2','3', '5a']
     ranges:
       - {start: '1', end: '65'}
       - {start: '2', end: '10'}
@@ -350,7 +352,7 @@ filters:
     # <=152 is just the Sasad part, 169 is actually 169-179/a .. 169-179/h
     # 1b: csak sima 1
     # 10: 10/a, 10/b
-    # 21,29: 19, 25, 27, x, 27/a, 27/b; x=29? CHECK 2021-10 RESURVEY
+    # 21,29: 19, 25, 27, x, 27/a, 27/b; x=29? CHECK 2023-09 RESURVEY 2024
     # 40a, 40b: csak sima 40 van
     # 45: 45/a, 45/b
     # 51: 51/a, 51/b, 51/c
@@ -636,7 +638,7 @@ filters:
   Egyetemisták parkja:
     ranges: []
   Elek utca:
-    # 3: 3a, 3b. 3/a helyén nincs kiírva semmi. CHECK 2022-05-23 RESURVEY
+    # 3: 3a, 3b. 3/a helyén nincs kiírva semmi. CHECK 2022-05-23 RESURVEY 2024
     # 9: 9a, 9b
     # 28a: csak sima
     invalid: ['3', '9', '28a']
@@ -726,7 +728,7 @@ filters:
     # 19/1 van csak a másik kettő nem létezik
     invalid: ['1/2', '1/9', '19']
   Fadrusz utca:
-    # 11,11b: CHECK 2022-06-01 felépült, de még nincs kint házszám, nem lehet tudni, hogy mi lesz a házszám 11,11b,13 közül valami. RESURVEY
+    # 11,11b: CHECK 2022-06-01 felépült, de még nincs kint házszám, nem lehet tudni, hogy mi lesz a házszám 11,11b,13 közül valami. RESURVEY 2024
     invalid: ['11', '11b']
     ranges:
       - {start: '1', end: '31'}
