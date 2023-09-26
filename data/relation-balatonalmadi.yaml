@@ -436,9 +436,6 @@ filters:
     #,62, 64 nincs kiírva 2023-04. RESURVEY 2024
     # 82 új ház, még nincs szám nincs kiírva 2023-04. RESURVEY 2024
     invalid: ['30', '62', '64', '82']
-  Szürkebarát utca:
-    # 40: Felső vízszintes részen nincsenek kint házszámok és utcanév se: 2023-04. RESURVEY 2024
-    invalid: ['40']
   Szúnyog utca:
     # 1-9 nincsenek házak csak fák, nádas
     invalid: ['9']
