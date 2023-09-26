@@ -1214,9 +1214,8 @@ filters:
     ranges:
       - {start: '1', end: '69'}
       - {start: '2', end: '72'}
-  Kászony utca:
+  # Kászony utca:
     # 1 = Vágfarkasd utca 3.
-    invalid: ['1']
   Katafa utca:
     # 1: 1/1, 1/2, 1/3, 1/4
     # 2/b: ikerház, de csak a 2/a van a kapun kiírva az egyik oldalon, a házon 2-es szám van mindkét oldalon
@@ -1598,10 +1597,12 @@ filters:
       - {start: '16', end: '18'}
   Mikes Kelemen utca:
     # 5: 5a, 5b ikerház
+    # 10-12: bódés terület, 8 van kiírva egy rozoga táblán
+    # 27: nincs, ezen a részen Igmándi utca 18-24 panel hátulja
     # 39a: csak sima 39 és 39/b van
     # 50: csak 50/b van kiírvan, de van több ház
     # 65a: recheck 65 két részből áll, az egyik felére 65/b van kiírva (g* szerint 65/a), a másikra semmi, meghagytam a sima 65-öt.
-    invalid: ['5', '39a', '50', '65a']
+    invalid: ['5', '10', '12', '27', '39a', '50', '65a']
     ranges:
       - {start: '1', end: '77'}
       - {start: '2', end: '62'}
@@ -1648,7 +1649,6 @@ filters:
     # 3/k: csak sima 3 - BME K épület
     # 1-3, 3-9: alternatív címek a BME-re, a honlapjukon csak sima 3 szám szerepel
     # 7-9: BME R épület
-    invalid: ['5']
     ranges:
       - {start: '3', end: '9'}
   Nádorliget utca:
