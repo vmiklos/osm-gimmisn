@@ -7,6 +7,7 @@ refstreets:
   # tábla = osm
   'Bocskai István utca': 'Bocskay utca'
   'Csók István utca': 'Csók utca'
+  'Schédl Alajos utca': 'Schédl Lajos utca'
 street-filters:
   # terület
   - Öreghegy
@@ -17,6 +18,7 @@ osm-street-filters:
   - Régi játszótér
   # parkok
   - Liget
+  - Széchenyi park
   - Uniós park
   # Mélyút -> loc_name, eleje Rigóvölgy utcára számozva, ez inkább az út típusa mint neve
 source: survey
