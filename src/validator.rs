@@ -296,6 +296,11 @@ pub fn our_main(
             serde_yaml::from_str(&data).context("serde_yaml::from_str() failed")?;
         validate_relations(&mut errors, &relations_dict)?;
     } else {
+        // This will fail if the data is not well-formed (e.g. in case of duplicated keys):
+        serde_yaml::from_str::<serde_yaml::Value>(&data)
+            .context(format!("failed to validate {yaml_path}"))?;
+
+        // Then check if the data is valid:
         let relation_dict: areas::RelationDict =
             serde_yaml::from_str(&data).context(format!("failed to validate {yaml_path}"))?;
         let parent = "";
