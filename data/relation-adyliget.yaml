@@ -11,6 +11,8 @@ filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Rézsű utca': 'Rézsü utca'
+  'Rézsű utca': 'Rézsü1 utca'
+  'Rézsű1 utca': 'Rézsü utca'
   'Bocskai utca': 'Bocskai István útja'
 source: survey
 inactive: true
