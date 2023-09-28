@@ -172,7 +172,8 @@ filters:
       - {start: '20', end: '30'}
       - {start: '40', end: '40'}
   Bártfai utca:
-    invalid: ['35b']
+    # 13 = Mohai út 28.
+    invalid: ['13', '35b']
     ranges:
       - {start: '1', end: '65'}
       - {start: '2', end: '52'}
@@ -319,7 +320,8 @@ filters:
     # 20: 20/a, 20/b
     # 28: 28/a, 28/b
     # 31-37/a: 31 = Bornemissza tér 16, 37/a van
-    invalid: ['20', '28', '35a', '35b']
+    # 37: 37/a, 37/b van egy házon, van egy külön ház 37/c
+    invalid: ['20', '28', '35a', '35b', '37']
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '34'}
@@ -553,10 +555,11 @@ filters:
       - {start: '4', end: '18'}
   Daróczi út:
     # 5: nincs
+    # 11: 13/a lett átszámozva, ott még nincs kiírva, de a 9-11-ről már lekerült
     # 19 = Nagyszőlős utca 11-15.
     # 40-42: 38-40 a falon, de a Ibrahim utca 9 az épület
     # 56 = Nagyszőlős utca 9.
-    invalid: ['5', '19', '42', '56']
+    invalid: ['5', '11', '19', '42', '56']
   Dávid Ferenc utca:
     # 2: 2/a, 2/b
     # 4-6: Henkel csak a 6-ot használja
@@ -1333,7 +1336,8 @@ filters:
     invalid: ['6b', '8a', '8b', '10a']
   Kocsis utca:
     # 3-7: Kocsis szállón csak 5-ös szám van, 7 helyén Zámori utca 19, bár csak filctollal van kiírva a kapucsengőre.
-    invalid: ['7']
+    # 11 = Fejér Lipót utca 60.
+    invalid: ['7', '11']
     ranges:
       - {start: '1', end: '11'}
   Kohó utca:
@@ -1974,12 +1978,12 @@ filters:
       - {start: '43', end: '77'}
   Petzvál József utca:
     # 1b: csak 1 van kiírva
-    invalid: ['1b', '17', '18', '22', '22c', '22d', '22e']
+    # 16: Náday Ferenc utca 14.
+    # 21: Bártfai utca 7.
+    invalid: ['1b', '16', '17', '18', '21', '22', '22c', '22d', '22e']
     ranges:
-      - {start: '1', end: '27'}
-      - {start: '31', end: '43'}
-      - {start: '4', end: '18'}
-      - {start: '22', end: '56'}
+      - {start: '1', end: '43'}
+      - {start: '2', end: '56'}
   Pór Bertalan köz:
     invalid: ['10b', '106']
   Postás utca:
