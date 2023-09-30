@@ -1,3 +1,4 @@
+# refcounty: "01"; refsettlement: "002"
 missing-streets: 'no'
 filters:
   Ali utca:
@@ -90,3 +91,4 @@ filters:
       - {start: '35', end: '43'}
 source: survey
 inactive: true
+housenumber-letters: true

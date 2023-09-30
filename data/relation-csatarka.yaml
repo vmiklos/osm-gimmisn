@@ -1,3 +1,4 @@
+# refcounty: "01"; refsettlement: "002"
 missing-streets: 'no'
 filters:
   Csatárka út:
@@ -43,3 +44,4 @@ filters:
     ranges: []
 source: survey
 inactive: true
+housenumber-letters: true

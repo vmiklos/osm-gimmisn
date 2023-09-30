@@ -1,3 +1,4 @@
+# refcounty: "01"; refsettlement: "002"
 missing-streets: 'no'
 filters:
   Barlang utca:
@@ -59,3 +60,4 @@ refstreets:
   'Felhévízi utca': 'Felhévizi utca'
 source: survey
 inactive: true
+housenumber-letters: true

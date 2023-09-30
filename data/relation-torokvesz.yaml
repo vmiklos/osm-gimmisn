@@ -1,3 +1,4 @@
+# refcounty: "01"; refsettlement: "002"
 missing-streets: 'no'
 filters:
   Ábrányi Emil utca:
@@ -113,3 +114,4 @@ filters:
       - {start: '1', end: '23'}
 source: survey
 inactive: true
+housenumber-letters: true
