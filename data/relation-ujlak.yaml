@@ -1,3 +1,4 @@
+# refcounty: "01"; refsettlement: "002"
 missing-streets: 'no'
 filters:
   Alsó Zöldmáli út:
@@ -151,3 +152,4 @@ refstreets:
   'Felhévízi utca': 'Felhévizi utca'  # 6 táblából 5-ön hosszú í
 source: survey
 inactive: true
+housenumber-letters: true
