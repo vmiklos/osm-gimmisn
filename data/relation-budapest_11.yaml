@@ -1867,7 +1867,9 @@ filters:
       - {start: '2', end: '26'}
   Örkény István utca:
     invalid: ['13']
-  #Őrmezei út:
+  Őrmezei út:
+    # 4: páros oldalon csak a keserűvíz telep van, 2-es számmal van bejárat.
+    invalid: ['4']
   Őrség utca:
     # 4: 4/a, 4/b
     # 6: 6/a, 6/b
@@ -2641,7 +2643,8 @@ filters:
       - {start: '1', end: '15'}
       - {start: '2', end: '24'}
   Zámori utca:
-    invalid: ['6a', '6b']
+    # Átszámozva 2->4/a, 4->4/b, de még a régi számok vannak kint
+    invalid: ['4a', '4b', '6a', '6b']
   Zólyomi út:
     # 32: 32/a, 32/b
     # 34: 34/a, 34/b
