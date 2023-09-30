@@ -17,6 +17,8 @@ filters:
     ranges:
       - {start: '10', end: '38'}
   Gábor Áron utca:
+    # 1a = Szilágyi Erzsébet fasor 109.
+    invalid: ['1a']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '16'}
@@ -42,6 +44,8 @@ filters:
     ranges:
       - {start: '2', end: '12'}
   Nagyajtai utca:
+    # 2: nincs: 2/a=Szilágyi Erzsébet fasor 103; 2/b
+    invalid: ['2']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
@@ -65,6 +69,9 @@ filters:
     ranges:
       - {start: '2', end: '8'}
   Szilágyi Erzsébet fasor:
+    # 123 = Házmán utca 2.
+    # 125-127: 125 van kiírva illetve 127=Volkmann utca 2.
+    invalid: ['123', '127']
     ranges:
       - {start: '49', end: '131'}
   Trombitás út:
