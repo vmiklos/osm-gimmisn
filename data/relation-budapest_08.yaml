@@ -37,8 +37,10 @@ osm-street-filters:
   - Múzeumkert
   - Népliget
   - Orczy park
+  # Ludovika Campus belső utak
   - Ludovika Campus körút
-  # Fiúmei úti sírkert belső utca
+  - Campus tér
+  # Fiúmei úti sírkert belső utak
   - 48-asok útja
   - 56-osok útja
   - Ady Endre út
