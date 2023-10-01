@@ -53,7 +53,7 @@ refstreets:
   # ellenőrzött
   'Akácos utca': 'Akácos út'  # https://www.openstreetmap.org/note/3286508
   'Kültelek utca': 'Kültelek'  # https://www.openstreetmap.org/note/3286536
-  'Széchenyi István utca': 'Széchenyi utca'  # https://www.openstreetmap.org/note/3286532
+  # 'Széchenyi István utca': 'Széchenyi utca'  # táblák többségén Széchenyi István utca, de van Széchenyi utca is. Az ottlakó lakcímkártyáján Széchenyi utca szerepel
   'Vörösmarty Mihály utca': 'Vörösmarty utca'  # https://www.openstreetmap.org/note/3286518
   # A régi utcanévtáblákon Vezetéknév Keresztnév szerepel, az új utcanévtáblákon csak Vezetéknév. Feltételezem, hogy minden utca teljes nevű. Ez az egész településre értendő.
   'Petőfi Sándor köz': 'Petőfi köz'  # régi táblán teljes név, új táblán csak vezetéknév. Mindkettő ki van téve. Az OSM-en maradjon teljes névvel.
