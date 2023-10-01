@@ -243,9 +243,11 @@ filters:
     # 2: Fehérvári út 109-119 van a helyén
     # 8: 8/a, 8/b, 8/c
     # 17,19: iskola 11-15, utána következő ház 27
+    # 26a = Tétényi út 67/a
+    # 50a: csak sima 50
     # 35: 35/a, 35/b
     # 60: 60/a, 60/b
-    invalid: ['2', '3', '6', '8', '12', '17', '19', '35', '60']
+    invalid: ['2', '3', '6', '8', '12', '17', '19', '26a', '35', '50a', '60']
   #Bíró László József körút
   Birs utca:
     # Beregszász út 56d, 56e át lettek számozva Birs utcára: 3/a, 3/b
@@ -330,7 +332,10 @@ filters:
     invalid: ['5', '9']
     ranges:
       - {start: '1', end: '17'}
-  #Borszéki utca:
+  Borszéki utca:
+    # 1,4,9,11: nincsenek: csak 32 van kiírva az egész utcában
+    # 13-45 hivatalosan a járműtelep, erre Gyergyótölgyes utca 2. van kiírva
+    invalid: ['1', '4', '9', '11']
   Botfalu köz:
     # 12a: nincs semmi sem kiírva
     # 15a: csak 15. régebben lehetett /a és /b, ez utóbbi nyoma még látszik
@@ -449,9 +454,10 @@ filters:
       - {start: '126', end: '126'}
       - {start: '138', end: '180'}
   Bükköny utca:
+    # 1 = Albertfalva utca 8, Szent Mihály templom
     # 5: 5/a, 5/b
     # 28b: panel, nincsenek betűk
-    invalid: ['5', '28b']
+    invalid: ['1', '5', '28b']
     ranges:
       - {start: '1', end: '31'}
       - {start: '2', end: '6'}
@@ -912,8 +918,16 @@ filters:
     ranges:
       - {start: '2', end: '98'}
   Hadak útja:
+    # 3: hivatalosan a járműtelep, erre Gyergyótölgyes utca 2. van kiírva
+    # 11-27: csak 11 van kiírva
+    # 12: 6 után 30, közte csak a Teleki Blanka Általános Iskola
+    # 29: nincs
     # 45-nél nincs kiírva semmi
-    invalid: ['45a', '45b', '63b']
+    invalid: ['3', '12', '45a', '45b', '63b']
+    ranges:
+      - {start: '5', end: '11'}
+      - {start: '31', end: '65'}
+      - {start: '2', end: '68'}
   Hajtány sor:
     interpolation: 'all'
     ranges:
@@ -1894,9 +1908,11 @@ filters:
     # csak helyrajzi számok
     ranges: []
   Pajkos utca:
-    invalid: ['22', '23c']
+    # 2 = Bikszádi utca 52.
+    # 17-21: Buszgarázs oldala
+    invalid: ['2', '22', '23c']
     ranges:
-      - {start: '1', end: '19'}
+      - {start: '1', end: '15'}
       - {start: '23', end: '41'}
       - {start: '2', end: '86'}
   Pálinkás Antal utca:
@@ -2192,7 +2208,9 @@ filters:
     invalid: ['6a', '6c', '6d', '11b', '11c', '70']
   Sáfrány utca:
     # 11/b: nincs
-    invalid: ['11b']
+    # 21 = Albertfalva utca 23, csak az van kiírva
+    # 48: Fonyód utca 6/b, Mokka Corner
+    invalid: ['11b', '21', '48']
     ranges:
       - {start: '1', end: '81'}
       - {start: '2', end: '54'}
