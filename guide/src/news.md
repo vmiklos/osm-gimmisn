@@ -3,6 +3,7 @@
 ## master
 
 - Resolves: gh#3288 additional streets, gpx: handle nodes and relations as well
+- Resolves: gh#3290 YAML keys are now flagged by the validator, instead of taking the last value
 
 ## 7.6
 
