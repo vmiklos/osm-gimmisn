@@ -323,7 +323,7 @@ filters:
     # 28: 28/a, 28/b
     # 31-37/a: 31 = Bornemissza tér 16, 37/a van
     # 37: 37/a, 37/b van egy házon, van egy külön ház 37/c
-    invalid: ['20', '28', '35a', '35b', '37']
+    invalid: ['20', '28', '35a', '35b']
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '34'}
@@ -389,7 +389,7 @@ filters:
     # 57: 57/a, 57/b
     # 59-63: 59-es van használatban
     # 65-77: nincs
-    # 97-103: 95 után 105 jön, máshonnan számozódik (ujbuda szerint 97-103, régen volt egy cetli, amint 103-107 volt, de már nincs)
+    # 97-103: 95 után 105 jön, máshonnan számozódik (ujbuda szerint 97-103, régen volt egy cetli, amint 103-107 volt, de már nincs), közben az iskola címe 101-103 lett
     # 107: I,II,II épület, illetve 107-109 a-b épület
     # 115-181: Újbuda Center, Hengermalomra számozva
     # 215: páratlan: utolso ismert páratlan a 215, de meg vannak telkek
@@ -401,7 +401,7 @@ filters:
     # 62-64: csak a 64 használatos
     # 76, 78, 82/A, 82/B: zöldmező
     # 84: Albertfalva
-    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '57', '62', '76', '78', '82a', '82b', '23', '83b', '101', '103', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
+    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '57', '62', '76', '78', '82a', '82b', '23', '83b', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
     ranges:
       - {start: '1', end: '59'}
       - {start: '79', end: '229'}
@@ -852,10 +852,7 @@ filters:
       - {start: '2', end: '52'}
   # Garda utca
   Gazdagréti tér:
-    # interpolation: all - issue miatt még nem
-    ranges:
-      - {start: '1', end: '5'}
-      - {start: '2', end: '2'}
+    interpolation: all
   Gazdagréti út:
     # páratlan Gazdagrét, páros Hosszúrét 2-38, sasad 38-44
     # 1-3 = Budaörsi 165
@@ -919,13 +916,13 @@ filters:
       - {start: '2', end: '98'}
   Hadak útja:
     # 3: hivatalosan a járműtelep, erre Gyergyótölgyes utca 2. van kiírva
-    # 11-27: csak 11 van kiírva
+    # 11-27: csak 11 van kiírva, illetve egy cég címe 17-19
     # 12: 6 után 30, közte csak a Teleki Blanka Általános Iskola
     # 29: nincs
     # 45-nél nincs kiírva semmi
-    invalid: ['3', '12', '45a', '45b', '63b']
+    invalid: ['3', '12', '13', '15', '45a', '45b', '63b']
     ranges:
-      - {start: '5', end: '11'}
+      - {start: '5', end: '19'}
       - {start: '31', end: '65'}
       - {start: '2', end: '68'}
   Hajtány sor:
@@ -1634,13 +1631,12 @@ filters:
     ranges:
       - {start: '16', end: '18'}
   Mikes Kelemen utca:
-    # 5: 5a, 5b ikerház
     # 10-12: bódés terület, 8 van kiírva egy rozoga táblán
     # 27: nincs, ezen a részen Igmándi utca 18-24 panel hátulja
     # 39a: csak sima 39 és 39/b van
     # 50: csak 50/b van kiírvan, de van több ház
     # 65a: recheck 65 két részből áll, az egyik felére 65/b van kiírva (g* szerint 65/a), a másikra semmi, meghagytam a sima 65-öt.
-    invalid: ['5', '10', '12', '27', '39a', '50', '65a']
+    invalid: ['10', '12', '27', '39a', '50', '65a']
     ranges:
       - {start: '1', end: '77'}
       - {start: '2', end: '62'}
