@@ -354,7 +354,8 @@ pub struct OsmStreet {
     pub object_type: Option<String>,
 }
 
-#[derive(Clone, Eq, Ord, PartialOrd, PartialEq)]
+#[derive(Clone, Ord, PartialOrd, derivative::Derivative)]
+#[derivative(Eq, PartialEq)]
 pub struct RelationLint {
     pub relation_name: String,
     pub street_name: String,
@@ -363,7 +364,9 @@ pub struct RelationLint {
     pub housenumber: String,
     /// E.g. missing from reference or present in OSM
     pub reason: RelationLintReason,
+    #[derivative(PartialEq = "ignore")]
     pub id: u64,
+    #[derivative(PartialEq = "ignore")]
     pub object_type: String,
 }
 
