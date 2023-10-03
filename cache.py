@@ -72,9 +72,11 @@ def get_missing_housenumbers_html(ctx: context.Context, relation: areas.Relation
 
     ret = relation.write_missing_housenumbers()
     todo_street_count, todo_count, done_count, percent, table = ret
-
+ 
     with doc.tag("p"):
         prefix = ctx.get_ini().get_uri_prefix()
+        prefix2 = "https://osm-gimmisn.vmiklos.hu/osm"
+
         relation_name = relation.get_name()
         doc.text(tr("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
                  .format(str(todo_count), str(todo_street_count)))
@@ -92,6 +94,9 @@ def get_missing_housenumbers_html(ctx: context.Context, relation: areas.Relation
         doc.stag("br")
         with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-result.chkl".format(relation_name)):
             doc.text(tr("Checklist format"))
+        doc.stag("br")
+        with doc.tag("a", href=prefix2 + "/missing-housenumbers/" + relation_name + "/view-lints", target="_blank"):
+            doc.text(tr("View lints (vmiklos.hu)"))
 
     doc.asis(util.html_table_from_list(table).getvalue())
     doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())

@@ -162,6 +162,7 @@ def missing_streets_view_result(ctx: context.Context, relations: areas.Relations
 
     doc = yattag.doc.Doc()
     prefix = ctx.get_ini().get_uri_prefix()
+
     if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
         return doc
@@ -886,6 +887,7 @@ HANDLERS = {
     "/street-housenumbers/": handle_street_housenumbers,
     "/missing-housenumbers/": handle_missing_housenumbers,
     "/housenumber-stats/": webframe.handle_stats,
+    "/lints/": webframe.handle_lints,
 }
 
 

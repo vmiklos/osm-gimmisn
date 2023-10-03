@@ -59,6 +59,8 @@ def additional_streets_view_result(
 
     doc = yattag.doc.Doc()
     prefix = ctx.get_ini().get_uri_prefix()
+    prefix2 = "https://osm-gimmisn.vmiklos.hu/osm"
+
     if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
     elif not ctx.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
@@ -94,6 +96,9 @@ def additional_streets_view_result(
             doc.stag("br")
             with doc.tag("a", href=prefix + "/additional-streets/" + relation_name + "/view-result.chkl"):
                 doc.text(tr("Checklist format"))
+            doc.stag("br")
+            with doc.tag("a", href=prefix2 + "/additional-streets/" + relation_name + "/view-result.gpx", target="_blank"):
+                doc.text(tr("GPX format (vmiklos.hu)"))
             doc.stag("br")
             with doc.tag("a", href=prefix + "/additional-streets/{}/view-turbo".format(relation_name)):
                 doc.text(tr("Overpass turbo query for the below streets"))
