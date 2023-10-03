@@ -15,6 +15,16 @@ filters:
     # 21: ez és a Kova utca 16. közös telken van, házszám a Kova utcáról van csak.
     # 25: sima 25 nincs, csak 25/a, 25b.
     invalid: ['25']
+  Angeli utca:
+    # 935: a páratlan oldalon a 223 az utolsó házszám.
+    # 969/0: a páratlan oldalon a 223 az utolsó házszám.
+    # 310: a páros oldalon a 198 az utolsó házszám.
+    # 852: a páros oldalon a 198 az utolsó házszám.
+    # 852/1: a páros oldalon a 198 az utolsó házszám.
+    # 940/0: a páros oldalon a 198 az utolsó házszám.
+    # 952: a páros oldalon a 198 az utolsó házszám.
+    # 978: a páros oldalon a 198 az utolsó házszám.
+    invalid: ['935', '969/0', '310', '852', '852/1', '940/0', '952', '978']
   Anna utca:
     # 35-45: csak 45 van, 35 és 43 között nincsenek házak.
     invalid: ['35', '37', '39', '41', '43']
