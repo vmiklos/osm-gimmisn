@@ -1,0 +1,27 @@
+missing-streets: 'yes'
+#street-filters:
+#osm-street-filters:
+refstreets:
+  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
+  'Balassa utca': 'Balassa József utca'
+  'Bercsényi utca': 'Bercsényi Miklós utca'
+  'Berzsenyi utca': 'Berzsenyi Dániel utca'
+  'Báthory István utca': 'Báthori István utca'
+  #'Cinke utca': 'Cinege utca'
+  'Damjanich János utca': 'Damjanich utca'
+  'Dankó utca': 'Dankó Gábor utca'
+  'Dr. Aszalós Imre utca': 'Dr.Aszalós Imre utca'
+  'Halász part': 'Halászpart'
+  'Hadik utca': 'Hadik András utca'
+  'Herczeg Ferenc utca': 'Herceg Ferenc utca'
+  'Ifjúság utca': 'Ifjúság útja'
+  'Illyés utca': 'Illyés Gyula utca'
+  'Karinthy utca': 'Karinthy Frigyes utca'
+  'Pandúr utca': 'Pandur utca'
+  'Rudnay utca': 'Rudnay Gyula utca'
+  'Szabadság utca': 'Szabadság út'
+  'Tas vezér utca': 'Tass vezér utca'
+  'Tornyai utca': 'Tornyai János utca'
+  'Zipernowsky Károly utca': 'Zippernovszky Károly utca'
+source: survey
+inactive: false
