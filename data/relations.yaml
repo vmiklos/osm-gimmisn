@@ -351,6 +351,10 @@ komlo:
     refcounty: "02"
     refsettlement: "137"
 # 03 - Bács-Kiskun megye
+baja:
+    osmrelation: 1130381
+    refcounty: "03"
+    refsettlement: "004"
 kaskantyu:
     osmrelation: 1130333
     refcounty: "03"
