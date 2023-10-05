@@ -88,13 +88,18 @@ filters:
   Barátcinege utca:
     # 1: sima 1 nincs, csak 1/a, 1/b, 1/c.
     # 3/a: nincs ilyen, csak sima 3 és 3-5 van.
+    # 5/c: nincs ilyen, csak 3-5 van.
     # 7: sima 7 nincs, csak 7/a, 7/b.
     # 9: sima 9 nincs, csak 9/a, 9/b.
     # 11: sima 11 nincs, csak 11/a, 11/b.
+    # 25/a: nincs kitáblázva az ikerház ezen fele, az oda bejelentett Aquamedia Bt. alapján sima 25 a cím.
+    # 2: ez és a Kőmáli utca 19. közös telken van, házszám a Kőmáli utcáról van csak.
+    # 2/a: ez és a Kőmáli utca 19. közös telken van, házszám a Kőmáli utcáról van csak.
+    # 2/b: ez és a Kőmáli utca 19. közös telken van, házszám a Kőmáli utcáról van csak.
     # 6: sima 6 nincs, csak 6/a, 6/b, 6/c.
     # 8: ez és az Erdőhegy utca 22. közös telken van, házszám az Erdőhegy utcáról van csak.
     # 18: sima 18 nincs, csak 18/1, 18/2.
-    invalid: ['1', '3a', '7', '9', '11', '6', '8', '18']
+    invalid: ['1', '3a', '5c', '7', '9', '11', '25a', '2', '2a', '2b', '6', '8', '18']
   Baross utca:
     # 125: a páratlan oldalon a 33 az utolsó házszám.
     invalid: ['125']
@@ -409,6 +414,9 @@ filters:
     # 20: ez és a Stáció utca 13. közös telken van, házszám a Stáció utcáról van csak.
     # 50/a: a páros oldalon a 32 az utolsó házszám.
     invalid: ['20', '50a']
+  Kamaraerdei út:
+    # 34: ez és az Elza utca 31. közös telken van, házszám az Elza utcáról van csak.
+    invalid: ['34']
   Kápolna utca:
     # 132: a páros oldalon az 50 az utolsó házszám.
     invalid: ['132']
@@ -419,6 +427,9 @@ filters:
   Karéj utca:
     # 23/b: sima 23/b nincs, csak 23/b/1, 23/b/2.
     # 35: nincs ilyen, ez a Királyka utca útpályája.
+    # 57: a Karéj utca 43-61 a Süvöltő utcai épületek hátsó bejáratai, házszámok nincsenek ezen a szakaszon.
+    # 59: a Karéj utca 43-61 a Süvöltő utcai épületek hátsó bejáratai, házszámok nincsenek ezen a szakaszon.
+    # 61: a Karéj utca 43-61 a Süvöltő utcai épületek hátsó bejáratai, házszámok nincsenek ezen a szakaszon.
     # 4: sima 4 nincs, csak 4/1, 4/2.
     # 8/a: sima 8/a nincs, csak 8/a/1, 8/a/2.
     # 8/b: sima 8/b nincs, csak 8/b/1, 8/b/2.
@@ -427,7 +438,8 @@ filters:
     # 10/a: sima 10/a nincs, csak 10/a/1, 10/a/2.
     # 10/b: sima 10/b nincs, csak 10/b/1, 10/b/2.
     # 42: sima 42 nincs, csak 42/a, 42/b.
-    invalid: ['23b', '35', '4', '8a', '8b', '8c', '8d', '10a', '10b', '42']
+    # 50: ez és a Kelenvölgyi utca 15. közös telken van, házszám a Kelenvölgyi utcáról van csak.
+    invalid: ['23b', '35', '57', '59', '61', '4', '8a', '8b', '8c', '8d', '10a', '10b', '42', '50']
   Katakomba utca:
     # 13: sima 13 nincs, csak 13/a, 13/b.
     # 18: sima 18 nincs, csak 18/a, 18/b.
@@ -568,7 +580,8 @@ filters:
     # 3: sima 3 nincs, csak 3/1, 3/2, 3/b.
     # 5/b: nincs ilyen, csak sima 5 és 5/a.
     # 2/a: nincs ilyen, csak sima 2 van.
-    invalid: ['1', '3', '5b', '2a']
+    # 14/a: az épületen 14, a kertkapun kézzel írt 14/b van. A 14/a nincs kitáblázva.
+    invalid: ['1', '3', '5b', '2a', '14a']
   Liszt Ferenc út:
     # 1: ez és a Bem József utca 6/a. közös telken van, házszám a Bem József utcáról van csak.
     # 9: ez a Szepesi utca, nincs épület.
@@ -640,7 +653,6 @@ filters:
     # 6: ez és az Erdőd utca 10. közös telken van, házszám az Erdőd utcáról van csak.
     # 10: sima 10 nincs, csak 10/1, 10/2.
     invalid: ['4', '6', '10']
-  # Minta utca: területhatár
   Móricz Zsigmond út:
     # 17/a: sima 17/a nincs, csak 17/a/1, 17/a/2.
     # 17/b: sima 17/b nincs, csak 17/b/1, 17/b/2.
@@ -689,7 +701,6 @@ filters:
     # 244/p: nincs ilyen, csak sima 244 van.
     # 246/p: nincs ilyen, csak sima 246 van.
     invalid: ['82a', '83', '89', '201', '229', '235c', '237e', '206', '206a', '208', '210', '212', '214', '234', '234/6', '234m', '236', '242/8', '242p', '244f', '244p', '246p']
-  # Növény utca: területhatár
   Nyár utca:
     # 7/c: nincs ilyen, csak sima 7 van.
     # 7/d: nincs ilyen, csak sima 7 van.
@@ -886,7 +897,12 @@ filters:
     # 12: egybenyitott telek a 14-gyel, de csak a 14 van kitáblázva.
     # 22: sima 22 nincs, csak 22/a, 22/2.
     invalid: ['13a', '12', '22']
-  # Szabadkai utca: területhatár
+  Szabadkai utca:
+    # 4/a: nincs ilyen, csak 4 és 4/b van.
+    # 14/a: nincs ilyen, csak sima 14 van.
+    # 20-24: az Éberhartház Kft. címe 20-22, és ez az utolsó cím a páros oldalon.
+    # 28: ennek a Balatoni úttól északra eső szakaszon kellene lennie, de ott nem számozódnak épületek erre az utcára.
+    invalid: ['4a', '14a', '24', '28']
   Szabina út:
     # 37: ez és a Pedellus utca 39. közös telken van, házszám a Pedellus utcáról van csak.
     # 32: ez és a Pedellus utca 41. közös telken van, házszám a Pedellus utcáról van csak.
@@ -1012,8 +1028,11 @@ filters:
     # 614: a páros oldalon az 52 az utolsó házszám.
     invalid: ['1', '25a', '27a', '49a', '65a', '4', '6', '58', '614']
   Törley tér:
-    # Csak az utcatáblán vannak házszámok, az épületeken nincsenek vagy nem ebből az utcából számozódnak.
-    ranges: []
+    # 13-15: nincs ilyen, az utcanévtáblán 1-2, 4-6 van.
+    # 18: nincs ilyen, az utcanévtáblán 1-2, 4-6 van.
+    # 23: nincs ilyen, az utcanévtáblán 1-2, 4-6 van.
+    interpolation: 'all'
+    invalid: ['13', '14', '15', '18', '23']
   Turóci utca:
     # 1: ez és a Hollandi utca 23. közös telken van, házszám a Hollandi utcáról van csak.
     invalid: ['1']
@@ -1086,7 +1105,6 @@ filters:
     ranges:
       - {start: '1', end: '95'}
       - {start: '2', end: '102'}
-  # XVI. utca: területhatár
   XVII. utca:
     ranges:
       - {start: '1', end: '27'}
