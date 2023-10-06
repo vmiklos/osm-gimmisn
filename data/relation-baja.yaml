@@ -38,13 +38,17 @@ osm-street-filters:
   - 14. dűlő
   - Csillagösvény-dűlő
   - Csillagvizsgáló dűlője
+  - Kútfúró-dűlő
+  - Lovas-dűlő
   - Szentiváni-dűlő
 refstreets:
+  'Apponyi utca': 'Apponyi Albert utca'
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Balassa utca': 'Balassa József utca'
+  'Báthory István utca': 'Báthori István utca'
   'Bercsényi utca': 'Bercsényi Miklós utca'
   'Berzsenyi utca': 'Berzsenyi Dániel utca'
-  'Báthory István utca': 'Báthori István utca'
+  'Borbíró Ferenc sétány': 'Borbíró sétány'
   #'Cinke utca': 'Cinege utca'
   'Damjanich János utca': 'Damjanich utca'
   'Dankó utca': 'Dankó Gábor utca'
@@ -61,6 +65,7 @@ refstreets:
   'Szabadság utca': 'Szabadság út'
   'Tas vezér utca': 'Tass vezér utca'
   'Tornyai utca': 'Tornyai János utca'
+  'Vécsey Károly utca': 'Vécsei Károly utca'
   'Zipernowsky Károly utca': 'Zippernovszky Károly utca'
   # place
   'II. körzet tanya': 'II.körzet tanya'
