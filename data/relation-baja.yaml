@@ -1,6 +1,44 @@
 missing-streets: 'yes'
-#street-filters:
-#osm-street-filters:
+street-filters:
+  # place
+  - I.körzet tanya
+  # - II.körzet tanya
+  - III.körzet tanya
+  # - IV.körzet tanya
+  - V.körzet tanya
+  - Dunafürdő üdülő-telep
+  - Petőfi sziget
+  # duplikátum
+  - Sz.Ist.-Dózsa György út
+  # nem létező
+  - Irinyi János utca
+  # Kosztolányi sétány - kérdéses
+osm-street-filters:
+  # nem igazi utcák
+  - Türr István híd
+  # parkok
+  - Déri kert
+  - Fecske park és szánkópálya 
+  - Kismalom park
+  - Lakóvárosi Játszópark
+  - Petőfi-szigeti játszótér és park
+  # dűlők, tanyák
+  - 1. dűlő
+  - 2. dűlő
+  - 3. dűlő
+  - 4. dűlő
+  - 5. dűlő
+  - 6. dűlő
+  - 7. dűlő
+  - 8. dűlő
+  - 9. dűlő
+  - 11. dűlő
+  - 12. dűlő
+  - 13. dűlő
+  - 14. dűlő
+  - Csillagösvény-dűlő
+  - Csillagvizsgáló dűlője
+  - Szentiváni-dűlő
 refstreets:
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Balassa utca': 'Balassa József utca'
@@ -19,9 +57,13 @@ refstreets:
   'Karinthy utca': 'Karinthy Frigyes utca'
   'Pandúr utca': 'Pandur utca'
   'Rudnay utca': 'Rudnay Gyula utca'
+  'Sugovica utca': 'Sugovica sor'
   'Szabadság utca': 'Szabadság út'
   'Tas vezér utca': 'Tass vezér utca'
   'Tornyai utca': 'Tornyai János utca'
   'Zipernowsky Károly utca': 'Zippernovszky Károly utca'
+  # place
+  'II. körzet tanya': 'II.körzet tanya'
+  'IV. körzet tanya': 'IV.körzet tanya'
 source: survey
 inactive: false
