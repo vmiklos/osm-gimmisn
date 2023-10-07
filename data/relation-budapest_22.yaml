@@ -15,6 +15,9 @@ filters:
     # 21: ez és a Kova utca 16. közös telken van, házszám a Kova utcáról van csak.
     # 25: sima 25 nincs, csak 25/a, 25b.
     invalid: ['25']
+  Alsó Sas utca:
+    # 4: nincs ilyen, 2, 6, 20, 22, ... sorrendben vannak a számok a páros oldalon.
+    invalid: ['4']
   Angeli utca:
     # 935: a páratlan oldalon a 223 az utolsó házszám.
     # 969/0: a páratlan oldalon a 223 az utolsó házszám.
@@ -63,11 +66,12 @@ filters:
     invalid: ['2a', '2b', '4a', '6a', '14']
   Árpád utca:
     # 19: sima 19 nincs, csak 19/a, 19/b, 19/c.
+    # 16: ez és a Gézavár utca 27. közös telken van, házszám a Gézavár utcáról van csak.
     # 76-1: nincs ilyen, csak 76/a, 76/b.
     # 78: sima 78 nincs, csak 78/a, 78/b.
     # 80: sima 80 nincs, csak 80/a, 80/b.
     # 140: a páros oldalon a 82 az utolsó házszám.
-    invalid: ['19', '76', '78', '80', '140']
+    invalid: ['19', '16', '76', '78', '80', '140']
   Avar utca:
     # 1: sima 1 nincs, csak 1/a, 1/b.
     # 13-15: a páratlan oldalon a 7 az utolsó házszám.
@@ -250,7 +254,9 @@ filters:
     invalid: ['3', '11', '8']
   Gézavár utca:
     # 1: sima 1 nincs, csak 1/a, 1/b.
-    invalid: ['1']
+    # 2/a: nincs ilyen, csak sima 2 van.
+    # 22/a: nincs ilyen, csak sima 22 van.
+    invalid: ['1', '2a', '22a']
   # Gyufa utca:
   #   TODO: 15: nem látom a házszámot.
   Gyula vezér út:
@@ -451,8 +457,9 @@ filters:
     # 1/a-b-c: nincsenek, csak sima 1 van.
     # 3: nincs ilyen.
     # 5: ez és a Kenderike utca 1. közös telken van, házszám a Kenderike utcáról van csak.
+    # 23: ez és az Erdőhegy utca 1/a közös telken van, házszám az Erdőhegy utcáról van csak. 2019-ben még kint volt az épület falán a 23 is, de 2021-ben már nem.
     # 37: sima 37 nincs, csak 37/a, 37/b, 37/c.
-    invalid: ['1a', '1b', '1c', '3', '5', '37']
+    invalid: ['1a', '1b', '1c', '3', '5', '23', '37']
   Kenderike utca:
     # 16: a páros oldalon a 12 az utolsó házszám.
     # 22: a páros oldalon a 12 az utolsó házszám.
