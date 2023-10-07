@@ -14,7 +14,7 @@ street-filters:
 osm-street-filters:
   # Balatonkenese átlógó utcák
   - Alteleki út
-  - Balatoni út
+  - Kenesei út
   # nem igazi utcák
   - Büfésor
   # parkok
