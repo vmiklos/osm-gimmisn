@@ -367,7 +367,7 @@ filters:
     # 41: sima 41 nincs, csak 41/a, 41/b.
     # 47/49 D: a páratlan oldalon a 41 az utolsó házszám.
     # 2: ez és a Hajlat utca 18. közös telken van, házszám a Hajlat utcáról van csak.
-    # 4/b: nincs ilyen, csak sima 4 van.
+    # 4/b: nincs ilyen, csak sima 4 van, bár az ingatlannak két bejárata is van.
     # 26: sima 26 nincs, csak 26/1, 26/2.
     # 34/b: nincs ilyen, csak sima 34 van.
     # 36: sima 36 nincs, csak 36/1, 36/2.
@@ -377,7 +377,7 @@ filters:
     # 48/b: nincs ilyen, csak sima 48 van.
     # 50/a: nincs ilyen, csak sima 50 van.
     # 58/a: a páros oldalon az 50 az utolsó házszám.
-    invalid: ['3b', '9', '11', '19', '27b', '37', '41', '47', '2', '4', '26', '34b', '36', '40b', '42', '48a', '48b', '50a', '58a']
+    invalid: ['3b', '9', '11', '19', '27b', '37', '41', '47', '2', '4b', '26', '34b', '36', '40b', '42', '48a', '48b', '50a', '58a']
   Játék utca:
     # 1-3: nincs ilyen, a páratlan oldalon csak 17 és 19 van.
     # 11: nincs ilyen, a páratlan oldalon csak 17 és 19 van.
@@ -586,7 +586,7 @@ filters:
     # 44: a Szepesi utca helyén van, nincs telek.
     # TODO: A Liszt Ferenc út 74. és a Zöldike utca ???. közös telken van, házszámot sehol sem látok, de a bejárat a Zöldike utca felől van.
     # 86: sima 86 nincs, csak 86/1, 86/2.
-    # 86: sima 88 nincs, csak 88/1, 88/2.
+    # 88: sima 88 nincs, csak 88/1, 88/2.
     invalid: ['13', '19', '19b', '21', '28a', '28b', '28c', '42', '44', '74', '86', '88']
   Losonci utca:
     # 6: a páros oldalon a 4 az utolsó házszám. Ami az utca végén van, az Borz utca 14.
@@ -944,9 +944,9 @@ filters:
     # 20: a páros oldalon a 6 az utolsó házszám.
     invalid: ['7', '6s', '20']
   Tegzes utca:
-    # 11-21: a 11/a mellett közvetlenül a 21 van. Az egyik elhagyott bejáraton valóban van ilyen szám, de mivel a 11 és a 21 megvan külön-külön épületként, ezért ezt nem írnám be.
+    # 11-21: a 11/a mellett közvetlenül a 21 van, a 13 pedig pár telekkel délebbre. Az egyik elhagyott bejáraton valóban van ilyen szám, de mivel a 11 és a 21 megvan külön-külön épületként, ezért ezt nem írnám be.
     # 6/c: a Tegzes utca 16. telekre van kitéve a 6/c tábla is. Nem tudom az okát, de nem illik oda.
-    invalid: ['13', '15', '17', '19', '6c']
+    invalid: ['15', '17', '19', '6c']
   Temesvári út:
     # 4: ikerház épült a 2-6 számra, de a 4 nincs kitáblázva. Az épület egyik fele 2, a másik fele 6.
     invalid: ['4']
