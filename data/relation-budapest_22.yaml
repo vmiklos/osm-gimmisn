@@ -81,9 +81,7 @@ filters:
     # 855/4: a páratlan oldalon a 187 az utolsó házszám.
     # 885/4: a páratlan oldalon a 187 az utolsó házszám.
     # 236: a páros oldalon a 180 az utolsó házszám.
-    ranges:
-      - {start: '1', end: '187'}
-      - {start: '2', end: '180'}
+    invalid: ['855/1', '855/2', '855/4', '885/4', '236']
   Barátcinege utca:
     # 1: sima 1 nincs, csak 1/a, 1/b, 1/c.
     # 3/a: nincs ilyen, csak sima 3 és 3-5 van.
@@ -175,10 +173,16 @@ filters:
     # 8: sima 8 nincs, csak 8/a, 8/b.
     invalid: ['43', '8']
   Duna utca:
-    # Ezek a valós házszámok, a többi csak utcanévtáblán létezik.
-    ranges:
-      - {start: '1', end: '3'}
-      - {start: '2', end: '2'}
+    # 5: ez és a Játék utca 26. ugyanaz az épület, de házszám a Játék utcáról van csak.
+    # 7: ez és a Pécsi utca 1/c ugyanaz az épület, de házszám a Pécsi utcáról van csak.
+    # 17: a páratlan oldalon az 1-3 az egyetlen valós házszám, az utcanévtáblán pedig a 7.
+    # 19: a páratlan oldalon az 1-3 az egyetlen valós házszám, az utcanévtáblán pedig a 7.
+    # 29: a páratlan oldalon az 1-3 az egyetlen valós házszám, az utcanévtáblán pedig a 7.
+    # 6: a páros oldalon a 2 az egyetlen valós házszám, az utcanévtáblán pedig a 4.
+    # 8: a páros oldalon a 2 az egyetlen valós házszám, az utcanévtáblán pedig a 4.
+    # 10: a páros oldalon a 2 az egyetlen valós házszám, az utcanévtáblán pedig a 4.
+    # 18: a páros oldalon a 2 az egyetlen valós házszám, az utcanévtáblán pedig a 4.
+    invalid: ['5', '7', '17', '19', '29', '6', '8', '10', '18']
   Elza utca:
     # 2: sima 2 nincs, csak 2/a. A sarkon van egy 2-es, de az Meggyes utca 2.
     # 2/b: nincs ilyen, csak 2/a van.
@@ -263,9 +267,18 @@ filters:
     # 13: ez és a Csillag utca 4. közös telken van, házszám a Csillag utca felől van csak.
     invalid: ['13']
   Hajó utca:
-    # A páros oldalon nincsenek épületek, a DunaFok Szabadidőpark van ott.
-    ranges:
-      - {start: '1', end: '3'}
+    # 1-10: nincs ilyen, csak 1 és 3 van.
+    # 4: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
+    # 6: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
+    # 22: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
+    # 28: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
+    # 30: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
+    # 34: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
+    # 36: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
+    # 42: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
+    # 44: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
+    # 46: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
+    invalid: ['4', '6', '10', '22', '28', '30', '34', '36', '42', '44', '46']
   Hant utca:
     # 1: ez és a Völgy utca 7. közös telken van, házszám a Völgy utcáról van csak.
     # 261/a: ez elírás, valószínűleg 26/a akart lenni.
@@ -335,12 +348,9 @@ filters:
     # 16: sima 16 nincs, csak 16/a, 16/b.
     invalid: ['5', '93', '4b', '14', '16']
   Húr utca:
-    # Az utcatáblákon a páratlan oldalon a 21, a páros oldalon a 12 az utolsó házszám.
-    ranges:
-      - {start: '1', end: '21'}
-      - {start: '2', end: '12'}
-    # 19-23: nincs ilyen. A tűzoltóság lenne a 19-21, de ez és a Jókai Mór utca 35. közös telken van, házszám a Jókai Mór utcáról van csak.
-    invalid: ['19', '21']
+    # 19-23: a tűzoltóság lenne a 19-21, de ez és a Jókai Mór utca 35. közös telken van, házszám a Jókai Mór utcáról van csak.
+    # 29: a páratlan oldalon a 17 az utolsó valós házszám, az utcanévtáblán pedig a 21.
+    invalid: ['19', '21', '23', '29']
   Hűség utca:
     # 25: sima 25 nincs, csak 25/a, 25/b.
     invalid: ['25']
@@ -369,11 +379,10 @@ filters:
     # 58/a: a páros oldalon az 50 az utolsó házszám.
     invalid: ['3b', '9', '11', '19', '27b', '37', '41', '47', '2', '4', '26', '34b', '36', '40b', '42', '48a', '48b', '50a', '58a']
   Játék utca:
-    ranges:
-      - {start: '17', end: '19'}
-      - {start: '2', end: '12'}
-      - {start: '16', end: '16'}
-      - {start: '22', end: '36'}
+    # 1-3: nincs ilyen, a páratlan oldalon csak 17 és 19 van.
+    # 11: nincs ilyen, a páratlan oldalon csak 17 és 19 van.
+    # 14: nincs ilyen, a piac a 2-12, a református templom a 16, közte nincs egyéb épület.
+    invalid: ['1', '3', '11', '14']
   Jégmadár utca:
     # 13: ez és a Karéj utca 25. közös telken van, házszám a Karéj utcáról van csak.
     invalid: ['13']
@@ -472,8 +481,7 @@ filters:
     # 28: a páros oldalon nincsenek házszámok, és az utcatáblán is a 4 az utolsó házszám.
     # 32: a páros oldalon nincsenek házszámok, és az utcatáblán is a 4 az utolsó házszám.
     # A valós házszámok az utcában: 1, 3, 5.
-    ranges:
-      - {start: '1', end: '5'}
+    invalid: ['9', '19a', '37', '2', '4', '28', '32']
   Kistétény utca:
     # 32: sima 32 nincs, csak 32/a, 32/b, 32/c.
     # 34/a: nincs ilyen, csak sima 34 van.
@@ -539,15 +547,20 @@ filters:
     # 4: sima 4 nincs, csak 4/a, 4/b.
     invalid: ['4']
   Kővirág sor:
-    # Területhatár, 19-től Kelenvölgy.
-    # 5, 7: csak 4, 6 és 9 van, ezek is elég rozzantak.
+    # 5: nincs ilyen, a 4 után a 6 jön.
+    # 7: nincs ilyen, a 6 és 9 ugyanarra a telek re van kitáblázva.
+    # 67/b: területhatár, a 19-től kezdve már XI. kerület, Kelenvölgy.
     interpolation: 'all'
-    invalid: ['5', '7']
-    ranges:
-      - {start: '2', end: '16'}
+    invalid: ['5', '7', '67b']
   Kuruc köz:
-    # Ebben az utcában nincsenek házszámok.
-    ranges: []
+    # Úgy tűnik, hogy a Kuruc köz és a Kuruc utca összekeveredett a referenciában, mert gyanús, hogy szinte ugyanazok hiányoznak innen is, miközben itt nincsenek valós házszámok.
+    # 1: ebben az utcában nincsenek házszámok, az utcanévtáblán van csak 1-1.
+    # 9: ebben az utcában nincsenek házszámok.
+    # 11-13: ebben az utcában nincsenek házszámok.
+    # 15: ebben az utcában nincsenek házszámok.
+    # 2: ebben az utcában nincsenek házszámok.
+    # 10: ebben az utcában nincsenek házszámok.
+    invalid: ['1', '9', '11', '13', '15', '2', '10']
   Leányka utca:
     # 1/c: ez csak az utcatáblán szerepel, az épületen csak 1 van.
     # 3/a: nincs ilyen, csak sima 3 van.
@@ -622,8 +635,8 @@ filters:
     # 5: sima 5 nincs, csak 5/a, 5/b.
     invalid: ['5']
   Mihalik Sándor utca:
-    # Ebben az utcában nincsenek házszámok.
-    ranges: []
+    # 5: ebben az utcában nincsenek házszámok.
+    invalid: ['5']
   Miklósvár utca:
     # 4: sima 4 nincs, csak 4/a, 4/b.
     # 6: ez és az Erdőd utca 10. közös telken van, házszám az Erdőd utcáról van csak.
@@ -786,7 +799,6 @@ filters:
     # 12: sima 12 nincs, csak 12/a, 12/b.
     invalid: ['12']
   Ringló út:
-    # Területhatár, a páros oldal XI. kerület, Kelenvölgy.
     # TODO: 57, 57/a: elsőre nem találtam kiírva.
     # 35/a: nincs ilyen, csak sima 35 van.
     # 35/b: nincs ilyen, csak sima 35 van.
@@ -797,9 +809,10 @@ filters:
     # 113/a: nincs ilyen, csak 113 és 113/b van.
     # 115/a: nincs ilyen, csak sima 115 van.
     # 133: sima 133 nincs, csak 133/a, 133/b. (TODO: helyszínen nem ellenőriztem 2020-ban, 2017-ben felrajzolva)
-    invalid: ['35a', '35b', '59o', '87', '87/6', '107a', '113a', '115a', '133']
-    ranges:
-      - {start: '1', end: '139'}
+    # 58: területhatár, a páros oldal XI. kerület, Kelenvölgy.
+    # 88: területhatár, a páros oldal XI. kerület, Kelenvölgy.
+    # 876: területhatár, a páros oldal XI. kerület, Kelenvölgy.
+    invalid: ['35a', '35b', '59o', '87', '87/6', '107a', '113a', '115a', '133', '58', '88', '876']
   Rókales utca:
     # 3: sima 3 nincs, csak 3/a, 3/b.
     invalid: ['3']
