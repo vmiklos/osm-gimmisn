@@ -1019,16 +1019,15 @@ filters:
     # 30: sima 30 nincs, csak 30/a, 30/b.
     invalid: ['3', '30']
   XII. utca:
-    ranges:
-      - {start: '1', end: '51'}
-      - {start: '59', end: '73'}
-      - {start: '2', end: '72'}
+    # 94/b: a páros oldalon a 72 az utolsó házszám.
+    invalid: ['94b']
   XIII. utca:
-    ranges:
-      - {start: '1', end: '69'}
-      - {start: '2', end: '90'}
+    # 71: ez és a Kőház sor 19. közös telken van, házszám a Kőház sorról van csak.
+    # 87: a páratlan oldalon a 69 az utolsó házszám.
+    invalid: ['71', '87']
   XIV. utca:
     # 35: sima 35 nincs, csak 35/1, 35/2.
+    # 83: az utcanévtáblán 81 az utolsó házszám.
     # 14: sima 14 nincs, csak 14/a, 14/b, 14/b/1a.
     # 16/b: nincs ilyen, csak 16/a, 16.
     # 18/b: nincs kitáblázva, de több épület van a telken.
@@ -1041,22 +1040,19 @@ filters:
     # 44/b: nincs ilyen, csak sima 44 van.
     # 56/a, 56/b: mindkét félre 56 van kitáblázva.
     # 82/a, 82/b: mindkét félre 82 van kitáblázva.
-    invalid: ['35', '14', '16b', '30a', '30b', '32', '40a', '40b', '44a', '44b']
-    ranges:
-      - {start: '1', end: '79'}
-      - {start: '2', end: '88'}
+    invalid: ['35', '83', '14', '16b', '30a', '30b', '32', '40a', '40b', '44a', '44b']
   XV. utca:
-    ranges:
-      - {start: '1', end: '95'}
-      - {start: '2', end: '102'}
+    # 101: a páratlan oldalon a 95 az utolsó házszám.
+    invalid: ['101']
   XVII. utca:
-    ranges:
-      - {start: '1', end: '27'}
-      - {start: '2', end: '28'}
+    # 29: ez és a Bíbic utca 24. közös telken van, házszám a Bíbic utcáról van csak.
+    invalid: ['29']
   Zakariás József utca:
-    ranges:
-      - {start: '3', end: '9'}
-      - {start: '8', end: '10'}
+    # 39: a páratlan oldalon a 9 az utolsó házszám, az utcanévtáblán pedig 1-11 van.
+    # 57: a páratlan oldalon a 9 az utolsó házszám, az utcanévtáblán pedig 1-11 van.
+    # 83/b: a páratlan oldalon a 9 az utolsó házszám, az utcanévtáblán pedig 1-11 van.
+    # 87/a: a páratlan oldalon a 9 az utolsó házszám, az utcanévtáblán pedig 1-11 van.
+    invalid: ['39', '57', '83b', '87a']
   Zentai út:
     # 9: sima 9 nincs, csak 9/a, 9/b, 9/c.
     # 9/d: nincs ilyen, csak 9/a, 9/b, 9/c.
