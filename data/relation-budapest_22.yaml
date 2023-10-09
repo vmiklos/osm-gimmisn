@@ -70,9 +70,8 @@ filters:
     # 140: a páros oldalon a 82 az utolsó házszám.
     invalid: ['19', '16', '78', '80', '140']
   Avar utca:
-    # 4: ez és a Kiránduló utca 5. közös telken van, házszám a Kiránduló utcáról van csak.
     # 6: sima 6 nincs, csak 6/1, 6/2.
-    invalid: ['4', '6']
+    invalid: ['6']
   # Badacsony utca:
   #   TODO: 13: most épül, nincs rajta házszám még és saroktelek.
   Barackos út:
@@ -115,7 +114,7 @@ filters:
     # 23: ez és a Gádor utca 84. közös telken van, házszám a Gádor utcáról van csak.
     # 2/b: nincs ilyen, csak sima 2 van.
     # 16/f: nincs ilyen, csak sima 16 van.
-    invalid: ['9', '11a', '17', '23', '2', '16f']
+    invalid: ['9', '11a', '17', '23', '2b', '16f']
   Bérkocsi utca:
     # 25: sima 25 nincs, csak 25/a, 25/b.
     # 37/a: nincs ilyen, csak sima 37 van.
@@ -201,7 +200,6 @@ filters:
     invalid: ['1', '17', '19', '21', '14a']
   Erzsébet királyné út:
     # 1/a: nincs ilyen, csak sima 1 és A épület van.
-    # 1/b: nincs ilyen, csak sima 1 és B épület van.
     # 1/c: nincs ilyen, csak sima 1 és C épület van.
     # 3/a: nincs ilyen, csak sima 3 és 3/b van.
     # 5/b: nincs ilyen, csak sima 5 van.
@@ -222,7 +220,7 @@ filters:
     # 44: sima 44 nincs, csak 44/a, 44/b, 44/c.
     # 52: sima 52 nincs, csak 52/1, 52/2.
     # 184: a páros oldalon a 62 az utolsó házszám.
-    invalid: ['1a', '1b', '1c', '3a', '5b', '17b', '19', '41a', '43', '45', '47', '51c', '16', '22', '24', '26', '28', '38', '40', '44', '52', '184']
+    invalid: ['1a', '1c', '3a', '5b', '17b', '19', '41a', '43', '45', '47', '51c', '16', '22', '24', '26', '28', '38', '40', '44', '52', '184']
   Fácán utca:
     # 1: nincs ilyen, ez a Tenkes utcai nagy sorház.
     # 4: a páros oldalon az épületek a Bartók Béla útról számozódnak.
@@ -288,9 +286,7 @@ filters:
     # 11: sima 11 nincs, csak 11/1, 11/2.
     invalid: ['11']
   Háros utca:
-    # 47/a: nincs ilyen, csak 47-49 A épület.
     # 47/b: nincs ilyen, csak 47-49 B épület.
-    # 47/d: nincs ilyen, csak 47-49 D épület.
     # 49/a: nincs ilyen, csak 47-49 A épület.
     # 49/b: nincs ilyen, csak 47-49 B épület.
     # 49/c: nincs ilyen, csak 47-49 C épület.
@@ -299,7 +295,7 @@ filters:
     # 141: sima 141 nincs, csak 141/a, 141/b.
     # 149: sima 149 nincs, csak 149/a, 149/b.
     # 211-213: a páratlan oldalon a 183 az utolsó házszám.
-    invalid: ['47a', '47b', '47d', '49a', '49b', '49c', '49d', '87', '141', '149']
+    invalid: ['47b', '49a', '49b', '49c', '49d', '87', '141', '149']
   Hegybíró utca:
     # 1: üres telek
     # 3: üres telek
@@ -397,14 +393,12 @@ filters:
     invalid: ['5', '19', '24', '50']
   József Attila utca:
     # 1/b A: nincs ilyen, csak 1/b-A/1, 1/b-A/2, 1/b-B/3, 1/b-B/4.
-    # 1/c: nincs ilyen, csak 1/b-A/1, 1/b-A/2, 1/b-B/3, 1/b-B/4.
-    # 1/d: nincs ilyen, csak 1/b-A/1, 1/b-A/2, 1/b-B/3, 1/b-B/4.
     # 17/a: nincs ilyen, csak sima 17 van.
     # 22/b: nincs ilyen, csak sima 22 van.
     # 26: sima 26 nincs, csak 26/a, 26/b, 26/c.
     # 28: sima 28 nincs, csak 28/a, 28/b, 28/c.
     # 58: a páros oldalon a 28/a, 28/b, 28/c az utolsó házszám.
-    invalid: ['1c', '1d', '17a', '22b', '26', '28', '58']
+    invalid: ['17a', '22b', '26', '28', '58']
   Káldor Adolf utca:
     # 15: nincs ilyen házszám, a páratlan oldalon csak egyetlen épület van, de két házszámmal: 3-5 és 5-9.
     invalid: ['15']
@@ -445,6 +439,12 @@ filters:
   Katáng utca:
     # 6: sima 6 nincs, csak 6/1, 6/2.
     invalid: ['6']
+  Katona utca:
+    # 17: a páratlan oldalon a 9 az utolsó házszám az utcanévtáblán.
+    # 8: ez és az Ady Endre út 6. közös telken van, házszám az Ady Endre útról van csak.
+    # 10: a páros oldalon a 6 az utolsó valós házszám és 8 az utcanévtáblán.
+    # 28: a páros oldalon a 6 az utolsó valós házszám és 8 az utcanévtáblán.
+    invalid: ['17', '8', '10', '28']
   Kelenvölgyi utca:
     # 1/a-b-c: nincsenek, csak sima 1 van.
     # 3: nincs ilyen.
