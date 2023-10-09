@@ -236,8 +236,8 @@ fn missing_housenumbers_view_lints(
             let object_type: String = lint.get(5).unwrap();
             let reason_string = match reason {
                 areas::RelationLintReason::CreatedInOsm => tr("created in OSM"),
-                // deleted from reference or outside the declared range
-                areas::RelationLintReason::DeletedFromRef => tr("unused filter"),
+                areas::RelationLintReason::DeletedFromRef => tr("deleted from reference"),
+                areas::RelationLintReason::OutOfRange => tr("out of range"),
             };
             cells.push(yattag::Doc::from_text(&street));
             cells.push(yattag::Doc::from_text(&source_string));

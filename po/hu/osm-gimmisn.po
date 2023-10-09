@@ -17,19 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/areas.rs:579
+#: src/areas.rs:582
 msgid "street"
 msgstr "utca"
 
-#: src/areas.rs:1081 src/wsgi.rs:441 src/wsgi_additional.rs:206
+#: src/areas.rs:1096 src/wsgi.rs:441 src/wsgi_additional.rs:206
 msgid "Street name"
 msgstr "Utcanév"
 
-#: src/areas.rs:1082
+#: src/areas.rs:1097
 msgid "Missing count"
 msgstr "Hiányzik db"
 
-#: src/areas.rs:1083
+#: src/areas.rs:1098
 msgid "House numbers"
 msgstr "Házszámok"
 
@@ -519,10 +519,13 @@ msgstr "érvénytelen házszámok"
 msgid "created in OSM"
 msgstr "létrehozva az OSM-ben"
 
-#. deleted from reference or outside the declared range
+#: src/wsgi.rs:239
+msgid "deleted from reference"
+msgstr "törölve a referenciából"
+
 #: src/wsgi.rs:240
-msgid "unused filter"
-msgstr "nem használt szűrő"
+msgid "out of range"
+msgstr "tartományon kívül"
 
 #: src/wsgi.rs:270
 msgid ""
@@ -700,6 +703,3 @@ msgid ""
 msgstr ""
 "Az OpenStreetmap tartalmazza a lenti {1} utcához tartozó további {0} "
 "házszámot."
-
-#~ msgid "deleted from reference"
-#~ msgstr "törölve a referenciából"
