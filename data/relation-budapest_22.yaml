@@ -562,11 +562,20 @@ filters:
     # 10: ebben az utcában nincsenek házszámok.
     invalid: ['1', '9', '11', '13', '15', '2', '10']
   Leányka utca:
-    # 1/c: ez csak az utcatáblán szerepel, az épületen csak 1 van.
-    # 3/a: nincs ilyen, csak sima 3 van.
+    # 1/c: ez csak az utcatáblán szerepel, az épületeken csak 1 és 1/b van.
     # 5/a: nincs ilyen, csak sima 5 van.
+    # 15: a páratlan oldalon a 13 az utolsó házszám.
+    # 17: a páratlan oldalon a 13 az utolsó házszám.
+    # 23: a páratlan oldalon a 13 az utolsó házszám.
+    # 25: a páratlan oldalon a 13 az utolsó házszám.
+    # 35: a páratlan oldalon a 13 az utolsó házszám.
+    # 41-47: a páratlan oldalon a 13 az utolsó házszám.
+    # 53: a páratlan oldalon a 13 az utolsó házszám.
     # 40/a: nincs ilyen, csak sima 40 van.
-    invalid: ['1c', '3a', '5a', '40a']
+    # 54: nincs ilyen, az óvoda után (40) a közösségi kert (60) következik.
+    # 64: a páros oldalon a 60 az utolsó házszám.
+    # 66: a páros oldalon a 60 az utolsó házszám.
+    invalid: ['1c', '5a', '15', '17', '23', '25', '35', '41', '43', '45', '47', '53', '40a', '54', '64', '66']
   Lídia utca:
     # 1: ez és az Elza utca 16 közös telken van, házszám az Elza utcáról van csak.
     # 3: sima 3 nincs, csak 3/1, 3/2, 3/b.
@@ -1012,6 +1021,12 @@ filters:
     # 10: egybenyitott telek a 12-vel, de csak a 12 van kitáblázva.
     # 28: a páros oldalon a 22 az utolsó házszám.
     invalid: ['47', '6', '10', '28']
+  Vihar utca:
+    # 3: sima 3 nincs, csak 3/a, 3/b, 3/c, 3/d.
+    # 5: sima 5 nincs, csak 5/a, 5/b, 5/c, 5/d.
+    # 7: sima 7 nincs, csak 7/a, 7/b, 7/c, 7/d.
+    # 23: a páratlan oldalon a 19 az utolsó házszám.
+    invalid: ['3', '5', '7', '23']
   Vilmos utca:
     # 7/4: nincs ilyen, csak 7-9.
     # 11: sima 11 nincs, csak 11/1, 11/2.
