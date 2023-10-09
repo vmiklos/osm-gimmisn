@@ -17,19 +17,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/areas.rs:579
+#: src/areas.rs:582
 msgid "street"
 msgstr ""
 
-#: src/areas.rs:1081 src/wsgi.rs:441 src/wsgi_additional.rs:206
+#: src/areas.rs:1096 src/wsgi.rs:441 src/wsgi_additional.rs:206
 msgid "Street name"
 msgstr ""
 
-#: src/areas.rs:1082
+#: src/areas.rs:1097
 msgid "Missing count"
 msgstr ""
 
-#: src/areas.rs:1083
+#: src/areas.rs:1098
 msgid "House numbers"
 msgstr ""
 
@@ -482,9 +482,12 @@ msgstr ""
 msgid "created in OSM"
 msgstr ""
 
-#. deleted from reference or outside the declared range
+#: src/wsgi.rs:239
+msgid "deleted from reference"
+msgstr ""
+
 #: src/wsgi.rs:240
-msgid "unused filter"
+msgid "out of range"
 msgstr ""
 
 #: src/wsgi.rs:270

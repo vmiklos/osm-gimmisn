@@ -444,6 +444,66 @@ fn test_per_relation_lints() {
     );
 }
 
+/// Tests the per-relation lints page, the out-of-range case.
+#[test]
+fn test_per_relation_lints_out_of_range() {
+    let mut test_wsgi = TestWsgi::new();
+    let mut file_system = context::tests::TestFileSystem::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gh3073": {
+                "osmrelation": 42,
+            },
+        },
+        "relation-gh3073.yaml": {
+            "filters": {
+                "Hadak útja": {
+                    "invalid": [ "3" ],
+                    "ranges": [
+                        {
+                            "start": "5",
+                            "end": "7",
+                        }
+                    ],
+                },
+            },
+            "housenumber-letters": true,
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let json_cache_value = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.ctx,
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("workdir/cache-gh3073.json", &json_cache_value),
+        ],
+    );
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
+    mtimes.insert(
+        test_wsgi.ctx.get_abspath("workdir/cache-gh3073.json"),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
+    file_system.set_mtimes(&mtimes);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
+    {
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let mut relation = relations.get_relation("gh3073").unwrap();
+        cache::get_missing_housenumbers_json(&mut relation).unwrap();
+        relation.write_lints().unwrap();
+    }
+
+    let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gh3073/view-lints");
+
+    // 1 is out-of-range
+    assert_eq!(
+        TestWsgi::find_all(&root, "body/table/tr/td/div[@data-value='out-of-range']").len(),
+        1
+    );
+}
+
 /// Tests the missing house numbers page: if the output is well-formed.
 #[test]
 fn test_missing_housenumbers_well_formed() {

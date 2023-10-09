@@ -410,6 +410,7 @@ impl std::fmt::Display for RelationLintSource {
 pub enum RelationLintReason {
     CreatedInOsm,
     DeletedFromRef,
+    OutOfRange,
 }
 
 impl TryFrom<&str> for RelationLintReason {
@@ -419,6 +420,7 @@ impl TryFrom<&str> for RelationLintReason {
         match value {
             "created-in-osm" => Ok(RelationLintReason::CreatedInOsm),
             "deleted-from-ref" => Ok(RelationLintReason::DeletedFromRef),
+            "out-of-range" => Ok(RelationLintReason::OutOfRange),
             _ => Err(anyhow::anyhow!("invalid value: {value}")),
         }
     }
@@ -438,6 +440,7 @@ impl std::fmt::Display for RelationLintReason {
         match self {
             RelationLintReason::CreatedInOsm => write!(f, "created-in-osm"),
             RelationLintReason::DeletedFromRef => write!(f, "deleted-from-ref"),
+            RelationLintReason::OutOfRange => write!(f, "out-of-range"),
         }
     }
 }
@@ -895,7 +898,22 @@ impl<'a> Relation<'a> {
                     let street_name = osm_street.get_osm_name().to_string();
                     let source = RelationLintSource::Invalid;
                     let housenumber = invalid.to_string();
-                    let reason = RelationLintReason::DeletedFromRef;
+                    let mut reason = RelationLintReason::DeletedFromRef;
+
+                    if let Some(value) = lines.get(&ref_street_name) {
+                        // See if this is indeed deleted from the reference or it's just out of
+                        // range, so the returned reference doesn't contain it as the range already
+                        // filters it out.
+                        let housenumbers: Vec<_> = value
+                            .iter()
+                            .map(|i| i.split('\t').next().unwrap().to_string())
+                            .collect();
+                        if housenumbers.contains(&housenumber) {
+                            // Out of range, not really deleted from reference.
+                            reason = RelationLintReason::OutOfRange;
+                        }
+                    }
+
                     let id: u64 = 0;
                     let object_type = "".to_string();
                     let lint = RelationLint {
