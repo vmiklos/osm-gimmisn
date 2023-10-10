@@ -237,9 +237,11 @@ filters:
     # 14: sima 14 nincs, csak 14/a, 14/b.
     invalid: ['14']
   Gádor utca:
+    # 33: sima 33 nincs, csak 33/a, 33/b.
     # 28: a 26-os az utolsó házszám az utca előtt, nincs 28.
     # 28-30: a 26-os az utolsó házszám az utca előtt, nincs 28.
-    invalid: ['28', '30']
+    # 78: sima 78 nincs, csak 78/a, 78/b, 78/c, 78/d.
+    invalid: ['33', '28', '30', '78']
   Géza utca:
     # 3: sima 3 nincs, csak 3/a, 3/b.
     # 11: a páratlan oldalon a 7 az utolsó házszám.
@@ -343,10 +345,28 @@ filters:
     # 14: sima 14 nincs, csak 14/a, 14/b.
     # 16: sima 16 nincs, csak 16/a, 16/b.
     invalid: ['5', '93', '4b', '14', '16']
+  Hosszúhegy tér:
+    # Úgy tűnik, hogy a Hosszúhegy tér és a Hosszúhegy utca összekeveredett a referenciában, mert gyanús, hogy szinte ugyanazok hiányoznak innen is, miközben csak egyetlen házszám van a téren.
+    # 1: nincs ilyen, csak 3 van.
+    # 2: nincs ilyen, csak 3 van.
+    # 2-4: nincs ilyen, csak 3 van.
+    # 6: nincs ilyen, csak 3 van.
+    # 8: nincs ilyen, csak 3 van.
+    # 10: nincs ilyen, csak 3 van.
+    # 18: nincs ilyen, csak 3 van.
+    # 20: nincs ilyen, csak 3 van.
+    # 22: nincs ilyen, csak 3 van.
+    # 26: nincs ilyen, csak 3 van.
+    # 28: nincs ilyen, csak 3 van.
+    # 34: nincs ilyen, csak 3 van.
+    interpolation: 'all'
+    invalid: ['1', '2', '4', '6', '8', '10', '18', '20', '22', '26', '28', '34']
   Húr utca:
+    # 9/a: nincs ilyen, csak 9-15 A épület.
+    # 9/b: nincs ilyen, csak 9-15 B épület.
     # 19-23: a tűzoltóság lenne a 19-21, de ez és a Jókai Mór utca 35. közös telken van, házszám a Jókai Mór utcáról van csak.
     # 29: a páratlan oldalon a 17 az utolsó valós házszám, az utcanévtáblán pedig a 21.
-    invalid: ['19', '21', '23', '29']
+    invalid: ['9a', '9b', '19', '21', '23', '29']
   Hűség utca:
     # 25: sima 25 nincs, csak 25/a, 25/b.
     invalid: ['25']
