@@ -1406,7 +1406,6 @@ fn test_relation_get_lints_out_of_range() {
                     ],
                 },
             },
-            "housenumber-letters": true,
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
