@@ -892,40 +892,43 @@ impl<'a> Relation<'a> {
                 }
             }
 
-            for invalid in street_invalid {
-                if !used_invalids.contains(&invalid) {
-                    let relation_name = self.get_name();
-                    let street_name = osm_street.get_osm_name().to_string();
-                    let source = RelationLintSource::Invalid;
-                    let housenumber = invalid.to_string();
-                    let mut reason = RelationLintReason::DeletedFromRef;
+            if let Some(street_invalid) = streets_invalid.get(osm_street_name) {
+                // This is the full list of invalid items, before removing the out of range ones.
+                for invalid in street_invalid {
+                    if !used_invalids.contains(invalid) {
+                        let relation_name = self.get_name();
+                        let street_name = osm_street.get_osm_name().to_string();
+                        let source = RelationLintSource::Invalid;
+                        let housenumber = invalid.to_string();
+                        let mut reason = RelationLintReason::DeletedFromRef;
 
-                    if let Some(value) = lines.get(&ref_street_name) {
-                        // See if this is indeed deleted from the reference or it's just out of
-                        // range, so the returned reference doesn't contain it as the range already
-                        // filters it out.
-                        let housenumbers: Vec<_> = value
-                            .iter()
-                            .map(|i| i.split('\t').next().unwrap().to_string())
-                            .collect();
-                        if housenumbers.contains(&housenumber) {
-                            // Out of range, not really deleted from reference.
-                            reason = RelationLintReason::OutOfRange;
+                        if let Some(value) = lines.get(&ref_street_name) {
+                            // See if this is indeed deleted from the reference or it's just out of
+                            // range, so the returned reference doesn't contain it as the range already
+                            // filters it out.
+                            let housenumbers: Vec<_> = value
+                                .iter()
+                                .map(|i| i.split('\t').next().unwrap().to_string())
+                                .collect();
+                            if housenumbers.contains(&housenumber) {
+                                // Out of range, not really deleted from reference.
+                                reason = RelationLintReason::OutOfRange;
+                            }
                         }
-                    }
 
-                    let id: u64 = 0;
-                    let object_type = "".to_string();
-                    let lint = RelationLint {
-                        relation_name,
-                        street_name,
-                        source,
-                        housenumber,
-                        reason,
-                        id,
-                        object_type,
-                    };
-                    self.lints.push(lint);
+                        let id: u64 = 0;
+                        let object_type = "".to_string();
+                        let lint = RelationLint {
+                            relation_name,
+                            street_name,
+                            source,
+                            housenumber,
+                            reason,
+                            id,
+                            object_type,
+                        };
+                        self.lints.push(lint);
+                    }
                 }
             }
 
