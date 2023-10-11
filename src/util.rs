@@ -363,9 +363,19 @@ impl HouseNumber {
         self.id = Some(id);
     }
 
+    /// Gets the housenumber's OSM object ID, if this comes from OSM.
+    pub fn get_id(&self) -> Option<u64> {
+        self.id
+    }
+
     /// Sets the housenumber's OSM type ID, if this comes from OSM.
     pub fn set_object_type(&mut self, object_type: &str) {
         self.object_type = Some(object_type.to_string());
+    }
+
+    /// Gets the housenumber's OSM type ID, if this comes from OSM.
+    pub fn get_object_type(&self) -> Option<String> {
+        self.object_type.clone()
     }
 }
 

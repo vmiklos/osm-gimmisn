@@ -686,10 +686,10 @@ impl<'a> Relation<'a> {
                         let relation_name = self.get_name();
                         let street_name = street_name.to_string();
                         let source = RelationLintSource::Invalid;
-                        let housenumber = housenumber.get_number().to_string();
                         let reason = RelationLintReason::CreatedInOsm;
-                        let id: u64 = 0;
-                        let object_type = "".to_string();
+                        let id: u64 = housenumber.get_id().context("no osm id")?;
+                        let object_type = housenumber.get_object_type().context("no osm type")?;
+                        let housenumber = housenumber.get_number().to_string();
                         let lint = RelationLint {
                             relation_name,
                             street_name,
