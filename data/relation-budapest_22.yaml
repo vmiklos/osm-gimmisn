@@ -550,14 +550,14 @@ filters:
     # 65: a 49-73 között nincsenek házszámok, játszótér, parkoló és a Donszki Árpád utca van ott.
     # 67/b: a 49-73 között nincsenek házszámok, játszótér, parkoló és a Donszki Árpád utca van ott.
     # 70/f: nincs ilyen, csak sima 70 van.
-    # 90: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.	
-    # 92: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.	
-    # 94: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.	
-    # 96: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.	
-    # 98: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.	
-    # 100: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.	
-    # 138: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.	
-    # 182/b: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.	
+    # 90: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.
+    # 92: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.
+    # 94: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.
+    # 96: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.
+    # 98: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.
+    # 100: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.
+    # 138: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.
+    # 182/b: a páros oldalon a 88 az utolsó valós házszám, az utcanévtáblán pedig a 100.
     invalid: ['19', '51', '53', '55', '59', '61', '65', '67b', '70f', '90', '92', '94', '96', '98', '100', '138', '182b']
   Kova utca:
     # 6: sima 6 nincs, csak 6/a, 6/b.
