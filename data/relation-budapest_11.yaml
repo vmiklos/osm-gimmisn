@@ -164,13 +164,8 @@ filters:
     # 3: még épül. RESURVEY 2024
     # 5a = 5. A lépcsőház
     # 12-16 = Főtáv, Kalotaszeg utca 9.
-    # 32-26 = Főtáv, Kalotaszeg utca 31.
-    invalid: ['2','3', '5a']
-    ranges:
-      - {start: '1', end: '65'}
-      - {start: '2', end: '10'}
-      - {start: '20', end: '30'}
-      - {start: '40', end: '40'}
+    # 32-36 = Főtáv, Kalotaszeg utca 31.
+    invalid: ['2', '3', '5a', '12', '14', '16', '32', '34', '36']
   Bártfai utca:
     # 13 = Mohai út 28.
     invalid: ['13', '35b']
@@ -193,10 +188,7 @@ filters:
     invalid: ['12a', '13a', '15b']
   # Beléndek utca:
   # 5-7: hirdeti egy plakát, hogy majd épül valami
-  Benedikt Ottó utca:
-    # nincs ide számozva ház, ez az tablan levo block end
-    ranges:
-      - {start: '2', end: '4'}
+  #Benedikt Ottó utca:
   Bercsényi utca:
     # 26: 26/b van csak
     invalid: ['9f', '26']
@@ -437,13 +429,13 @@ filters:
     # 112abc: csak sima 112 a McDonalds/OMV komplexum
     # 120c: csak sima 120, az egyik autóstelep a sok közül
     # 122-142: autokereskedes 120, MOL kut 126, autoklub 138, epulet 142, koztuk nincs semmi kitablazva
-    # 146: 146a, 146b, 146c, 146d
+    # 146: 146a, 146b, 146c, 146d, 146-148
     # 148a: 148, 148d, 148e
     # 168: nincs, elírt 165
     # 170: Safru
     # 178: nincs
     # 180: 180/b - 180/i között
-    invalid: ['23', '23b', '32', '32e', '33', '34', '36a', '36b', '36d', '40', '41b', '43', '44', '44b', '48a', '48b', '50b', '47', '55', '58', '101/2', '101a', '101c', '105', '109', '112a', '112b', '112c', '120c', '123', '125', '125e', '125g', '127', '129', '129d', '129g', '140', '141a', '146', '148a', '149', '151', '163', '168', '178b', '180/1', '180a', '181', '181b', '183', '187a', '201', '259b']
+    invalid: ['23', '23b', '32', '32e', '33', '34', '36a', '36b', '36d', '40', '41b', '43', '44', '44b', '48a', '48b', '50b', '47', '55', '58', '101/2', '101a', '101c', '105', '109', '112a', '112b', '112c', '120c', '123', '125', '125e', '125g', '127', '129', '129d', '129g', '140', '141a', '148a', '149', '151', '163', '168', '178b', '180/1', '180a', '181', '181b', '183', '187a', '201', '259b']
     ranges:
       - {start: '1', end: '81'}
       - {start: '101', end: '999'}
@@ -741,7 +733,6 @@ filters:
     # 19/1 van csak a másik kettő nem létezik
     invalid: ['1/2', '1/9', '19']
   Fadrusz utca:
-    # 11,11b: CHECK 2022-06-01 felépült, de még nincs kint házszám, nem lehet tudni, hogy mi lesz a házszám 11,11b,13 közül valami. RESURVEY 2024
     invalid: ['11', '11b']
     ranges:
       - {start: '1', end: '31'}
@@ -820,6 +811,9 @@ filters:
       - {start: '1', end: '7'}
       - {start: '17', end: '17'}
       - {start: '2', end: '14'}
+  Forrás utca:
+    # 1 = Halmi utca 30.
+    invalid: ['1']
   Fraknó utca:
     # Panelek, minden számra a és b: 6a-28b-ig: 6a,6b,8a,8b stb..
     invalid: ['4a', '8', '10', '12', '14', '16', '16d', '18', '18c', '20', '22', '22d', '24', '26', '28', '30', '40']
@@ -922,7 +916,7 @@ filters:
     # 45-nél nincs kiírva semmi
     invalid: ['3', '12', '13', '15', '45a', '45b', '63b']
     ranges:
-      - {start: '5', end: '19'}
+      - {start: '1', end: '19'}
       - {start: '31', end: '65'}
       - {start: '2', end: '68'}
   Hajtány sor:
@@ -1253,11 +1247,9 @@ filters:
   Kecskeméti József utca:
     # 30-32 helyén üres telek
     invalid: ['32']
-  Kékperje utca:
+  # Kékperje utca:
     # 2 = Tóváros út 3
     # páratlan nincs beépítve
-    ranges:
-      - {start: '4', end: '8'}
   Kelenföldi út:
     # 1-13 egyben, 
     # 15-17 csak A lépcsőház, a B lépcsőház a Thallóczy Lajos utca 23-25-re van számozva
@@ -1316,8 +1308,6 @@ filters:
   Kérő utca:
     # 2-20: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
     invalid: ['10a', '16b']
-    ranges:
-      - {start: '2', end: '20'}
   Keserűfű utca:
     # 4a, 6a, 8a: Cordia, ld. Medvetalp
     # 9: 9/1 van kiírva az egyik házra, a másikra semmi
@@ -1452,9 +1442,6 @@ filters:
     # 97b: csak 97 és 97/a van
     interpolation: 'all'
     invalid: ['23a', '37b', '63a', '73', '75a', '95b', '97b']
-    ranges:
-      - {start: '19', end: '111'}
-      - {start: '123', end: '139'}
   Kubikos utca:
     # 1 = Szajol utca 9
     # 2 = nincs ház, valószínű, 2-4 lenne hivatalosan az első ház, de csak 4 van kiírva
@@ -1484,7 +1471,6 @@ filters:
       - {start: '1', end: '19'}
       - {start: '2', end: '6'}
   Leiningen út:
-    invalid: ['51a']
     ranges:
       - {start: '27', end: '53'}
   Lépés utca:
@@ -1498,8 +1484,7 @@ filters:
       - {start: '5', end: '9'}
   Löveg utca:
     # 2: 2/A, 2/B, 2/C van 1. és 2. lépcsőház mindenhol, ezért kell szűrni a 2-t (2/A/1 -> 2)
-    # 3: egyik részénél 3/X másik részénél 3. X. épület formában van, egységesen vittem fel 3 X formában
-    invalid: ['2', '3']
+    invalid: ['2']
   Lucerna köz:
     # 6c: nincs épület. KCR szerint is csak sima 6 van.
     # 12: nincs semmi sem kiírva
@@ -1545,10 +1530,7 @@ filters:
   Maléter Pál utca:
     # Sasad liget: 2a, 2c, 4a, 4g: ezek épület betűjelek
     invalid: ['4a', '4g']
-  Mányoki út:
-    ranges:
-      - {start: '1', end: '7'}
-      - {start: '2', end: '24'}
+#  Mányoki út:
   Március utca:
     # 1: 1/b van, 1/a = Május utca 2
     invalid: ['1']
@@ -1732,8 +1714,7 @@ filters:
       - {start: '1', end: '57'}
       - {start: '2', end: '68'}
   Nagyszeben tér:
-    ranges:
-      - {start: '1', end: '3'}
+    interpolation: all
   Nagyszeben út:
     # Sasad liget:
     # 9 meg lett időközdben osztva 9/a (A. épület) és 9/b-re (G. épület)
@@ -1782,16 +1763,7 @@ filters:
     # 11: 11a, 11b, 11c
     # 22-28, 38-44: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
     invalid: ['9', '11', '12a', '12b', '38a', '40b', '42a', '44b', '72']
-    ranges:
-      - {start: '9', end: '13'}
-      - {start: '31', end: '37'}
-      - {start: '10', end: '44'}
-      - {start: '56', end: '82'}
-      - {start: '90', end: '102'}
-  Nevegy köz:
-    ranges:
-      - {start: '1', end: '7'}
-      - {start: '2', end: '10'}
+  #Nevegy köz:
   Nevegy utca:
     ranges:
       - {start: '1', end: '37'}
@@ -1949,9 +1921,7 @@ filters:
     # 2: 2/a, 2/b
     # 4: 4/c, 4/d, 4/e
     invalid: ['2', '4']
-  Pentele utca:
-    ranges:
-      - {start: '1', end: '9'}
+  #Pentele utca:
   Pereszke utca:
     # utcára eső hrsz tartomány: 221-241
     interpolation: all
@@ -1989,8 +1959,10 @@ filters:
       - {start: '2', end: '36'}
   Péterhegyi út:
     # páratlan ---------------------------------------------------------------
+    # legkisebb szám 43
     # 49: Nincs, 49/b, 49/c van.
     # páros ------------------------------------------------------------------
+    # legkisebb szám 40
     # 50: 48 után 52
     # 54: Shell kút
     # 56-62 nincs
@@ -1998,9 +1970,6 @@ filters:
     # 84: 84/a van kiírva, a másik felén nincs házszám, 84/b lett
     # 104: csak 104/a, az épület másik fele Ringló út 130
     invalid: ['47b', '49', '50', '84', '104', '104b']
-    ranges:
-      - {start: '40', end: '198'}
-      - {start: '43', end: '77'}
   Petzvál József utca:
     # 1b: csak 1 van kiírva
     # 16: Náday Ferenc utca 14.
@@ -2016,9 +1985,6 @@ filters:
     # 4a, 4b: van 4 és egy számozatlan ház a 6a és a 4 között
     # 10: 10b=8c van kiírva
     invalid: ['2a', '2b', '4a', '4b']
-    ranges:
-      - {start: '1', end: '3'}
-      - {start: '2', end: '10'}
   Povl Bang-Jensen utca:
     # Sasad liget: 1b, 1d, 2b, 2c: ezek épület betűjelek
     invalid: ['1b', '2b', '2c']
@@ -2083,9 +2049,6 @@ filters:
     # 3: nincs, igazából 9 az első szám a többi a másik utcákra van számozva
     # 10/*: csak sima 10 van kiírva, ugyanakkor 10/a a címe a műkörmösnek
     invalid: ['3', '10b', '10c', '10d']
-    ranges:
-      - {start: '1', end: '13'}
-      - {start: '8', end: '18'}
   Rátz László utca:
     # 1-3: 1 nincs az az Etele út 26, a 3-7 pedig egyben egy iskola
     # 8a, 8b, 8c = Bikszádi 8a, 8b, 8c
@@ -2125,11 +2088,8 @@ filters:
     ranges:
       - {start: '2', end: '20'}
       - {start: '1', end: '43'}
-  Repülőtéri út:
-    # össze vissza vannak a számok, úgy tűnik csak 2 és 6 van
-    ranges:
-      - {start: '2', end: '2'}
-      - {start: '6', end: '6'}
+  # Repülőtéri út:
+    # össze vissza vannak a számok, úgy tűnik csak 1, 2 és 6 van
   Rétkerülő út:
     # 4: első ház a 14
     # 42: 40 után 44 jön
@@ -2564,7 +2524,8 @@ filters:
     ranges:
       - {start: '2', end: '12'}
   Ulászló utca:
-    invalid: ['37a']
+    # 61 = Dinnye utca 9.
+    invalid: ['37a', '61']
   Ütköző sor:
     # 1 = Péterhegyi út 43
     # 9 = Bolygó utca 19
