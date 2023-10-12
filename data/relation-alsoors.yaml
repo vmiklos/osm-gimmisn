@@ -50,6 +50,9 @@ filters:
   Mihálkovics sétány:
     # 19, 28: nincsenek kiírva, de vannak még építkezések és nem kiírt házak a Patak utcánál is. RESURVEY 2024
     invalid: ['19', '28']
+  Muskotályos köz:
+    # 3:
+    invalid: ['3']
   Petőfi köz:
     # 2: nincs, illetve a földhivatalban Patak utca 14-re mutat, ami egész máshol van
     invalid: ['2']
