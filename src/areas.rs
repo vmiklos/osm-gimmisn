@@ -680,6 +680,18 @@ impl<'a> Relation<'a> {
                 if let Some(value) = streets_invalids.get(street_name) {
                     invalids = value.clone();
                     invalids = self.normalize_invalids(street_name, &invalids)?;
+
+                    // housenumber letters: OSM data is already in the 42/A, do the same for the
+                    // invalid items as well, so contains() makes sense:
+                    invalids = invalids
+                        .iter()
+                        .map(
+                            |i| match util::HouseNumber::normalize_letter_suffix(i, "") {
+                                Ok(value) => value,
+                                Err(_) => i.to_string(),
+                            },
+                        )
+                        .collect();
                 }
                 for housenumber in housenumbers {
                     if invalids.contains(&housenumber.get_number().to_string()) {
@@ -1874,14 +1886,24 @@ fn normalize<'a>(
 
     let check_housenumber_letters =
         ret_numbers.len() == 1 && relation.config.should_check_housenumber_letters();
-    if check_housenumber_letters && util::HouseNumber::has_letter_suffix(&house_numbers, &suffix) {
-        return normalize_housenumber_letters(&house_numbers, &suffix, &comment);
-    }
-    Ok(ret_numbers
+    let ret: Vec<util::HouseNumber> = if check_housenumber_letters
+        && util::HouseNumber::has_letter_suffix(&house_numbers, &suffix)
+    {
+        normalize_housenumber_letters(&house_numbers, &suffix, &comment)?
+    } else {
+        ret_numbers
+            .iter()
+            .map(|number| {
+                util::HouseNumber::new(&(number.to_string() + &suffix), &house_numbers, &comment)
+            })
+            .collect()
+    };
+    // Finally annotate the result in case we got OSM info, regardless of the value of
+    // check_housenumber_letters.
+    Ok(ret
         .iter()
         .map(|number| {
-            let mut housenumber =
-                util::HouseNumber::new(&(number.to_string() + &suffix), &house_numbers, &comment);
+            let mut housenumber = number.clone();
             if let Some(osm_housenumber) = osm_housenumber {
                 housenumber.set_id(osm_housenumber.id);
                 housenumber.set_object_type(&osm_housenumber.object_type);

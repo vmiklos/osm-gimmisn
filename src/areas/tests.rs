@@ -1384,6 +1384,47 @@ fn test_relation_get_lints() {
     );
 }
 
+/// Tests Relation::get_lints(), the housenumber-letters=true case.
+#[test]
+fn test_relation_get_lints_hn_letters() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+        },
+        "relation-gh964.yaml": {
+            "filters": {
+                "Tolvajos tanya": {
+                    "invalid": [ "52b" ],
+                }
+            },
+            "housenumber-letters": true,
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = Relations::new(&ctx).unwrap();
+    let relation_name = "gh964";
+    let mut relation = relations.get_relation(relation_name).unwrap();
+    let _missing_housenumbers = relation.get_missing_housenumbers().unwrap();
+
+    let lints = relation.get_lints();
+
+    // Previously this failed, lints was empty.
+    assert_eq!(lints.len(), 1);
+    let lint = lints[0].clone();
+    assert_eq!(lint.relation_name, "gh964");
+    assert_eq!(lint.street_name, "Tolvajos tanya");
+    assert_eq!(lint.source, RelationLintSource::Invalid);
+    assert_eq!(format!("{:?}", lint.source), "Invalid");
+    assert_eq!(lint.housenumber, "52/B");
+    assert_eq!(lint.reason, RelationLintReason::CreatedInOsm);
+}
+
 /// Tests Relation::get_lints(), the out-of-range case.
 #[test]
 fn test_relation_get_lints_out_of_range() {
