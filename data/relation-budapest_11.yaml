@@ -206,7 +206,7 @@ filters:
     # 46a: csak sima 46 van
     # 48a-c: több épület, de csak sima 48 van kírva
     # 50: csak sima 50-es házszám van a 4 épületrészre
-    # 56a van; 56b, 56c, 56d, 56e át lettek számozva Birs utcára: 1/b, 1/c, 3/a, 3/b
+    # 56a van; 56b, 56c, 56d, 56e át lettek számozva Birs utcára: 1/b, 1/c, 3/a, 3/b de az eredeti szám is kint van.
     # 57b: csak sima 57 van
     # 59/a: 59, 59/b
     # 60b,62ab: 60-62 a társasház, a házaknak van külön száma 60 és 62
@@ -221,7 +221,7 @@ filters:
     # 104: 104/a-b van a kapun
     # 108/a,b,c: semmi sincs kiírva, de csak 1 épület van
     # 145ab: házszám nincs, kukán 145 van
-    invalid: ['4a', '16a', '32/1', '36/2', '40d', '42a', '42b', '42c', '46a', '48a', '48b', '48c', '50d', '56b', '56c', '56e', '57b', '59a', '60b', '62a', '74', '76b', '78b', '80b', '87', '87c', '88', '99', '100/2', '104', '108a', '108b', '108c', '145a', '145b']
+    invalid: ['4a', '16a', '32/1', '36/2', '40d', '42a', '42b', '42c', '46a', '48a', '48b', '48c', '50d', '57b', '59a', '60b', '62a', '74', '76b', '78b', '80b', '87', '87c', '88', '99', '100/2', '104', '108a', '108b', '108c', '145a', '145b']
     ranges:
       - {start: '1', end: '173'}
       - {start: '4', end: '118'}
@@ -355,7 +355,7 @@ filters:
     # 1b: csak sima 1
     # 10: 10/a, 10/b
     # 21,29: 19, 25, 27, x, 27/a, 27/b; x=29? CHECK 2023-09 RESURVEY 2024
-    # 40a, 40b: csak sima 40 van
+    # 40b: 40 és 40/a
     # 45: 45/a, 45/b
     # 51: 51/a, 51/b, 51/c
     # 52: 52/a, 52/b
@@ -369,7 +369,7 @@ filters:
     # 119: 119/a, 119/b
     # 147: 147/a, 147/b
     # 154: 154/a, 154/b
-    invalid: ['1b', '10', '21', '28', '40a', '40b', '45', '51', '52', '54a', '54b', '55a', '55b', '95', '107a', '113', '119', '147', '154']
+    invalid: ['1b', '10', '21', '28', '40b', '45', '51', '52', '54a', '54b', '55a', '55b', '95', '107a', '113', '119', '147', '154']
   Breznó köz:
     ranges:
       - {start: '1', end: '13'}
@@ -393,7 +393,7 @@ filters:
     # 62-64: csak a 64 használatos
     # 76, 78, 82/A, 82/B: zöldmező
     # 84: Albertfalva
-    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '57', '62', '76', '78', '82a', '82b', '23', '83b', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
+    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '57', '62', '76', '78', '23', '83b', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
     ranges:
       - {start: '1', end: '59'}
       - {start: '79', end: '229'}
@@ -404,7 +404,7 @@ filters:
     # 41b: csak sima 41
     # 43: 43/a, 43/b
     # 45-55, 47-49: 45 MTA kutatóház, 47 nincs, laktanya 49-53, 55-71 között nincs szám, 73-75 volt Balassi kollégium telke
-    # 83-99 között gyakorlatilag nincs számozva semmi
+    # 85-99 között gyakorlatilag nincs számozva semmi
     # 101*: csak 101
     # 105: csak 105/b
     # 109: 109/a..c fent
@@ -608,8 +608,7 @@ filters:
     # 36 nincs
     # 38a: 2 ház van de mindkettőhöz a 38 van kiírva
     # 42, 58: max hászám a Péterhegy részen 38, Őrmezőn a páros nincs beépítve
-    # 61/b: nincs
-    invalid: ['8', '36', '36a', '37', '38a', '42', '58', '61b']
+    invalid: ['8', '36', '36a', '37', '38a', '42', '58']
     ranges:
       - {start: '1', end: '61'}  # Őrmező
       - {start: '2', end: '58'}  # Péterhegy
@@ -1101,8 +1100,8 @@ filters:
     ranges:
       - {start: '2', end: '36'}
   Irhás köz:
-    # 14/b = Szelesdomb utca 2/b
-    invalid: ['2b', '6b', '14b']
+    # 14/b = Szelesdomb utca 2/b, mindkét szám kint van
+    invalid: ['2b', '6b']
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '14'}
@@ -1437,11 +1436,10 @@ filters:
     # 37 = Putnok utca 20
     # 63a: csak sima 63 van, illetve osm-ben 63/b, s helyszínen nincs kiírva semmit
     # 73: 73/a, 73/b
-    # 75a: csak sima 75 van
     # 95/b: 95, 95/a
     # 97b: csak 97 és 97/a van
     interpolation: 'all'
-    invalid: ['23a', '37b', '63a', '73', '75a', '95b', '97b']
+    invalid: ['23a', '37b', '63a', '73', '95b', '97b']
   Kubikos utca:
     # 1 = Szajol utca 9
     # 2 = nincs ház, valószínű, 2-4 lenne hivatalosan az első ház, de csak 4 van kiírva
@@ -1982,9 +1980,9 @@ filters:
     invalid: ['10b', '106']
   Postás utca:
     # 2a, 2b: csak sima 2 van
-    # 4a, 4b: van 4 és egy számozatlan ház a 6a és a 4 között
+    # 4a: 4 és 4/b
     # 10: 10b=8c van kiírva
-    invalid: ['2a', '2b', '4a', '4b']
+    invalid: ['2a', '2b', '4a']
   Povl Bang-Jensen utca:
     # Sasad liget: 1b, 1d, 2b, 2c: ezek épület betűjelek
     invalid: ['1b', '2b', '2c']
@@ -2311,8 +2309,9 @@ filters:
     ranges:
       - {start: '1', end: '17'}
   Székelykapu utca:
-    # 9 és 9/B-11, nem tudja bontani
-    invalid: ['9a', '9b', '11']
+    # 9 és 9/B-11, nem tudja bontani (vagy mégis)
+    #invalid: ['9a', '9b', '11']
+    invalid: ['9a']
   Szelesdomb utca:
     # 4 a vége de van meg egy számozatlan ház
     ranges:
@@ -2454,10 +2453,9 @@ filters:
     interpolation: all
     invalid: ['7a']
   Torma utca:
-    # 7a, 7b: nincs kiírva semmi
     # 13 = Husáng utca 24
     # 30 = Péterhegyi út 78
-    invalid: ['7b', '13', '30']
+    invalid: ['13', '30']
   Tornagörgő utca:
     ranges:
       - {start: '2', end: '10'}
