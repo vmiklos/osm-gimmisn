@@ -2086,8 +2086,11 @@ filters:
     ranges:
       - {start: '2', end: '20'}
       - {start: '1', end: '43'}
-  # Repülőtéri út:
+  Repülőtéri út:
     # össze vissza vannak a számok, úgy tűnik csak 1, 2 és 6 van
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '6'}
   Rétkerülő út:
     # 4: első ház a 14
     # 42: 40 után 44 jön
@@ -2309,9 +2312,8 @@ filters:
     ranges:
       - {start: '1', end: '17'}
   Székelykapu utca:
-    # 9 és 9/B-11, nem tudja bontani (vagy mégis)
-    #invalid: ['9a', '9b', '11']
-    invalid: ['9a']
+    # 9 és 9/B-11, nem tudja bontani (vagy mégis?)
+    invalid: ['9a', '9b']
   Szelesdomb utca:
     # 4 a vége de van meg egy számozatlan ház
     ranges:
