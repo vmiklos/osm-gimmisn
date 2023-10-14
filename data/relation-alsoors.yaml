@@ -51,7 +51,7 @@ filters:
     # 19, 28: nincsenek kiírva, de vannak még építkezések és nem kiírt házak a Patak utcánál is. RESURVEY 2024
     invalid: ['19', '28']
   Muskotályos köz:
-    # 3:
+    # 3: nincs kiírva
     invalid: ['3']
   Petőfi köz:
     # 2: nincs, illetve a földhivatalban Patak utca 14-re mutat, ami egész máshol van
@@ -84,7 +84,6 @@ filters:
   Vöröskő utca:
     # Régi név: Úttörő utca
     # 36,38,42: 32 az utolsó páros, a többi szám átkerült a Templom utcára
-    invalid: ['1']
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '32'}
