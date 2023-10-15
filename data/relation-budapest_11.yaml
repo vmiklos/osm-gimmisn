@@ -378,22 +378,22 @@ filters:
     # 10: 10/a, 10/b, 10/c
     # 17: 17/a, 17/b, 17/c a házakon, a kapun meg 17 a,b,c
     # 21-27: Katonai Nemzetbiztonsági Szolgálat: Bartókra van számozva
-    # 57: 57/a, 57/b
-    # 59-63: 59-es van használatban
-    # 65-77: nincs
-    # 97-103: 95 után 105 jön, máshonnan számozódik (ujbuda szerint 97-103, régen volt egy cetli, amint 103-107 volt, de már nincs), közben az iskola címe 101-103 lett
-    # 107: I,II,II épület, illetve 107-109 a-b épület
-    # 115-181: Újbuda Center, Hengermalomra számozva
-    # 215: páratlan: utolso ismert páratlan a 215, de meg vannak telkek
     # 26: 26/b
     # 32b: 32/b-c, fel van rögzítve így
     # 34c: 34/c-d, fel van rögzítve így
     # 36: nincs
     # 40-50 között nincs semmi, 52 az erőmű, Budapart miatt valtozhat
+    # 57: 57/a, 57/b
+    # 59-63: 59-es van használatban
     # 62-64: csak a 64 használatos
     # 76, 78, 82/A, 82/B: zöldmező
+    # 65-77: nincs
     # 84: Albertfalva
-    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '57', '62', '76', '78', '23', '83b', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
+    # 97-103: 95 után 105 jön, máshonnan számozódik (ujbuda szerint 97-103, régen volt egy cetli, amint 103-107 volt, de már nincs), közben az iskola címe 101-103 lett
+    # 107: I,II,II épület, illetve 107-109 a-b épület
+    # 115-181: Újbuda Center, Hengermalomra számozva
+    # 215: páratlan: utolso ismert páratlan a 215, de meg vannak telkek
+    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '57', '62', '76', '78', '23', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
     ranges:
       - {start: '1', end: '59'}
       - {start: '79', end: '229'}
@@ -698,8 +698,10 @@ filters:
     ranges:
       - {start: '2', end: '12'}
   Eszék utca:
+    # 17 = Fadrusz utca 12. utcatábla 19-ig mutatja, de az sincs.
     # 18c: csak sima 18
-    invalid: ['18c']
+    # 22 = Fadrusz utca 14.
+    invalid: ['17', '18c', '22']
   Etele tér:
     # 8 nincs, de 12-13 a posta szerint igen, talan az Etele plaza oldala
     interpolation: 'all'
@@ -732,7 +734,8 @@ filters:
     # 19/1 van csak a másik kettő nem létezik
     invalid: ['1/2', '1/9', '19']
   Fadrusz utca:
-    invalid: ['11', '11b']
+    # 11: 11/a, 11/b
+    invalid: ['11']
     ranges:
       - {start: '1', end: '31'}
       - {start: '2', end: '38'}
@@ -807,12 +810,12 @@ filters:
     # 6/c: 6/a, 6/b
     invalid: ['4', '6c']
     ranges:
-      - {start: '1', end: '7'}
-      - {start: '17', end: '17'}
+      - {start: '1', end: '21'}
       - {start: '2', end: '14'}
   Forrás utca:
     # 1 = Halmi utca 30.
-    invalid: ['1']
+    # 5 = Fraknó utca 7. idősek otthona
+    invalid: ['1', '5']
   Fraknó utca:
     # Panelek, minden számra a és b: 6a-28b-ig: 6a,6b,8a,8b stb..
     invalid: ['4a', '8', '10', '12', '14', '16', '16d', '18', '18c', '20', '22', '22d', '24', '26', '28', '30', '40']
@@ -1136,7 +1139,9 @@ filters:
       # felső szakasz, ahol a 1-13 XII. kerület
       - {start: '15', end: '99'}
       - {start: '2', end: '46'}
-  #Kalotaszeg utca:
+  Kalotaszeg utca:
+    # 27-37: csak 31 van kiírva FŐTÁV
+    invalid: ['27', '29', '33', '35']
   Kamaraerdei út:
     # 2-10
     # 16bc: 16 az idősek otthona
@@ -1237,12 +1242,12 @@ filters:
   # Kászony utca:
     # 1 = Vágfarkasd utca 3.
   Katafa utca:
-    # 1: 1/1, 1/2, 1/3, 1/4
+    # 1: 1/1, 1/2, 1/3, 1/4, ezek ajtók
     # 2/b: ikerház, de csak a 2/a van a kapun kiírva az egyik oldalon, a házon 2-es szám van mindkét oldalon
     # 3/1: csak sima 3 van, annak ellenére, hogy az épület ugyanolyan mint az 1-es ahol meg vannak /-ek
     # 5: 5/1, 5/2, 5/3, 5/4
     # 13/1: látszólag több részből álló sorház, de csak 13 van kiírva a kapun
-    invalid: ['1', '2b', '5']
+    invalid: ['2b', '5']
   Kecskeméti József utca:
     # 30-32 helyén üres telek
     invalid: ['32']
@@ -1251,10 +1256,12 @@ filters:
     # páratlan nincs beépítve
   Kelenföldi út:
     # 1-13 egyben, 
+    # 6, 12: nincsenek, 
     # 15-17 csak A lépcsőház, a B lépcsőház a Thallóczy Lajos utca 23-25-re van számozva
+    # 25, 29: nincsenke
     # 33-45 között majd minden lebontva a 35/a kivételével
     # 10-16 iskola másik oldala
-    invalid: ['17b', '35b']
+    invalid: ['6', '12', '17b', '25', '29', '35b']
   Kelenhegyi köz:
     # ez egy lépcső, nincs épület
     ranges: []
@@ -1729,6 +1736,7 @@ filters:
       - {start: '31', end: '47'}
       - {start: '2', end: '20'}
   Nándorfejérvári út:
+    # 31/a-b-c: a,b,c lépcsőházak belül, kintről az A és B kapuja látszik a rácson keresztűl.
     # 36-40: a, b, c, d épületek, a kapun 40, a portás szerint viszont 36-40. Ezen kívül van még egy 40/a bejárat is a fitnessnél
     invalid: ['5a', '31a', '31b', '31c', '40d']
     ranges:
@@ -2286,7 +2294,9 @@ filters:
     # 2 = Ringló út 68
     # 17 = Hunyadi Mátyás út 33
     invalid: ['1', '2', '17']
-  # Szabolcska Mihály utca:
+  Szabolcska Mihály utca:
+    # 4: nincs, 2/b után 6-8 jön
+    invalid: ['4']
   Szádelő köz:
     ranges:
       - {start: '1', end: '9'}
@@ -2567,7 +2577,9 @@ filters:
       - {start: '1', end: '1'}
       - {start: '2', end: '4'}
   Vasút utca:
-    invalid: ['1']
+    # 1: csak 1/a van
+    # 9: nincs, a pályaudvar Etele tér 5-7 néven fut
+    invalid: ['1', '9']
   Vasvirág sor:
     # 2: 2/a, 2/b
     invalid: ['2']
