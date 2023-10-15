@@ -1,35 +1,5 @@
 missing-streets: 'yes'
 filters:
-  # nincs frissítve, majd a legvégén frissíteni kell a szűrőket a kertvaros és koztpont részekből
-  # pilisszentlelek
-  Pálosok utcája:
-    invalid: ['17']
-  # dupla utcanevek, nem szűrhetők
-  # Petőfi Sándor utca:
-  # Kossuth Lajos utca:
-  # Hunyadi János utca:
-  # kertvaros
-  Damjanich János út:
-    ranges:
-      - {start: '1', end: '159'}
-      - {start: '2', end: '74'}
-  Erkel Ferenc utca:
-    invalid: ['13']
-  Jósika Miklós utca:
-    ranges:
-      - {start: '1', end: '27'}
-      - {start: '2', end: '30'}
-  Kinizsi Pál utca:
-    ranges:
-      - {start: '1', end: '21'}
-      - {start: '2', end: '24'}
-  Németh László utca:
-    ranges:
-      - {start: '1', end: '7'}
-      - {start: '2', end: '8'}  # még nincs semmi
-  Wesselényi Miklós utca:
-    invalid: ['44']
-  # kozpont
   Ákospalotai út:
     invalid: ['18', '34']
   Attila utca:
@@ -70,8 +40,12 @@ filters:
   Csapási dűlő:
     # hrsz szűrés - 362, 365/3
     invalid: ['362', '365']
+  Damjanich János út:
+    ranges:
+      - {start: '1', end: '159'}
+      - {start: '2', end: '74'}
   Dessewffy Arisztid utca:
-    # 2 Szt Rita fogyatékosok,  és 25 a páratlan oldal vége....
+    # 2 Szt Rita fogyatékosok és 25 a páratlan oldal vége
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '22'}
@@ -87,6 +61,8 @@ filters:
   Erdélyi völgy:
     # hrsz szűrés - 138/41
     invalid: ['138']
+  Erkel Ferenc utca:
+    invalid: ['13']
   Garam utca:
     ranges:
       - {start: '1', end: '21'}
@@ -101,6 +77,10 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '16'}
+  Jósika Miklós utca:
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '30'}
   Juliánus barát utca:
     # 35 a vége
     invalid: ['37', '39']
@@ -113,6 +93,10 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '11'}
+  Kinizsi Pál utca:
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '24'}
   Kőalja dűlő:
     # csak hrsz - 089/7
     invalid: ['89']
@@ -126,9 +110,16 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '12'}
+  Németh László utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '8'}  # még nincs semmi
   Nixbród dűlő:
     # hrsz szűrés - 0464/1
     invalid: ['464']
+  Pálosok utcája:
+    # pilisszentlelek
+    invalid: ['17']
   Pázmány Péter utca:
     # 20 és 23 a vége utána Mindszenti tér tovább
     ranges:
@@ -149,7 +140,7 @@ filters:
   Sugár út:
     ranges:
       - {start: '1', end: '17'}
-      - {start: '2', end: '26'}
+      - {start: '2', end: '30'}
   Szabó Erna utca:
     invalid: ['701']
   Szarvashegyi út:
@@ -159,10 +150,9 @@ filters:
     ranges:
       - {start: '1', end: '55'}
       - {start: '2', end: '20'}
-  Szent János-kúti út:
+  # Szent János-kúti út:
     # a nagyobb számokat átnevezték más utcákra
-    ranges:
-      - {start: '1', end: '17'}
+    # felülvizsgálandó
   Szentkirály dűlő:
     # hrsz szűrés - 0409/11
     invalid: ['409']
@@ -195,6 +185,8 @@ filters:
   Visegrádi út:
     # ezek nincsenek kint
     invalid: ['4', '44']
+  Wesselényi Miklós utca:
+    invalid: ['44']
 source: survey
 osm-street-filters:
   # nem igazi utcák
