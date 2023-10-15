@@ -836,7 +836,8 @@ filters:
     invalid: ['2d', '4c']
   Galambóc utca:
     # 1-13 Lidl oldala, 15 nem letezik csak az utcatablan, 26-30 helyett külön 26,30
-    invalid: ['14', '28']
+    # 12-16: csak 16 van kiírva
+    invalid: ['12', '14', '28']
     ranges:
       - {start: '17', end: '45'}
       - {start: '2', end: '36'}
@@ -1140,8 +1141,10 @@ filters:
       - {start: '15', end: '99'}
       - {start: '2', end: '46'}
   Kalotaszeg utca:
+    # 2 = Fehérvári út 114/b
+    # 25: valami épül a sarkon, házszám még nem tudni melyik oldalról lesz. RESURVEY 2024.
     # 27-37: csak 31 van kiírva FŐTÁV
-    invalid: ['27', '29', '33', '35']
+    invalid: ['2', '25', '27', '29', '33', '35', '37']
   Kamaraerdei út:
     # 2-10
     # 16bc: 16 az idősek otthona
@@ -1256,12 +1259,12 @@ filters:
     # páratlan nincs beépítve
   Kelenföldi út:
     # 1-13 egyben, 
-    # 6, 12: nincsenek, 
+    # 6, 10, 12: nincsenek
     # 15-17 csak A lépcsőház, a B lépcsőház a Thallóczy Lajos utca 23-25-re van számozva
-    # 25, 29: nincsenke
+    # 25, 29: nincsenek
     # 33-45 között majd minden lebontva a 35/a kivételével
     # 10-16 iskola másik oldala
-    invalid: ['6', '12', '17b', '25', '29', '35b']
+    invalid: ['6', '10', '12', '17b', '25', '29', '35b']
   Kelenhegyi köz:
     # ez egy lépcső, nincs épület
     ranges: []
