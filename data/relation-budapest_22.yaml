@@ -590,8 +590,10 @@ filters:
     # 12/a: nincs ilyen, csak sima 12 van. Az épület mindkét oldalán van bejárat, de csak az egyik bejáraton van házszám.
     invalid: ['11', '10b', '12a']
   Körte utca:
+    # 9: a páratlan oldalon a 7 (7/1, 7/2) az utolsó házszám.
     # 4: sima 4 nincs, csak 4/a, 4/b.
-    invalid: ['4']
+    # 10: a páros oldalon a 8 az utolsó házszám.
+    invalid: ['9', '4', '10']
   Kővirág sor:
     # 5: nincs ilyen, a 4 után a 6 jön.
     # 7: nincs ilyen, a 6 és 9 ugyanarra a telek re van kitáblázva.
@@ -1002,6 +1004,9 @@ filters:
     # 5/a: az épület ikerház, de csak egy 5-ös házszáma van.
     # 17: ez és a Kosbor utca 13/b közös telken van, házszám a Kosbor utcáról van csak.
     invalid: ['5a', '17']
+  Szőlő utca:
+    # 12: csak egy épület van a Szőlő utcára számozva, a 3-as, de az utcanévtáblán nincsenek számok egyik oldalon sem.
+    invalid: ['12']
   Tábor utca:
     # 22: a páros oldalon a 6 az utolsó házszám.
     invalid: ['22']
