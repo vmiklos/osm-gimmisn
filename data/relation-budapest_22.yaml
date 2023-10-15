@@ -147,6 +147,14 @@ filters:
   Bucó utca:
     # 18: a páros oldalon nincsenek házak, ott a vasút megy.
     invalid: ['18']
+  Csend utca:
+    # 1: ez és a Komáromi út 69. közös telken van, házszám és bejárat a Komáromi útról van csak.
+    # 11/a: nincs ilyen, csak sima 11 van.
+    # 2: ez és a Komáromi út 71. közös telken van, házszám a Komáromi útról van csak.
+    # 16: a páros oldalon a 10 az utolsó házszám.
+    # 22: a páros oldalon a 10 az utolsó házszám.
+    # 30: a páros oldalon a 10 az utolsó házszám.
+    invalid: ['1', '11a', '2', '16', '22', '30']
   Csér utca:
     # 2: sima 2 nincs, csak 2/1, 2/2.
     invalid: ['2']
@@ -375,7 +383,8 @@ filters:
     invalid: ['9a', '9b', '19', '21', '23', '29']
   Hűség utca:
     # 25: sima 25 nincs, csak 25/a, 25/b.
-    invalid: ['25']
+    # 2: ez és a Háros utca 107. közös telken van, házszám a Háros utcáról van csak.
+    invalid: ['25', '2']
   Iram utca:
     # 2/b: nincs ilyen, csak 2, 2/a van.
     invalid: ['2b']
@@ -528,6 +537,7 @@ filters:
     # 79/a: nincs ilyen, csak sima 79 van.
     # 32: sima 32 nincs, csak 32/a, 32/b.
     # 34: ez és az Arató utca 12. közös telken van, házszám az Arató utcáról van csak.
+    # 48/c: nincs ilyen, csak sima 48 van.
     # 52: ez és a Virág utca 1. közös telken van, házszám a Virág utcáról van csak.
     # 52/b: nincs ilyen, se sima 52.
     # 64/b: nincs ilyen, csak sima 64 van.
@@ -535,7 +545,7 @@ filters:
     # 80: sima 80 nincs, csak 80/a, 80/b.
     # 80/c: nincs ilyen, csak 80/a, 80/b.
     # 84: sima 84 nincs, csak 84/a, 84/b.
-    invalid: ['25', '29', '53', '59', '79a', '32', '34', '52', '52b', '64b', '78', '80', '80c', '84']
+    invalid: ['25', '29', '53', '59', '79a', '32', '34', '48c', '52', '52b', '64b', '78', '80', '80c', '84']
   Kosbor utca:
     # 13: sima 13 nincs, csak 13/a, 13/b.
     # 912: a páros oldalon a 16 az utolsó házszám.
@@ -623,7 +633,10 @@ filters:
     # 19: sima 19 nincs, csak 19/1, 19/2.
     # 19/b: csak 19/1 és 19/2 van.
     # 21: ez és a Kazinczy utca 1/a. közös telken van, házszám a Kazinczy utcáról van csak.
-    # TODO: Az 53, 55 nem található.
+    # 41/a: nincs ilyen, csak sima 41 van.
+    # 49/a: nincs ilyen, csak sima 49 van.
+    # 53: ez és a Karácsony utca 1. közös telken van, házszám a Karácsony utcáról van csak.
+    # 6: sima 6 nincs, csak 6/1, 6/2.
     # 28/a: csak sima 28 van.
     # 28/b: csak sima 28 van.
     # 28/c: csak sima 28 van.
@@ -632,7 +645,7 @@ filters:
     # TODO: A Liszt Ferenc út 74. és a Zöldike utca ???. közös telken van, házszámot sehol sem látok, de a bejárat a Zöldike utca felől van.
     # 86: sima 86 nincs, csak 86/1, 86/2.
     # 88: sima 88 nincs, csak 88/1, 88/2.
-    invalid: ['13', '19', '19b', '21', '28a', '28b', '28c', '42', '44', '74', '86', '88']
+    invalid: ['13', '19', '19b', '21', '41a', '49a', '53', '6', '28a', '28b', '28c', '42', '44', '74', '86', '88']
   Losonci utca:
     # 6: a páros oldalon a 4 az utolsó házszám. Ami az utca végén van, az Borz utca 14.
     invalid: ['6']
@@ -1069,7 +1082,9 @@ filters:
     invalid: ['56', '162']
   Vértanú utca:
     # 39: a páratlan oldalon a 15 az utolsó házszám.
-    invalid: ['39']
+    # 2: sima 2 nincs, csak 2/a, 2/b.
+    # 12: sima 12 nincs, csak 12/1, 12/2.
+    invalid: ['39', '2', '12']
   Víg utca:
     # 47: a páratlan oldalon a 7 az utolsó házszám.
     # 6: a 4 után egyből a 8 következik.
@@ -1140,9 +1155,11 @@ filters:
     # 9: sima 9 nincs, csak 9/a, 9/b, 9/c.
     # 9/d: nincs ilyen, csak 9/a, 9/b, 9/c.
     # 11: sima 11 nincs, 11/a, 11/b, 11/c.
+    # 13: sima 13 nincs, csak 13/a, 13/b.
+    # 22: sima 22 nincs, csak 22/a, 22/b.
     # 40: sima 40 nincs, csak 40/a, 40/b.
     # 434: a páratlan oldalon a 43 az utolsó házszám.
-    invalid: ['9', '9d', '11', '40', '434']
+    invalid: ['9', '9d', '11', '13', '22', '40', '434']
   Zsineg utca:
     # 3: sima 3 nincs, csak 3/a, 3/b.
     # 5: össze lett nyitva a 7-tel, de csak 7 van kitáblázva.
