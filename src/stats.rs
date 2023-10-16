@@ -47,14 +47,12 @@ fn handle_progress(
         now.format(&format)?
     };
     let mut num_osm = 0_f64;
-    let count_path = format!("{src_root}/{today}.count");
-    if ctx.get_file_system().path_exists(&count_path) {
-        num_osm = ctx
-            .get_file_system()
-            .read_to_string(&count_path)?
-            .trim()
-            .parse()
-            .context("failed to parse today.count")?;
+    let conn = ctx.get_database_connection()?;
+    let mut stmt = conn.prepare("select count from stats_counts where date = ?1")?;
+    let mut counts = stmt.query([&today])?;
+    if let Some(count) = counts.next()? {
+        let count: String = count.get(0).unwrap();
+        num_osm = count.parse().context("failed to parse today.count")?;
     }
     // Round to 2 digits.
     let percentage = ((num_osm * 100.0 / num_ref) * 100.0).round() / 100.0;

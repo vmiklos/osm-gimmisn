@@ -24,6 +24,14 @@ fn make_test_time_old() -> context::tests::TestTime {
 #[test]
 fn test_handle_progress() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2020-05-10", "254651"],
+        )
+        .unwrap();
+    }
     let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
