@@ -1144,7 +1144,8 @@ filters:
     # 2 = Fehérvári út 114/b
     # 25: valami épül a sarkon, házszám még nem tudni melyik oldalról lesz. RESURVEY 2024.
     # 27-37: csak 31 van kiírva FŐTÁV
-    invalid: ['2', '25', '27', '29', '33', '35', '37']
+    # 40: van vmi ipari épület az utca végén, de nincs kint házszám
+    invalid: ['2', '25', '27', '29', '33', '35', '37', '40']
   Kamaraerdei út:
     # 2-10
     # 16bc: 16 az idősek otthona
@@ -1739,13 +1740,15 @@ filters:
       - {start: '31', end: '47'}
       - {start: '2', end: '20'}
   Nándorfejérvári út:
+    # 11 = Bánát utca 26
+    # 27: nincs: 25 után 31
+    # 29-31: 31 lett belőle
     # 31/a-b-c: a,b,c lépcsőházak belül, kintről az A és B kapuja látszik a rácson keresztűl.
     # 36-40: a, b, c, d épületek, a kapun 40, a portás szerint viszont 36-40. Ezen kívül van még egy 40/a bejárat is a fitnessnél
-    invalid: ['5a', '31a', '31b', '31c', '40d']
+    # 43 = Kalotaszeg utca 26
+    invalid: ['11', '27', '29', '5a', '31a', '31b', '31c', '40d', '43']
     ranges:
-      - {start: '1', end: '9'}
-      - {start: '13', end: '25'}
-      - {start: '31', end: '51'}
+      - {start: '1', end: '51'}
       - {start: '2', end: '54'}
   Naprózsa utca:
     # 5a,5b; 7a,7b; 14
