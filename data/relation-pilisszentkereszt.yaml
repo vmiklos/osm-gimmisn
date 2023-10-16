@@ -1,4 +1,8 @@
 missing-streets: 'yes'
+filters:
+  # hrsz: 63/7, 93/3
+  Cserfa utca:
+    invalid: ['63', '93']
 refstreets:
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Téry Ödön út': 'Téry Ödön utca'
