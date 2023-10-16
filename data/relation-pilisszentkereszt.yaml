@@ -2,6 +2,7 @@ missing-streets: 'yes'
 refstreets:
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Téry Ödön út': 'Téry Ödön utca'
+  'Pataksor': 'Pataksor utca'
 street-filters:
   # nem igazi utcák
   - Dobogókő Mikró áll.
