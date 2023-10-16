@@ -5,10 +5,11 @@ filters:
     ranges:
       - {start: '1', end: '18'}
   Adács utca:
+    # 1 = Hunyadi János út 68.
     # 21a1, 21/a (21a1, 21a2), 21/b
-    invalid: ['21']
+    invalid: ['1', '21']
     ranges:
-      - {start: '3', end: '21'}
+      - {start: '1', end: '21'}
       - {start: '4', end: '22'}
   Aga utca:
     # 6. kutatóintézet 4-nek volt táblázva, most átépítés alatt. 2023-09. RESURVEY
@@ -2129,13 +2130,14 @@ filters:
     invalid: ['1', '3b']
   Ringló út:
     # Területhatár, páratlan: Budafok
+    # 2 = Méhész utca 8.
     # 10a: csak 10 és 10b van
     # 44 = Mélykút utca 1
     # 58a = csak sima 58 van
     # 72: 72/a, 72/b
     # 80: 80/1, 80/2
     # 120 = Bazsalikom utca 2
-    invalid: ['10a', '24', '44', '58a', '72', '80', '88b', '120']
+    invalid: ['2', '10a', '24', '44', '58a', '72', '80', '88b', '120']
     ranges:
       - {start: '2', end: '130'}
   Rodostó utca:
@@ -2676,6 +2678,9 @@ filters:
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '36'}
+  Zsurló utca:
+    # 2, 2/a, 2/b: 2/a épül, 2/b nincs kint házszám
+    invalid: ['2']
 street-filters:
   - Alsóhatár utca  # Budaörsön fut nem a határon
   - Forgalmi utca  # megszűnt, Kerékpárút van a helyén a kocsiszín mellett, https://terinfo.ujbuda.hu/ még ismeri, de nincs kitáblázva
