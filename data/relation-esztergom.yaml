@@ -85,9 +85,6 @@ filters:
   Juliánus barát utca:
     # 35 a vége
     invalid: ['37', '39']
-  Keresztelő Szent János utca:
-    # nincs kint tábla, a házak a Szent János-kúti útra vannak számozva
-    ranges: []
   Kettőspince sor:
     # 9-es után csak 2 ház van.
     # Régebben a Csendes utca is ezt a nevet viselte, ott voltak a 12-től házszámok
