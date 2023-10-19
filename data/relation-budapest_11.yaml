@@ -166,7 +166,8 @@ filters:
     # 5a = 5. A lépcsőház
     # 12-16 = Főtáv, Kalotaszeg utca 9.
     # 32-36 = Főtáv, Kalotaszeg utca 31.
-    invalid: ['2', '3', '5a', '12', '14', '16', '32', '34', '36']
+    # 38: nincs
+    invalid: ['2', '3', '5a', '12', '14', '16', '32', '34', '36', '38']
   Bártfai utca:
     # 13 = Mohai út 28.
     invalid: ['13', '35b']
@@ -809,7 +810,9 @@ filters:
   Fonyód utca:
     # 4: 4/b
     # 6/c: 6/a, 6/b
-    invalid: ['4', '6c']
+    # 9-13, 13/a: nincsenek: panelek illetve az óvoda oldala
+    # 15 = Sáfrány utca 63.
+    invalid: ['4', '6c', '9', '11', '13', '13a', '15']
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '14'}
@@ -843,10 +846,10 @@ filters:
       - {start: '17', end: '45'}
       - {start: '2', end: '36'}
   Galvani utca:
-    # 7-9 egy bozótos terület, a Duna fele a páros oldalon a Budafokiról számozódik
+    # 5-ből, 5-7 lett
+    # 9 egy bozótos terület
     ranges:
-      - {start: '1', end: '5'}
-      - {start: '11', end: '17'}
+      - {start: '1', end: '17'}
       - {start: '2', end: '52'}
   # Garda utca
   Gazdagréti tér:
@@ -1775,7 +1778,9 @@ filters:
     # 12a, 12b: csak sima 12 van
     # 11: 11a, 11b, 11c
     # 22-28, 38-44: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
-    invalid: ['9', '11', '12a', '12b', '38a', '40b', '42a', '44b', '72']
+    # 29-33: 31, 33, 33/b van; zöldségesbódé címének van ez megadva
+    # 41, 43: ebből a szakaszból Neszmélyi köz lett az autópálya másik oldalán
+    invalid: ['9', '11', '12a', '29', '12b', '38a', '40b', '41', '43', '42a', '44b', '72']
   #Nevegy köz:
   Nevegy utca:
     ranges:
@@ -1934,7 +1939,9 @@ filters:
     # 2: 2/a, 2/b
     # 4: 4/c, 4/d, 4/e
     invalid: ['2', '4']
-  #Pentele utca:
+  Pentele utca:
+    # 2-6: nincs
+    invalid: ['2', '4', '6']
   Pereszke utca:
     # utcára eső hrsz tartomány: 221-241
     interpolation: all
