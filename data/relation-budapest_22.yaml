@@ -388,6 +388,14 @@ filters:
   Iram utca:
     # 2/b: nincs ilyen, csak 2, 2/a van.
     invalid: ['2b']
+  IX. utca:
+    # 3: nincs ilyen, csak 3/b van kitáblázva.
+    # 3/a: nincs ilyen, csak 3/b van kitáblázva.
+    # 9: sima 9 nincs, csak 9/1, 9/2, 9/3, 9/4.
+    # 11: sima 11 nincs, csak 11/1, 11/2, 11/3, 11/4.
+    # 51: a páratlan oldalon a 19 az utolsó valós házszám, az utcanévtáblán pedig a 21.
+    # 12/a: nincs ilyen, csak sima 12 van.
+    invalid: ['3', '3a', '9', '11', '51', '12a']
   Ják utca:
     # 3/b: nincs ilyen, csak sima 3 van.
     # 9: sima 9 nincs, csak 9/a, 9/b.
