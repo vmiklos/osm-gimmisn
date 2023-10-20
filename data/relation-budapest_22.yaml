@@ -147,6 +147,9 @@ filters:
   Bucó utca:
     # 18: a páros oldalon nincsenek házak, ott a vasút megy.
     invalid: ['18']
+  Budatétényi utca:
+    # 11/c: nincs ilyen, csak sima 11 van.
+    invalid: ['11c']
   Csend utca:
     # 1: ez és a Komáromi út 69. közös telken van, házszám és bejárat a Komáromi útról van csak.
     # 11/a: nincs ilyen, csak sima 11 van.
