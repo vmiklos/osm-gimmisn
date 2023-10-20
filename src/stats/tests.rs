@@ -383,9 +383,16 @@ fn test_handle_user_total_empty_day_range() {
 #[test]
 fn test_handle_monthly_total() {
     let ctx = context::tests::make_test_context().unwrap();
-    let src_root = ctx.get_abspath("workdir/stats");
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2019-06-01", "203317"],
+        )
+        .unwrap();
+    }
     let mut j = serde_json::json!({});
-    handle_monthly_total(&ctx, &src_root, &mut j, /*month_range=*/ 11).unwrap();
+    handle_monthly_total(&ctx, &mut j, /*month_range=*/ 11).unwrap();
     let monthlytotal = &j.as_object().unwrap()["monthlytotal"].as_array().unwrap();
     assert_eq!(monthlytotal.len(), 1);
     assert_eq!(monthlytotal[0], serde_json::json!(["2019-05", 203317]))
@@ -395,9 +402,8 @@ fn test_handle_monthly_total() {
 #[test]
 fn test_handle_monthly_total_empty_day_range() {
     let ctx = context::tests::make_test_context().unwrap();
-    let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
-    handle_monthly_total(&ctx, &src_root, &mut j, /*month_range=*/ -1).unwrap();
+    handle_monthly_total(&ctx, &mut j, /*month_range=*/ -1).unwrap();
     let monthlytotal = &j.as_object().unwrap()["monthlytotal"].as_array().unwrap();
     assert_eq!(monthlytotal.is_empty(), true);
 }
@@ -406,9 +412,21 @@ fn test_handle_monthly_total_empty_day_range() {
 #[test]
 fn test_handle_monthly_total_one_element_day_range() {
     let ctx = context::tests::make_test_context().unwrap();
-    let src_root = ctx.get_abspath("workdir/stats");
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2020-05-01", "253027"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2020-05-10", "254651"],
+        )
+        .unwrap();
+    }
     let mut j = serde_json::json!({});
-    handle_monthly_total(&ctx, &src_root, &mut j, /*month_range=*/ 0).unwrap();
+    handle_monthly_total(&ctx, &mut j, /*month_range=*/ 0).unwrap();
     let monthlytotal = &j.as_object().unwrap()["monthlytotal"].as_array().unwrap();
     assert_eq!(monthlytotal.len(), 2);
     assert_eq!(monthlytotal[0], serde_json::json!(["2020-04", 253027]));

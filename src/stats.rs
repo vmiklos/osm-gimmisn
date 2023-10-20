@@ -418,7 +418,6 @@ fn handle_daily_total(
 /// Shows # of total housenumbers / month.
 fn handle_monthly_total(
     ctx: &context::Context,
-    src_root: &str,
     j: &mut serde_json::Value,
     month_range: i64,
 ) -> anyhow::Result<()> {
@@ -432,29 +431,32 @@ fn handle_monthly_total(
         // Get the first day of each past month.
         let mut month = month_delta.replace_day(1)?.format(&ym)?;
         let prev_month = prev_month_delta.replace_day(1).unwrap().format(&ym)?;
-        let mut count_path = format!("{src_root}/{month}-01.count");
-        if !ctx.get_file_system().path_exists(&count_path) {
-            warn!("handle_monthly_total: no such path: {count_path}");
-            break;
-        }
-        let count: i64 = ctx
-            .get_file_system()
-            .read_to_string(&count_path)?
-            .trim()
-            .parse()?;
-        ret.push((prev_month.to_string(), count));
+        let mut count_date = format!("{month}-01");
+        let conn = ctx.get_database_connection()?;
+        let mut stmt = conn.prepare("select count from stats_counts where date = ?1")?;
+        let mut counts = stmt.query([&count_date])?;
+        if let Some(count) = counts.next()? {
+            let count: String = count.get(0).unwrap();
+            let count: i64 = count.parse().unwrap();
+            ret.push((prev_month.to_string(), count));
 
-        if month_offset == 0 {
-            // Current month: show today's count as well.
-            month = month_delta.format(&ymd)?;
-            count_path = format!("{src_root}/{month}.count");
-            let count: i64 = ctx
-                .get_file_system()
-                .read_to_string(&count_path)?
-                .trim()
-                .parse()?;
-            month = month_delta.format(&ym)?;
-            ret.push((month.to_string(), count));
+            if month_offset == 0 {
+                // Current month: show today's count as well.
+                month = month_delta.format(&ymd)?;
+                count_date = month;
+                let mut stmt = conn.prepare("select count from stats_counts where date = ?1")?;
+                let mut counts = stmt.query([&count_date])?;
+                let count_row = counts.next().unwrap();
+                // Assume that today's count is always available.
+                let count_row = count_row.unwrap();
+                let count: String = count_row.get(0).unwrap();
+                let count: i64 = count.parse().unwrap();
+                month = month_delta.format(&ym)?;
+                ret.push((month.to_string(), count));
+            }
+        } else {
+            warn!("handle_monthly_total: no such date in stats_counts: {count_date}");
+            break;
         }
     }
     j.as_object_mut()
@@ -482,7 +484,7 @@ pub fn generate_json(
         .context("handle_daily_total failed")?;
     handle_monthly_new(ctx, state_dir, &mut j, /*month_range=*/ 12)
         .context("handle_monthly_new failed")?;
-    handle_monthly_total(ctx, state_dir, &mut j, /*month_range=*/ 11)
+    handle_monthly_total(ctx, &mut j, /*month_range=*/ 11)
         .context("handle_monthly_total failed")?;
     handle_invalid_addr_cities(ctx, &mut j, /*day_range=*/ 14)
         .context("invalid_addr_cities failed")?;
