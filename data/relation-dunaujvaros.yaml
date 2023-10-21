@@ -102,7 +102,7 @@ refstreets:
   'Pentelei Molnár János utca': 'Pentelei M. János utca'
   'Semmelweis utca': 'Semmelweis Ignác utca'
   'Szondi utca': 'Szondy utca'  # Az utcanévtáblákon Szondi szerepel
-  'Tűzálló utca': 'Tűzálló út'
+  'Tűzállói út': 'Tűzálló út'  # Irányjelző táblán Tűzállói út
   'Városréti út': 'Városréti utca'
   'Vizimolnárok utca': 'Vízimolnárok utca'
 source: survey
