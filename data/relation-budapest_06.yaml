@@ -69,3 +69,4 @@ refstreets:
   'Felsőerdősor utca': 'Felső erdősor'
 source: survey
 inactive: true
+housenumber-letters: true

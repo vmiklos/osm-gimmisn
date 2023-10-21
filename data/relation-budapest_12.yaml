@@ -520,3 +520,4 @@ refstreets:
   'Szent Család park': 'Szent család park'
 source: survey
 inactive: true
+housenumber-letters: true
