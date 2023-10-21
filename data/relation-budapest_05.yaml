@@ -228,3 +228,4 @@ osm-street-filters:
   - Szomory Dezső tér
   - Vajkay utca
 inactive: true
+housenumber-letters: true
