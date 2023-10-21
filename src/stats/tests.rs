@@ -237,11 +237,23 @@ budapest_02\t10\n";
 #[test]
 fn test_hanle_daily_new() {
     let ctx = context::tests::make_test_context().unwrap();
-    let src_root = ctx.get_abspath("workdir/stats");
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2020-04-26", "251250"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2020-04-27", "251614"],
+        )
+        .unwrap();
+    }
     let mut j = serde_json::json!({});
     // From now on, today is 2020-05-10, so this will read 2020-04-26, 2020-04-27, etc
     // (till a file is missing.)
-    handle_daily_new(&ctx, &src_root, &mut j, /*day_range=*/ 14).unwrap();
+    handle_daily_new(&ctx, &mut j, /*day_range=*/ 14).unwrap();
     let daily = &j.as_object().unwrap()["daily"].as_array().unwrap();
     assert_eq!(daily.len(), 1);
     assert_eq!(daily[0], serde_json::json!(["2020-04-26", 364]));
@@ -279,9 +291,8 @@ fn test_handle_invalid_addr_cities() {
 #[test]
 fn test_handle_daily_new_empty_day_range() {
     let ctx = context::tests::make_test_context().unwrap();
-    let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
-    handle_daily_new(&ctx, &src_root, &mut j, /*day_range=*/ -1).unwrap();
+    handle_daily_new(&ctx, &mut j, /*day_range=*/ -1).unwrap();
     let daily = &j.as_object().unwrap()["daily"].as_array().unwrap();
     assert_eq!(daily.len(), 0);
 }
