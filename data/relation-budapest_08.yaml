@@ -31,12 +31,14 @@ filters:
       - {start: '2', end: '46'}
 osm-street-filters:
   # Nem valós utcák
-  # Építészek Háza
-  # Építészpince
   # parkok, sétányok, lépcsők, udvarok
-  - Múzeumkert
   - Népliget
   - Orczy park
+  # Nemzeti Múzeum belső sétányok
+  - Múzeumkert
+  - Kubinyi Ágoston sétány
+  - Pecz Ármin sétány
+  - Pulszky Ferenc sétány
   # Ludovika Campus belső utak
   - Ludovika Campus körút
   - Campus tér
