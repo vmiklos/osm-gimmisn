@@ -331,7 +331,6 @@ fn get_previous_month(
 /// Shows # of new housenumbers / month.
 fn handle_monthly_new(
     ctx: &context::Context,
-    src_root: &str,
     j: &mut serde_json::Value,
     month_range: i64,
 ) -> anyhow::Result<()> {
@@ -343,34 +342,34 @@ fn handle_monthly_new(
         let month_delta = get_previous_month(&ctx.get_time().now(), month_offset)?;
         // Get the first day of each month.
         let month = month_delta.replace_day(1).unwrap().format(&ym)?;
-        let count_path = format!("{src_root}/{month}-01.count");
-        if !ctx.get_file_system().path_exists(&count_path) {
-            warn!("handle_monthly_new: no such path: {count_path}");
+        let conn = ctx.get_database_connection()?;
+        let mut stmt = conn.prepare("select count from stats_counts where date = ?1")?;
+        let date = format!("{month}-01");
+        let mut counts = stmt.query([&date])?;
+        if let Some(count) = counts.next()? {
+            let count: String = count.get(0).unwrap();
+            let count: i64 = count.parse()?;
+            if prev_count > 0 {
+                ret.push((prev_month, count - prev_count));
+            }
+            prev_count = count;
+            prev_month = month.to_string();
+        } else {
+            warn!("handle_monthly_new: no such count: {date}");
             break;
         }
-        let count: i64 = ctx
-            .get_file_system()
-            .read_to_string(&count_path)?
-            .trim()
-            .parse()?;
-        if prev_count > 0 {
-            ret.push((prev_month, count - prev_count));
-        }
-        prev_count = count;
-        prev_month = month.to_string();
     }
 
     // Also show the current, incomplete month.
     let now = ctx.get_time().now();
     let ymd = time::format_description::parse("[year]-[month]-[day]")?;
     let mut month = now.format(&ymd)?;
-    let count_path = format!("{src_root}/{month}.count");
-    if ctx.get_file_system().path_exists(&count_path) {
-        let count: i64 = ctx
-            .get_file_system()
-            .read_to_string(&count_path)?
-            .trim()
-            .parse()?;
+    let conn = ctx.get_database_connection()?;
+    let mut stmt = conn.prepare("select count from stats_counts where date = ?1")?;
+    let mut counts = stmt.query([&month])?;
+    if let Some(count) = counts.next()? {
+        let count: String = count.get(0).unwrap();
+        let count: i64 = count.parse()?;
         month = now.format(&ym)?;
         ret.push((month, count - prev_count));
     }
@@ -480,8 +479,7 @@ pub fn generate_json(
     handle_daily_new(ctx, &mut j, /*day_range=*/ 14).context("handle_daily_new failed")?;
     handle_daily_total(ctx, state_dir, &mut j, /*day_range=*/ 13)
         .context("handle_daily_total failed")?;
-    handle_monthly_new(ctx, state_dir, &mut j, /*month_range=*/ 12)
-        .context("handle_monthly_new failed")?;
+    handle_monthly_new(ctx, &mut j, /*month_range=*/ 12).context("handle_monthly_new failed")?;
     handle_monthly_total(ctx, &mut j, /*month_range=*/ 11)
         .context("handle_monthly_total failed")?;
     handle_invalid_addr_cities(ctx, &mut j, /*day_range=*/ 14)
