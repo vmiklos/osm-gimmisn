@@ -30,7 +30,12 @@ filters:
     invalid: ['935', '969/0', '310', '852', '852/1', '940/0', '952', '978']
   Anna utca:
     # 35-45: csak 45 van, 35 és 43 között nincsenek házak.
-    invalid: ['35', '37', '39', '41', '43']
+    # 51/b: ez és a Barkács utca 1 közös telken van, bejárat a Barkács utcáról van, de házszám nincs kitéve.
+    # 2: ez az Oroszlános udvar épülete, csak hátulról, nincs házszám.
+    # 6-8: ez ugyanaz mint Halacska Református Óvoda, de házszám a Törley térről van csak.
+    # 12: a 10 után és a 18 előtt nincsenek házszámok, egy parkoló, a Leányka utca 13. üzletei, egy park és még egy parkoló van csak.
+    # 14: a 10 után és a 18 előtt nincsenek házszámok, egy parkoló, a Leányka utca 13. üzletei, egy park és még egy parkoló van csak.
+    invalid: ['35', '37', '39', '41', '43', '51b', '2', '6', '8', '12', '14']
   Arany János utca:
     # 39/a: nincs ilyen, csak sima 39 van.
     # 45/a: nincs ilyen, csak sima 45 van.
@@ -55,7 +60,9 @@ filters:
     invalid: ['39a', '45a', '49a', '65', '81', '131', '145a', '149', '32c', '44', '50', '74', '96', '98b', '102a', '104', '104b', '110', '120']
   Aranyfácán utca:
     # 11: sima 11 nincs, csak 11/a, 11/b.
-    invalid: ['11']
+    # 13/a: nincs ilyen, csak sima 13 van.
+    # 10/a: nincs ilyen, csak sima 10 van.
+    invalid: ['11', '13a', '10a']
   Arató utca:
     # 2/a: nincs ilyen, csak sima 2 van.
     # 2/b: nincs ilyen, csak sima 2 van.
@@ -97,6 +104,9 @@ filters:
     # 8: ez és az Erdőhegy utca 22. közös telken van, házszám az Erdőhegy utcáról van csak.
     # 18: sima 18 nincs, csak 18/1, 18/2.
     invalid: ['1', '3a', '5c', '7', '9', '11', '25a', '2', '2a', '2b', '6', '8', '18']
+  Barkács utca:
+    # 14/a: nincs ilyen, a páros oldalon csak egy épület van két bejárattal, az utcanévtáblán pedig 2-12.
+    invalid: ['14a']
   Baross utca:
     # 125: a páratlan oldalon a 33 az utolsó házszám.
     invalid: ['125']
@@ -165,6 +175,10 @@ filters:
     # 1: ez és a Tőke utca 2. közös telken van, házszám a Tőke utcáról van csak.
     # 1/b: ez és a Tőke utca 2. közös telken van, házszám a Tőke utcáról van csak.
     invalid: ['1', '1b']
+  Csipkebogyó utca:
+    # 13: ez és a Vihar utca 22. közös telken van, házszám a Vihar utcáról van csak.
+    # 147/a: a páratlan oldalon a 23 az utolsó valós házszám, az utcanévtáblán pedig a 25.
+    invalid: ['13', '147a']
   Dalkör utca:
     # 5: sima 5 nincs, csak 5/1, 5/2, 5/3.
     # 15: sima 15 nincs, csak 15/a, 15/b.
@@ -832,6 +846,10 @@ filters:
     # 2: ez és a Péter Pál utca 73. közös telken van, házszám a Péter Pál utcáról van csak.
     invalid: ['2']
   Péter Pál utca:
+    # 5/a: nincs ilyen, csak sima 5 van.
+    # 47/a: nincs ilyen, csak sima 47 van.
+    # 49/b: nincs ilyen, csak sima 49 van.
+    # 51/a: nincs ilyen, csak sima 51 van.
     # 97: a 95 után közvetlenül a 99/c következik, nincs 97.
     # 99/b: a 95 után közvetlenül a 99/c következik, nincs 99/b.
     # 107: ez és az Arany János utca 54/b közös telken van, házszám az Arany János utcáról van csak.
@@ -841,13 +859,15 @@ filters:
     # 151: sima 151 nincs, csak 151/a, 151/b.
     # 155: sima 155 nincs, csak 155/a, 155/b.
     # 18/e: nincs ilyen, csak sima 18 van.
+    # 24/b: a Péter-Pál utca 24. helyi védelem alatt álló műemléképület, de ugyanarra a telekre épült mögé egy modern lakóház is, sajnos a házszám mindkettőről lemaradt. TODO: resurvey.
+    # 48-50: csak 50 van kitáblázva.
     # 76/b: nincs ilyen, csak sima 76 van.
     # 78/b: nincs ilyen, csak sima 78 van.
     # 122: sima 122 nincs, csak 122/a, 122/b.
     # 136/a: csak sima 136 és 136/b van kitáblázva.
     # 140: sima 155 nincs, csak 140/a, 140/b.
     # 456/b: a páros oldalon a 162 az utolsó házszám.
-    invalid: ['97', '99b', '107', '127', '129', '149', '151', '155', '18e', '76b', '78b', '122', '136a', '140', '456b']
+    invalid: ['5a', '47a', '49b', '51a', '97', '99b', '107', '127', '129', '149', '151', '155', '18e', '24b', '48', '76b', '78b', '122', '136a', '140', '456b']
   Petőfi Sándor utca:
     # 185: a páratlan oldalon a 77 az utolsó házszám.
     # 78: a páros oldalon a 66 az utolsó házszám.
@@ -1112,7 +1132,11 @@ filters:
     # 5: sima 5 nincs, csak 5/a, 5/b, 5/c, 5/d.
     # 7: sima 7 nincs, csak 7/a, 7/b, 7/c, 7/d.
     # 23: a páratlan oldalon a 19 az utolsó házszám.
-    invalid: ['3', '5', '7', '23']
+    # 2: nem létezik, ez egy park.
+    # 6: ez és az Anna utca 45. közös telken van, házszám az Anna utcáról van csak.
+    # 22: sima 22 nincs, csak 22/1, 22/2, 22/3, 22/4, 22/5.
+    # 24: ez és a Kanyargó utca 1. közös telken van, házszám a Kanyargó utcáról van csak.
+    invalid: ['3', '5', '7', '23', '2', '6', '22', '24']
   Vilmos utca:
     # 7/4: nincs ilyen, csak 7-9.
     # 11: sima 11 nincs, csak 11/1, 11/2.
