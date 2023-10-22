@@ -301,9 +301,31 @@ fn test_handle_daily_new_empty_day_range() {
 #[test]
 fn test_handle_monthly_new() {
     let ctx = context::tests::make_test_context().unwrap();
-    let src_root = ctx.get_abspath("workdir/stats");
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2019-05-01", "199518"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2019-06-01", "203317"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2020-05-01", "253027"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2020-05-10", "254651"],
+        )
+        .unwrap();
+    }
     let mut j = serde_json::json!({});
-    handle_monthly_new(&ctx, &src_root, &mut j, /*month_range=*/ 12).unwrap();
+    handle_monthly_new(&ctx, &mut j, /*month_range=*/ 12).unwrap();
     let monthly = &j.as_object().unwrap()["monthly"].as_array().unwrap();
     assert_eq!(monthly.len(), 2);
     // 2019-05 start -> end
@@ -316,9 +338,21 @@ fn test_handle_monthly_new() {
 #[test]
 fn test_handle_monthly_new_empty_month_range() {
     let ctx = context::tests::make_test_context().unwrap();
-    let src_root = ctx.get_abspath("workdir/stats");
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2020-05-01", "253027"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2020-05-10", "254651"],
+        )
+        .unwrap();
+    }
     let mut j = serde_json::json!({});
-    handle_monthly_new(&ctx, &src_root, &mut j, /*month_range=*/ -1).unwrap();
+    handle_monthly_new(&ctx, &mut j, /*month_range=*/ -1).unwrap();
     let monthly = &j.as_object().unwrap()["monthly"].as_array().unwrap();
     assert_eq!(monthly.is_empty(), false);
 }
@@ -326,17 +360,29 @@ fn test_handle_monthly_new_empty_month_range() {
 /// Tests handle_monthly_new(): the case when we have no data for the last, incomplete month.
 #[test]
 fn test_handle_monthly_new_incomplete_last_month() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let src_root = ctx.get_abspath("workdir/stats");
+    let ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2019-05-01", "199518"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2019-06-01", "203317"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
+            ["2020-05-01", "253027"],
+        )
+        .unwrap();
+        // 2020-05-10 would be the data for the current state of the last, incomplete month.
+    }
     let mut j = serde_json::json!({});
-    // This would be the data for the current state of the last, incomplete month.
-    let hide_path = ctx.get_abspath("workdir/stats/2020-05-10.count");
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
 
-    handle_monthly_new(&ctx, &src_root, &mut j, /*month_range=*/ 12).unwrap();
+    handle_monthly_new(&ctx, &mut j, /*month_range=*/ 12).unwrap();
     let monthly = &j.as_object().unwrap()["monthly"].as_array().unwrap();
     // 1st element: 2019-05 start -> end
     // No 2nd element, would be diff from last month end -> today
