@@ -96,7 +96,5 @@ refstreets:
   'Szállító utca': 'Szállitó utca'
   'Szikratávíró utca': 'Szikratáviró utca'
   'Színesfém utca': 'Szinesfém utca'
-  # kérdéses
-  'Temetődűlő utca': 'Előd utca'  # https://www.openstreetmap.org/note/2164029
 source: survey
 inactive: true
