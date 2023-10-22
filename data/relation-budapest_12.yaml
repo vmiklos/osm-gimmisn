@@ -1,15 +1,8 @@
 missing-streets: 'yes'
 filters:
-  Ada utca:
-    # 1-13, 2-20
-    invalid: ['25']
-  Adorján köz:
-    # 14: 10 után csak 1 ház van, azon sincs szám
-    invalid: ['14']
   Adorján út:
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '12'}
+    # 14: az utcanévtáblán 2-12 van.
+    invalid: ['14']
   Alkotás utca:
     ranges:
       - {start: '39', end: '63'}
@@ -20,9 +13,6 @@ filters:
       - {start: '1', end: '17'}
       - {start: '2', end: '2'}
       - {start: '4', end: '12'}
-  Agancs út:
-    # ends are 23 and 34
-    invalid: ['25', '36', '40']
   Ágnes köz:
     ranges:
       - {start: '1', end: '7'}
@@ -31,9 +21,6 @@ filters:
     ranges:
       - {start: '1', end: '31'}
       - {start: '2', end: '44'}
-  Álom utca:
-    # Anything below 16 on the even side seems to be noise.
-    invalid: ['4']
   Ámor utca:
     ranges:
       - {start: '1', end: '9'}
@@ -47,7 +34,7 @@ filters:
       - {start: '2', end: '44'}
   Árnyas út:
     # 1-17, 2-48
-    invalid: ['21', '29']
+    invalid: ['29']
   Avar utca:
     ranges:
       - {start: '1', end: '27'}
@@ -55,9 +42,6 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '10'}
-  Béla király út:
-    # Anything above 42 on the even side seems to be noise.
-    invalid: ['52']
   Borbála lépcső:
     ranges:
       - {start: '1', end: '3'}
@@ -86,12 +70,9 @@ filters:
   Dalma út:
     # No housenumbers here.
     ranges: []
-  Dániel út:
-    # 1-25
-    invalid: ['71']
   Dániel köz:
     # 1-3, 2-4
-    invalid: ['5', '7', '9', '23', '16', '22']
+    invalid: ['7', '9', '23', '16', '22']
   Denevér köz:
     ranges:
       - {start: '3', end: '5'}
@@ -114,10 +95,13 @@ filters:
       - {start: '2', end: '12'}
   Diós árok:
     # 1-75, 2-40, 52-68
-    invalid: ['42', '44', '46', '70']
+    # 60/a: nincs ilyen, csak sima 60 van.
+    # 60/b: nincs ilyen, csak sima 60 van.
+    # 60/d: nincs ilyen, csak sima 60 van.
+    invalid: ['42', '44', '46', '60a', '60b', '60d']
   Diós-árok köz:
     # 1-3, 2-6
-    invalid: ['7', '65', '16', '26', '56', '66']
+    invalid: ['56']
   Dolgos utca:
     ranges:
       - {start: '1', end: '21'}
@@ -163,7 +147,7 @@ filters:
     ranges: []
   Hegyhát út:
     # These are all towards the end of the odd side, all non-existing.
-    invalid: ['29', '35', '41', '43']
+    invalid: ['29', '35']
   Hollós út:
     # 1-9, 2-8
     invalid: ['32']
@@ -208,7 +192,7 @@ filters:
       - {start: '2', end: '12'}
   Kikelet utca:
     # 11-59, 14-54
-    invalid: ['1', '5', '4', '6', '8', '10']
+    invalid: ['1', '4', '6', '8', '10']
   Kikerics utca:
     ranges:
       - {start: '1', end: '21'}
@@ -218,9 +202,6 @@ filters:
       - {start: '1', end: '59'}
       - {start: '2', end: '2'}
       - {start: '6', end: '88'}
-  Kissvábhegyi út:
-    # 1-7, 2-6
-    invalid: ['16', '18']
   Konkoly-Thege Miklós út:
     # ifi kp 21, kfki 29-33
     invalid: ['24', '38']
@@ -331,12 +312,6 @@ filters:
   Stromfeld Aurél út:
     # 5 egy saroktelek, bejárat a Zsámbéki utca 14 felől
     invalid: ['5']
-  Szamóca köz:
-    # 1-1,  8-8
-    invalid: ['2', '3']
-  Szamóca utca:
-    # 1-11, 2-16
-    invalid: ['17']
   Szamos utca:
     ranges:
       - {start: '1', end: '9'}
@@ -344,9 +319,6 @@ filters:
   Szanatórium utca:
     ranges:
       - {start: '1', end: '19'}
-  Székács utca:
-    # Even side starts at 8.
-    invalid: ['2']
   Széll Kálmán tér:
     interpolation: all
     ranges:
@@ -374,12 +346,6 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '4'}
-  Tamási Áron utca:
-    # 45 nincs
-    invalid: ['45']
-    ranges:
-      - {start: '1', end: '59'}
-      - {start: '2', end: '76'}
   Tartsay Vilmos utca:
     ranges:
       - {start: '1', end: '21'}
@@ -404,7 +370,7 @@ filters:
       - {start: '2', end: '12'}
   Trencséni utca:
     # 1-49, 2-56
-    invalid: ['57', '60', '62']
+    invalid: ['57', '60']
   Tusnádi köz:
     ranges:
       - {start: '1', end: '5'}
@@ -413,9 +379,6 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '6'}
-  Tündérkert utca:
-    # 1-7, 2-8
-    invalid: ['16']
   Ugocsa utca:
     # 1 is only block end
     ranges:
@@ -423,13 +386,17 @@ filters:
       - {start: '2', end: '20'}
   Városkúti köz:
     # 1-15, 2-2
-    invalid: ['4', '6', '14', '16', '30']
+    invalid: ['4', '6']
   Városmajor utca:
     ranges:
       - {start: '1', end: '59'}
       - {start: '71', end: '79'}
       - {start: '2', end: '84'}
       - {start: '86', end: '98'}
+  Vas Gereben utca:
+    # 31/a: nincs ilyen, 31-33 A épület van csak.
+    # 31/b: nincs ilyen, 31-33 B épület van csak.
+    invalid: ['31a', '31b']
   Vércse köz:
     ranges:
       - {start: '1', end: '5'}
