@@ -40,24 +40,33 @@ filters:
     # 39/a: nincs ilyen, csak sima 39 van.
     # 45/a: nincs ilyen, csak sima 45 van.
     # 49/a: nincs ilyen, csak sima 49 van.
+    # 57/a: nincs ilyen, csak sima 57 és 57/b van.
+    # 61/a: nincs tábla az épületen, a sima 61 csak tipp. TODO: resurvey.
+    # 63: sima 63 nincs, csak 63/a, 63/b.
     # 65: sima 65 nincs, csak 65/1, 65/2.
     # 81: sima 81 nincs, csak 81/a, 81/b, 81/c, 81/d.
+    # 95/a: ikerház, de mindkét bejáraton sima 95 van.
+    # 95/b: ikerház, de mindkét bejáraton sima 95 van.
+    # 105/b: nincs ilyen, csak sima 105 van.
+    # 117/a: nincs ilyen, csak sima 117 és 117/b van.
     # 131: sima 131 nincs, csak 131/a, 131/b.
     # 145/a: csak sima 145 van.
     # 149: sima 149 nincs, csak 149/a, 149/b.
     # 32/c: nincs ilyen, a 32/b után a 32/d következik.
     # 44: sima 44 nincs, csak 44/a, 44/b.
+    # 48/a: nincs ilyen, csak sima 48 van.
     # 50: a 48-50 egyetlen épület közös telken, de a házszám csak 48.
+    # 58/b: nincs ilyen, csak sima 58 van.
+    # 60/a: nincs ilyen, csak sima 60 van.
     # 74: sima 74 nincs, csak 74/a, 74/b.
     # 96: sima 96 nincs, csak 96/a, 96/b.
     # 98/b: csak sima 98 van.
-    # 102/a: csak sima 102 van.
     # 104: sima 104 nincs, csak 104/a, 104/1 (nem elírás).
     # 104/b: nincs ilyen, csak 104/1.
     # 110: sima 110 nincs, csak 110/a, 110/b, 110/c.
     # 120: a 118-120 egyetlen telek, de a házszám csak 118.
     # 124: sima 124 nincs, csak 124/b. TODO: miért nincs 124 vagy 124/a?
-    invalid: ['39a', '45a', '49a', '65', '81', '131', '145a', '149', '32c', '44', '50', '74', '96', '98b', '102a', '104', '104b', '110', '120']
+    invalid: ['39a', '45a', '49a', '57a', '61a', '63', '65', '81', '95a', '95b', '105b', '117a', '131', '145a', '149', '32c', '44', '48a', '50', '58b', '60a', '74', '96', '98b', '104', '104b', '110', '120']
   Aranyfácán utca:
     # 11: sima 11 nincs, csak 11/a, 11/b.
     # 13/a: nincs ilyen, csak sima 13 van.
