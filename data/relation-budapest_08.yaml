@@ -78,6 +78,12 @@ osm-street-filters:
   - Vásárhelyi Pál út
   - Vörösmarty Mihály út
   - Ybl Miklós út
+  # Salgótarján utcai zsidó temető belső utak
+  - Déli út
+  - Északi út
+  - Keleti út
+  - Középső út
+  - Nyugati út
   # Kerülethatáron lévő utca
   - Thököly út
 refstreets:
