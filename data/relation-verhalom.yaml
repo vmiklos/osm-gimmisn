@@ -8,6 +8,9 @@ filters:
   Alsó Törökvész út:
     ranges:
       - {start: '1', end: '1'}
+  Baba utca:
+    # 4/a: régi házszám, új cím Baba utca 4-6. A épület A lépcsőház.
+    invalid: ['4a']
   Bogár utca:
     ranges:
       - {start: '1', end: '13'}
@@ -52,7 +55,7 @@ filters:
     # 1-11: Mórciz Zsigmond Gimnázium, számozás nem innen vam.
     # 2 = Törökvész út 46/d
     # 8: 6/b után 10 jön, de az egyik házrészen nincs szám
-    invalid: ['2', '8']
+    invalid: ['2', '7', '8', '9', '11']
     # terület lehatárolás
     ranges:
       - {start: '1', end: '99'}
@@ -81,6 +84,9 @@ filters:
     # 20/c: régi házszám, új: 16-20 B épület C. lépcsőház
     invalid: ['5', '5a', '7', '19a', '19b', '20c']
   Pusztaszeri út:
+    # 91a: csak sima 91.
+    invalid: ['91a']
+    # terület lehatárolás
     ranges:
       - {start: '59', end: '99'}
       - {start: '68', end: '98'}
@@ -104,7 +110,7 @@ filters:
     # 22 = Muraközi utca 16
     # 24/a: csak sima 24.
     # 25 = Muraközi utca 17.
-    invalid: ['9', '19a', '23', '24', '25']
+    invalid: ['9', '19a', '22', '23', '24a', '25']
   Vérhalom tér:
     interpolation: all
     ranges:
