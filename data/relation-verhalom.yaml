@@ -2,8 +2,9 @@
 missing-streets: 'no'
 filters:
   Ali utca:
+    # 9: 9/a, 9/b, 9/c
     # 15-17: csak 17 van kiírva
-    invalid: ['15']
+    invalid: ['9', '15']
   Alsó Törökvész út:
     ranges:
       - {start: '1', end: '1'}
@@ -12,6 +13,8 @@ filters:
       - {start: '1', end: '13'}
       - {start: '17', end: '39'}
   Búzavirág utca:
+    # 8b: 8 és 8/a
+    invalid: ['8b']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '14'}
@@ -46,21 +49,37 @@ filters:
       - {start: '51', end: '99'}
       - {start: '56', end: '98'}
   Gárdonyi Géza út:
+    # 1-11: Mórciz Zsigmond Gimnázium, számozás nem innen vam.
     # 2 = Törökvész út 46/d
     # 8: 6/b után 10 jön, de az egyik házrészen nincs szám
-    invalid: ['8']
+    invalid: ['2', '8']
+    # terület lehatárolás
     ranges:
-      - {start: '4', end: '12'}
-      - {start: '20', end: '44'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '44'}
   Gomba utca:
     # 4 = régi házszám, ma Muraközi utca 26.
     # 5 = Vend utca 30
-    invalid: ['5', '4']
+    # 9/b: 9 és 9/a
+    # 11: 11/a, 11/b, 11/c
+    # 20/a, 20/b: csak sima 20.
+    invalid: ['5', '4', '9b', '11', '20a', '20b']
   Kapy utca:
     ranges:
       - {start: '57', end: '63'}
   Muraközi utca:
-    invalid: ['28']
+    # 4: 4/a, 4/b
+    # 7 = Kulpa utca 12.
+    # 10: 10/a, 10/b
+    # 11: 11/a, 11/b
+    # 12: 12/a, 12/b
+    # 14: 14/a, 14/b
+    invalid: ['4', '7', '10', '11', '12', '14', '28']
+  Őzgida utca:
+    # 5a, 5-7 = Búzavirág utca 9.
+    # 19/a, 19/b: 19/1 .. 19/10
+    # 20/c: régi házszám, új: 16-20 B épület C. lépcsőház
+    invalid: ['5', '5a', '7', '19a', '19b', '20c']
   Pusztaszeri út:
     ranges:
       - {start: '59', end: '99'}
@@ -80,8 +99,12 @@ filters:
       - {start: '2', end: '82'}
   Vend utca:
     # 9 = Kupeczky utca 16
-    # 25 = Muraközi utca 17
-    invalid: ['9', '25']
+    # 19/a: itt új ház épül, nincs kiírva semmi. Földhivatal szerint Vend utca 19 és Pusztaszeri út 77 a telek.
+    # 23: kiírva: 23 A kapu, és 23 B kapu, most 23/a és 23/b van a házon
+    # 22 = Muraközi utca 16
+    # 24/a: csak sima 24.
+    # 25 = Muraközi utca 17.
+    invalid: ['9', '19a', '23', '24', '25']
   Vérhalom tér:
     interpolation: all
     ranges:
