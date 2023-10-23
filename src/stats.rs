@@ -52,7 +52,7 @@ fn handle_progress(
     let mut counts = stmt.query([&today])?;
     if let Some(count) = counts.next()? {
         let count: String = count.get(0).unwrap();
-        num_osm = count.parse().context("failed to parse today.count")?;
+        num_osm = count.parse().context("failed to parse today's count")?;
     }
     // Round to 2 digits.
     let percentage = ((num_osm * 100.0 / num_ref) * 100.0).round() / 100.0;
@@ -384,7 +384,6 @@ fn handle_monthly_new(
 /// Shows # of total housenumbers / day.
 fn handle_daily_total(
     ctx: &context::Context,
-    src_root: &str,
     j: &mut serde_json::Value,
     day_range: i64,
 ) -> anyhow::Result<()> {
@@ -394,17 +393,17 @@ fn handle_daily_total(
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - time::Duration::days(day_offset);
         let day = day_delta.format(&ymd)?;
-        let count_path = format!("{src_root}/{day}.count");
-        if !ctx.get_file_system().path_exists(&count_path) {
-            warn!("handle_daily_total: no such path: {count_path}");
+        let conn = ctx.get_database_connection()?;
+        let mut stmt = conn.prepare("select count from stats_counts where date = ?1")?;
+        let mut counts = stmt.query([&day])?;
+        if let Some(count) = counts.next()? {
+            let count: String = count.get(0).unwrap();
+            let count: i64 = count.parse()?;
+            ret.push((day.to_string(), count));
+        } else {
+            warn!("handle_daily_total: no such row: {day}");
             break;
         }
-        let count: i64 = ctx
-            .get_file_system()
-            .read_to_string(&count_path)?
-            .trim()
-            .parse()?;
-        ret.push((day.to_string(), count));
     }
     j.as_object_mut()
         .unwrap()
@@ -477,8 +476,7 @@ pub fn generate_json(
     handle_topcities(ctx, state_dir, &mut j).context("handle_topcities failed")?;
     handle_user_total(ctx, state_dir, &mut j, /*day_range=*/ 13).context("handle_user_total")?;
     handle_daily_new(ctx, &mut j, /*day_range=*/ 14).context("handle_daily_new failed")?;
-    handle_daily_total(ctx, state_dir, &mut j, /*day_range=*/ 13)
-        .context("handle_daily_total failed")?;
+    handle_daily_total(ctx, &mut j, /*day_range=*/ 13).context("handle_daily_total failed")?;
     handle_monthly_new(ctx, &mut j, /*month_range=*/ 12).context("handle_monthly_new failed")?;
     handle_monthly_total(ctx, &mut j, /*month_range=*/ 11)
         .context("handle_monthly_total failed")?;
