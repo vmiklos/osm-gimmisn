@@ -287,6 +287,10 @@ filters:
     # 2/a: nincs ilyen, csak sima 2 van.
     # 22/a: nincs ilyen, csak sima 22 van.
     invalid: ['1', '2a', '22a']
+  Görög utca:
+    # 16/a: kettő (vagy négy) lakásos társasház, de mindkét oldalán sima 16 van.
+    # 16/b: kettő (vagy négy) lakásos társasház, de mindkét oldalán sima 16 van.
+    invalid: ['16a', '16b']
   # Gyufa utca:
   #   TODO: 15: nem látom a házszámot.
   Gyula vezér út:
