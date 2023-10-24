@@ -1203,9 +1203,14 @@ fn test_update_stats_count() {
     update_stats_count(&ctx, "2020-05-10").unwrap();
 
     {
-        let mut guard = today_count_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         let conn = ctx.get_database_connection().unwrap();
+        {
+            let mut stmt = conn
+                .prepare("select count from stats_counts where date = ?1")
+                .unwrap();
+            let mut counts = stmt.query(["2020-05-10"]).unwrap();
+            assert!(counts.next().unwrap().is_some());
+        }
         let mut stmt = conn
             .prepare("select date, count from stats_counts")
             .unwrap();
@@ -1286,8 +1291,13 @@ fn test_update_stats_count_xml_as_csv() {
 
     update_stats_count(&ctx, "2020-05-10").unwrap();
 
-    let path = ctx.get_abspath("workdir/stats/2020-05-10.count");
-    let actual = ctx.get_file_system().read_to_string(&path).unwrap();
+    let conn = ctx.get_database_connection().unwrap();
+    let mut stmt = conn
+        .prepare("select count from stats_counts where date = ?1")
+        .unwrap();
+    let mut counts = stmt.query(["2020-05-10"]).unwrap();
+    let count = counts.next().unwrap().unwrap();
+    let actual: String = count.get(0).unwrap();
     assert_eq!(actual, "0");
 }
 

@@ -322,7 +322,6 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
     if !ctx.get_file_system().path_exists(&csv_path) {
         return Ok(());
     }
-    let count_path = format!("{statedir}/{today}.count");
     let city_count_path = format!("{statedir}/{today}.citycount");
     let zip_count_path = format!("{statedir}/{today}.zipcount");
     let mut house_numbers: HashSet<String> = HashSet::new();
@@ -360,10 +359,6 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
         zip_entry.insert(zip_value);
     }
 
-    // Old style: workdir/stats/<date>.count files.
-    ctx.get_file_system()
-        .write_from_string(&house_numbers.len().to_string(), &count_path)?;
-    // New style: sql row.
     let mut conn = ctx.get_database_connection()?;
     let tx = conn.transaction()?;
     tx.execute(
