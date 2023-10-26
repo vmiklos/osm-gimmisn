@@ -423,9 +423,16 @@ fn test_handle_daily_total_empty_day_range() {
 #[test]
 fn test_handle_user_total() {
     let ctx = context::tests::make_test_context().unwrap();
-    let src_root = ctx.get_abspath("workdir/stats");
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_usercounts (date, count) values (?1, ?2)"#,
+            ["2020-04-27", "43"],
+        )
+        .unwrap();
+    }
     let mut j = serde_json::json!({});
-    handle_user_total(&ctx, &src_root, &mut j, /*day_range=*/ 13).unwrap();
+    handle_user_total(&ctx, &mut j, /*day_range=*/ 13).unwrap();
     let usertotal = &j.as_object().unwrap()["usertotal"].as_array().unwrap();
     assert_eq!(usertotal.len(), 1);
     assert_eq!(usertotal[0], serde_json::json!(["2020-04-27", 43]));
@@ -435,9 +442,8 @@ fn test_handle_user_total() {
 #[test]
 fn test_handle_user_total_empty_day_range() {
     let ctx = context::tests::make_test_context().unwrap();
-    let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
-    handle_user_total(&ctx, &src_root, &mut j, /*day_range=*/ -1).unwrap();
+    handle_user_total(&ctx, &mut j, /*day_range=*/ -1).unwrap();
     let usertotal = &j.as_object().unwrap()["usertotal"].as_array().unwrap();
     assert_eq!(usertotal.is_empty(), true);
 }
