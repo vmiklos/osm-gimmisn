@@ -381,7 +381,6 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
         return Ok(());
     }
     let topusers_path = format!("{statedir}/{today}.topusers");
-    let usercount_path = format!("{statedir}/{today}.usercount");
     let mut users: HashMap<String, u64> = HashMap::new();
     {
         let stream = ctx.get_file_system().open_read(&csv_path)?;
@@ -410,11 +409,6 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
         }
     }
 
-    // Old style: workdir/stats/<date>.usercount files.
-    let line = format!("{}\n", users.len());
-    ctx.get_file_system()
-        .write_from_string(&line, &usercount_path)?;
-    // New style: sql row.
     let mut conn = ctx.get_database_connection()?;
     let tx = conn.transaction()?;
     tx.execute(

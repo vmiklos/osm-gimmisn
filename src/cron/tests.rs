@@ -1302,13 +1302,11 @@ fn test_update_stats_topusers() {
         )
         .unwrap();
     let today_topusers_value = context::tests::TestFileSystem::make_file();
-    let today_usercount_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("workdir/stats/whole-country.csv", &today_csv_value),
             ("workdir/stats/2020-05-10.topusers", &today_topusers_value),
-            ("workdir/stats/2020-05-10.usercount", &today_usercount_value),
         ],
     );
     file_system.set_files(&files);
@@ -1323,8 +1321,13 @@ fn test_update_stats_topusers() {
         assert_eq!(content, "CNT\tUSER\n2\tmyuser1\n1\tmyuser2\n");
     }
     {
-        let mut guard = today_usercount_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let conn = ctx.get_database_connection().unwrap();
+        let mut stmt = conn
+            .prepare("select count from stats_usercounts where date = ?1")
+            .unwrap();
+        let mut usercounts = stmt.query(["2020-05-10"]).unwrap();
+        let usercount = usercounts.next().unwrap();
+        assert!(usercount.is_some());
     }
 
     let conn = ctx.get_database_connection().unwrap();
