@@ -722,7 +722,6 @@ fn test_update_stats() {
     let zipcount_value = context::tests::TestFileSystem::make_file();
     let topusers_value = context::tests::TestFileSystem::make_file();
     let csv_value = context::tests::TestFileSystem::make_file();
-    let usercount_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
@@ -733,7 +732,6 @@ fn test_update_stats() {
             ("workdir/stats/2020-05-10.zipcount", &zipcount_value),
             ("workdir/stats/2020-05-10.topusers", &topusers_value),
             ("workdir/stats/whole-country.csv", &csv_value),
-            ("workdir/stats/2020-05-10.usercount", &usercount_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
             (
@@ -1034,7 +1032,6 @@ fn test_our_main_stats() {
     let today_citycount = context::tests::TestFileSystem::make_file();
     let today_zipcount = context::tests::TestFileSystem::make_file();
     let today_topusers = context::tests::TestFileSystem::make_file();
-    let today_usercount = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -1048,7 +1045,6 @@ fn test_our_main_stats() {
             ("workdir/stats/2020-05-10.citycount", &today_citycount),
             ("workdir/stats/2020-05-10.zipcount", &today_zipcount),
             ("workdir/stats/2020-05-10.topusers", &today_topusers),
-            ("workdir/stats/2020-05-10.usercount", &today_usercount),
             ("workdir/stats/ref.count", &ref_count),
         ],
     );
@@ -1350,13 +1346,9 @@ fn test_update_stats_topusers_no_csv() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let mut file_system = context::tests::TestFileSystem::new();
     let today_topusers_value = context::tests::TestFileSystem::make_file();
-    let today_usercount_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("workdir/stats/2020-05-10.topusers", &today_topusers_value),
-            ("workdir/stats/2020-05-10.usercount", &today_usercount_value),
-        ],
+        &[("workdir/stats/2020-05-10.topusers", &today_topusers_value)],
     );
     file_system.set_files(&files);
     file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/whole-country.csv")]);
@@ -1365,14 +1357,19 @@ fn test_update_stats_topusers_no_csv() {
 
     update_stats_topusers(&ctx, "2020-05-10").unwrap();
 
-    // No .csv, no .topusers or .usercount.
+    // No .csv, no .topusers or usercount.
     {
         let mut guard = today_topusers_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
     }
     {
-        let mut guard = today_usercount_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
+        let conn = ctx.get_database_connection().unwrap();
+        let mut stmt = conn
+            .prepare("select count from stats_usercounts where date = ?1")
+            .unwrap();
+        let mut usercounts = stmt.query(["2020-05-10"]).unwrap();
+        let usercount = usercounts.next().unwrap();
+        assert!(usercount.is_none());
     }
 }
 
