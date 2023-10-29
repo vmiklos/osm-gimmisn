@@ -1,0 +1,20 @@
+missing-streets: 'yes'
+# osm-street-filters:
+  # Nem igazi utca
+  # Parkok, sétautak amire nincs számozva semmi
+  # Területhatáron lévő utca
+#street-filters:
+  # Tanyák
+refstreets:
+  # kérdéses
+  'Kőfuvaros utca': 'Kőfuvaros út'
+  'Kövesbérci utca': 'Kövesbérci út'
+  'Lucerna utca': 'Lucerna köz'
+  'Mindszenty József utca': 'Mindszenti József utca'
+  'Szent Donát utca': 'Szent Donáth utca'
+  'Szőlő út': 'Szőlő utca'
+  # 'Téglagyári út': 'Téglagyár'
+  'Templom út': 'Templom utca'
+  'Tölgyfa út': 'Tölgyfa utca'
+source: survey
+inactive: false

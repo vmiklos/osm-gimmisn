@@ -1,0 +1,16 @@
+missing-streets: 'yes'
+# osm-street-filters:
+  # Nem igazi utca
+  # Parkok, sétautak amire nincs számozva semmi
+  # Területhatáron lévő utca
+#street-filters:
+  # Tanyák
+refstreets:
+  # kérdéses
+  'Csillaghegyi utca': 'Csillaghegyi út'
+  'Damjanich utca': 'Damjanich út'
+  'Jókai Mór utca': 'Jókai utca'
+  'Muskát György utca': 'Muskáth György utca'
+  'Radnóti Miklós köz': 'Radnóti köz'
+source: survey
+inactive: false

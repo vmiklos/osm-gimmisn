@@ -1,0 +1,49 @@
+missing-streets: 'yes'
+# osm-street-filters:
+  # Nem igazi utca
+  # Parkok, sétautak amire nincs számozva semmi
+  # Területhatáron lévő utca
+#street-filters:
+  # Tanyák
+refstreets:
+  # rövidítés
+  'Apáti Abkarovics Béla utca': 'Apáti Abkarovics B. utca'
+  # helyesírás
+  'Íjász utca': 'Ijász utca'
+  # kérdéses
+  'Alsó Duna köz': 'Alsó-Duna köz'
+  # 'Annavölgyi út': 'Annavölgy'
+  'Árboc utca': 'Árbóc utca'
+  'Árvácska köz': 'Árvácska utca'
+  'Beg utca': 'Bég utca'
+  'Bánáti Sverák József utca': 'Bánáti Sverák utca'
+  'Bessenyei köz': 'Bessenyei utca'
+  'Bogdányi utca': 'Bogdányi út'
+  'Bükkös-patak-köz': 'Bükkös patak köz'
+  'Darupiac tér': 'Daru-piac tér'
+  'Fakopáncs utca': 'Fakopács utca'
+  # 'Farkas utca': 'Farkasles utca'
+  'Jókai utca': 'Jókai Mór utca'
+  # 'Kőhegyi út': 'Kőhegy'
+  'Lévay utca': 'Lévai utca'
+  'Ljubojevics Demeter utca': 'Lyubojevics Demeter utca'
+  'Otelló utca': 'Othelló utca'
+  'Patak Sor utca': 'Patak sor utca'
+  'Pátriárka utca': 'Pátriarka utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  # 'Pismány utca': 'Pismány'
+  'Rakódczay Pál utca': 'Rakodczay Pál utca'
+  'Rózsakert': 'Rózsa kert'
+  'Smolnyica sétány': 'Szmolnica sétány'
+  'Stromfeld Aurél utca': 'Stromfeld utca'
+  'Szarvashegyi út': 'Szarvashegy'
+  'Szerb Kálvária tér': 'Szerb kálvária tér'
+  'Szikla utca': 'Sziklás utca'
+  'Szőlő utca': 'Szőlő köz'
+  # 'Sztaravodai út': 'Sztaravoda'
+  'Táncsics utca': 'Táncsics Mihály utca'
+  'Tyúkos dűlő': 'Tyúkosdűlő'
+  'Vöröshegy utca': 'Vörösbegy utca'
+  # 'Törökvölgyi út': 'Törökvölgy'
+  'Vanilia utca': 'Vanília utca'
+inactive: false

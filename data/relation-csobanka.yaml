@@ -1,0 +1,16 @@
+missing-streets: 'yes'
+# osm-street-filters:
+  # Nem igazi utca
+  # Parkok, sétautak amire nincs számozva semmi
+  # Területhatáron lévő utca
+#street-filters:
+  # Tanyák
+refstreets:
+  # kérdéses
+  'Akácos út': 'Akácos utca'
+  'Hubertus köz': 'Hubertus utca'
+  'Keskeny köz': 'Keskeny utca'
+  'Panoráma utca': 'Panoráma köz'
+  'Rózsa Ferenc utca': 'Rózsa utca'
+source: survey
+inactive: false
