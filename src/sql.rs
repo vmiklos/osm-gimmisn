@@ -151,7 +151,19 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
             [],
         )?;
     }
-    conn.execute("pragma user_version = 7", [])?;
+    if user_version < 8 {
+        // Tracks house numbers of cities over time.
+        conn.execute(
+            "create table stats_citycounts (
+            date text not null,
+            city text not null,
+            count text not null,
+            unique(date, city)
+        )",
+            [],
+        )?;
+    }
+    conn.execute("pragma user_version = 8", [])?;
     Ok(())
 }
 
