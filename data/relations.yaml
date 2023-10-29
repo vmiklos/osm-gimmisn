@@ -637,6 +637,10 @@ budaors:
     osmrelation: 113463
     refcounty: "14"
     refsettlement: "015"
+csobanka:
+    osmrelation: 216169
+    refcounty: "14"
+    refsettlement: "021"
 csomor:
     osmrelation: 1390432
     refcounty: "14"
@@ -693,6 +697,10 @@ nagymaros:
     osmrelation: 1440603
     refcounty: "14"
     refsettlement: "090"
+pilisborosjeno:
+    osmrelation: 215942
+    refcounty: "14"
+    refsettlement: "105"
 piliscsaba:
     osmrelation: 215939
     refcounty: "14"
@@ -741,6 +749,10 @@ szazhalombatta:
     osmrelation: 112432
     refcounty: "14"
     refsettlement: "125"
+szentendre:
+    osmrelation: 216160
+    refcounty: "14"
+    refsettlement: "126"
 szigethalom:
     osmrelation: 222332
     refcounty: "14"
@@ -777,6 +789,10 @@ ujszilvas:
     osmrelation: 1323405
     refcounty: "14"
     refsettlement: "163"
+urom:
+    osmrelation: 215941
+    refcounty: "14"
+    refsettlement: "166"
 vac:
     osmrelation: 1440602
     refcounty: "14"
