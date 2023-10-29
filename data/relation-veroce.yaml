@@ -2,8 +2,6 @@ missing-streets: 'yes'
 filters:
   Árpád út:
     invalid: ['120']
-  Brassói út:
-    invalid: ['92', '96']
   # hrsz. szűrések
   Duna sor:
     ranges:
