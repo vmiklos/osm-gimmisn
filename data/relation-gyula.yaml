@@ -74,7 +74,7 @@ refstreets:
   'Erdő sor': 'Erdő sor út'
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Fenyő út': 'Fenyő utca'
-  'Ferenczi Béni utca': 'Ferenczy Béni utca'  # A házszámok nagy része az y-os írásmódon jön
+  # 'Ferenczi Béni utca': 'Ferenczy Béni utca'  # A házszámok nagy része az y-os írásmódon jön. Tábla Ferenczy Béni utca.
   # 'Hosszú utca': 'Hosszúkás utca' -- van másik Hosszú utca, nem lehet mappelni
   'Lilaakác utca': 'Lila akác utca'
   'Rigó út': 'Rigó utca'
@@ -85,7 +85,6 @@ refstreets:
   'Víz utca': 'Vízi utca'
   'Új élet utca': 'Újélet utca'
   'Újülés utca': 'Újűlés utca'
-  'Zöld utca': 'Zöldi utca'
   # ellenőrzött
   'Körös utca': 'Kőrös utca'  # táblán Körös utca - https://www.openstreetmap.org/note/2796498
   # helyesírás, rövidítés
