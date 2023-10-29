@@ -278,19 +278,32 @@ fn write_city_count_path(
     city_count_path: &str,
     cities: &HashMap<String, HashSet<String>>,
 ) -> anyhow::Result<()> {
-    let stream = ctx.get_file_system().open_write(city_count_path)?;
-    let mut guard = stream.borrow_mut();
     let mut cities: Vec<_> = cities.iter().map(|(key, value)| (key, value)).collect();
+    // Locale-aware sort, by key.
     cities.sort_by_key(|(key, _value)| util::get_sort_key(key));
     cities.dedup();
+    // Old style: CSV.
+    let stream = ctx.get_file_system().open_write(city_count_path)?;
+    let mut guard = stream.borrow_mut();
     guard.write_all("CITY\tCNT\n".as_bytes())?;
-    // Locale-aware sort, by key.
-    for (key, value) in cities {
+    for (key, value) in cities.iter() {
         let line = format!("{}\t{}\n", key, value.len());
         guard.write_all(line.as_bytes())?;
     }
-
-    Ok(())
+    // New style: SQL.
+    let mut conn = ctx.get_database_connection()?;
+    let tx = conn.transaction()?;
+    let now = ctx.get_time().now();
+    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let today = now.format(&format)?;
+    for (key, value) in cities {
+        tx.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)
+            on conflict(date, city) do update set count = excluded.count"#,
+            [&today, key, &value.len().to_string()],
+        )?;
+    }
+    Ok(tx.commit()?)
 }
 
 /// Writes a daily .zipcount file.
@@ -359,14 +372,16 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
         zip_entry.insert(zip_value);
     }
 
-    let mut conn = ctx.get_database_connection()?;
-    let tx = conn.transaction()?;
-    tx.execute(
-        r#"insert into stats_counts (date, count) values (?1, ?2)
+    {
+        let mut conn = ctx.get_database_connection()?;
+        let tx = conn.transaction()?;
+        tx.execute(
+            r#"insert into stats_counts (date, count) values (?1, ?2)
                on conflict(date) do update set count = excluded.count"#,
-        [today, &house_numbers.len().to_string()],
-    )?;
-    tx.commit()?;
+            [today, &house_numbers.len().to_string()],
+        )?;
+        tx.commit()?;
+    }
 
     write_city_count_path(ctx, &city_count_path, &cities)
         .context("write_city_count_path() failed")?;
