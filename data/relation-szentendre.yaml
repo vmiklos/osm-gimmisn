@@ -1,10 +1,41 @@
 missing-streets: 'yes'
-# osm-street-filters:
+osm-street-filters:
   # Nem igazi utca
+  - Alakulótér
+  - Dunaparti kerékpárút
   # Parkok, sétautak amire nincs számozva semmi
-  # Területhatáron lévő utca
-#street-filters:
+  - Czóbel park
+  - Czóbel sétány
+  - Duna parti sétány
+  - Kálvária park
+  - Kerényi Jenő szoborpark
+  - Kopjafás park
+  - Mészáros Dezső-szoborpark
+  - Piactér
+  - Szabadtéri Néprajzi Múzeum
+  # - Virágok és kívánságok tere
+  # Terület
+  - Pap-sziget
+  # Területhatáron lévő utca/átlógó
+  - Görbe hajtás
+  - Kőhegy lejtő
+  - Ravasz László püspök utca
+street-filters:
   # Tanyák
+  - Eperfa tanya
+  - Fülöp tanya
+  - Jóvízmajor
+  # Településrész
+  - Annavölgy
+  - Dunapart
+  - Kőhegy
+  - László telep
+  - Pismány
+  - Szarvashegy
+  - Sztaravoda
+  - Törökvölgy
+  # Must köz / utca dupla
+  # Rőzse köz / utca dupla
 refstreets:
   # rövidítés
   'Apáti Abkarovics Béla utca': 'Apáti Abkarovics B. utca'
@@ -33,10 +64,10 @@ refstreets:
   'Petőfi Sándor utca': 'Petőfi utca'
   # 'Pismány utca': 'Pismány'
   'Rakódczay Pál utca': 'Rakodczay Pál utca'
+  'Réti utca': 'Réti sétány'
   'Rózsakert': 'Rózsa kert'
   'Smolnyica sétány': 'Szmolnica sétány'
   'Stromfeld Aurél utca': 'Stromfeld utca'
-  'Szarvashegyi út': 'Szarvashegy'
   'Szerb Kálvária tér': 'Szerb kálvária tér'
   'Szikla utca': 'Sziklás utca'
   'Szőlő utca': 'Szőlő köz'
