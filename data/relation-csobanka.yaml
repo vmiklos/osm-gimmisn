@@ -1,16 +1,16 @@
 missing-streets: 'yes'
-# osm-street-filters:
+osm-street-filters:
   # Nem igazi utca
   # Parkok, sétautak amire nincs számozva semmi
+  - Cseresznyés kert
+  - Hét vezér millenniumi emlékpark
   # Területhatáron lévő utca
-#street-filters:
-  # Tanyák
 refstreets:
   # kérdéses
   'Akácos út': 'Akácos utca'
   'Hubertus köz': 'Hubertus utca'
   'Keskeny köz': 'Keskeny utca'
-  'Panoráma utca': 'Panoráma köz'
+  'Margitliget': 'Margit liget'
   'Rózsa Ferenc utca': 'Rózsa utca'
 source: survey
 inactive: false
