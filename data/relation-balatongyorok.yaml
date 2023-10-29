@@ -16,6 +16,8 @@ street-filters:
   # Vállusi utca   - https://www.openstreetmap.org/way/533684471 - nincs táblázva
 osm-street-filters:
   - Simándy József sétány
+  # településrészként
+  - Felsőhegy
 refstreets:
   # ellenőrizve:
   'Üsth Gyula utca': 'Üst Gyula utca'
