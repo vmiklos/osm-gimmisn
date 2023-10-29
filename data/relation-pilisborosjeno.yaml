@@ -1,10 +1,14 @@
 missing-streets: 'yes'
-# osm-street-filters:
+osm-street-filters:
   # Nem igazi utca
   # Parkok, sétautak amire nincs számozva semmi
+  - Bárd Ödön sétány
   # Területhatáron lévő utca
-#street-filters:
-  # Tanyák
+  - Külső Bécsi út
+  - Kert utca
+street-filters:
+  # Településrész
+  - Téglagyár
 refstreets:
   # kérdéses
   'Kőfuvaros utca': 'Kőfuvaros út'
@@ -12,6 +16,7 @@ refstreets:
   'Lucerna utca': 'Lucerna köz'
   'Mindszenty József utca': 'Mindszenti József utca'
   'Szent Donát utca': 'Szent Donáth utca'
+  'Szilva utca': 'Szilva köz'
   'Szőlő út': 'Szőlő utca'
   # 'Téglagyári út': 'Téglagyár'
   'Templom út': 'Templom utca'
