@@ -1,5 +1,11 @@
 missing-streets: 'yes'
 filters:
+  Boldogtanyai út:
+    # 4: Szentendre
+    invalid: ['4']
+  Bölény utca:
+    # 2: páros oldal Szentendréhez tartozik
+    invalid: ['2']
   Csaba utca:
     # 49, 70: 39 és 42 után nincsenek számok
     invalid: ['49', '70']
@@ -9,8 +15,12 @@ filters:
   Móricz Zsigmond út:
     # 755: 325 az utolsó páratlan házszám
     invalid: ['755']
-#osm-street-filters:
+  Szitakötő utca:
+    # 17: páratlan oldal Szentendre
+    invalid: ['17']
+osm-street-filters:
   # Nem igazi utca
+  - Keresztút
   # Parkok, sétautak amire nincs számozva semmi
   # Területhatáron lévő utca
 #street-filters:
