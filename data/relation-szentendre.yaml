@@ -5,7 +5,6 @@ osm-street-filters:
   - Dunaparti kerékpárút
   # Parkok, sétautak amire nincs számozva semmi
   - Czóbel park
-  - Czóbel sétány
   - Duna parti sétány
   - Kálvária park
   - Kerényi Jenő szoborpark
@@ -20,6 +19,7 @@ osm-street-filters:
   - Görbe hajtás
   - Kőhegy lejtő
   - Ravasz László püspök utca
+  - Tó utca
 street-filters:
   # Tanyák
   - Eperfa tanya
@@ -36,6 +36,8 @@ street-filters:
   - Törökvölgy
   # Must köz / utca dupla
   # Rőzse köz / utca dupla
+  # Vincellér utca / köz
+  # Tűzvirág utca / köz
 refstreets:
   # rövidítés
   'Apáti Abkarovics Béla utca': 'Apáti Abkarovics B. utca'
@@ -56,6 +58,7 @@ refstreets:
   # 'Farkas utca': 'Farkasles utca'
   'Jókai utca': 'Jókai Mór utca'
   # 'Kőhegyi út': 'Kőhegy'
+  'Leander utca': 'Leánder utca'
   'Lévay utca': 'Lévai utca'
   'Ljubojevics Demeter utca': 'Lyubojevics Demeter utca'
   'Otelló utca': 'Othelló utca'
@@ -71,6 +74,7 @@ refstreets:
   'Szerb Kálvária tér': 'Szerb kálvária tér'
   'Szikla utca': 'Sziklás utca'
   'Szőlő utca': 'Szőlő köz'
+  'Szent Erzsébet tér': 'Árpádházi Szent Erzsébet tér'
   # 'Sztaravodai út': 'Sztaravoda'
   'Táncsics utca': 'Táncsics Mihály utca'
   'Tyúkos dűlő': 'Tyúkosdűlő'
