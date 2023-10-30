@@ -395,7 +395,6 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
     if !ctx.get_file_system().path_exists(&csv_path) {
         return Ok(());
     }
-    let topusers_path = format!("{statedir}/{today}.topusers");
     let mut users: HashMap<String, u64> = HashMap::new();
     {
         let stream = ctx.get_file_system().open_read(&csv_path)?;
@@ -411,16 +410,36 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
         }
     }
     {
-        let stream = ctx.get_file_system().open_write(&topusers_path)?;
-        let mut guard = stream.borrow_mut();
         let mut users: Vec<_> = users.iter().map(|(key, value)| (key, value)).collect();
         users.sort_by_key(|i| Reverse(i.1));
         users.dedup();
         users = users[0..std::cmp::min(20, users.len())].to_vec();
-        guard.write_all("CNT\tUSER\n".as_bytes())?;
-        for user in users {
-            let line = format!("{}\t{}\n", user.1, user.0);
-            guard.write_all(line.as_bytes())?;
+        {
+            // Old style: CSV.
+            let topusers_path = format!("{statedir}/{today}.topusers");
+            let stream = ctx.get_file_system().open_write(&topusers_path)?;
+            let mut guard = stream.borrow_mut();
+            guard.write_all("CNT\tUSER\n".as_bytes())?;
+            for user in &users {
+                let line = format!("{}\t{}\n", user.1, user.0);
+                guard.write_all(line.as_bytes())?;
+            }
+        }
+        {
+            // New style: SQL.
+            let mut conn = ctx.get_database_connection()?;
+            let tx = conn.transaction()?;
+            let now = ctx.get_time().now();
+            let format = time::format_description::parse("[year]-[month]-[day]")?;
+            let today = now.format(&format)?;
+            for user in &users {
+                tx.execute(
+                    r#"insert into stats_topusers (date, user, count) values (?1, ?2, ?3)
+            on conflict(date, user) do update set count = excluded.count"#,
+                    [&today, user.0, &user.1.to_string()],
+                )?;
+            }
+            tx.commit()?;
         }
     }
 
