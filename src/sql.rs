@@ -175,7 +175,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
             [],
         )?;
     }
-    conn.execute("pragma user_version = 10", [])?;
+    conn.execute("pragma user_version = 9", [])?;
     Ok(())
 }
 
