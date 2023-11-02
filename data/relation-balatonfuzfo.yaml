@@ -30,8 +30,6 @@ filters:
 refstreets:
   # kérdéses
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
-  'Felsővillasor utca': 'Felsővillasor'
-  'Gyöngyvirág köz': 'Gyöngyvirág utca'
   # 'Jánoshegy utca': 'Jánoshegyi út'  - mindkettő van
   # ellenőrzött
   'Bugyogóforrás utca': 'Bugyogó forrás utca'  # egyben és kötőjellel vannak a táblák, külön írva nincs
