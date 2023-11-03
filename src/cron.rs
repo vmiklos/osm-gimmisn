@@ -361,14 +361,14 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
         let city_key = util::get_city_key(&row.postcode, &row.city, &valid_settlements)
             .context("get_city_key() failed")?;
         let city_value = [row.street.to_string(), row.housenumber.to_string()].join("\t");
-        let entry = cities.entry(city_key).or_insert_with(HashSet::new);
+        let entry = cities.entry(city_key).or_default();
         entry.insert(city_value);
 
         // Postcode.
         let zip_key = row.postcode.to_string();
         // Street name and housenumber.
         let zip_value = [row.street, row.housenumber].join("\t");
-        let zip_entry = zips.entry(zip_key).or_insert_with(HashSet::new);
+        let zip_entry = zips.entry(zip_key).or_default();
         zip_entry.insert(zip_value);
     }
 
