@@ -1,5 +1,7 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Téglagyár tér:
+    interpolation: 'all'
 osm-street-filters:
   - Duna sétány
 street-filters:
