@@ -655,7 +655,7 @@ impl<'a> Relation<'a> {
                 for house_number in row.housenumber.split(';') {
                     house_numbers
                         .entry(street.to_string())
-                        .or_insert_with(Vec::new)
+                        .or_default()
                         .append(&mut normalize(
                             self,
                             house_number,
@@ -857,7 +857,7 @@ impl<'a> Relation<'a> {
             if let Some(v) = iter.next() {
                 value = v;
             }
-            lines.entry(key).or_insert_with(Vec::new).push(value.into());
+            lines.entry(key).or_default().push(value.into());
         }
         let street_ranges = self
             .get_street_ranges()
@@ -1505,9 +1505,7 @@ impl<'a> Relations<'a> {
             let relation = Relation::new(
                 self.ctx,
                 name,
-                self.dict
-                    .entry(name.to_string())
-                    .or_insert_with(RelationDict::default),
+                self.dict.entry(name.to_string()).or_default(),
                 &self.yaml_cache,
             )?;
             self.relations.insert(name.into(), relation);
