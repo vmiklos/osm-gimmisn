@@ -175,7 +175,19 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
             [],
         )?;
     }
-    conn.execute("pragma user_version = 9", [])?;
+    if user_version < 10 {
+        // Tracks house numbers of ZIP areas over time.
+        conn.execute(
+            "create table stats_zipcounts (
+            date text not null,
+            zip text not null,
+            count text not null,
+            unique(date, zip)
+        )",
+            [],
+        )?;
+    }
+    conn.execute("pragma user_version = 10", [])?;
     Ok(())
 }
 

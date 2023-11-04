@@ -312,20 +312,35 @@ fn write_zip_count_path(
     zip_count_path: &str,
     zips: &HashMap<String, HashSet<String>>,
 ) -> anyhow::Result<()> {
-    let stream = ctx.get_file_system().open_write(zip_count_path)?;
-    let mut guard = stream.borrow_mut();
     let mut zips: Vec<_> = zips.iter().map(|(key, value)| (key, value)).collect();
-
     zips.sort_by_key(|(key, _value)| key.to_string());
     zips.dedup();
+
+    // Old style: CSV.
+    let stream = ctx.get_file_system().open_write(zip_count_path)?;
+    let mut guard = stream.borrow_mut();
+
     guard.write_all("ZIP\tCNT\n".as_bytes())?;
-    for (key, value) in zips {
+    for (key, value) in &zips {
         let key = if key.is_empty() { "_Empty" } else { key };
         let line = format!("{}\t{}\n", key, value.len());
         guard.write_all(line.as_bytes())?;
     }
 
-    Ok(())
+    // New style: SQL.
+    let mut conn = ctx.get_database_connection()?;
+    let tx = conn.transaction()?;
+    let now = ctx.get_time().now();
+    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let today = now.format(&format)?;
+    for (key, value) in zips {
+        tx.execute(
+            r#"insert into stats_zipcounts (date, zip, count) values (?1, ?2, ?3)
+            on conflict(date, zip) do update set count = excluded.count"#,
+            [&today, key, &value.len().to_string()],
+        )?;
+    }
+    Ok(tx.commit()?)
 }
 
 /// Counts the # of all house numbers as of today.
