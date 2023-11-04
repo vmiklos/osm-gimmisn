@@ -4,6 +4,8 @@ filters:
     interpolation: 'all'
 osm-street-filters:
   - Duna sétány
+  # Területhatáron lévő utca/átlógó
+  - Meddőhányó utca
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Helsinki hévállomás
