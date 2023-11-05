@@ -146,47 +146,36 @@ fn test_handle_capital_progress_old_time() {
 #[test]
 fn test_handle_topusers() {
     let ctx = context::tests::make_test_context().unwrap();
-    let src_root = ctx.get_abspath("workdir/stats");
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        for i in 0..20 {
+            conn.execute(
+                r#"insert into stats_topusers (date, user, count) values (?1, ?2, ?3)"#,
+                [
+                    "2020-05-10",
+                    &format!("user{}", i + 1),
+                    &format!("{}", 20 - i),
+                ],
+            )
+            .unwrap();
+        }
+    }
     let mut j = serde_json::json!({});
-    handle_topusers(&ctx, &src_root, &mut j).unwrap();
+    handle_topusers(&ctx, &mut j).unwrap();
     let topusers = &j.as_object().unwrap()["topusers"].as_array().unwrap();
     assert_eq!(topusers.len(), 20);
-    assert_eq!(topusers[0], serde_json::json!(["user1", "68885"]));
+    assert_eq!(topusers[0], serde_json::json!(["user1", 20]));
 }
 
-/// Tests handle_topusers(): the case when the .topusers file doesn't exist for a date.
+/// Tests handle_topusers(): the case when the stats_topusers table has no rows for a date.
 #[test]
 fn test_handle_topusers_old_time() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let time = make_test_time_old();
     let time_rc: Rc<dyn context::Time> = Rc::new(time);
     ctx.set_time(&time_rc);
-    let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
-    handle_topusers(&ctx, &src_root, &mut j).unwrap();
-    let topusers = &j.as_object().unwrap()["topusers"].as_array().unwrap();
-    assert_eq!(topusers.len(), 0);
-}
-
-/// Tests handle_topusers(): the case when the .topusers file is broken.
-#[test]
-fn test_handle_topusers_broken_input() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let today_topusers = b"myuser\n";
-    let today_topusers_value = context::tests::TestFileSystem::make_file();
-    today_topusers_value
-        .borrow_mut()
-        .write_all(today_topusers)
-        .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/stats/2020-05-10.topusers", &today_topusers_value)],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let src_root = ctx.get_abspath("workdir/stats");
-    let mut j = serde_json::json!({});
-    handle_topusers(&ctx, &src_root, &mut j).unwrap();
+    handle_topusers(&ctx, &mut j).unwrap();
     let topusers = &j.as_object().unwrap()["topusers"].as_array().unwrap();
     assert_eq!(topusers.len(), 0);
 }
