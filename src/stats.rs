@@ -14,7 +14,6 @@ use crate::context;
 use crate::util;
 use anyhow::Context;
 use std::collections::HashMap;
-use std::io::BufRead;
 use std::ops::DerefMut;
 
 #[cfg(not(test))]
@@ -122,35 +121,22 @@ fn handle_capital_progress(
 }
 
 /// Generates stats for top users.
-fn handle_topusers(
-    ctx: &context::Context,
-    src_root: &str,
-    j: &mut serde_json::Value,
-) -> anyhow::Result<()> {
+fn handle_topusers(ctx: &context::Context, j: &mut serde_json::Value) -> anyhow::Result<()> {
     let today = {
         let now = ctx.get_time().now();
         let format = time::format_description::parse("[year]-[month]-[day]")?;
         now.format(&format)?
     };
-    let mut ret: Vec<(String, String)> = Vec::new();
-    let topusers_path = format!("{src_root}/{today}.topusers");
-    if ctx.get_file_system().path_exists(&topusers_path) {
-        let stream = ctx.get_file_system().open_read(&topusers_path)?;
-        let mut guard = stream.borrow_mut();
-        let read = std::io::BufReader::new(guard.deref_mut());
-        let mut first = true;
-        for line in read.lines() {
-            if first {
-                first = false;
-                continue;
-            }
-            let line = line?.trim().to_string();
-            let mut tokens = line.split('\t');
-            let count = tokens.next().unwrap();
-            let user = tokens.next().unwrap();
-            ret.push((user.into(), count.into()));
-        }
+    let mut ret: Vec<(String, u64)> = Vec::new();
+    let conn = ctx.get_database_connection()?;
+    let mut stmt = conn.prepare("select user, count from stats_topusers where date = ?1")?;
+    let mut rows = stmt.query([&today])?;
+    while let Some(row) = rows.next()? {
+        let user: String = row.get(0).unwrap();
+        let count: String = row.get(1).unwrap();
+        ret.push((user, count.parse()?));
     }
+    ret.sort_by_key(|i| std::cmp::Reverse(i.1));
     j.as_object_mut()
         .unwrap()
         .insert("topusers".into(), serde_json::to_value(&ret)?);
@@ -470,7 +456,7 @@ pub fn generate_json(
     let mut j = serde_json::json!({});
     handle_progress(ctx, state_dir, &mut j).context("handle_progress failed")?;
     handle_capital_progress(ctx, state_dir, &mut j).context("handle_capital_progress failed")?;
-    handle_topusers(ctx, state_dir, &mut j).context("handle_topusers failed")?;
+    handle_topusers(ctx, &mut j).context("handle_topusers failed")?;
     handle_topcities(ctx, state_dir, &mut j).context("handle_topcities failed")?;
     handle_user_total(ctx, &mut j, /*day_range=*/ 13).context("handle_user_total")?;
     handle_daily_new(ctx, &mut j, /*day_range=*/ 14).context("handle_daily_new failed")?;
