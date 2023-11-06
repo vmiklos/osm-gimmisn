@@ -80,17 +80,29 @@ filters:
     invalid: ['2a', '2b', '4a', '6a']
   Árpád utca:
     # 19: sima 19 nincs, csak 19/a, 19/b, 19/c.
+    # 71/a: nincs ilyen, csak sima 71 van.
+    # 73: ez és a Bocskai utca 1. közös telken van, házszám a Bocskai utcáról van csak, a tulaj szerint is csak a Bocskai utcai számot használják.
     # 16: ez és a Gézavár utca 27. közös telken van, házszám a Gézavár utcáról van csak.
     # 36: sima 36 nincs, csak 36/a, 36/b.
+    # 74/a: nincs ilyen, csak 74 és 74/b van.
     # 78: sima 78 nincs, csak 78/a, 78/b.
     # 80: sima 80 nincs, csak 80/a, 80/b.
     # 140: a páros oldalon a 82 az utolsó házszám.
-    invalid: ['19', '16', '36', '78', '80', '140']
+    invalid: ['19', '71a', '73', '16', '36', '74a', '78', '80', '140']
+  Attila utca:
+    # 5/a: nincs ilyen, csak sima 5 van.
+    # 8/a: nincs ilyan, csak sima 8 van.
+    invalid: ['5a', '8a']
   Avar utca:
     # 6: sima 6 nincs, csak 6/1, 6/2.
     invalid: ['6']
   # Badacsony utca:
   #   TODO: 13: most épül, nincs rajta házszám még és saroktelek.
+  Babér köz:
+    # 3: a páratlan oldalon az Árpád utca 17. és a Síp utca 14. van, a Babér közről nem számozódik semmi sem.
+    # 2/a: ez a Sóhaj utca 2/a, a Földhivatal szerint viszont Babér utca 2/b a 224005/5 hrsz-ú telek.
+    # 6: ez és a Síp utca 16. közös telken van, házszám a Síp utcáról van csak.
+    invalid: ['3', '2a', '6']
   Barackos út:
     # 855/1: a páratlan oldalon a 187 az utolsó házszám.
     # 855/2: a páratlan oldalon a 187 az utolsó házszám.
@@ -199,6 +211,11 @@ filters:
     # 16: sima 16 nincs, csak 16/1, 16/2.
     # 18: sima 18 nincs, csak 18/1, 18/2.
     invalid: ['10', '16', '18']
+  Debrő utca:
+    # 3/b: nincs ilyen, csak sima 3 van.
+    # 7/a: nincs ilyen, csak 7 és 7. 2a. van kitáblázva.
+    # 6: ez és a Víg utca 22. közös telken van, házszám a Víg utcáról van csak.
+    invalid: ['3b', '7a', '6']
   Dézsmaház utca:
     # 162-164: a páros oldalon a 26 az utolsó házszám.
     invalid: ['162', '164']
@@ -217,6 +234,9 @@ filters:
     # 10: a páros oldalon a 2 az egyetlen valós házszám, az utcanévtáblán pedig a 4.
     # 18: a páros oldalon a 2 az egyetlen valós házszám, az utcanévtáblán pedig a 4.
     invalid: ['5', '7', '17', '19', '29', '6', '8', '10', '18']
+  Éger utca:
+    # 13: sima 13 nincs, csak 13/a, 13/b.
+    invalid: ['13']
   Elza utca:
     # 2: sima 2 nincs, csak 2/a. A sarkon van egy 2-es, de az Meggyes utca 2.
     # 2/b: nincs ilyen, csak 2/a van.
@@ -539,6 +559,15 @@ filters:
     # 22: ez és a Badacsony utca 24 közös telken van, házszám a Badacsony utcáról van csak.
     # 32: ez és a 30 összenyitott telken van, de csak 30 a házszám.
     invalid: ['22', '32']
+  Kinizsi utca:
+    # 1/b: nincs ilyen, csak sima 1 van, az utcanévtáblán viszont 1/a-3/b van.
+    # 3/b: nincs ilyen, csak sima 3 van, az utcanévtáblán viszont 1/a-3/b van.
+    # 5: a páratlan oldalon a 3 az utolsó házszám, és az utcatáblán is a 3/b az utolsó házszám.
+    # 19: a páratlan oldalon a 3 az utolsó házszám, és az utcatáblán is a 3/b az utolsó házszám.
+    # 4: ez és az Árpád utca 39 közös telken van, házszám az Árpád utcáról van csak.
+    # 10: a páros oldalon lévő telkek az Árpád utcáról számozódnak, az utcatáblán pedig 2-4 van.
+    # 18: a páros oldalon lévő telkek az Árpád utcáról számozódnak, az utcatáblán pedig 2-4 van.
+    invalid: ['1b', '3b', '5', '19', '4', '10', '18']
   Kiránduló utca:
     # 4: sima 4 nincs, csak 4/a, 4/b.
     # 4/4: nincs ilyen, csak 4/a, 4/b.
@@ -735,6 +764,9 @@ filters:
     # A páratlan oldal telkei nem ide nyílnak.
     ranges:
       - {start: '4', end: '8'}
+  Mécses utca:
+    # 4-6: ez és a Síp utca 36/a-b közös telken van, házszám a Síp utcáról van csak.
+    invalid: ['4', '6']
   Meggyes utca:
     # 9: sima 9 nincs, csak 9/a, 9/b.
     # 4: sima 4 nincs, csak 4/a, 4/b.
@@ -974,6 +1006,14 @@ filters:
     # 6: nincs ilyen házszám, a páros oldalon csak a 10-es szám van.
     # 20: nincs ilyen házszám, a páros oldalon csak a 10-es szám van.
     invalid: ['25', '27', '133a', '6', '20']
+  Síp utca:
+    # 36: sima 36 nincs, csak 36/a-b, 36/c, 36/d.
+    invalid: ['36']
+  Sóhaj utca:
+    # 5/b: nincs ilyen, csak sima 5 van.
+    # 11: ez és a Síp utca 26. közös telken van, házszám a Síp utcáról van csak.
+    # 17-19: csak 19 van kitáblázva.
+    invalid: ['5b', '11', '17']
   Stáció utca:
     # 15: a páratlan oldalon a 13 az utolsó házszám.
     invalid: ['15']
@@ -997,6 +1037,9 @@ filters:
     # 28: a páros oldalon a 22 az utolsó házszám.
     # 46: a páros oldalon a 22 az utolsó házszám.
     invalid: ['15', '28', '46']
+  Szegfű utca:
+    # 20/a: nincs ilyen, csak sima 20 van.
+    invalid: ['20a']
   Szent Gellért utca:
     # 3/9: nincs ilyen, csak 3/a, 3/b.
     # 6: sima 6 nincs, csak 6/a, 6/b.
