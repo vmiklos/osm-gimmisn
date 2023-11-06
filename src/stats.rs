@@ -129,14 +129,13 @@ fn handle_topusers(ctx: &context::Context, j: &mut serde_json::Value) -> anyhow:
     };
     let mut ret: Vec<(String, u64)> = Vec::new();
     let conn = ctx.get_database_connection()?;
-    let mut stmt = conn.prepare("select user, count from stats_topusers where date = ?1")?;
+    let mut stmt = conn.prepare("select user, count from stats_topusers where date = ?1 order by cast(count as integer) desc")?;
     let mut rows = stmt.query([&today])?;
     while let Some(row) = rows.next()? {
         let user: String = row.get(0).unwrap();
         let count: String = row.get(1).unwrap();
         ret.push((user, count.parse()?));
     }
-    ret.sort_by_key(|i| std::cmp::Reverse(i.1));
     j.as_object_mut()
         .unwrap()
         .insert("topusers".into(), serde_json::to_value(&ret)?);

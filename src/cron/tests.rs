@@ -720,7 +720,6 @@ fn test_update_stats() {
 
     let citycount_value = context::tests::TestFileSystem::make_file();
     let zipcount_value = context::tests::TestFileSystem::make_file();
-    let topusers_value = context::tests::TestFileSystem::make_file();
     let csv_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
@@ -730,7 +729,6 @@ fn test_update_stats() {
         &[
             ("workdir/stats/2020-05-10.citycount", &citycount_value),
             ("workdir/stats/2020-05-10.zipcount", &zipcount_value),
-            ("workdir/stats/2020-05-10.topusers", &topusers_value),
             ("workdir/stats/whole-country.csv", &csv_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
@@ -785,7 +783,6 @@ fn test_update_stats_http_error() {
         .borrow_mut()
         .write_all("254651\n".as_bytes())
         .unwrap();
-    let topusers_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
@@ -793,7 +790,6 @@ fn test_update_stats_http_error() {
         &ctx,
         &[
             ("workdir/stats/2020-05-10.citycount", &citycount_value),
-            ("workdir/stats/2020-05-10.topusers", &topusers_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
             (
@@ -835,7 +831,6 @@ fn test_update_stats_no_overpass() {
 
     let citycount_value = context::tests::TestFileSystem::make_file();
     let zipcount_value = context::tests::TestFileSystem::make_file();
-    let topusers_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
@@ -844,7 +839,6 @@ fn test_update_stats_no_overpass() {
         &[
             ("workdir/stats/2020-05-10.citycount", &citycount_value),
             ("workdir/stats/2020-05-10.zipcount", &zipcount_value),
-            ("workdir/stats/2020-05-10.topusers", &topusers_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
             (
@@ -1031,7 +1025,6 @@ fn test_our_main_stats() {
     let today_csv = context::tests::TestFileSystem::make_file();
     let today_citycount = context::tests::TestFileSystem::make_file();
     let today_zipcount = context::tests::TestFileSystem::make_file();
-    let today_topusers = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -1044,7 +1037,6 @@ fn test_our_main_stats() {
             ("workdir/stats/whole-country.csv", &today_csv),
             ("workdir/stats/2020-05-10.citycount", &today_citycount),
             ("workdir/stats/2020-05-10.zipcount", &today_zipcount),
-            ("workdir/stats/2020-05-10.topusers", &today_topusers),
             ("workdir/stats/ref.count", &ref_count),
         ],
     );
@@ -1297,13 +1289,9 @@ fn test_update_stats_topusers() {
             .as_bytes(),
         )
         .unwrap();
-    let today_topusers_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("workdir/stats/whole-country.csv", &today_csv_value),
-            ("workdir/stats/2020-05-10.topusers", &today_topusers_value),
-        ],
+        &[("workdir/stats/whole-country.csv", &today_csv_value)],
     );
     file_system.set_files(&files);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
@@ -1312,9 +1300,23 @@ fn test_update_stats_topusers() {
     update_stats_topusers(&ctx, "2020-05-10").unwrap();
 
     {
-        let abspath = ctx.get_abspath("workdir/stats/2020-05-10.topusers");
-        let content = ctx.get_file_system().read_to_string(&abspath).unwrap();
-        assert_eq!(content, "CNT\tUSER\n2\tmyuser1\n1\tmyuser2\n");
+        let conn = ctx.get_database_connection().unwrap();
+        let mut stmt = conn
+            .prepare(
+                "select user, count from stats_topusers where date = ?1 order by cast(count as integer) desc",
+            )
+            .unwrap();
+        let mut rows = stmt.query(["2020-05-10"]).unwrap();
+        let row = rows.next().unwrap().unwrap();
+        let user: String = row.get(0).unwrap();
+        assert_eq!(user, "myuser1");
+        let count: String = row.get(1).unwrap();
+        assert_eq!(count, "2");
+        let row = rows.next().unwrap().unwrap();
+        let user: String = row.get(0).unwrap();
+        assert_eq!(user, "myuser2");
+        let count: String = row.get(1).unwrap();
+        assert_eq!(count, "1");
     }
     {
         let conn = ctx.get_database_connection().unwrap();
@@ -1343,24 +1345,19 @@ fn test_update_stats_topusers() {
 /// Tests update_stats_topusers(): the case then the .csv is missing.
 #[test]
 fn test_update_stats_topusers_no_csv() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let mut file_system = context::tests::TestFileSystem::new();
-    let today_topusers_value = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/stats/2020-05-10.topusers", &today_topusers_value)],
-    );
-    file_system.set_files(&files);
-    file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/whole-country.csv")]);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
+    let ctx = context::tests::make_test_context().unwrap();
 
     update_stats_topusers(&ctx, "2020-05-10").unwrap();
 
-    // No .csv, no .topusers or usercount.
+    // No .csv, no topusers or usercount.
     {
-        let mut guard = today_topusers_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
+        let conn = ctx.get_database_connection().unwrap();
+        let mut stmt = conn
+            .prepare("select count from stats_topusers where date = ?1")
+            .unwrap();
+        let mut topusers = stmt.query(["2020-05-10"]).unwrap();
+        let row = topusers.next().unwrap();
+        assert!(row.is_none());
     }
     {
         let conn = ctx.get_database_connection().unwrap();
