@@ -1038,8 +1038,10 @@ filters:
     # 46: a páros oldalon a 22 az utolsó házszám.
     invalid: ['15', '28', '46']
   Szegfű utca:
+    # 17: sima 17 nincs, csak 17/a, 17/b.
+    # 2: sima 2 nincs, csak 2/a, 2/b.
     # 20/a: nincs ilyen, csak sima 20 van.
-    invalid: ['20a']
+    invalid: ['17', '2', '20a']
   Szent Gellért utca:
     # 3/9: nincs ilyen, csak 3/a, 3/b.
     # 6: sima 6 nincs, csak 6/a, 6/b.
@@ -1060,10 +1062,6 @@ filters:
     # 24: a páros oldalon a 18 az utolsó házszám.
     # 172: a páros oldalon a 18 az utolsó házszám.
     invalid: ['7', '101', '105', '113a', '24', '172']
-  Szegfű utca:
-    # 17: sima 17 nincs, csak 17/a, 17/b.
-    # 2: sima 2 nincs, csak 2/a, 2/b.
-    invalid: ['17', '2']
   Szent korona utca:
     # 2: ez és a Tordai utca 42. közös telken van, házszám a Tordai útról van csak.
     # Az utolsó telkek a 31 és 34, nincsenek nagyobb házszámok.
