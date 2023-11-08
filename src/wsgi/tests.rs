@@ -2014,18 +2014,19 @@ fn test_handle_stats_cityprogress_well_formed() {
 #[test]
 fn test_handle_stats_zipprogress_well_formed() {
     let mut test_wsgi = TestWsgi::new();
-
-    let zips_value = context::tests::TestFileSystem::make_file();
-    zips_value
-        .borrow_mut()
-        .write_all(b"ZIP\tCNT\n1111\t10\n1121\t20\n")
+    {
+        let conn = test_wsgi.ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_zipcounts (date, zip, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "1111", "10"],
+        )
         .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &test_wsgi.ctx,
-        &[("workdir/stats/2020-05-10.zipcount", &zips_value)],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    test_wsgi.ctx.set_file_system(&file_system);
+        conn.execute(
+            r#"insert into stats_zipcounts (date, zip, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "1121", "20"],
+        )
+        .unwrap();
+    }
 
     let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/zipprogress");
 
