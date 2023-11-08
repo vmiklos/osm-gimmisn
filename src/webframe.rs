@@ -658,14 +658,13 @@ fn handle_stats_zipprogress(
     let format = time::format_description::parse("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
     let mut osm_zipcounts: HashMap<String, u64> = HashMap::new();
-    let path = format!("{}/stats/{}.zipcount", ctx.get_ini().get_workdir(), today);
-    let csv_stream: Rc<RefCell<dyn Read>> = ctx.get_file_system().open_read(&path)?;
-    let mut guard = csv_stream.borrow_mut();
-    let mut read = guard.deref_mut();
-    let mut csv_reader = util::make_csv_reader(&mut read);
-    for result in csv_reader.deserialize() {
-        let row: util::ZipCount = result.context(format!("failed to read row in {path}"))?;
-        osm_zipcounts.insert(row.zip, row.count);
+    let conn = ctx.get_database_connection()?;
+    let mut stmt = conn.prepare("select zip, count from stats_zipcounts where date = ?1")?;
+    let mut rows = stmt.query([&today])?;
+    while let Some(row) = rows.next()? {
+        let zip: String = row.get(0).unwrap();
+        let count: String = row.get(1).unwrap();
+        osm_zipcounts.insert(zip, count.parse()?);
     }
     let ref_zips: Vec<_> = ref_zipcounts
         .keys()
