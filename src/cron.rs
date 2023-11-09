@@ -306,28 +306,15 @@ fn write_city_count_path(
     Ok(tx.commit()?)
 }
 
-/// Writes a daily .zipcount file.
+/// Writes daily zipcount rows into the stats_zipcounts SQL table.
 fn write_zip_count_path(
     ctx: &context::Context,
-    zip_count_path: &str,
     zips: &HashMap<String, HashSet<String>>,
 ) -> anyhow::Result<()> {
     let mut zips: Vec<_> = zips.iter().map(|(key, value)| (key, value)).collect();
     zips.sort_by_key(|(key, _value)| key.to_string());
     zips.dedup();
 
-    // Old style: CSV.
-    let stream = ctx.get_file_system().open_write(zip_count_path)?;
-    let mut guard = stream.borrow_mut();
-
-    guard.write_all("ZIP\tCNT\n".as_bytes())?;
-    for (key, value) in &zips {
-        let key = if key.is_empty() { "_Empty" } else { key };
-        let line = format!("{}\t{}\n", key, value.len());
-        guard.write_all(line.as_bytes())?;
-    }
-
-    // New style: SQL.
     let mut conn = ctx.get_database_connection()?;
     let tx = conn.transaction()?;
     let now = ctx.get_time().now();
@@ -351,7 +338,6 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
         return Ok(());
     }
     let city_count_path = format!("{statedir}/{today}.citycount");
-    let zip_count_path = format!("{statedir}/{today}.zipcount");
     let mut house_numbers: HashSet<String> = HashSet::new();
     let mut cities: HashMap<String, HashSet<String>> = HashMap::new();
     let mut zips: HashMap<String, HashSet<String>> = HashMap::new();
@@ -400,7 +386,7 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
 
     write_city_count_path(ctx, &city_count_path, &cities)
         .context("write_city_count_path() failed")?;
-    write_zip_count_path(ctx, &zip_count_path, &zips).context("write_zip_count_path() failed")
+    write_zip_count_path(ctx, &zips).context("write_zip_count_path() failed")
 }
 
 /// Counts the top housenumber editors as of today.

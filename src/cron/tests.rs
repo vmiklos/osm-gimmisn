@@ -719,7 +719,6 @@ fn test_update_stats() {
     ctx.set_network(network_rc);
 
     let citycount_value = context::tests::TestFileSystem::make_file();
-    let zipcount_value = context::tests::TestFileSystem::make_file();
     let csv_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
@@ -728,7 +727,6 @@ fn test_update_stats() {
         &ctx,
         &[
             ("workdir/stats/2020-05-10.citycount", &citycount_value),
-            ("workdir/stats/2020-05-10.zipcount", &zipcount_value),
             ("workdir/stats/whole-country.csv", &csv_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
@@ -830,7 +828,6 @@ fn test_update_stats_no_overpass() {
     ctx.set_network(network_rc);
 
     let citycount_value = context::tests::TestFileSystem::make_file();
-    let zipcount_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
@@ -838,7 +835,6 @@ fn test_update_stats_no_overpass() {
         &ctx,
         &[
             ("workdir/stats/2020-05-10.citycount", &citycount_value),
-            ("workdir/stats/2020-05-10.zipcount", &zipcount_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
             (
@@ -1024,7 +1020,6 @@ fn test_our_main_stats() {
     let overpass_template = context::tests::TestFileSystem::make_file();
     let today_csv = context::tests::TestFileSystem::make_file();
     let today_citycount = context::tests::TestFileSystem::make_file();
-    let today_zipcount = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -1036,7 +1031,6 @@ fn test_our_main_stats() {
             ),
             ("workdir/stats/whole-country.csv", &today_csv),
             ("workdir/stats/2020-05-10.citycount", &today_citycount),
-            ("workdir/stats/2020-05-10.zipcount", &today_zipcount),
             ("workdir/stats/ref.count", &ref_count),
         ],
     );
@@ -1160,13 +1154,11 @@ fn test_update_stats_count() {
         )
         .unwrap();
     let today_citycount_value = context::tests::TestFileSystem::make_file();
-    let today_zipcount_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("workdir/stats/whole-country.csv", &today_csv_value),
             ("workdir/stats/2020-05-10.citycount", &today_citycount_value),
-            ("workdir/stats/2020-05-10.zipcount", &today_zipcount_value),
         ],
     );
     file_system.set_files(&files);
@@ -1200,8 +1192,13 @@ fn test_update_stats_count() {
         let mut guard = today_citycount_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
-    let mut guard = today_zipcount_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    let conn = ctx.get_database_connection().unwrap();
+    let mut stmt = conn
+        .prepare("select count from stats_zipcounts where date = ?1")
+        .unwrap();
+    let mut zipcounts = stmt.query(["2020-05-10"]).unwrap();
+    let zipcount = zipcounts.next().unwrap();
+    assert!(zipcount.is_some());
 }
 
 /// Tests update_stats_count(): the case then the .csv is missing.
@@ -1247,13 +1244,11 @@ fn test_update_stats_count_xml_as_csv() {
         .write_all("<?xml\n".as_bytes())
         .unwrap();
     let today_citycount_value = context::tests::TestFileSystem::make_file();
-    let today_zipcount_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("workdir/stats/whole-country.csv", &today_csv_value),
             ("workdir/stats/2020-05-10.citycount", &today_citycount_value),
-            ("workdir/stats/2020-05-10.zipcount", &today_zipcount_value),
         ],
     );
     file_system.set_files(&files);
@@ -1400,15 +1395,7 @@ fn test_write_city_count_path() {
 /// Tests write_zip_count_path().
 #[test]
 fn test_write_zip_count_path() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let mut file_system = context::tests::TestFileSystem::new();
-    let file = context::tests::TestFileSystem::make_file();
-    let relpath = "workdir/stats/2020-05-10.zipcount";
-    let abspath = ctx.get_abspath(relpath);
-    let files = context::tests::TestFileSystem::make_files(&ctx, &[(relpath, &file)]);
-    file_system.set_files(&files);
-    let file_system: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system);
+    let ctx = context::tests::make_test_context().unwrap();
     let zip1: HashSet<String> = ["mystreet 1".to_string(), "mystreet 2".to_string()].into();
     let zip2: HashSet<String> = ["mystreet 1".to_string(), "mystreet 2".to_string()].into();
     let cities: HashMap<String, HashSet<String>> =
@@ -1416,10 +1403,24 @@ fn test_write_zip_count_path() {
             .into_iter()
             .collect();
 
-    write_zip_count_path(&ctx, &abspath, &cities).unwrap();
+    write_zip_count_path(&ctx, &cities).unwrap();
 
-    let content = ctx.get_file_system().read_to_string(&abspath).unwrap();
-    assert_eq!(content, "ZIP\tCNT\nmyzip1\t2\nmyzip2\t2\n");
+    let conn = ctx.get_database_connection().unwrap();
+    let mut stmt = conn
+                .prepare("select zip, count from stats_zipcounts where date = ?1 order by cast(count as integer) desc")
+                .unwrap();
+    let mut rows = stmt.query(["2020-05-10"]).unwrap();
+    let row = rows.next().unwrap().unwrap();
+    let zip: String = row.get(0).unwrap();
+    assert_eq!(zip, "myzip1");
+    let count: String = row.get(1).unwrap();
+    assert_eq!(count, "2");
+    let row = rows.next().unwrap().unwrap();
+    let zip: String = row.get(0).unwrap();
+    assert_eq!(zip, "myzip2");
+    let count: String = row.get(1).unwrap();
+    assert_eq!(count, "2");
+    assert!(rows.next().unwrap().is_none());
 }
 
 /// Tests update_ref_housenumbers(): the case when we ask for CSV but get XML.
