@@ -86,7 +86,7 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  Nagykert:
+  Nagykert utca:
     invalid: ['292']
   Napsugár köz:
     # hrsz szűrés
@@ -155,6 +155,14 @@ filters:
     invalid: ['7', '27']
   Zrínyi utca:
     invalid: ['393']
+street-filters:
+  # Nem igazi utca
+  - Gátőrház
+  # Dűlők
+  - Alsókáposztások dűlő
+  - Felsőszérűk dűlő
+  - Nyulas dűlő
+  - Villám dűlő
 osm-street-filters:
   # Nem igazi utca
   - Nyári gát
@@ -162,7 +170,9 @@ osm-street-filters:
   - Király-völgyi út
   - Pap-réti út
   # Parkok, sétautak amire nincs számozva semmi
-  - Tiranon-park
+  - Trianon park
+  # Dűlők
+  - Szentpéter I.B. dűlő
   # Területhatáron lévő utca
 #street-filters:
   # Tanyák
@@ -171,6 +181,7 @@ refstreets:
   # 'Felsőszérűk utca': 'Felsőszérűk dűlő'
   'Kernstok Károly utca': 'Kernstock Károly utca'  # táblán Kernstok Károly utca
   'Pisztrángos telep út': 'Pisztrángos telep'
+  'Nagykert utca': 'Nagykert'
   'Villasor': 'Villa sor'
   'Vöröskő utca': 'Vöröskő út'
 source: survey
