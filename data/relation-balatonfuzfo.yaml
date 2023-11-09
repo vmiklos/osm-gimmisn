@@ -2,7 +2,7 @@ missing-streets: 'yes'
 filters:
   Bercsényi utca:
     ranges:
-      - {start: '1', end: '49'}
+      - {start: '1', end: '51'}
       - {start: '2', end: '14'}
   Berzsenyi Dániel utca:
     interpolation: all
@@ -27,10 +27,12 @@ filters:
   Rákóczi utca:
     # 10: 2 db 8-as van, majd 12
     invalid: ['10']
+  Virág köz:
+    # 30: valószínű Jánoshegyi út 30.
+    invalid: ['30']
 refstreets:
   # kérdéses
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
-  # 'Jánoshegy utca': 'Jánoshegyi út'  - mindkettő van
   # ellenőrzött
   'Bugyogóforrás utca': 'Bugyogó forrás utca'  # egyben és kötőjellel vannak a táblák, külön írva nincs
   'Uszodai út': 'Uszodai utca'  # nincs kint tábla
