@@ -79,16 +79,22 @@ filters:
     # 6/a: nincs ilyen, csak sima 6 van. Ez viszont kétszer is ki van téve ugyanarra a telekre, de nem tűnik ikerháznak.
     invalid: ['2a', '2b', '4a', '6a']
   Árpád utca:
+    # 17/a: ikerháznak tűnik, a Babér köz felől van egy gyalogos bejárat, de csak sima 17 van kitáblázva.
     # 19: sima 19 nincs, csak 19/a, 19/b, 19/c.
+    # 35/a: ez és a Mécses utca 2. közös telken van, bejárat a Mécses utcáról van csak.
+    # 35/b: ez és a Kinizsi utca 1. közös telken van, bejárat a Kinizsi utcáról van csak.
     # 71/a: nincs ilyen, csak sima 71 van.
     # 73: ez és a Bocskai utca 1. közös telken van, házszám a Bocskai utcáról van csak, a tulaj szerint is csak a Bocskai utcai számot használják.
     # 16: ez és a Gézavár utca 27. közös telken van, házszám a Gézavár utcáról van csak.
+    # 20/a: nincs ilyen, csak sima 20 van.
+    # 26/b: nincs ilyen, csak sima 26 van.
     # 36: sima 36 nincs, csak 36/a, 36/b.
+    # 56/b: nincs ilyen, csak sima 56 és 56/a van.
     # 74/a: nincs ilyen, csak 74 és 74/b van.
     # 78: sima 78 nincs, csak 78/a, 78/b.
     # 80: sima 80 nincs, csak 80/a, 80/b.
     # 140: a páros oldalon a 82 az utolsó házszám.
-    invalid: ['19', '71a', '73', '16', '36', '74a', '78', '80', '140']
+    invalid: ['17a', '19', '35a', '35b', '71a', '73', '16', '20a', '26b', '36', '56b', '74a', '78', '80', '140']
   Attila utca:
     # 5/a: nincs ilyen, csak sima 5 van.
     # 8/a: nincs ilyan, csak sima 8 van.
@@ -99,10 +105,9 @@ filters:
   # Badacsony utca:
   #   TODO: 13: most épül, nincs rajta házszám még és saroktelek.
   Babér köz:
-    # 3: a páratlan oldalon az Árpád utca 17. és a Síp utca 14. van, a Babér közről nem számozódik semmi sem.
     # 2/a: ez a Sóhaj utca 2/a, a Földhivatal szerint viszont Babér utca 2/b a 224005/5 hrsz-ú telek.
     # 6: ez és a Síp utca 16. közös telken van, házszám a Síp utcáról van csak.
-    invalid: ['3', '2a', '6']
+    invalid: ['2a', '6']
   Barackos út:
     # 855/1: a páratlan oldalon a 187 az utolsó házszám.
     # 855/2: a páratlan oldalon a 187 az utolsó házszám.
@@ -171,10 +176,12 @@ filters:
     invalid: ['10', '20']
   Borz utca:
     # 1: sima 1 nincs, csak 1/a, 1/b.
+    # 5/a: nincs ilyen, csak sima 5 van.
+    # 2: ez és a Huba utca 6/b közös telken van, bejárat a Huba utcáról van csak.
+    # 4/b: két 4-es házszám van, egymás mellett két külön épületen.
+    # 6/b: nincs ilyen, csak 6/a van.
     # 8/a: nincs ilyen, csak sima 8 van.
-    invalid: ['1', '8a']
-  # Csend utca:
-  #   TODO: 1: ez és a Komáromi út 69. közös telken van, de nem látok sehol házszámot. Bejárat a Komáromi útról van.
+    invalid: ['1', '5a', '2', '4b', '6b', '8a']
   Bucó utca:
     # 18: a páros oldalon nincsenek házak, ott a vasút megy.
     invalid: ['18']
@@ -716,8 +723,9 @@ filters:
     # 88: sima 88 nincs, csak 88/1, 88/2.
     invalid: ['13', '19', '19b', '21', '41a', '49a', '53', '6', '28a', '28b', '28c', '42', '44', '74', '86', '88']
   Losonci utca:
+    # 5: az utca elején és végén is 1-es szám van, a páratlan oldal házszámai észak felé haladva Losonci utca 1/a, Losonci utca 1/b, Losonci utca 3 = Borz utca 11, Borz utca 12, Losonci utca 1 = Szent Gellért utca 31.
     # 6: a páros oldalon a 4 az utolsó házszám. Ami az utca végén van, az Borz utca 14.
-    invalid: ['6']
+    invalid: ['5', '6']
   Lőcsei utca:
     # 17: a páratlan oldalon a 15 az utolsó házszám.
     # 10: ez és a Szigetvári utca 9. közös telken van, házszám a Szigetvári utcáról van csak.
@@ -846,6 +854,14 @@ filters:
     # 18: a páros oldalon a 14 az utolsó házszám.
     # 36: a páros oldalon a 14 az utolsó házszám.
     invalid: ['7', '8', '10', '18', '36']
+  Olajhegy utca:
+    # 3: sima 3 nincs, csak 3/a, 3/b.
+    # 23: a páratlan oldalon a 15 az utolsó valós házszám, az utcanévtáblán pedig a 19.
+    # 25: a páratlan oldalon a 15 az utolsó valós házszám, az utcanévtáblán pedig a 19.
+    # 6-10: a földhivatal szerint a 223510 hrsz. az Olajfa utca 8-10, de csak 8 van kitáblázva, a 6 pedig külön telken van.
+    # 30: a páros oldalon a 28 az utolsó házszám.
+    # 32: a páros oldalon a 28 az utolsó házszám.
+    invalid: ['3', '23', '25', '10', '30', '32']
   Őszapó utca:
     # 7: sima 7 nincs, csak 7/a, 7/b.
     # 11: sima 11 nincs, csak 11/a, 11/b.
@@ -887,6 +903,11 @@ filters:
     # 99: a páratlan oldalon a 49 az utolsó házszám.
     # 52: sima 52 nincs, csak 52/a, 52/b.
     invalid: ['3', '11', '25', '99', '52']
+  Peres utca:
+    # 7/a: nincs ilyen, csak sima 7 van.
+    # 2: ez és a Borz utca 1/a, 1/b közös telken van, bejárat és házszám a Borz utcáról van csak.
+    # 2/b: ez és a Borz utca 1/a, 1/b közös telken van, bejárat és házszám a Borz utcáról van csak.
+    invalid: ['7a', '2', '2b']
   Péter Pál köz:
     # 2: ez és a Péter Pál utca 73. közös telken van, házszám a Péter Pál utcáról van csak.
     invalid: ['2']
@@ -1007,8 +1028,9 @@ filters:
     # 20: nincs ilyen házszám, a páros oldalon csak a 10-es szám van.
     invalid: ['25', '27', '133a', '6', '20']
   Síp utca:
+    # 13: ez és a Szegfű utca 2. közös telken van, bejárat és házszám a Szegfű utcáról van csak.
     # 36: sima 36 nincs, csak 36/a-b, 36/c, 36/d.
-    invalid: ['36']
+    invalid: ['13', '36']
   Sóhaj utca:
     # 5/b: nincs ilyen, csak sima 5 van.
     # 11: ez és a Síp utca 26. közös telken van, házszám a Síp utcáról van csak.
