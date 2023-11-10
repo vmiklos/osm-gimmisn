@@ -873,6 +873,10 @@ filters:
     # 2: ez és a Tegzes utca 14. közös telken van, házszám a Tegzes utcáról van csak.
     # 6: sima 6 nincs, csak 6/1, 6/2.
     invalid: ['1', '5', '2', '6']
+  Pannónia utca:
+    # 75: a páratlan oldalon a 71 az utolsó házszám.
+    # 108: a páros oldalon a 66 az utolsó házszám.
+    invalid: ['75', '108']
   Panoráma utca:
     # 31: sima 31 nincs, csak 31/a, 31/b.
     # 12: sima 12 nincs, csak 12/a, 12/b.
