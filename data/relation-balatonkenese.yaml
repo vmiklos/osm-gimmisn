@@ -14,6 +14,8 @@ street-filters:
   - Öreghegy
   # nem igazi utcák
   - Máv őrház
+  # régi nevek
+  - Vízmű köz  # Soós-Hegy utca van táblázva
 osm-street-filters:
   # nem igazi utcák
   - Régi játszótér
@@ -23,7 +25,6 @@ osm-street-filters:
   - Uniós park
   # régi nevek
   - Szerviz utca  # valószínű megváltozott Muskátli közre, de a régi tábla van még kint, az új meg beljebb
-  - Vízmű köz  # Soós-Hegy utca van táblázva
   # Mélyút -> loc_name, eleje Rigóvölgy utcára számozva, ez inkább az út típusa mint neve
 source: survey
 housenumber-letters: false
