@@ -7,6 +7,7 @@ refstreets:
   # tábla = osm
   'Bocskai István utca': 'Bocskay utca'
   'Csók István utca': 'Csók utca'
+  'Maja utca': 'Maya utca'
   'Schédl Alajos utca': 'Schédl Lajos utca'
 street-filters:
   # terület
@@ -20,6 +21,8 @@ osm-street-filters:
   - Liget
   - Széchenyi park
   - Uniós park
+  # valószínű megváltozott Muskátli közre, de a régi tábla van még kint, az új meg beljebb
+  - Szerviz utca
   # Mélyút -> loc_name, eleje Rigóvölgy utcára számozva, ez inkább az út típusa mint neve
 source: survey
 housenumber-letters: false
