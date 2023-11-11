@@ -1,4 +1,9 @@
 missing-streets: 'yes'
+filters:
+  Aligai utca:
+    # Balatonakarattya, Aligai utca folytatása, csak innen lehet bemenni autóval, vagy Club Aliga felől gyalog.
+    # a helyszíni kiírások nem stimmelnek a földhivatalhoz. 2023-11
+    invalid: ['107', '108', '109', '110', '112', '115', '117', '120', '121', '122', '123', '124', '125', '128', '130']
 refstreets:
   # kérdéses
   'Perczeltelep': 'Perczel telep'
