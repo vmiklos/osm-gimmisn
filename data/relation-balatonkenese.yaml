@@ -21,8 +21,9 @@ osm-street-filters:
   - Liget
   - Széchenyi park
   - Uniós park
-  # valószínű megváltozott Muskátli közre, de a régi tábla van még kint, az új meg beljebb
-  - Szerviz utca
+  # régi nevek
+  - Szerviz utca  # valószínű megváltozott Muskátli közre, de a régi tábla van még kint, az új meg beljebb
+  - Vízmű köz  # Soós-Hegy utca van táblázva
   # Mélyút -> loc_name, eleje Rigóvölgy utcára számozva, ez inkább az út típusa mint neve
 source: survey
 housenumber-letters: false
