@@ -177,6 +177,9 @@ filters:
     # nagy épületek több ajtóval: 1/1 -> 1/20, illetve "putrik" 3/1 -> 3/26
     ranges:
       - {start: '1', end: '3'}
+  Vadvirág köz:
+    # 22/a: nincs
+    invalid: ['22']
   Vaskapui út:
     # hrsz szűrés - 0661/30
     invalid: ['661']
@@ -234,7 +237,6 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'AMP út': 'AMP utca'
   'Bocskai sor': 'Bocskai István sor'
-  'dr. Jócsik Lajos utca': 'Dr. Jócsik Lajos utca'
   'Döbönkút utca': 'Döbönkút dűlő'
   'Gróh József utca': 'Dr. Gróh József utca'
   'Hegytető utca': 'Hegy-tető utca'

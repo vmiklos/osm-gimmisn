@@ -6,6 +6,9 @@ filters:
       - {start: '2', end: '14'}
   Berzsenyi Dániel utca:
     interpolation: all
+  Fürj utca:
+    # 7: páratlan oldalon mező van
+    invalid: ['7']
   Gagarin utca:
     ranges:
       - {start: '1', end: '29'}
@@ -27,12 +30,13 @@ filters:
   Rákóczi utca:
     # 10: 2 db 8-as van, majd 12
     invalid: ['10']
+  Vadkörte utca:
+    # 4: nincs, a 2-es ház használja a 4-es telket is. kiírva nincs se 2, se 4.
+    invalid: ['4']
   Virág köz:
     # 30: valószínű Jánoshegyi út 30.
     invalid: ['30']
 refstreets:
-  # kérdéses
-  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   # ellenőrzött
   'Bugyogóforrás utca': 'Bugyogó forrás utca'  # egyben és kötőjellel vannak a táblák, külön írva nincs
   'Uszodai út': 'Uszodai utca'  # nincs kint tábla
