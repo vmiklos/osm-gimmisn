@@ -356,7 +356,7 @@ filters:
     # 1 = 3-5-tel azonos telek, de a számozás csak 3 és 5
     # max 41
     # 43 Balkom már Szabolcs utca 4, a hulladékudvar címe maradt
-    invalid: ['1', '43', '59', '63', '89']
+    invalid: ['1', '59', '63', '89']
   # Rekettye utca:
     # 12 után 16, de a 18-nál van egy 14/b
   Remetevölgyi út:
