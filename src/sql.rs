@@ -187,7 +187,24 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
             [],
         )?;
     }
-    conn.execute("pragma user_version = 10", [])?;
+    if user_version < 11 {
+        // Tracks streets from OSM for a relation.
+        conn.execute(
+            "create table osm_streets (
+            relation text not null,
+            osm_id text not null,
+            name text not null,
+            highway text not null,
+            service text not null,
+            surface text not null,
+            leisure text not null,
+            osm_type text not null,
+            unique(relation, osm_id)
+        )",
+            [],
+        )?;
+    }
+    conn.execute("pragma user_version = 11", [])?;
     Ok(())
 }
 
