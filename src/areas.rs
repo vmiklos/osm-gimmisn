@@ -614,6 +614,23 @@ impl<'a> Relation<'a> {
         ))
     }
 
+    /// Produces a query which lists streets in relation, in JSON format.
+    pub fn get_osm_streets_json_query(&self) -> anyhow::Result<String> {
+        let query = self.get_osm_streets_query()?;
+        let mut i = 0;
+        let mut lines = Vec::new();
+        for line in query.lines() {
+            i += 1;
+            if i == 1 {
+                lines.push("[out:json];".to_string());
+                continue;
+            }
+
+            lines.push(line.to_string());
+        }
+        Ok(lines.join("\n"))
+    }
+
     /// Gets streets from reference.
     fn get_ref_streets(&self) -> anyhow::Result<Vec<String>> {
         let mut streets: Vec<String> = Vec::new();
