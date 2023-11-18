@@ -1602,11 +1602,10 @@ filters:
       - {start: '2', end: '2'}
       - {start: '10', end: '16'}
   Meredek utca:
+    # 12: itt szakadék van, a 10 után a 18 következik.
     # 28b: csak sima 28
     # 41: ikerháznak tűnik, de csak 41/b van kiíva
-    invalid: ['28b']
-    ranges:
-      - {start: '2', end: '64'}
+    invalid: ['12', '28b']
   Mérnök utca:
     # 37: 37 a-d
     invalid: ['37']
