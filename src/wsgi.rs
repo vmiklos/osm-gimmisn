@@ -63,6 +63,7 @@ fn handle_streets(
         let pre = doc.tag("pre", &[]);
         pre.text(&relation.get_osm_streets_query()?);
     } else if action == "update-result" {
+        // Old style: CSV.
         let query = relation.get_osm_streets_query()?;
         match overpass_query::overpass_query(ctx, &query) {
             Ok(buf) => {
@@ -78,6 +79,16 @@ fn handle_streets(
                 } else {
                     doc.text(&tr("Update successful."));
                 }
+            }
+            Err(err) => {
+                doc.append_value(util::handle_overpass_error(ctx, &err.to_string()).get_value());
+            }
+        }
+        // New style: JSON.
+        let query = relation.get_osm_streets_json_query()?;
+        match overpass_query::overpass_query(ctx, &query) {
+            Ok(buf) => {
+                relation.get_files().write_osm_json_streets(ctx, &buf)?;
             }
             Err(err) => {
                 doc.append_value(util::handle_overpass_error(ctx, &err.to_string()).get_value());
