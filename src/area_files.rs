@@ -17,6 +17,31 @@ use std::io::Read;
 use std::io::Write;
 use std::rc::Rc;
 
+/// OverpassTags contains various tags about one Overpass element.
+#[derive(serde::Deserialize)]
+struct OverpassTags {
+    name: Option<String>,
+    highway: Option<String>,
+    service: Option<String>,
+    surface: Option<String>,
+    leisure: Option<String>,
+}
+
+/// OverpassElement represents one result from Overpass.
+#[derive(serde::Deserialize)]
+struct OverpassElement {
+    id: u64,
+    #[serde(rename(deserialize = "type"))]
+    osm_type: String,
+    tags: OverpassTags,
+}
+
+/// OverpassResult is the result from Overpass.
+#[derive(serde::Deserialize)]
+struct OverpassResult {
+    elements: Vec<OverpassElement>,
+}
+
 /// A relation's file interface provides access to files associated with a relation.
 #[derive(Clone)]
 pub struct RelationFiles {
@@ -162,6 +187,45 @@ impl RelationFiles {
         let write = self.get_osm_streets_write_stream(ctx)?;
         let mut guard = write.borrow_mut();
         Ok(guard.write(result.as_bytes())?)
+    }
+
+    /// Writes the result for overpass of Relation.get_osm_streets_json_query().
+    pub fn write_osm_json_streets(
+        &self,
+        ctx: &context::Context,
+        result: &str,
+    ) -> anyhow::Result<()> {
+        let overpass: OverpassResult = match serde_json::from_str(result) {
+            Ok(value) => value,
+            // Not a JSON, ignore.
+            Err(_) => {
+                return Ok(());
+            }
+        };
+
+        let mut conn = ctx.get_database_connection()?;
+        let tx = conn.transaction()?;
+        tx.execute(
+            "delete from osm_streets where relation = ?1",
+            [self.name.to_string()],
+        )?;
+        for element in overpass.elements {
+            let relation = self.name.to_string();
+            let osm_id = element.id.to_string();
+            let name = element.tags.name.unwrap_or("".into());
+            let highway = element.tags.highway.unwrap_or("".into());
+            let service = element.tags.service.unwrap_or("".into());
+            let surface = element.tags.surface.unwrap_or("".into());
+            let leisure = element.tags.leisure.unwrap_or("".into());
+            let osm_type = element.osm_type.to_string();
+            tx.execute(
+                "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
+                [relation, osm_id, name, highway, service, surface, leisure, osm_type],
+            )?;
+        }
+        tx.commit()?;
+
+        Ok(())
     }
 
     /// Opens the OSM house number list of a relation for writing.

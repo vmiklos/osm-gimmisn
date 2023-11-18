@@ -62,6 +62,7 @@ fn update_osm_streets(
         {
             continue;
         }
+        // Old style: CSV.
         info!("update_osm_streets: start: {relation_name}");
         let mut retry = 0;
         while should_retry(retry) {
@@ -85,6 +86,27 @@ fn update_osm_streets(
             break;
         }
         info!("update_osm_streets: end: {relation_name}");
+        // New style: JSON.
+        info!("update_osm_streets, json: start: {relation_name}");
+        let mut retry = 0;
+        while should_retry(retry) {
+            if retry > 0 {
+                info!("update_osm_streets, json: try #{retry}");
+            }
+            retry += 1;
+            overpass_sleep(ctx);
+            let query = relation.get_osm_streets_json_query()?;
+            let buf = match overpass_query::overpass_query(ctx, &query) {
+                Ok(value) => value,
+                Err(err) => {
+                    info!("update_osm_streets, json: http error: {err:?}");
+                    continue;
+                }
+            };
+            relation.get_files().write_osm_json_streets(ctx, &buf)?;
+            break;
+        }
+        info!("update_osm_streets, json: end: {relation_name}");
     }
 
     Ok(())
