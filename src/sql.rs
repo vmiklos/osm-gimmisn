@@ -203,6 +203,11 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
         )",
             [],
         )?;
+        conn.execute(
+            "create index idx_osm_streets
+            on osm_streets (relation)",
+            [],
+        )?;
     }
     conn.execute("pragma user_version = 11", [])?;
     Ok(())
