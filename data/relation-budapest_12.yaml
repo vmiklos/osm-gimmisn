@@ -159,11 +159,19 @@ filters:
       - {start: '1', end: '105'}
       - {start: '48', end: '58'}
   Istenhegyi út:
-    ranges:
-      - {start: '1', end: '15'}
-      - {start: '23', end: '199'}
-      - {start: '2', end: '40'}
-      - {start: '44', end: '198'}
+    # 17: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
+    # 17-19: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
+    # 19/5: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
+    # 21: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
+    # 21/b: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
+    # 39: sima 39 nincs, csak 39/a, 39/b, 39/c.
+    # 41: sima 41 nincs, csak 41/a, 41/b, 41/c.
+    # 43: sima 43 nincs, csak 43/a, 43/b.
+    # 63: sima 63 nincs, csak 63/a, 63/b.
+    # 71/c: nincs ilyen, csak sima 71 van.
+    # 73/a: nincs ilyen, csak 73-75 van.
+    # 79/b: nincs ilyen, csak 77-79 B épület van.
+    invalid: ['17', '19', '19/5', '21', '21/b', '39', '41', '43', '63', '71c', '73a', '79b']
   Jagelló út:
     ranges:
       - {start: '1', end: '5'}
