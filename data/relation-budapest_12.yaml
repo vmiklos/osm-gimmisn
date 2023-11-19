@@ -171,7 +171,7 @@ filters:
     # 71/c: nincs ilyen, csak sima 71 van.
     # 73/a: nincs ilyen, csak 73-75 van.
     # 79/b: nincs ilyen, csak 77-79 B épület van.
-    invalid: ['17', '19', '19/5', '21', '21/b', '39', '41', '43', '63', '71c', '73a', '79b']
+    invalid: ['17', '19', '19/5', '21', '21b', '39', '41', '43', '63', '71c', '73a', '79b']
   Jagelló út:
     ranges:
       - {start: '1', end: '5'}
