@@ -10,7 +10,10 @@ filters:
     # 2-4: volt KH épület oldala, építkezés 2021-07
     # 6-18: Pappas oldala
     # 20-26: nincs bejárat, ipartelepnek tűnik
-    invalid: ['2', '4', '4a', '24', '26']
+    invalid: ['2', '4', '24', '26']
+  Göncöl utca:
+    # 93 = Rákospalotai út 47.
+    invalid: ['93']
 osm-street-filters:
   # nem igazi utcák
   - Árpád híd
