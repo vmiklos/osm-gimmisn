@@ -14,28 +14,25 @@ osm-street-filters:
   - Egri Országút
   - Vízitelepek
   # parkok, sétányok amire nincs számozva semmi
-  - Angyal park
-  - Aranykapu kert
   - Ferenczi Pihenő
   - Kálvária
   - Keresztút
   - Kis erdő
   - Lendeczky út
   - Lillafüredi Függőkert
-  - Szabó Lőrinc sétány
   - Szala József út
   - Városliget
   - Weidlich udvar
   # turistaút
   - Aranylépcső
+  - Mária sétány
 street-filters:
-  - Ősz utca  # valószínű elírás
   - Kisavas sor  # Kisavas, Első sor stb..
   - Közdomb  # Közdomb utca, I. sor stb..
   - Termál barlangfürdő  # Van rendes címe
   - Tiszai pályaudvar  # Van rendes címe
-  - Sporttelep utca  # átnevezve: Vanger Vilmos utca
-  - Vendég utca  # átnevezve: Vanger Vilmos utca
+  # - Sporttelep utca  # átnevezve: Vanger Vilmos utca
+  # - Vendég utca  # átnevezve: Vanger Vilmos utca
   # dupla
   - Bábonyi bérc telep  # Bábonyibérc telep
   - Bábonyibérc telep  # Bábonyibérc Új telep
