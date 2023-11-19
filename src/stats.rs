@@ -519,10 +519,10 @@ pub fn update_invalid_addr_cities(ctx: &context::Context, state_dir: &str) -> an
         let mut count = 0;
         for result in csv_reader.deserialize() {
             let row: util::OsmLightHouseNumber = result?;
-            let city = row.city.to_lowercase();
+            let city = row.city;
             if !valid_settlements.contains(&city) && city != "budapest" {
                 tx.execute("insert into stats_invalid_addr_cities (osm_id, osm_type, postcode, city, street, housenumber, user, timestamp, fixme) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
-                       [row.osm_id, row.osm_type, row.postcode, row.city, row.street, row.housenumber, row.user, row.timestamp, row.fixme])?;
+                       [row.osm_id, row.osm_type, row.postcode, city, row.street, row.housenumber, row.user, row.timestamp, row.fixme])?;
                 count += 1;
             }
         }

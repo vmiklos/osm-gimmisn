@@ -416,12 +416,17 @@ impl PartialOrd for HouseNumber {
 /// One row in workdir/refs/city_count_<DATE>.tsv.
 #[derive(serde::Deserialize)]
 pub struct CityCount {
-    /// City name.
+    /// Lowercase city name.
     #[serde(rename = "CITY")]
     pub city: String,
     /// Reference count of all housenumbers.
     #[serde(rename = "CNT")]
     pub count: u64,
+    /// Original city name.
+    ///
+    /// Missing for workdir/stats/<DATE>.citycount files.
+    #[serde(rename = "ORIG")]
+    pub orig: Option<String>,
 }
 
 /// One row in workdir/refs/zip_count_<DATE>.tsv.
@@ -1255,7 +1260,7 @@ pub fn get_valid_settlements(ctx: &context::Context) -> anyhow::Result<HashSet<S
                 continue;
             }
         };
-        settlements.insert(row.city);
+        settlements.insert(row.orig.context("no ORIG column")?);
     }
 
     Ok(settlements)
