@@ -52,10 +52,17 @@ def handle_capital_progress(ctx: context.Context, src_root: str, j: Dict[str, An
     ref_citycount_path = ctx.get_ini().get_reference_citycounts_path()
     osm_citycount_path = os.path.join(src_root, "%s.citycount" % today)
 
-    with ctx.get_file_system().open_read(ref_citycount_path) as stream:
-        for line_bytes in stream.readlines():
-            line = util.from_bytes(line_bytes).strip()
-            city, _, count = line.partition('\t')
+ 
+    with open(ref_citycount_path, "r") as stream:
+        first = True
+        for line in stream.readlines():
+            if first:
+                first = False
+                continue
+            cells = line.strip().split('\t')
+            city = cells[0]
+            count = int(cells[1])
+
             if city.startswith("budapest_"):
                 num_ref += int(count)
 
