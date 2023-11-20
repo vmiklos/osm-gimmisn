@@ -8,12 +8,9 @@ filters:
     # 1: 3-nál indul a számozás
     # 38: 36 után jön az autószalon 40-es számmal
     invalid: ['1', '38']
-  Ág utca:
-    # 1 helyén is 3 van a terven, 1 nincs kiírva
-    invalid: ['1']
   Agancs utca:
     # főként hrsz. van 2022-02
-    invalid: ['2', '11', '15']
+    invalid: ['11', '15']
   Ágas utca:
     # a teteje lezárva, privát lépcső, de nincs semmilyen felirat
     invalid: ['4']
@@ -38,7 +35,7 @@ filters:
   Aradi utca:
     # 2 nincs kiírva
     # 4,6-ost lebontották, 4a, 4b lett helyette
-    invalid: ['2', '6']
+    invalid: ['2']
   Arany János utca:
     # páros felmérendő mégegyszer, nem úgy tűnik, hogy lenne egyáltalán RESURVEY 2023
     ranges:
@@ -51,15 +48,11 @@ filters:
       - {start: '2', end: '2'}
   Árokparti utca:
     invalid: ['7']
-  Avar utca:
+  # Avar utca:
     # újraszámozva, keveredik páros/páratlan
-    ranges:
-      - {start: '1', end: '37'}
-      - {start: '2', end: '18'}
-      - {start: '22', end: '24'}
   Bányász utca:
     # furcsa számozás, így jön a páratlan 1/a 1 3 11 9 15 13/b 17 19
-    invalid: ['5', '7', '29']
+    invalid: ['7', '29']
   Bárány utca:
     # össze vissza számozva
     interpolation: all
@@ -89,12 +82,6 @@ filters:
   Budakeszi utca:
     # össze vissza számozva
     invalid: ['7']
-    ranges:
-      - {start: '1', end: '13'}
-      - {start: '2', end: '12'}
-      - {start: '18', end: '20'}
-      - {start: '29', end: '37'}
-      - {start: '34', end: '34'}
   Budakeszi köz:
     invalid: ['13']
   Budapesti út:
@@ -133,14 +120,14 @@ filters:
     # 33: 29 és a 33 egy telek, csak 29 van kint
     # 45 nincs kiírva
     # 51 helyén 53/a van kiírva, de van még egy telek elvileg
-    invalid: ['21', '23', '33', '45']
+    invalid: ['21', '33', '45']
   Csikó utca:
     # páratlan hegyvidékek, páros belváros de minden a Budakeszi utcára van számozva
     ranges:
       - {start: '1', end: '99'}
   Csillagvölgyi utca:
-    # 16a, 19: nincs kiírva
-    invalid: ['16a', '19']
+    # 19: nincs kiírva
+    invalid: ['19']
   Dráva köz:
     invalid: ['3', '5', '7']
   Ebner György köz:
@@ -218,10 +205,7 @@ filters:
     ranges:
       - {start: '4', end: '4'}
       - {start: '1', end: '3'}
-  Gesztenye utca:
-    ranges:
-      - {start: '1', end: '15'}
-      - {start: '10', end: '12'}
+  # Gesztenye utca:
   Gida utca:
     # 4 és 6 nincs, a 2 után 5/a jön
     invalid: ['4', '6']
@@ -266,16 +250,13 @@ filters:
   József Attila utca:
     # 7 = Árpád utca 4-8 iskola hátsó fele
     # 14: 12 után 16
-    invalid: ['2', '7', '14']
+    invalid: ['7', '14']
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '38'}
   Kadarka utca:
     # nincsenek házszámok
     invalid: ['5']
-  Kajszi utca:
-    # 2 kiirva nincs, HÉSZ-en nem szerepel
-    invalid: ['2']
   Kálvária utca:
     ranges:
       - {start: '1', end: '15'}
@@ -300,7 +281,7 @@ filters:
     invalid: ['18', '23', '58', '81', '83', '87']
     ranges:
       - {start: '1', end: '145'}
-      - {start: '4', end: '90'}
+      - {start: '2', end: '90'}
   Kassai utca:
     # 4-6: 1 házon nincs házszám, de 2 szám hiányzik 2021-04 TODO
     invalid: ['4', '6']
@@ -308,9 +289,7 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '6'}
-  Kígyó utca:
-    # nem felmérhető, elzárt magánterület
-    ranges: []
+  # Kígyó utca:
   Kikelet utca:
     # így jönnek sorba: 5, 11, 13, 9, 21
     # 25: 23 után 27 a kettő között hátul a 29-es számhoz tartozó 3 ház egyike
@@ -320,10 +299,11 @@ filters:
       - {start: '21', end: '41'}
       - {start: '2', end: '32'}
   Kinizsi utca:
+    # 5-7: 5 XXXLutz, 5/a: Intersport
     # 12-16: 10 után 18 jön
     # 34: vastelep, nincs. 36-ban lakó megvette az utat.
     # 42: nincs: 38-40 Musztáng, 44 Koos Weber
-    invalid: ['12', '14', '16', '34', '42']
+    invalid: ['7', '12', '14', '16', '34', '42']
   Kisfaludy utca:
     # 10: nincs, kereszteződés egyik oldalán 8, másik oldalán 12
     invalid: ['10']
@@ -332,10 +312,7 @@ filters:
     # 75: 71 után 77 jön
     # 38: 38-at lebontották, a telket a 40-es házhoz csatolták
     invalid: ['3', '38', '75']
-  Kolozsvári utca:
-    ranges:
-      - {start: '1', end: '51'}
-      - {start: '2', end: '78'}
+  # Kolozsvári utca:
   Komáromi utca:
     ranges:
       - {start: '1', end: '73'}
@@ -351,9 +328,6 @@ filters:
     # Az utca egyik részét Panoráma utcára átnevezték, így néhol a régi hászámok is kint vannak, vagy csak azok vannak kint
     # 146/2019. (IX. 18.) Képviselő-testületi határozat Közterület átnevezése (Koszorú utca átnevezése a 11438 hrsz-ú ingatlantól a Lejtő utcáig)
     invalid: ['19']
-    ranges:
-      - {start: '1', end: '47'}
-      - {start: '2', end: '22'}
   Kőfejtő utca:
     # lényegében csak a hegy felöli oldal van számozva
     # újraszámozva az utca, ezek a számok nincsenek. RESURVEY 2024
@@ -421,7 +395,7 @@ filters:
     # 1, 9 nincs
     invalid: ['1', '9']
   Mátra utca:
-    invalid: ['5', '31']
+    invalid: ['5']
   Méhecske utca:
     # Másik fele Törökbálint, de ott nincs szám
     # 4:  = ismeretlen hol kellene legyen
@@ -436,7 +410,7 @@ filters:
     # néhol kaotikus, vannak részek ahol csak hrsz.
     # 1 = Felsőhatár utca 127
     # 46: helyén 54 van kiírva
-    invalid: ['1', '8', '9', '10', '15', '37', '40', '46', '47']
+    invalid: ['1', '8', '9', '10', '15', '40', '46', '47']
   Mester utca:
     # 6: nincs kiírva
     invalid: ['6']
@@ -462,8 +436,6 @@ filters:
       - {start: '1', end: '47'}
       - {start: '2', end: '4'}
       - {start: '20', end: '52'}
-  Napsugár sétány:
-    invalid: ['14', '17', '224']
   Nárcisz utca:
     # 12-14: csak 12 van kiírva
     invalid: ['14']
@@ -482,18 +454,12 @@ filters:
     # 2,4,8-10, 12 nincs kiírva
     # 30: a mellékutcás szakaszon van elvileg, ott egyetlen házszám sincs
     invalid: ['12', '30']
-  Orchidea utca:
-    invalid: ['1']
   Ostor köz:
     ranges:
       - {start: '6', end: '8'}
   Ostor utca:
     # 8: zegzugos, de 8 az nincs táblázva
-    invalid: ['3', '8']
-    ranges:
-      - {start: '2', end: '42'}
-      - {start: '1', end: '5'}
-      - {start: '19', end: '19'}
+    invalid: ['8']
   Otthon utca:
     invalid: ['1', '25']
   Ötvös utca:
@@ -511,8 +477,6 @@ filters:
     ranges:
       - {start: '2', end: '50'}
       - {start: '35', end: '73'}
-  Patkó utca:
-    invalid: ['29']
   Panoráma utca:
     # 11: helyén 15 van kiírva. RESURVEY 2024
     # 18-20: csak 20 van kiírva
@@ -549,7 +513,7 @@ filters:
   Puttony utca:
     # Káosz a nyugati végen: 14-16 (új 145-147), 18, 141, 22; másik oldalon 120 mellett a 12
     # gyéren táblázva, ezek nincsenek
-    invalid: ['46', '58', '66', '105', '127', '129', '145', '147']
+    invalid: ['46', '58', '66', '105', '127', '145', '147']
   Rekettye utca:
     invalid: ['14']
   Réz utca:
@@ -602,11 +566,11 @@ filters:
     # 17-19: csak 17 van kiírva
     # 20 = Szüret utca 32
     # 46: 44 után 48
-    invalid: ['19', '20', '46']
+    invalid: ['19', '46']
   Sóska utca:
     # nincsenek kint a házszámok
     interpolation: all
-    invalid: ['2', '3', '4']
+    invalid: ['3', '4']
   Szabadság út:
     # 2-18: ezek közül 1 nagy társasház 14-es számmal
     # 28: a színház parkolója
@@ -618,10 +582,7 @@ filters:
     # 314: heléyn 312/a van kírva
     # 360: 358 utcán 362
     # 387: utolsó szám 385
-    invalid: ['16', '18', '23', '28', '29', '31', '42', '58', '81', '83', '96', '136', '144', '153', '183', '185', '187', '189', '191', '201', '205', '209', '314', '360']
-    ranges:
-      - {start: '1', end: '385'}
-      - {start: '14', end: '390'}
+    invalid: ['6', '8, '10', '12', '16', '18', '23', '28', '29', '31', '42', '58', '81', '83', '96', '136', '144', '153', '183', '185', '187', '189', '191', '201', '205', '209', '314', '360', '387']
   Szálláshegy utca:
     interpolation: all
   Szamorodni utca:
@@ -647,10 +608,6 @@ filters:
     # az utcát 2x újraszámozták ezért a végén el vannak csúszva a számok néhol a kiírásban
     # 64: 68 van kint
     invalid: ['64']
-    ranges:
-      - {start: '1', end: '29'}
-      - {start: '39', end: '53'}
-      - {start: '2', end: '62'}
   Szépkilátó utca:
     # átszámozták az utcát, keverednek a régi és új számok
     invalid: ['18', '61', '64', '68', '70', '78', '80']
@@ -662,7 +619,7 @@ filters:
     invalid: ['26']
   Szőlő köz:
     # 1 után 7 jön
-    invalid: ['3', '5']
+    invalid: ['5']
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '6'}
@@ -673,16 +630,13 @@ filters:
     # 25 nincs
     # 47-49 helyén 37-39
     invalid: ['10', '25', '38', '47', '49']
-    ranges:
-      - {start: '1', end: '17'}
-      - {start: '4', end: '98'}
   Tárogató utca:
     # 6,8: nincs
     # 11: nincs
     # 13-15: csak 13 van kiírva
     # 28-36: 26 van kiírva utoljára, de még van pár ház: 2022-01
     # 45-47: csak 45, utána 49 van
-    invalid: ['6', '8', '11', '15', '47']
+    invalid: ['15', '47']
     ranges:
       - {start: '1', end: '59'}
       - {start: '2', end: '26'}
@@ -706,7 +660,7 @@ filters:
   Törökugrató utca:
     # 24, 26: 22 után 28
     # 96: max páros 40
-    invalid: ['24', '26', '96']
+    invalid: ['24',]
   Turistaház utca:
     # nincsenek kiírva házszámok
     ranges: []
@@ -739,9 +693,8 @@ filters:
     invalid: ['1', '7']
     ranges:
       - {start: '1', end: '9'}
-  Víg köz:
-    # max házszám 8 és 11
-    invalid: ['42', '52']
+  # Víg köz:
+  # max házszám 8 és 11
   Víg utca:
     # ezek nem léteznek/nincsenek kiírva
     invalid: ['1', '7', '9', '19', '51', '62', '72']
@@ -765,8 +718,7 @@ filters:
   Zombori utca:
     # 44: 42 után 48 jön. ETDR szerint 46 épül, földhivatal szerint 42-46 RESURVEY 2023.07
     # 57: 55 után 59 jön, az 55 ikerházm de nincs kiírva az 57, inkább 55/a-nak látszik a kukán
-    # 72: lebontva, az idősek otthona parkolója van a helyén
-    invalid: ['44', '57', '72']
+    invalid: ['44', '57']
   Zöldvirág köz:
     invalid: ['9']
   Zúzmara utca:
