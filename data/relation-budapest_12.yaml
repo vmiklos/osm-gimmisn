@@ -164,6 +164,10 @@ filters:
     # 19/5: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
     # 21: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
     # 21/b: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
+    # 23/a: nincs ilyen, csak sima 23 van.
+    # 27: sima 27 nincs, csak 27/a, 27/b.
+    # 31: sima 31 nincs, csak 31/a, 31/b.
+    # 33: sima 33 nincs, csak 33/b, 33/c, 33/d.
     # 39: sima 39 nincs, csak 39/a, 39/b, 39/c.
     # 41: sima 41 nincs, csak 41/a, 41/b, 41/c.
     # 43: sima 43 nincs, csak 43/a, 43/b.
@@ -171,7 +175,7 @@ filters:
     # 71/c: nincs ilyen, csak sima 71 van.
     # 73/a: nincs ilyen, csak 73-75 van.
     # 79/b: nincs ilyen, csak 77-79 B épület van.
-    invalid: ['17', '19', '19/5', '21', '21b', '39', '41', '43', '63', '71c', '73a', '79b']
+    invalid: ['17', '19', '19/5', '21', '21b', '23a', '27', '31', '33', '39', '41', '43', '63', '71c', '73a', '79b']
   Jagelló út:
     ranges:
       - {start: '1', end: '5'}
