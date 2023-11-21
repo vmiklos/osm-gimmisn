@@ -6,6 +6,8 @@
   (mostly flagging unused filters)
 - Resolves: gh#3288 additional streets, gpx: handle nodes and relations as well
 - Resolves: gh#3290 YAML keys are now flagged by the validator, instead of taking the last value
+- Resolves: gh#3456 `/lints/whole-country/invalid-addr-cities` is now case-sensitive, finds more
+  problems
 
 ## 7.6
 
