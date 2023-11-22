@@ -52,6 +52,10 @@ filters:
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
+  Seregély köz:
+    # 2-4: nincs kiírva, Seregély utca 4 felől megnézebdő
+    # 15: nincs, utolsó ház a 13.
+    invalid: ['2', '4', '15']
   Sujtás utca:
     # nincsenek házszámok, csak 20 a művház
     # páratlan oldal Aquincum múzeum
