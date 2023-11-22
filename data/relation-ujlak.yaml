@@ -107,10 +107,13 @@ filters:
     ranges:
       - {start: '2', end: '10'}
   Seregély köz:
+    # 2-4: nincs kiírva, Seregély utca 4 felől megnézebdő
+    # 15: nincs, utolsó ház a 13.
     refsettlement: '003'
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '16'}
+    invalid: ['2', '4']
   Seregély utca:
     refsettlement: '003'
   Szent XXIII. János pápa park:
