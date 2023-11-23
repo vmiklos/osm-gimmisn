@@ -7,10 +7,6 @@ filters:
   Alkotmány utca:
     # 7 = 5-7, de csak 5 van táblázva
     invalid: ['7']
-  Apáczai Csere János utca:
-    ranges:
-      - {start: '1', end: '17'}
-      - {start: '2', end: '14'}
   Arany János utca:
     # 3: tömbök: 1-3, 3-11 - egyik tömbben sincs 3 kiírva
     # 11 = CBA a Nádor utca 18
@@ -35,8 +31,6 @@ filters:
     invalid: ['2']
   Deák Ferenc tér:
     interpolation: all
-    ranges:
-      - {start: '1', end: '5'}
   Deák Ferenc utca:
     ranges:
       - {start: '5', end: '9'}
@@ -95,9 +89,6 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '14'}
-  Kígyó utca:
-    # páraltan a hotel oldala
-    invalid: ['5']
   Kossuth Lajos tér:
     interpolation: all
   Kozma Ferenc utca:
@@ -144,31 +135,17 @@ filters:
   Steindl Imre utca:
     # 6 = Akadémia utca 15
     invalid: ['6']
-  Szabad sajtó út:
-    # Klotild paloták valószínű a 6, nincs kiírva
-    ranges:
-      - {start: '2', end: '4'}
   Szabadság tér:
     interpolation: all
     invalid: ['10', '11']  # USA nagykövetség foglalja el ezeket is
-  Szalay utca:
-    invalid: ['6', '8']
-  Szarka utca:
-    ranges:
-      - {start: '1', end: '3'}
-      - {start: '7', end: '9'}
-      - {start: '2', end: '98'}
   Széchenyi István tér:
     interpolation: all
   Széchenyi rakpart:
     interpolation: all
-    ranges:
-      - {start: '1', end: '19'}
   Szent István tér:
-    # 2: Posta, Bajcsyról számozódik
     # 7-11: Danubius Center irodaház, igazából csak 11 van kiírva
     interpolation: all
-    invalid: ['2', '7', '8']
+    invalid: ['7', '8']
     ranges:
       - {start: '1', end: '16'}
   Szerb utca:
@@ -179,9 +156,10 @@ filters:
   Szervita tér:
     interpolation: all
   Vadász utca:
-    ranges:
-      - {start: '9', end: '39'}
-      - {start: '10', end: '44'}
+    # 9: sima 9 nincs, csak 9/a, 9/b.
+    # 4: a páros oldalon a 10 az első házszám.
+    # 6: a páros oldalon a 10 az első házszám.
+    invalid: ['9', '4', '6']
   Veres Pálné utca:
     ranges:
       - {start: '3', end: '41'}
@@ -191,19 +169,14 @@ filters:
     interpolation: all
   Vigadó utca:
     # 3 = Vörösmarty tér 2, Paprika Market oldalán nincs szám
-    # 1 = Vígadó tér 2, a Vigadó maga
-    invalid: ['1', '3']
+    invalid: ['3']
   Vigadó tér:
     interpolation: all
-    ranges:
-      - {start: '1', end: '3'}
   Vörösmarty tér:
     interpolation: all
-    ranges:
-      - {start: '1', end: '9'}
   Zoltán utca:
     # 1 és 15 sarokházak, másik utcáról számozódnak
-    invalid: ['1', '1a', '15']
+    invalid: ['1a', '15']
   Zrínyi utca:
     # 1: Four Seasons Gresham Palace oldala
     invalid: ['1']
