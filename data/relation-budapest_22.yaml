@@ -134,8 +134,13 @@ filters:
     # 14/a: nincs ilyen, a páros oldalon csak egy épület van két bejárattal, az utcanévtáblán pedig 2-12.
     invalid: ['14a']
   Baross utca:
-    # 125: a páratlan oldalon a 33 az utolsó házszám.
-    invalid: ['125']
+    # 9: ez és a Panoráma utca 35. közös telken van, házszám a Panoráma utcáról van csak, bár bejárat van mindkét utcáról.
+    # 125: a páratlan oldalon a 35 az utolsó házszám.
+    # 12: ez és a Panoráma utca 33. közös telken van, házszám a Panoráma utcáról van csak.
+    # 14/a: ikerház, de csak 14 van kitáblázva, az utcanévtáblán viszont 14/a-30 van kiírva.
+    # 32: a páros oldalon a 30 az utolsó házszám.
+    # 74: a páros oldalon a 30 az utolsó házszám.
+    invalid: ['9', '125', '12', '14a', '32', '74']
   Bartók Béla út:
     # 3: sima 3 nincs, csak 3/a-3/i.
     # 5: sima 5 nincs, csak 5/a-5/c.
