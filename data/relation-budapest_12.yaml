@@ -150,6 +150,10 @@ filters:
   Hegyhát út:
     # These are all towards the end of the odd side, all non-existing.
     invalid: ['29', '35']
+  Hertelendy utca:
+    # 1: sima 1 nincs, csak 1/a, 1/b.
+    # 4: sima 4 nincs, csak 4/a, 4/b.
+    invalid: ['1', '4']
   Hollós út:
     # 1-9, 2-8
     invalid: ['32']
@@ -211,6 +215,9 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '20'}
+  Királyhágó utca:
+    # 4: sima 4 nincs, csak 4/a, 4/b.
+    invalid: ['4']
   Kiss János altábornagy utca:
     ranges:
       - {start: '1', end: '59'}
@@ -259,6 +266,12 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '16'}
+  Márvány utca:
+    # 21: sima 21 nincs, csak 21/a, 21/b.
+    # 31/a: nincs ilyen, csak sima 31 van.
+    # 24: sima 24 nincs, csak 24/a, 24/b.
+    # 24/c: nincs ilyen, csak 24/a, 24/b.
+    invalid: ['21', '31a', '24', '24c']
   Mátyás király út:
     # Anything above 53 on the odd side seems to be forest.
     invalid: ['55']
