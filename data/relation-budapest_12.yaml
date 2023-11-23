@@ -6,7 +6,10 @@ filters:
   Alkotás utca:
     # 44/d: nincs ilyen, a Testnevelési Egyetem a 42-48.
     # 50/b, 50/c: nincsenek ilyenek, csak sima 50 van, az Alkotás Point Irodaház.
-    invalid: ['44d', '50b', '50c']
+    # 23/a: nincs ilyen, csak 23-25 A épület van.
+    # 25/b: nincs ilyen, csak 23-25 B épület van.
+    # 87: a páratlan oldalon a 63-67 az utolsó házszám (Novotel).
+    invalid: ['23a', '25b', '87', '44d', '50b', '50c']
   Alma utca:
     ranges:
       - {start: '1', end: '17'}
@@ -176,10 +179,10 @@ filters:
     # 79/b: nincs ilyen, csak 77-79 B épület van.
     invalid: ['17', '19', '19/5', '21', '21b', '23a', '27', '31', '33', '39', '41', '43', '63', '71c', '73a', '79b']
   Jagelló út:
-    ranges:
-      - {start: '1', end: '5'}
-      - {start: '9', end: '15'}
-      - {start: '2', end: '52'}
+    # 36: sima 36 nincs, csak 36/a, 36/b.
+    # 40: sima 40 nincs, csak 40/a, 40/b.
+    # 42: sima 42 nincs, csak 42/a, 42/b.
+    invalid: ['36', '40', '42']
   János Zsigmond utca:
     ranges:
       - {start: '1', end: '99'}
@@ -283,6 +286,9 @@ filters:
   Németvölgyi út:
     # 1-103, 2-150
     invalid: ['48', '50', '52']
+  Nógrádi utca:
+    # 31/a: nincs ilyen, csak 31-33 van.
+    invalid: ['31a']
   Normafa út:
     ranges:
       - {start: '1', end: '57'}
@@ -322,7 +328,8 @@ filters:
     ranges: []
   Stromfeld Aurél út:
     # 5 egy saroktelek, bejárat a Zsámbéki utca 14 felől
-    invalid: ['5']
+    # 26: sima 26 nincs, csak 26/a, 26/b.
+    invalid: ['5', '26']
   Szamos utca:
     ranges:
       - {start: '1', end: '9'}
