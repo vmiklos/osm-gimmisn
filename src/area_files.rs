@@ -36,9 +36,18 @@ struct OverpassElement {
     tags: OverpassTags,
 }
 
+#[derive(serde::Deserialize)]
+struct OverpassTimes {
+    #[serde(with = "time::serde::rfc3339")]
+    timestamp_osm_base: time::OffsetDateTime,
+    #[serde(with = "time::serde::rfc3339")]
+    timestamp_areas_base: time::OffsetDateTime,
+}
+
 /// OverpassResult is the result from Overpass.
 #[derive(serde::Deserialize)]
 struct OverpassResult {
+    osm3s: OverpassTimes,
     elements: Vec<OverpassElement>,
 }
 
@@ -223,6 +232,22 @@ impl RelationFiles {
                 [relation, osm_id, name, highway, service, surface, leisure, osm_type],
             )?;
         }
+
+        let osm_page = format!("streets/{}/osm-base", self.name);
+        let osm_time = overpass.osm3s.timestamp_osm_base.unix_timestamp_nanos();
+        tx.execute(
+            r#"insert into mtimes (page, last_modified) values (?1, ?2)
+                 on conflict(page) do update set last_modified = excluded.last_modified"#,
+            [osm_page, osm_time.to_string()],
+        )?;
+
+        let areas_page = format!("streets/{}/areas-base", self.name);
+        let areas_time = overpass.osm3s.timestamp_areas_base.unix_timestamp_nanos();
+        tx.execute(
+            r#"insert into mtimes (page, last_modified) values (?1, ?2)
+                 on conflict(page) do update set last_modified = excluded.last_modified"#,
+            [areas_page, areas_time.to_string()],
+        )?;
         tx.commit()?;
 
         Ok(())
