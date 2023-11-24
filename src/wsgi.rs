@@ -16,6 +16,7 @@ use crate::cache;
 use crate::context;
 use crate::i18n::translate as tr;
 use crate::overpass_query;
+use crate::stats;
 use crate::util;
 use crate::webframe;
 use crate::wsgi_additional;
@@ -37,7 +38,16 @@ fn get_streets_last_modified(
     ctx: &context::Context,
     relation: &areas::Relation<'_>,
 ) -> anyhow::Result<String> {
-    get_last_modified(ctx, &relation.get_files().get_osm_streets_path())
+    let format = tr("{0} (osm), {1} (areas)");
+    let osm = webframe::format_timestamp(&stats::get_sql_mtime(
+        ctx,
+        &format!("streets/{}/osm-base", relation.get_name()),
+    )?)?;
+    let areas = webframe::format_timestamp(&stats::get_sql_mtime(
+        ctx,
+        &format!("streets/{}/areas-base", relation.get_name()),
+    )?)?;
+    Ok(format.replace("{0}", &osm).replace("{1}", &areas))
 }
 
 /// Expected request_uri: e.g. /osm/streets/ormezo/view-query.
@@ -812,16 +822,6 @@ fn missing_streets_view_turbo(
     Ok(doc)
 }
 
-/// Gets the update date for missing/additional streets.
-fn relation_streets_get_last_modified(
-    ctx: &context::Context,
-    relation: &areas::Relation<'_>,
-) -> anyhow::Result<String> {
-    let t_ref = util::get_mtime(ctx, &relation.get_files().get_ref_streets_path());
-    let t_osm = util::get_mtime(ctx, &relation.get_files().get_osm_streets_path());
-    webframe::format_timestamp(std::cmp::max(&t_ref, &t_osm))
-}
-
 /// Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query].
 fn handle_missing_streets(
     ctx: &context::Context,
@@ -863,8 +863,7 @@ fn handle_missing_streets(
         doc.append_value(missing_streets_view_result(ctx, relations, request_uri)?.get_value());
     }
 
-    let date = relation_streets_get_last_modified(ctx, &relation)?;
-    doc.append_value(webframe::get_footer(&date).get_value());
+    doc.append_value(webframe::get_footer(&get_streets_last_modified(ctx, &relation)?).get_value());
     Ok(doc)
 }
 
@@ -905,8 +904,7 @@ fn handle_additional_streets(
         )
     }
 
-    let date = relation_streets_get_last_modified(ctx, &relation)?;
-    doc.append_value(webframe::get_footer(&date).get_value());
+    doc.append_value(webframe::get_footer(&get_streets_last_modified(ctx, &relation)?).get_value());
     Ok(doc)
 }
 

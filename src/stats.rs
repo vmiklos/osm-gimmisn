@@ -490,10 +490,14 @@ pub fn get_sql_mtime(ctx: &context::Context, page: &str) -> anyhow::Result<time:
     let conn = ctx.get_database_connection()?;
     let mut stmt = conn.prepare("select last_modified from mtimes where page = ?1")?;
     let mut rows = stmt.query([page])?;
-    let row = rows.next()?.context("no next row")?;
-    let last_modified: String = row.get(0)?;
-    let nanos: i128 = last_modified.parse()?;
-    let modified = time::OffsetDateTime::from_unix_timestamp_nanos(nanos)?;
+    let modified = match rows.next()? {
+        Some(row) => {
+            let last_modified: String = row.get(0)?;
+            let nanos: i128 = last_modified.parse()?;
+            time::OffsetDateTime::from_unix_timestamp_nanos(nanos)?
+        }
+        None => time::OffsetDateTime::UNIX_EPOCH,
+    };
     let now = ctx.get_time().now();
     Ok(modified.to_offset(now.offset()))
 }
