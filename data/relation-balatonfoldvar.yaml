@@ -19,6 +19,11 @@ filters:
   Kiss János altábornagy utca:
     # 4/1: nincs ilyen, csak 4/a, 4/b.
     invalid: ['4/1']
+  Kőröshegyi út:
+    # 14: sima 14 nincs, csak 14/1, 14/a.
+    # 14/2: nincs ilyen, csak 14/1, 14/a.
+    # 14/I: ez 14/1, csak római számmal írva.
+    invalid: ['14', '14/2', '14i']
   Munkácsy Mihály utca:
     # 21: sima 21 nincs, csak 21/1, 21/2.
     # 32/I: nincs ilyen, 32/a van kitáblázva.
@@ -39,6 +44,8 @@ filters:
     # 3: ikerház, az észak-nyugati felén kint van a 3, de a hozzá tartozó bejáraton 3/a van, így azt tettem fel a térképre.
     # 3/b: nincs ilyen, 3/a és 3/2 van kitáblázva.
     invalid: ['3', '3b']
+  Tó utca:
+    interpolation: 'all'
 refstreets:
   # rövidítés
   'Kiss János altábornagy utca': 'Kiss János atb. utca'
