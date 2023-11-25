@@ -11,6 +11,7 @@
 //! The area_files module contains file handling functionality, to be used by the areas module.
 
 use crate::context;
+use crate::stats;
 use anyhow::Context;
 use std::cell::RefCell;
 use std::io::Read;
@@ -211,6 +212,9 @@ impl RelationFiles {
                 return Ok(());
             }
         };
+
+        // Insert or update the mtime for the osm streets of this relation.
+        stats::set_sql_mtime(ctx, &format!("streets/{}", self.name))?;
 
         let mut conn = ctx.get_database_connection()?;
         let tx = conn.transaction()?;

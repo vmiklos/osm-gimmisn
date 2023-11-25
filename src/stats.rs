@@ -473,7 +473,7 @@ pub fn generate_json(
     Ok(())
 }
 
-fn set_sql_mtime(ctx: &context::Context, page: &str) -> anyhow::Result<()> {
+pub fn set_sql_mtime(ctx: &context::Context, page: &str) -> anyhow::Result<()> {
     let conn = ctx.get_database_connection()?;
     conn.execute(
         r#"insert into mtimes (page, last_modified) values (?1, ?2)
