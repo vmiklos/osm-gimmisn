@@ -72,7 +72,7 @@ filters:
     # 53: sima 53 nincs, csak 53/a, 53/b.
     # 57/a: nincs ilyen, csak sima 57 van.
     # 10/a: nincs ilyen, a sportközpont címe 2-10, de az utcanévtábla szerint a Hillside Irodaház lenne a 10.
-    invalid: ['13b', '53', '57/a', '10a']
+    invalid: ['13b', '53', '57a', '10a']
   Dalma út:
     # No housenumbers here.
     ranges: []
