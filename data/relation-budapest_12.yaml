@@ -134,6 +134,8 @@ filters:
       - {start: '1', end: '19'}
       - {start: '2', end: '20'}
   Hajnalka utca:
+    # 16: sima 16 nincs, csak 16/a, 16/b.
+    invalid: ['16']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '30'}
@@ -163,6 +165,9 @@ filters:
   Hollós út:
     # 1-9, 2-8
     invalid: ['32']
+  Hóvirág út:
+    # 10/c: nincs ilyen, csak 6-12 C épület van.
+    invalid: ['10c']
   Irhás árok:
     # 33-35: Adorján út 2-re van számozva
     # 43: 41 és 43 nincs beépítve, bódék vannak
