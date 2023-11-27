@@ -12,6 +12,9 @@ filters:
     invalid: ['139', '143']
   Camping utca:
     show-refstreet: false
+  Csokonai utca:
+    # 713: a páratlan oldalon a 25 az utolsó házszám.
+    invalid: ['713']
   Hunyadi János utca:
     interpolation: 'all'
   Jókai Mór utca:
