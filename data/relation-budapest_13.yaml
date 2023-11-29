@@ -14,6 +14,9 @@ filters:
   Göncöl utca:
     # 93 = Rákospalotai út 47.
     invalid: ['93']
+  Mór utca:
+    # 8/a: nincs ilyen, a Saldo Zrt. parkolója van itt 6/a számmal.
+    invalid: ['8a']
 osm-street-filters:
   # nem igazi utcák
   - Árpád híd
