@@ -1,5 +1,7 @@
 missing-streets: 'yes'
-# osm-street-filters:
+osm-street-filters:
+  # park, sétány
+  - Csörsz-árok tanösvény
 # street-filters:
 refstreets:
   # kérdéses ------------------------------------------------------------------
