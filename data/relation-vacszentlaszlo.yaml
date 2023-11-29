@@ -1,0 +1,21 @@
+missing-streets: 'yes'
+# osm-street-filters:
+# street-filters:
+refstreets:
+  # kérdéses ------------------------------------------------------------------
+  'Akácfa út': 'Akácfa utca'
+  'Béke út': 'Béke utca'
+  'Deák Ferenc utca': 'Deák utca'
+  'Határ út': 'Határ utca'
+  'Hévízi út': 'Hévizi út'
+  'Hosszúmezsgye út': 'Hosszúmesgye utca'
+  'Jókai Mór utca': 'Jókai utca'
+  'Mező út': 'Mező utca'
+  'Nap út': 'Nap utca'
+  'Nyárfa út': 'Nyárfa utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Tavasz út': 'Tavasz utca'
+  'Tompa út': 'Tompa utca'
+source: survey
+housenumber-letters: true
+inactive: false

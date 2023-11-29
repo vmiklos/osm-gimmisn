@@ -1,0 +1,31 @@
+missing-streets: 'yes'
+# osm-street-filters:
+# street-filters:
+refstreets:
+  # kérdéses ------------------------------------------------------------------
+  'Benczúr utca': 'Benczúr Gyula utca'
+  'Családi sor': 'Család sor'
+  'Eötvös Loránd utca': 'Eötvös Lóránd utca'
+  'Fő út': 'Fő utca'
+  'Gyári utca': 'Gyári út'
+  'Határsor utca': 'Határ sor'
+  'Jókai utca': 'Jókai Mór utca'
+  'Kadocsa utca': 'Kadocsa Gyula utca'
+  'Királyhidai út': 'Királyhidai utca'
+  'Kötélgyár út': 'Kötélgyártó utca'
+  'Lajtaszer': 'Lajta szer'
+  'Malomszer': 'Malom szer'
+  # 'Molnár utca': 'Molnár tanya'
+  'Munkácsy utca': 'Munkácsy Mihály utca'
+  'Óvoda köz': 'Óvodaköz'
+  'Széchenyi utca': 'Széchenyi István utca'
+  'Tallós Prohászka utca': 'Tallós Prohászka István utca'
+  'Timföldgyári út': 'Timföldgyári utca'
+  'Vár köz': 'Várköz'
+  'Vörösmarty utca': 'Vörösmarty Mihály utca'
+  'Wesselényi utca': 'Wesselényi György utca'
+  'Wittmann Antal park': 'Wittman Antal park'
+  'Zrínyi utca': 'Zrínyi Miklós utca'
+source: survey
+housenumber-letters: true
+inactive: false

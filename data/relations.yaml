@@ -499,6 +499,10 @@ gyor:
     osmrelation: 1440627
     refcounty: "08"
     refsettlement: "059"
+mosonmagyarovar:
+    osmrelation: 1491446
+    refcounty: "08"
+    refsettlement: "104"
 nagybajcs:
     osmrelation: 1492795
     refcounty: "08"
@@ -797,6 +801,10 @@ vac:
     osmrelation: 1440602
     refcounty: "14"
     refsettlement: "169"
+vacszentlaszlo:
+    osmrelation: 1379824
+    refcounty: "14"
+    refsettlement: "175"
 veresegyhaz:
     osmrelation: 1390690
     refcounty: "14"
