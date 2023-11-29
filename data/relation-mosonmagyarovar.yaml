@@ -1,10 +1,32 @@
 missing-streets: 'yes'
-# osm-street-filters:
-# street-filters:
+osm-street-filters:
+  # park, sétány
+  - Duna sétány
+street-filters:
+  # tanyák
+  - Biotechnikai Állomás major
+  - Fenyő major
+  - Istvánpuszta
+  - József major
+  - Kapitányrét
+  - Kozlik tanya
+  - Krisztina major
+  - Külső Gazdasági Iskola major
+  - Molnár tanya
+  - Mölczner tanya
+  - Szalai I. tanya
+  # nem igazi utcák
+  - Krisztinaberek erdészház
+  - Lajta zsilip
+  - MÁV 124-es őrház
+  - MÁV 125-ös őrház
+  - MÁV 126-os őrház
+  - Rádió-állomás
 refstreets:
   # kérdéses ------------------------------------------------------------------
   'Benczúr utca': 'Benczúr Gyula utca'
   'Családi sor': 'Család sor'
+  'Csokonai utca': 'Csokonai Vitéz Mihály utca'
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Fő út': 'Fő utca'
   'Gyári utca': 'Gyári út'
