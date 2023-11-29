@@ -64,6 +64,9 @@ filters:
     invalid: ['138']
   Erkel Ferenc utca:
     invalid: ['13']
+  Eperjesi utca:
+    # 126-140 a most Palatinus utca (Pala-part) stégen lévő házai, amin egyedi számok vannak
+    invalid: ['126', '130', '132', '136', '138', '140']
   Garam utca:
     ranges:
       - {start: '1', end: '21'}
