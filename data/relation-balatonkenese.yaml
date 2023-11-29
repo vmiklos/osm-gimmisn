@@ -5,10 +5,11 @@ refstreets:
   'Kun utca': 'Kún utca'  # tábla Kun utca
   'Rozgonyi Cecília utca': 'Rozgonyi Cecilia utca'
   # tábla = osm
-  'Bocskai István utca': 'Bocskay utca'
-  'Csók István utca': 'Csók utca'
   'Maja utca': 'Maya utca'
   'Schédl Alajos utca': 'Schédl Lajos utca'
+  # 2023.11.06-i közgyűlésen javítva
+  'Bocskai István utca': 'Bocskay utca'
+  'Csók István utca': 'Csók utca'
 street-filters:
   # terület
   - Öreghegy
