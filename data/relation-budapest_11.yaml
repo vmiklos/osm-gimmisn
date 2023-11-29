@@ -1139,7 +1139,7 @@ filters:
       - {start: '2', end: '46'}
   Kalotaszeg utca:
     # 2 = Fehérvári út 114/b
-    # 25: valami épül a sarkon, házszám még nem tudni melyik oldalról lesz. RESURVEY 2024.
+    # 25: valami épül a sarkon, házszám még nem tudni melyik oldalról lesz. CHECK 2023-09. RESURVEY 2024.
     # 27-37: csak 31 van kiírva FŐTÁV
     # 40: van vmi ipari épület az utca végén, de nincs kint házszám
     invalid: ['2', '25', '27', '29', '33', '35', '37', '40']
@@ -1480,7 +1480,7 @@ filters:
     ranges:
       - {start: '27', end: '53'}
   Lépés utca:
-    # 12: Van egy ikerház egyik fele 12b másik fele nincs kiírva 2020-01-21. RESURVEY
+    # 12: Van egy ikerház egyik fele 12b másik fele nincs kiírva 2020-01-21. RESURVEY 2023
     # 29: 29/a, 29/b
     # 31: utolsó házszám: 29/b
     invalid: ['12', '29', '31']
@@ -1574,7 +1574,7 @@ filters:
     # 59: 59/a, 59/b
     # 61/a-c: 61 A,B,C épületek
     # 71/a: 71, 71/b
-    # 77/a: 77 van kiírva, de még építkeznek. CHECK 2022-10-11 RESURVEY
+    # 77/a: 77 van kiírva, de még építkeznek. CHECK 2022-10-11 RESURVEY 2023
     # 79b: 77-79 újra lettek számozva, 79/b->79 lett belőle, 79->77/b
     # 85: 85/a, 85/b
     # páros ------------------------------------------------------------------
@@ -1669,8 +1669,8 @@ filters:
     # 3/d: csak sima 3 - BME D épület
     # 3/k: csak sima 3 - BME K épület
     # 1-3, 3-9: alternatív címek a BME-re, a honlapjukon csak sima 3 szám szerepel
-    # 7-9: BME R épület
-    invalid: ['3d', '3k', '5']
+    # 6/r, 7-9: BME R épület
+    invalid: ['1', '3d', '3k', '5', '6r']
   Nádorliget utca:
     # 7 A-D; 8 A-F
     # 9 = Hauszamnn Alajos utca 3/b
@@ -1996,7 +1996,8 @@ filters:
     # 2a, 2b: csak sima 2 van
     # 4a: 4 és 4/b
     # 10: 10b=8c van kiírva
-    invalid: ['2a', '2b', '4a']
+    # 12: nincs, utolsó ház a 10/b
+    invalid: ['2a', '2b', '4a', '12']
   Povl Bang-Jensen utca:
     # Sasad liget: 1b, 1d, 2b, 2c: ezek épület betűjelek
     invalid: ['1b', '2b', '2c']
@@ -2105,6 +2106,9 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '6'}
+  Rétifű utca:
+    # 13: Gépész utca 11 üres telek megosztva, nincs nyoma bármi építkezésnek. CHECK 2023-11. RESURVEY 2024
+    invalid: ['13']
   Rétkerülő út:
     # 4: első ház a 14
     # 42: 40 után 44 jön
