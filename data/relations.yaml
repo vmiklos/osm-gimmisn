@@ -382,6 +382,10 @@ bekescsaba:
     refcounty: "04"
     refsettlement: "004"
     inactive: true
+csardaszallas:
+    osmrelation: 1026157
+    refcounty: "04"
+    refsettlement: "013"
 gyomaendrod:
     osmrelation: 1026166
     refcounty: "04"
