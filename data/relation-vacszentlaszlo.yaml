@@ -1,4 +1,40 @@
 missing-streets: 'yes'
+filters:
+  Erdő utca:
+    # 727/2: ez helyrajzi szám, nem házszám.
+    # 731/0: ez helyrajzi szám, nem házszám.
+    # 801: ez helyrajzi szám, nem házszám.
+    # 809/1: ez helyrajzi szám, nem házszám.
+    # 835: ez helyrajzi szám, nem házszám.
+    # 841: ez helyrajzi szám, nem házszám.
+    # 810: ez helyrajzi szám, nem házszám.
+    # 816: ez helyrajzi szám, nem házszám.
+    # 826/0: ez helyrajzi szám, nem házszám.
+    # 842/0: ez helyrajzi szám, nem házszám.
+    invalid: ['727/2', '731/0', '801', '809/1', '835', '841', '810', '816', '826/0', '842/0']
+  Kossuth utca:
+    # 283: a páratlan oldalon a 113 az utolsó házszám.
+    # 98: a páros oldalon a 90 az utolsó házszám.
+    # 184: a páros oldalon a 90 az utolsó házszám.
+    invalid: ['283', '98', '184']
+  Mező út:
+    # 311/3: ez helyrajzi szám, nem házszám.
+    invalid: ['311/3']
+  Nyárfa út:
+    # 73: a páratlan oldalon a 19 az utolsó házszám.
+    invalid: ['73']
+  Petőfi Sándor utca:
+    # 163: a páratlan oldalon a 67 az utolsó házszám.
+    # 6: sima 6 nincs, csak 6/a és egy üres telek.
+    invalid: ['163', '6']
+  Valkói út:
+    interpolation: 'all'
+    # 292: ez helyrajzi számnak tűnik, a 11 az utolsó házszám.
+    invalid: ['292']
+  Zsámboki út:
+    # 90/17: ez helyrajzi számnak tűnik, a páros oldalon a 82 az utolsó házszám.
+    # 590/17: ez helyrajzi szám, nem házszám.
+    invalid: ['90/17', '590/17']
 osm-street-filters:
   # park, sétány
   - Csörsz-árok tanösvény
