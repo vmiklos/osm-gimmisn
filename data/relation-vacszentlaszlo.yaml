@@ -34,7 +34,7 @@ filters:
   Zsámboki út:
     # 90/17: ez helyrajzi számnak tűnik, a páros oldalon a 82 az utolsó házszám.
     # 590/17: ez helyrajzi szám, nem házszám.
-    invalid: ['90, '590']
+    invalid: ['90', '590']
 osm-street-filters:
   # park, sétány
   - Csörsz-árok tanösvény
