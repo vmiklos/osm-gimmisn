@@ -7,9 +7,6 @@ refstreets:
   # tábla = osm
   'Maja utca': 'Maya utca'
   'Schédl Alajos utca': 'Schédl Lajos utca'
-  # 2023.11.06-i közgyűlésen javítva
-  'Bocskai István utca': 'Bocskay utca'
-  'Csók István utca': 'Csók utca'
 street-filters:
   # terület
   - Öreghegy
@@ -22,7 +19,6 @@ osm-street-filters:
   - Régi játszótér
   # parkok
   - Liget
-  - Széchenyi park
   - Uniós park
   # régi nevek
   - Szerviz utca  # valószínű megváltozott Muskátli közre, de a régi tábla van még kint, az új meg beljebb
