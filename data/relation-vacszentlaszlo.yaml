@@ -38,6 +38,7 @@ filters:
 osm-street-filters:
   # park, sétány
   - Csörsz-árok tanösvény
+  - Szent László park
 # street-filters:
 refstreets:
   # kérdéses ------------------------------------------------------------------
