@@ -3,12 +3,6 @@ missing-streets: 'yes'
 # street-filters:
   # tanyák
   # nem igazi utcák
-refstreets:
-  # kérdéses ------------------------------------------------------------------
-  'Dózsa György utca': 'Dózsa utca'
-  'Kossuth Lajos utca': 'Kossuth utca'
-  'Petőfi Sándor utca': 'Petőfi utca'
-  'Rákóczi Ferenc utca': 'Rákóczi utca'
 source: survey
 housenumber-letters: true
 inactive: false
