@@ -1,4 +1,11 @@
 missing-streets: 'yes'
+filters:
+  Csárda út:
+    # 11: sima 11 nincs, csak 11/1, 11/2, 11/3.
+    invalid: ['11']
+  Kossuth utca:
+    # 13: sima 13 nincs, csak 13/1, 13/2.
+    invalid: ['13']
 # osm-street-filters:
 # street-filters:
   # tanyák
