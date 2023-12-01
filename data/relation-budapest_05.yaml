@@ -108,8 +108,8 @@ filters:
     ranges:
       - {start: '1', end: '8'}
   Markó utca:
-    # 15: 13-17 kellene lennie, de ezen az oldalon nincs kiírva csak 17
-    invalid: ['15']
+    # 1: sima 1 nincs, csak 1/a, 1/b.
+    invalid: ['1']
   Molnár utca:
     # 4-6 = Iskola, Irányi utca 3, alagsorban van egy kávézó 4-es számmal
     invalid: ['6']
@@ -132,9 +132,19 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '5'}
+  Petőfi Sándor utca:
+    # 3/b: nincs ilyen, csak sima 3 van.
+    invalid: ['3b']
+  Sas utca:
+    # 25/a: nincs ilyen, csak sima 25 van.
+    invalid: ['25a']
   Steindl Imre utca:
     # 6 = Akadémia utca 15
     invalid: ['6']
+  Stollár Béla utca:
+    # 12: sima 12 nincs, csak 12/b, 12/c.
+    # 14: sima 14 nincs, csak 14/a, 14/b.
+    invalid: ['12', '14']
   Szabadság tér:
     interpolation: all
     invalid: ['10', '11']  # USA nagykövetség foglalja el ezeket is
