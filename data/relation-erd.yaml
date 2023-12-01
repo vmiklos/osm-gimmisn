@@ -36,6 +36,7 @@ street-filters:
 osm-street-filters:
   # nem igazi utcák
   - Szent István híd
+  - Vadlúd utcai csomópont
   # parkok
   - Klímapark
   - Múzeumkert
