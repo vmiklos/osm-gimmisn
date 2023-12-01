@@ -369,8 +369,6 @@ filters:
       - {start: '1', end: '19'}
   Széll Kálmán tér:
     interpolation: all
-    ranges:
-      - {start: '12', end: '21'}
   Szendi árok:
     ranges:
       - {start: '1', end: '11'}
@@ -398,9 +396,8 @@ filters:
       - {start: '1', end: '25'}
       - {start: '2', end: '18'}
   Törpe utca:
-    ranges:
-      - {start: '1', end: '9'}
-      - {start: '2', end: '12'}
+    # 3: sima 3 nincs, csak 3/a, 3/b.
+    invalid: ['3']
   Trencséni utca:
     # 1-49, 2-56
     invalid: ['57', '60']
@@ -412,11 +409,6 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '6'}
-  Ugocsa utca:
-    # 1 is only block end
-    ranges:
-      - {start: '3', end: '11'}
-      - {start: '2', end: '20'}
   Városkúti köz:
     # 1-15, 2-2
     invalid: ['4', '6']
@@ -430,10 +422,6 @@ filters:
     # 31/a: nincs ilyen, 31-33 A épület van csak.
     # 31/b: nincs ilyen, 31-33 B épület van csak.
     invalid: ['31a', '31b']
-  Vércse köz:
-    ranges:
-      - {start: '1', end: '5'}
-      - {start: '2', end: '6'}
   Zsámbéki utca:
     ranges:
       - {start: '1', end: '17'}
