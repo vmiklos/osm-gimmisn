@@ -103,7 +103,10 @@ fn update_osm_streets(
                     continue;
                 }
             };
-            relation.get_files().write_osm_json_streets(ctx, &buf)?;
+            relation
+                .get_files()
+                .write_osm_json_streets(ctx, &buf)
+                .context("write_osm_json_streets() failed")?;
             break;
         }
         info!("update_osm_streets, json: end: {relation_name}");
