@@ -11,28 +11,12 @@ filters:
   Közraktár utca:
     # 18 = Kinizsi utca 1-7. Lónyay Utcai Református Gimnázium és Kollégium
     invalid: ['18']
-  Lónyay utca:
-    ranges:
-      - {start: '1', end: '51'}
-      - {start: '2', end: '8'}
-      - {start: '12', end: '64'}
   Pápay István utca:
-    ranges:
-      - {start: '1', end: '7'}
-      - {start: '2', end: '10'}
+    # 12: ez a NAV épületének hátulja, amely a Vaskapu utca 33-35-re van számozva.
+    invalid: ['12']
   Soroksári út:
-    ranges:
-      - {start: '1', end: '123'}
-      - {start: '2', end: '48'}
-      - {start: '54', end: '166'}
-  Tóth Kálmán utca:
-    ranges:
-      - {start: '1', end: '35'}
-      - {start: '2', end: '10'}
-  Vágóhíd utca:
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '62'}
+    # 50-54: csak 54 van kitáblázva, közvetlenül a 48 után.
+    invalid: ['50', '52']
 street-filters:
   # https://www.ferencvaros.hu/wp-content/uploads/2021/06/325_2021.pdf
   - Helyi kikötő út
@@ -63,3 +47,4 @@ refstreets:
   'Lenkey János utca': 'Lenkei János utca'
 source: survey
 inactive: true
+housenumber-letters: true
