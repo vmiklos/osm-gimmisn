@@ -56,3 +56,4 @@ refstreets:
   'Lőrincz utca': 'Lőrinc utca'
 source: survey
 inactive: true
+housenumber-letters: true

@@ -1,7 +1,0 @@
-missing-streets: 'no'
-filters:
-  Váci út:
-    ranges: []
-source: survey
-housenumber-letters: false
-inactive: true

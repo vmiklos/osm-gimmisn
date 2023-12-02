@@ -18,6 +18,7 @@ budapest_04:
     refcounty: "01"
     refsettlement: "004"
     inactive: true
+    alias: ['istvantelek', 'kaposztasmegyer', 'megyer', 'nepsziget', 'szekesdulo', 'ujpest']
 budapest_05:
     osmrelation: 1606103
     refcounty: "01"
@@ -66,6 +67,7 @@ budapest_14:
     osmrelation: 1606043
     refcounty: "01"
     refsettlement: "014"
+    alias: ['herminamezo', 'istvanmezo', 'kiszuglo', 'nagyzuglo', 'rakosfalva', 'torokor', 'varosliget']
 budapest_15:
     osmrelation: 1606009
     refcounty: "01"
@@ -224,31 +226,7 @@ obuda:
     osmrelation: 3228284
     refcounty: "01"
     refsettlement: "003"
-# budapest 04
-nepsziget:
-    osmrelation: 6486007
-    refcounty: "01"
-    refsettlement: "004"
-istvantelek:
-    osmrelation: 3232053
-    refcounty: "01"
-    refsettlement: "004"
-ujpest:
-    osmrelation: 3232068
-    refcounty: "01"
-    refsettlement: "004"
-megyer:
-    osmrelation: 3232087
-    refcounty: "01"
-    refsettlement: "004"
-kaposztasmegyer:
-    osmrelation: 6485974
-    refcounty: "01"
-    refsettlement: "004"
-szekesdulo:
-    osmrelation: 6485975
-    refcounty: "01"
-    refsettlement: "004"
+# budapest 04 - kérésre összevonva
 # budapest 05 - már egyben van, mert kész van
 # budapest 08 - kerulet szinten eleg, nem kotelezo tovabb bontani, ezek csak belvárosi térképezéshez
 palotanegyed:
@@ -275,8 +253,7 @@ vizafogo:
     osmrelation: 3217068
     refcounty: "01"
     refsettlement: "013"
-# budapest 14
-# összevonva, de kettő maradt még külön is
+# budapest 14 - kérésre összevonva, de kettő maradt még külön is
 herminamezo:
     osmrelation: 3233776
     refcounty: "01"
@@ -292,6 +269,7 @@ rakospalota:
     osmrelation: 3237867
     refcounty: "01"
     refsettlement: "015"
+    alias: ['rakospalota-kertvaros', 'rakospalota-oregfalu']
 pestujhely:
     osmrelation: 3237893
     refcounty: "01"

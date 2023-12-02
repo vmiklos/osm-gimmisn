@@ -6,11 +6,12 @@
 '01':
     '002': 'Második'
     '003': 'Óbuda'
-    '004': 'Újpest'
     '013': 'Tizenhárom'
     '014': 'Zugló'
     '015': 'Rákospalota'
 '05':
     '202': 'Miskolc'
+'07':
+    '033': 'Gárdony'
 '12':
     '028': 'Esztergom'
