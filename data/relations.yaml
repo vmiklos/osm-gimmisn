@@ -276,43 +276,14 @@ vizafogo:
     refcounty: "01"
     refsettlement: "013"
 # budapest 14
-varosliget:
-    osmrelation: 3233021
-    refcounty: "01"
-    refsettlement: "014"
-    missing-streets: 'no'
-istvanmezo:
-    osmrelation: 3233768
-    refcounty: "01"
-    refsettlement: "014"
-    missing-streets: 'no'
+# összevonva, de kettő maradt még külön is
 herminamezo:
     osmrelation: 3233776
     refcounty: "01"
     refsettlement: "014"
     missing-streets: 'no'
-torokor:
-    osmrelation: 3233764
-    refcounty: "01"
-    refsettlement: "014"
-    missing-streets: 'no'
-kiszuglo:
-    osmrelation: 3233747
-    refcounty: "01"
-    refsettlement: "014"
-    missing-streets: 'no'
-nagyzuglo:
-    osmrelation: 3233723
-    refcounty: "01"
-    refsettlement: "014"
-    missing-streets: 'no'
 alsorakos:
     osmrelation: 3232934
-    refcounty: "01"
-    refsettlement: "014"
-    missing-streets: 'no'
-rakosfalva:
-    osmrelation: 3232941
     refcounty: "01"
     refsettlement: "014"
     missing-streets: 'no'
