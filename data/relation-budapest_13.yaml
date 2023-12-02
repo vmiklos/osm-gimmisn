@@ -43,3 +43,4 @@ refstreets:
   'Népsziget út': 'Népsziget'  # nem hivatalos közterület, csak 1 cím van: Budapest Csónakház (1-3), a többi hrsz.
 source: survey
 inactive: true
+housenumber-letters: true
