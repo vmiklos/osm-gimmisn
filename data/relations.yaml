@@ -321,17 +321,8 @@ rakospalota:
     osmrelation: 3237867
     refcounty: "01"
     refsettlement: "015"
-# budapest 15 rakospalota alábontott részei
 pestujhely:
     osmrelation: 3237893
-    refcounty: "01"
-    refsettlement: "015"
-rakospalota-kertvaros:
-    osmrelation: 12331279
-    refcounty: "01"
-    refsettlement: "015"
-rakospalota-oregfalu:
-    osmrelation: 12353158
     refcounty: "01"
     refsettlement: "015"
 ujpalota:
