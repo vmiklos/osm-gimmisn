@@ -18,6 +18,12 @@ use std::io::Read;
 use std::io::Write;
 use std::rc::Rc;
 
+#[cfg(not(test))]
+use log::info;
+
+#[cfg(test)]
+use std::println as info;
+
 /// OverpassTags contains various tags about one Overpass element.
 #[derive(serde::Deserialize)]
 struct OverpassTags {
@@ -231,10 +237,13 @@ impl RelationFiles {
             let surface = element.tags.surface.unwrap_or("".into());
             let leisure = element.tags.leisure.unwrap_or("".into());
             let osm_type = element.osm_type.to_string();
-            tx.execute(
+            let ret = tx.execute(
                 "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
                 [relation, osm_id, name, highway, service, surface, leisure, osm_type],
-            )?;
+            );
+            if ret.is_err() {
+                info!("write_osm_json_streets: ignoring duplicated street: relation is '{}', id is '{}'", self.name, element.id);
+            }
         }
 
         let osm_page = format!("streets/{}/osm-base", self.name);
@@ -282,3 +291,6 @@ impl RelationFiles {
         Ok(guard.write(result.as_bytes())?)
     }
 }
+
+#[cfg(test)]
+mod tests;
