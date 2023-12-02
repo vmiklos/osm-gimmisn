@@ -1,4 +1,4 @@
-missing-streets: only
+missing-streets: 'yes'
 filters: {}
 street-filters:
   # nem igazi utcák / csak hrsz.
@@ -41,3 +41,4 @@ osm-street-filters:
   - Szilas-patak tanösvény
 source: survey
 inactive: true
+housenumber-letters: true

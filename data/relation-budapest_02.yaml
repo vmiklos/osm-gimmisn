@@ -1,4 +1,4 @@
-missing-streets: only
+missing-streets: 'yes'
 filters: {}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
@@ -69,3 +69,4 @@ osm-street-filters:
   # Vöröskővár utca
 source: survey
 inactive: true
+housenumber-letters: true

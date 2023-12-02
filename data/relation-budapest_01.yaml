@@ -1,4 +1,4 @@
-missing-streets: yes
+missing-streets: 'yes'
 filters:
   Aladár utca:
     # No 11 and 13

@@ -1,4 +1,4 @@
-missing-streets: only
+missing-streets: 'yes'
 filters: {}
 street-filters:
   # Vasútállomásként léteznek, nem közterületként.
@@ -63,3 +63,4 @@ refstreets:
   'Paskálmalom utca': 'Paskál-malom utca'
 source: survey
 inactive: true
+housenumber-letters: true
