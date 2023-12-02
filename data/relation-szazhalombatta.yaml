@@ -19,8 +19,17 @@ street-filters:
   - 17/A. vasúti őrház
   - 17/B. vasúti őrház
   - Dunai Finomitó vasútállomás
+  - Dunai Finomító
   - DKV munkásszálló
   - Szabóház
+  - Vasútáll.és körny.
+  # tanyák, dűlők
+  - Benta puszta
+  - Ernyeitanya
+  - István tanya
+  - Karácsonytanya
+  - Római úti dűlő
+  - Tóthtanya
 osm-street-filters:
   # parkok
   - Bagoly úti park
