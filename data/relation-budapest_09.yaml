@@ -49,12 +49,25 @@ filters:
   Pápay István utca:
     # 12: ez a NAV épületének hátulja, amely a Vaskapu utca 33-35-re van számozva.
     invalid: ['12']
+  Páva utca:
+    # 1-3: ez és a Mester utca 30-32 (Pávaház) ugyanaz az épület, bejárat és házszám a Mester utcáról van csak.
+    # 4/b: nincs ilyen, csak sima 4 és 4/a.
+    # 30: sima 30 nincs, csak 30/a az épületen és 30/b az utcatáblán.
+    # 30/b: ez és a Tompa utca 15. ugyanaz az épület, bejárat és házszám a Tompa utcáról van csak, a 30/b csak az utcatáblán szerepel.
+    # 32: sima 32 nincs, csak 32/a, 32/b.
+    # 34/b: nincs ilyan, csak sima 34 van.
+    # 36: ez és az Üllői út 55. ugyanaz az épület, bejárat és házszám az Üllői útról van csak.
+    invalid: ['1', '3', '4b', '30', '30b', '32', '34/b', '36']
   Pipa utca:
     # 2: sima 2 nincs, csak 2/a, 2/b.
     invalid: ['2']
   Soroksári út:
     # 50-54: csak 54 van kitáblázva, közvetlenül a 48 után.
     invalid: ['50', '52']
+  Tűzoltó utca:
+    # 1: ez és a Ferenc körút 39. ugyanaz az épület, bejárat és házszám a Ferenc körútról van csak.
+    # 17: ez és a Páva utca 37. ugyanaz az épület, bejárat és házszám a Páva utcáról van csak.
+    invalid: ['1', '17']
   Zsil utca:
     # 9: ez ugyanaz az épület, mint a Lónyay utca 37/a-b, de bejárat és házszám a Lónyay utcáról van csak.
     invalid: ['9']
