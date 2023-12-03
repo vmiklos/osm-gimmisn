@@ -1,9 +1,28 @@
 missing-streets: 'yes'
 filters:
+  Angyal utca:
+    # 7: sima 7 nincs, csak 7/a, 7/b.
+    # 15: sima 15 nincs, csak 15/a, 15/b.
+    # 19: sima 19 nincs, csak 19/a, 19/b.
+    invalid: ['7', '15', '19']
   Boráros tér:
     interpolation: all
+  Dandár utca:
+    # 22: sima 22 nincs, csak 22/a, 22/b, 22/c.
+    invalid: ['22']
   Fővám tér:
     interpolation: all
+  Gát utca:
+    # 2: nincs tábla, ez a Kaniziusz Szent Péter templom kertje.
+    invalid: ['2']
+  Határ út:
+    # 50/a: a Határ út IX. kerületi oldalán nincsenek épületek.
+    invalid: ['50a']
+  Ipar utca:
+    # 7/c: nincs ilyen, csak sima 7 van.
+    # 2: sima 2 nincs, csak 2/a, 2/b.
+    # 2-4: nincs ilyen, csak 2/a, 2/b, 6/b (Vaskapu utca), 4/b, 4/c.
+    invalid: ['7c', '2', '4']
   Kálvin tér:
     interpolation: all
     # 10 = Üllői út 1. Aegon
@@ -11,12 +30,34 @@ filters:
   Közraktár utca:
     # 18 = Kinizsi utca 1-7. Lónyay Utcai Református Gimnázium és Kollégium
     invalid: ['18']
+  Köztelek utca:
+    # 8/b: nincs ilyen, csak sima 8 van.
+    invalid: ['8b']
+  Ligeti György utca:
+    # 6/b: ez és a Mátyás utca 8. ugyanaz az épület, bejárat és házszám a Mátyás utcáról van csak.
+    invalid: ['6b'] 
+  Liliom utca:
+    # 3: sima 3 nincs, csak 3/a, 3/b, és azok is csak az utcatáblán.
+    # 27: sima 27 nincs, csak 27/a, 27/b.
+    invalid: ['3', '27']
+  Lónyay utca:
+    # 33-35: ez a Lónyay Utcai Református Gimnázium és Kollégium épületének hátulja (Kinizsi utca 1-7.), a Lónyay utcáról nincs bejárat és házszám.
+    # 37/a: az épületre 37/a-b van kitáblázva.
+    # 41/b: nincs ilyen, csak sima 41 van.
+    # 42: sima 42 nincs, csak 42/a, 42/b.
+    invalid: ['33', '35', '37a', '41b', '42']
   Pápay István utca:
     # 12: ez a NAV épületének hátulja, amely a Vaskapu utca 33-35-re van számozva.
     invalid: ['12']
+  Pipa utca:
+    # 2: sima 2 nincs, csak 2/a, 2/b.
+    invalid: ['2']
   Soroksári út:
     # 50-54: csak 54 van kitáblázva, közvetlenül a 48 után.
     invalid: ['50', '52']
+  Zsil utca:
+    # 9: ez ugyanaz az épület, mint a Lónyay utca 37/a-b, de bejárat és házszám a Lónyay utcáról van csak.
+    invalid: ['9']
 street-filters:
   # https://www.ferencvaros.hu/wp-content/uploads/2021/06/325_2021.pdf
   - Helyi kikötő út
