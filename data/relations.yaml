@@ -67,7 +67,7 @@ budapest_14:
     osmrelation: 1606043
     refcounty: "01"
     refsettlement: "014"
-    alias: ['herminamezo', 'istvanmezo', 'kiszuglo', 'nagyzuglo', 'rakosfalva', 'torokor', 'varosliget']
+    alias: ['istvanmezo', 'kiszuglo', 'nagyzuglo', 'rakosfalva', 'torokor', 'varosliget']
 budapest_15:
     osmrelation: 1606009
     refcounty: "01"

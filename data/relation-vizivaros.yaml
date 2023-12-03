@@ -56,7 +56,6 @@ filters:
     refsettlement: '001'
   Fő utca:
     # 54 = Batthány utca 1
-    invalid: ['54']
     ranges:
       - {start: '1', end: '45', refsettlement: '001'}
       - {start: '2', end: '20', refsettlement: '001'}
@@ -120,8 +119,6 @@ filters:
     ranges:
       - {start: '3', end: '7'}
       - {start: '2', end: '16'}
-  Szász Károly utca:
-    invalid: ['221']
   Szabó Ilonka utca:
     refsettlement: '001'
   Szalag utca:
