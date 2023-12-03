@@ -1980,7 +1980,7 @@ filters:
     # 66-68 OMV az Egér út másik oldalán
     # 84: 84/a van kiírva, a másik felén nincs házszám, 84/b lett
     # 104: csak 104/a, az épület másik fele Ringló út 130
-    invalid: ['43', '47b', '49', '50', '84', '104', '104b']
+    invalid: ['47b', '49', '50', '84', '104', '104b']
   Petzvál József utca:
     # 1b: csak 1 van kiírva
     # 16: Náday Ferenc utca 14.
