@@ -17,9 +17,6 @@ filters:
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '60'}
-  Apostol utca:
-    # 1 = Margit utca 27
-    invalid: ['1']
   Aranka utca:
     ranges:
       - {start: '1', end: '99'}
@@ -47,11 +44,6 @@ filters:
       - {start: '31', end: '35'}
       - {start: '2', end: '12'}
       - {start: '16', end: '32'}
-  Bem rakpart:
-    # 1-29: I. kerület, 30+ II. kerület (posta szerint 1-28 I. kerület)
-    # 27: Angelika kiülős rész, Angelika címe Batthyány tér 7
-    interpolation: 'all'
-    invalid: ['27']
   Bem József tér:
     interpolation: 'all'
   Bem József utca:
@@ -64,13 +56,11 @@ filters:
   Bimbó út:
     # 13 = Ady Endre utca 2-4
     # 55 = Pajzs utca 1
-    # 104: 102 után 106
-    # 155: 151 után 157/b, de van egy üres telek
     # 181 = Rügy utca 8
     # 183 = Rügy utca 10
     # 191 = Balogh Ádám utca 18/a
     # 208: 206/a, 206, 210
-    invalid: ['13', '55', '104', '155', '181', '183', '191', '208']
+    invalid: ['13', '55', '181', '183', '191', '208']
   Bolyai utca:
     ranges:
       - {start: '1', end: '15'}
@@ -94,10 +84,6 @@ filters:
   Cimbalom köz:
    # 2 = Kupeczky utca 9.
     invalid: ['2']
-  Cimbalom utca:
-    ranges:
-      - {start: '1', end: '19'}
-      - {start: '2', end: '24'}
   Csalit utca:
     ranges:
       - {start: '1', end: '9'}
@@ -110,18 +96,11 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '8'}
-  Cseppkő utca:
-    ranges:
-      - {start: '1', end: '31'}
-      - {start: '2', end: '50'}
   Dénes utca:
     # páratlan oldalon nincs kiírva házszám, máshohhan számozódik
     invalid: ['1', '3']
   Endrődi köz:
     ranges: []
-  Endrődi Sándor utca:
-    # 34: 32 van kiírva, földhivatal szerint 32 és 34, valamint Ábrányi Emil utca 11 ugyanaz
-    invalid: ['34']
   Eszter utca:
     # 3 nincs
     # 22 = Vérhalom utca 44
@@ -239,10 +218,6 @@ filters:
       - {start: '5', end: '39'}
       - {start: '2', end: '6'}
       - {start: '12', end: '34'}
-  Margit körút:
-    ranges:
-      - {start: '7', end: '105'}
-      - {start: '6', end: '68'}
   Margit utca:
     ranges:
       - {start: '1', end: '27'}
@@ -348,12 +323,9 @@ filters:
     # 1-3,6-7 vizivaros, 4-5 orszagut
     # 1-2,6-7 I. kerület, 3 II. kerület
     interpolation: 'all'
-  Szépvölgyi út:
+  # Szépvölgyi út:
     # páratlan: III. kerület
     # páros: II. kerület
-    ranges:
-      - {start: '2', end: '146', refsettlement: '002'}
-      - {start: '1', end: '45', refsettlement: '003'}
   Tapolcsányi utca:
     ranges:
       - {start: '3', end: '13'}
@@ -373,10 +345,6 @@ filters:
       - {start: '1', end: '103'}
       - {start: '111', end: '147'}
       - {start: '2', end: '128'}
-  Trombitás út:
-    ranges:
-      - {start: '1', end: '23'}
-      - {start: '2', end: '20'}
   Tulipán utca:
     invalid: ['1', '7']
   Ürömi köz:
@@ -423,11 +391,11 @@ filters:
     # 2-6 = Ady Endre utca 3, Szent Angéla
     ranges:
       - {start: '1', end: '11'}
-      - {start: '8', end: '16'}
+      - {start: '2', end: '16'}
   Zuhany utca:
     # 14 = Felső Zöldmáli út 88-90.
     # 46 = Ferenchegyi lépcső 2
-    invalid: ['14', '46']
+    invalid: ['46']
   Zsigmond tér:
     # Óbuda Gate 5-7 alatt, de nem ezt a címet használja
     interpolation: all
