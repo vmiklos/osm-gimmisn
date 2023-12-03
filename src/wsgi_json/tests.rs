@@ -303,6 +303,14 @@ fn test_missing_housenumbers_view_result_json() {
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.get_ctx().set_file_system(&file_system_rc);
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["budafok", "458338075", "Vöröskúti határsor", "", "", "", "", ""],
+        )
+        .unwrap();
+    }
 
     let result = test_wsgi.get_json_for_path("/missing-housenumbers/budafok/view-result.json");
 

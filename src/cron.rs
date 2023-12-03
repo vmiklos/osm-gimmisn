@@ -180,10 +180,7 @@ fn update_ref_housenumbers(
         }
 
         info!("update_ref_housenumbers: start: {relation_name}");
-        if let Err(err) = relation.write_ref_housenumbers(&references) {
-            info!("update_osm_housenumbers: failed: {err:?}");
-            continue;
-        }
+        relation.write_ref_housenumbers(&references)?;
         info!("update_ref_housenumbers: end: {relation_name}");
     }
 

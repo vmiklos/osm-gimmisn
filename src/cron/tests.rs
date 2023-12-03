@@ -122,6 +122,44 @@ fn test_update_ref_housenumbers() {
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["ujbuda", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["ujbuda", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["ujbuda", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+    }
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
     update_ref_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
@@ -317,6 +355,29 @@ fn test_update_missing_streets() {
     file_system.set_files(&files);
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+    }
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let expected: String = "50.00".into();
     let relation = relations.get_relation("gazdagret").unwrap();
@@ -1500,50 +1561,4 @@ fn test_write_zip_count_path() {
     let count: String = row.get(1).unwrap();
     assert_eq!(count, "2");
     assert!(rows.next().unwrap().is_none());
-}
-
-/// Tests update_ref_housenumbers(): the case when we ask for CSV but get XML.
-#[test]
-fn test_update_ref_housenumbers_xml_as_csv() {
-    // Given a junk osm_streets_value:
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let mut file_system = context::tests::TestFileSystem::new();
-    let osm_streets_value = context::tests::TestFileSystem::make_file();
-    let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
-    osm_streets_value
-        .borrow_mut()
-        .write_all(b"@id\n42\n")
-        .unwrap();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "gazdagret": {
-                "osmrelation": 2713748,
-                "refcounty": "01",
-                "refsettlement": "011",
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/streets-gazdagret.csv", &osm_streets_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_housenumbers_value,
-            ),
-        ],
-    );
-    file_system.set_files(&files);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
-    let mut relations = areas::Relations::new(&ctx).unwrap();
-
-    // When updating ref housenumbers:
-    update_ref_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
-
-    // Then make sure that the problematic relation is just skipped instead of failing:
-    let mut guard = ref_housenumbers_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
 }
