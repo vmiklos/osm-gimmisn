@@ -58,7 +58,7 @@ budapest_12:
     osmrelation: 221995
     refcounty: "01"
     refsettlement: "012"
-    alias: ['csilleberc', 'farkasret', 'farkasvolgy', 'istenhegy', 'janoshegy', 'kissvabhegy', 'kutvolgy', 'magasut', 'martonhegy', 'nemetvolgy', 'orbanhegy', 'svabhegy', 'szechenyihegy', 'viranyos', 'zugliget']
+    alias: ['budakeszierdo', 'csilleberc', 'farkasret', 'farkasvolgy', 'istenhegy', 'janoshegy', 'kissvabhegy', 'kutvolgy', 'magasut', 'martonhegy', 'nemetvolgy', 'orbanhegy', 'svabhegy', 'szechenyihegy', 'viranyos', 'zugliget']
 budapest_13:
     osmrelation: 1605916
     refcounty: "01"
@@ -118,10 +118,6 @@ budapest_23:
 # budapest 02
 adyliget:
     osmrelation: 3256786
-    refcounty: "01"
-    refsettlement: "002"
-budakeszierdo:
-    osmrelation: 2805997
     refcounty: "01"
     refsettlement: "002"
 csatarka:
