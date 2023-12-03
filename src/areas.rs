@@ -341,19 +341,6 @@ pub struct MissingHousenumbers {
     pub done_streets: util::NumberedStreets,
 }
 
-/// One row in workdir/streets-<relation>.csv. Keep this in sync with data/streets-template.overpassql.
-#[derive(serde::Deserialize)]
-pub struct OsmStreet {
-    /// Object ID.
-    #[serde(rename = "@id")]
-    pub id: u64,
-    /// Street name.
-    pub name: String,
-    /// Object type.
-    #[serde(rename = "@type")]
-    pub object_type: Option<String>,
-}
-
 #[derive(Clone, Ord, PartialOrd, derivative::Derivative)]
 #[derivative(Eq, PartialEq)]
 pub struct RelationLint {
@@ -566,12 +553,7 @@ impl<'a> Relation<'a> {
     /// Reads list of streets for an area from OSM.
     fn get_osm_streets(&self, sorted_result: bool) -> anyhow::Result<Vec<util::Street>> {
         let mut ret: Vec<util::Street> = Vec::new();
-        let stream: Rc<RefCell<dyn Read>> = self.file.get_osm_streets_read_stream(self.ctx)?;
-        let mut guard = stream.borrow_mut();
-        let mut read = std::io::BufReader::new(guard.deref_mut());
-        let mut csv_reader = util::make_csv_reader(&mut read);
-        for result in csv_reader.deserialize() {
-            let row: OsmStreet = result?;
+        for row in self.file.get_osm_json_streets(self.ctx)? {
             let mut street = util::Street::new(
                 &row.name, /*ref_name=*/ "", /*show_ref_street=*/ true,
                 /*osm_id=*/ row.id,
@@ -786,8 +768,10 @@ impl<'a> Relation<'a> {
     /// from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
     /// used by get_ref_housenumbers().
     pub fn write_ref_housenumbers(&self, references: &[String]) -> anyhow::Result<()> {
-        let mut conn = self.ctx.get_database_connection()?;
-        util::build_reference_index(self.ctx, &mut conn, references)?;
+        {
+            let mut conn = self.ctx.get_database_connection()?;
+            util::build_reference_index(self.ctx, &mut conn, references)?;
+        }
 
         let streets: Vec<String> = self
             .get_osm_streets(/*sorted_results=*/ true)?
@@ -795,6 +779,7 @@ impl<'a> Relation<'a> {
             .map(|i| i.get_osm_name().into())
             .collect();
 
+        let conn = self.ctx.get_database_connection()?;
         let mut lst: Vec<String> = Vec::new();
         let mut stmt = conn.prepare(
             "select housenumber, comment from ref_housenumbers where county_code = ?1 and settlement_code = ?2 and street = ?3")?;

@@ -525,6 +525,19 @@ fn test_normalize_separator_comma() {
 #[test]
 fn test_relation_get_osm_streets() {
     let ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["test", "1", "B2", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["test", "2", "B1", "", "", "", "", ""],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("test").unwrap();
     let actual: Vec<String> = relation
@@ -535,64 +548,6 @@ fn test_relation_get_osm_streets() {
         .collect();
     let expected: Vec<String> = vec!["B1".into(), "B2".into(), "HB1".into(), "HB2".into()];
     assert_eq!(actual, expected);
-}
-
-/// Tests Relation.get_osm_streets(): when overpass gives garbage output.
-#[test]
-fn test_relation_get_osm_streets_bad_overpass() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let streets_value = context::tests::TestFileSystem::make_file();
-    // This is garbage, it only has a single column.
-    streets_value.borrow_mut().write_all(b"@id\n42\n").unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/streets-test.csv", &streets_value)],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let mut relations = Relations::new(&ctx).unwrap();
-    let relation = relations.get_relation("test").unwrap();
-    assert_eq!(
-        relation.get_osm_streets(/*sorted_result=*/ true).is_err(),
-        true
-    );
-}
-
-/// Tests Relation::get_osm_streets(): when get_osm_streets_read_stream() fails.
-#[test]
-fn test_relation_get_osm_streets_error() {
-    let ctx = context::tests::make_test_context().unwrap();
-    let mut relations = Relations::new(&ctx).unwrap();
-    let relation = relations.get_relation("myrelation").unwrap();
-
-    let ret = relation.get_osm_streets(/*sorted_result=*/ false);
-
-    assert_eq!(ret.is_err(), true);
-}
-
-/// Tests Relation::get_osm_streets(): when get_osm_streets_read_stream() fails due to
-/// not-well-formed CSV.
-#[test]
-fn test_relation_get_osm_streets_csv_error() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let streets_value = context::tests::TestFileSystem::make_file();
-    // This is garbage, 1st row has 2 cols, 2nd row has 1 col.
-    streets_value
-        .borrow_mut()
-        .write_all(b"@id\t@name\n42\n")
-        .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/streets-myrelation.csv", &streets_value)],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let mut relations = Relations::new(&ctx).unwrap();
-    let relation = relations.get_relation("myrelation").unwrap();
-
-    let ret = relation.get_osm_streets(/*sorted_result=*/ false);
-
-    assert_eq!(ret.is_err(), true);
 }
 
 /// Tests Relation::get_osm_housenumbers(): when it fails due to not-well-formed CSV.
@@ -635,6 +590,24 @@ fn test_relation_get_osm_streets_street_is_node() {
 #[test]
 fn test_relation_get_osm_streets_no_house_number() {
     let ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["ujbuda", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["ujbuda", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["ujbuda", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("ujbuda").unwrap();
     let osm_streets = relation.get_osm_streets(/*sorted_result=*/ true).unwrap();
@@ -1325,6 +1298,29 @@ fn test_relation_get_missing_housenumbers() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -1489,6 +1485,19 @@ fn test_relation_get_lints_out_of_range() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gh3073", "7988705", "Hadak útja", "residential", "", "asphalt", "", "way"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gh3073", "7988706", "Hadak útja2", "residential", "", "asphalt", "", "way"],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh3073";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -1572,6 +1581,19 @@ fn test_relation_get_missing_housenumbers_letter_suffix() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gh267", "24746223", "Kalotaszeg utca", "residential", "", "asphalt", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gh267", "695548547", "Kalotaszeg utca", "residential", "", "", "", ""],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh267";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -1610,6 +1632,14 @@ fn test_relation_get_missing_housenumbers_letter_suffix_invalid() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gh296", "24746223", "Rétköz utca", "residential", "", "asphalt", "", ""],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh296";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -1835,6 +1865,29 @@ fn test_relation_get_missing_streets() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let relation = relations.get_relation(relation_name).unwrap();
@@ -2026,6 +2079,29 @@ fn test_relation_write_missing_housenumbers() {
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2100,6 +2176,14 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["budafok", "458338075", "Vöröskúti határsor", "residential", "", "asphalt", "", ""],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "budafok";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2141,6 +2225,19 @@ fn test_relation_write_missing_housenumbers_sorting() {
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gh414", "46985966", "A utca", "residential", "", "asphalt", "", "way"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gh414", "46985967", "B utca", "residential", "", "asphalt", "", "way"],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh414";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2190,6 +2287,29 @@ fn test_write_missing_streets() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let relation = relations.get_relation(relation_name).unwrap();
@@ -2245,26 +2365,12 @@ fn test_relation_writer_ref_housenumbers() {
     let refpath2 = format!("{refdir}/hazszamok_kieg_20190808.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers2 = context::tests::TestFileSystem::make_file();
-    let ref_streets = context::tests::TestFileSystem::make_file();
     ref_housenumbers2
         .borrow_mut()
         .write_all(
             r#"COUNTY_CODE	SETTLEMENT_CODE	STREET	HOUSENUMBER	COMMENT
 01	011	Márton Áron tér	1	comment
 01	011	Márton Áron tér	2	
-"#
-            .as_bytes(),
-        )
-        .unwrap();
-    ref_streets
-        .borrow_mut()
-        .write_all(
-            r#"@id	name
-1	Tűzkő utca
-2	Törökugrató utca
-3	OSM Name 1
-4	Hamzsabégi út
-5	Márton Áron tér
 "#
             .as_bytes(),
         )
@@ -2280,12 +2386,39 @@ fn test_relation_writer_ref_housenumbers() {
                 "workdir/refs/hazszamok_kieg_20190808.tsv",
                 &ref_housenumbers2,
             ),
-            ("workdir/streets-gazdagret.csv", &ref_streets),
             ("data/yamls.cache", &yamls_cache_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "5", "Márton Áron tér", "", "", "", "", ""],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let expected = r#"Hamzsabégi út	1	

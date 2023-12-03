@@ -58,6 +58,28 @@ struct OverpassResult {
     elements: Vec<OverpassElement>,
 }
 
+/// One row in the `osm_streets` SQL table for a relation. Keep this in sync with data/streets-template.overpassql.
+pub struct OsmStreet {
+    /// Object ID.
+    pub id: u64,
+    /// Street name.
+    pub name: String,
+    /// Object type.
+    pub object_type: Option<String>,
+}
+
+impl OsmStreet {
+    fn new(id: u64, name: &str, object_type: &Option<String>) -> Self {
+        let name = name.to_string();
+        let object_type = object_type.clone();
+        OsmStreet {
+            id,
+            name,
+            object_type,
+        }
+    }
+}
+
 /// A relation's file interface provides access to files associated with a relation.
 #[derive(Clone)]
 pub struct RelationFiles {
@@ -138,12 +160,19 @@ impl RelationFiles {
     }
 
     /// Opens the OSM street list of a relation for reading.
-    pub fn get_osm_streets_read_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
-        let path = self.get_osm_streets_path();
-        ctx.get_file_system().open_read(&path)
+    pub fn get_osm_json_streets(&self, ctx: &context::Context) -> anyhow::Result<Vec<OsmStreet>> {
+        let mut ret: Vec<OsmStreet> = Vec::new();
+        let conn = ctx.get_database_connection()?;
+        let mut stmt =
+            conn.prepare("select osm_id, name, osm_type from osm_streets where relation = ?1")?;
+        let mut rows = stmt.query([&self.name])?;
+        while let Some(row) = rows.next()? {
+            let id: String = row.get(0).unwrap();
+            let name: String = row.get(1).unwrap();
+            let object_type: String = row.get(2).unwrap();
+            ret.push(OsmStreet::new(id.parse()?, &name, &Some(object_type)));
+        }
+        Ok(ret)
     }
 
     /// Opens the OSM house number list of a relation for reading.

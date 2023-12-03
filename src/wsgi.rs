@@ -106,9 +106,24 @@ fn handle_streets(
         }
     } else {
         // assume view-result
-        let stream = relation.get_files().get_osm_streets_read_stream(ctx)?;
-        let mut guard = stream.borrow_mut();
-        let mut read = guard.deref_mut();
+        let mut csv: String =
+            String::from("@id\tname\thighway\tservice\tsurface\tleisure\t@type\n");
+        let conn = ctx.get_database_connection()?;
+        let mut stmt = conn.prepare("select osm_id, name, highway, service, surface, leisure, osm_type from osm_streets where relation = ?1")?;
+        let mut rows = stmt.query([&relation_name])?;
+        while let Some(row) = rows.next()? {
+            let osm_id: String = row.get(0).unwrap();
+            let name: String = row.get(1).unwrap();
+            let highway: String = row.get(2).unwrap();
+            let service: String = row.get(3).unwrap();
+            let surface: String = row.get(4).unwrap();
+            let leisure: String = row.get(5).unwrap();
+            let osm_type: String = row.get(6).unwrap();
+            csv += &format!(
+                "{osm_id}\t{name}\t{highway}\t{service}\t{surface}\t{leisure}\t{osm_type}\n"
+            );
+        }
+        let mut read = csv.as_bytes();
         let table = util::tsv_to_list(&mut read)?;
         doc.append_value(util::html_table_from_list(&table).get_value());
     }
