@@ -170,6 +170,9 @@ filters:
     # 1: ez a Budagyöngye, de az a Szilágyi Erzsébet fasor 121.
     # 25: a páratlan oldalon a 17 az utolsó házszám.
     invalid: ['1', '25']
+  Jurányi utca:
+    # 1-11, 2-14
+    invalid: ['20']
   Kacsa utca:
     ranges:
       - {start: '1', end: '99'}
