@@ -8,6 +8,7 @@ budapest_02:
     osmrelation: 221980
     refcounty: "01"
     refsettlement: "002"
+    alias: ['lipotmezo', 'harshegy', 'huvosvolgy', 'kurucles', 'nyek', 'petnehazyret', 'szepvolgy']
 budapest_03:
     osmrelation: 221976
     refcounty: "01"
@@ -128,26 +129,6 @@ felheviz:
     osmrelation: 3166410
     refcounty: "01"
     refsettlement: "002"
-harshegy:
-    osmrelation: 5802522
-    refcounty: "01"
-    refsettlement: "002"
-huvosvolgy:
-    osmrelation: 5792483
-    refcounty: "01"
-    refsettlement: "002"
-kurucles:
-    osmrelation: 3174383
-    refcounty: "01"
-    refsettlement: "002"
-lipotmezo:
-    osmrelation: 5802567
-    refcounty: "01"
-    refsettlement: "002"
-nyek:
-    osmrelation: 5802617
-    refcounty: "01"
-    refsettlement: "002"
 orszagut:
     osmrelation: 3176172
     refcounty: "01"
@@ -165,10 +146,6 @@ pesthidegkut:
     osmrelation: 5802817
     refcounty: "01"
     refsettlement: "002"
-petnehazyret:
-    osmrelation: 3256782
-    refcounty: "01"
-    refsettlement: "002"
 rezmal:
     osmrelation: 3176180
     refcounty: "01"
@@ -183,10 +160,6 @@ szemlohegy:
     refsettlement: "002"
 szepilona:
     osmrelation: 3174475
-    refcounty: "01"
-    refsettlement: "002"
-szepvolgy:
-    osmrelation: 4666788
     refcounty: "01"
     refsettlement: "002"
 torokvesz:
