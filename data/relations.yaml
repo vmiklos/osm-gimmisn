@@ -237,11 +237,6 @@ tisztviselotelep:
     osmrelation: 3182106
     refcounty: "01"
     refsettlement: "008"
-# budapest 09 - kerulet szinten eleg, nem kotelezo tovabb bontani, ezek csak belvárosi térképezéshez
-belso-ferencvaros:
-    osmrelation: 3229950
-    refcounty: "01"
-    refsettlement: "009"
 # budapest 11 - már egyben van, mert kész van
 # budapest 12 - már egyben van, mert kész van
 # budapest 13 - nincs minden szétbontva, csak ahol igény volt rá
