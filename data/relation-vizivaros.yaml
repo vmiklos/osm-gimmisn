@@ -85,6 +85,9 @@ filters:
     refsettlement: '001'
   Iskola utca:
     refsettlement: '001'
+  Jurányi utca:
+    # 1-11m 2-14
+    invalid: ['20']
   Kacsa utca:
     ranges:
       - {start: '1', end: '99'}
