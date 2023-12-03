@@ -1,5 +1,437 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Ábrányi Emil utca:
+    # 1 =  Bimbó út 143
+    # 10 = Endrődi Sándor utca
+    ranges:
+      - {start: '3', end: '9'}
+      - {start: '2', end: '8'}
+  Ady Endre utca:
+    # 13: 11 után 15 jön
+    invalid: ['13']
+  Ali utca:
+    # 9: 9/a, 9/b, 9/c
+    # 15-17: csak 17 van kiírva
+    invalid: ['9', '15']
+  Alvinci út:
+    ranges:
+      - {start: '1', end: '37'}
+      - {start: '2', end: '60'}
+  Apostol utca:
+    # 1 = Margit utca 27
+    invalid: ['1']
+  Aranka utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '12'}
+  Árpád fejedelem útja:
+    # 1-47: 2. kerület, 48+: III. kerület
+    invalid: ['2', '5', '20', '23']
+    interpolation: 'all'
+  Baba utca:
+    # 4/a: régi házszám, új cím Baba utca 4-6. A épület A lépcsőház.
+    invalid: ['4a']
+  Bajvívó utca:
+    ranges:
+      - {start: '2', end: '8'}
+      - {start: '1', end: '11'}
+  Barsi utca:
+    # 11 = Ady Endre utca 24
+    invalid: ['11']
+  Bécsi út:
+    # 1-35 II. kerület, 37+ III. kerület
+    # 2-32 II. kerület, 34+ III. kerület
+    # 10-14 helyén parkoló
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '31', end: '35'}
+      - {start: '2', end: '12'}
+      - {start: '16', end: '32'}
+  Bem rakpart:
+    # 1-29: I. kerület, 30+ II. kerület (posta szerint 1-28 I. kerület)
+    # 27: Angelika kiülős rész, Angelika címe Batthyány tér 7
+    interpolation: 'all'
+    invalid: ['27']
+  Bem József tér:
+    interpolation: 'all'
+  Bem József utca:
+    ranges:
+      - {start: '2', end: '24'}
+  Bimbó köz:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '4'}
+  Bimbó út:
+    # 13 = Ady Endre utca 2-4
+    # 55 = Pajzs utca 1
+    # 104: 102 után 106
+    # 155: 151 után 157/b, de van egy üres telek
+    # 181 = Rügy utca 8
+    # 183 = Rügy utca 10
+    # 191 = Balogh Ádám utca 18/a
+    # 208: 206/a, 206, 210
+    invalid: ['13', '55', '104', '155', '181', '183', '191', '208']
+  Bolyai utca:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '22'}
+  Bogár utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '17', end: '39'}
+      - {start: '2', end: '28'}
+      - {start: '32', end: '40'}
+  Borbolya utca:
+    ranges:
+      - {start: '3', end: '13'}
+      - {start: '2', end: '14'}
+  Búzavirág utca:
+    # 8b: 8 és 8/a
+    invalid: ['8b']
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '14'}
+  Cimbalom köz:
+   # 2 = Kupeczky utca 9.
+    invalid: ['2']
+  Cimbalom utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '24'}
+  Csalit utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '20'}
+  Csalogány utca:
+    # páros: I. kerület, páratlan: II. kerület
+    ranges:
+      - {start: '1', end: '55'}
+  Cseppkő köz:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '8'}
+  Cseppkő utca:
+    ranges:
+      - {start: '1', end: '31'}
+      - {start: '2', end: '50'}
+  Dénes utca:
+    # páratlan oldalon nincs kiírva házszám, máshohhan számozódik
+    invalid: ['1', '3']
+  Endrődi köz:
+    ranges: []
+  Endrődi Sándor utca:
+    # 34: 32 van kiírva, földhivatal szerint 32 és 34, valamint Ábrányi Emil utca 11 ugyanaz
+    invalid: ['34']
+  Eszter utca:
+    # 3 nincs
+    # 22 = Vérhalom utca 44
+    # 29 = Alsó-Törökvész út 2
+    invalid: ['3']
+  Fazekas utca:
+    # 1-3: I. kerület, 5+ II. kerület
+    # 2-4: I. kerület, 6+ II. kerület
+    ranges:
+      - {start: '5', end: '99'}
+      - {start: '6', end: '98'}
+  Felső Zöldmáli út:
+    ranges:
+      - {start: '1', end: '133'}
+      - {start: '2', end: '130'}
+  Felvinci út:
+    invalid: ['39']
+  Ferenchegyi út:
+    # 4: 2-16 MNB komplexum oldala, 18/a az első ház a páros oldalon
+    ranges:
+      - {start: '1', end: '37'}
+      - {start: '18', end: '98'}
+  Fő utca:
+    # 1-45: I. kerület, 47+ II. kerület
+    # 2-60: I. kerület, 62+ II. kerület
+    # 54 = Batthány utca 1
+    ranges:
+      - {start: '47', end: '51'}
+      - {start: '61', end: '83'}
+      - {start: '62', end: '92'}
+  Frankel Leó út:
+    invalid: ['37', '56']
+  Fillér lépcső:
+    ranges: []
+  Fullánk utca:
+    # 3: 1 után 5 jön, ref szerint 1-3 van, de ez a helyszínen nem láttam
+    # 12 = Gárdonyi Géza út 20/a
+    invalid: ['3']
+    ranges:
+      - {start: '2', end: '10'}
+      - {start: '1', end: '13'}
+  Gábor Áron köz:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '12'}
+  Gábor Áron utca:
+    # 1a = Szilágyi Erzsébet fasor 109.
+    invalid: ['1a']
+  Gárdonyi Géza út:
+    # 1-11: Móricz Zsigmond Gimnázium, számozás nem innen van.
+    # 2 = Törökvész út 46/d
+    # 8: 6/b után 10 jön, de az egyik házrészen nincs szám
+    invalid: ['2', '7', '8', '9', '11']
+  # Garas utca: 1-11. 2+
+  Gomba utca:
+    # 4 = régi házszám, ma Muraközi utca 26.
+    # 5 = Vend utca 30
+    # 9/b: 9 és 9/a
+    # 11: 11/a, 11/b, 11/c
+    # 20/a, 20/b: csak sima 20.
+    invalid: ['5', '4', '9b', '11', '20a', '20b']
+  Gül Baba utca:
+    # 18-20-22 helyén a türbe alatt üres telek
+    invalid: ['22']
+  Gyorskocsi utca:
+    # 1-15: I. kerület, 17+: II. kerület
+    # 2-20: I. kerület, 22+: II. kerület
+    ranges:
+      - {start: '17', end: '31'}
+      - {start: '22', end: '48'}
+  Házmán utca:
+    # 1: ez a Budagyöngye, de az a Szilágyi Erzsébet fasor 121.
+    # 25: a páratlan oldalon a 17 az utolsó házszám.
+    invalid: ['1', '25']
+  Kacsa utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '22'}
+  Kapás utca:
+    # 1-3: I. kerület, 5+: II. kerület
+    # 2-4: I. kerület, 6+: II. kerület
+    ranges:
+      - {start: '5', end: '99'}
+      - {start: '6', end: '98'}
+  Káplár utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '12'}
+  Kapor utca:
+    invalid: ['2']
+  Kapy utca:
+    ranges:
+      - {start: '1', end: '63'}
+      - {start: '2', end: '52'}
+  Keleti Károly utca:
+    # 41 nincs kiírva, helyén a lelkészség van térképezve a tempommal azonos címen
+    invalid: ['41']
+  Kitaibel Pál utca:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '8', end: '12'}
+  Kút utca:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '8'}
+  Lajos utca:
+    # 1-41: II. kerület, 43+: III. kerület
+    # 2-34: II. kerület, 36+: III. kerület
+    ranges:
+      - {start: '1', end: '41'}
+      - {start: '2', end: '34'}
+  Lövőház utca:
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '5', end: '39'}
+      - {start: '2', end: '6'}
+      - {start: '12', end: '34'}
+  Margit körút:
+    ranges:
+      - {start: '7', end: '105'}
+      - {start: '6', end: '68'}
+  Margit utca:
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '4'}
+  Mecset utca:
+    # 21 kérdéses, mapillaryn 19-es ház után nem lehet továbbmenni
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '8', end: '14'}
+  Modori utca:
+    # 1 = Hűvösvölgyi út 179
+    invalid: ['1']
+  Muraközi utca:
+    # 4: 4/a, 4/b
+    # 7 = Kulpa utca 12.
+    # 10: 10/a, 10/b
+    # 11: 11/a, 11/b
+    # 12: 12/a, 12/b
+    # 14: 14/a, 14/b
+    invalid: ['4', '7', '10', '11', '12', '14', '28']
+  Nagyajtai utca:
+    # 2: nincs: 2/a=Szilágyi Erzsébet fasor 103; 2/b
+    invalid: ['2']
+  Nagybányai út:
+    # 2 = Csalán út 15
+    # 39 = 35, U kanyar 2 oldala
+    # 56-58: csak sima 56 van
+    invalid: ['2', '39', '58']
+  Nagybányai lépcső:
+    # nincs házszám
+    ranges: []
+  Őzgida utca:
+    # 5a, 5-7 = Búzavirág utca 9.
+    # 19/a, 19/b: 19/1 .. 19/10
+    # 20/c: régi házszám, új: 16-20 B épület C. lépcsőház
+    invalid: ['5', '5a', '7', '19a', '19b', '20c']
+  Pajzs utca:
+    # 14 saroktelek, bejárat Eszter utca 21
+    # 17 nincs
+    # 21 saroktelek, bejárat Berkenye utca 20
+    # 23 saroktelek, bejárat Berkenye utca 19
+    # 24 valószínű a 26 mögötti ház, nincs kiírva semmi
+    # 25 saroktelek, bejárat Vérhalom utca 36a
+    invalid: ['14', '17', '21', '23', '24', '25']
+  Pasaréti út:
+    ranges:
+      - {start: '1', end: '203'}
+      - {start: '2', end: '126'}
+  Pázsit utca:
+    # 61: a páratlan oldalon a 15 az utolsó házszám.
+    invalid: ['61']
+  Pengő utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '2'}
+      - {start: '6', end: '8'}
+  Pitypang utca:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '12'}
+  Pusztaszeri út:
+    # 91a: csak sima 91.
+    invalid: ['91a']
+  Radna utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '98'}
+  Rét utca:
+    # 2 = Marczibányi tér 12
+    # 6 = Ribáry utca 6
+    invalid: ['2', '6']
+  Ribáry utca:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '14'}
+  Rómer Flóris utca:
+    # 59 = Levél utca 2
+    # 61: sportpálya
+    ranges:
+      - {start: '2', end: '60'}
+      - {start: '39', end: '57'}
+  Rózsahegy utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '10'}
+  Rügy utca:
+    # 2 = Bimbó út 177.
+    invalid: ['2']
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '24'}
+  Szilágyi Erzsébet fasor:
+    # páros XII. kerület
+    # 123 = Házmán utca 2.
+    # 125-127: 125 van kiírva illetve 127=Volkmann utca 2.
+    invalid: ['123', '127']
+    ranges:
+      - {start: '1', end: '131'}
+  Szemlőhegy utca:
+    # 24 = Vérhalom utca 20
+    invalid: ['24']
+  Széna tér:
+    # 1-3,6-7 vizivaros, 4-5 orszagut
+    # 1-2,6-7 I. kerület, 3 II. kerület
+    interpolation: 'all'
+  Szépvölgyi út:
+    # páratlan: III. kerület
+    # páros: II. kerület
+    ranges:
+      - {start: '2', end: '146', refsettlement: '002'}
+      - {start: '1', end: '45', refsettlement: '003'}
+  Tapolcsányi utca:
+    ranges:
+      - {start: '3', end: '13'}
+      - {start: '4', end: '18'}
+  Tömörkény utca:
+    # 1-17
+    invalid: ['25']
+  Törökvész lejtő:
+    # 25 = Gárdonyi Géza út 12
+    invalid: ['25']
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '32'}
+  Törökvész út:
+    # 103 után 111 jön, nincs köztes épület
+    ranges:
+      - {start: '1', end: '103'}
+      - {start: '111', end: '147'}
+      - {start: '2', end: '128'}
+  Trombitás út:
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '20'}
+  Tulipán utca:
+    invalid: ['1', '7']
+  Ürömi köz:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '4'}
+  Ürömi utca:
+    # sok lebontott vagy romos ház, ezért lyukas a számozás
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '15', end: '59'}
+      - {start: '2', end: '2'}
+      - {start: '8', end: '14'}
+      - {start: '18', end: '34'}
+      - {start: '38', end: '66'}
+  Varsányi Irén utca:
+    invalid: ['27', '29']  # parkoló van a helyén
+  Varsányi udvar:
+    interpolation: 'all'
+    ranges:
+      - {start: '2', end: '3'}
+  Vend utca:
+    # 9 = Kupeczky utca 16
+    # 19/a: itt új ház épül, nincs kiírva semmi. Földhivatal szerint Vend utca 19 és Pusztaszeri út 77 a telek.
+    # 23: kiírva: 23 A kapu, és 23 B kapu, most 23/a és 23/b van a házon
+    # 22 = Muraközi utca 16
+    # 24/a: csak sima 24.
+    # 25 = Muraközi utca 17.
+    invalid: ['9', '19a', '22', '23', '24a', '25']
+  Vérhalom tér:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '12'}
+  Vérhalom utca:
+    # 26: Bejárat a mandula utca felől
+    invalid: ['9', '11', '13', '26']
+  Veronika utca:
+    ranges:
+      - {start: '2', end: '4'}
+  Volkmann utca:
+    # 3: sima 3 nincs, csak 3/A, 3/B.
+    invalid: ['3']
+  Zivatar utca:
+    # 2-6 = Ady Endre utca 3, Szent Angéla
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '8', end: '16'}
+  Zuhany utca:
+    # 14 = Felső Zöldmáli út 88-90.
+    # 46 = Ferenchegyi lépcső 2
+    invalid: ['14', '46']
+  Zsigmond tér:
+    # Óbuda Gate 5-7 alatt, de nem ezt a címet használja
+    interpolation: all
+    invalid: ['5', '6', '7']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bulcsú vezér utca': 'Bulcsu vezér utca' # Budaliget (Pesthidegkút)
