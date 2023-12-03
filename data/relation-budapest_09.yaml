@@ -57,7 +57,7 @@ filters:
     # 32: sima 32 nincs, csak 32/a, 32/b.
     # 34/b: nincs ilyan, csak sima 34 van.
     # 36: ez és az Üllői út 55. ugyanaz az épület, bejárat és házszám az Üllői útról van csak.
-    invalid: ['1', '3', '4b', '30', '30b', '32', '34/b', '36']
+    invalid: ['1', '3', '4b', '30', '30b', '32', '34b', '36']
   Pipa utca:
     # 2: sima 2 nincs, csak 2/a, 2/b.
     invalid: ['2']
