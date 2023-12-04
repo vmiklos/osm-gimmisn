@@ -1,34 +1,42 @@
 missing-streets: 'yes'
 filters:
   Bródy Sándor utca:
-    ranges:
-      - {start: '1', end: '27'}
-      - {start: '2', end: '48'}
+    # 17/a: nincs ilyen, csak sima 17 van.
+    # 23: sima 23 nincs, csak 23/a, 23/b.
+    # 30: sima 30 nincs, csak 30/a, 30/b.
+    invalid: ['17a', '23', '30']
   József körút:
-    # Europeum Bevásárlóközpont többféle címmel is fut, osm-en 5-re van jelölve, innen indulunk
-    ranges:
-      - {start: '5', end: '87'}
-      - {start: '2', end: '86'}
+    # 19/a: nincs ilyen, csak sima 19 van.
+    # 19/c: nincs ilyen, csak sima 19 van.
+    # 31: sima 31 nincs, csak 31/a, 31/b.
+    # 34/a: nincs ilyen, csak sima 34 van.
+    invalid: ['19a', '19c', '31', '34a']
   Kölcsey utca:
-    ranges:
-      - {start: '2', end: '4'}
+    # 6: ez és a József körút 31/a ugyanaz az épület, házszám a József körútról van csak.
+    invalid: ['6']
   Ötpacsirta utca:
-    ranges:
-      - {start: '1', end: '5'}
-      - {start: '2', end: '4'}
+    # 6: a páros oldalon a 4 az utolsó házszám.
+    invalid: ['6']
   Pollack Mihály tér:
+    interpolation: 'all'
     invalid: ['5']
   Reviczky utca:
-    ranges:
-      - {start: '1', end: '11'}
-      - {start: '2', end: '8'}
+    # 13: a páratlan oldalon a 9 az utolsó házszám, az utcatáblán pedig a 11.
+    invalid: ['13']
   Szentkirályi utca:
-    # 39 = Mikszáth Kálmán tér 1.
-    # 44 = Baross utca 23-25. SOTE Transzplantációs és Sebészeti Klinika
-    invalid: ['39', '44']
-    ranges:
-      - {start: '1', end: '51'}
-      - {start: '2', end: '46'}
+    # 1: sima 1 nincs, csak 1/a (utcatáblán), 1/b.
+    # 1/a: ez és a Rákóczi út 17. ugyanaz az épület, házszám a Rákóczi útról van csak.
+    # 25: sima 25 nincs, csak 25/a, 25/b.
+    # 39: ez és a Mikszáth Kálmán tér 1. ugyanaz az épület, bejárat és házszám a Mikszáth Kálmán térről van csak.
+    # 83: a páratlan oldalon az 51 az utolsó házszám.
+    # 32: sima 32 nincs, csak 32/a, 32/b.
+    # 44: ez és a Baross utca 23-25. (SOTE Transzplantációs és Sebészeti Klinika) ugyanaz az épület, házszám a Baross utcáról van csak.
+    # 44/a: a SOTE Transzplantációs és Sebészeti Klinikán lehet valamelyik épület, az utcáról nem látható.
+    # 46/b: a SOTE Transzplantációs és Sebészeti Klinikán lehet valamelyik épület, az utcáról nem látható.
+    invalid: ['1', '1a', '25', '39', '83', '32', '44', '44a', '46b']
+  Trefort utca:
+    # 3-5: csak 3 van kitáblázva.
+    invalid: ['5']
 osm-street-filters:
   # Nem valós utcák
   # parkok, sétányok, lépcsők, udvarok
