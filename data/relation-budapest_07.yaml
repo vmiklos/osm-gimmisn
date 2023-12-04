@@ -26,3 +26,4 @@ refstreets:
   'Herzl Tivadar tér': 'Herzl Tivadar park'  # utcatáblán tér
 source: survey
 inactive: true
+housenumber-letters: true
