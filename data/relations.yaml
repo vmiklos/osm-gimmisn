@@ -39,7 +39,7 @@ budapest_08:
     osmrelation: 1606100
     refcounty: "01"
     refsettlement: "008"
-    alias: ['jozsefvaros']
+    alias: ['jozsefvaros', 'palotanegyed', 'tisztviselotelep']
 budapest_09:
     osmrelation: 1552462
     refcounty: "01"
@@ -198,14 +198,6 @@ obuda:
 # budapest 04 - kérésre összevonva
 # budapest 05 - már egyben van, mert kész van
 # budapest 08 - kerulet szinten eleg, nem kotelezo tovabb bontani, ezek csak belvárosi térképezéshez
-palotanegyed:
-    osmrelation: 3177466
-    refcounty: "01"
-    refsettlement: "008"
-tisztviselotelep:
-    osmrelation: 3182106
-    refcounty: "01"
-    refsettlement: "008"
 # budapest 11 - már egyben van, mert kész van
 # budapest 12 - már egyben van, mert kész van
 # budapest 13 - nincs minden szétbontva, csak ahol igény volt rá
