@@ -92,3 +92,4 @@ refstreets:
   'Golgota út': 'Golgota utca'
 source: survey
 inactive: true
+housenumber-letters: true
