@@ -65,3 +65,4 @@ filters:
       - {start: '142', end: '198'}
 source: survey
 inactive: true
+housenumber-letters: true
