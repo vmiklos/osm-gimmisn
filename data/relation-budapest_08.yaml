@@ -21,33 +21,52 @@ filters:
   Kiss József utca:
     # 6: ez és a Bezerédj utca 16/a ugyanaz az épület, házszám a Bezerédj utcáról van csak.
     # 14/4: nincs ilyen, csak sima 14 van.
-    invalid: ['6', '14/4']
+    # 14/a: nincs ilyen, csak sima 14 van.
+    # 14/b: nincs ilyen, csak sima 14 van.
+    invalid: ['6', '14/4', '14a', '14b']
   Kölcsey utca:
     # 6: ez és a József körút 31/a ugyanaz az épület, házszám a József körútról van csak.
     invalid: ['6']
+  Múzeum utca:
+    # 15: sima 15 nincs, csak 15/a, 15/b.
+    invalid: ['15']
+  Nagy Fuvaros utca:
+    # 3: sima 3 nincs, csak 3/a, 3/b.
+    invalid: ['3']
   Ötpacsirta utca:
     # 6: a páros oldalon a 4 az utolsó házszám.
     invalid: ['6']
   Pollack Mihály tér:
     interpolation: 'all'
     invalid: ['5']
+  Rákóczi tér:
+    interpolation: 'all'
+    # 13: az utcatáblán a 12 az utolsó házszám.
+    invalid: ['13']
   Reviczky utca:
     # 13: a páratlan oldalon a 9 az utolsó házszám, az utcatáblán pedig a 11.
     invalid: ['13']
+  Salétrom utca:
+    # 2: sima 2 nincs, csak 2/a (utcatáblán), 2/b, 2/c.
+    invalid: ['2']
+  Sárkány utca:
+    # 12: sima 12 nincs, csak 12/a, 12/b.
+    invalid: ['12']
   Szentkirályi utca:
     # 1: sima 1 nincs, csak 1/a (utcatáblán), 1/b.
-    # 1/a: ez és a Rákóczi út 17. ugyanaz az épület, házszám a Rákóczi útról van csak.
     # 25: sima 25 nincs, csak 25/a, 25/b.
     # 39: ez és a Mikszáth Kálmán tér 1. ugyanaz az épület, bejárat és házszám a Mikszáth Kálmán térről van csak.
     # 83: a páratlan oldalon az 51 az utolsó házszám.
     # 32: sima 32 nincs, csak 32/a, 32/b.
-    # 44: ez és a Baross utca 23-25. (SOTE Transzplantációs és Sebészeti Klinika) ugyanaz az épület, házszám a Baross utcáról van csak.
     # 44/a: a SOTE Transzplantációs és Sebészeti Klinikán lehet valamelyik épület, az utcáról nem látható.
     # 46/b: a SOTE Transzplantációs és Sebészeti Klinikán lehet valamelyik épület, az utcáról nem látható.
-    invalid: ['1', '1a', '25', '39', '83', '32', '44', '44a', '46b']
+    invalid: ['1', '25', '39', '83', '32', '44a', '46b']
   Trefort utca:
     # 3-5: csak 3 van kitáblázva.
     invalid: ['5']
+  Vásár utca:
+    # 11: a páratlan oldalon a Vásárcsarnok van, de az nem erre az utcára van számozva.
+    invalid: ['11']
 osm-street-filters:
   # Nem valós utcák
   # parkok, sétányok, lépcsők, udvarok
@@ -61,7 +80,7 @@ osm-street-filters:
   # Ludovika Campus belső utak
   - Ludovika Campus körút
   - Campus tér
-  # Fiúmei úti sírkert belső utak
+  # Fiumei úti sírkert belső utak
   - 48-asok útja
   - 56-osok útja
   - Ady Endre út
