@@ -1,5 +1,12 @@
 missing-streets: 'yes'
 filters:
+  Berzsenyi utca:
+    # 2: sima 2 nincs, csak 2/a (utcatáblán), 2/b.
+    invalid: ['2']
+  Bezerédj utca:
+    # 14: csak utcatáblán létezik, az iskolaépület címe 16/a.
+    # 16: sima 16 nincs, csak 16/a.
+    invalid: ['14', '16']
   Bródy Sándor utca:
     # 17/a: nincs ilyen, csak sima 17 van.
     # 23: sima 23 nincs, csak 23/a, 23/b.
@@ -11,6 +18,10 @@ filters:
     # 31: sima 31 nincs, csak 31/a, 31/b.
     # 34/a: nincs ilyen, csak sima 34 van.
     invalid: ['19a', '19c', '31', '34a']
+  Kiss József utca:
+    # 6: ez és a Bezerédj utca 16/a ugyanaz az épület, házszám a Bezerédj utcáról van csak.
+    # 14/4: nincs ilyen, csak sima 14 van.
+    invalid: ['6', '14/4']
   Kölcsey utca:
     # 6: ez és a József körút 31/a ugyanaz az épület, házszám a József körútról van csak.
     invalid: ['6']
