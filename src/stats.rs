@@ -502,6 +502,13 @@ pub fn get_sql_mtime(ctx: &context::Context, page: &str) -> anyhow::Result<time:
     Ok(modified.to_offset(now.offset()))
 }
 
+pub fn has_sql_mtime(ctx: &context::Context, page: &str) -> anyhow::Result<bool> {
+    let conn = ctx.get_database_connection()?;
+    let mut stmt = conn.prepare("select last_modified from mtimes where page = ?1")?;
+    let mut rows = stmt.query([page])?;
+    Ok(rows.next()?.is_some())
+}
+
 pub fn update_invalid_addr_cities(ctx: &context::Context, state_dir: &str) -> anyhow::Result<()> {
     info!("stats: updating invalid_addr_cities");
     let valid_settlements =

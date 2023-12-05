@@ -791,11 +791,22 @@ fn test_missing_housenumbers_view_result_txt() {
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
+    let mtime = test_wsgi
+        .get_ctx()
+        .get_time()
+        .now()
+        .unix_timestamp_nanos()
+        .to_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute(
             r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
             ["budafok", "458338075", "Vöröskúti határsor", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/budafok", &mtime],
         )
         .unwrap();
     }
@@ -838,6 +849,12 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
         ],
     );
     file_system.set_files(&files);
+    let mtime = test_wsgi
+        .get_ctx()
+        .get_time()
+        .now()
+        .unix_timestamp_nanos()
+        .to_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute(
@@ -858,6 +875,11 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
         conn.execute(
             r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
             ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/gazdagret", &mtime],
         )
         .unwrap();
     }
@@ -1125,13 +1147,6 @@ fn test_missing_housenumbers_view_result_chkl_no_ref_housenumbers() {
 #[test]
 fn test_missing_housenumbers_view_result_txt_no_osm_streets() {
     let mut test_wsgi = TestWsgi::new();
-    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
-    let relation = relations.get_relation("gazdagret").unwrap();
-    let hide_path = relation.get_files().get_osm_streets_path();
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_rc);
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
     assert_eq!(result, "No existing streets");
 }
@@ -1147,6 +1162,20 @@ fn test_missing_housenumbers_view_result_txt_no_osm_housenumbers() {
     file_system.set_hide_paths(&[hide_path]);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
+    let mtime = test_wsgi
+        .get_ctx()
+        .get_time()
+        .now()
+        .unix_timestamp_nanos()
+        .to_string();
+    {
+        let conn = test_wsgi.ctx.get_database_connection().unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/gazdagret", &mtime],
+        )
+        .unwrap();
+    }
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
     assert_eq!(result, "No existing house numbers");
 }
@@ -1162,6 +1191,20 @@ fn test_missing_housenumbers_view_result_txt_no_ref_housenumbers() {
     file_system.set_hide_paths(&[hide_path]);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
+    let mtime = test_wsgi
+        .get_ctx()
+        .get_time()
+        .now()
+        .unix_timestamp_nanos()
+        .to_string();
+    {
+        let conn = test_wsgi.ctx.get_database_connection().unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/gazdagret", &mtime],
+        )
+        .unwrap();
+    }
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
     assert_eq!(result, "No reference house numbers");
 }
