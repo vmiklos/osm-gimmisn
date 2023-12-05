@@ -87,3 +87,4 @@ filters:
       - {start: '77', end: '81'}
 source: survey
 inactive: false
+housenumber-letters: true

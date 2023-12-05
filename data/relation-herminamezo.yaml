@@ -74,3 +74,4 @@ filters:
       - {start: '100', end: '178'}
 source: survey
 inactive: true
+housenumber-letters: true
