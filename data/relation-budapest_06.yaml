@@ -1,42 +1,20 @@
 missing-streets: 'yes'
 filters:
   Andrássy út:
-    # exclude following numbers ['106', '108', '94']
-    ranges:
-      - {start: '1', end: '127'}
-      - {start: '2', end: '92'}
-      - {start: '96', end: '104'}
-      - {start: '110', end: '132'}
-  Anker köz:
-    ranges:
-      - {start: '1', end: '3'}
-      - {start: '2', end: '4'}
-  Bulcsú utca:
+    # 54/a: bolt címe 54. A épület pinceszint -> nincs épület kiírva, nincs pincében üzlet.
+    invalid: ['54a', '94', '106', '108']
+  # Bulcsú utca:
     # Terézváros 2-16, de jelenleg egy mező
-    ranges: []
-  Bajcsy-Zsilinszky köz:
-    ranges:
-      - {start: '1', end: '3'}
-      - {start: '2', end: '2'}
-  Bajcsy-Zsilinszky út:
-    ranges:
-      - {start: '1', end: '65'}
+    # resurvey
+  # Bajcsy-Zsilinszky út:
   Eötvös utca:
     # Spanyol nagykövetség 11/B, mellette a 15-ös szám
     invalid: ['13']
-  Hajós utca:
-    ranges:
-      - {start: '1', end: '43'}
-      - {start: '2', end: '36'}
-  Lehel utca:
-    ranges:
-      - {start: '1', end: '5'}
   Lendvay utca:
     # 2-10 között nem erre az utcára vannak számozva
     invalid: ['4', '8']
-  Munkácsy Mihály utca:
+  # Munkácsy Mihály utca:
     # 31-37-ig üres telek (Star Park Podmaniczky utcai parkolója van rajta)
-    invalid: ['31', '33', '35', '37']
   Nagymező utca:
     # 5-ös szám helyén a Tereza kiülős "kertje" van
     invalid: ['5']
@@ -45,13 +23,10 @@ filters:
     # 18: Most kiülős része
     invalid: ['8', '10', '18']
   Váci út:
-    ranges:
-      - {start: '1', end: '3'}
+    # VI. kerület: Westend 1-3, XIII. kerület Lehel Csarnok 9-15
+    invalid: ['7']
   Zichy Jenő utca:
-    ranges:
-      - {start: '1', end: '49'}
-      - {start: '2', end: '22'}
-      - {start: '30', end: '46'}
+    invalid: ['24', '26']
 osm-street-filters:
   # Nem valós utcák
   - Bajzagút
