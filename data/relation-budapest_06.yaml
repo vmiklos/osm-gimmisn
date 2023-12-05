@@ -18,15 +18,9 @@ filters:
   Nagymező utca:
     # 5-ös szám helyén a Tereza kiülős "kertje" van
     invalid: ['5']
-  Ó utca:
-    # 8-10 az Opera Parkolóház egyik fele
-    # 18: Most kiülős része
-    invalid: ['8', '10', '18']
   Váci út:
     # VI. kerület: Westend 1-3, XIII. kerület Lehel Csarnok 9-15
     invalid: ['7']
-  Zichy Jenő utca:
-    invalid: ['24', '26']
 osm-street-filters:
   # Nem valós utcák
   - Bajzagút
