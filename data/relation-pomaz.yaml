@@ -3,6 +3,7 @@ filters: {}
 osm-street-filters:
   # Budakalász
   - Ország út
+  - Zrínyi Ilona utca
   # park
   - Margitliget
   - Templomkert
