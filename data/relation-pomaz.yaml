@@ -2,12 +2,15 @@ missing-streets: 'yes'
 filters: {}
 osm-street-filters:
   # Budakalász
+  - Lovas dűlő
   - Ország út
+  - Pomázi út
   - Zrínyi Ilona utca
   # park
   - Margitliget
   - Templomkert
   - Városháza parkja
+  - Keresztút
   # turistautak
   - Görbe hajtás
   - Meteor létra
