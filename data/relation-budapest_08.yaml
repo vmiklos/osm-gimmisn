@@ -12,6 +12,13 @@ filters:
     # 23: sima 23 nincs, csak 23/a, 23/b.
     # 30: sima 30 nincs, csak 30/a, 30/b.
     invalid: ['17a', '23', '30']
+  II. János Pál pápa tér:
+    interpolation: 'all'
+    # 23/f: nincs ilyen, csak sima 23 van.
+    # 44: a 30 (Erkel Színház) az utolsó házszám.
+    # 60: a 30 (Erkel Színház) az utolsó házszám.
+    # 84: a 30 (Erkel Színház) az utolsó házszám.
+    invalid: ['23f', '44', '60', '84']
   József körút:
     # 19/a: nincs ilyen, csak sima 19 van.
     # 19/c: nincs ilyen, csak sima 19 van.
