@@ -613,10 +613,7 @@ fn missing_housenumbers_view_chkl(
     let mut relation = relations.get_relation(relation_name)?;
 
     let output: String;
-    if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path())
-    {
+    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
         output = tr("No existing streets");
     } else if !ctx
         .get_file_system()
