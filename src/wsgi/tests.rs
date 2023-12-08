@@ -791,12 +791,7 @@ fn test_missing_housenumbers_view_result_txt() {
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
-    let mtime = test_wsgi
-        .get_ctx()
-        .get_time()
-        .now()
-        .unix_timestamp_nanos()
-        .to_string();
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute(
@@ -849,12 +844,7 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
         ],
     );
     file_system.set_files(&files);
-    let mtime = test_wsgi
-        .get_ctx()
-        .get_time()
-        .now()
-        .unix_timestamp_nanos()
-        .to_string();
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute(
@@ -925,12 +915,7 @@ fn test_missing_housenumbers_view_result_chkl() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
-    let mtime = test_wsgi
-        .get_ctx()
-        .get_time()
-        .now()
-        .unix_timestamp_nanos()
-        .to_string();
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute(
@@ -974,12 +959,7 @@ fn test_missing_housenumbers_view_result_chkl_even_odd() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
-    let mtime = test_wsgi
-        .get_ctx()
-        .get_time()
-        .now()
-        .unix_timestamp_nanos()
-        .to_string();
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute(
@@ -1087,12 +1067,7 @@ Tűzkő utca	31
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
-    let mtime = test_wsgi
-        .get_ctx()
-        .get_time()
-        .now()
-        .unix_timestamp_nanos()
-        .to_string();
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute(
@@ -1157,12 +1132,7 @@ fn test_missing_housenumbers_view_result_chkl_no_osm_housenumbers() {
     file_system.set_hide_paths(&[hide_path]);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
-    let mtime = test_wsgi
-        .get_ctx()
-        .get_time()
-        .now()
-        .unix_timestamp_nanos()
-        .to_string();
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute(
@@ -1186,12 +1156,7 @@ fn test_missing_housenumbers_view_result_chkl_no_ref_housenumbers() {
     file_system.set_hide_paths(&[hide_path]);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
-    let mtime = test_wsgi
-        .get_ctx()
-        .get_time()
-        .now()
-        .unix_timestamp_nanos()
-        .to_string();
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute(
@@ -1223,12 +1188,7 @@ fn test_missing_housenumbers_view_result_txt_no_osm_housenumbers() {
     file_system.set_hide_paths(&[hide_path]);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
-    let mtime = test_wsgi
-        .get_ctx()
-        .get_time()
-        .now()
-        .unix_timestamp_nanos()
-        .to_string();
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute(
@@ -1252,12 +1212,7 @@ fn test_missing_housenumbers_view_result_txt_no_ref_housenumbers() {
     file_system.set_hide_paths(&[hide_path]);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
-    let mtime = test_wsgi
-        .get_ctx()
-        .get_time()
-        .now()
-        .unix_timestamp_nanos()
-        .to_string();
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute(
