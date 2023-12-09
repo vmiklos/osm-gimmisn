@@ -14,6 +14,7 @@ use crate::areas;
 use crate::context;
 use crate::i18n::translate as tr;
 use crate::overpass_query;
+use crate::stats;
 use crate::util;
 use crate::webframe;
 use crate::yattag;
@@ -184,10 +185,7 @@ pub fn additional_streets_view_result(
 
     let doc = yattag::Doc::new();
     let prefix = ctx.get_ini().get_uri_prefix();
-    if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path())
-    {
+    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
         doc.append_value(webframe::handle_no_osm_streets(&prefix, relation_name).get_value());
     } else if !ctx
         .get_file_system()
