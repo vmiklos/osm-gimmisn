@@ -168,6 +168,9 @@ filters:
     invalid: ['6']
   Szervita tér:
     interpolation: all
+  Váci utca:
+    # 11: sima 11 nincs, csak 11/a, 11/b.
+    invalid: ['11']
   Vadász utca:
     # 9: sima 9 nincs, csak 9/a, 9/b.
     # 4: a páros oldalon a 10 az első házszám.
@@ -176,7 +179,7 @@ filters:
   Veres Pálné utca:
     # 1: ez és a Váci utca 38. ugyanaz az épület, házszám a Váci utcáról van csak.
     # 20: ez és a Papnövelde utca 1. ugyanaz az épület, házszám a Papnövelde utcáról van csak.
-    invalid: ['20']
+    invalid: ['1', '20']
   Vértanúk tere:
     interpolation: all
   Vigadó utca:
