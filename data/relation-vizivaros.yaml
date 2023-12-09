@@ -144,6 +144,8 @@ filters:
     refsettlement: '001'
   Toldy lépcső:
     refsettlement: '001'
+    # 1-1, 2-2
+    invalid: ['55']
   Vám utca:
     refsettlement: '001'
   Váralja utca:
