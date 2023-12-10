@@ -756,18 +756,22 @@ fn test_relation_files_write_osm_streets() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let relation = relations.get_relation(relation_name).unwrap();
-    let result_from_overpass =
-        "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n";
-    let expected = std::fs::read("tests/workdir/streets-gazdagret.csv").unwrap();
+    let result_from_overpass = String::from_utf8(
+        std::fs::read("src/fixtures/network/overpass-streets-gazdagret.json").unwrap(),
+    )
+    .unwrap();
     relation
         .get_files()
-        .write_osm_streets(&ctx, result_from_overpass)
+        .write_osm_json_streets(&ctx, &result_from_overpass)
         .unwrap();
-    let mut guard = streets_value.borrow_mut();
-    guard.seek(SeekFrom::Start(0)).unwrap();
-    let mut actual: Vec<u8> = Vec::new();
-    guard.read_to_end(&mut actual).unwrap();
-    assert_eq!(actual, expected);
+    assert_eq!(
+        relation
+            .get_files()
+            .get_osm_json_streets(&ctx)
+            .unwrap()
+            .len(),
+        4
+    );
 }
 
 /// Tests RelationFiles.write_osm_housenumbers().
