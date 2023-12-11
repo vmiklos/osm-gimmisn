@@ -170,7 +170,11 @@ filters:
     interpolation: all
   Váci utca:
     # 11: sima 11 nincs, csak 11/a, 11/b.
-    invalid: ['11']
+    # 31/a: nincs ilyen, csak sima 31 van.
+    # 79/1: nincs ilyen, csak sima 79 van.
+    # 16/a: jelenleg építés alatt álló épület, de határozottan egy épület, nem várható 16/a, csak sima 16. RESURVEY 2024
+    # 60/a: nincs ilyen, csak sima 60 van.
+    invalid: ['11', '31a', '79/1', '16a', '60a']
   Vadász utca:
     # 9: sima 9 nincs, csak 9/a, 9/b.
     # 4: a páros oldalon a 10 az első házszám.
