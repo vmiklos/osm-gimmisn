@@ -15,6 +15,7 @@ use crate::cache;
 use crate::context;
 use crate::i18n::translate as tr;
 use crate::ranges;
+use crate::stats;
 use crate::util;
 use crate::yattag;
 use anyhow::Context;
@@ -1533,7 +1534,7 @@ impl<'a> Relations<'a> {
         let files = relation.get_files();
         let osm_housenumber_coverage_exists = relation.has_osm_housenumber_coverage().unwrap();
         let osm_street_coverage_exists = relation.has_osm_street_coverage().unwrap();
-        if file_system.path_exists(&files.get_osm_streets_path())
+        if stats::has_sql_mtime(self.ctx, &format!("streets/{}", relation.get_name())).unwrap()
             && file_system.path_exists(&files.get_osm_housenumbers_path())
             && file_system.path_exists(&files.get_ref_streets_path())
             && file_system.path_exists(&files.get_ref_housenumbers_path())
@@ -1551,7 +1552,7 @@ impl<'a> Relations<'a> {
         }
 
         let file_system = self.ctx.get_file_system();
-        if !file_system.path_exists(&relation.get_files().get_osm_streets_path()) {
+        if !stats::has_sql_mtime(self.ctx, &format!("streets/{}", relation.get_name()))? {
             return Ok(false);
         }
 

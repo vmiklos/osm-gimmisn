@@ -3292,8 +3292,14 @@ fn test_relations_is_new() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/myrelation", &mtime],
+        )
+        .unwrap();
         conn.execute(
             r#"insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
             ["myrelation", "", ""],
@@ -3336,6 +3342,35 @@ fn test_relations_is_inactive() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    let mtime = ctx.get_time().now_string();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/gazdagret", &mtime],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
 
     let actual = relations.get_active_names().unwrap();
@@ -3374,8 +3409,6 @@ fn test_relations_is_inactive_no_osm_streets() {
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let hide_path = ctx.get_abspath("workdir/streets-gazdagret.csv");
-    file_system.set_hide_paths(&[hide_path]);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let mut relations = Relations::new(&ctx).unwrap();
@@ -3414,6 +3447,35 @@ fn test_relations_is_inactive_no_ref_streets() {
     file_system.set_hide_paths(&[hide_path]);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
+    let mtime = ctx.get_time().now_string();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/gazdagret", &mtime],
+        )
+        .unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     relations.activate_invalid();
 
