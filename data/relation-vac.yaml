@@ -114,7 +114,7 @@ refstreets:
   'Báthori utca': 'Báthori Miklós utca'  # utcatáblán Báthori utca (2023.06), az Excelben Báthori Miklós utca - https://www.openstreetmap.org/note/3673572
   'Belgakert út': 'Belgakert utca'  # https://www.openstreetmap.org/note/3643293
   'Csurgóbánya utca': 'Csurgó bánya utca'  # https://www.openstreetmap.org/note/3673562
-  'Deres utca': 'Deres út'  # https://www.openstreetmap.org/note/3643305
+  'Deres utca': 'Deres út'  # nincs tábla
   'Felsőnyulas utca': 'Felső-nyulas utca'  # https://www.openstreetmap.org/note/3643314
   'Homokdűlő út': 'Homok dűlő'  # https://www.openstreetmap.org/note/3485459
   'Kálvária': 'Kálvária dűlő'  # https://www.openstreetmap.org/note/3673566
