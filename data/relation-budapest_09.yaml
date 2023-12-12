@@ -23,6 +23,9 @@ filters:
   Határ út:
     # 50/a: a Határ út IX. kerületi oldalán nincsenek épületek.
     invalid: ['50a']
+  Hőgyes Endre utca:
+    # 17: ez és az Üllői út 39-43. ugyanaz az épület, a Hőgyes Endre utcáról is az Üllői út cím van kitáblázva.
+    invalid: ['17']
   Ipar utca:
     # 7/c: nincs ilyen, csak sima 7 van.
     # 2: sima 2 nincs, csak 2/a, 2/b.
