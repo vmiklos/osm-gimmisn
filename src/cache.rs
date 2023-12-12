@@ -12,12 +12,14 @@
 
 use crate::areas;
 use crate::context;
+use crate::stats;
 
 /// Decides if we have an up to date cache entry or not.
 fn is_cache_current(
     ctx: &context::Context,
     cache_path: &str,
     dependencies: &[String],
+    sql_dependencies: &[String],
 ) -> anyhow::Result<bool> {
     if !ctx.get_file_system().path_exists(cache_path) {
         return Ok(false);
@@ -33,6 +35,14 @@ fn is_cache_current(
         }
     }
 
+    for dependency in sql_dependencies {
+        if stats::has_sql_mtime(ctx, dependency)?
+            && stats::get_sql_mtime(ctx, dependency)? > cache_mtime
+        {
+            return Ok(false);
+        }
+    }
+
     Ok(true)
 }
 
@@ -42,12 +52,17 @@ fn is_missing_housenumbers_json_cached(relation: &mut areas::Relation<'_>) -> an
     let datadir = relation.get_ctx().get_abspath("data");
     let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
     let dependencies = vec![
-        relation.get_files().get_osm_streets_path(),
         relation.get_files().get_osm_housenumbers_path(),
         relation.get_files().get_ref_housenumbers_path(),
         relation_path,
     ];
-    is_cache_current(relation.get_ctx(), &cache_path, &dependencies)
+    let sql_dependencies = vec![format!("streets/{}", relation.get_name())];
+    is_cache_current(
+        relation.get_ctx(),
+        &cache_path,
+        &dependencies,
+        &sql_dependencies,
+    )
 }
 
 /// Gets the cached json of the missing housenumbers for a relation.
@@ -85,12 +100,17 @@ fn is_additional_housenumbers_json_cached(
     let datadir = relation.get_ctx().get_abspath("data");
     let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
     let dependencies = vec![
-        relation.get_files().get_osm_streets_path(),
         relation.get_files().get_osm_housenumbers_path(),
         relation.get_files().get_ref_housenumbers_path(),
         relation_path,
     ];
-    is_cache_current(relation.get_ctx(), &cache_path, &dependencies)
+    let sql_dependencies = vec![format!("streets/{}", relation.get_name())];
+    is_cache_current(
+        relation.get_ctx(),
+        &cache_path,
+        &dependencies,
+        &sql_dependencies,
+    )
 }
 
 /// Gets the cached json of the additional housenumbers for a relation.

@@ -120,7 +120,44 @@ fn test_is_cache_current() {
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
 
-    let ret = is_cache_current(&ctx, cache_path, &[]).unwrap();
+    let ret = is_cache_current(&ctx, cache_path, &[], &[]).unwrap();
+
+    assert_eq!(ret, false);
+}
+
+/// Tests is_cache_current(), when an sql dependency is newer.
+#[test]
+fn test_is_cache_current_false_from_sql() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let cache_path = ctx.get_abspath("workdir/gazdagret.json.cache");
+    let mut file_system = context::tests::TestFileSystem::new();
+    let json_cache_value = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("workdir/gazdagret.json.cache", &json_cache_value)],
+    );
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
+    mtimes.insert(
+        cache_path.to_string(),
+        Rc::new(RefCell::new(
+            time::OffsetDateTime::from_unix_timestamp(0).unwrap(),
+        )),
+    );
+    file_system.set_mtimes(&mtimes);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/gazdagret", "1"],
+        )
+        .unwrap();
+    }
+
+    let sql_dependencies = vec!["streets/gazdagret".to_string()];
+    let ret = is_cache_current(&ctx, &cache_path, &[], &sql_dependencies).unwrap();
 
     assert_eq!(ret, false);
 }
