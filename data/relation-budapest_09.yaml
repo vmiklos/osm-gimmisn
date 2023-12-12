@@ -5,6 +5,11 @@ filters:
     # 15: sima 15 nincs, csak 15/a, 15/b.
     # 19: sima 19 nincs, csak 19/a, 19/b.
     invalid: ['7', '15', '19']
+  Bakáts utca:
+    # 1/a: nincs ilyen, csak 1-3 van.
+    # 2: sima 2 nincs, csak 2/a (utcatáblán), 2/b, 2/c, 2/d.
+    # 4: ez és a Lónyay utca 46. ugyanaz az épület, házszám a Lónyay utcáról van csak.
+    invalid: ['1a', '2', '4']
   Boráros tér:
     interpolation: all
   Dandár utca:
@@ -27,9 +32,16 @@ filters:
     interpolation: all
     # 10 = Üllői út 1. Aegon
     invalid: ['10']
+  Kinizsi utca:
+    # 26: ez a Markusovszky téri park, nincs épület.
+    # 28: ez a Markusovszky téri park, nincs épület.
+    invalid: ['26', '28']
   Közraktár utca:
-    # 18 = Kinizsi utca 1-7. Lónyay Utcai Református Gimnázium és Kollégium
-    invalid: ['18']
+    # 2-6: nincs ilyen, csak 2/a, 4-8 van.
+    # 12: sima 12 nincs, csak 12/a, 12/b.
+    # 18: ez és a Lónyay Utcai Református Gimnázium és Kollégium (Kinizsi utca 1-7.) ugyanaz az épület, házszám a Kinizsi utcáról van csak.
+    # 24/a: nincs ilyen, csak sima 24 van.
+    invalid: ['2', '12', '18', '24a']
   Köztelek utca:
     # 8/b: nincs ilyen, csak sima 8 van.
     invalid: ['8b']
@@ -41,11 +53,15 @@ filters:
     # 27: sima 27 nincs, csak 27/a, 27/b.
     invalid: ['3', '27']
   Lónyay utca:
-    # 33-35: ez a Lónyay Utcai Református Gimnázium és Kollégium épületének hátulja (Kinizsi utca 1-7.), a Lónyay utcáról nincs bejárat és házszám.
+    # 33-35: ez és a Lónyay Utcai Református Gimnázium és Kollégium (Kinizsi utca 1-7.) ugyanaz az épület, bejárat és házszám a Kinizsi utcáról van csak.
     # 37/a: az épületre 37/a-b van kitáblázva.
     # 41/b: nincs ilyen, csak sima 41 van.
     # 42: sima 42 nincs, csak 42/a, 42/b.
     invalid: ['33', '35', '37a', '41b', '42']
+  Mátyás utca:
+    # 1-5/a: ez és a Budapesti Corvinus Egyetem C épület (Közraktár utca 4-8) ugyanaz az épület, házszám a Közraktár utcáról van csak.
+    # 2: ez és a Közraktár utca 2/a ugyanaz az épület, bejárat és házszám a Közraktár utcáról van csak.
+    invalid: ['1', '3', '5', '5a', '2']
   Pápay István utca:
     # 12: ez a NAV épületének hátulja, amely a Vaskapu utca 33-35-re van számozva.
     invalid: ['12']
@@ -64,6 +80,13 @@ filters:
   Soroksári út:
     # 50-54: csak 54 van kitáblázva, közvetlenül a 48 után.
     invalid: ['50', '52']
+  Tompa utca:
+    # 7/a: nincs ilyen, csak sima 7 van.
+    # 26: sima 26 nincs, csak 26/a, 26/b.
+    invalid: ['7a', '26']
+  Török Pál utca:
+    # 2: ez és a Kálvin téri református templom ugyanaz az épület, házszám a Török Pál utcáról nincs.
+    invalid: ['2']
   Tűzoltó utca:
     # 1: ez és a Ferenc körút 39. ugyanaz az épület, bejárat és házszám a Ferenc körútról van csak.
     # 17: ez és a Páva utca 37. ugyanaz az épület, bejárat és házszám a Páva utcáról van csak.
