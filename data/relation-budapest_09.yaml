@@ -82,8 +82,9 @@ filters:
     invalid: ['50', '52']
   Tompa utca:
     # 7/a: nincs ilyen, csak sima 7 van.
+    # 13: sima 13 nincs, az épületen 13 A/B van kitáblázva, OSM-en 13/a,13b formában van rögzítve.
     # 26: sima 26 nincs, csak 26/a, 26/b.
-    invalid: ['7a', '26']
+    invalid: ['7a', '13', '26']
   Török Pál utca:
     # 2: ez és a Kálvin téri református templom ugyanaz az épület, házszám a Török Pál utcáról nincs.
     invalid: ['2']
