@@ -624,6 +624,16 @@ fn test_update_osm_streets() {
             /*data_path=*/ "",
             /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.csv",
         ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.json",
+        ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
@@ -665,16 +675,26 @@ fn test_update_osm_streets() {
 
     update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
 
-    let mtime = ctx.get_file_system().getmtime(&path).unwrap();
+    let mtime = stats::get_sql_mtime(&ctx, "streets/gazdagret").unwrap();
     assert!(mtime > time::OffsetDateTime::UNIX_EPOCH);
 
     update_osm_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
 
-    assert_eq!(ctx.get_file_system().getmtime(&path).unwrap(), mtime);
+    assert_eq!(
+        stats::get_sql_mtime(&ctx, "streets/gazdagret").unwrap(),
+        mtime
+    );
 
-    let actual = context::tests::TestFileSystem::get_content(&osm_streets_value);
-    let expected = std::fs::read_to_string(&path).unwrap();
-    assert_eq!(actual, expected);
+    assert_eq!(
+        relations
+            .get_relation("gazdagret")
+            .unwrap()
+            .get_files()
+            .get_osm_json_streets(&ctx)
+            .unwrap()
+            .len(),
+        4
+    );
 }
 
 /// Tests update_osm_streets(): the case when we keep getting HTTP errors.
