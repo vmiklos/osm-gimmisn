@@ -51,8 +51,9 @@ filters:
       - {start: '1', end: '25'}
       - {start: '2', end: '22'}
   Diósvölgy dűlő:
+    # 65, 67: nincsenek kiírva.
     # hrsz szűrés - 172/20
-    invalid: ['172']
+    invalid: ['65', '67', '172']
   Dobogókői út:
     # hrsz szűrés - 190/6 - itt már csak 1111-es út
     invalid: ['190']
