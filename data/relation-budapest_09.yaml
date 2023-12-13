@@ -82,7 +82,9 @@ filters:
     invalid: ['2']
   Soroksári út:
     # 50-54: csak 54 van kitáblázva, közvetlenül a 48 után.
-    invalid: ['50', '52']
+    # 62: nincs ilyen, a 60 után vasúti felüljáró, majd a Koppány utca 2-4. bevásárlóközpont van, a Koppány utca sarkán lévő utcatáblán pedig már 70-82 a kiírás.
+    # 68: nincs ilyen, a 60 után vasúti felüljáró, majd a Koppány utca 2-4. bevásárlóközpont van, a Koppány utca sarkán lévő utcatáblán pedig már 70-82 a kiírás.
+    invalid: ['50', '52', '62', '68']
   Tompa utca:
     # 7/a: nincs ilyen, csak sima 7 van.
     # 13: sima 13 nincs, az épületen 13 A/B van kitáblázva, OSM-en 13/a,13b formában van rögzítve.
