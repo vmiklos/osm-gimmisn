@@ -1,4 +1,7 @@
 missing-streets: 'yes'
+filters:
+  Nap utca:
+    interpolation: all
 osm-street-filters:
   # átlógó
   - Dunakeszi utca
