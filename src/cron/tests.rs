@@ -768,6 +768,14 @@ fn test_update_osm_streets_xml_as_csv() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+    }
     let routes = vec![
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
@@ -784,13 +792,19 @@ fn test_update_osm_streets_xml_as_csv() {
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     ctx.set_network(network_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
-    let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
-    let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
 
     update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
 
-    let actual = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
-    assert_eq!(actual, expected);
+    assert_eq!(
+        relations
+            .get_relation("gazdagret")
+            .unwrap()
+            .get_files()
+            .get_osm_json_streets(&ctx)
+            .unwrap()
+            .len(),
+        1
+    );
 }
 
 /// Tests update_osm_streets(): the case when we ask for JSON but get XML.
