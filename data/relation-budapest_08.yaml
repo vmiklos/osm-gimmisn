@@ -1,5 +1,9 @@
 missing-streets: 'yes'
 filters:
+  Asztalos Sándor út:
+    interpolation: 'all'
+    # 1: ez és a Kerepesi út 19. ugyanaz az épület, házszám a Kerepesi útról van csak.
+    invalid: ['1']
   Berzsenyi utca:
     # 2: sima 2 nincs, csak 2/a (utcatáblán), 2/b.
     invalid: ['2']
