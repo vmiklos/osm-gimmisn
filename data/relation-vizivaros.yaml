@@ -126,6 +126,8 @@ filters:
     refsettlement: '001'
   Szalag utca:
     refsettlement: '001'
+    # 5-, 2-
+    invalid: ['1']
   Székely utca:
     refsettlement: '001'
     ranges:
