@@ -2389,6 +2389,35 @@ fn test_handle_invalid_refstreets() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
+    {
+        let conn = test_wsgi.ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/gazdagret", &mtime],
+        )
+        .unwrap();
+    }
 
     let root = test_wsgi.get_dom_for_path("/lints/whole-country/invalid-relations");
 
@@ -2452,6 +2481,15 @@ fn test_handle_invalid_refstreets_no_invalids() {
     file_system.set_files(&files);
     let file_system: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system);
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
+    {
+        let conn = test_wsgi.ctx.get_database_connection().unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/myrelation", &mtime],
+        )
+        .unwrap();
+    }
 
     let root = test_wsgi.get_dom_for_path("/lints/whole-country/invalid-relations");
 

@@ -820,10 +820,7 @@ fn handle_invalid_refstreets(
 
     let prefix = ctx.get_ini().get_uri_prefix();
     for relation in relations.get_relations()? {
-        if !ctx
-            .get_file_system()
-            .path_exists(&relation.get_files().get_osm_streets_path())
-        {
+        if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation.get_name())).unwrap() {
             continue;
         }
         if !ctx
