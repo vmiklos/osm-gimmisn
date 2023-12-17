@@ -453,10 +453,7 @@ fn missing_streets_view_result(
 
     let doc = yattag::Doc::new();
     let prefix = ctx.get_ini().get_uri_prefix();
-    if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path())
-    {
+    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation.get_name())).unwrap() {
         doc.append_value(webframe::handle_no_osm_streets(&prefix, relation_name).get_value());
         return Ok(doc);
     }
