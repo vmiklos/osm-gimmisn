@@ -10,9 +10,5 @@ street-filters:
 refstreets:
   'Balogh Páter utca': 'Balogh páter utca'
   'Dobó utca': 'Dobó István utca'
-  'II. körzet': 'II. körzet tanya'
-  'IV. kerület': 'IV. körzet tanya'
-  'VI. kerület': 'VI. körzet tanya'
-  'VII. kerület': 'VII. körzet tanya'
 source: survey
 inactive: true
