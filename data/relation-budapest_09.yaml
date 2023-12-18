@@ -81,10 +81,16 @@ filters:
     # 2: sima 2 nincs, csak 2/a, 2/b.
     invalid: ['2']
   Soroksári út:
+    # 1-5: a páratlan oldal a Boráros térrel és a Lechner Ödön fasorral kezdődik, az első házszám a 31 a Rákóczi híd után.
+    # 113/a: nincs ilyen, csak sima 113 van.
+    # 113/b: nincs ilyen, csak sima 113 van.
+    # 115/a: nincs ilyen, csak sima 115 van.
+    # 117/d: nincs ilyen, csak sima 117 van.
+    # 2-4: ez és az Angyal utca 1-3. ugyanaz az épület, bejárat és házszám az Angyal utcáról van csak.
     # 50-54: csak 54 van kitáblázva, közvetlenül a 48 után.
     # 62: nincs ilyen, a 60 után vasúti felüljáró, majd a Koppány utca 2-4. bevásárlóközpont van, a Koppány utca sarkán lévő utcatáblán pedig már 70-82 a kiírás.
     # 68: nincs ilyen, a 60 után vasúti felüljáró, majd a Koppány utca 2-4. bevásárlóközpont van, a Koppány utca sarkán lévő utcatáblán pedig már 70-82 a kiírás.
-    invalid: ['50', '52', '62', '68']
+    invalid: ['1', '3', '5', '113a', '113b', '115a', '117d', '2', '4', '50', '52', '62', '68']
   Tompa utca:
     # 7/a: nincs ilyen, csak sima 7 van.
     # 13: sima 13 nincs, az épületen 13 A/B van kitáblázva, OSM-en 13/a,13b formában van rögzítve.
