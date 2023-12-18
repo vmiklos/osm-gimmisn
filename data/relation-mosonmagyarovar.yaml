@@ -23,6 +23,7 @@ street-filters:
   - MÁV 126-os őrház
   - Rádió-állomás
 refstreets:
+  'dr. Timaffy László utca': 'Dr. Timaffy László utca'
   # kérdéses ------------------------------------------------------------------
   'Csokonai utca': 'Csokonai Vitéz Mihály utca'
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
