@@ -34,7 +34,7 @@ filters:
   # Basaharc
   Erdősor utca:  # ez egy benőtt autóval járhatatlan utca..
     ranges: []
-  Forrás utca:
+  Forrás út:
     ranges: []
   Kilátó utca:
     ranges: []
@@ -110,7 +110,6 @@ refstreets:
   'Hoffmann út': 'Dobogókői út'
   'Erdőalja utca': 'Erdőalja út'
   'Fenyő sétány': 'Fenyőfa utca'
-  'Forrás utca': 'Forrás út'
   'Miklós deák utca': 'Miklós-deák utca'
   'Szekrényhegyi utca': 'Szekrényhegyi út'  # így jó
 source: survey
