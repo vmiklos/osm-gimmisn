@@ -674,10 +674,7 @@ fn missing_streets_view_txt(
     let relation = relations.get_relation(relation_name)?;
 
     let output: String;
-    if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path())
-    {
+    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation.get_name())).unwrap() {
         output = tr("No existing streets");
     } else if !ctx
         .get_file_system()
