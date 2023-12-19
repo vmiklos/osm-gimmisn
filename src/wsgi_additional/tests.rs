@@ -262,6 +262,20 @@ fn test_additional_housenumbers_well_formed() {
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.get_ctx().set_file_system(&file_system_rc);
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "my street", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/gazdagret", &mtime],
+        )
+        .unwrap();
+    }
 
     let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
 
@@ -324,6 +338,20 @@ fn test_additional_housenumbers_no_osm_housenumbers_well_formed() {
     file_system.set_hide_paths(&[hide_path]);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.get_ctx().set_file_system(&file_system_rc);
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "my street", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/gazdagret", &mtime],
+        )
+        .unwrap();
+    }
 
     let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
 
@@ -355,6 +383,20 @@ fn test_additional_housenumbers_no_ref_housenumbers_well_formed() {
     file_system.set_files(&files);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.get_ctx().set_file_system(&file_system_rc);
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "my street", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/gazdagret", &mtime],
+        )
+        .unwrap();
+    }
 
     let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
 

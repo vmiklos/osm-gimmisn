@@ -297,10 +297,7 @@ pub fn additional_housenumbers_view_result(
 
     let doc: yattag::Doc;
     let prefix = ctx.get_ini().get_uri_prefix();
-    if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path())
-    {
+    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
         doc = webframe::handle_no_osm_streets(&prefix, relation_name);
     } else if !ctx
         .get_file_system()
