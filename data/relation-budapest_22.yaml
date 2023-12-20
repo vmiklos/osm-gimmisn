@@ -581,6 +581,9 @@ filters:
     # 18: a páros oldalon lévő telkek az Árpád utcáról számozódnak, az utcatáblán pedig 2-4 van.
     invalid: ['1b', '3b', '5', '19', '4', '10', '18']
   Kiránduló utca:
+    # 5/b: nincs ilyen, csak sima 5 van.
+    # 7/b: nincs ilyen, csak sima 7 van.
+    # 63: sima 63 nincs, csak 63 1a, 63 2a, ahol az „a” valószínűleg ajtót jelent.
     # 63/a: nincs ilyen, 63 1a van az épületen, ahol az „a” valószínűleg ajtót jelent.
     # 63/b: nincs ilyen, 63 2a van az épületen, ahol az „a” valószínűleg ajtót jelent.
     # 67: sima 67 nincs, csak 67/a, 67/b.
@@ -591,6 +594,7 @@ filters:
     # 97/a: ikerház, de csak sima 97 van kitáblázva.
     # 97/b: ikerház, de csak sima 97 van kitáblázva.
     # 111/a: nincs ilyen, csak sima 111 és 111/b van.
+    # 2/b: nincs ilyen, csak 2/c van.
     # 4: sima 4 nincs, csak 4/a, 4/b.
     # 4/4: nincs ilyen, csak 4/a, 4/b.
     # 8: sima 8 nincs, csak 8/a, 8/b.
@@ -604,7 +608,7 @@ filters:
     # 58-60: egybenyitott telek, de csak a 60 van kitáblázva.
     # 62: sima 62 nincs, csak 62/a, 62/b.
     # 80/a: ikerház, de csak sima 80 van a keleti oldalon, a másik oldalon nincs házszám. TODO: RESURVEY
-    invalid: ['63a', '63b', '67', '75a', '75b', '79b', '83a', '97a', '97b', '111a', '4', '4/4', '8', '18c', '22b', '30', '34a', '38a', '44', '48', '58', '62', '80a']
+    invalid: ['5b', '7b', '63', '63a', '63b', '67', '75a', '75b', '79b', '83a', '97a', '97b', '111a', '2b', '4', '4/4', '8', '18c', '22b', '30', '34a', '38a', '44', '48', '58', '62', '80a']
   Kistétény köz:
     # 9: a páratlan oldalon az 5 az utolsó házszám.
     # 19/a: a páratlan oldalon az 5 az utolsó házszám.
