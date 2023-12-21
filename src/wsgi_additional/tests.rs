@@ -181,13 +181,6 @@ fn test_streets_view_result_chkl() {
 #[test]
 fn test_streets_view_result_txt_no_osm_streets() {
     let mut test_wsgi = wsgi::tests::TestWsgi::new();
-    let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
-    let relation = relations.get_relation("gazdagret").unwrap();
-    let hide_path = relation.get_files().get_osm_streets_path();
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_rc);
 
     let result = test_wsgi.get_txt_for_path("/additional-streets/gazdagret/view-result.txt");
 
