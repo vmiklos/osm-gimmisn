@@ -4,6 +4,11 @@ filters:
     interpolation: 'all'
     # 1: ez és a Kerepesi út 19. ugyanaz az épület, házszám a Kerepesi útról van csak.
     invalid: ['1']
+  Baross tér:
+    # 11: ez és a Keleti Pályaudvar ugyanaz az épület, de a pályaudvar a Kerepesi útról van számozva.
+    # 11/a: nincs ilyen.
+    # 86: az utcatáblán a 22 az utolsó házszám.
+    invalid: ['11', '11a', '86']
   Berzsenyi utca:
     # 2: sima 2 nincs, csak 2/a (utcatáblán), 2/b.
     invalid: ['2']
@@ -38,6 +43,21 @@ filters:
   Kölcsey utca:
     # 6: ez és a József körút 31/a ugyanaz az épület, házszám a József körútról van csak.
     invalid: ['6']
+  Lóvásár utca:
+    # 1: ez és a Kerepesi út 1-5. D/IV ugyanaz az épület, bejárat és házszám a Kerepesi útról van csak.
+    # 7: a páratlan oldalon a 3 az utolsó házszám az utcatáblán.
+    # 4: a páros oldalon a Nemzeti Lovarda van, de az a Kerepesi útról van számozva.
+    invalid: ['1', '7', '4']
+  Luther utca:
+    # 1: sima 1 nincs, csak 1/a, 1/b, 1/c.
+    # 4/b: nincs ilyen, csak 4-6 van.
+    # 8: a páros oldalon a 4-6 az utolsó házszám.
+    invalid: ['1', '4b', '8']
+  Mosonyi utca:
+    # 8: csak utcatáblán van, a sarkon lévő iskola házszáma 6.
+    # 10: ez és a Kerepesi út 1-5. F/VI ugyanaz az épület, bejárat és házszám a Kerepesi útról van csak.
+    # 12: ez és a Kerepesi út 1-5. E/V ugyanaz az épület, bejárat és házszám a Kerepesi útról van csak.
+    invalid: ['8', '10', '12']
   Múzeum utca:
     # 15: sima 15 nincs, csak 15/a, 15/b.
     invalid: ['15']
