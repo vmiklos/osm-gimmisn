@@ -51,6 +51,10 @@ filters:
   Rákóczi utca:
     # 10: 2 db 8-as van, majd 12
     invalid: ['10']
+  Sirály sétány:
+    # 39: utolsó ház a 21.
+    interpolation: all
+    invalid: ['39']
   Sirály utca:
     # 91: utolsó ház a 87.
     invalid: ['91']
