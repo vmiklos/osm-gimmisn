@@ -55,11 +55,7 @@ fn update_osm_streets(
     let active_names = relations.get_active_names();
     for relation_name in active_names.context("get_active_names() failed")? {
         let relation = relations.get_relation(&relation_name)?;
-        if !update
-            && ctx
-                .get_file_system()
-                .path_exists(&relation.get_files().get_osm_streets_path())
-        {
+        if !update && stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
             continue;
         }
         // Old style: CSV.
