@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Alsóerdősor:
+    show-refstreet: false
   Balaton körút:
     # 1: nincs, 3-tól indul a páratlan
     invalid: ['1']
@@ -9,6 +11,12 @@ filters:
       - {start: '2', end: '14'}
   Berzsenyi Dániel utca:
     interpolation: all
+  Bugyogóforrás utca:
+    show-refstreet: false
+  Felsővillasor:
+    # 30 = Fürdő köz 1.
+    # 50: utolsó ház 48.
+    invalid: ['50']
   Fürj utca:
     # 7: páratlan oldalon mező van
     invalid: ['7']
@@ -31,6 +39,9 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '22'}
+  Kilátó utca:
+    # 123: a Kilátó utca egyik szakaszának helyrajzi száma, a max kiírt 107 de még vannak házak, melyeken nincs szám.
+    invalid: ['123']
   Móricz Zsigmond utca:
     # 14: max páros a 8.
     invalid: ['14']
@@ -40,6 +51,9 @@ filters:
   Rákóczi utca:
     # 10: 2 db 8-as van, majd 12
     invalid: ['10']
+  Sirály utca:
+    # 91: utolsó ház a 87.
+    invalid: ['91']
   Vadkörte utca:
     # 4: nincs, a 2-es ház használja a 4-es telket is. kiírva nincs se 2, se 4.
     invalid: ['4']
@@ -48,10 +62,13 @@ filters:
     invalid: ['30']
 refstreets:
   # ellenőrzött
+  'Alsóerdősor': 'Alsóerdősor utca'  # táblán csak Alsóerdősor
   'Bugyogóforrás utca': 'Bugyogó forrás utca'  # egyben és kötőjellel vannak a táblák, külön írva nincs
+  # Cserje köz - Cserje utca  # hivatalosnak kinéző táblán Cserje köz, házakon és a kézzel írt táblán Cserje utca, földhivatalnál 0 találat.
   'Uszodai út': 'Uszodai utca'  # nincs kint tábla
 street-filters:
   - Máma utca  # hibás -> Mámatető utca
+  - Máma puszta  # nincs ilyen
   # nem igazi utcák
   - Gyártelep
   - Munkásszálló
@@ -60,7 +77,7 @@ osm-street-filters:
   # határoló/átlógó utak
   - Balatonfűzfői út
   # nem igazi utcák
-  - Nirtokémia
+  - Nitrokémia
   # parkok
 source: survey
 housenumber-letters: false
