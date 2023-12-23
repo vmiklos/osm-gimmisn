@@ -34,6 +34,15 @@ filters:
     # 31: sima 31 nincs, csak 31/a, 31/b.
     # 34/a: nincs ilyen, csak sima 34 van.
     invalid: ['19a', '19c', '31', '34a']
+  Kerepesi út:
+    # 1/A: nincs ilyen, csak 1-5 A/I épület van.
+    # 5/4: nincs ilyen, csak 1-5 D/IV épület van.
+    # 5/V: nincs ilyen, csak 1-5 E/V épület van.
+    # 15/b: nincs ilyen, csak sima 15 van.
+    # 27: sima 27 nincs, csak 27/a volt, amíg le nem bontották.
+    # 29: sima 29 nincs, csak 29/a, 29/b, 29/c.
+    # 30: a páros oldalon a 22 az utolsó házszám a VIII. kerületben, a nagyobb házszámok más kerületben vannak.
+    invalid: ['1a', '5/4', '5v', '15b', '27', '29', '30']
   Kiss József utca:
     # 6: ez és a Bezerédj utca 16/a ugyanaz az épület, házszám a Bezerédj utcáról van csak.
     # 14/4: nincs ilyen, csak sima 14 van.
