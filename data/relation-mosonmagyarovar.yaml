@@ -27,13 +27,10 @@ refstreets:
   # kérdéses ------------------------------------------------------------------
   'Csokonai utca': 'Csokonai Vitéz Mihály utca'
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
-  'Fő út': 'Fő utca'
   'Gyári utca': 'Gyári út'
   'Határsor': 'Határ sor'
-  'Jókai utca': 'Jókai Mór utca'
   'Kadocsa utca': 'Kadocsa Gyula utca'
   'Királyhidai út': 'Királyhidai utca'
-  'Kötélgyár út': 'Kötélgyártó utca'
   'Lajtaszer': 'Lajta szer'
   'Malomszer': 'Malom szer'
   # 'Molnár utca': 'Molnár tanya'
@@ -41,7 +38,6 @@ refstreets:
   'Széchenyi utca': 'Széchenyi István utca'
   'Tallós Prohászka utca': 'Tallós Prohászka István utca'
   'Timföldgyári út': 'Timföldgyári utca'
-  'Vár köz': 'Várköz'
   'Wittmann Antal park': 'Wittman Antal park'
 source: survey
 housenumber-letters: true
