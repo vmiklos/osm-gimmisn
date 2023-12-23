@@ -622,16 +622,6 @@ fn test_update_osm_streets() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.csv",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/status",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
             /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.json",
         ),
     ];
@@ -646,7 +636,6 @@ fn test_update_osm_streets() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let osm_streets_value = context::tests::TestFileSystem::make_file();
     let template_value = context::tests::TestFileSystem::make_file();
     template_value
         .borrow_mut()
@@ -656,19 +645,11 @@ fn test_update_osm_streets() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/streets-gazdagret.csv", &osm_streets_value),
             ("data/streets-template.overpassql", &template_value),
         ],
     );
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
-    mtimes.insert(
-        path.to_string(),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
@@ -724,28 +705,6 @@ fn test_update_osm_streets_http_error() {
         )
         .unwrap();
     }
-    let mut relations = areas::Relations::new(&ctx).unwrap();
-
-    update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
-
-    // Make sure that in case we keep getting errors we give up at some stage and
-    // leave the last state unchanged.
-    assert_eq!(
-        relations
-            .get_relation("gazdagret")
-            .unwrap()
-            .get_files()
-            .get_osm_json_streets(&ctx)
-            .unwrap()
-            .len(),
-        1
-    );
-}
-
-/// Tests update_osm_streets(): the case when we ask for CSV but get XML.
-#[test]
-fn test_update_osm_streets_xml_as_csv() {
-    let mut ctx = context::tests::make_test_context().unwrap();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -754,47 +713,24 @@ fn test_update_osm_streets_xml_as_csv() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let template_value = context::tests::TestFileSystem::make_file();
-    template_value
-        .borrow_mut()
-        .write_all(b"aaa @RELATION@ bbb @AREA@ ccc\n")
-        .unwrap();
+    let overpass_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/streets-template.overpassql", &template_value),
+            ("data/streets-template.overpassql", &overpass_template),
         ],
     );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    {
-        let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
-        )
-        .unwrap();
-    }
-    let routes = vec![
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/status",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass.xml",
-        ),
-    ];
-    let network = context::tests::TestNetwork::new(&routes);
-    let network_rc: Rc<dyn context::Network> = Rc::new(network);
-    ctx.set_network(network_rc);
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
     update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
 
+    // Make sure that in case we keep getting errors we give up at some stage and
+    // leave the last state unchanged.
     assert_eq!(
         relations
             .get_relation("gazdagret")
@@ -836,16 +772,6 @@ fn test_update_osm_streets_xml_as_json() {
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     let routes = vec![
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/status",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.csv",
-        ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
@@ -1051,16 +977,6 @@ fn test_our_main() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let routes = vec![
         context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/status",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.csv",
-        ),
-        context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
             /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.json",
@@ -1085,7 +1001,6 @@ fn test_our_main() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let osm_streets_value = context::tests::TestFileSystem::make_file();
     let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
     let ref_streets_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
@@ -1105,7 +1020,6 @@ fn test_our_main() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/streets-gazdagret.csv", &osm_streets_value),
             (
                 "workdir/street-housenumbers-gazdagret.csv",
                 &osm_housenumbers_value,
@@ -1184,8 +1098,8 @@ fn test_our_main() {
 
     // update_osm_streets() is called.
     {
-        let mut guard = osm_streets_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let mtime = stats::get_sql_mtime(&ctx, "streets/gazdagret").unwrap();
+        assert!(mtime > time::OffsetDateTime::UNIX_EPOCH);
     }
     // update_osm_housenumbers() is called.
     {
