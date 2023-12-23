@@ -94,6 +94,9 @@ filters:
       - {start: '2', end: '22'}
   Kagyló utca:
     refsettlement: '001'
+  Kandó Kálmán utca:
+    # 1.7, 2-6
+    invalid: ['27']
   Kapás utca:
     ranges:
       - {start: '1', end: '3', refsettlement: '001'}
