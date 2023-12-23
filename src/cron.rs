@@ -58,31 +58,6 @@ fn update_osm_streets(
         if !update && stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
             continue;
         }
-        // Old style: CSV.
-        info!("update_osm_streets: start: {relation_name}");
-        let mut retry = 0;
-        while should_retry(retry) {
-            if retry > 0 {
-                info!("update_osm_streets: try #{retry}");
-            }
-            retry += 1;
-            overpass_sleep(ctx);
-            let query = relation.get_osm_streets_query()?;
-            let buf = match overpass_query::overpass_query(ctx, &query) {
-                Ok(value) => value,
-                Err(err) => {
-                    info!("update_osm_streets: http error: {err:?}");
-                    continue;
-                }
-            };
-            if relation.get_files().write_osm_streets(ctx, &buf)? == 0 {
-                info!("update_osm_streets: short write");
-                continue;
-            }
-            break;
-        }
-        info!("update_osm_streets: end: {relation_name}");
-        // New style: JSON.
         info!("update_osm_streets, json: start: {relation_name}");
         let mut retry = 0;
         while should_retry(retry) {

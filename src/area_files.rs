@@ -224,11 +224,6 @@ impl RelationFiles {
 
     /// Writes the result for overpass of Relation.get_osm_streets_query().
     pub fn write_osm_streets(&self, ctx: &context::Context, result: &str) -> anyhow::Result<usize> {
-        if result.starts_with("<?xml") {
-            // Not a CSV, reject.
-            return Ok(0);
-        }
-
         let write = self.get_osm_streets_write_stream(ctx)?;
         let mut guard = write.borrow_mut();
         Ok(guard.write(result.as_bytes())?)
