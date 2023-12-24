@@ -266,22 +266,14 @@ fn test_handle_streets_view_query_well_formed() {
 #[test]
 fn test_handle_streets_update_result_well_formed() {
     let mut test_wsgi = TestWsgi::new();
-    let routes = vec![
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.csv",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.json",
-        ),
-    ];
+    let routes = vec![context::tests::URLRoute::new(
+        /*url=*/ "https://overpass-api.de/api/interpreter",
+        /*data_path=*/ "",
+        /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.json",
+    )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     test_wsgi.ctx.set_network(network_rc);
-    let streets_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -299,7 +291,6 @@ fn test_handle_streets_update_result_well_formed() {
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/streets-gazdagret.csv", &streets_value),
             ("data/streets-template.overpassql", &template_value),
         ],
     );
@@ -308,8 +299,17 @@ fn test_handle_streets_update_result_well_formed() {
 
     let root = test_wsgi.get_dom_for_path("/streets/gazdagret/update-result");
 
-    let mut guard = streets_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+    assert_eq!(
+        relations
+            .get_relation("gazdagret")
+            .unwrap()
+            .get_files()
+            .get_osm_json_streets(&test_wsgi.ctx)
+            .unwrap()
+            .len(),
+        4
+    );
     let results = TestWsgi::find_all(&root, "body");
     assert_eq!(results.len(), 1);
 }
@@ -352,8 +352,8 @@ fn test_handle_streets_update_result_error_well_formed() {
     let root = test_wsgi.get_dom_for_path("/streets/gazdagret/update-result");
 
     let results = TestWsgi::find_all(&root, "body/div[@id='overpass-error']");
-    // CSV and JSON.
-    assert_eq!(results.len(), 2);
+    // Error during JSON query.
+    assert_eq!(results.len(), 1);
 }
 
 /// Tests handle_streets(): if the update-result output is well-formed for
@@ -364,12 +364,11 @@ fn test_handle_streets_update_result_missing_streets_well_formed() {
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/interpreter",
         /*data_path=*/ "",
-        /*result_path=*/ "src/fixtures/network/overpass-streets-ujbuda.csv",
+        /*result_path=*/ "src/fixtures/network/overpass-streets-ujbuda.json",
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     test_wsgi.ctx.set_network(network_rc);
-    let streets_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "ujbuda": {
@@ -391,7 +390,6 @@ fn test_handle_streets_update_result_missing_streets_well_formed() {
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("data/streets-template.overpassql", &template_value),
-            ("workdir/streets-ujbuda.csv", &streets_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -399,8 +397,17 @@ fn test_handle_streets_update_result_missing_streets_well_formed() {
 
     let root = test_wsgi.get_dom_for_path("/streets/ujbuda/update-result");
 
-    let mut guard = streets_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+    assert_eq!(
+        relations
+            .get_relation("ujbuda")
+            .unwrap()
+            .get_files()
+            .get_osm_json_streets(&test_wsgi.ctx)
+            .unwrap()
+            .len(),
+        3
+    );
     let results = TestWsgi::find_all(&root, "body");
     assert_eq!(results.len(), 1);
 }

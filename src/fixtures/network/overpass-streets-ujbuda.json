@@ -1,0 +1,29 @@
+{
+    "osm3s": {
+        "timestamp_osm_base": "2023-11-16T13:34:15Z",
+        "timestamp_areas_base": "2023-11-16T10:23:59Z"
+    },
+    "elements": [
+        {
+            "type": "way",
+            "id": 1,
+            "tags": {
+                "name": "Tűzkő utca"
+            }
+        },
+        {
+            "type": "way",
+            "id": 2,
+            "tags": {
+                "name": "Törökugrató utca"
+            }
+        },
+        {
+            "type": "way",
+            "id": 3,
+            "tags": {
+                "name": "OSM Name 1"
+            }
+        }
+    ]
+}
