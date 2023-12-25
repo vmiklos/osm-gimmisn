@@ -760,13 +760,11 @@ fn test_update_osm_streets_xml_as_json() {
         .borrow_mut()
         .write_all(b"aaa @RELATION@ bbb @AREA@ ccc\n")
         .unwrap();
-    let osm_streets_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("data/streets-template.overpassql", &template_value),
-            ("workdir/streets-gazdagret.csv", &osm_streets_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);

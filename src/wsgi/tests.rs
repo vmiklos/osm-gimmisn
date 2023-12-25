@@ -2539,12 +2539,8 @@ fn test_handle_invalid_refstreets_no_osm_sreets() {
         &test_wsgi.ctx,
         &[("data/yamls.cache", &yamls_cache_value)],
     );
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_files(&files);
-    let hide_path = test_wsgi.ctx.get_abspath("workdir/streets-gazdagret.csv");
-    file_system.set_hide_paths(&[hide_path]);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_rc);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.ctx.set_file_system(&file_system);
 
     let root = test_wsgi.get_dom_for_path("/lints/whole-country/invalid-relations");
 
@@ -2563,17 +2559,11 @@ fn test_handle_invalid_refstreets_no_invalids() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let osm_streets = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/streets-myrelation.csv", &osm_streets),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_files(&files);
-    let file_system: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {

@@ -367,11 +367,6 @@ fn test_additional_housenumbers_well_formed() {
 #[test]
 fn test_additional_housenumbers_no_osm_streets_well_formed() {
     let mut test_wsgi = wsgi::tests::TestWsgi::new();
-    let hide_path = test_wsgi
-        .get_ctx()
-        .get_abspath("workdir/streets-gazdagret.csv");
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -384,9 +379,8 @@ fn test_additional_housenumbers_no_osm_streets_well_formed() {
         test_wsgi.get_ctx(),
         &[("data/yamls.cache", &yamls_cache_value)],
     );
-    file_system.set_files(&files);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_rc);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.get_ctx().set_file_system(&file_system);
 
     let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
 
@@ -605,11 +599,6 @@ fn test_streets_street_from_housenr_well_formed() {
 #[test]
 fn test_streets_no_osm_streets_well_formed() {
     let mut test_wsgi = wsgi::tests::TestWsgi::new();
-    let hide_path = test_wsgi
-        .get_ctx()
-        .get_abspath("workdir/streets-gazdagret.csv");
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -622,9 +611,8 @@ fn test_streets_no_osm_streets_well_formed() {
         test_wsgi.get_ctx(),
         &[("data/yamls.cache", &yamls_cache_value)],
     );
-    file_system.set_files(&files);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_rc);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.get_ctx().set_file_system(&file_system);
 
     let root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result");
 
