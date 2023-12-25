@@ -1,8 +1,10 @@
 missing-streets: 'yes'
 filters:
   Aladár utca:
-    # No 11 and 13
-    invalid: ['11', '13']
+    # 11: nincs ilyen, a 9/b után egy játszótér, majd a 15 következik.
+    # 13: nincs ilyen, a 9/b után egy játszótér, majd a 15 következik.
+    # 21: ez és az Mészáros utca 60/c ugyanaz az épület, bejárat és házszám a Mészáros utcáról van csak.
+    invalid: ['11', '13', '21']
   Alkotás utca:
     # páratlan: XII. kerület
     # 2-38: I. kerület, # 40+: XII. kerület
@@ -95,6 +97,10 @@ filters:
     # 47+: II. kerület
     # 62+: II. kerület
     invalid: ['22', '38']
+  Gellérthegy utca:
+    # 33/a: nincs ilyen, csak sima 33 van.
+    # 33/c: nincs ilyen, csak sima 33 van.
+    invalid: ['33a', '33c']
   Hadnagy utca:
     invalid: ['2', '12']
   Halász utca:
@@ -164,6 +170,11 @@ filters:
   Mikó utca:
     # 4: ez és az Attila út 79. ugyanaz az épület, bejárat és házszám az Attila útról van csak.
     invalid: ['4']
+  Naphegy tér:
+    interpolation: 'all'
+    # 5: sima 5 nincs, csak 5/a, 5/b.
+    # 6: sima 6 nincs, csak 6/a, 6/b.
+    invalid: ['5', '6']
   Naphegy utca:
     # 50: a páros oldalon a 38 az utolsó házszám, utána csak a park van.
     invalid: ['50']
@@ -259,11 +270,9 @@ filters:
   Zerge lépcső:
     ranges: []
   Zsolt utca:
-    invalid: ['3']
-    ranges:
-      # 3 seems to be out of range
-      - {start: '1', end: '11'}
-      - {start: '2', end: '10'}
+    # 3: nincs ilyen, az 1 után az 5 következik.
+    # 10: sima 10 nincs, csak 10/a, 10/b.
+    invalid: ['3', '10']
 street-filters:
   - Halász bástya  # fent van mint attraction
   - Magyar asszonyok bástyája  # fent van mint attraction
