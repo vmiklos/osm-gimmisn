@@ -26,18 +26,11 @@ use crate::wsgi;
 #[test]
 fn test_json_streets_update_result() {
     let mut test_wsgi = wsgi::tests::TestWsgi::new();
-    let routes = vec![
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.csv",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.json",
-        ),
-    ];
+    let routes = vec![context::tests::URLRoute::new(
+        /*url=*/ "https://overpass-api.de/api/interpreter",
+        /*data_path=*/ "",
+        /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.json",
+    )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     test_wsgi.get_ctx().set_network(network_rc);
@@ -51,7 +44,6 @@ fn test_json_streets_update_result() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let streets_value = context::tests::TestFileSystem::make_file();
     let template_value = context::tests::TestFileSystem::make_file();
     template_value
         .borrow_mut()
@@ -62,7 +54,6 @@ fn test_json_streets_update_result() {
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("data/streets-template.overpassql", &template_value),
-            ("workdir/streets-myrelation.csv", &streets_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -71,8 +62,18 @@ fn test_json_streets_update_result() {
     let root = test_wsgi.get_json_for_path("/streets/myrelation/update-result.json");
 
     assert_eq!(root.as_object().unwrap()["error"], "");
-    let mut guard = streets_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    let ctx = test_wsgi.get_ctx();
+    let mut relations = areas::Relations::new(ctx).unwrap();
+    assert_eq!(
+        relations
+            .get_relation("myrelation")
+            .unwrap()
+            .get_files()
+            .get_osm_json_streets(ctx)
+            .unwrap()
+            .len(),
+        4
+    );
 }
 
 /// Tests streets_update_result_json(): if the update-result json output on error is well-formed.

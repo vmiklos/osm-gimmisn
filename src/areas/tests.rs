@@ -735,7 +735,6 @@ fn test_relation_get_osm_housenumbers_query() {
 #[test]
 fn test_relation_files_write_osm_streets() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let streets_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -746,10 +745,7 @@ fn test_relation_files_write_osm_streets() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("workdir/streets-gazdagret.csv", &streets_value),
-            ("data/yamls.cache", &yamls_cache_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -3198,39 +3194,6 @@ fn test_relation_normalize_invalids() {
     assert_eq!(ret.is_empty(), true);
 }
 
-/// Tests Relation::get_osm_streets(), when the housenumbers CSV is invalid.
-#[test]
-fn test_relation_get_osm_streets_invalid_housenumbers_csv() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let streets_value = context::tests::TestFileSystem::make_file();
-    // This is a valid OSM streets CSV.
-    streets_value
-        .borrow_mut()
-        .write_all(b"@id\t@name\n42\tfoo\n")
-        .unwrap();
-    let housenumbers_value = context::tests::TestFileSystem::make_file();
-    // This is not a valid OSM housenumbers CSV: missing addr:housenumber.
-    housenumbers_value
-        .borrow_mut()
-        .write_all(b"@id\t@name\n42\tfoo\n")
-        .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            ("workdir/street-housenumbers-myrelation.csv", &streets_value),
-            ("workdir/streets-myrelation.csv", &housenumbers_value),
-        ],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let mut relations = Relations::new(&ctx).unwrap();
-    let relation = relations.get_relation("myrelation").unwrap();
-
-    let ret = relation.get_osm_streets(/*sorted_result=*/ false);
-
-    assert_eq!(ret.is_err(), true);
-}
-
 /// Tests Relations::is_new().
 #[test]
 fn test_relations_is_new() {
@@ -3267,7 +3230,6 @@ fn test_relations_is_new() {
     assert_eq!(actual, vec!["myrelation".to_string()]);
 
     // Case 3: active-new is true and myrelation is not new -> myrelation is not found.
-    let osm_streets_value = context::tests::TestFileSystem::make_file();
     let ref_streets_value = context::tests::TestFileSystem::make_file();
     let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
@@ -3275,7 +3237,6 @@ fn test_relations_is_new() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/streets-myrelation.csv", &osm_streets_value),
             (
                 "workdir/streets-reference-myrelation.lst",
                 &ref_streets_value,

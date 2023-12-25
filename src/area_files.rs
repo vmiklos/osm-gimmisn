@@ -100,11 +100,6 @@ impl RelationFiles {
         format!("{}/streets-reference-{}.lst", self.workdir, self.name)
     }
 
-    /// Build the file name of the OSM street list of a relation.
-    pub fn get_osm_streets_path(&self) -> String {
-        format!("{}/streets-{}.csv", self.workdir, self.name)
-    }
-
     /// Build the file name of the OSM house number list of a relation.
     pub fn get_osm_housenumbers_path(&self) -> String {
         format!("{}/street-housenumbers-{}.csv", self.workdir, self.name)
@@ -211,22 +206,6 @@ impl RelationFiles {
     ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_housenumbers_additional_count_path();
         ctx.get_file_system().open_read(&path)
-    }
-
-    /// Opens the OSM street list of a relation for writing.
-    fn get_osm_streets_write_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        let path = self.get_osm_streets_path();
-        ctx.get_file_system().open_write(&path)
-    }
-
-    /// Writes the result for overpass of Relation.get_osm_streets_query().
-    pub fn write_osm_streets(&self, ctx: &context::Context, result: &str) -> anyhow::Result<usize> {
-        let write = self.get_osm_streets_write_stream(ctx)?;
-        let mut guard = write.borrow_mut();
-        Ok(guard.write(result.as_bytes())?)
     }
 
     /// Writes the result for overpass of Relation.get_osm_streets_json_query().
