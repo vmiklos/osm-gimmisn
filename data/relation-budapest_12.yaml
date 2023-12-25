@@ -1,5 +1,10 @@
 missing-streets: 'yes'
 filters:
+  Abos utca:
+    # 23: sima 23 nincs, csak 23/a, 23/b, 23/c.
+    # 8: sima 8 nincs, csak 8/a, 8/b.
+    # 12/a: nincs ilyen, csak sima 12 van.
+    invalid: ['23', '8', '12a']
   Adorján út:
     # 14: az utcanévtáblán 2-12 van.
     invalid: ['14']
@@ -409,6 +414,17 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '6'}
+  Tusnádi utca:
+    # 7: sima 7 nincs, csak 7/a, 7/b.
+    # 11: ez és a Zalatnai utca 2. ugyanaz az épület, házszám a Zalatnai utcáról van csak.
+    # 17: sima 17 nincs, csak 17/a, 17/b.
+    # 35: sima 35 nincs, csak 35/a, 35/b.
+    # 6: sima 6 nincs, csak 6/b, 6/c.
+    # 22: sima 22 nincs, csak 22/a, 22/b.
+    # 28: sima 28 nincs, csak 28/a, 28/b.
+    # 28/c: nincs ilyen, csak 28/a, 28/b.
+    # 32/a: nincs ilyen, csak sima 32 van.
+    invalid: ['7', '11', '17', '35', '6', '22', '28', '28c', '32a']
   Tücsök utca:
     ranges:
       - {start: '1', end: '3'}
