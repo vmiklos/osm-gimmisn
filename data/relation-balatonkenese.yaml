@@ -14,6 +14,9 @@ street-filters:
   - Máv őrház
   # régi nevek
   - Vízmű köz  # Soós-Hegy utca van táblázva
+  # ezek nincsenek kiépítve - 2023.12
+  - Cinege utca  # itt nincs utca, a Móricz Zsigmond utcánál a kerítés folyamatos, nem látszik, hogy itt lenne hely egyáltalán
+  - Öregtó park  # egy mező egy kis utca végén
 osm-street-filters:
   # nem igazi utcák
   - Régi játszótér
