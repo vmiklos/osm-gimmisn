@@ -46,69 +46,71 @@ filters:
     # 14: a páros oldalon a 10 az utolsó házszám.
     invalid: ['4', '12', '14']
   Batthyány utca:
-    # 5-11 között egy park van illetve a Csalogány utca 6-10 társasház
-    # 17-21: Mária tér
-    invalid: ['5', '7', '17', '21']
+    # 5: ez és a Csalogány utca 6-10. ugyanaz az épület, házszám a Csalogány utcáról van csak.
+    # 7: ez a Végh György park, nincs házszám.
+    # 15/b: nincs ilyen, csak sima 15 van.
+    # 15-17: nincs ilyen, csak sima 15 van.
+    # 21: nincs ilyen, ez a Mária tér 3.
+    # 2/1: nincs ilyen, csak sima 2 van.
+    invalid: ['5', '7', '15b', '17', '21', '2/1']
   Batthyány tér:
     interpolation: 'all'
   Bem rakpart:
-    # 1-29: I. kerület, 30+ II. kerület (posta szerint 1-28 I. kerület)
-    # 27: Angelika kiülős rész, Angelika címe Batthyány tér 7
     interpolation: 'all'
-    invalid: ['27']
-    ranges:
-      - {start: '1', end: '29'}
+    # 25: sima 25 nincs, csak 25/a, 25/b.
+    # 27: ez az Angelika étterem kiülős része, az étterem címe Batthyány tér 7.
+    invalid: ['25', '27']
   Bérc utca:
     # 4: sima 4 nincs, csak 4/a, 4/b.
     # 6: sima 6 nincs, csak 6/b.
     invalid: ['4', '6']
   Berényi utca:
-    # 1 = Hegyalja út 16.
-    invalid: ['1']
+    # 9: sima 9 nincs, csak 9/a, 9/b.
+    # 4: sima 4 nincs, csak 4/a, 4/b.
+    # 6: sima 6 nincs, csak 6/a, 6/b.
+    invalid: ['9', '4', '6']
   Corvin tér:
     interpolation: 'all'
   Czakó utca:
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '4'}
+    # 10-15: hibás házszám, a páros oldalon csak a 2-4 van.
+    invalid: ['10']
   Döbrentei utca:
-    ranges:
-      - {start: '2', end: '26'}
-      - {start: '9', end: '17'}
+    # 1: a páratlan oldalon a 9 az első házszám.
+    invalid: ['1']
   Fazekas utca:
-    # 5+: II- kerület 
-    # 6: II- kerület 
-    ranges:
-      - {start: '1', end: '3'}
-      - {start: '2', end: '4'}
+    # 1/c: nincs ilyen, csak sima 1 van.
+    # 8: ez a II. kerületben van.
+    invalid: ['1c', '8']
   Fő utca:
-    # 20-22: Pavilon de Paris csak 20-nak mondja magát
-    # 38: Vám utca 5-7 NFM
-    # 47+: II. kerület
-    # 62+: II. kerület
-    invalid: ['22', '38']
+    # 37: sima 37 nincs, csak 37/a, 37/b, 37/c.
+    # 20-22: Pavilon de Paris csak 20-nak mondja magát.
+    # 38: ez és a Vám utca 5-7. ugyanaz az épület, bejárat és házszám a Vám utcáról van csak.
+    invalid: ['37', '22', '38']
   Gellérthegy utca:
     # 33/a: nincs ilyen, csak sima 33 van.
     # 33/c: nincs ilyen, csak sima 33 van.
     invalid: ['33a', '33c']
   Hadnagy utca:
+    # 2: csak a 8-10 (Rác-fürdő) van az utcában.
+    # 12: csak a 8-10 (Rác-fürdő) van az utcában.
     invalid: ['2', '12']
   Halász utca:
     # 25: a páratlan oldalon csak az 1-es szám van.
     invalid: ['25']
   Hattyú utca:
-    # 1-18
-    invalid: ['22', '44']
+    # 2/a: nincs ilyen, csak sima 2 van.
+    # 22: a páros oldalon a 18 az utolsó házszám.
+    # 44: a páros oldalon a 18 az utolsó házszám.
+    invalid: ['2a', '22', '44']
   Hegyalja út:
-    # 7-13 egyben
-    # 32+: XI. kerület
-    ranges:
-      - {start: '2', end: '30'}
-      - {start: '1', end: '27'}
+    # 5/m: nincs ilyen, csak sima 5 van.
+    # 20: sima 20 nincs, csak 20/a, 20/b.
+    invalid: ['5m', '20']
   Hess András tér:
-    # 1-6
-    invalid: ['9', '15']
     interpolation: all
+    # 9: a 6 az utolsó házszám.
+    # 15/a: a 6 az utolsó házszám.
+    invalid: ['9', '15a']
   Kagyló utca:
     # 4: sima 4 nincs, csak 4/a, 4/b.
     invalid: ['4']
@@ -246,6 +248,9 @@ filters:
   Úri utca:
     # 1-55, 2-72
     invalid: ['107']
+  Vám utca:
+    # 1/d: nincs ilyen, az utcatáblán 1/a-1/c van.
+    invalid: ['1d']
   Várfok utca:
     # 15: sima 15 nincs, csak 15/b, 15/c.
     # 15/a: ez és a Vérmező út 14. ugyanaz a bejárat, házszám a Vérmező útról van csak.
