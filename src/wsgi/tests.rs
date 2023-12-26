@@ -2416,17 +2416,19 @@ fn test_static_text() {
 #[test]
 fn test_handle_stats_cityprogress_well_formed() {
     let mut test_wsgi = TestWsgi::new();
-    let citycount_value = context::tests::TestFileSystem::make_file();
-    citycount_value
-        .borrow_mut()
-        .write_all(b"CITY\tCNT\nbudapest_11\t11\nbudapest_12\t12\n")
+    {
+        let conn = test_wsgi.ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "budapest_11", "11"],
+        )
         .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &test_wsgi.ctx,
-        &[("workdir/stats/2020-05-10.citycount", &citycount_value)],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    test_wsgi.ctx.set_file_system(&file_system);
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "budapest_12", "12"],
+        )
+        .unwrap();
+    }
 
     let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/cityprogress");
 
