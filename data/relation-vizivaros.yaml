@@ -98,6 +98,7 @@ filters:
     # 1.7, 2-6
     invalid: ['27']
   Kapás utca:
+    invalid: ['1', '4']
     ranges:
       - {start: '1', end: '3', refsettlement: '001'}
       - {start: '2', end: '4', refsettlement: '001'}
