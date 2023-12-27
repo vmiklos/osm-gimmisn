@@ -248,6 +248,7 @@ filters:
     invalid: ['1']
   Szent Sebestyén köz:
     # 1: ez és a Somlói út 49-53. (Mathias Corvinus Collegium) ugyanaz az épület, házszám a Somlói útról van csak.
+    invalid: ['1']
   Szentháromság tér:
     interpolation: all
     # 1-3: ez a Hess András tér, nem a Szentháromság tér.
