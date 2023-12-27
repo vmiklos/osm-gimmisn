@@ -45,6 +45,8 @@ filters:
     # 12: a páros oldalon a 10 az utolsó házszám.
     # 14: a páros oldalon a 10 az utolsó házszám.
     invalid: ['4', '12', '14']
+  Batthyány tér:
+    interpolation: 'all'
   Batthyány utca:
     # 5: ez és a Csalogány utca 6-10. ugyanaz az épület, házszám a Csalogány utcáról van csak.
     # 7: ez a Végh György park, nincs házszám.
@@ -53,8 +55,6 @@ filters:
     # 21: nincs ilyen, ez a Mária tér 3.
     # 2/1: nincs ilyen, csak sima 2 van.
     invalid: ['5', '7', '15b', '17', '21', '2/1']
-  Batthyány tér:
-    interpolation: 'all'
   Bem rakpart:
     interpolation: 'all'
     # 25: sima 25 nincs, csak 25/a, 25/b.
@@ -139,11 +139,14 @@ filters:
     invalid: ['1', '2']
   Lovas út:
     interpolation: 'all'
+    # 6: sima 6 nincs, csak 6/a, 6/b.
     # 26-27: csak 26 van kitáblázva.
     # 57: a 41 az utolsó házszám.
-    invalid: ['27', '57']
+    invalid: ['6', '27', '57']
   Málna utca:
-    ranges: []
+    # 109: az utcában nincsenek házszámok.
+    # 6: az utcában nincsenek házszámok.
+    invalid: ['109', '6']
   Márvány utca:
     # 1: sima 1 nincs, csak 1/b, 1/c, 1/d.
     # 3: sima 3 nincs, csak 3/a, 3/b.
@@ -188,7 +191,6 @@ filters:
     # 24-26: csak 24 van kitáblázva.
     invalid: ['1', '18', '18c', '20', '26']
   Ostrom utca:
-    # 1-33, 2-18
     # 8: sima 8 nincs, csak 8/a, 8/b.
     # 24: a páros oldalon a 16 az utolsó házszám, az utcatáblán pedig a 18.
     invalid: ['8', '24']
@@ -209,40 +211,33 @@ filters:
     # 62/b: ez a XI. kerületben van.
     invalid: ['26', '62b']
   Szalag utca:
-    # Szalag lépcső 1
+    # 1: a páratlan oldalon a 7 az első házszám.
     invalid: ['1']
   Számadó utca:
-    # 1-17: I. kerület, 19: XI. kerület
-    # páros: XI. kerület
-    # 13 = Tündérlaki mélyút 5.
-    invalid: ['13']
-    ranges:
-      - {start: '1', end: '17'}
+    # 13: ez és a Tündérlaki mélyút 5. ugyanaz az épület, házszám a Tündérlaki mélyútról van csak.
+    # 25: a páratlan oldalon a 17 az utolsó házszám az I. kerületben és a 19 a XI. kerületben.
+    invalid: ['13', '25']
   Székely utca:
     # 19: a páratlan oldalon csak 1-1 van az utcatáblán.
     invalid: ['19']
   Széna tér:
     interpolation: 'all'
-    # 1-3,6-7 vizivaros, 4-5 országút
-    # 3: II. kerület
-    ranges:
-      - {start: '1', end: '2'}
-      - {start: '6', end: '7'}
+    # 1: sima 1 nincs, csak 1/a, 1/b.
+    invalid: ['1']
   Szent Gellért rakpart:
     interpolation: 'all'
-    # Itt csak ez van: Sziklatemplom és kolostor, 1-es számmal, ez van a honlapon (Ez XI. kerület)
-    # Van olyan forrás amit a kolostort 2-3 számra teszi, de ez máshol nem szerepel
-    # posta szerint 1/a I. kerület, 1/b+ XI. kerület
+    # 1: ez a Sziklatemplom és kolostor a honlapjuk szerint, de ez már a XI. kerületben van, bár a Posta szerint az 1/a I. kerület, az 1/b+ XI. kerület.
     invalid: ['1']
   Szent Sebestyén köz:
-    # 1: Mathias Corvinus Collegium, Somlói útra van számozva
-    # utcatáblán: 2-6 tartomány, de valóságban csak a 6-os szám van. a 4-es helyén egy üres telek
-    ranges:
-      - {start: '6', end: '6'}
+    # 1: ez és a Somlói út 49-53. (Mathias Corvinus Collegium) ugyanaz az épület, házszám a Somlói útról van csak.
+    invalid: ['1']
   Szentháromság tér:
-    # 1-4: Hess András tér; 9-15: Szentháromság utca
-    invalid: ['1', '3', '4', '9', '10', '11', '15']
     interpolation: all
+    # 1-3: ez a Hess András tér, nem a Szentháromság tér.
+    # 4: ez a Hess András tér, nem a Szentháromság tér.
+    # 9-11: ez a Szentháromság utca, nem a Szentháromság tér.
+    # 15: ez a Szentháromság utca, nem a Szentháromság tér.
+    invalid: ['1', '3', '4', '9', '10', '11', '15']
   Szirom utca:
     # 4/6: nincs ilyen, ez 4-6 lesz.
     invalid: ['4/6']
@@ -250,13 +245,14 @@ filters:
     # 27: a páratlan oldalon a 19 az utolsó házszám.
     invalid: ['27']
   Táncsics Mihály utca:
-    # 1-27, 2-28
-    invalid: ['58', '65']
+    # 65: a páratlan oldalon a 27 az utolsó házszám.
+    # 58: a páros oldalon a 28 az utolsó házszám.
+    invalid: ['65', '58']
   Toldy lépcső:
-    # 55 = Toldy Ferenc utca 55
+    # 55: ez a Toldy Ferenc utca 55., a Toldy lépcsőn nincsenek épületek.
     invalid: ['55']
   Úri utca:
-    # 1-55, 2-72
+    # 107: a páratlan oldalon az 53 az utolsó házszám.
     invalid: ['107']
   Vám utca:
     # 1/d: nincs ilyen, az utcatáblán 1/a-1/c van.
@@ -275,7 +271,8 @@ filters:
   Ybl Miklós tér:
     interpolation: all
   Zerge lépcső:
-    ranges: []
+    # 1: az utcatáblán nincsenek számok, az épületek a merőleges utcákról vannak számozva.
+    invalid: ['1']
   Zsolt utca:
     # 3: nincs ilyen, az 1 után az 5 következik.
     # 10: sima 10 nincs, csak 10/a, 10/b.
