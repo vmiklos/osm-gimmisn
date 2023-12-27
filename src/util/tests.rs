@@ -549,14 +549,14 @@ fn test_street() {
 #[test]
 fn test_get_city_key() {
     let mut valid_settlements: HashSet<String> = HashSet::new();
-    valid_settlements.insert("lábatlan".into());
+    valid_settlements.insert("Lábatlan".into());
     assert_eq!(
         get_city_key("1234", "Budapest", &valid_settlements).unwrap(),
-        "budapest_23"
+        "Budapest_23"
     );
     assert_eq!(
         get_city_key("1889", "Budapest", &valid_settlements).unwrap(),
-        "budapest"
+        "Budapest"
     );
     assert_eq!(
         get_city_key("9999", "", &valid_settlements).unwrap(),
@@ -564,7 +564,7 @@ fn test_get_city_key() {
     );
     assert_eq!(
         get_city_key("9999", "Lábatlan", &valid_settlements).unwrap(),
-        "lábatlan"
+        "Lábatlan"
     );
     assert_eq!(
         get_city_key("9999", "junk", &valid_settlements).unwrap(),
@@ -573,7 +573,7 @@ fn test_get_city_key() {
     // Even if the pos does not start with 1.
     assert_eq!(
         get_city_key("9999", "Budapest", &valid_settlements).unwrap(),
-        "budapest"
+        "Budapest"
     );
     // postcode vs housenumber swap.
     assert_eq!(

@@ -1196,8 +1196,6 @@ pub fn get_city_key(
     city: &str,
     valid_settlements: &HashSet<String>,
 ) -> anyhow::Result<String> {
-    let city = city.to_lowercase();
-
     if !city.is_empty() && postcode.starts_with('1') {
         let mut chars = postcode.chars();
         chars.next();
@@ -1209,13 +1207,13 @@ pub fn get_city_key(
             }
         };
         if (1..=23).contains(&district) {
-            return Ok(city + "_" + chars.as_str());
+            return Ok(city.to_string() + "_" + chars.as_str());
         }
-        return Ok(city);
+        return Ok(city.to_string());
     }
 
-    if valid_settlements.contains(&city) || city == "budapest" {
-        return Ok(city);
+    if valid_settlements.contains(&city.to_string()) || city == "Budapest" {
+        return Ok(city.to_string());
     }
     if !city.is_empty() {
         return Ok("_Invalid".into());
