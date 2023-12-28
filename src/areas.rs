@@ -1284,6 +1284,23 @@ impl<'a> Relation<'a> {
         ))
     }
 
+    /// Produces a query which lists housenumbers in relation, in JSON format.
+    pub fn get_osm_housenumbers_json_query(&self) -> anyhow::Result<String> {
+        let query = self.get_osm_housenumbers_query()?;
+        let mut i = 0;
+        let mut lines = Vec::new();
+        for line in query.lines() {
+            i += 1;
+            if i == 1 {
+                lines.push("[out:json];".to_string());
+                continue;
+            }
+
+            lines.push(line.to_string());
+        }
+        Ok(lines.join("\n"))
+    }
+
     /// Returns invalid osm names and ref names.
     pub fn get_invalid_refstreets(&self) -> anyhow::Result<(Vec<String>, Vec<String>)> {
         let mut osm_invalids: Vec<String> = Vec::new();
