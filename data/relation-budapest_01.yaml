@@ -55,7 +55,8 @@ filters:
     # 15-17: nincs ilyen, csak sima 15 van.
     # 21: nincs ilyen, ez a Mária tér 3.
     # 2/1: nincs ilyen, csak sima 2 van.
-    invalid: ['5', '7', '15b', '17', '21', '2/1']
+    # 6: ez és az Iskola utca 37-39. ugyanaz az épület, bejárat és házszám az Iskola utcáról van csak.
+    invalid: ['5', '7', '15b', '17', '21', '2/1', '6']
   Bem rakpart:
     interpolation: 'all'
     # 25: sima 25 nincs, csak 25/a, 25/b.
@@ -85,6 +86,10 @@ filters:
     # 1/c: nincs ilyen, csak sima 1 van.
     # 8: ez a II. kerületben van.
     invalid: ['1c', '8']
+  Fém utca:
+    # 3: sima 3 nincs, csak 3/a, 3/b.
+    # 2: sima 2 nincs, csak 2/a.
+    invalid: ['3', '2']
   Fő utca:
     # 37: sima 37 nincs, csak 37/a, 37/b, 37/c.
     # 20-22: Pavilon de Paris csak 20-nak mondja magát.
@@ -124,6 +129,9 @@ filters:
   Kagyló utca:
     # 4: sima 4 nincs, csak 4/a, 4/b.
     invalid: ['4']
+  Kapisztrán tér:
+    # 1/a: nincs ilyen, csak sima 1 van.
+    invalid: ['1a']
   Kereszt utca:
     # 39 41: az utcában nincsenek épületek.
     # 6: az utcában nincsenek épületek.
@@ -275,6 +283,13 @@ filters:
     # 65: a páratlan oldalon a 27 az utolsó házszám.
     # 58: a páros oldalon a 28 az utolsó házszám.
     invalid: ['65', '58']
+  Tigris utca:
+    # 29: sima 29 nincs, csak 29/a, 29/b.
+    # 29/c: nincs ilyen, csak 29/a, 29/b.
+    # 45: sima 45 nincs, csak 45/a, 45/b.
+    # 8: sima 8 nincs, csak 8/a, 8/b.
+    # 30: sima 30 nincs, csak 30/a, 30/b.
+    invalid: ['29', '29c', '45', '8', '30']
   Toldy lépcső:
     # 55: ez a Toldy Ferenc utca 55., a Toldy lépcsőn nincsenek épületek.
     invalid: ['55']
