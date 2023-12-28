@@ -1,0 +1,38 @@
+missing-streets: 'yes'
+# osm-street-filters:
+  # park, sétány
+# street-filters:
+  # tanyák
+  # nem igazi utcák
+refstreets:
+  # kérdéses ------------------------------------------------------------------
+  'Ady Endre utca': 'Ady Endre út'
+  'Akácfa utca': 'Akácfa út'
+  'Attila utca': 'Attila út'
+  'Béke utca': 'Béke út'
+  'Dankó utca': 'Dankó út'
+  'Hunyadi utca': 'Hunyadi út'
+  'Jókai utca': 'Jókai út'
+  'József Attila utca': 'József Attila út'
+  'Kossuth Lajos utca': 'Kossuth út'
+  'Köztársaság utca': 'Köztársaság út'
+  'Liget utca': 'Liget út'
+  'Madách utca': 'Madách út'
+  'Május 1. utca': 'Május 1. út'
+  'Mátrai utca': 'Mátrai út'
+  'Petőfi Sándor utca': 'Petőfi út'
+  'Rákóczi utca': 'Rákóczi út'
+  'Rózsa utca': 'Rózsa út'
+  'Sport utca': 'Sport út'
+  'Szabadság utca': 'Szabadság út'
+  'Szondy György utca': 'Szondy György út'
+  'Toldi utca': 'Toldi út'
+  'Tuzson János utca': 'Tuzson János út'
+  'Táncsics utca': 'Táncsics út'
+  'Vörösmarty utca': 'Vörösmarty út'
+  'Zrínyi utca': 'Zrínyi út'
+  'Ágasvár utca': 'Ágasvár út'
+  'Árpád utca': 'Árpád út'
+source: survey
+housenumber-letters: true
+inactive: false

@@ -528,6 +528,10 @@ paszto:
     osmrelation: 1417422
     refcounty: "13"
     refsettlement: "097"
+tar:
+    osmrelation: 1372130
+    refcounty: "13"
+    refsettlement: "121"
 # 14 - Pest megye
 biatorbagy:
     osmrelation: 113461
