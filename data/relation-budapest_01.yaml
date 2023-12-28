@@ -236,6 +236,17 @@ filters:
     # 26: ez a XI. kerületben van.
     # 62/b: ez a XI. kerületben van.
     invalid: ['26', '62b']
+  Szabó Ilonka utca:
+    # 15/a: nincs ilyen, csak sima 15 van.
+    # 15/b: nincs ilyen, csak sima 15 van.
+    # 15/c: nincs ilyen, csak sima 15 van.
+    # 43/a: nincs ilyen, csak 43-45 A lépcsőház.
+    # 43/b: nincs ilyen, csak 43-45 B lépcsőház.
+    # 45/c: nincs ilyen, csak 43-45 C lépcsőház.
+    # 63: sima 63 nincs, csak 63/c.
+    # 71: sima 71 nincs, csak 71/a, 71/b.
+    # 34/a: nincs ilyen, csak sima 34 van.
+    invalid: ['15a', '15b', '15c', '43a', '43b', '45c', '63', '71', '34a']
   Szalag utca:
     # 1: a páratlan oldalon a 7 az első házszám.
     invalid: ['1']
@@ -290,6 +301,14 @@ filters:
     # 8: sima 8 nincs, csak 8/a, 8/b.
     # 30: sima 30 nincs, csak 30/a, 30/b.
     invalid: ['29', '29c', '45', '8', '30']
+  Toldy Ferenc utca:
+    # 1: sima 1 nincs, csak 1/b, 1/c.
+    # 60/m: nincs ilyen,csak sima 60 van.
+    # 62: sima 62 nincs, csak 62/a, 62/b.
+    # 64: sima 64 nincs, csak 64/a.
+    # 72: sima 72 nincs, csak 72/a, 72/b.
+    # 74/b: nincs ilyen, csak sima 74 van.
+    invalid: ['1', '60m', '62', '64', '72', '74b']
   Toldy lépcső:
     # 55: ez a Toldy Ferenc utca 55., a Toldy lépcsőn nincsenek épületek.
     invalid: ['55']
