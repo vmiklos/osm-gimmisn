@@ -217,7 +217,12 @@ filters:
     ranges:
       - {start: '1', end: '19'}
   Varsányi Irén utca:
-    invalid: ['27', '29']  # parkoló van a helyén
+    # 27: a 23-29 a Jurányi utca 12-ben lévő parkoló.
+    # 29: a 23-29 a Jurányi utca 12-ben lévő parkoló.
+    # 2: ez és a Kapás utca 22. ugyanaz az épület, bejárat és házszám a Kapás utcáról van csak.
+    # 38/c: nincs ilyen, csak 38, 38/a.
+    # 40-44: ez a Fővárosi Törvényszék Gazdasági Kollégiumának régi címe, az új cím 38-40.
+    invalid: ['27', '29', '2', '38c', '42', '44']
   Varsányi udvar:
     interpolation: 'all'
     ranges:
