@@ -209,7 +209,35 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
             [],
         )?;
     }
-    conn.execute("pragma user_version = 11", [])?;
+    if user_version < 12 {
+        // Tracks housenumbers from OSM for a relation.
+        conn.execute(
+            "create table osm_housenumbers (
+            relation text not null,
+            osm_id text not null,
+            street text not null,
+            housenumber text not null,
+            postcode text not null,
+            place text not null,
+            housename text not null,
+            conscriptionnumber text not null,
+            flats text not null,
+            floor text not null,
+            door text not null,
+            unit text not null,
+            name text not null,
+            osm_type text not null,
+            unique(relation, osm_id)
+        )",
+            [],
+        )?;
+        conn.execute(
+            "create index idx_osm_housenumbers
+            on osm_housenumbers (relation)",
+            [],
+        )?;
+    }
+    conn.execute("pragma user_version = 12", [])?;
     Ok(())
 }
 
