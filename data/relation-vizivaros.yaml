@@ -241,5 +241,5 @@ filters:
     refsettlement: '001'
     interpolation: all
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true
