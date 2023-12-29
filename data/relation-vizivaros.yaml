@@ -51,8 +51,7 @@ filters:
     invalid: ['7']
   Döbrentei utca:
     refsettlement: '001'
-    # 1: a páratlan oldalon a 9 az első házszám.
-    invalid: ['1']
+    ranges: []  # területen kívül
   Fazekas utca:
     # 1/c: nincs ilyen, csak sima 1 van.
     # 8: ez a II. kerületben van.
@@ -214,6 +213,9 @@ filters:
     # 2: sima 2 nincs, csak 2/b.
     # 2/a: ez és a Lovas út 41. ugyanaz az épület, házszám a Lovas útról van csak.
     invalid: ['15', '15a', '21', '2', '2a']
+    # terület lehatárolás: páratlan viziváros, páros krisztinaváros
+    ranges:
+      - {start: '1', end: '19'}
   Varsányi Irén utca:
     invalid: ['27', '29']  # parkoló van a helyén
   Varsányi udvar:
@@ -225,6 +227,9 @@ filters:
     # 1: a páratlan oldal a Széll Kálmán tér, nincsenek épületek.
     # 6/a: nincs ilyen, csak sima 6 van.
     invalid: ['1', '6a']
+    # terület lehatárolás: páros: 2-14 viziváros, 16- krisztinaváros
+    ranges:
+      - {start: '2', end: '14'}
   Vitéz utca:
     refsettlement: '002'
     # 13/b: nincs ilyen, csak sima 13 van.
