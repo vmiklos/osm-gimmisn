@@ -45,6 +45,11 @@ filters:
     ranges:
       - {start: '2', end: '44', refsettlement: '001'}
       - {start: '1', end: '55', refsettlement: '002'}
+  Csapláros utca:
+    # 3/c: a páratlan oldalon az 5 az első házszám.
+    # 2: ez és a Kapás utca 6-12. ugyanaz az épület, bejárat és házszám a Kapás utcáról van csak.
+    # 4: ez és az Erőd utca 5. ugyanaz az épület, bejárat és házszám az Erőd utcáról van csak.
+    invalid: ['3c', '2', '4']
   Donáti utca:
     refsettlement: '001'
     # 7: sima 7 nincs, csak 7/a, 7/b, 7/c.
@@ -237,11 +242,12 @@ filters:
       - {start: '2', end: '14'}
   Vitéz utca:
     refsettlement: '002'
+    # 3: a 3-5. közötti szakasz a Nagy Imre tér.
     # 13/b: nincs ilyen, csak sima 13 van.
     # 15: sima 15 nincs, csak 15/a, 15/b.
     # 27: a páratlan oldalon a 17 az utolsó házszám az utcatáblán, amely ugyanaz az épület, mint a Fazekas utca 27.
     # 22/b: a páros oldalon a 22 az utolsó házszám az utcatáblán, amely ugyanaz az épület, mint a Fazekas utca 25., bejárat és házszám a Fazekas utcáról van csak.
-    invalid: ['13b', '15', '27', '22b']
+    invalid: ['3', '13b', '15', '27', '22b']
   Ybl Miklós tér:
     refsettlement: '001'
     interpolation: all
