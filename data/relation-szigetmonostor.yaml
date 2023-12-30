@@ -250,5 +250,5 @@ refstreets:
   'Nefelejcs utca': 'Nefelejcs út'
   'Pusztamonostori utca': 'Pusztamonostori út'
   'Szentendrei út': 'Szentendrei utca'
-inactive: true
+inactive: false
 additional-housenumbers: true

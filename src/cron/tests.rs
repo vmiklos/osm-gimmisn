@@ -609,6 +609,88 @@ fn test_update_osm_housenumbers_xml_as_csv() {
     assert_eq!(actual, expected);
 }
 
+/// Tests update_osm_housenumbers(): the case when we ask for JSON but get XML.
+#[test]
+fn test_update_osm_housenumbers_xml_as_json() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 42,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let overpass_template = context::tests::TestFileSystem::make_file();
+    overpass_template
+        .borrow_mut()
+        .write_all(b"housenr aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
+    let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            (
+                "data/street-housenumbers-template.overpassql",
+                &overpass_template,
+            ),
+            (
+                "workdir/street-housenumbers-gazdagret.csv",
+                &osm_housenumbers_value,
+            ),
+        ],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let routes = vec![
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.csv",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass.xml",
+        ),
+    ];
+    let network = context::tests::TestNetwork::new(&routes);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    ctx.set_network(network_rc);
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
+            ["gazdagret", "42", "my street", "1", "", "", "", "", "", "", "", "", "", "way"],
+        )
+        .unwrap();
+    }
+
+    update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
+
+    // Wanted JSON, got XML, make sure the db is left unchanged.
+    let conn = ctx.get_database_connection().unwrap();
+    let mut stmt = conn
+        .prepare("select count(*) from osm_housenumbers")
+        .unwrap();
+    let mut rows = stmt.query([]).unwrap();
+    let row = rows.next().unwrap().unwrap();
+    let count: i64 = row.get(0).unwrap();
+    assert_eq!(count, 1);
+}
+
 /// Tests update_osm_streets().
 #[test]
 fn test_update_osm_streets() {
