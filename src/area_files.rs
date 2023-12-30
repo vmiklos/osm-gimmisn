@@ -32,6 +32,29 @@ struct OverpassTags {
     service: Option<String>,
     surface: Option<String>,
     leisure: Option<String>,
+
+    // region: housenumbers
+    #[serde(rename(deserialize = "addr:street"))]
+    street: Option<String>,
+    #[serde(rename(deserialize = "addr:housenumber"))]
+    housenumber: Option<String>,
+    #[serde(rename(deserialize = "addr:postcode"))]
+    postcode: Option<String>,
+    #[serde(rename(deserialize = "addr:place"))]
+    place: Option<String>,
+    #[serde(rename(deserialize = "addr:housename"))]
+    housename: Option<String>,
+    #[serde(rename(deserialize = "addr:conscriptionnumber"))]
+    conscriptionnumber: Option<String>,
+    #[serde(rename(deserialize = "addr:flats"))]
+    flats: Option<String>,
+    #[serde(rename(deserialize = "addr:floor"))]
+    floor: Option<String>,
+    #[serde(rename(deserialize = "addr:door"))]
+    door: Option<String>,
+    #[serde(rename(deserialize = "addr:unit"))]
+    unit: Option<String>,
+    // endregion housenumbers
 }
 
 /// OverpassElement represents one result from Overpass.
@@ -258,6 +281,73 @@ impl RelationFiles {
         )?;
 
         let areas_page = format!("streets/{}/areas-base", self.name);
+        let areas_time = overpass.osm3s.timestamp_areas_base.unix_timestamp_nanos();
+        tx.execute(
+            r#"insert into mtimes (page, last_modified) values (?1, ?2)
+                 on conflict(page) do update set last_modified = excluded.last_modified"#,
+            [areas_page, areas_time.to_string()],
+        )?;
+        tx.commit()?;
+
+        Ok(())
+    }
+
+    /// Writes the result for overpass of Relation.get_osm_housenumbers_json_query().
+    pub fn write_osm_json_housenumbers(
+        &self,
+        ctx: &context::Context,
+        result: &str,
+    ) -> anyhow::Result<()> {
+        let overpass: OverpassResult = match serde_json::from_str(result) {
+            Ok(value) => value,
+            // Not a JSON, ignore.
+            Err(_) => {
+                return Ok(());
+            }
+        };
+
+        // Insert or update the mtime for the osm housenumbers of this relation.
+        stats::set_sql_mtime(ctx, &format!("housenumbers/{}", self.name))?;
+
+        let mut conn = ctx.get_database_connection()?;
+        let tx = conn.transaction()?;
+        tx.execute(
+            "delete from osm_housenumbers where relation = ?1",
+            [self.name.to_string()],
+        )?;
+        for element in overpass.elements {
+            let relation = self.name.to_string();
+            let osm_id = element.id.to_string();
+            let street = element.tags.street.unwrap_or("".into());
+            let housenumber = element.tags.housenumber.unwrap_or("".into());
+            let postcode = element.tags.postcode.unwrap_or("".into());
+            let place = element.tags.place.unwrap_or("".into());
+            let housename = element.tags.housename.unwrap_or("".into());
+            let conscriptionnumber = element.tags.conscriptionnumber.unwrap_or("".into());
+            let flats = element.tags.flats.unwrap_or("".into());
+            let floor = element.tags.floor.unwrap_or("".into());
+            let door = element.tags.door.unwrap_or("".into());
+            let unit = element.tags.unit.unwrap_or("".into());
+            let name = element.tags.name.unwrap_or("".into());
+            let osm_type = element.osm_type.to_string();
+            let ret = tx.execute(
+                "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
+                [relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type],
+            );
+            if ret.is_err() {
+                info!("write_osm_json_housenumbers: ignoring duplicated housenumber: relation is '{}', id is '{}'", self.name, element.id);
+            }
+        }
+
+        let osm_page = format!("housenumbers/{}/osm-base", self.name);
+        let osm_time = overpass.osm3s.timestamp_osm_base.unix_timestamp_nanos();
+        tx.execute(
+            r#"insert into mtimes (page, last_modified) values (?1, ?2)
+                 on conflict(page) do update set last_modified = excluded.last_modified"#,
+            [osm_page, osm_time.to_string()],
+        )?;
+
+        let areas_page = format!("housenumbers/{}/areas-base", self.name);
         let areas_time = overpass.osm3s.timestamp_areas_base.unix_timestamp_nanos();
         tx.execute(
             r#"insert into mtimes (page, last_modified) values (?1, ?2)

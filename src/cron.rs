@@ -124,6 +124,28 @@ fn update_osm_housenumbers(
             break;
         }
         info!("update_osm_housenumbers: end: {relation_name}");
+        info!("update_osm_housenumbers, json: start: {relation_name}");
+        let mut retry = 0;
+        while should_retry(retry) {
+            if retry > 0 {
+                info!("update_osm_housenumbers, json: try #{retry}");
+            }
+            retry += 1;
+            overpass_sleep(ctx);
+            let query = relation.get_osm_housenumbers_json_query()?;
+            let buf = match overpass_query::overpass_query(ctx, &query) {
+                Ok(value) => value,
+                Err(err) => {
+                    info!("update_osm_housenumbers, json: http error: {err:?}");
+                    continue;
+                }
+            };
+            relation
+                .get_files()
+                .write_osm_json_housenumbers(ctx, &buf)?;
+            break;
+        }
+        info!("update_osm_housenumbers, json: end: {relation_name}");
     }
 
     Ok(())

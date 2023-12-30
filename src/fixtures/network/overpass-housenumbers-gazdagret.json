@@ -1,0 +1,80 @@
+{
+    "osm3s": {
+        "timestamp_osm_base": "2023-11-16T13:34:15Z",
+        "timestamp_areas_base": "2023-11-16T10:23:59Z"
+    },
+    "elements": [
+        {
+            "type": "node",
+            "id": 1,
+            "tags": {
+                "addr:street": "Törökugrató utca",
+                "addr:housenumber": "1"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2,
+            "tags": {
+                "addr:street": "Törökugrató utca",
+                "addr:housenumber": "2"
+            }
+        },
+        {
+            "type": "node",
+            "id": 3,
+            "tags": {
+                "addr:street": "Tűzkő utca",
+                "addr:housenumber": "9"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4,
+            "tags": {
+                "addr:street": "Tűzkő utca",
+                "addr:housenumber": "10"
+            }
+        },
+        {
+            "type": "node",
+            "id": 5,
+            "tags": {
+                "addr:street": "OSM Name 1",
+                "addr:housenumber": "1"
+            }
+        },
+        {
+            "type": "node",
+            "id": 6,
+            "tags": {
+                "addr:street": "OSM Name 1",
+                "addr:housenumber": "2"
+            }
+        },
+        {
+            "type": "node",
+            "id": 7,
+            "tags": {
+                "addr:street": "Only In OSM utca",
+                "addr:housenumber": "1"
+            }
+        },
+        {
+            "type": "node",
+            "id": 8,
+            "tags": {
+                "addr:street": "Second Only In OSM utca",
+                "addr:housenumber": "1"
+            }
+        },
+        {
+            "type": "node",
+            "id": 8,
+            "tags": {
+                "addr:street": "Second Only In OSM utca",
+                "addr:housenumber": "1"
+            }
+        }
+    ]
+}
