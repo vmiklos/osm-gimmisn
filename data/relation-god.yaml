@@ -11,6 +11,7 @@ street-filters:
   - Vasútállomás
   # nincs nyoma hogy létezne
   - Erzsébet liget körút
+  - Termálfürdő út  # https://www.openstreetmap.org/note/3671524
 refstreets:
   # rövidítés
   'Szent István utca': 'Szt. István utca'
