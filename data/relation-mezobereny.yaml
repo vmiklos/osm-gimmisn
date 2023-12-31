@@ -2,7 +2,6 @@ missing-streets: 'yes'
 filters: {}
 street-filters:
   - Sportpálya
-  # - 56-os emléktér tér
   # - Blanka
   # - Belenta
   # - Kereki - Kereki utca van, de ezen külön is vannak hászámok
@@ -15,6 +14,7 @@ street-filters:
   # - Tanya utca
   # - Ugari tanyák
 refstreets:
+  '56-os emléktér': '56-os emléktér tér'
   'Áchim András utca': 'Áchim L. András utca'
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Bartók utca': 'Bartók Béla utca'
