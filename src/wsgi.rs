@@ -50,6 +50,23 @@ fn get_streets_last_modified(
     Ok(format.replace("{0}", &osm).replace("{1}", &areas))
 }
 
+/// Gets the update date of housenumbers for a relation.
+fn get_housenumbers_last_modified(
+    ctx: &context::Context,
+    relation: &areas::Relation<'_>,
+) -> anyhow::Result<String> {
+    let format = tr("{0} (osm), {1} (areas)");
+    let osm = webframe::format_timestamp(&stats::get_sql_mtime(
+        ctx,
+        &format!("housenumbers/{}/osm-base", relation.get_name()),
+    )?)?;
+    let areas = webframe::format_timestamp(&stats::get_sql_mtime(
+        ctx,
+        &format!("housenumbers/{}/areas-base", relation.get_name()),
+    )?)?;
+    Ok(format.replace("{0}", &osm).replace("{1}", &areas))
+}
+
 /// Expected request_uri: e.g. /osm/streets/ormezo/view-query.
 fn handle_streets(
     ctx: &context::Context,
@@ -119,14 +136,6 @@ fn handle_streets(
 
     doc.append_value(webframe::get_footer(&get_streets_last_modified(ctx, &relation)?).get_value());
     Ok(doc)
-}
-
-/// Gets the update date of house numbers for a relation.
-fn get_housenumbers_last_modified(
-    ctx: &context::Context,
-    relation: &areas::Relation<'_>,
-) -> anyhow::Result<String> {
-    get_last_modified(ctx, &relation.get_files().get_osm_housenumbers_path())
 }
 
 /// Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query.
@@ -730,18 +739,6 @@ fn missing_streets_update(
     Ok(doc)
 }
 
-/// Gets the update date for missing house numbers.
-fn ref_housenumbers_last_modified(
-    ctx: &context::Context,
-    relations: &mut areas::Relations<'_>,
-    name: &str,
-) -> anyhow::Result<String> {
-    let relation = relations.get_relation(name)?;
-    let t_ref = util::get_mtime(ctx, &relation.get_files().get_ref_housenumbers_path());
-    let t_housenumbers = util::get_mtime(ctx, &relation.get_files().get_osm_housenumbers_path());
-    webframe::format_timestamp(std::cmp::max(&t_ref, &t_housenumbers))
-}
-
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query].
 fn handle_missing_housenumbers(
     ctx: &context::Context,
@@ -751,7 +748,6 @@ fn handle_missing_housenumbers(
     let mut tokens = request_uri.split('/');
     let action = tokens.next_back().context("no action")?;
     let relation_name = tokens.next_back().context("no relation_name")?;
-    let mut date = "".into();
 
     let mut relation = relations.get_relation(relation_name)?;
     let osmrelation = relation.get_config().get_osmrelation();
@@ -778,7 +774,6 @@ fn handle_missing_housenumbers(
             guard.read_to_end(&mut buffer)?;
             pre.text(&String::from_utf8(buffer)?);
         }
-        date = get_last_modified(ctx, &relation.get_files().get_ref_housenumbers_path())?;
     } else if action == "update-result" {
         doc.append_value(missing_housenumbers_update(ctx, relations, relation_name)?.get_value())
     } else if action == "view-lints" {
@@ -792,9 +787,7 @@ fn handle_missing_housenumbers(
         )
     }
 
-    if date.is_empty() {
-        date = ref_housenumbers_last_modified(ctx, relations, relation_name)?;
-    }
+    let date = get_housenumbers_last_modified(ctx, &relation)?;
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
 }
@@ -910,16 +903,6 @@ fn handle_additional_streets(
     Ok(doc)
 }
 
-/// Gets the update date for missing/additional housenumbers.
-fn relation_housenumbers_get_last_modified(
-    ctx: &context::Context,
-    relation: &areas::Relation<'_>,
-) -> anyhow::Result<String> {
-    let t_ref = util::get_mtime(ctx, &relation.get_files().get_ref_housenumbers_path());
-    let t_osm = util::get_mtime(ctx, &relation.get_files().get_osm_housenumbers_path());
-    webframe::format_timestamp(std::cmp::max(&t_ref, &t_osm))
-}
-
 /// Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query].
 fn handle_additional_housenumbers(
     ctx: &context::Context,
@@ -951,7 +934,7 @@ fn handle_additional_housenumbers(
             .get_value(),
     );
 
-    let date = relation_housenumbers_get_last_modified(ctx, &relation)?;
+    let date = get_housenumbers_last_modified(ctx, &relation)?;
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
 }
