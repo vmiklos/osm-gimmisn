@@ -47,10 +47,31 @@ street-filters:
   # - Sáfrány utca  # 01337 hrsz
   - Kékmadár utca  # hrsz. 5308/2 úgy tűnik Szentiváni útra vagy Régi Szentiváni útra változott
   # Kör utca - Kör tér  # https://www.openstreetmap.org/note/3089579
+  # tanyák/dűlők
+  - Győri tanya
+  - Horgásztanya
+  - Ivánháza puszta
+  - Kakashegyi dűlő
+  - Károlyháza tanya  # https://www.openstreetmap.org/node/999164082
+  - Kránicz tanya
+  - Pirik tanya
+  - Rába dűlő
+  - Somos major
+  # településrész
+  - Erdő telep  # https://www.openstreetmap.org/node/999164060
+  - Hecse puszta  # https://www.openstreetmap.org/node/982147523
+  - Kishegy  # https://www.openstreetmap.org/node/999164076
+  - Pósdomb  # https://www.openstreetmap.org/node/982141214
+  - Sárás puszta  # https://www.openstreetmap.org/node/982153423
+  - Új major  # https://www.openstreetmap.org/node/982122859
+  - Wittman tag  # https://www.openstreetmap.org/node/999164023
+  - Zsellér dűlő  # https://www.openstreetmap.org/way/230847166
   # nem igazi utcák
   - Gátőrház
   - Szabadhegyi vasútállomás utcája  # Serfőződombi dűlő lett - https://www.openstreetmap.org/way/125913678
   - Soproni 4-es vasúti őrház
+  - Útőrház
+  - Vasútállomás
   - Vasúti őrházak
 refstreets:
   # OSM Name 1: Ref Name 1
