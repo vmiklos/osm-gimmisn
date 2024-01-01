@@ -1,0 +1,24 @@
+{
+    "osm3s": {
+        "timestamp_osm_base": "2023-11-16T13:34:15Z",
+        "timestamp_areas_base": "2023-11-16T10:23:59Z"
+    },
+    "elements": [
+        {
+            "type": "node",
+            "id": 1,
+            "tags": {
+                "addr:street": "Törökugrató utca",
+                "addr:housenumber": "1"
+            }
+        },
+        {
+            "type": "node",
+            "id": 1,
+            "tags": {
+                "addr:street": "Törökugrató utca",
+                "addr:housenumber": "1"
+            }
+        }
+    ]
+}

@@ -67,14 +67,6 @@
                 "addr:street": "Second Only In OSM utca",
                 "addr:housenumber": "1"
             }
-        },
-        {
-            "type": "node",
-            "id": 8,
-            "tags": {
-                "addr:street": "Second Only In OSM utca",
-                "addr:housenumber": "1"
-            }
         }
     ]
 }
