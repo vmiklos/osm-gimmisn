@@ -8,6 +8,8 @@
 - Resolves: gh#3290 YAML keys are now flagged by the validator, instead of taking the last value
 - Resolves: gh#3456 `/lints/whole-country/invalid-addr-cities` is now case-sensitive, finds more
   problems
+- Resolves: gh#3105 update times in the footer now show both the OSM and areas timestamp instead of
+  the time of the overpass query
 
 ## 7.6
 
