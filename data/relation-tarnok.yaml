@@ -17,6 +17,9 @@ refstreets:
   'Írisz utca': 'Irisz utca'
   'Szegfű utca': 'Szegfü utca'
   'Újhegyi út': 'Ujhegyi út'
+osm-street-filters:
+  # nem igazi utcák
+  - Vadlúd utcai csomópont
 source: survey
 housenumber-letters: true
 inactive: true
