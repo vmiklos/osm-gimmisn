@@ -10,7 +10,14 @@
 
 {
   "type": "way",
-  "id": 1,
+  "id": 7,
+  "nodes": [
+    2
+  ]
+},
+{
+  "type": "way",
+  "id": 8,
   "nodes": [
     2
   ]

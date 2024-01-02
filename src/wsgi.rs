@@ -25,7 +25,6 @@ use crate::yattag;
 use anyhow::Context;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
-use std::ops::DerefMut;
 use std::sync::Arc;
 
 /// Gets the update date string of a file.
@@ -204,9 +203,30 @@ fn handle_street_housenumbers(
             let div = doc.tag("div", &[("id", "no-osm-housenumbers")]);
             div.text(&tr("No existing house numbers"));
         } else {
-            let stream = relation.get_files().get_osm_housenumbers_read_stream(ctx)?;
-            let mut guard = stream.borrow_mut();
-            let mut read = guard.deref_mut();
+            let mut csv: String =
+                String::from("@id\tstreet\thousenumber\tpostcode\tplace\thousename\tconscriptionnumber\tflats\tfloor\tdoor\tunit\tname\t@type\n");
+            let conn = ctx.get_database_connection()?;
+            let mut stmt = conn.prepare("select osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type from osm_housenumbers where relation = ?1")?;
+            let mut rows = stmt.query([&relation_name])?;
+            while let Some(row) = rows.next()? {
+                let osm_id: String = row.get(0).unwrap();
+                let street: String = row.get(1).unwrap();
+                let housenumber: String = row.get(2).unwrap();
+                let postcode: String = row.get(3).unwrap();
+                let place: String = row.get(4).unwrap();
+                let housename: String = row.get(5).unwrap();
+                let conscriptionnumber: String = row.get(6).unwrap();
+                let flats: String = row.get(7).unwrap();
+                let floor: String = row.get(8).unwrap();
+                let door: String = row.get(9).unwrap();
+                let unit: String = row.get(10).unwrap();
+                let name: String = row.get(11).unwrap();
+                let osm_type: String = row.get(12).unwrap();
+                csv += &format!(
+                "{osm_id}\t{street}\t{housenumber}\t{postcode}\t{place}\t{housename}\t{conscriptionnumber}\t{flats}\t{floor}\t{door}\t{unit}\t{name}\t{osm_type}\n"
+            );
+            }
+            let mut read = csv.as_bytes();
             doc.append_value(
                 util::html_table_from_list(&util::tsv_to_list(&mut read)?).get_value(),
             );

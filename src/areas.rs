@@ -567,14 +567,11 @@ impl<'a> Relation<'a> {
         }
         let path = self.file.get_osm_housenumbers_path();
         if self.ctx.get_file_system().path_exists(&path) {
-            let stream: Rc<RefCell<dyn Read>> =
-                self.file.get_osm_housenumbers_read_stream(self.ctx)?;
-            let mut guard = stream.borrow_mut();
-            let mut read = guard.deref_mut();
-            let mut csv_reader = util::make_csv_reader(&mut read);
             ret.append(
-                &mut util::get_street_from_housenumber(&mut csv_reader)
-                    .context("get_street_from_housenumber() failed")?,
+                &mut util::get_street_from_housenumber(
+                    &self.file.get_osm_json_housenumbers(self.ctx)?,
+                )
+                .context("get_street_from_housenumber() failed")?,
             );
         }
         if sorted_result {
@@ -638,14 +635,9 @@ impl<'a> Relation<'a> {
             // once.
             let street_ranges = self.get_street_ranges()?;
             let mut house_numbers: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
-            let stream: Rc<RefCell<dyn Read>> =
-                self.file.get_osm_housenumbers_read_stream(self.ctx)?;
-            let mut guard = stream.borrow_mut();
-            let mut read = guard.deref_mut();
-            let mut csv_reader = util::make_csv_reader(&mut read);
+            let osm_housenumbers = self.file.get_osm_json_housenumbers(self.ctx)?;
             let mut lints: Vec<RelationLint> = Vec::new();
-            for result in csv_reader.deserialize() {
-                let row: util::OsmHouseNumber = result?;
+            for row in osm_housenumbers {
                 let mut street = &row.street;
                 if street.is_empty() {
                     if let Some(ref value) = row.place {

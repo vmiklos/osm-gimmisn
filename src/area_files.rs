@@ -12,6 +12,7 @@
 
 use crate::context;
 use crate::stats;
+use crate::util;
 use anyhow::Context;
 use std::cell::RefCell;
 use std::io::Read;
@@ -194,12 +195,32 @@ impl RelationFiles {
     }
 
     /// Opens the OSM house number list of a relation for reading.
-    pub fn get_osm_housenumbers_read_stream(
+    pub fn get_osm_json_housenumbers(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
-        let path = self.get_osm_housenumbers_path();
-        ctx.get_file_system().open_read(&path)
+    ) -> anyhow::Result<Vec<util::OsmHouseNumber>> {
+        let mut ret: Vec<util::OsmHouseNumber> = Vec::new();
+        let conn = ctx.get_database_connection()?;
+        let mut stmt =
+            conn.prepare("select osm_id, housenumber, conscriptionnumber, street, place, osm_type from osm_housenumbers where relation = ?1")?;
+        let mut rows = stmt.query([&self.name])?;
+        while let Some(row) = rows.next()? {
+            let id: String = row.get(0).unwrap();
+            let housenumber: String = row.get(1).unwrap();
+            let conscriptionnumber: String = row.get(2).unwrap();
+            let street: String = row.get(3).unwrap();
+            let place: String = row.get(4).unwrap();
+            let object_type: String = row.get(5).unwrap();
+            ret.push(util::OsmHouseNumber::new(
+                id.parse()?,
+                &housenumber,
+                &conscriptionnumber,
+                &street,
+                &Some(place),
+                &object_type,
+            ));
+        }
+        Ok(ret)
     }
 
     /// Opens the reference house number list of a relation for reading.
