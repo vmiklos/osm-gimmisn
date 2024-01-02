@@ -968,28 +968,47 @@ pub fn tsv_to_list(read: &mut dyn Read) -> anyhow::Result<Vec<Vec<yattag::Doc>>>
     Ok(table)
 }
 
-/// One row in workdir/street-housenumbers-<relation>.csv. Keep this in sync with
+/// One row in the `osm_housenumbers` SQL table for a relation. Keep this in sync with
 /// data/street-housenumbers-template.overpassql.
-#[derive(serde::Deserialize)]
 pub struct OsmHouseNumber {
     /// Object ID.
-    #[serde(rename = "@id")]
     pub id: u64,
     /// House number.
-    #[serde(rename = "addr:housenumber")]
     pub housenumber: String,
     /// Conscription number.
-    #[serde(rename = "addr:conscriptionnumber")]
     pub conscriptionnumber: String,
     /// Street name.
-    #[serde(rename = "addr:street")]
     pub street: String,
     /// Place name.
-    #[serde(rename = "addr:place")]
     pub place: Option<String>,
     /// Object type.
-    #[serde(rename = "@type")]
     pub object_type: String,
+}
+
+impl OsmHouseNumber {
+    /// Creates a new OsmHouseNumber.
+    pub fn new(
+        id: u64,
+        housenumber: &str,
+        conscriptionnumber: &str,
+        street: &str,
+        place: &Option<String>,
+        object_type: &str,
+    ) -> Self {
+        let housenumber = housenumber.to_string();
+        let conscriptionnumber = conscriptionnumber.to_string();
+        let street = street.to_string();
+        let place = place.clone();
+        let object_type = object_type.to_string();
+        OsmHouseNumber {
+            id,
+            housenumber,
+            conscriptionnumber,
+            street,
+            place,
+            object_type,
+        }
+    }
 }
 
 /// One row in workdir/stats/<date>.csv. Keep this in sync with
@@ -1027,14 +1046,10 @@ pub struct OsmLightHouseNumber {
 
 /// Reads a house number CSV and extracts streets from rows.
 /// Returns a list of street objects, with their name, ID and type set.
-pub fn get_street_from_housenumber(
-    csv_read: &mut csv::Reader<&mut dyn Read>,
-) -> anyhow::Result<Vec<Street>> {
+pub fn get_street_from_housenumber(housenumbers: &[OsmHouseNumber]) -> anyhow::Result<Vec<Street>> {
     let mut ret: Vec<Street> = Vec::new();
 
-    for result in csv_read.deserialize() {
-        let row: OsmHouseNumber = result?;
-
+    for row in housenumbers {
         if row.housenumber.is_empty() && row.conscriptionnumber.is_empty() {
             continue;
         }

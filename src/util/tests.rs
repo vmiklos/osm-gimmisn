@@ -11,7 +11,6 @@
 //! Tests for the util module.
 
 use super::*;
-use std::io::Seek;
 use std::io::Write;
 use std::rc::Rc;
 
@@ -585,21 +584,25 @@ fn test_get_city_key() {
 /// Tests get_street_from_housenumber(): the case when addr:place is used.
 #[test]
 fn test_get_street_from_housenumber_addr_place() {
-    let mut read = std::fs::File::open("tests/workdir/street-housenumbers-gh964.csv").unwrap();
-    let mut csv_reader = make_csv_reader(&mut read);
-    let actual = get_street_from_housenumber(&mut csv_reader).unwrap();
+    let id: u64 = 3136661536;
+    let housenumber = "52/b";
+    let conscriptionnumber = "";
+    let street = "";
+    let place = &Some("Tolvajos tanya".to_string());
+    let object_type = "node";
+    let housenumber = OsmHouseNumber::new(
+        id,
+        housenumber,
+        conscriptionnumber,
+        street,
+        place,
+        object_type,
+    );
+
+    let actual = get_street_from_housenumber(&[housenumber]).unwrap();
+
     // This is picked up from addr:place because addr:street was empty.
     assert_eq!(actual, [Street::from_string("Tolvajos tanya")]);
-}
-
-/// Tests get_street_from_housenumber(): the case when the addr:housenumber column is missing.
-#[test]
-fn test_get_street_from_housenumber_missing_column() {
-    let mut cursor = std::io::Cursor::new(Vec::new());
-    cursor.write_all(b"@id\n42\n").unwrap();
-    cursor.rewind().unwrap();
-    let mut csv_reader = make_csv_reader(&mut cursor);
-    assert_eq!(get_street_from_housenumber(&mut csv_reader).is_err(), true);
 }
 
 /// Tests invalid_filter_keys_to_html().
