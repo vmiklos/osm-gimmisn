@@ -22,14 +22,20 @@ filters:
   Lendvay utca:
     # 2-10 között nem erre az utcára vannak számozva
     invalid: ['4', '8']
-  # Munkácsy Mihály utca:
-    # 31-37-ig üres telek (Star Park Podmaniczky utcai parkolója van rajta)
+  Munkácsy Mihály utca:
+    # 19: sima 19 nincs, csak 19/b.
+    # 26-28: csak 26 van kitáblázva és az iskola honlapján is csak 26 szerepel.
+    invalid: ['19', '28']
   Nagymező utca:
     # 5-ös szám helyén a Tereza kiülős "kertje" van
     invalid: ['5']
   Szinyei Merse utca:
     # 30/f: nincs ilyen, csak sima 30 van.
     invalid: ['30f']
+  Teréz körút:
+    # 52/b: nincs ilyen, csak sima 52 van.
+    # 122: a páros oldalon a 62 az utolsó házszám.
+    invalid: ['52b', '122']
   Váci út:
     # VI. kerület: Westend 1-3, XIII. kerület Lehel Csarnok 9-15
     invalid: ['7']
