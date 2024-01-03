@@ -967,6 +967,11 @@ fn test_missing_housenumbers_view_result_txt() {
             ["streets/budafok", &mtime],
         )
         .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/budafok", &mtime],
+        )
+        .unwrap();
     }
 
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/budafok/view-result.txt");
@@ -1074,6 +1079,11 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gazdagret", "8", "Second Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gazdagret", &mtime],
         )
         .unwrap();
     }
@@ -1497,6 +1507,11 @@ fn test_missing_housenumbers_view_result_txt_no_ref_housenumbers() {
         conn.execute(
             "insert into mtimes (page, last_modified) values (?1, ?2)",
             ["streets/gazdagret", &mtime],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gazdagret", &mtime],
         )
         .unwrap();
     }
