@@ -296,10 +296,10 @@ filters:
   Malomvölgyi utca:
     # 25: domboldal, nem látszik épkézláb bejárat lentről
     # 32: tulaj megkérdezve, ok
-    # 34-44 között semmi sincs kiírva 2022-12. RESURVEY 2023
-    # 40 helyén 44 van kiírva
+    # 36: nincs kiírva
+    # 40-44: 44 volt régen kiírva, most kikerül 40 44 a postaládára
     # 71: 39 az utolsó páratlan
-    invalid: ['25', '36', '40', '42']
+    invalid: ['25', '36']
   Martinovics utca:
     # 14: 2 db 16 van táblázva
     invalid: ['14']
