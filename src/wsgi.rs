@@ -576,10 +576,7 @@ fn missing_housenumbers_view_txt(
         return Ok(tr("No existing streets"));
     }
 
-    if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_osm_housenumbers_path())
-    {
+    if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
         return Ok(tr("No existing house numbers"));
     }
 
