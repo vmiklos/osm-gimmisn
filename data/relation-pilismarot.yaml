@@ -113,4 +113,5 @@ refstreets:
   'Miklós deák utca': 'Miklós-deák utca'
   'Szekrényhegyi utca': 'Szekrényhegyi út'  # így jó
 source: survey
+housenumber-letters: true
 inactive: true
