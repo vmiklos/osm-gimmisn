@@ -637,10 +637,7 @@ fn missing_housenumbers_view_chkl(
     let output: String;
     if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
         output = tr("No existing streets");
-    } else if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_osm_housenumbers_path())
-    {
+    } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
         output = tr("No existing house numbers");
     } else if !ctx
         .get_file_system()
