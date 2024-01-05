@@ -21,8 +21,11 @@ filters:
     # 49: a számozás káoszos, de a maximum 12
     invalid: ['49']
   Pajta utca:
-    # 26, 34: maximum páros a 24
+    # 26, 34: utolsó páros a 24.
     invalid: ['26', '34']
+  Vár utca:
+    # 24: utolsó páros a 20.
+    invalid: ['24']
 refstreets:
   # kérdéses
   'Alsóújsor utca': 'Alsó-újsor'
