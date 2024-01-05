@@ -8,6 +8,7 @@ osm-street-filters:
   # Területhatár
   - Nyári Pál utca  # Adyliget
   - Városhatár utca  # Adyliget
+  - Zrínyi Miklós út  # Adyliget
   # Nem igazi közterületek
   - Antónia-árok
   - Fehér út  # dűlőkataszterből
