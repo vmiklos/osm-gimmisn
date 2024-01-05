@@ -454,10 +454,7 @@ fn missing_housenumbers_view_res(
     let prefix = ctx.get_ini().get_uri_prefix();
     if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
         doc = webframe::handle_no_osm_streets(&prefix, relation_name);
-    } else if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_osm_housenumbers_path())
-    {
+    } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
         doc = webframe::handle_no_osm_housenumbers(&prefix, relation_name);
     } else if !ctx
         .get_file_system()

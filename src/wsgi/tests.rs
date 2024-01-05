@@ -656,6 +656,11 @@ fn test_missing_housenumbers_well_formed() {
             ["streets/gazdagret", &mtime],
         )
         .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gazdagret", &mtime],
+        )
+        .unwrap();
     }
 
     let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
@@ -739,6 +744,12 @@ fn test_missing_housenumbers_compat() {
             ["streets/gazdagret", &mtime],
         )
         .unwrap();
+
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gazdagret", &mtime],
+        )
+        .unwrap();
     }
 
     let root = test_wsgi.get_dom_for_path("/suspicious-streets/gazdagret/view-result");
@@ -800,6 +811,11 @@ fn test_missing_housenumbers_compat_relation() {
         conn.execute(
             "insert into mtimes (page, last_modified) values (?1, ?2)",
             ["streets/budafok", &mtime],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/budafok", &mtime],
         )
         .unwrap();
     }
@@ -925,6 +941,11 @@ fn test_missing_housenumbers_no_ref_housenumbers_well_formed() {
         conn.execute(
             "insert into mtimes (page, last_modified) values (?1, ?2)",
             ["streets/gazdagret", &mtime],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gazdagret", &mtime],
         )
         .unwrap();
     }
