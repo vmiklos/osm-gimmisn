@@ -11,6 +11,8 @@ osm-street-filters:
   - Duna utca  # Budaliget
   - Tisza utca  # Budaliget
   - Zrínyi Miklós út  # Adyliget
+  - Bocskai utca # Adyliget
+  - Feketerigó utca # Adyliget
   # Nem igazi közterületek
   - Alakulótér
   - Bodzaliget pihenőpark
