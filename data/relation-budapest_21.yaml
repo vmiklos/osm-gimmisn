@@ -76,6 +76,7 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = REF
   'Diós utca': 'Diós út'  # táblán Diós utca
+  'Duna-lejáró utca': 'Duna lejáró'  # a táblákon Duna-lejáró utca, csak egyetlen táblán Duna lejáró
   'Dűlő út': 'Dűlő utak'
   'Erdőalja utca': 'Erdőalja út'  # tábla régi: u.
   # 'Gyöngyvirágos utca': 'Gyöngyvirágos út'  # tábla régi u. illetve utca, de a lakcímkártyán út
