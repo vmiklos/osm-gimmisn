@@ -3,7 +3,7 @@ filters:
   Hősök utca:
     # 45: nincs ilyen, a 43 után a 47 következik.
     # 672/23: ez helyrajzi szám, nem házszám.
-    invalid: ['45', '672/23']
+    invalid: ['45', '672']
 refstreets:
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Berzsenyi Dániel utca': 'Berzsenyi utca'
