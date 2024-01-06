@@ -3,6 +3,7 @@ refstreets:
   # ellenőrzött
   # 'Fenyves utca': 'Fenyves köz'  # táblán Fenyves köz (2023-05-23)
   # 'Gladiolus utca': 'Gladiólusz utca'  # táblán Gladiólusz utca (2023-05-23)
+  # 'Hegyaljai út': 'Hegyaljai utca'  # táblán Hegyaljai utca (2024-01-06)
   # 'Ligetszépe út': 'Ligetszépe utca'  # táblán Ligetszépe utca (2023-05-23)
   # 'Othelló utca': 'Otelló utca'  # Új táblákon Otelló utca, régin Othelló utca (2023-05-23)
   # 'Szomorodni utca': 'Szamorodni utca'  # táblán Szamorodni utca (2023-05-23)
@@ -13,7 +14,6 @@ refstreets:
   'Báthori István utca': 'Báthory István utca'  # https://www.openstreetmap.org/note/3701570
   'Fehérkereszti út': 'Fehérkereszti utca'  # https://www.openstreetmap.org/note/3701569
   'Gereblye köz': 'Gereblye utca'  # https://www.openstreetmap.org/note/3701520
-  'Hegyaljai út': 'Hegyaljai utca'  # https://www.openstreetmap.org/note/3701571
   'Loránd utca': 'Lóránd utca'  # https://www.openstreetmap.org/note/3701578
   'Mély utca': 'Mély út'  # https://www.openstreetmap.org/note/3701586
   'Sánchegyi út': 'Sánchegyi utca'  # https://www.openstreetmap.org/note/3701589
