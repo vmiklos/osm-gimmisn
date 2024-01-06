@@ -26,8 +26,11 @@ osm-street-filters:
   - Meggyfa sor / Meggyfasor utca  # településhatár, az utca 2 oldalán eltérő név, OSM-ben a házszámok Meggyfa soron vannak, ezért ezt el kell nyomni
 refstreets:
   # településhatár, az utca 2 oldalán eltérő név
-  # 'Meggyfasor': 'Meggyfa sor'  # Gáron
-  #
+  # 'Meggyfasor': 'Meggyfa sor'  # Gárdony
+  # ellenőrzött
+  # táblák rosszak: Mély utca, Panoráma utca, Sukorói utca. Házakon jól van.
+  'Pince sor': 'Pincesor'
+  # kérdéses
   'Bercsényi utca': 'Bercsényi Miklós utca'
   'Bogrács út': 'Bogrács utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai utca'
