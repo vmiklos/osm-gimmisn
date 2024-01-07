@@ -458,8 +458,8 @@ osm-street-filters:
   - Derschner köz  # valószínű a tulaj csináltatta
   - Gyurkovics Mária lépcső
   - Maci köz  # https://www.openstreetmap.org/note/2505642
+  - Ady lépcső  # lépcső létezik, buszmegálló neve hivatkozik erre
   # problémásak --------------------------------------------------
-  # Ady lépcső - buszmegálló van, régi térképen nincs rajta
   # Detrekő lépcső - Detrekő utca, note
   # Elvis Presley tér - Elvis Presley park, note
   # Gercsei köz - note
