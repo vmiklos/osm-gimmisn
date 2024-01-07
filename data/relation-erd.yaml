@@ -1,4 +1,8 @@
 missing-streets: 'yes'
+filters:
+  Fogarasi utca:
+    # 8: 8/2 van kint, ami lehet hogy ajtó
+    invalid: ['8']
 refstreets:
   # ellenőrzött
   # 'Fenyves utca': 'Fenyves köz'  # táblán Fenyves köz (2023-05-23)
