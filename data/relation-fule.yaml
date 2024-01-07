@@ -1,4 +1,8 @@
 missing-streets: 'yes'
+filters:
+  Rákóczi utca:
+    # 343: hrsz
+    invalid: ['343']
 refstreets:
   # nincs tábla
   'Sándorkai utca': 'Sándorkai út'
