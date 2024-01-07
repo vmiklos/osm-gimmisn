@@ -6,6 +6,7 @@ osm-street-filters:
   - Hét vezér millenniumi emlékpark
   # Területhatáron lévő utca
 refstreets:
+  'Kelta árok utca': 'Kelta-árok utca'  # utcatáblán kötőjel nélkül szerepel
   # kérdéses
   'Akácos út': 'Akácos utca'
   'Hubertus köz': 'Hubertus utca'
