@@ -699,6 +699,12 @@ fn test_streets_well_formed() {
             ["streets/gazdagret", &mtime],
         )
         .unwrap();
+
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gazdagret", &mtime],
+        )
+        .unwrap();
     }
 
     let root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result");
@@ -755,6 +761,11 @@ fn test_streets_street_from_housenr_well_formed() {
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gh611", "6852648009", "Albert utca", "42", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gh611", &mtime],
         )
         .unwrap();
     }

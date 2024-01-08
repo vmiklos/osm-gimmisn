@@ -184,10 +184,7 @@ pub fn additional_streets_view_result(
     let prefix = ctx.get_ini().get_uri_prefix();
     if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
         doc.append_value(webframe::handle_no_osm_streets(&prefix, relation_name).get_value());
-    } else if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_ref_streets_path())
-    {
+    } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
         doc.append_value(webframe::handle_no_ref_streets(&prefix, relation_name).get_value());
     } else {
         // Get "only in OSM" streets.
