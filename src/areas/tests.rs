@@ -3684,6 +3684,11 @@ fn test_relations_is_new() {
         )
         .unwrap();
         conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/myrelation", &mtime],
+        )
+        .unwrap();
+        conn.execute(
             r#"insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
             ["myrelation", "", ""],
         ).unwrap();
