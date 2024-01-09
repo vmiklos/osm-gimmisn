@@ -1544,7 +1544,8 @@ impl<'a> Relations<'a> {
         let osm_housenumber_coverage_exists = relation.has_osm_housenumber_coverage().unwrap();
         let osm_street_coverage_exists = relation.has_osm_street_coverage().unwrap();
         if stats::has_sql_mtime(self.ctx, &format!("streets/{}", relation.get_name())).unwrap()
-            && file_system.path_exists(&files.get_osm_housenumbers_path())
+            && stats::has_sql_mtime(self.ctx, &format!("housenumbers/{}", relation.get_name()))
+                .unwrap()
             && file_system.path_exists(&files.get_ref_streets_path())
             && file_system.path_exists(&files.get_ref_housenumbers_path())
             && osm_street_coverage_exists
