@@ -595,22 +595,89 @@ fn test_update_osm_housenumbers() {
             /*data_path=*/ "",
             /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.csv",
         ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.json",
+        ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     ctx.set_network(network_rc);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
+            ["gazdagret", "1", "Törökugrató utca", "1", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
+            ["gazdagret", "2", "Törökugrató utca", "2", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
+            ["gazdagret", "3", "Tűzkő utca", "9", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
+            ["gazdagret", "4", "Tűzkő utca", "10", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
+            ["gazdagret", "5", "OSM Name 1", "1", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
+            ["gazdagret", "6", "OSM Name 1", "2", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
+            ["gazdagret", "7", "Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
+            ["gazdagret", "8", "Second Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+    }
     let mut relations = areas::Relations::new(&ctx).unwrap();
-    let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
-    let expected = std::fs::read_to_string(&path).unwrap();
+    let expected = relations
+        .get_relation("gazdagret")
+        .unwrap()
+        .get_files()
+        .get_osm_json_housenumbers(&ctx)
+        .unwrap()
+        .len();
 
     update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
 
-    let mtime = ctx.get_file_system().getmtime(&path).unwrap();
+    let mtime = stats::get_sql_mtime(&ctx, "housenumbers/gazdagret").unwrap();
 
     update_osm_housenumbers(&ctx, &mut relations, /*update=*/ false).unwrap();
 
-    assert_eq!(ctx.get_file_system().getmtime(&path).unwrap(), mtime);
-    let actual = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
+    assert_eq!(
+        stats::get_sql_mtime(&ctx, "housenumbers/gazdagret").unwrap(),
+        mtime
+    );
+    let actual = relations
+        .get_relation("gazdagret")
+        .unwrap()
+        .get_files()
+        .get_osm_json_housenumbers(&ctx)
+        .unwrap()
+        .len();
     assert_eq!(actual, expected);
 }
 
