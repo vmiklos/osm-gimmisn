@@ -5,7 +5,12 @@ refstreets:
   'Bercsényi Miklós út': 'Bercsényi utca'
   'Kaposvári út': 'Kaposvári utca'
   'Kossuth Lajos út': 'Kossuth Lajos utca'
-# street-filters:
+street-filters:
+  # place
+  - Maróc puszta  # https://www.openstreetmap.org/relation/11137011
+  # dűlők
+  - Borkúti dűlő
+  - Mocsármány dűlő
 osm-street-filters:
   # Balatonföldvárról átlógó
   - Kismartoni utca  # Naro Camping balatonföldvári címmel, de Kőröshegy területén, https://www.openstreetmap.org/way/1090788203
