@@ -700,14 +700,33 @@ fn test_update_osm_housenumbers_http_error() {
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     ctx.set_network(network_rc);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
+            ["gazdagret", "1", "Törökugrató utca", "1", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+    }
     let mut relations = areas::Relations::new(&ctx).unwrap();
-    let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
-    let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
     update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
     // Make sure that in case we keep getting errors we give up at some stage and
     // leave the last state unchanged.
-    let actual = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
-    assert_eq!(actual, expected);
+    assert_eq!(
+        relations
+            .get_relation("gazdagret")
+            .unwrap()
+            .get_files()
+            .get_osm_json_housenumbers(&ctx)
+            .unwrap()
+            .len(),
+        1
+    );
 }
 
 /// Tests update_osm_housenumbers(): the case when we ask for CSV but get XML.
