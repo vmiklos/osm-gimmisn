@@ -769,7 +769,7 @@ filters:
     # 150 = Temesvár utca 2
     # 154-164: 152/B után 160 jön, majd 166 a benzinkút
     # 182-190: lakóház egyben, a és b épület/lépcsőház
-    invalid: ['21a', '45a', '79a', '81', '83a', '83b', '85c', '107', '181', '231b', '245', '40', '44a', '44h', '64a', '96', '100a', '102', '102a', '102b', '106', '118', '122', '126', '128', '128a', '128c', '130a', '150', '152', '154', '156', '158', '162', '164', '182a']
+    invalid: ['21a', '45a', '79a', '81', '83a', '83b', '85c', '107', '181', '231b', '245', '40', '44a', '44h', '64a', '96', '100a', '102', '102a', '102b', '106', '118', '122', '130a', '150', '152', '154', '156', '158', '162', '164', '182a']
     ranges:
       - {start: '1', end: '161'}
       - {start: '179', end: '247'}
@@ -1454,7 +1454,7 @@ filters:
       - {start: '2', end: '14'}
   Lágymányosi utca:
     # 17: alagsori fodrászat - termászetben Vak Bottyán utca 2 felől van a bejárat, ez van a honlapján is
-    invalid: ['14a', '14b', '17']
+    invalid: ['17']
   Lanka utca:
     # 21: 21/a, 21/b
     invalid: ['21']
