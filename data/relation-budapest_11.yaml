@@ -26,12 +26,11 @@ filters:
       - {start: '1', end: '51'}
       - {start: '2', end: '48'}
   Albertfalva utca:
-    # 3/a: csak 3 van, orvosi rendelő
     # 5: 5a, 5b
     # 6: nincs: 2-4 gamesz, 8 templom
     # 10 = Kenderes utca 1
     # 21/a: 21
-    invalid: ['3a', '5', '6', '10', '21a']
+    invalid: ['5', '6', '10', '21a']
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '40'}
@@ -425,26 +424,17 @@ filters:
     # 78 Budai csempe
     # 80-86: nincs
     # 88-90: ibis Styles Budapest Citywest Hotel
-    # 92-110: nincs
+    # 92-110: nincs: 90-nél ér véteg az széles szakasz, 112-vel indul a keskeny szakasz
     # 112abc: csak sima 112 a McDonalds/OMV komplexum
     # 120c: csak sima 120, az egyik autóstelep a sok közül
-    # 122-142: autokereskedes 120, MOL kut 126, autoklub 138, epulet 142, koztuk nincs semmi kitablazva
+    # 122-142: autokereskedes 120, (MOL kut 126 -> Orlen 134), autoklub 138, epulet 142, koztuk nincs semmi kitablazva
     # 146: 146a, 146b, 146c, 146d, 146-148
     # 148a: 148, 148d, 148e
     # 168: nincs, elírt 165
     # 170: Safru
     # 178: nincs
     # 180: 180/b - 180/i között
-    invalid: ['23', '23b', '32', '32e', '33', '34', '36a', '36b', '36d', '40', '41b', '43', '44', '44b', '48a', '48b', '50b', '47', '55', '58', '101/2', '101a', '101c', '105', '109', '112a', '112b', '112c', '120c', '123', '125', '125e', '125g', '127', '129', '129d', '129g', '140', '141a', '148a', '149', '151', '163', '168', '178b', '180/1', '180a', '181', '181b', '183', '187a', '201', '259b']
-    ranges:
-      - {start: '1', end: '81'}
-      - {start: '101', end: '999'}
-      - {start: '2', end: '66'}
-      - {start: '78', end: '78'}
-      - {start: '88', end: '90'}
-      - {start: '112', end: '120'}
-      - {start: '126', end: '126'}
-      - {start: '138', end: '180'}
+    invalid: ['23', '23b', '32', '32e', '33', '34', '36a', '36b', '36d', '40', '41b', '43', '44', '44b', '48a', '48b', '50b', '47', '55', '58', '72', '76', '76a', '80', '82', '84', '86', '92', '92a', '92b', '92c', '94', '101/2', '101a', '101c', '105', '109', '112a', '112b', '112c', '120c', '123', '125', '125e', '125g', '127', '129', '129d', '129g', '140', '141a', '148a', '149', '151', '163', '168', '178b', '180/1', '180a', '181', '181b', '183', '187a', '201', '259b']
   Bükköny utca:
     # 1 = Albertfalva utca 8, Szent Mihály templom
     # 5: 5/a, 5/b
@@ -778,7 +768,7 @@ filters:
     # 150 = Temesvár utca 2
     # 154-164: 152/B után 160 jön, majd 166 a benzinkút
     # 182-190: lakóház egyben, a és b épület/lépcsőház
-    invalid: ['21a', '45a', '79a', '81', '83a', '83b', '85c', '107', '181', '231b', '245', '40', '44a', '44h', '64a', '96', '100a', '102', '102a', '102b', '106', '118', '122', '130a', '150', '152', '154', '156', '158', '162', '164', '182a']
+    invalid: ['21a', '45a', '79a', '81', '83a', '83b', '85c', '107', '181', '231b', '245', '40', '44a', '44h', '64a', '96', '100a', '102', '102a', '102b', '106', '118', '122', '126', '128', '128a', '128c', '130a', '150', '152', '154', '156', '158', '162', '164', '182a']
     ranges:
       - {start: '1', end: '161'}
       - {start: '179', end: '247'}
