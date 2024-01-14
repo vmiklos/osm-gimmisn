@@ -74,6 +74,7 @@ osm-street-filters:
   - Vízililiom utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  # helyesírás
   # utcajegyzék = REF
   'Diós utca': 'Diós út'  # táblán Diós utca
   'Duna-lejáró utca': 'Duna lejáró'  # a táblákon Duna-lejáró utca, csak egyetlen táblán Duna lejáró
@@ -86,8 +87,9 @@ refstreets:
   'Zerge utca': 'Zerge út'  # táblán Zerge utca
   # nincs tábla
   'Simon Bolivar sétány': 'Simon Bolivár sétány'
-  # Utcajegyzék = OSM
+  # Utcajegyzék = OSM, ref hibás
   'Deák tér': 'Deák Ferenc tér'
+  'Gál ispán utca': 'Gál Ispán utca'  # https://www.openstreetmap.org/changeset/146194183
   'Kis-Duna sor': 'Kisduna sor'
   'Nagy-Duna sor': 'Nagydunasor'
   'Plútó utca': 'Plutó utca'
