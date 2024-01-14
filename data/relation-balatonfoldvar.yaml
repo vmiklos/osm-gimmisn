@@ -37,9 +37,13 @@ filters:
     invalid: ['4/4']
   Radnóti Miklós utca:
     interpolation: 'all'
+  Rákóczi Ferenc utca:
+    interpolation: 'all'
   Somfa utca:
     # 4: sima 4 nincs, csak 4/a, 4/b.
     invalid: ['4']
+  Somogyi Béla utca:
+    interpolation: 'all'
   Sport köz:
     # 9: ilyet nem láttam; a páratlan oldalon a 9-es szám az Ady Endre utca 2. lenne, a páros oldal végén pedig van egy Gábor Áron utca 9.
     invalid: ['9']
