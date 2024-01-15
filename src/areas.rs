@@ -565,8 +565,7 @@ impl<'a> Relation<'a> {
             street.set_source(&tr("street"));
             ret.push(street)
         }
-        let path = self.file.get_osm_housenumbers_path();
-        if self.ctx.get_file_system().path_exists(&path) {
+        if stats::has_sql_mtime(self.ctx, &format!("housenumbers/{}", self.name))? {
             ret.append(
                 &mut util::get_street_from_housenumber(
                     &self.file.get_osm_json_housenumbers(self.ctx)?,

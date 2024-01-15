@@ -525,6 +525,7 @@ fn test_normalize_separator_comma() {
 #[test]
 fn test_relation_get_osm_streets() {
     let ctx = context::tests::make_test_context().unwrap();
+    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
@@ -558,6 +559,11 @@ fn test_relation_get_osm_streets() {
             ["test", "3", "", "", "", "", "", "", "", "", "", "", "", "node"],
         )
         .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/test", &mtime],
+        )
+        .unwrap();
     }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("test").unwrap();
@@ -576,11 +582,17 @@ fn test_relation_get_osm_streets() {
 #[test]
 fn test_relation_get_osm_streets_street_is_node() {
     let ctx = context::tests::make_test_context().unwrap();
+    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gh830", "3136661536", "Bártfai utca", "52/b", "1115", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gh830", &mtime],
         )
         .unwrap();
     }
@@ -625,11 +637,17 @@ fn test_relation_get_osm_streets_no_house_number() {
 #[test]
 fn test_relation_get_osm_streets_conscriptionnumber() {
     let ctx = context::tests::make_test_context().unwrap();
+    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gh754", "295291710", "Barcfa dűlő", "", "8272", "", "", "045/2", "", "", "", "", "Villa Alexandra", "way"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gh754", &mtime],
         )
         .unwrap();
     }
@@ -1530,6 +1548,7 @@ fn test_relation_get_lints() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
@@ -1570,6 +1589,11 @@ fn test_relation_get_lints() {
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gazdagret", "8", "Second Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gazdagret", &mtime],
         )
         .unwrap();
     }
@@ -1621,11 +1645,17 @@ fn test_relation_get_lints_hn_letters() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gh964", "1", "", "52/b", "", "Tolvajos tanya", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gh964", &mtime],
         )
         .unwrap();
     }
@@ -1730,6 +1760,7 @@ fn test_relation_write_lints() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
@@ -1770,6 +1801,11 @@ fn test_relation_write_lints() {
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gazdagret", "8", "Second Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gazdagret", &mtime],
         )
         .unwrap();
     }
@@ -1995,11 +2031,17 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gh286", "460828116", "Királyleányka utca", "10/B", "1112", "", "", "", "", "", "", "", "", "way"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gh286", &mtime],
         )
         .unwrap();
     }
@@ -2068,11 +2110,17 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize_semicolon() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gh303", "6852648009", "Albert utca", "43/B;43/C", "1119", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gh303", &mtime],
         )
         .unwrap();
     }
@@ -2185,6 +2233,7 @@ fn test_relation_get_additional_streets() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
@@ -2225,6 +2274,11 @@ fn test_relation_get_additional_streets() {
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gazdagret", "8", "Second Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gazdagret", &mtime],
         )
         .unwrap();
     }
@@ -2297,6 +2351,7 @@ fn test_relation_get_additional_housenumbers() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
@@ -2337,6 +2392,11 @@ fn test_relation_get_additional_housenumbers() {
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gazdagret", "8", "Second Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gazdagret", &mtime],
         )
         .unwrap();
     }
@@ -3468,6 +3528,7 @@ fn test_get_invalid_filter_keys() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
@@ -3508,6 +3569,11 @@ fn test_get_invalid_filter_keys() {
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gazdagret", "8", "Second Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["housenumbers/gazdagret", &mtime],
         )
         .unwrap();
     }
