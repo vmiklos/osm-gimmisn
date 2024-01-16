@@ -3,7 +3,7 @@ budapest_01:
     osmrelation: 221984
     refcounty: "01"
     refsettlement: "001"
-    alias: ['gellerthegy', 'krisztinavaros', 'taban', 'var']
+    alias: ['gellerthegy', 'krisztinavaros', 'taban', 'var', 'vizivaros']
 budapest_02:
     osmrelation: 221980
     refcounty: "01"
@@ -172,10 +172,6 @@ ujlak:
     refsettlement: "002"
 verhalom:
     osmrelation: 3174429
-    refcounty: "01"
-    refsettlement: "002"
-vizivaros:
-    osmrelation: 2786368
     refcounty: "01"
     refsettlement: "002"
 zoldmal:
