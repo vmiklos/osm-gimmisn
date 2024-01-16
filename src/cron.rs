@@ -94,11 +94,7 @@ fn update_osm_housenumbers(
 ) -> anyhow::Result<()> {
     for relation_name in relations.get_active_names()? {
         let relation = relations.get_relation(&relation_name)?;
-        if !update
-            && ctx
-                .get_file_system()
-                .path_exists(&relation.get_files().get_osm_housenumbers_path())
-        {
+        if !update && stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
             continue;
         }
         info!("update_osm_housenumbers: start: {relation_name}");
