@@ -196,10 +196,7 @@ fn handle_street_housenumbers(
         }
     } else {
         // assume view-result
-        if !ctx
-            .get_file_system()
-            .path_exists(&relation.get_files().get_osm_housenumbers_path())
-        {
+        if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
             let div = doc.tag("div", &[("id", "no-osm-housenumbers")]);
             div.text(&tr("No existing house numbers"));
         } else {
