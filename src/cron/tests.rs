@@ -574,7 +574,6 @@ fn test_update_osm_housenumbers() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
     overpass_template
         .borrow_mut()
@@ -588,25 +587,11 @@ fn test_update_osm_housenumbers() {
                 "data/street-housenumbers-template.overpassql",
                 &overpass_template,
             ),
-            (
-                "workdir/street-housenumbers-gazdagret.csv",
-                &osm_housenumbers_value,
-            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     let routes = vec![
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/status",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.csv",
-        ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
@@ -725,6 +710,29 @@ fn test_update_osm_housenumbers_http_error() {
         )
         .unwrap();
     }
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 42,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let overpass_template = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            (
+                "data/street-housenumbers-template.overpassql",
+                &overpass_template,
+            ),
+        ],
+    );
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
     // Make sure that in case we keep getting errors we give up at some stage and
@@ -739,58 +747,6 @@ fn test_update_osm_housenumbers_http_error() {
             .len(),
         1
     );
-}
-
-/// Tests update_osm_housenumbers(): the case when we ask for CSV but get XML.
-#[test]
-fn test_update_osm_housenumbers_xml_as_csv() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "gazdagret": {
-                "osmrelation": 42,
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let overpass_template = context::tests::TestFileSystem::make_file();
-    overpass_template
-        .borrow_mut()
-        .write_all(b"housenr aaa @RELATION@ bbb @AREA@ ccc\n")
-        .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "data/street-housenumbers-template.overpassql",
-                &overpass_template,
-            ),
-        ],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let routes = vec![
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/status",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass.xml",
-        ),
-    ];
-    let network = context::tests::TestNetwork::new(&routes);
-    let network_rc: Rc<dyn context::Network> = Rc::new(network);
-    ctx.set_network(network_rc);
-    let mut relations = areas::Relations::new(&ctx).unwrap();
-    let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
-    let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
-    update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
-    let actual = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
-    assert_eq!(actual, expected);
 }
 
 /// Tests update_osm_housenumbers(): the case when we ask for JSON but get XML.
@@ -810,7 +766,6 @@ fn test_update_osm_housenumbers_xml_as_json() {
         .borrow_mut()
         .write_all(b"housenr aaa @RELATION@ bbb @AREA@ ccc\n")
         .unwrap();
-    let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -819,25 +774,11 @@ fn test_update_osm_housenumbers_xml_as_json() {
                 "data/street-housenumbers-template.overpassql",
                 &overpass_template,
             ),
-            (
-                "workdir/street-housenumbers-gazdagret.csv",
-                &osm_housenumbers_value,
-            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     let routes = vec![
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/status",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.csv",
-        ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
@@ -1249,7 +1190,7 @@ fn test_our_main() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.csv",
+            /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.json",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
@@ -1265,7 +1206,6 @@ fn test_our_main() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
     let ref_streets_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
     let additional_streets_value = context::tests::TestFileSystem::make_file();
@@ -1284,10 +1224,6 @@ fn test_our_main() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-gazdagret.csv",
-                &osm_housenumbers_value,
-            ),
             (
                 "workdir/streets-reference-gazdagret.lst",
                 &ref_streets_value,
@@ -1366,10 +1302,14 @@ fn test_our_main() {
         assert!(mtime > time::OffsetDateTime::UNIX_EPOCH);
     }
     // update_osm_housenumbers() is called.
-    {
-        let mut guard = osm_housenumbers_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
-    }
+    assert_eq!(
+        relation
+            .get_files()
+            .get_osm_json_streets(&ctx)
+            .unwrap()
+            .is_empty(),
+        false
+    );
     // update_ref_streets() is called.
     {
         let mut guard = ref_streets_value.borrow_mut();

@@ -848,46 +848,31 @@ fn test_relation_files_write_osm_housenumbers() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let housenumbers_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            (
-                "workdir/street-housenumbers-gazdagret.csv",
-                &housenumbers_value,
-            ),
-            ("data/yamls.cache", &yamls_cache_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
-    let result_from_overpass =
-        "@id\taddr:street\taddr:housenumber\taddr:postcode\taddr:housename\t\
-addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@type\n\n\
-1\tTörökugrató utca\t1\t\t\t\t\t\t\t\t\tnode\n\
-1\tTörökugrató utca\t2\t\t\t\t\t\t\t\t\tnode\n\
-1\tTűzkő utca\t9\t\t\t\t\t\t\t\t\tnode\n\
-1\tTűzkő utca\t10\t\t\t\t\t\t\t\t\tnode\n\
-1\tOSM Name 1\t1\t\t\t\t\t\t\t\t\tnode\n\
-1\tOSM Name 1\t2\t\t\t\t\t\t\t\t\tnode\n\
-1\tOnly In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n\
-1\tSecond Only In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n";
-    let expected = String::from_utf8(
-        std::fs::read("tests/workdir/street-housenumbers-gazdagret.csv").unwrap(),
+    let result_from_overpass = String::from_utf8(
+        std::fs::read("src/fixtures/network/overpass-housenumbers-gazdagret.json").unwrap(),
     )
     .unwrap();
     let relation = relations.get_relation(relation_name).unwrap();
     relation
         .get_files()
-        .write_osm_housenumbers(&ctx, result_from_overpass)
+        .write_osm_json_housenumbers(&ctx, &result_from_overpass)
         .unwrap();
-    let mut guard = housenumbers_value.borrow_mut();
-    guard.seek(SeekFrom::Start(0)).unwrap();
-    let mut actual: Vec<u8> = Vec::new();
-    guard.read_to_end(&mut actual).unwrap();
-    assert_eq!(String::from_utf8(actual).unwrap(), expected);
+    assert_eq!(
+        relation
+            .get_files()
+            .get_osm_json_housenumbers(&ctx)
+            .unwrap()
+            .len(),
+        8
+    );
 }
 
 /// Tests Relation::get_street_ranges().

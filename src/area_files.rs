@@ -395,11 +395,6 @@ impl RelationFiles {
         ctx: &context::Context,
         result: &str,
     ) -> anyhow::Result<usize> {
-        if result.starts_with("<?xml") {
-            // Not a CSV, reject.
-            return Ok(0);
-        }
-
         let write = self.get_osm_housenumbers_write_stream(ctx)?;
         let mut guard = write.borrow_mut();
         Ok(guard.write(result.as_bytes())?)
