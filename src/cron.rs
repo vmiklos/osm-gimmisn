@@ -97,29 +97,6 @@ fn update_osm_housenumbers(
         if !update && stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
             continue;
         }
-        info!("update_osm_housenumbers: start: {relation_name}");
-        let mut retry = 0;
-        while should_retry(retry) {
-            if retry > 0 {
-                info!("update_osm_housenumbers: try #{retry}");
-            }
-            retry += 1;
-            overpass_sleep(ctx);
-            let query = relation.get_osm_housenumbers_query()?;
-            let buf = match overpass_query::overpass_query(ctx, &query) {
-                Ok(value) => value,
-                Err(err) => {
-                    info!("update_osm_housenumbers: http error: {err:?}");
-                    continue;
-                }
-            };
-            if relation.get_files().write_osm_housenumbers(ctx, &buf)? == 0 {
-                info!("update_osm_housenumbers: short write");
-                continue;
-            }
-            break;
-        }
-        info!("update_osm_housenumbers: end: {relation_name}");
         info!("update_osm_housenumbers, json: start: {relation_name}");
         let mut retry = 0;
         while should_retry(retry) {
