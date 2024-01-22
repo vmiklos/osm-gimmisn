@@ -2,6 +2,8 @@ missing-streets: 'yes'
 filters:
   Béri Balogh Ádám utca:
     show-refstreet: false
+  Beszédes József sétány:
+    interpolation: 'all'
   Csokonai Vitéz Mihály utca:
     show-refstreet: false
   Kiss János altábornagy utca:
