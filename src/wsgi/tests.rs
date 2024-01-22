@@ -1878,22 +1878,14 @@ fn test_housenumbers_view_query_well_formed() {
 #[test]
 fn test_housenumbers_update_result_well_formed() {
     let mut test_wsgi = TestWsgi::new();
-    let routes = vec![
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.csv",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.json",
-        ),
-    ];
+    let routes = vec![context::tests::URLRoute::new(
+        /*url=*/ "https://overpass-api.de/api/interpreter",
+        /*data_path=*/ "",
+        /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.json",
+    )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     test_wsgi.ctx.set_network(network_rc);
-    let streets_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -1915,18 +1907,55 @@ fn test_housenumbers_update_result_well_formed() {
                 "data/street-housenumbers-template.overpassql",
                 &overpass_template,
             ),
-            ("workdir/street-housenumbers-gazdagret.csv", &streets_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
+    {
+        let conn = test_wsgi.ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/gazdagret", &mtime],
+        )
+        .unwrap();
+    }
 
     let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/update-result");
 
-    let mut guard = streets_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     let results = TestWsgi::find_all(&root, "body");
     assert_eq!(results.len(), 1);
+    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+    assert_eq!(
+        relations
+            .get_relation("gazdagret")
+            .unwrap()
+            .get_files()
+            .get_osm_json_streets(&test_wsgi.ctx)
+            .unwrap()
+            .len(),
+        4
+    );
 }
 
 /// Tests handle_street_housenumbers(): if the update-result output on error is well-formed.
@@ -1977,8 +2006,7 @@ fn test_housenumbers_update_result_error_well_formed() {
     let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/update-result");
 
     let results = TestWsgi::find_all(&root, "body/div[@id='overpass-error']");
-    // CSV and JSON.
-    assert_eq!(results.len(), 2);
+    assert_eq!(results.len(), 1);
 }
 
 /// Tests handle_street_housenumbers(): if the output is well-formed, no osm streets case.
