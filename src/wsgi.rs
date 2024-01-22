@@ -167,28 +167,17 @@ fn handle_street_housenumbers(
         let pre = doc.tag("pre", &[]);
         pre.text(&relation.get_osm_housenumbers_query()?);
     } else if action == "update-result" {
-        // Old style: CSV.
         let query = relation.get_osm_housenumbers_query()?;
-        match overpass_query::overpass_query(ctx, &query) {
-            Ok(buf) => {
-                relation.get_files().write_osm_housenumbers(ctx, &buf)?;
-                doc.text(&tr("Update successful: "));
-                let link = format!("{prefix}/missing-housenumbers/{relation_name}/view-result");
-                doc.append_value(
-                    util::gen_link(&link, &tr("View missing house numbers")).get_value(),
-                );
-            }
-            Err(err) => {
-                doc.append_value(util::handle_overpass_error(ctx, &err.to_string()).get_value());
-            }
-        }
-        // New style: JSON.
-        let query = relation.get_osm_housenumbers_json_query()?;
         match overpass_query::overpass_query(ctx, &query) {
             Ok(buf) => {
                 relation
                     .get_files()
                     .write_osm_json_housenumbers(ctx, &buf)?;
+                doc.text(&tr("Update successful: "));
+                let link = format!("{prefix}/missing-housenumbers/{relation_name}/view-result");
+                doc.append_value(
+                    util::gen_link(&link, &tr("View missing house numbers")).get_value(),
+                );
             }
             Err(err) => {
                 doc.append_value(util::handle_overpass_error(ctx, &err.to_string()).get_value());
