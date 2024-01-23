@@ -1540,16 +1540,13 @@ fn test_update_stats_count() {
 #[test]
 fn test_update_stats_count_no_csv() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let mut file_system = context::tests::TestFileSystem::new();
     let today_citycount_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[("workdir/stats/2020-05-10.citycount", &today_citycount_value)],
     );
-    file_system.set_files(&files);
-    file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/whole-country.csv")]);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
 
     update_stats_count(&ctx, "2020-05-10").unwrap();
 

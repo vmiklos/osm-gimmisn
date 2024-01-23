@@ -867,11 +867,6 @@ fn test_missing_housenumbers_no_osm_streets() {
 #[test]
 fn test_missing_housenumbers_no_osm_housenumbers() {
     let mut test_wsgi = TestWsgi::new();
-    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
-    let relation = relations.get_relation("gazdagret").unwrap();
-    let hide_path = relation.get_files().get_osm_housenumbers_path();
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -884,9 +879,8 @@ fn test_missing_housenumbers_no_osm_housenumbers() {
         &test_wsgi.ctx,
         &[("data/yamls.cache", &yamls_cache_value)],
     );
-    file_system.set_files(&files);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_rc);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.ctx.set_file_system(&file_system);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
@@ -1462,13 +1456,6 @@ fn test_missing_housenumbers_view_result_chkl_no_osm_streets() {
 #[test]
 fn test_missing_housenumbers_view_result_chkl_no_osm_housenumbers() {
     let mut test_wsgi = TestWsgi::new();
-    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
-    let relation = relations.get_relation("gazdagret").unwrap();
-    let hide_path = relation.get_files().get_osm_housenumbers_path();
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_rc);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
@@ -1523,13 +1510,6 @@ fn test_missing_housenumbers_view_result_txt_no_osm_streets() {
 #[test]
 fn test_missing_housenumbers_view_result_txt_no_osm_housenumbers() {
     let mut test_wsgi = TestWsgi::new();
-    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
-    let relation = relations.get_relation("gazdagret").unwrap();
-    let hide_path = relation.get_files().get_osm_housenumbers_path();
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_rc);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
@@ -2013,11 +1993,6 @@ fn test_housenumbers_update_result_error_well_formed() {
 #[test]
 fn test_housenumbers_no_osm_streets_well_formed() {
     let mut test_wsgi = TestWsgi::new();
-    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
-    let relation = relations.get_relation("gazdagret").unwrap();
-    let hide_path = relation.get_files().get_osm_housenumbers_path();
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -2030,9 +2005,8 @@ fn test_housenumbers_no_osm_streets_well_formed() {
         &test_wsgi.ctx,
         &[("data/yamls.cache", &yamls_cache_value)],
     );
-    file_system.set_files(&files);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_rc);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.ctx.set_file_system(&file_system);
     let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/view-result");
     let results = TestWsgi::find_all(&root, "body/div[@id='no-osm-housenumbers']");
     assert_eq!(results.len(), 1);

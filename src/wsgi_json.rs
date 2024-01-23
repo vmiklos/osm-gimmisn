@@ -53,16 +53,6 @@ fn street_housenumbers_update_result_json(
     let relation_name = tokens.next_back().context("short tokens")?;
     let relation = relations.get_relation(relation_name)?;
     let mut ret: HashMap<String, String> = HashMap::new();
-    // Old style: CSV.
-    let query = relation.get_osm_housenumbers_query()?;
-    match overpass_query::overpass_query(ctx, &query) {
-        Ok(buf) => {
-            relation.get_files().write_osm_housenumbers(ctx, &buf)?;
-            ret.insert("error".into(), "".into())
-        }
-        Err(err) => ret.insert("error".into(), err.to_string()),
-    };
-    // New style: JSON.
     let query = relation.get_osm_housenumbers_json_query()?;
     match overpass_query::overpass_query(ctx, &query) {
         Ok(buf) => {
