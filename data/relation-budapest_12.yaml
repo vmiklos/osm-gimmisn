@@ -433,11 +433,17 @@ filters:
     # 1-15, 2-2
     invalid: ['4', '6']
   Városmajor utca:
-    ranges:
-      - {start: '1', end: '59'}
-      - {start: '71', end: '79'}
-      - {start: '2', end: '84'}
-      - {start: '86', end: '98'}
+    # 27: sima 27 nincs, csak 27/a, 27/b.
+    # 47: sima 47 nincs, csak 47/a, 47/b.
+    # 61-71: nincs ilyen, az 59 (iskola) után teniszpályák, majd a 71 (gimnázium) következik.
+    # 22: sima 22 nincs, csak 22/a, 22/b.
+    # 26: sima 26 nincs, csak 26/a, 26/b, 26/c, 26/d.
+    # 28: sima 28 nincs, csak 28/a, 28/b, 28/c.
+    # 32/a: nincs ilyen, 32/ab van kitáblázva.
+    # 50: sima 50 nincs, csak 50/a, 50/b.
+    # 78/a: nincs ilyen, csak sima 78 van.
+    # 78/b: nincs ilyen, csak sima 78 van.
+    invalid: ['27', '47', '61', '63', '65', '67', '69', '22', '26', '28', '32a', '50', '78a', '78b']
   Vas Gereben utca:
     # 31/a: nincs ilyen, 31-33 A épület van csak.
     # 31/b: nincs ilyen, 31-33 B épület van csak.
