@@ -121,18 +121,11 @@ fn test_json_streets_update_result_error() {
 #[test]
 fn test_json_housenumbers_update_result() {
     let mut test_wsgi = wsgi::tests::TestWsgi::new();
-    let routes = vec![
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.csv",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.json",
-        ),
-    ];
+    let routes = vec![context::tests::URLRoute::new(
+        /*url=*/ "https://overpass-api.de/api/interpreter",
+        /*data_path=*/ "",
+        /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.json",
+    )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     test_wsgi.get_ctx().set_network(network_rc);
@@ -146,7 +139,6 @@ fn test_json_housenumbers_update_result() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let housenumbers_value = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
     overpass_template
         .borrow_mut()
@@ -160,20 +152,54 @@ fn test_json_housenumbers_update_result() {
                 "data/street-housenumbers-template.overpassql",
                 &overpass_template,
             ),
-            (
-                "workdir/street-housenumbers-gazdagret.csv",
-                &housenumbers_value,
-            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
+    let mtime = test_wsgi.get_ctx().get_time().now_string();
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
+            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["streets/gazdagret", &mtime],
+        )
+        .unwrap();
+    }
 
     let root = test_wsgi.get_json_for_path("/street-housenumbers/gazdagret/update-result.json");
 
     assert_eq!(root.as_object().unwrap()["error"], "");
-    let mut guard = housenumbers_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    let ctx = test_wsgi.get_ctx();
+    let mut relations = areas::Relations::new(ctx).unwrap();
+    let relation = relations.get_relation("gazdagret").unwrap();
+    assert_eq!(
+        relation
+            .get_files()
+            .get_osm_json_streets(ctx)
+            .unwrap()
+            .len(),
+        4
+    );
 }
 
 /// Tests street_housenumbers_update_result_json(): if the update-result output on error is

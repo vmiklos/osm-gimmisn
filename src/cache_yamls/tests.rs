@@ -19,11 +19,9 @@ use std::rc::Rc;
 #[test]
 fn test_main() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let cache_path = ctx.get_abspath("data/yamls.cache");
     let argv = vec!["".to_string(), "data".to_string(), "workdir".to_string()];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
     let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[cache_path]);
     let relations_value = context::tests::TestFileSystem::make_file();
     let relations_content = r#"gazdagret:
     osmrelation: 2713748
@@ -92,11 +90,9 @@ fn test_main_error() {
     let unit = context::tests::TestUnit::new();
     let unit_rc: Rc<dyn context::Unit> = Rc::new(unit);
     ctx.set_unit(&unit_rc);
-    let cache_path = ctx.get_abspath("data/yamls.cache");
     let argv = vec!["".to_string(), "data".to_string(), "workdir".to_string()];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
     let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[cache_path]);
     let cache_value = context::tests::TestFileSystem::make_file();
     let stats_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
