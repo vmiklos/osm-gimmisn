@@ -266,7 +266,7 @@ fn write_city_count_path(
     city_count_path: &str,
     cities: &HashMap<String, HashSet<String>>,
 ) -> anyhow::Result<()> {
-    let mut cities: Vec<_> = cities.iter().map(|(key, value)| (key, value)).collect();
+    let mut cities: Vec<_> = cities.iter().collect();
     // Locale-aware sort, by key.
     cities.sort_by_key(|(key, _value)| util::get_sort_key(key));
     cities.dedup();
@@ -299,7 +299,7 @@ fn write_zip_count_path(
     ctx: &context::Context,
     zips: &HashMap<String, HashSet<String>>,
 ) -> anyhow::Result<()> {
-    let mut zips: Vec<_> = zips.iter().map(|(key, value)| (key, value)).collect();
+    let mut zips: Vec<_> = zips.iter().collect();
     zips.sort_by_key(|(key, _value)| key.to_string());
     zips.dedup();
 
@@ -399,7 +399,7 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
         }
     }
     {
-        let mut users: Vec<_> = users.iter().map(|(key, value)| (key, value)).collect();
+        let mut users: Vec<_> = users.iter().collect();
         users.sort_by_key(|i| Reverse(i.1));
         users.dedup();
         users = users[0..std::cmp::min(20, users.len())].to_vec();
