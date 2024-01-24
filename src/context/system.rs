@@ -46,7 +46,7 @@ impl FileSystem for StdFileSystem {
 
     fn getmtime(&self, path: &str) -> anyhow::Result<time::OffsetDateTime> {
         let metadata = std::fs::metadata(path)?;
-        let modified = time::OffsetDateTime::try_from(metadata.modified()?)?;
+        let modified = time::OffsetDateTime::from(metadata.modified()?);
         Ok(modified.to_offset(get_tz_offset()))
     }
 

@@ -88,7 +88,7 @@ fn get_frequent_relations(
         let entry = counts.entry(relation_name).or_insert(0);
         (*entry) += 1;
     }
-    let mut count_list: Vec<_> = counts.iter().map(|(key, value)| (key, value)).collect();
+    let mut count_list: Vec<_> = counts.iter().collect();
     // Reverse, by value.
     count_list.sort_by(|a, b| b.1.cmp(a.1));
 
