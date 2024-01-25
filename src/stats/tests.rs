@@ -79,8 +79,8 @@ fn test_handle_capital_progress() {
     file_system
         .write_from_string(
             r#"CITY	CNT
-budapest_02	200
-budapest_11	11
+Budapest_02	200
+Budapest_11	11
 	42
 "#,
             &ctx.get_abspath("workdir/stats/2020-05-10.citycount"),
