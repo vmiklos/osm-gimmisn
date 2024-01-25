@@ -100,7 +100,7 @@ fn handle_capital_progress(
         let mut csv_reader = util::make_csv_reader(&mut read);
         for result in csv_reader.deserialize() {
             let row: util::CityCount = result?;
-            if row.city.starts_with("budapest_") {
+            if row.city.starts_with("Budapest_") {
                 osm_count += row.count;
             }
         }
