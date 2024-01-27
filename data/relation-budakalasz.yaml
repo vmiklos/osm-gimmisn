@@ -6,6 +6,10 @@ street-filters:
   # Településrészként fent vannak
   - Kő bánya
   - Lupa sziget
+  # Átlógó utcák
+  - Budakalászi út
+  - Mandula utca
+  - Régi út
 osm-street-filters:
   # nem igazi utcák
   - Berdó gyalogos tengely
