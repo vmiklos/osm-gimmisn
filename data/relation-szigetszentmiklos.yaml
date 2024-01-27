@@ -2,8 +2,12 @@ missing-streets: 'yes'
 filters:
   Holdfény utca:
     interpolation: 'all'
-# street-filters:
-# Bíbic utca - https://www.openstreetmap.org/note/3181302
+street-filters:
+  # proposed
+  - Nádirigó utca
+  - Szárcsa utca
+  - Vadkacsa utca
+  - Vadliba utca
 osm-street-filters:
   # parkok
   - Batya és Tanösvény park
