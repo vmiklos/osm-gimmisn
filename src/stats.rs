@@ -68,7 +68,6 @@ fn handle_progress(
 /// Generates status for the progress of the capital.
 fn handle_capital_progress(
     ctx: &context::Context,
-    src_root: &str,
     j: &mut serde_json::Value,
 ) -> anyhow::Result<()> {
     let mut ret = serde_json::json!({});
@@ -92,17 +91,15 @@ fn handle_capital_progress(
     let format = time::format_description::parse("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
     let mut osm_count = 0;
-    let osm_path = format!("{src_root}/{today}.citycount");
-    if ctx.get_file_system().path_exists(&osm_path) {
-        let stream = ctx.get_file_system().open_read(&osm_path)?;
-        let mut guard = stream.borrow_mut();
-        let mut read = guard.deref_mut();
-        let mut csv_reader = util::make_csv_reader(&mut read);
-        for result in csv_reader.deserialize() {
-            let row: util::CityCount = result?;
-            if row.city.starts_with("Budapest_") {
-                osm_count += row.count;
-            }
+    let conn = ctx.get_database_connection()?;
+    let mut stmt = conn.prepare("select city, count from stats_citycounts where date = ?1 order by cast(count as integer) desc")?;
+    let mut rows = stmt.query([&today])?;
+    while let Some(row) = rows.next()? {
+        let city: String = row.get(0).unwrap();
+        let count: String = row.get(1).unwrap();
+        if city.starts_with("Budapest_") {
+            let count: u64 = count.parse()?;
+            osm_count += count;
         }
     }
 
@@ -454,7 +451,7 @@ pub fn generate_json(
 ) -> anyhow::Result<()> {
     let mut j = serde_json::json!({});
     handle_progress(ctx, state_dir, &mut j).context("handle_progress failed")?;
-    handle_capital_progress(ctx, state_dir, &mut j).context("handle_capital_progress failed")?;
+    handle_capital_progress(ctx, &mut j).context("handle_capital_progress failed")?;
     handle_topusers(ctx, &mut j).context("handle_topusers failed")?;
     handle_topcities(ctx, state_dir, &mut j).context("handle_topcities failed")?;
     handle_user_total(ctx, &mut j, /*day_range=*/ 13).context("handle_user_total")?;

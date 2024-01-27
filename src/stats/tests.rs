@@ -59,15 +59,24 @@ fn test_handle_progress() {
 #[test]
 fn test_handle_capital_progress() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "Budapest_02", "200"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "Budapest_11", "11"],
+        )
+        .unwrap();
+    }
     let mut file_system = context::tests::TestFileSystem::new();
     let ref_city_count = context::tests::TestFileSystem::make_file();
-    let osm_city_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("workdir/refs/varosok_count_20190717.tsv", &ref_city_count),
-            ("workdir/stats/2020-05-10.citycount", &osm_city_count),
-        ],
+        &[("workdir/refs/varosok_count_20190717.tsv", &ref_city_count)],
     );
     file_system.set_files(&files);
     file_system
@@ -76,22 +85,11 @@ fn test_handle_capital_progress() {
             &ctx.get_abspath("workdir/refs/varosok_count_20190717.tsv"),
         )
         .unwrap();
-    file_system
-        .write_from_string(
-            r#"CITY	CNT
-Budapest_02	200
-Budapest_11	11
-	42
-"#,
-            &ctx.get_abspath("workdir/stats/2020-05-10.citycount"),
-        )
-        .unwrap();
     let file_system: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system);
-    let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
 
-    handle_capital_progress(&ctx, &src_root, &mut j).unwrap();
+    handle_capital_progress(&ctx, &mut j).unwrap();
 
     let progress = &j.as_object().unwrap()["capital-progress"];
     assert_eq!(progress["date"], "2020-05-10");
@@ -125,20 +123,6 @@ fn test_handle_progress_old_time() {
     handle_progress(&ctx, &src_root, &mut j).unwrap();
 
     let progress = &j.as_object().unwrap()["progress"];
-    assert_eq!(progress["date"], "1970-01-01");
-}
-
-/// Tests handle_capital_progress(): the case when the .count file doesn't exist for a date.
-#[test]
-fn test_handle_capital_progress_old_time() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = make_test_time_old();
-    let time_rc: Rc<dyn context::Time> = Rc::new(time);
-    ctx.set_time(&time_rc);
-    let src_root = ctx.get_abspath("workdir/stats");
-    let mut j = serde_json::json!({});
-    handle_capital_progress(&ctx, &src_root, &mut j).unwrap();
-    let progress = &j.as_object().unwrap()["capital-progress"];
     assert_eq!(progress["date"], "1970-01-01");
 }
 
