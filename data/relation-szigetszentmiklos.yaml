@@ -8,6 +8,17 @@ street-filters:
   - Szárcsa utca
   - Vadkacsa utca
   - Vadliba utca
+  # településrész
+  - Alsóbucka I.  # Alsóbucka - https://www.openstreetmap.org/node/1318802299
+  - Alsóbucka II.  # Alsóbucka - https://www.openstreetmap.org/node/1318802299
+  - Felsőtag  # https://www.openstreetmap.org/node/1318796481
+  - Háros  # https://www.openstreetmap.org/node/1318808160
+  - Lakihegy  # https://www.openstreetmap.org/node/1318796494
+  - ÁTI Sziget Ipari park  # https://www.openstreetmap.org/relation/2316175
+  # egyéb
+  - Kapor utca  # Tövis utcának táblázva
+  - Lapály utca  # átnevezve Levendula utcára
+  - Mező utca  # nincs, valószínű Mező köz duplikátum
 osm-street-filters:
   # parkok
   - Batya és Tanösvény park
@@ -24,24 +35,21 @@ osm-street-filters:
   - M0
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Alma utca': 'Almafa utca'
   'Bercsényi út': 'Bercsényi utca'
-  'Bóbitás köz': 'Bóbítás köz'
+  'Czuczor szigeti út': 'Cucor sziget'
   'Dunadűlő út': 'Duna dűlő'
   'Dunaharaszti út': 'Dunaharaszti utca'
-  'Ezüst tó utca': 'Ezüsttó utca'
-  'Fehér rózsa utca': 'Fehérrózsa utca'
   'Folyondár utca': 'Folyandár utca'
   'Hét vezér utca': 'Hétvezér utca'
   'Kántor utca': 'Kántor út'
-  'Körös utca': 'Kőrös utca'
   'Leshegy utca': 'Leshegy út'
   'Massányi Károly út': 'Massányi Károly utca'
   'Ozsváry Miklós utca': 'Ozsvári Miklós utca'
   'Petőfi Sándor utca': 'Petőfi utca'
   'Ponty utca': 'Ponty út'
+  'Rigó utca': 'Rigó köz'  # https://www.openstreetmap.org/note/4090102
   'Reményik Sándor utca': 'Reményik Sándor köz'
-  'Sárga rózsa utca': 'Sárgarózsa utca'
+  'Síp utca': 'Kis köz'  # Kis köz és Síp utca is táblázva van
   'Somogyvári Gyula utca': 'Somogyváry Gyula utca'
   'Vak Bottyán út': 'Vak Bottyán utca'
   'Zsámbék utca': 'Zsombék utca'
