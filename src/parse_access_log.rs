@@ -168,9 +168,8 @@ fn check_top_edited_relations(
     ctx: &context::Context,
     frequent_relations: &mut HashSet<String>,
 ) -> anyhow::Result<()> {
-    let workdir = ctx.get_ini().get_workdir();
     // List of 'city name' <-> '# of new house numbers' pairs.
-    let topcities = stats::get_topcities(ctx, &format!("{workdir}/stats"))?;
+    let topcities = stats::get_topcities(ctx)?;
     let topcities: Vec<_> = topcities
         .iter()
         .map(|city| (unidecode::unidecode(&city.0), city.1))

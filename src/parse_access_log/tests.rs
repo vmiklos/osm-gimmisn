@@ -19,42 +19,80 @@ use std::rc::Rc;
 /// Tests check_top_edited_relations().
 #[test]
 fn test_check_top_edited_relations() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let old_citycount = b"CITY\tCNT\n
-foo\t0\n\
-city1\t0\n\
-city2\t0\n\
-city3\t0\n\
-city4\t0\n\
-bar\t0\n\
-baz\t0\n";
-    let old_citycount_value = context::tests::TestFileSystem::make_file();
-    old_citycount_value
-        .borrow_mut()
-        .write_all(old_citycount)
+    let ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-04-10", "foo", "0"],
+        )
         .unwrap();
-    let new_citycount = b"CITY\tCNT\n
-foo\t1000\n\
-city1\t1000\n\
-city2\t1000\n\
-city3\t1000\n\
-city4\t1000\n\
-bar\t2\n\
-baz\t2\n";
-    let new_citycount_value = context::tests::TestFileSystem::make_file();
-    new_citycount_value
-        .borrow_mut()
-        .write_all(new_citycount)
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-04-10", "city1", "0"],
+        )
         .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            ("workdir/stats/2020-04-10.citycount", &old_citycount_value),
-            ("workdir/stats/2020-05-10.citycount", &new_citycount_value),
-        ],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-04-10", "city2", "0"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-04-10", "city3", "0"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-04-10", "city4", "0"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-04-10", "bar", "0"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-04-10", "baz", "0"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "foo", "1000"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "city1", "1000"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "city2", "1000"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "city3", "1000"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "city4", "1000"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "bar", "2"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "baz", "2"],
+        )
+        .unwrap();
+    }
 
     let mut frequent_relations: HashSet<String> = ["foo".to_string(), "bar".to_string()]
         .iter()
