@@ -15,6 +15,7 @@ street-filters:
   - Háros  # https://www.openstreetmap.org/node/1318808160
   - Lakihegy  # https://www.openstreetmap.org/node/1318796494
   - ÁTI Sziget Ipari park  # https://www.openstreetmap.org/relation/2316175
+  - Cucor sziget  # Czuczorsziget - https://www.openstreetmap.org/node/1318796484
   # egyéb
   - Kapor utca  # Tövis utcának táblázva
   - Lapály utca  # átnevezve Levendula utcára
@@ -36,12 +37,13 @@ osm-street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bercsényi út': 'Bercsényi utca'
-  'Czuczor szigeti út': 'Cucor sziget'
   'Dunadűlő út': 'Duna dűlő'
   'Dunaharaszti út': 'Dunaharaszti utca'
   'Folyondár utca': 'Folyandár utca'
   'Hét vezér utca': 'Hétvezér utca'
+  'József Attila park': 'József Attila tér'
   'Kántor utca': 'Kántor út'
+  'Körös utca': 'Kőrös utca'
   'Leshegy utca': 'Leshegy út'
   'Massányi Károly út': 'Massányi Károly utca'
   'Ozsváry Miklós utca': 'Ozsvári Miklós utca'
@@ -51,6 +53,7 @@ refstreets:
   'Reményik Sándor utca': 'Reményik Sándor köz'
   'Síp utca': 'Kis köz'  # Kis köz és Síp utca is táblázva van
   'Somogyvári Gyula utca': 'Somogyváry Gyula utca'
+  'Tagi dűlő': 'Tagi út'
   'Vak Bottyán út': 'Vak Bottyán utca'
   'Zsámbék utca': 'Zsombék utca'
 source: survey
