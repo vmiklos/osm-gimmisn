@@ -167,39 +167,37 @@ fn test_handle_topusers_old_time() {
 /// Tests handle_topcities().
 #[test]
 fn test_handle_topcities() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let src_root = ctx.get_abspath("workdir/stats");
-    let today_citycount = b"CITY\tCNT\n\
-budapest_01\t100\n\
-budapest_02\t200\n
-budapest_03\t300\n";
-    let prevmonth_citycount = b"CITY\tCNT\n\
-budapest_01\t10\n\
-budapest_02\t10\n";
-    let today_citycount_value = context::tests::TestFileSystem::make_file();
-    let prevmonth_citycount_value = context::tests::TestFileSystem::make_file();
-    today_citycount_value
-        .borrow_mut()
-        .write_all(today_citycount)
+    let ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-04-10", "budapest_01", "10"],
+        )
         .unwrap();
-    prevmonth_citycount_value
-        .borrow_mut()
-        .write_all(prevmonth_citycount)
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-04-10", "budapest_02", "10"],
+        )
         .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            (
-                "workdir/stats/2020-04-10.citycount",
-                &prevmonth_citycount_value,
-            ),
-            ("workdir/stats/2020-05-10.citycount", &today_citycount_value),
-        ],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "budapest_01", "100"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "budapest_02", "200"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
+            ["2020-05-10", "budapest_03", "300"],
+        )
+        .unwrap();
+    }
     let mut j = serde_json::json!({});
-    handle_topcities(&ctx, &src_root, &mut j).unwrap();
+    handle_topcities(&ctx, &mut j).unwrap();
     let topcities = &j.as_object().unwrap()["topcities"].as_array().unwrap();
     assert_eq!(topcities.len(), 2);
     assert_eq!(topcities[0], serde_json::json!(["budapest_02", 190]));
@@ -485,43 +483,6 @@ fn test_get_previous_month() {
 
     let expected = time::macros::datetime!(2020-03-31 0:00:00).assume_utc();
     assert_eq!(actual, expected);
-}
-
-/// Tests get_topcities(): the case when the old path is missing.
-#[test]
-fn test_get_topcities_test_old_missing() {
-    let ctx = context::tests::make_test_context().unwrap();
-    // workdir/stats/2020-04-10.citycount is missing.
-    let src_root = ctx.get_abspath("workdir/stats");
-    let ret = get_topcities(&ctx, &src_root).unwrap();
-    assert_eq!(ret.is_empty(), true);
-}
-
-/// Tests get_topcities(): the case when the new path is missing.
-#[test]
-fn test_get_topcities_test_new_missing() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    // workdir/stats/2020-05-10.citycount is missing.
-    let src_root = ctx.get_abspath("workdir/stats");
-    let prevmonth_citycount = b"CITY\tCNT\n
-budapest_01\t10\n\
-budapest_02\t10\n";
-    let prevmonth_citycount_value = context::tests::TestFileSystem::make_file();
-    prevmonth_citycount_value
-        .borrow_mut()
-        .write_all(prevmonth_citycount)
-        .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[(
-            "workdir/stats/2020-04-10.citycount",
-            &prevmonth_citycount_value,
-        )],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let ret = get_topcities(&ctx, &src_root).unwrap();
-    assert_eq!(ret.is_empty(), true);
 }
 
 /// Tests update_invalid_addr_cities().

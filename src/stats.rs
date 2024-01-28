@@ -141,45 +141,37 @@ fn handle_topusers(ctx: &context::Context, j: &mut serde_json::Value) -> anyhow:
 }
 
 /// Generates a list of cities, sorted by how many new hours numbers they got recently.
-pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, i64)>> {
+pub fn get_topcities(ctx: &context::Context) -> anyhow::Result<Vec<(String, i64)>> {
     let now = ctx.get_time().now();
     let ymd = time::format_description::parse("[year]-[month]-[day]")?;
     let new_day = now.format(&ymd)?;
     let day_delta = now - time::Duration::days(30);
     let old_day = day_delta.format(&ymd)?;
-    let mut old_counts: HashMap<String, u64> = HashMap::new();
+    let mut old_counts: HashMap<String, i64> = HashMap::new();
     let mut counts: Vec<(String, i64)> = Vec::new();
 
-    let old_count_path = format!("{src_root}/{old_day}.citycount");
-    if !ctx.get_file_system().path_exists(&old_count_path) {
-        info!("get_topcities: empty result: no such path: {old_count_path}");
-        return Ok(vec![]);
-    }
-    let stream = ctx.get_file_system().open_read(&old_count_path)?;
-    let mut guard = stream.borrow_mut();
-    let mut read = std::io::BufReader::new(guard.deref_mut());
-    let mut csv_reader = util::make_csv_reader(&mut read);
-    for result in csv_reader.deserialize() {
-        let row: util::CityCount =
-            result.context(format!("failed to read row in {old_count_path}"))?;
-        old_counts.insert(row.city, row.count);
+    let conn = ctx.get_database_connection()?;
+    {
+        let mut stmt = conn.prepare("select city, count from stats_citycounts where date = ?1 order by cast(count as integer) desc")?;
+        let mut rows = stmt.query([&old_day])?;
+        while let Some(row) = rows.next()? {
+            let city: String = row.get(0).unwrap();
+            let count: String = row.get(1).unwrap();
+            let count: i64 = count.parse()?;
+            old_counts.insert(city, count);
+        }
     }
 
-    let new_count_path = format!("{src_root}/{new_day}.citycount");
-    if !ctx.get_file_system().path_exists(&new_count_path) {
-        return Ok(vec![]);
-    }
-    let stream = ctx.get_file_system().open_read(&new_count_path)?;
-    let mut guard = stream.borrow_mut();
-    let mut read = std::io::BufReader::new(guard.deref_mut());
-    let mut csv_reader = util::make_csv_reader(&mut read);
-    for result in csv_reader.deserialize() {
-        let row: util::CityCount = result?;
-        if old_counts.contains_key(&row.city) {
-            counts.push((
-                row.city.to_string(),
-                row.count as i64 - old_counts[&row.city] as i64,
-            ));
+    {
+        let mut stmt = conn.prepare("select city, count from stats_citycounts where date = ?1 order by cast(count as integer) desc")?;
+        let mut rows = stmt.query([&new_day])?;
+        while let Some(row) = rows.next()? {
+            let city: String = row.get(0).unwrap();
+            let count: String = row.get(1).unwrap();
+            let count: i64 = count.parse()?;
+            if old_counts.contains_key(&city) {
+                counts.push((city.to_string(), count - old_counts[&city]));
+            }
         }
     }
     counts.sort_by_key(|x| x.1);
@@ -189,12 +181,8 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
 
 /// Generates stats for top cities.
 /// This lists the top 20 cities which got lots of new house numbers in the past 30 days.
-fn handle_topcities(
-    ctx: &context::Context,
-    src_root: &str,
-    j: &mut serde_json::Value,
-) -> anyhow::Result<()> {
-    let mut ret = get_topcities(ctx, src_root).context("get_topcities failed")?;
+fn handle_topcities(ctx: &context::Context, j: &mut serde_json::Value) -> anyhow::Result<()> {
+    let mut ret = get_topcities(ctx).context("get_topcities failed")?;
     ret = ret[0..std::cmp::min(20, ret.len())].to_vec();
     j.as_object_mut()
         .unwrap()
@@ -453,7 +441,7 @@ pub fn generate_json(
     handle_progress(ctx, state_dir, &mut j).context("handle_progress failed")?;
     handle_capital_progress(ctx, &mut j).context("handle_capital_progress failed")?;
     handle_topusers(ctx, &mut j).context("handle_topusers failed")?;
-    handle_topcities(ctx, state_dir, &mut j).context("handle_topcities failed")?;
+    handle_topcities(ctx, &mut j).context("handle_topcities failed")?;
     handle_user_total(ctx, &mut j, /*day_range=*/ 13).context("handle_user_total")?;
     handle_daily_new(ctx, &mut j, /*day_range=*/ 14).context("handle_daily_new failed")?;
     handle_daily_total(ctx, &mut j, /*day_range=*/ 13).context("handle_daily_total failed")?;
