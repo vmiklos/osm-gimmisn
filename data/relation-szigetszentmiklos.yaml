@@ -34,6 +34,12 @@ osm-street-filters:
   # nem igazi utcák
   - Leshegy dűlő  # Nemzeti Közlekedési Hatóság
   - M0
+  # átlógó/területhatár
+  - Fügefa utca
+  - Hollandi út  # Budapesti cím, de Szigetszentmiklós területén lévő épület - https://www.openstreetmap.org/way/569333264
+  - Körtefa utca
+  - Meggyfa utca
+  - Vízmű utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bercsényi út': 'Bercsényi utca'
