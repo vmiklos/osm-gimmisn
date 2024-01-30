@@ -170,29 +170,12 @@ fn test_handle_topcities() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-04-10", "budapest_01", "10"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-04-10", "budapest_02", "10"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "budapest_01", "100"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "budapest_02", "200"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "budapest_03", "300"],
+        conn.execute_batch(
+            "insert into stats_citycounts (date, city, count) values ('2020-04-10', 'budapest_01', '10');
+             insert into stats_citycounts (date, city, count) values ('2020-04-10', 'budapest_02', '10');
+             insert into stats_citycounts (date, city, count) values ('2020-05-10', 'budapest_01', '100');
+             insert into stats_citycounts (date, city, count) values ('2020-05-10', 'budapest_02', '200');
+             insert into stats_citycounts (date, city, count) values ('2020-05-10', 'budapest_03', '300');"
         )
         .unwrap();
     }
