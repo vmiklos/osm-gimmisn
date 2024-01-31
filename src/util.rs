@@ -422,9 +422,7 @@ pub struct CityCount {
     /// Reference count of all housenumbers.
     #[serde(rename = "CNT")]
     pub count: u64,
-    /// Original city name.
-    ///
-    /// Missing for workdir/stats/<DATE>.citycount files.
+    /// Original city name, not lowercase.
     #[serde(rename = "ORIG")]
     pub orig: Option<String>,
 }
