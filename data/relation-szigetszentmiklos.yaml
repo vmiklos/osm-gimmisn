@@ -38,6 +38,7 @@ osm-street-filters:
   - Fügefa utca
   - Hollandi út  # Budapesti cím, de Szigetszentmiklós területén lévő épület - https://www.openstreetmap.org/way/569333264
   - Körtefa utca
+  - Külső Mű út / Mű út  # a szigetszentmiklósi oldalon Mű út, a szigethalmi oldalon Külső Mű út
   - Meggyfa utca
   - Vízmű utca
 refstreets:
