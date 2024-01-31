@@ -260,25 +260,15 @@ fn update_additional_streets(
     Ok(())
 }
 
-/// Writes a daily .citycount file.
+/// Writes a daily citycount rows into the stats_citycounts SQL table.
 fn write_city_count_path(
     ctx: &context::Context,
-    city_count_path: &str,
     cities: &HashMap<String, HashSet<String>>,
 ) -> anyhow::Result<()> {
     let mut cities: Vec<_> = cities.iter().collect();
     // Locale-aware sort, by key.
     cities.sort_by_key(|(key, _value)| util::get_sort_key(key));
     cities.dedup();
-    // Old style: CSV.
-    let stream = ctx.get_file_system().open_write(city_count_path)?;
-    let mut guard = stream.borrow_mut();
-    guard.write_all("CITY\tCNT\n".as_bytes())?;
-    for (key, value) in cities.iter() {
-        let line = format!("{}\t{}\n", key, value.len());
-        guard.write_all(line.as_bytes())?;
-    }
-    // New style: SQL.
     let mut conn = ctx.get_database_connection()?;
     let tx = conn.transaction()?;
     let now = ctx.get_time().now();
@@ -325,7 +315,6 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
     if !ctx.get_file_system().path_exists(&csv_path) {
         return Ok(());
     }
-    let city_count_path = format!("{statedir}/{today}.citycount");
     let mut house_numbers: HashSet<String> = HashSet::new();
     let mut cities: HashMap<String, HashSet<String>> = HashMap::new();
     let mut zips: HashMap<String, HashSet<String>> = HashMap::new();
@@ -372,8 +361,7 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
         tx.commit()?;
     }
 
-    write_city_count_path(ctx, &city_count_path, &cities)
-        .context("write_city_count_path() failed")?;
+    write_city_count_path(ctx, &cities).context("write_city_count_path() failed")?;
     write_zip_count_path(ctx, &zips).context("write_zip_count_path() failed")
 }
 

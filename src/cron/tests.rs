@@ -1032,7 +1032,6 @@ fn test_update_stats() {
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     ctx.set_network(network_rc);
 
-    let citycount_value = context::tests::TestFileSystem::make_file();
     let csv_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
@@ -1040,7 +1039,6 @@ fn test_update_stats() {
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            ("workdir/stats/2020-05-10.citycount", &citycount_value),
             ("workdir/stats/whole-country.csv", &csv_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
@@ -1089,7 +1087,6 @@ fn test_update_stats_http_error() {
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     ctx.set_network(network_rc);
 
-    let citycount_value = context::tests::TestFileSystem::make_file();
     let count_value = context::tests::TestFileSystem::make_file();
     count_value
         .borrow_mut()
@@ -1101,7 +1098,6 @@ fn test_update_stats_http_error() {
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            ("workdir/stats/2020-05-10.citycount", &citycount_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
             (
@@ -1141,14 +1137,12 @@ fn test_update_stats_no_overpass() {
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     ctx.set_network(network_rc);
 
-    let citycount_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            ("workdir/stats/2020-05-10.citycount", &citycount_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
             (
@@ -1354,7 +1348,6 @@ fn test_our_main_stats() {
     let stats_value = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
     let today_csv = context::tests::TestFileSystem::make_file();
-    let today_citycount = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -1365,7 +1358,6 @@ fn test_our_main_stats() {
                 &overpass_template,
             ),
             ("workdir/stats/whole-country.csv", &today_csv),
-            ("workdir/stats/2020-05-10.citycount", &today_citycount),
             ("workdir/stats/ref.count", &ref_count),
         ],
     );
@@ -1488,13 +1480,9 @@ fn test_update_stats_count() {
             .as_bytes(),
         )
         .unwrap();
-    let today_citycount_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("workdir/stats/whole-country.csv", &today_csv_value),
-            ("workdir/stats/2020-05-10.citycount", &today_citycount_value),
-        ],
+        &[("workdir/stats/whole-country.csv", &today_csv_value)],
     );
     file_system.set_files(&files);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
@@ -1524,8 +1512,13 @@ fn test_update_stats_count() {
         }
     }
     {
-        let mut guard = today_citycount_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let conn = ctx.get_database_connection().unwrap();
+        let mut stmt = conn
+            .prepare("select count from stats_citycounts where date = ?1")
+            .unwrap();
+        let mut citycounts = stmt.query(["2020-05-10"]).unwrap();
+        let citycount = citycounts.next().unwrap();
+        assert!(citycount.is_some());
     }
     let conn = ctx.get_database_connection().unwrap();
     let mut stmt = conn
@@ -1539,18 +1532,11 @@ fn test_update_stats_count() {
 /// Tests update_stats_count(): the case then the .csv is missing.
 #[test]
 fn test_update_stats_count_no_csv() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let today_citycount_value = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/stats/2020-05-10.citycount", &today_citycount_value)],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
+    let ctx = context::tests::make_test_context().unwrap();
 
     update_stats_count(&ctx, "2020-05-10").unwrap();
 
-    // No .csv, no .count or .citycount.
+    // No .csv, no count or citycount.
     let conn = ctx.get_database_connection().unwrap();
     {
         let mut stmt = conn
@@ -1560,8 +1546,11 @@ fn test_update_stats_count_no_csv() {
         assert!(counts.next().unwrap().is_none());
     }
     {
-        let mut guard = today_citycount_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
+        let mut stmt = conn
+            .prepare("select count from stats_zipcounts where date = ?1")
+            .unwrap();
+        let mut zipcounts = stmt.query(["2020-05-10"]).unwrap();
+        assert!(zipcounts.next().unwrap().is_none());
     }
 }
 
@@ -1575,13 +1564,9 @@ fn test_update_stats_count_xml_as_csv() {
         .borrow_mut()
         .write_all("<?xml\n".as_bytes())
         .unwrap();
-    let today_citycount_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("workdir/stats/whole-country.csv", &today_csv_value),
-            ("workdir/stats/2020-05-10.citycount", &today_citycount_value),
-        ],
+        &[("workdir/stats/whole-country.csv", &today_csv_value)],
     );
     file_system.set_files(&files);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
@@ -1700,15 +1685,7 @@ fn test_update_stats_topusers_no_csv() {
 /// Tests write_city_count_path().
 #[test]
 fn test_write_city_count_path() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let mut file_system = context::tests::TestFileSystem::new();
-    let file = context::tests::TestFileSystem::make_file();
-    let relpath = "workdir/stats/2020-05-10.citycount";
-    let abspath = ctx.get_abspath(relpath);
-    let files = context::tests::TestFileSystem::make_files(&ctx, &[(relpath, &file)]);
-    file_system.set_files(&files);
-    let file_system: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system);
+    let ctx = context::tests::make_test_context().unwrap();
     let city1: HashSet<String> = ["mystreet 1".to_string(), "mystreet 2".to_string()].into();
     let city2: HashSet<String> = ["mystreet 1".to_string(), "mystreet 2".to_string()].into();
     let cities: HashMap<String, HashSet<String>> = [
@@ -1718,10 +1695,24 @@ fn test_write_city_count_path() {
     .into_iter()
     .collect();
 
-    write_city_count_path(&ctx, &abspath, &cities).unwrap();
+    write_city_count_path(&ctx, &cities).unwrap();
 
-    let content = ctx.get_file_system().read_to_string(&abspath).unwrap();
-    assert_eq!(content, "CITY\tCNT\nmycity1\t2\nmycity2\t2\n");
+    let conn = ctx.get_database_connection().unwrap();
+    let mut stmt = conn
+                .prepare("select city, count from stats_citycounts where date = ?1 order by cast(count as integer) desc")
+                .unwrap();
+    let mut rows = stmt.query(["2020-05-10"]).unwrap();
+    let row = rows.next().unwrap().unwrap();
+    let zip: String = row.get(0).unwrap();
+    assert_eq!(zip, "mycity1");
+    let count: String = row.get(1).unwrap();
+    assert_eq!(count, "2");
+    let row = rows.next().unwrap().unwrap();
+    let zip: String = row.get(0).unwrap();
+    assert_eq!(zip, "mycity2");
+    let count: String = row.get(1).unwrap();
+    assert_eq!(count, "2");
+    assert!(rows.next().unwrap().is_none());
 }
 
 /// Tests write_zip_count_path().
