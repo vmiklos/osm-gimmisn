@@ -44,7 +44,6 @@ osm-street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bercsényi út': 'Bercsényi utca'
-  'Dunadűlő út': 'Duna dűlő'
   'Dunaharaszti út': 'Dunaharaszti utca'
   'Folyondár utca': 'Folyandár utca'
   'Hét vezér utca': 'Hétvezér utca'
