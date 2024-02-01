@@ -42,7 +42,7 @@ make
 Populate the reference directory with TSV files for the house number and street list:
 
 ```bash
-osm-gimmisn sync-ref --mode download --url https://www.example.com/osm/data/
+osm-gimmisn sync-ref --mode download --url https://osm.example.com/data/
 ```
 
 ## Install steps (Windows)
@@ -127,7 +127,7 @@ cd osm-gimmisn/tools/container && ./build.sh
 4. Sync the reference data:
 
 ```
-podman exec -t -i osm-gimmisn bash -c 'cd /opt/osm-gimmisn && target/release/osm-gimmisn sync-ref --mode download --url https://www.example.com/osm/data/'
+podman exec -t -i osm-gimmisn bash -c 'cd /opt/osm-gimmisn && target/release/osm-gimmisn sync-ref --mode download --url https://osm.example.com/data/'
 ```
 
 5. Go to <http://0.0.0.0:8000/osm/> in your web browser.

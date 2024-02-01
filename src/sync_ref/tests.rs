@@ -20,12 +20,12 @@ fn test_main() {
     let argv = vec![
         "".to_string(),
         "--url".to_string(),
-        "https://www.example.com/osm/data/".to_string(),
+        "https://osm.example.com/data/".to_string(),
     ];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
     let mut ctx = context::tests::make_test_context().unwrap();
     let routes = vec![context::tests::URLRoute::new(
-        /*url=*/ "https://www.example.com/osm/data/",
+        /*url=*/ "https://osm.example.com/data/",
         /*data_path=*/ "",
         /*result_path=*/ "src/fixtures/network/sync-ref.html",
     )];
@@ -68,7 +68,7 @@ fn test_main_download() {
         "--mode".to_string(),
         "download".to_string(),
         "--url".to_string(),
-        "https://www.example.com/osm/data/".to_string(),
+        "https://osm.example.com/data/".to_string(),
     ];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
     let mut ctx = context::tests::make_test_context().unwrap();
@@ -106,7 +106,7 @@ reference_zipcounts = 'workdir/refs/irsz_count_20200717.tsv'
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let routes = vec![context::tests::URLRoute::new(
-        /*url=*/ "https://www.example.com/osm/data/irsz_count_20200717.tsv",
+        /*url=*/ "https://osm.example.com/data/irsz_count_20200717.tsv",
         /*data_path=*/ "",
         /*result_path=*/ "src/fixtures/network/zipcount-new.tsv",
     )];
@@ -119,7 +119,7 @@ reference_zipcounts = 'workdir/refs/irsz_count_20200717.tsv'
     let buf = String::from_utf8(buf.into_inner()).unwrap();
     assert_eq!(
         buf,
-        r#"sync-ref: downloading 'https://www.example.com/osm/data/irsz_count_20200717.tsv'...
+        r#"sync-ref: downloading 'https://osm.example.com/data/irsz_count_20200717.tsv'...
 sync-ref: removing 'workdir/refs/irsz_count_20190717.tsv'...
 sync-ref: removing old index...
 sync-ref: ok

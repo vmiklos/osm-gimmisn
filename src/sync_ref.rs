@@ -91,7 +91,7 @@ pub fn our_main(
         .help("update the config or download based on config [config or download]");
     let args = [url, mode];
     let app = clap::Command::new("osm-gimmisn").override_usage(
-        "osm-gimmisn sync-ref [--mode download] --url https://www.example.com/osm/data/",
+        "osm-gimmisn sync-ref [--mode download] --url https://osm.example.com/data/",
     );
     let args = app.args(&args).try_get_matches_from(argv)?;
     let url = args
