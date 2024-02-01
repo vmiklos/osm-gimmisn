@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## 24.2
 
 - Resolves: gh#3073 New `/missing-housenumbers/.../view-lints` endpoint, listing per-relation lints
   (mostly flagging unused filters)

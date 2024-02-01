@@ -1261,7 +1261,7 @@ dependencies = [
 
 [[package]]
 name = "osm-gimmisn"
-version = "7.6.0"
+version = "24.2.0"
 dependencies = [
  "accept-language",
  "anyhow",
