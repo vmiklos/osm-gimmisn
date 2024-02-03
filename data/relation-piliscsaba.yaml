@@ -10,9 +10,12 @@ filters:
   Bérc köz:
     invalid: ['20']
   Csévi út:
-    ranges:
-      - {start: '1', end: '69'}
-      - {start: '2', end: '42'}
+    # 113/16: ez helyrajzi szám, nem házszám.
+    # 44: a páros oldalon a 42 az utolsó házszám.
+    # 54: a páros oldalon a 42 az utolsó házszám.
+    # 116/1: ez helyrajzi szám, nem házszám.
+    # 118/8: ez helyrajzi szám, nem házszám.
+    invalid: ['113', '44', '54', '116/1', '118/8']
   Deák Ferenc utca:
     invalid: ['110']
   Egyetem köz:
@@ -62,9 +65,8 @@ filters:
       - {start: '1', end: '33'}
       - {start: '2', end: '60'}
   Temető utca:
-    ranges:
-      - {start: '1', end: '13'}
-      - {start: '2', end: '14'}
+    # 49: a páratlan oldalon a 11 az utolsó házszám.
+    invalid: ['49']
   Somlyó köz:
     ranges:
       - {start: '2', end: '8'}
@@ -124,4 +126,5 @@ refstreets:
   'Wesselényi utca': 'Wesselényi Miklós utca'
   'Zajnáthegyi utca': 'Zajnáthegyi út'
 source: survey
+housenumber-letters: true
 inactive: true
