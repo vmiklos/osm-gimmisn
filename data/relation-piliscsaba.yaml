@@ -19,8 +19,8 @@ filters:
   Erdősor utca:
     interpolation: all
   Fényesliget sétány:
-    # 159: ez egy elgépelt helyrajzi szám, a környéken 159x/y jellegű helyrajzi számok vannak.
-    invalid: ['159']
+    # 159/9: ez egy elgépelt helyrajzi szám, a környéken 159x/y jellegű helyrajzi számok vannak.
+    invalid: ['159/9']
   Fenyves út:
     # 19/178: ez helyrajzi szám, nem házszám.
     # 19/180: ez helyrajzi szám, nem házszám.
@@ -63,12 +63,18 @@ filters:
     # 39: a páratlan oldalon a 33 az utolsó házszám.
     # 57: a páratlan oldalon a 33 az utolsó házszám.
     invalid: ['33', '39', '57']
+  Panoráma út:
+    # 19/181: ez helyrajzi szám, nem házszám.
+    invalid: ['19']
   Temető utca:
     # 49: a páratlan oldalon a 11 az utolsó házszám.
     invalid: ['49']
   Somlyó köz:
     # 18: ez Somlyó utca 18 lesz.
     invalid: ['18']
+  Somlyó utca:
+    # 18/m: 18 M épületként van meg, lásd: https://www.openstreetmap.org/way/545830506
+    invalid: ['18m']
   Szállás köz:
     # 17: a páratlan oldalon a 7 az utolsó házszám.
     invalid: ['17']
@@ -85,8 +91,9 @@ filters:
     invalid: ['108']
   Vasút utca:
     # 17: a páratlan oldalon a 9 az utolsó házszám.
+    # 58-a: a páros oldalon a 14 az utolsó házszám.
     # 60: a páros oldalon a 14 az utolsó házszám.
-    invalid: ['17', '60']
+    invalid: ['17', '58', '60']
   Vár utca:
     # 19/63: ez helyrajzi szám, nem házszám.
     invalid: ['19']
