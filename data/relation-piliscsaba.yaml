@@ -1,13 +1,7 @@
 missing-streets: 'yes'
 filters:
-  Ady Endre utca:
-    invalid: ['50']
-  Bartók Béla utca:
-    # utolsó ház 26
-    invalid: ['28']
-  Béla király útja:
-    invalid: ['140']
   Bérc köz:
+    # 20/43: ez helyrajzi szám, nem házszám.
     invalid: ['20']
   Csévi út:
     # 113/16: ez helyrajzi szám, nem házszám.
@@ -17,83 +11,94 @@ filters:
     # 118/8: ez helyrajzi szám, nem házszám.
     invalid: ['113', '44', '54', '116/1', '118/8']
   Deák Ferenc utca:
+    # 110: a páros oldalon az 50 az utolsó kitáblázott házszám, utána van még egy dupla telek.
     invalid: ['110']
   Egyetem köz:
+    # 28: nincs ilyen, csak három telek van az utcában.
     invalid: ['28']
-  Egyetem utca:
-    ranges:
-      - {start: '1', end: '9'}
-      - {start: '2', end: '14'}
   Erdősor utca:
     interpolation: all
-    invalid: ['28', '34']
   Fényesliget sétány:
-    invalid: ['1', '159']
+    # 159: ez egy elgépelt helyrajzi szám, a környéken 159x/y jellegű helyrajzi számok vannak.
+    invalid: ['159']
   Fenyves út:
+    # 19/178: ez helyrajzi szám, nem házszám.
+    # 19/180: ez helyrajzi szám, nem házszám.
     invalid: ['19']
   Gárdonyi Géza utca:
-    invalid: ['113']
+    # 113/5: ez helyrajzi szám, nem házszám.
+    invalid: ['113/5']
   Hrabina utca:
-    invalid: ['8', '20']
+    # 20/28: ez helyrajzi szám, nem házszám.
+    invalid: ['20']
   Iskola utca:
-    ranges:
-      - {start: '2', end: '24'}
+    # 4/16: ez helyrajzi szám, nem házszám.
+    # 26: a 24 után a Fő út 134. következik.
+    invalid: ['26']
   József Attila utca:
-    ranges:
-      - {start: '1', end: '27'}
-      - {start: '2', end: '16'}
+    # 26: a páros oldalon a 16 az utolsó házszám.
+    invalid: ['26']
   Kálvária utca:
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '52'}
-  Kálmán király utca:
-    # páros oldalon a vasút van
-    ranges:
-      - {start: '1', end: '99'}
+    # 80: ez helyrajzi szám, nem házszám.
+    # 80/4: ez helyrajzi szám, nem házszám.
+    invalid: ['80', '80/4']
   Kenderesi út:
+    # 56: a páros oldalon a 38 az utolsó házszám.
     invalid: ['56']
   Klotild tér:
-    invalid: ['118']
+    interpolation: all
+    # 118/9: ez helyrajzi szám, nem házszám.
+    invalid: ['118/9']
   Kossuth Lajos köz:
+    # 32: a páros oldalon a 10 az utolsó házszám.
     invalid: ['32']
   Lovarda köz:
+    # 43/11: ez helyrajzi szám, nem házszám.
     invalid: ['43']
   Mária utca:
-    invalid: ['42', '533']
+    # 533/6: ez helyrajzi szám, nem házszám.
+    invalid: ['533/6']
   Máriapark utca:
-    ranges:
-      - {start: '1', end: '33'}
-      - {start: '2', end: '60'}
+    # 35: a páratlan oldalon a 33 az utolsó házszám.
+    # 39: a páratlan oldalon a 33 az utolsó házszám.
+    # 57: a páratlan oldalon a 33 az utolsó házszám.
+    invalid: ['33', '39', '57']
   Temető utca:
     # 49: a páratlan oldalon a 11 az utolsó házszám.
     invalid: ['49']
   Somlyó köz:
-    ranges:
-      - {start: '2', end: '8'}
+    # 18: ez Somlyó utca 18 lesz.
+    invalid: ['18']
   Szállás köz:
+    # 17: a páratlan oldalon a 7 az utolsó házszám.
     invalid: ['17']
   Szent István király köz:
-    ranges:
-      - {start: '1', end: '15'}
-      - {start: '2', end: '24'}
+    # 129: a páratlan oldalon a 15 az utolsó házszám.
+    # 62: a páros oldalon a 24 az utolsó házszám.
+    # 658: ez helyrajzi szám, nem házszám.
+    invalid: ['129', '62', '658']
   Szent István király útja:
+    # 719: ez helyrajzi szám, nem házszám.
     invalid: ['719']
   Szent László király útja:
+    # 108: a páros oldalon a 92 az utolsó házszám.
     invalid: ['108']
   Vasút utca:
-    ranges:
-      - {start: '1', end: '9'}
-      - {start: '2', end: '14'}
+    # 17: a páratlan oldalon a 9 az utolsó házszám.
+    # 60: a páros oldalon a 14 az utolsó házszám.
+    invalid: ['17', '60']
   Vár utca:
-    invalid: ['19', '24']
-  Végső utca:
-    ranges:
-      - {start: '1', end: '25'}
-      - {start: '2', end: '24'}
+    # 19/63: ez helyrajzi szám, nem házszám.
+    invalid: ['19']
   Völgy utca:
+    # 19/21: ez helyrajzi szám, nem házszám.
     invalid: ['19']
   Zrínyi utca:
-    invalid: ['54', '64', '148']
+    # 2/5: ez helyrajzi szám, nem házszám.
+    # 2/31: ez helyrajzi szám, nem házszám.
+    # 2/35: ez helyrajzi szám, nem házszám.
+    # 148/6: ez helyrajzi szám, nem házszám.
+    invalid: ['2', '2/5', '148/6']
 osm-street-filters:
   # ösvények
   - Bükkös-árok
