@@ -5,9 +5,6 @@ filters:
     # területhatár: harshegy/petnehazyret/adyliget
     ranges:
       - {start: '1', end: '99'}
-  Határ utca:
-    # Pesthidegkút
-    ranges: []
   Rézsű utca:
     # területhatár: adyliget/mariaremete
     ranges:
