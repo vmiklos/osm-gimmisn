@@ -4066,3 +4066,42 @@ fn test_normalizer_contains_osm_housenumber_none() {
         None
     ));
 }
+
+#[test]
+fn test_relation_get_osm_housenumber_split() {
+    // Given a relation with housenumber-letters=true & with a housenumber 12a,12b:
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+        },
+        "relation-myrelation.yaml": {
+            "housenumber-letters": true,
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('myrelation', '1', 'mystreet', '', '', '', '', '');
+             insert into mtimes (page, last_modified) values ('streets/myrelation', '0');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('myrelation', '1', 'mystreet', '12a,12b', '', '', '', '', '', '', '', '', '', 'node');
+             insert into mtimes (page, last_modified) values ('housenumbers/myrelation', '0');"
+        ).unwrap();
+    }
+    let mut relations = Relations::new(&ctx).unwrap();
+    let mut relation = relations.get_relation("myrelation").unwrap();
+
+    // When getting the osm housenumbers:
+    let housenumbers = relation.get_osm_housenumbers("mystreet").unwrap();
+
+    // Then make sure we split by ',': without the fix, this was a single '12' housenumber.
+    assert_eq!(housenumbers.len(), 2);
+    assert_eq!(housenumbers[0].get_number(), "12/A");
+    assert_eq!(housenumbers[1].get_number(), "12/B");
+}

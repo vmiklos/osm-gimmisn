@@ -643,7 +643,7 @@ impl<'a> Relation<'a> {
                         street = value;
                     }
                 }
-                for house_number in row.housenumber.split(';') {
+                for house_number in row.housenumber.split(&[';', ',']) {
                     house_numbers
                         .entry(street.to_string())
                         .or_default()
