@@ -217,6 +217,9 @@ filters:
   István utca:
     # 3-5: csak 3 van kiírva
     invalid: ['5']
+  Ipoly utca:
+    # 13: valószínű az Ipoly köz végén lévő ház, nincs kiírva. 2024-02. RESURVEY 2025
+    invalid: ['13']
   Jedlik Ányos utca:
     # 19: 17 van kiírva, de eléggé a jobb szélén van a teleknek, ez és a faház között egy üres telek.
     # 40: 44 van kiírva. 2022-12. RESURVEY 2023
@@ -311,7 +314,7 @@ filters:
     # 64: beépítetlen rész. 2022-12. RESURVEY 2024
     invalid: ['64']
   Moha utca:
-    # 1: 1 ház kész + 1 még mindig épülőben 2021-08. már majdnem kész 2022-12. RESURVEY 2023
+    # 1: nincs kint házszám 2024-02. RESURVEY 2025
     invalid: ['1']
   Neptun utca:
     # páros oldalon a vasút megy
@@ -402,8 +405,7 @@ filters:
   Szömörce utca:
     # 30: az első leágaóz, nincs kiírva 2023-04. RESURVEY 2024
     #,62, 64 nincs kiírva 2023-04. RESURVEY 2024
-    # 82 új ház, még nincs szám nincs kiírva 2023-04. RESURVEY 2024
-    invalid: ['30', '62', '64', '82']
+    invalid: ['30', '62', '64']
   Szúnyog utca:
     # 1-9 nincsenek házak csak fák, nádas
     invalid: ['9']
@@ -455,7 +457,7 @@ filters:
     # 101: 99 után 103
     invalid: ['7', '46', '83', '101']
   Vidovszky Béla utca:
-    # 25: új épület, nincs kiírva 2023-04. RESURVEY 2023-08
+    # 25: új épület, nincs kiírva 2023-04. RESURVEY 2024
     # 26: Tisza utca 12-14 van kiírva
     invalid: ['25', '26']
   Vízmeder utca:
