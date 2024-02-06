@@ -1,5 +1,12 @@
 missing-streets: 'yes'
 filters:
+  Bajcsy-Zsilinszky utca:
+    # 57: nincs ilyen, az 55 után az 59 következik.
+    # 59/a: nincs ilyen, csak sima 59 van.
+    # 59/d: nincs ilyen, csak sima 59 van.
+    # 59/e: nincs ilyen, csak sima 59 van.
+    # 61: a páratlan oldalon az 59 az utolsó házszám.
+    invalid: ['57', '59a', '59d', '59e', '61']
   Bérc köz:
     # 20/43: ez helyrajzi szám, nem házszám.
     invalid: ['20']
@@ -62,7 +69,7 @@ filters:
     # 35: a páratlan oldalon a 33 az utolsó házszám.
     # 39: a páratlan oldalon a 33 az utolsó házszám.
     # 57: a páratlan oldalon a 33 az utolsó házszám.
-    invalid: ['33', '39', '57']
+    invalid: ['35', '39', '57']
   Panoráma út:
     # 19/181: ez helyrajzi szám, nem házszám.
     invalid: ['19']
@@ -105,13 +112,14 @@ filters:
     # 2/31: ez helyrajzi szám, nem házszám.
     # 2/35: ez helyrajzi szám, nem házszám.
     # 148/6: ez helyrajzi szám, nem házszám.
-    invalid: ['2', '2/5', '148/6']
+    invalid: ['2/5', '148/6']
 osm-street-filters:
   # ösvények
   - Bükkös-árok
   - Gábor útja
   - Kőris-völgy
   # park
+  - Klotild park
   - Forrás park
 street-filters:
   # nem igazi utcák
