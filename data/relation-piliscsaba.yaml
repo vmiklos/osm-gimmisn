@@ -35,6 +35,8 @@ filters:
   Gárdonyi Géza utca:
     # 113/5: ez helyrajzi szám, nem házszám.
     invalid: ['113/5']
+  Hosszúrét út:
+    interpolation: all
   Hrabina utca:
     # 20/28: ez helyrajzi szám, nem házszám.
     invalid: ['20']
@@ -59,6 +61,10 @@ filters:
   Kossuth Lajos köz:
     # 32: a páros oldalon a 10 az utolsó házszám.
     invalid: ['32']
+  Kőris fasor:
+    # 31: sima 31 nincs, csak 31/a, 31/b.
+    # 20: sima 20 nincs, csak 20/a, 20/b.
+    invalid: ['31', '20']
   Lovarda köz:
     # 43/11: ez helyrajzi szám, nem házszám.
     invalid: ['43']
@@ -136,7 +142,6 @@ refstreets:
   'Csaba királyfi utca': 'Csabakirályfi utca'
   'Erdősor utca': 'Erdősor út'
   'Fenyves út': 'Fenyves utca'
-  'Hosszúrét utca': 'Hosszúréti út'
   'Jókai Mór utca': 'Jókai utca'
   'Kinizsi Pál utca': 'Kinizsi utca'
   'Kálmán király utca': 'Kálmán király útja'
