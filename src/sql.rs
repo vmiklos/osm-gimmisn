@@ -237,7 +237,21 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
             [],
         )?;
     }
-    conn.execute("pragma user_version = 12", [])?;
+
+    if user_version < 13 {
+        // Tracks the number of additional streets for a relation.
+        conn.execute_batch(
+            "create table additional_streets_counts (
+                    relation text not null,
+                    count text not null,
+                    unique(relation)
+                );
+            create index idx_additional_streets_counts
+                on additional_streets_counts(relation);",
+        )?;
+    }
+
+    conn.execute("pragma user_version = 13", [])?;
     Ok(())
 }
 

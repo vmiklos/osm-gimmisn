@@ -494,6 +494,16 @@ pub fn has_sql_mtime(ctx: &context::Context, page: &str) -> anyhow::Result<bool>
     Ok(rows.next()?.is_some())
 }
 
+pub fn set_sql_count(ctx: &context::Context, relation: &str, count: usize) -> anyhow::Result<()> {
+    let conn = ctx.get_database_connection()?;
+    conn.execute(
+        r#"insert into additional_streets_counts (relation, count) values (?1, ?2)
+             on conflict(relation) do update set count = excluded.count"#,
+        [relation, &count.to_string()],
+    )?;
+    Ok(())
+}
+
 pub fn update_invalid_addr_cities(ctx: &context::Context, state_dir: &str) -> anyhow::Result<()> {
     info!("stats: updating invalid_addr_cities");
     let valid_settlements =
