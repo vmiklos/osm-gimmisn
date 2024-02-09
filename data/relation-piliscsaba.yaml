@@ -35,7 +35,7 @@ filters:
   Gárdonyi Géza utca:
     # 113/5: ez helyrajzi szám, nem házszám.
     invalid: ['113/5']
-  Hosszúrét út:
+  Hosszúréti út:
     interpolation: all
   Hrabina utca:
     # 20/28: ez helyrajzi szám, nem házszám.
