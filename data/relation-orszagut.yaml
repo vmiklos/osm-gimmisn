@@ -78,6 +78,9 @@ filters:
       - {start: '1', end: '5'}
       - {start: '2', end: '2'}
       - {start: '6', end: '8'}
+  Retek utca:
+    # 21a = 21-27a
+    invalid: ['21a']
   Rómer Flóris utca:
     ranges:
       - {start: '2', end: '32'}
