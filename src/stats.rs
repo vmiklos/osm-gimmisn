@@ -504,6 +504,14 @@ pub fn set_sql_count(ctx: &context::Context, relation: &str, count: usize) -> an
     Ok(())
 }
 
+pub fn has_sql_count(ctx: &context::Context, relation: &str) -> anyhow::Result<bool> {
+    let conn = ctx.get_database_connection()?;
+    let mut stmt =
+        conn.prepare("select count from additional_streets_counts where relation = ?1")?;
+    let mut rows = stmt.query([relation])?;
+    Ok(rows.next()?.is_some())
+}
+
 pub fn update_invalid_addr_cities(ctx: &context::Context, state_dir: &str) -> anyhow::Result<()> {
     info!("stats: updating invalid_addr_cities");
     let valid_settlements =
