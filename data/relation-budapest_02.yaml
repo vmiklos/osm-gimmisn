@@ -281,6 +281,9 @@ filters:
     # 2 = Marczibányi tér 12
     # 6 = Ribáry utca 6
     invalid: ['2', '6']
+  Retek utca:
+    # 21a = 21-27a
+    invalid: ['21a']
   Ribáry utca:
     ranges:
       - {start: '1', end: '11'}
