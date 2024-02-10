@@ -244,8 +244,7 @@ fn update_additional_streets(
     info!("update_additional_streets: start");
     for relation_name in relations.get_active_names()? {
         let relation = relations.get_relation(&relation_name)?;
-        let relation_path = relation.get_files().get_streets_additional_count_path();
-        if !update && ctx.get_file_system().path_exists(&relation_path) {
+        if !update && stats::has_sql_count(ctx, &relation_name)? {
             continue;
         }
         let streets = relation.get_config().should_check_missing_streets();
