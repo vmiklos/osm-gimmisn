@@ -12,6 +12,7 @@ refstreets:
   'Dr. Szőllőssy Árpád utca': 'Dr.Szőllőssy Árpád utca'
   'Malomvölgyi utca': 'Malomvölgy utca'
   # ellenőrzött
+  'Szőlősor': 'Szőlősor utca'
   'Szegedy Róza utca': 'Szegedi Róza utca'  # táblán Szegedy Róza utca (2021-09-25)
   'Pocca utca': 'Pocca út'  # táblán: Pocca utca, helyi téképen Pocca út (2023-07)
 street-filters:
