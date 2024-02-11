@@ -22,7 +22,6 @@ import context
 import ranges
 import util
 
-
 class RelationConfigBase:
     """A relation configuration comes directly from static data, not a result of some external query."""
     def __init__(self, parent_config: Dict[str, Any], my_config: Dict[str, Any]) -> None:
@@ -329,7 +328,7 @@ class RelationBase:
                     street = row[columns["addr:street"]]
                     if not street and "addr:place" in columns:
                         street = row[columns["addr:place"]]
-                    for house_number in row[columns["addr:housenumber"]].split(';'):
+                    for house_number in row[columns["addr:housenumber"]].replace(',', ';').split(';'):
                         if street not in house_numbers:
                             house_numbers[street] = []
                         house_numbers[street] += normalize(self, house_number, street, street_ranges)
