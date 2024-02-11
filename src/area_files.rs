@@ -142,11 +142,6 @@ impl RelationFiles {
         format!("{}/additional-cache-{}.json", self.workdir, self.name)
     }
 
-    /// Builds the file name of the street additional count file of a relation.
-    pub fn get_streets_additional_count_path(&self) -> String {
-        format!("{}/{}-additional-streets.count", self.workdir, self.name)
-    }
-
     /// Builds the file name of the housenumber additional count file of a relation.
     pub fn get_housenumbers_additional_count_path(&self) -> String {
         format!(

@@ -475,15 +475,9 @@ fn test_update_additional_streets() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let count_file1 = context::tests::TestFileSystem::make_file();
-    let count_file2 = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret-additional-streets.count", &count_file1),
-            ("workdir/gellerthegy-additional-streets.count", &count_file2),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let path1 = ctx.get_abspath("workdir/gazdagret-additional-streets.count");
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
@@ -553,11 +547,23 @@ fn test_update_additional_streets() {
     update_additional_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
 
     assert_eq!(file_system_rc.getmtime(&path1).unwrap(), mtime);
-    let actual = context::tests::TestFileSystem::get_content(&count_file1);
+    let conn = ctx.get_database_connection().unwrap();
+    let actual = {
+        let mut stmt = conn
+            .prepare("select count from additional_streets_counts where relation = ?1")
+            .unwrap();
+        let mut rows = stmt.query(["gazdagret"]).unwrap();
+        let row = rows.next().unwrap().unwrap();
+        let count: String = row.get(0).unwrap();
+        count
+    };
     assert_eq!(actual, expected);
     // Make sure street stat is not created for the streets=no case.
-    let mut guard = count_file2.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, false);
+    let mut stmt = conn
+        .prepare("select count from additional_streets_counts where relation = ?1")
+        .unwrap();
+    let mut rows = stmt.query(["gellerthegy"]).unwrap();
+    assert!(rows.next().unwrap().is_none());
 }
 
 /// Tests update_osm_housenumbers().
@@ -1202,7 +1208,6 @@ fn test_our_main() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let ref_streets_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
-    let additional_streets_value = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_json = context::tests::TestFileSystem::make_file();
     let template_value = context::tests::TestFileSystem::make_file();
     template_value
@@ -1225,10 +1230,6 @@ fn test_our_main() {
             (
                 "workdir/street-housenumbers-reference-gazdagret.lst",
                 &ref_housenumbers_value,
-            ),
-            (
-                "workdir/gazdagret-additional-streets.count",
-                &additional_streets_value,
             ),
             ("workdir/cache-gazdagret.json", &missing_housenumbers_json),
             ("data/streets-template.overpassql", &template_value),
@@ -1320,8 +1321,15 @@ fn test_our_main() {
     assert_eq!(relation.has_osm_housenumber_coverage().unwrap(), true);
     // update_additional_streets() is called.
     {
-        let mut guard = additional_streets_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let conn = ctx.get_database_connection().unwrap();
+        let count: String = conn
+            .query_row(
+                "select count from additional_streets_counts where relation = ?1",
+                ["gazdagret"],
+                |row| row.get(0),
+            )
+            .unwrap();
+        assert_eq!(count, "3".to_string());
     }
 }
 

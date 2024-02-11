@@ -1073,14 +1073,7 @@ impl<'a> Relation<'a> {
     pub fn write_additional_streets(&self) -> anyhow::Result<Vec<util::Street>> {
         let additional_streets = self.get_additional_streets(/*sorted_result=*/ true)?;
 
-        // Remember the count, so the index page show it fast.
-        // Old style: file.
-        let file = &self.file;
-        self.ctx.get_file_system().write_from_string(
-            &additional_streets.len().to_string(),
-            &file.get_streets_additional_count_path(),
-        )?;
-        // New style: SQL.
+        // Remember the count, so the index page can show it fast.
         stats::set_sql_count(self.ctx, &self.name, additional_streets.len())?;
 
         Ok(additional_streets)

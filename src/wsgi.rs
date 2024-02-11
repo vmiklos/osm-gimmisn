@@ -1028,15 +1028,13 @@ fn handle_main_street_additional_count(
         relation.get_name()
     );
     let mut additional_count: String = "".into();
-    let files = relation.get_files();
-    let path = files.get_streets_additional_count_path();
-    if ctx.get_file_system().path_exists(&path) {
-        additional_count = ctx.get_file_system().read_to_string(&path)?;
+    if stats::has_sql_count(ctx, &relation.get_name())? {
+        additional_count = stats::get_sql_count(ctx, &relation.get_name())?;
     }
 
     let doc = yattag::Doc::new();
     if !additional_count.is_empty() {
-        let date = get_last_modified(ctx, &path)?;
+        let date = webframe::format_timestamp(&relation.get_osm_street_coverage_mtime()?)?;
         let strong = doc.tag("strong", &[]);
         let a = strong.tag(
             "a",

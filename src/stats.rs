@@ -504,6 +504,16 @@ pub fn set_sql_count(ctx: &context::Context, relation: &str, count: usize) -> an
     Ok(())
 }
 
+pub fn get_sql_count(ctx: &context::Context, relation: &str) -> anyhow::Result<String> {
+    let conn = ctx.get_database_connection()?;
+    let mut stmt =
+        conn.prepare("select count from additional_streets_counts where relation = ?1")?;
+    let mut rows = stmt.query([relation])?;
+    let row = rows.next()?.context("no count")?;
+    let count: String = row.get(0)?;
+    Ok(count)
+}
+
 pub fn has_sql_count(ctx: &context::Context, relation: &str) -> anyhow::Result<bool> {
     let conn = ctx.get_database_connection()?;
     let mut stmt =
