@@ -11,7 +11,6 @@
 //! Tests for the wsgi module.
 
 use super::*;
-use context::FileSystem;
 use std::cell::RefCell;
 use std::io::Read;
 use std::io::Seek;
@@ -3233,28 +3232,20 @@ fn test_handle_main_street_additional_count() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let count_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret-additional-streets.count", &count_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    file_system
-        .write_from_string(
-            "42",
-            &ctx.get_abspath("workdir/gazdagret-additional-streets.count"),
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into additional_streets_counts (relation, count) values ('gazdagret', '42');
+            insert into osm_street_coverages (relation_name, coverage, last_modified) values ('gazdagret', '0', '0');",
         )
         .unwrap();
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        ctx.get_abspath("workdir/gazdagret-additional-streets.count"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
+    }
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();

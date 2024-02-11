@@ -12,8 +12,6 @@
 
 use std::cell::RefCell;
 use std::collections::HashMap;
-use std::io::Seek;
-use std::io::SeekFrom;
 use std::rc::Rc;
 
 use crate::areas;
@@ -631,13 +629,9 @@ fn test_streets_well_formed() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let count_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret-additional-streets.count", &count_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
@@ -679,8 +673,15 @@ fn test_streets_well_formed() {
 
     let root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result");
 
-    let mut guard = count_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+    let count: String = conn
+        .query_row(
+            "select count from additional_streets_counts where relation = ?1",
+            ["gazdagret"],
+            |row| row.get(0),
+        )
+        .unwrap();
+    assert_eq!(count, "1".to_string());
     let mut results = wsgi::tests::TestWsgi::find_all(&root, "body/table");
     assert_eq!(results.len(), 1);
     // refstreets: >0 invalid osm name
@@ -704,13 +705,9 @@ fn test_streets_street_from_housenr_well_formed() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let count_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gh611-additional-streets.count", &count_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
@@ -742,8 +739,15 @@ fn test_streets_street_from_housenr_well_formed() {
 
     let root = test_wsgi.get_dom_for_path("/additional-streets/gh611/view-result");
 
-    let mut guard = count_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+    let count: String = conn
+        .query_row(
+            "select count from additional_streets_counts where relation = ?1",
+            ["gh611"],
+            |row| row.get(0),
+        )
+        .unwrap();
+    assert_eq!(count, "2".to_string());
     let results = wsgi::tests::TestWsgi::find_all(&root, "body/table");
     assert_eq!(results.len(), 1);
 }
