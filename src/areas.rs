@@ -1074,7 +1074,12 @@ impl<'a> Relation<'a> {
         let additional_streets = self.get_additional_streets(/*sorted_result=*/ true)?;
 
         // Remember the count, so the index page can show it fast.
-        stats::set_sql_count(self.ctx, &self.name, additional_streets.len())?;
+        stats::set_sql_count(
+            self.ctx,
+            "additional_streets_counts",
+            &self.name,
+            additional_streets.len(),
+        )?;
 
         Ok(additional_streets)
     }
@@ -1248,11 +1253,19 @@ impl<'a> Relation<'a> {
 
         let (table, todo_count) = self.numbered_streets_to_table(&ongoing_streets);
 
-        // Write the street count to a file, so the index page show it fast.
+        // Remember the count, so the index page can show it fast.
+        // Old-style: file.
         let file = &self.file;
         self.ctx.get_file_system().write_from_string(
             &todo_count.to_string(),
             &file.get_housenumbers_additional_count_path(),
+        )?;
+        // New-style: SQL.
+        stats::set_sql_count(
+            self.ctx,
+            "additional_housenumbers_counts",
+            &self.name,
+            todo_count,
         )?;
 
         Ok((ongoing_streets.len(), todo_count, table))

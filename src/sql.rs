@@ -251,7 +251,20 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
         )?;
     }
 
-    conn.execute("pragma user_version = 13", [])?;
+    if user_version < 14 {
+        // Tracks the number of additional housenumbers for a relation.
+        conn.execute_batch(
+            "create table additional_housenumbers_counts (
+                    relation text not null,
+                    count text not null,
+                    unique(relation)
+                );
+            create index idx_additional_housenumbers_counts
+                on additional_housenumbers_counts(relation);",
+        )?;
+    }
+
+    conn.execute("pragma user_version = 14", [])?;
     Ok(())
 }
 
