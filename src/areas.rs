@@ -1254,13 +1254,6 @@ impl<'a> Relation<'a> {
         let (table, todo_count) = self.numbered_streets_to_table(&ongoing_streets);
 
         // Remember the count, so the index page can show it fast.
-        // Old-style: file.
-        let file = &self.file;
-        self.ctx.get_file_system().write_from_string(
-            &todo_count.to_string(),
-            &file.get_housenumbers_additional_count_path(),
-        )?;
-        // New-style: SQL.
         stats::set_sql_count(
             self.ctx,
             "additional_housenumbers_counts",

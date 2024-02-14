@@ -346,6 +346,14 @@ fn test_streets_view_turbo_well_formed() {
 #[test]
 fn test_handle_main_housenr_additional_count() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into additional_housenumbers_counts (relation, count) values ('budafok', '42');
+             insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values ('budafok', '100.00', '0');",
+        )
+        .unwrap();
+    }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "budafok": {
@@ -371,15 +379,10 @@ fn test_handle_main_housenr_additional_count() {
     assert_eq!(actual.get_value().contains("42 house numbers"), true);
 }
 
-/// Tests handle_main_housenr_additional_count(): what happens when the count file is not there.
+/// Tests handle_main_housenr_additional_count(): what happens when the count row is not there.
 #[test]
 fn test_handle_main_housenr_additional_count_no_count_file() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let mut file_system = context::tests::TestFileSystem::new();
-    let hide_path = ctx.get_abspath("workdir/budafok-additional-housenumbers.count");
-    file_system.set_hide_paths(&[hide_path]);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
+    let ctx = context::tests::make_test_context().unwrap();
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("budafok").unwrap();
 

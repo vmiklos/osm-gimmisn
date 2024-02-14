@@ -646,13 +646,6 @@ fn test_get_column_junk() {
     assert_eq!(natnum(&get_column(&row, 2)), 0);
 }
 
-/// Tests get_mtime(): what happens when the file is not there.
-#[test]
-fn test_get_mtime_no_such_file() {
-    let ctx = context::tests::make_test_context().unwrap();
-    assert_eq!(get_mtime(&ctx, ""), time::OffsetDateTime::UNIX_EPOCH);
-}
-
 /// Tests get_lexical_sort_key().
 #[test]
 fn test_get_lexical_sort_key() {
