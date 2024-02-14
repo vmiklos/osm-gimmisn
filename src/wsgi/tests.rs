@@ -3039,7 +3039,7 @@ fn test_get_housenr_additional_count() {
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("myrelation").unwrap();
 
-    let ret = get_housenr_additional_count(&ctx, relation.get_files()).unwrap();
+    let ret = get_housenr_additional_count(&ctx, &relation).unwrap();
 
     // Not a failure, just no pre-calculated result.
     assert_eq!(ret, "");

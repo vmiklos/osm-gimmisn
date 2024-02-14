@@ -10,7 +10,6 @@
 
 //! The wsgi module contains functionality specific to the web interface
 
-use crate::area_files;
 use crate::areas;
 use crate::cache;
 use crate::context;
@@ -26,11 +25,6 @@ use anyhow::Context;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
 use std::sync::Arc;
-
-/// Gets the update date string of a file.
-fn get_last_modified(ctx: &context::Context, path: &str) -> anyhow::Result<String> {
-    webframe::format_timestamp(&util::get_mtime(ctx, path))
-}
 
 /// Gets the update date of streets for a relation.
 fn get_streets_last_modified(
@@ -1028,8 +1022,9 @@ fn handle_main_street_additional_count(
         relation.get_name()
     );
     let mut additional_count: String = "".into();
-    if stats::has_sql_count(ctx, &relation.get_name())? {
-        additional_count = stats::get_sql_count(ctx, &relation.get_name())?;
+    if stats::has_sql_count(ctx, "additional_streets_counts", &relation.get_name())? {
+        additional_count =
+            stats::get_sql_count(ctx, "additional_streets_counts", &relation.get_name())?;
     }
 
     let doc = yattag::Doc::new();
@@ -1055,18 +1050,10 @@ fn handle_main_street_additional_count(
 
 fn get_housenr_additional_count(
     ctx: &context::Context,
-    files: &area_files::RelationFiles,
+    relation: &areas::Relation<'_>,
 ) -> anyhow::Result<String> {
-    if ctx
-        .get_file_system()
-        .path_exists(&files.get_housenumbers_additional_count_path())
-    {
-        let stream = files.get_housenumbers_additional_count_read_stream(ctx)?;
-
-        let mut guard = stream.borrow_mut();
-        let mut buffer: Vec<u8> = Vec::new();
-        guard.read_to_end(&mut buffer)?;
-        return Ok(String::from_utf8(buffer)?.trim().into());
+    if stats::has_sql_count(ctx, "additional_housenumbers_counts", &relation.get_name())? {
+        return stats::get_sql_count(ctx, "additional_housenumbers_counts", &relation.get_name());
     }
 
     Ok("".into())
@@ -1087,12 +1074,11 @@ pub fn handle_main_housenr_additional_count(
         prefix,
         relation.get_name()
     );
-    let files = relation.get_files();
-    let additional_count = get_housenr_additional_count(ctx, files)?;
+    let additional_count = get_housenr_additional_count(ctx, relation)?;
 
     let doc = yattag::Doc::new();
     if !additional_count.is_empty() {
-        let date = get_last_modified(ctx, &files.get_housenumbers_additional_count_path())?;
+        let date = webframe::format_timestamp(&relation.get_osm_housenumber_coverage_mtime()?)?;
         let strong = doc.tag("strong", &[]);
         let a = strong.tag(
             "a",

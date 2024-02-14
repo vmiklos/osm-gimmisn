@@ -1295,15 +1295,5 @@ pub fn format_percent(parsed: f64) -> anyhow::Result<String> {
     Ok(format!("{0:.2}%", parsed))
 }
 
-/// Gets the mtime of a file if it exists, 0 otherwise.
-pub fn get_mtime(ctx: &context::Context, path: &str) -> time::OffsetDateTime {
-    let mtime = match ctx.get_file_system().getmtime(path) {
-        Ok(value) => value,
-        Err(_) => time::OffsetDateTime::UNIX_EPOCH,
-    };
-
-    mtime
-}
-
 #[cfg(test)]
 mod tests;

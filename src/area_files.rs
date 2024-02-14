@@ -142,14 +142,6 @@ impl RelationFiles {
         format!("{}/additional-cache-{}.json", self.workdir, self.name)
     }
 
-    /// Builds the file name of the housenumber additional count file of a relation.
-    pub fn get_housenumbers_additional_count_path(&self) -> String {
-        format!(
-            "{}/{}-additional-housenumbers.count",
-            self.workdir, self.name
-        )
-    }
-
     /// Opens the reference street list of a relation for reading.
     pub fn get_ref_streets_read_stream(
         &self,
@@ -231,15 +223,6 @@ impl RelationFiles {
         ctx.get_file_system()
             .open_write(&path)
             .context("open_write() failed")
-    }
-
-    /// Opens the housenumbers additional count file of a relation for reading.
-    pub fn get_housenumbers_additional_count_read_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
-        let path = self.get_housenumbers_additional_count_path();
-        ctx.get_file_system().open_read(&path)
     }
 
     /// Writes the result for overpass of Relation.get_osm_streets_json_query().
