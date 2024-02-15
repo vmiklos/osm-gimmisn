@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+
+- Resolves: gh#3558 `,` is now also recognized as a housenumber separator, similar to `;`
+
 ## 24.2
 
 - Resolves: gh#3073 New `/missing-housenumbers/.../view-lints` endpoint, listing per-relation lints
