@@ -145,14 +145,8 @@ pub fn additional_streets_view_txt(
         .get_relation(relation_name)
         .context("get_relation() failed")?;
 
-    let output: String;
-    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
-        output = tr("No existing streets");
-    } else if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_ref_streets_path())
-    {
-        output = tr("No reference streets");
+    let output: String = if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
+        tr("No existing streets")
     } else {
         let mut streets = relation.get_additional_streets(/*sorted_result=*/ true)?;
         streets.sort_by_key(|street| util::get_sort_key(street.get_osm_name()));
@@ -164,8 +158,8 @@ pub fn additional_streets_view_txt(
                 lines.push(format!("{}\n", street.get_osm_name()));
             }
         }
-        output = lines.join("");
-    }
+        lines.join("")
+    };
     Ok((output, relation_name.into()))
 }
 
@@ -184,8 +178,6 @@ pub fn additional_streets_view_result(
     let prefix = ctx.get_ini().get_uri_prefix();
     if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
         doc.append_value(webframe::handle_no_osm_streets(&prefix, relation_name).get_value());
-    } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
-        doc.append_value(webframe::handle_no_ref_streets(&prefix, relation_name).get_value());
     } else {
         // Get "only in OSM" streets.
         let mut streets = relation.write_additional_streets()?;

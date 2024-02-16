@@ -822,12 +822,6 @@ fn handle_invalid_refstreets(
         if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation.get_name())).unwrap() {
             continue;
         }
-        if !ctx
-            .get_file_system()
-            .path_exists(&relation.get_files().get_ref_streets_path())
-        {
-            continue;
-        }
         let (osm_invalids, ref_invalids) = relation
             .get_invalid_refstreets()
             .context("get_invalid_refstreets() failed")?;
@@ -1240,26 +1234,6 @@ pub fn handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::
         (
             "str-reference-wait",
             tr("No reference house numbers: creating from reference..."),
-        ),
-        ("str-reference-error", tr("Error from reference: ")),
-    ];
-    emit_l10n_strings_for_js(&doc, string_pairs);
-    doc
-}
-
-/// Handles the no-ref-streets error on a page using JS.
-pub fn handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
-    let doc = yattag::Doc::new();
-    let link = format!("{prefix}/missing-streets/{relation_name}/update-result");
-    {
-        let div = doc.tag("div", &[("id", "no-ref-streets")]);
-        let a = div.tag("a", &[("href", &link)]);
-        a.text(&tr("No street list: create from reference..."));
-    }
-    let string_pairs = &[
-        (
-            "str-reference-wait",
-            tr("No reference streets: creating from reference..."),
         ),
         ("str-reference-error", tr("Error from reference: ")),
     ];

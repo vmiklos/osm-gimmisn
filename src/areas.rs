@@ -612,12 +612,21 @@ impl<'a> Relation<'a> {
 
     /// Gets streets from reference.
     fn get_ref_streets(&self) -> anyhow::Result<Vec<String>> {
+        let mut conn = self.ctx.get_database_connection()?;
+        let reference = self.ctx.get_ini().get_reference_street_path()?;
+        util::build_street_reference_index(self.ctx, &mut conn, &reference)?;
+
         let mut streets: Vec<String> = Vec::new();
-        let read: Rc<RefCell<dyn Read>> = self.file.get_ref_streets_read_stream(self.ctx)?;
-        let mut guard = read.borrow_mut();
-        let stream = std::io::BufReader::new(guard.deref_mut());
-        for line in stream.lines() {
-            streets.push(line?);
+        let mut stmt = conn.prepare(
+            "select street from ref_streets where county_code = ?1 and settlement_code = ?2",
+        )?;
+        let mut rows = stmt.query([
+            &self.config.get_refcounty(),
+            &self.config.get_refsettlement(),
+        ])?;
+        while let Some(row) = rows.next()? {
+            let street: String = row.get(0).unwrap();
+            streets.push(street);
         }
         streets.sort();
         streets.dedup();
@@ -1547,7 +1556,6 @@ impl<'a> Relations<'a> {
         if stats::has_sql_mtime(self.ctx, &format!("streets/{}", relation.get_name())).unwrap()
             && stats::has_sql_mtime(self.ctx, &format!("housenumbers/{}", relation.get_name()))
                 .unwrap()
-            && file_system.path_exists(&files.get_ref_streets_path())
             && file_system.path_exists(&files.get_ref_housenumbers_path())
             && osm_street_coverage_exists
             && osm_housenumber_coverage_exists
@@ -1562,12 +1570,7 @@ impl<'a> Relations<'a> {
             return Ok(false);
         }
 
-        let file_system = self.ctx.get_file_system();
         if !stats::has_sql_mtime(self.ctx, &format!("streets/{}", relation.get_name()))? {
-            return Ok(false);
-        }
-
-        if !file_system.path_exists(&relation.get_files().get_ref_streets_path()) {
             return Ok(false);
         }
 

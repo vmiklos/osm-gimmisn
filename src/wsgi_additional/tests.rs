@@ -31,6 +31,8 @@ fn test_streets_view_result_txt() {
             },
         },
         "relation-gazdagret.yaml": {
+            "refcounty": "01",
+            "refsettlement": "011",
             "refstreets": {
                 "OSM Name 1": "Ref Name 1",
             },
@@ -80,6 +82,8 @@ fn test_streets_view_result_gpx() {
             },
         },
         "relation-gazdagret.yaml": {
+            "refcounty": "01",
+            "refsettlement": "011",
             "refstreets": {
                 "OSM Name 1": "Ref Name 1",
             },
@@ -167,6 +171,8 @@ fn test_streets_view_result_chkl() {
             },
         },
         "relation-gazdagret.yaml": {
+            "refcounty": "01",
+            "refsettlement": "011",
             "refstreets": {
                 "OSM Name 1": "Ref Name 1",
             },
@@ -271,52 +277,6 @@ fn test_streets_view_result_txt_no_osm_streets() {
     assert_eq!(result, "No existing streets");
 }
 
-/// Tests additional streets: the txt output, no ref streets case.
-#[test]
-fn test_streets_view_result_txt_no_ref_streets() {
-    let mut test_wsgi = wsgi::tests::TestWsgi::new();
-    let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
-    let relation = relations.get_relation("gazdagret").unwrap();
-    let hide_path = relation.get_files().get_ref_streets_path();
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_rc);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
-    {
-        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
-        )
-        .unwrap();
-    }
-
-    let result = test_wsgi.get_txt_for_path("/additional-streets/gazdagret/view-result.txt");
-
-    assert_eq!(result, "No reference streets");
-}
-
 /// Tests additional streets: if the view-turbo output is well-formed.
 #[test]
 fn test_streets_view_turbo_well_formed() {
@@ -324,6 +284,8 @@ fn test_streets_view_turbo_well_formed() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
+                "refcounty": "01",
+                "refsettlement": "011",
                 "osmrelation": 42,
             },
         },
@@ -626,6 +588,8 @@ fn test_streets_well_formed() {
             },
         },
         "relation-gazdagret.yaml": {
+            "refcounty": "01",
+            "refsettlement": "011",
             "refstreets": {
                 "Misspelled OSM Name 1": "OSM Name 1",
             },
@@ -703,6 +667,8 @@ fn test_streets_street_from_housenr_well_formed() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gh611": {
+                "refcounty": "40",
+                "refsettlement": "41",
                 "osmrelation": 42,
             },
         },
@@ -778,66 +744,6 @@ fn test_streets_no_osm_streets_well_formed() {
 
     let results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='no-osm-streets']");
     assert_eq!(results.len(), 1);
-}
-
-/// Tests the additional streets page: if the output is well-formed, no ref streets case.
-#[test]
-fn test_streets_no_ref_streets_well_formed() {
-    let mut test_wsgi = wsgi::tests::TestWsgi::new();
-    let hide_path = test_wsgi
-        .get_ctx()
-        .get_abspath("workdir/streets-reference-gazdagret.lst");
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "gazdagret": {
-                "osmrelation": 42,
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let files = context::tests::TestFileSystem::make_files(
-        test_wsgi.get_ctx(),
-        &[("data/yamls.cache", &yamls_cache_value)],
-    );
-    file_system.set_files(&files);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_rc);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
-    {
-        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
-        )
-        .unwrap();
-    }
-
-    let root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result");
-
-    let results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='no-ref-streets']");
-    assert_eq!(results.len(), 1)
 }
 
 /// Tests get_gpx_street_lat_lon(), the case when a "street" is a node.
