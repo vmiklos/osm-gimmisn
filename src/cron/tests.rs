@@ -178,76 +178,6 @@ fn test_update_ref_housenumbers() {
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
 }
 
-/// Tests update_ref_streets().
-#[test]
-fn test_update_ref_streets() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "gazdagret": {
-                "refsettlement": "42",
-                "refcounty": "01",
-                "refsettlement": "011",
-            },
-            "gellerthegy": {
-                "refsettlement": "42",
-            },
-        },
-        "relation-gazdagret.yaml": {
-            "refstreets": {
-                "OSM Name 1": "Ref Name 1",
-            },
-        },
-        "relation-gellerthegy.yaml": {
-            "missing-streets": "no",
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let streets_ref_myrelation1 = context::tests::TestFileSystem::make_file();
-    let streets_ref_myrelation2 = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/streets-reference-gazdagret.lst",
-                &streets_ref_myrelation1,
-            ),
-            (
-                "workdir/streets-reference-gellerthegy.lst",
-                &streets_ref_myrelation2,
-            ),
-        ],
-    );
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/streets-reference-gazdagret.lst");
-    mtimes.insert(
-        path.to_string(),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_files(&files);
-    file_system.set_mtimes(&mtimes);
-    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
-    let mut relations = areas::Relations::new(&ctx).unwrap();
-
-    update_ref_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
-
-    let mtime = ctx.get_file_system().getmtime(&path).unwrap();
-    assert!(mtime > time::OffsetDateTime::UNIX_EPOCH);
-
-    update_ref_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
-
-    assert_eq!(ctx.get_file_system().getmtime(&path).unwrap(), mtime);
-    let actual = context::tests::TestFileSystem::get_content(&streets_ref_myrelation1);
-    let expected = std::fs::read_to_string(&path).unwrap();
-    assert_eq!(actual, expected);
-    // Make sure street ref is not created for the streets=no case.
-    let mut guard = streets_ref_myrelation2.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
-}
-
 /// Tests update_missing_housenumbers().
 #[test]
 fn test_update_missing_housenumbers() {
@@ -1206,7 +1136,6 @@ fn test_our_main() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_streets_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_json = context::tests::TestFileSystem::make_file();
     let template_value = context::tests::TestFileSystem::make_file();
@@ -1223,10 +1152,6 @@ fn test_our_main() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/streets-reference-gazdagret.lst",
-                &ref_streets_value,
-            ),
             (
                 "workdir/street-housenumbers-reference-gazdagret.lst",
                 &ref_housenumbers_value,
@@ -1305,11 +1230,6 @@ fn test_our_main() {
             .is_empty(),
         false
     );
-    // update_ref_streets() is called.
-    {
-        let mut guard = ref_streets_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
-    }
     // update_ref_housenumbers() is called.
     {
         let mut guard = ref_housenumbers_value.borrow_mut();

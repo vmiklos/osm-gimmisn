@@ -466,14 +466,6 @@ fn missing_streets_view_result(
         return Ok(doc);
     }
 
-    if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_ref_streets_path())
-    {
-        doc.append_value(webframe::handle_no_ref_streets(&prefix, relation_name).get_value());
-        return Ok(doc);
-    }
-
     let (todo_count, done_count, percent, mut streets) = relation.write_missing_streets()?;
     streets.sort_by_key(|i| util::get_sort_key(i));
     let mut table = vec![vec![yattag::Doc::from_text(&tr("Street name"))]];
@@ -675,27 +667,22 @@ fn missing_streets_view_txt(
     let relation_name = tokens.next_back().context("no relation_name")?;
     let relation = relations.get_relation(relation_name)?;
 
-    let output: String;
-    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation.get_name())).unwrap() {
-        output = tr("No existing streets");
-    } else if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_ref_streets_path())
-    {
-        output = tr("No reference streets");
-    } else {
-        let (mut todo_streets, _) = relation.get_missing_streets()?;
-        todo_streets.sort_by_key(|i| util::get_sort_key(i));
-        let mut lines: Vec<String> = Vec::new();
-        for street in todo_streets {
-            if chkl {
-                lines.push(format!("[ ] {street}\n"));
-            } else {
-                lines.push(format!("{street}\n"));
+    let output: String =
+        if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation.get_name())).unwrap() {
+            tr("No existing streets")
+        } else {
+            let (mut todo_streets, _) = relation.get_missing_streets()?;
+            todo_streets.sort_by_key(|i| util::get_sort_key(i));
+            let mut lines: Vec<String> = Vec::new();
+            for street in todo_streets {
+                if chkl {
+                    lines.push(format!("[ ] {street}\n"));
+                } else {
+                    lines.push(format!("{street}\n"));
+                }
             }
-        }
-        output = lines.join("");
-    }
+            lines.join("")
+        };
     Ok((output, relation_name.into()))
 }
 

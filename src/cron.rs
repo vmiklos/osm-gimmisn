@@ -153,35 +153,6 @@ fn update_ref_housenumbers(
     Ok(())
 }
 
-/// Update the reference street list of all relations.
-fn update_ref_streets(
-    ctx: &context::Context,
-    relations: &mut areas::Relations<'_>,
-    update: bool,
-) -> anyhow::Result<()> {
-    for relation_name in relations.get_active_names()? {
-        let relation = relations.get_relation(&relation_name)?;
-        if !update
-            && ctx
-                .get_file_system()
-                .path_exists(&relation.get_files().get_ref_streets_path())
-        {
-            continue;
-        }
-        let reference = ctx.get_ini().get_reference_street_path()?;
-        let streets = relation.get_config().should_check_missing_streets();
-        if streets == "no" {
-            continue;
-        }
-
-        info!("update_ref_streets: start: {relation_name}");
-        relation.write_ref_streets(&reference)?;
-        info!("update_ref_streets: end: {relation_name}");
-    }
-
-    Ok(())
-}
-
 /// Update the relation's house number coverage stats.
 fn update_missing_housenumbers(
     relations: &mut areas::Relations<'_>,
@@ -503,7 +474,6 @@ fn our_main_inner(
     if mode == "all" || mode == "relations" {
         update_osm_streets(ctx, relations, update)?;
         update_osm_housenumbers(ctx, relations, update)?;
-        update_ref_streets(ctx, relations, update)?;
         update_ref_housenumbers(ctx, relations, update)?;
         update_missing_streets(relations, update)?;
         update_missing_housenumbers(relations, update)?;

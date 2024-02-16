@@ -616,6 +616,8 @@ fn test_missing_housenumbers_well_formed() {
             },
         },
         "relation-gazdagret.yaml": {
+            "refcounty": "01",
+            "refsettlement": "011",
             "refstreets": {
                 "Misspelled OSM Name 1": "OSM Name 1",
             },
@@ -2018,6 +2020,8 @@ fn test_missing_streets_well_formed() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
+                "refcounty": "01",
+                "refsettlement": "011",
                 "osmrelation": 42,
             },
         },
@@ -2086,6 +2090,8 @@ fn test_missing_streets_well_formed_compat() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
+                "refcounty": "01",
+                "refsettlement": "011",
                 "osmrelation": 42,
             },
         },
@@ -2161,66 +2167,6 @@ fn test_missing_streets_no_osm_streets_well_formed() {
     assert_eq!(results.len(), 1);
 }
 
-/// Tests the missing streets page: if the output is well-formed, no ref streets case.
-#[test]
-fn test_missing_streets_no_ref_streets_well_formed() {
-    let mut test_wsgi = TestWsgi::new();
-    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
-    let relation = relations.get_relation("gazdagret").unwrap();
-    let hide_path = relation.get_files().get_ref_streets_path();
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "gazdagret": {
-                "osmrelation": 2713748,
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let files = context::tests::TestFileSystem::make_files(
-        &test_wsgi.ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
-    );
-    file_system.set_files(&files);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_rc);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
-    {
-        let conn = test_wsgi.ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
-        )
-        .unwrap();
-    }
-
-    let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-result");
-
-    let results = TestWsgi::find_all(&root, "body/div[@id='no-ref-streets']");
-    assert_eq!(results.len(), 1);
-}
-
 /// Tests the missing streets page: the txt output.
 #[test]
 fn test_missing_streets_view_result_txt() {
@@ -2228,6 +2174,8 @@ fn test_missing_streets_view_result_txt() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
+                "refcounty": "01",
+                "refsettlement": "011",
                 "osmrelation": 42,
             },
         },
@@ -2286,6 +2234,8 @@ fn test_missing_streets_view_result_chkl() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
+                "refcounty": "01",
+                "refsettlement": "011",
                 "osmrelation": 42,
             },
         },
@@ -2346,37 +2296,6 @@ fn test_missing_streets_view_result_txt_no_osm_streets() {
     let result = test_wsgi.get_txt_for_path("/missing-streets/gazdagret/view-result.txt");
 
     assert_eq!(result, "No existing streets");
-}
-
-/// Tests the missing streets page: the txt output, no ref streets case.
-#[test]
-fn test_missing_streets_view_result_txt_no_ref_streets() {
-    let mut test_wsgi = TestWsgi::new();
-    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
-    let relation = relations.get_relation("gazdagret").unwrap();
-    let hide_path = relation.get_files().get_ref_streets_path();
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_rc);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
-    {
-        let conn = test_wsgi.ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "my street", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
-        )
-        .unwrap();
-    }
-
-    let result = test_wsgi.get_txt_for_path("/missing-streets/gazdagret/view-result.txt");
-
-    assert_eq!(result, "No reference streets");
 }
 
 /// Tests the missing streets page: if the view-query output is well-formed.
@@ -2879,6 +2798,8 @@ fn test_handle_invalid_refstreets() {
             },
         },
         "relation-gazdagret.yaml": {
+            "refcounty": "01",
+            "refsettlement": "011",
             "refstreets": {
                 "Misspelled OSM Name 1": "OSM Name 1",
             },

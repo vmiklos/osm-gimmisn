@@ -45,7 +45,7 @@ make
 To run a single test:
 
 ```bash
-cargo test --lib -- --exact --nocapture wsgi_json::tests::test_missing_streets_update_result_json
+RUST_BACKTRACE=1 cargo test --lib -- --exact --nocapture wsgi_json::tests::test_missing_streets_update_result_json
 ```
 
 Tests follow the [Favor real dependencies for unit
