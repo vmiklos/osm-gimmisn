@@ -142,15 +142,6 @@ impl RelationFiles {
         format!("{}/additional-cache-{}.json", self.workdir, self.name)
     }
 
-    /// Opens the reference street list of a relation for reading.
-    pub fn get_ref_streets_read_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
-        let path = self.get_ref_streets_path();
-        ctx.get_file_system().open_read(&path)
-    }
-
     /// Opens the reference street list of a relation for wrtiting.
     pub fn get_ref_streets_write_stream(
         &self,

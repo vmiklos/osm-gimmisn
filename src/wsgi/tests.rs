@@ -2306,6 +2306,8 @@ fn test_missing_streets_view_query_well_formed() {
         "relations.yaml": {
             "gazdagret": {
                 "osmrelation": 42,
+                "refcounty": "01",
+                "refsettlement": "011",
             },
         },
     });
