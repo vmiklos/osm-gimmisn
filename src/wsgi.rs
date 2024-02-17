@@ -824,11 +824,22 @@ fn handle_missing_streets(
         doc.append_value(missing_streets_view_turbo(relations, request_uri)?.get_value());
     } else if action == "view-query" {
         let pre = doc.tag("pre", &[]);
-        let stream = relation.get_files().get_ref_streets_read_stream(ctx)?;
-        let mut guard = stream.borrow_mut();
-        let mut buffer: Vec<u8> = Vec::new();
-        guard.read_to_end(&mut buffer)?;
-        pre.text(&String::from_utf8(buffer)?);
+        let mut conn = ctx.get_database_connection()?;
+        let reference = ctx.get_ini().get_reference_street_path()?;
+        util::build_street_reference_index(ctx, &mut conn, &reference)?;
+        let mut lst: Vec<String> = Vec::new();
+        let mut stmt = conn.prepare(
+            "select distinct street from ref_streets where county_code = ?1 and settlement_code = ?2 order by street",
+        )?;
+        let mut rows = stmt.query([
+            &relation.get_config().get_refcounty(),
+            &relation.get_config().get_refsettlement(),
+        ])?;
+        while let Some(row) = rows.next()? {
+            let street: String = row.get(0).unwrap();
+            lst.push(street);
+        }
+        pre.text(&lst.join("\n"));
     } else if action == "update-result" {
         doc.append_value(missing_streets_update(ctx, relations, relation_name)?.get_value());
     } else {
