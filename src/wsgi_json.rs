@@ -107,23 +107,6 @@ fn additional_housenumbers_view_result_json(
     cache::get_additional_housenumbers_json(&mut relation)
 }
 
-/// Expected request_uri: e.g. /osm/missing-streets/ormezo/update-result.json.
-fn missing_streets_update_result_json(
-    ctx: &context::Context,
-    relations: &mut areas::Relations<'_>,
-    request_uri: &str,
-) -> anyhow::Result<String> {
-    let mut tokens = request_uri.split('/');
-    tokens.next_back();
-    let relation_name = tokens.next_back().context("short tokens")?;
-    let reference = ctx.get_ini().get_reference_street_path()?;
-    let relation = relations.get_relation(relation_name)?;
-    let mut ret: HashMap<String, String> = HashMap::new();
-    relation.write_ref_streets(&reference)?;
-    ret.insert("error".into(), "".into());
-    Ok(serde_json::to_string(&ret)?)
-}
-
 /// Dispatches json requests based on their URIs.
 pub fn our_application_json(
     ctx: &context::Context,
@@ -144,12 +127,9 @@ pub fn our_application_json(
             // Assume view-result.json.
             output = missing_housenumbers_view_result_json(relations, request_uri)?;
         }
-    } else if request_uri.starts_with(&format!("{prefix}/additional-housenumbers/")) {
-        // Assume view-result.json.
-        output = additional_housenumbers_view_result_json(relations, request_uri)?;
     } else {
-        // Assume that request_uri starts with prefix + "/missing-streets/".
-        output = missing_streets_update_result_json(ctx, relations, request_uri)?;
+        // Assume /additional-housenumbers/<relation>/view-result.json.
+        output = additional_housenumbers_view_result_json(relations, request_uri)?;
     }
     let output_bytes = output.as_bytes().to_vec();
     headers.push((

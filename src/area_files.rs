@@ -119,11 +119,6 @@ impl RelationFiles {
         }
     }
 
-    /// Build the file name of the reference street list of a relation.
-    pub fn get_ref_streets_path(&self) -> String {
-        format!("{}/streets-reference-{}.lst", self.workdir, self.name)
-    }
-
     /// Build the file name of the reference house number list of a relation.
     pub fn get_ref_housenumbers_path(&self) -> String {
         format!(
@@ -140,15 +135,6 @@ impl RelationFiles {
     /// Builds the file name of the additional house number json cache file of a relation.
     pub fn get_additional_housenumbers_jsoncache_path(&self) -> String {
         format!("{}/additional-cache-{}.json", self.workdir, self.name)
-    }
-
-    /// Opens the reference street list of a relation for wrtiting.
-    pub fn get_ref_streets_write_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        let path = self.get_ref_streets_path();
-        ctx.get_file_system().open_write(&path)
     }
 
     /// Opens the OSM street list of a relation for reading.

@@ -2326,40 +2326,6 @@ fn test_missing_streets_view_query_well_formed() {
     assert_eq!(results.len(), 1);
 }
 
-/// Tests the missing streets page: the update-result output.
-#[test]
-fn test_missing_streets_update_result() {
-    let mut test_wsgi = TestWsgi::new();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "gazdagret": {
-                "osmrelation": 2713748,
-                "refcounty": "01",
-                "refsettlement": "011",
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let streets_value = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/streets-reference-gazdagret.lst", &streets_value),
-        ],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    test_wsgi.ctx.set_file_system(&file_system);
-
-    let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/update-result");
-
-    let mut guard = streets_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
-
-    let results = TestWsgi::find_all(&root, "body/div[@id='update-success']");
-    assert_eq!(results.len(), 1);
-}
-
 /// Tests the missing streets page: the view-turbo output.
 #[test]
 fn test_missing_streets_view_turbo() {

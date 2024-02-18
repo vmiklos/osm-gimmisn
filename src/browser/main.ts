@@ -229,31 +229,6 @@ async function initRedirects()
         }
         return;
     }
-
-    const noRefStreets = document.querySelector("#no-ref-streets");
-    if (noRefStreets)
-    {
-        noRefStreets.removeChild(noRefStreets.childNodes[0]);
-        createLoader(noRefStreets, getOsmString("str-reference-wait"));
-        const relationName = tokens[tokens.length - 2];
-        const link = config.uriPrefix + "/missing-streets/" + relationName + "/update-result.json";
-        const request = new Request(link);
-        try
-        {
-            const response = await window.fetch(request);
-            const refStreets = await response.json();
-            if (refStreets.error != "")
-            {
-                throw refStreets.error;
-            }
-            window.location.reload();
-        }
-        catch (reason)
-        {
-            noRefStreets.textContent += " " + getOsmString("str-reference-error") + reason;
-        }
-        return;
-    }
 }
 
 /**
@@ -351,34 +326,6 @@ async function onUpdateRefHousenumbers()
 }
 
 /**
- * Updates an outdated reference street list for a relation.
- */
-async function onUpdateRefStreets()
-{
-    const tokens = window.location.pathname.split('/');
-
-    const streets = document.querySelector("#trigger-missing-streets-update");
-    createLoader(streets, getOsmString("str-toolbar-reference-wait"));
-    const relationName = tokens[tokens.length - 2];
-    const link = config.uriPrefix + "/missing-streets/" + relationName + "/update-result.json";
-    const request = new Request(link);
-    try
-    {
-        const response = await window.fetch(request);
-        const refStreets = await response.json();
-        if (refStreets.error != "")
-        {
-            throw refStreets.error;
-        }
-        window.location.reload();
-    }
-    catch (reason)
-    {
-        streets.textContent += " " + getOsmString("str-toolbar-reference-error") + reason;
-    }
-}
-
-/**
  * Starts various JSON requests in case some input of a ref vs osm diff is outdated.
  */
 async function initTriggerUpdate()
@@ -405,14 +352,6 @@ async function initTriggerUpdate()
         const missingHousenumbersLink = <HTMLLinkElement>missingHousenumbers.childNodes[0];
         missingHousenumbersLink.onclick = onUpdateRefHousenumbers;
         missingHousenumbersLink.href = "#";
-    }
-
-    const missingStreets = document.querySelector("#trigger-missing-streets-update");
-    if (missingStreets)
-    {
-        const missingStreetsLink = <HTMLLinkElement>missingStreets.childNodes[0];
-        missingStreetsLink.onclick = onUpdateRefStreets;
-        missingStreetsLink.href = "#";
     }
 }
 

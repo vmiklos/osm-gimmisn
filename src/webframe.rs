@@ -124,22 +124,6 @@ fn fill_header_function(
             }
         }
         items.push(doc);
-
-        let doc = yattag::Doc::new();
-        {
-            let span = doc.tag("span", &[("id", "trigger-missing-streets-update")]);
-            {
-                let a = span.tag(
-                    "a",
-                    &[(
-                        "href",
-                        &format!("{prefix}/missing-streets/{relation_name}/update-result"),
-                    )],
-                );
-                a.text(&tr("Update from reference"));
-            }
-        }
-        items.push(doc);
     } else if function == "street-housenumbers" {
         let doc = yattag::Doc::new();
         {
