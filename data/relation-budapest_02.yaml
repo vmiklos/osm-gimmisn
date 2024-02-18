@@ -201,6 +201,9 @@ filters:
   Keleti Károly utca:
     # 41 nincs kiírva, helyén a lelkészség van térképezve a tempommal azonos címen
     invalid: ['41']
+  Kis Rókus utca:
+    # 39: 39a és 39b helyette
+    invalid: ['39']
   Kút utca:
     ranges:
       - {start: '1', end: '15'}
