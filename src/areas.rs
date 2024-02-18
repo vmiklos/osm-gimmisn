@@ -725,38 +725,6 @@ impl<'a> Relation<'a> {
         })
     }
 
-    /// Gets known streets (not their coordinates) from a reference site, based on relation names
-    /// from OSM.
-    pub fn write_ref_streets(&self, reference: &str) -> anyhow::Result<()> {
-        let mut conn = self.ctx.get_database_connection()?;
-        util::build_street_reference_index(self.ctx, &mut conn, reference)?;
-
-        let mut lst: Vec<String> = Vec::new();
-        let mut stmt = conn.prepare(
-            "select street from ref_streets where county_code = ?1 and settlement_code = ?2",
-        )?;
-        let mut rows = stmt.query([
-            &self.config.get_refcounty(),
-            &self.config.get_refsettlement(),
-        ])?;
-        while let Some(row) = rows.next()? {
-            let street: String = row.get(0).unwrap();
-            lst.push(street);
-        }
-
-        lst.sort();
-        lst.dedup();
-        let write = self
-            .file
-            .get_ref_streets_write_stream(self.ctx)
-            .context("get_ref_streets_write_stream() failed")?;
-        let mut guard = write.borrow_mut();
-        for line in lst {
-            guard.write_all((line + "\n").as_bytes())?;
-        }
-        Ok(())
-    }
-
     /// Determines what suffix should the Nth reference use for hours numbers.
     fn get_ref_suffix(index: usize) -> &'static str {
         match index {

@@ -2932,49 +2932,6 @@ fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
     relation.write_ref_housenumbers(&[refpath]).unwrap();
 }
 
-/// Tests Relation::write_ref_streets().
-#[test]
-fn test_relation_write_ref_streets() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let ref_value = context::tests::TestFileSystem::make_file();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "gazdagret": {
-                "osmrelation": 42,
-                "refcounty": "01",
-                "refsettlement": "011",
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            ("workdir/streets-reference-gazdagret.lst", &ref_value),
-            ("data/yamls.cache", &yamls_cache_value),
-        ],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let refdir = ctx.get_abspath("workdir/refs");
-    let refpath = format!("{refdir}/utcak_20190514.tsv");
-    let mut relations = Relations::new(&ctx).unwrap();
-    let relation_name = "gazdagret";
-    let relation = relations.get_relation(relation_name).unwrap();
-    let expected = String::from_utf8(
-        std::fs::read(ctx.get_abspath("workdir/streets-reference-gazdagret.lst")).unwrap(),
-    )
-    .unwrap();
-
-    relation.write_ref_streets(&refpath).unwrap();
-
-    let mut guard = ref_value.borrow_mut();
-    guard.seek(SeekFrom::Start(0)).unwrap();
-    let mut actual: Vec<u8> = Vec::new();
-    guard.read_to_end(&mut actual).unwrap();
-    assert_eq!(String::from_utf8(actual).unwrap(), expected);
-}
-
 /// Tests the Relations struct.
 #[test]
 fn test_relations() {
@@ -3690,17 +3647,12 @@ fn test_relations_is_new() {
     assert_eq!(actual, vec!["myrelation".to_string()]);
 
     // Case 3: active-new is true and myrelation is not new -> myrelation is not found.
-    let ref_streets_value = context::tests::TestFileSystem::make_file();
     let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/streets-reference-myrelation.lst",
-                &ref_streets_value,
-            ),
             (
                 "workdir/street-housenumbers-myrelation.csv",
                 &osm_housenumbers_value,
