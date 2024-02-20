@@ -15,6 +15,10 @@ osm-street-filters:
   - Berdó gyalogos tengely
   - KRESZ park
   - Kálvária régészeti park
+  # Üröm átlógó
+  - Mandula utca
+  - Sadove út
+  - Régi utca
 refstreets:
   'Batsányi utca': 'Batsányi János utca'
   'Batthyány Lajos utca': 'Batthyány utca'
