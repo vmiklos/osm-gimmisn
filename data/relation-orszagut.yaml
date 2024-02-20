@@ -41,6 +41,9 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '54'}
+  Kis Rókus utca:
+    # 39: 39a és 39b helyette
+    invalid: ['39']
   Kitaibel Pál utca:
     ranges:
       - {start: '1', end: '11'}
