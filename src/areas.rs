@@ -1659,6 +1659,26 @@ impl<'a> Relations<'a> {
         Ok(())
     }
 
+    /// If refsettlement is not None, forget about all relations outside that named area.
+    pub fn limit_to_refarea(&mut self, refarea: &Option<&String>) -> anyhow::Result<()> {
+        let refarea: String = match refarea {
+            Some(value) => value.to_string(),
+            None => {
+                return Ok(());
+            }
+        };
+        let relation_names: Vec<String> = self.dict.keys().cloned().collect();
+        for relation_name in relation_names {
+            if relation_name == refarea {
+                continue;
+            }
+
+            self.dict.remove(&relation_name);
+        }
+
+        Ok(())
+    }
+
     /// Produces refsettlement IDs of a refcounty.
     pub fn refcounty_get_refsettlement_ids(&self, refcounty_name: &str) -> Vec<String> {
         let refcounty = match self.refsettlement_names.get(refcounty_name) {

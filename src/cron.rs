@@ -509,6 +509,9 @@ pub fn our_main(
     let refsettlement = clap::Arg::new("refsettlement")
         .long("refsettlement")
         .help("limit the list of relations to a given refsettlement");
+    let refarea = clap::Arg::new("refarea")
+        .long("refarea")
+        .help("limit the list of relations to a given area name");
     // Default: true.
     let no_update = clap::Arg::new("no-update")
         .long("no-update")
@@ -522,7 +525,14 @@ pub fn our_main(
         .long("no-overpass")
         .action(clap::ArgAction::SetTrue)
         .help("when updating stats, don't perform any overpass update");
-    let args = [refcounty, refsettlement, no_update, mode, no_overpass];
+    let args = [
+        refcounty,
+        refsettlement,
+        refarea,
+        no_update,
+        mode,
+        no_overpass,
+    ];
     let app = clap::Command::new("osm-gimmisn");
     let args = app.args(&args).try_get_matches_from(argv)?;
 
@@ -538,6 +548,8 @@ pub fn our_main(
     // Use map(), which handles optional values.
     let refsettlement: Option<&String> = args.get_one("refsettlement");
     relations.limit_to_refsettlement(&refsettlement)?;
+    let refarea: Option<&String> = args.get_one("refarea");
+    relations.limit_to_refarea(&refarea)?;
     let update = !args.get_one::<bool>("no-update").unwrap();
     let overpass = !args.get_one::<bool>("no-overpass").unwrap();
     our_main_inner(
