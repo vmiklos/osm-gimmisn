@@ -156,8 +156,9 @@ filters:
   Zrínyi utca:
     invalid: ['393']
 street-filters:
-  # Nem igazi utca
+  # Nem igazi utcák
   - Gátőrház
+  - Váci-rév
   # Dűlők
   - Alsókáposztások dűlő
   - Felsőszérűk dűlő
@@ -174,8 +175,6 @@ osm-street-filters:
   # Dűlők
   - Szentpéter I.B. dűlő
   # Területhatáron lévő utca
-#street-filters:
-  # Tanyák
 refstreets:
   # 'Duna sor': 'Dunasor' - tábla nincs, tervben Dunasor
   # 'Felsőszérűk utca': 'Felsőszérűk dűlő'
