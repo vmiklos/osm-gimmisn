@@ -189,9 +189,8 @@ filters:
       - {start: '5', end: '99'}
       - {start: '6', end: '98'}
   Káplár utca:
-    ranges:
-      - {start: '1', end: '19'}
-      - {start: '2', end: '12'}
+    # 1-19, 2-12; 2/b, 2/c & 2/d; 10/a & 10/b
+    invalid: ['2', '10', '25']
   Kapor utca:
     invalid: ['2']
   Kapy utca:
