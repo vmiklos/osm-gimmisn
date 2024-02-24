@@ -138,9 +138,6 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  Váci-rév:
-    # hrsz szűrés
-    invalid: ['154']
   Villasor:
     show-refstreet: false
     ranges:
