@@ -201,12 +201,14 @@ filters:
     invalid: ['1']
 source: survey
 osm-street-filters:
-  # Nem igazi utcák
-  - Ferencziek Bazára
+  # parkok
+  - Bástya park
   - Károlyi kert
   - Olimpia park
+  - Városháza park
+  # Nem igazi utcák
+  - Ferencziek Bazára
   - Salkaházi Sára rakpart  # a Pesti alsó rakpart nevét a Lánchíd és az Erzsébet híd között Jane Haning rakpartra, a Szabadság híd és a IX. kerület Közraktár utca között Salkaházi Sára rakpartra változtatták meg, így az V. kerületi szakasz hivatalosan továbbra is Pesti alsó rakpart lenne, de olyan meg nincs már az utcanévjegyzékben.
   - Széchenyi lánchíd
-  - Városháza park
 inactive: true
 housenumber-letters: true
