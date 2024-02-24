@@ -9,6 +9,7 @@ osm-street-filters:
   - Erzsébet park
   - Gödöllői Arborétum
   - Mária kert
+  - Manna-kert
   - Meseösvény
   - Nemzeti Együvé Tartozás Parkja
   - Rét
@@ -80,7 +81,6 @@ refstreets:
   'Csillagfürt út': 'Csillagfürt utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Ganz Ábrahám út': 'Ganz Ábrahám utca'
-  'Haraszti út': 'Haraszti utca'
   'Kenyérgyári út': 'Kenyérgyári utca'
   'Klapka György utca': 'Klapka György út'
   'Klebelsberg Kunó utca': 'Klebelsberg Kuno utca'
