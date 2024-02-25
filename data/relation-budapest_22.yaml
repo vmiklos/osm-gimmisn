@@ -1274,6 +1274,9 @@ filters:
     # 43: a páratlan oldalon a 41 az utolsó házszám.
     # 2/a: nincs ilyen, csak sima 2 és 2-4 van.
     invalid: ['7/4', '11', '21', '31', '43', '2a']
+  Virágoskert utca:
+    # 15/a: nincs ilyen, csak sima 15 van.
+    invalid: ['15a']
   Vitéz utca:
     # 12: sima 12 nincs, csak 12/a, 12/b.
     invalid: ['12']
