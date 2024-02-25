@@ -212,6 +212,13 @@ filters:
     # 13: ez és a Vihar utca 22. közös telken van, házszám a Vihar utcáról van csak.
     # 147/a: a páratlan oldalon a 23 az utolsó valós házszám, az utcanévtáblán pedig a 25.
     invalid: ['13', '147a']
+  Csút utca:
+    # 2: sima 2 nincs, csak 2/a, 2/b.
+    # 4: sima 4 nincs, csak 4/a, 4/b, 4/c.
+    # 6: sima 6 nincs, csak 6/a, 6/b, 6/c.
+    # 8: sima 8 nincs, csak 8/a, 8/b, 8/c.
+    # 10: sima 10 nincs, csak 10/a, 10/b, 10/c.
+    invalid: ['2', '4', '6', '8', '10']
   Dalkör utca:
     # 5: sima 5 nincs, csak 5/1, 5/2, 5/3.
     # 15: sima 15 nincs, csak 15/a, 15/b.
