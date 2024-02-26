@@ -23,7 +23,7 @@ filters:
   Hatlópatak utca:
     # 233/37: ez helyrajzi szám, nem házszám.
     # 202/2: ez helyrajzi szám, nem házszám.
-    invalid: ['233/37', '202/2']
+    invalid: ['233', '202/2']
   Jókai Mór utca:
     show-refstreet: false
   Kisújhegy utca:
@@ -39,7 +39,7 @@ filters:
     invalid: ['967/1', '979/2', '979/5', '983/1', '958/1', '976/8', '980/4', '994/2', '994/3']
   Kóspallagi út:
     # 356/13: ez helyrajzi szám, nem házszám.
-    invalid: ['356/13']
+    invalid: ['356']
   Liliom utca:
     # 411/2: ez helyrajzi szám, nem házszám.
     # 426/2: ez helyrajzi szám, nem házszám.
