@@ -2,9 +2,91 @@ missing-streets: 'yes'
 filters:
   Béla király sétány:
     show-refstreet: false
+  Elsővölgy utca:
+    # 793/4: ez helyrajzi szám, nem házszám.
+    # 793/8: ez helyrajzi szám, nem házszám.
+    # 795/1: ez helyrajzi szám, nem házszám.
+    # 943: ez helyrajzi szám, nem házszám.
+    # 951: ez helyrajzi szám, nem házszám.
+    # 955/1: ez helyrajzi szám, nem házszám.
+    # 880/2 ez helyrajzi szám, nem házszám.
+    # 898/2: ez helyrajzi szám, nem házszám.
+    # 944: ez helyrajzi szám, nem házszám.
+    # 950: ez helyrajzi szám, nem házszám.
+    invalid: ['793/4', '793/8', '795/1', '943', '951', '955/1', '880/2', '898/2', '944', '950']
+  Fehérhegy utca:
+    # 706/2: ez helyrajzi szám, nem házszám.
+    invalid: ['706/2']
+  Foglár dűlő:
+    # 643: ez helyrajzi szám, nem házszám.
+    invalid: ['643']
+  Hatlópatak utca:
+    # 233/37: ez helyrajzi szám, nem házszám.
+    # 202/2: ez helyrajzi szám, nem házszám.
+    invalid: ['233/37', '202/2']
   Jókai Mór utca:
     show-refstreet: false
+  Kisújhegy utca:
+    # 967/1: ez helyrajzi szám, nem házszám.
+    # 979/2: ez helyrajzi szám, nem házszám.
+    # 979/5: ez helyrajzi szám, nem házszám.
+    # 983/1: ez helyrajzi szám, nem házszám.
+    # 958/1: ez helyrajzi szám, nem házszám.
+    # 976/8: ez helyrajzi szám, nem házszám.
+    # 980/4: ez helyrajzi szám, nem házszám.
+    # 994/2: ez helyrajzi szám, nem házszám.
+    # 994/3: ez helyrajzi szám, nem házszám.
+    invalid: ['967/1', '979/2', '979/5', '983/1', '958/1', '976/8', '980/4', '994/2', '994/3']
+  Kóspallagi út:
+    # 356/13: ez helyrajzi szám, nem házszám.
+    invalid: ['356/13']
+  Liliom utca:
+    # 411/2: ez helyrajzi szám, nem házszám.
+    # 426/2: ez helyrajzi szám, nem házszám.
+    invalid: ['411/2', '426/2']
+  Mihály utca:
+    # 214: ez helyrajzi szám, nem házszám.
+    invalid: ['214']
+  Nefelejcs köz:
+    # 899/6: ez helyrajzi szám, nem házszám.
+    invalid: ['899/6']
+  Pacsirta utca:
+    # 293/1: ez helyrajzi szám, nem házszám.
+    # 293/2: ez helyrajzi szám, nem házszám.
+    # 288/4: ez helyrajzi szám, nem házszám.
+    # 296/1: ez helyrajzi szám, nem házszám.
+    # 340/5: ez helyrajzi szám, nem házszám.
+    invalid: ['293/1', '293/2', '288/4', '296/1', '340/5']
+  Rigóhegy utca:
+    # 150/2: ez helyrajzi szám, nem házszám.
+    invalid: ['150/2']
+  Szamaras hegy:
+    # 417/3: ez helyrajzi szám, nem házszám.
+    # 417/4: ez helyrajzi szám, nem házszám.
+    # 360/1: ez helyrajzi szám, nem házszám.
+    # 362: ez helyrajzi szám, nem házszám.
+    invalid: ['417/3', '417/4', '360/1', '362']
+  Szamaras út:
+    # 393: ez helyrajzi szám, nem házszám.
+    invalid: ['393']
+  Szent Mihály utca:
+    # 217/1: ez helyrajzi szám, nem házszám.
+    # 235/2: ez helyrajzi szám, nem házszám.
+    # 261/3: ez helyrajzi szám, nem házszám.
+    # 287: ez helyrajzi szám, nem házszám.
+    # 293/3: ez helyrajzi szám, nem házszám.
+    # 299: ez helyrajzi szám, nem házszám.
+    # 220/1: ez helyrajzi szám, nem házszám.
+    # 254: ez helyrajzi szám, nem házszám.
+    # 288/1: ez helyrajzi szám, nem házszám.
+    # 288/5: ez helyrajzi szám, nem házszám.
+    # 300/1: ez helyrajzi szám, nem házszám.
+    invalid: ['217/1', '235/2', '261/3', '287', '293/3', '299', '220/1', '254', '288/1', '288/5', '300/1']
+  Törökmező turistaház:
+    # 248/3: ez helyrajzi szám, nem házszám.
+    invalid: ['248/3']
   Zöldfa utca:
+    # 146: ez helyrajzi szám, nem házszám.
     invalid: ['146']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
@@ -25,19 +107,11 @@ refstreets:
   # 'Villasor utca': 'Villa sor' -- Villa sor a helyes
 osm-street-filters:
   # nem igazi utcák
-  - 1-2. vágány peron
-  - 2-3. vágány peron
-  - 4-5. vágány peron
   - Beatrix királynő kerékpárút
-  - Vízáteresztő alagút
   # turistautak
   - Első-árok
-  - Gesztenyés tanösvény
-  - Gesztenyés / Törökmezői tanösvény
   - Kút-völgy
   - Rizs-völgy
-  - Törökmezői tanösvény
-  - Törökmező turistaház-Tanösvény
   # parkok
   - Dám (Loreley/Erzsébet-pihenő)
   - Fűzfa liget
@@ -45,10 +119,17 @@ osm-street-filters:
   - Papkert
   # hrsz
   - 10710/5 utca
-  - 13352 hrsz. közút
   - 2416/10 út
   - 788/1 utca
   - 867/5 utca
+street-filters:
+  # nem igazi utcák
+  - 143. őrház
+  - 144. őrház
+  - 146. őrház
+  - 147. őrház
+  - 148. őrház
+  - Vasútállomás
 source: survey
 housenumber-letters: true
 inactive: true
