@@ -50,4 +50,5 @@ osm-street-filters:
   - 788/1 utca
   - 867/5 utca
 source: survey
+housenumber-letters: true
 inactive: true
