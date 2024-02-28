@@ -555,22 +555,16 @@ fn test_relation_get_osm_streets() {
 #[test]
 fn test_relation_get_osm_streets_street_is_node() {
     let ctx = context::tests::make_test_context().unwrap();
-    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gh830", "3136661536", "Bártfai utca", "52/b", "1115", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["housenumbers/gh830", &mtime],
+        conn.execute_batch(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('myrelation', '3136661536', 'Bártfai utca', '52/b', '1115', '', '', '', '', '', '', '', '', 'node');
+             insert into mtimes (page, last_modified) values ('housenumbers/myrelation', '0')",
         )
         .unwrap();
     }
     let mut relations = Relations::new(&ctx).unwrap();
-    let relation = relations.get_relation("gh830").unwrap();
+    let relation = relations.get_relation("myrelation").unwrap();
     let actual = relation.get_osm_streets(/*sorted_result=*/ true).unwrap();
     assert_eq!(actual.len(), 1);
     assert_eq!(actual[0].get_osm_type(), "node");
