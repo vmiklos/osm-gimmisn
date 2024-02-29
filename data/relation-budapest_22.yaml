@@ -1335,6 +1335,9 @@ filters:
     # 40: sima 40 nincs, csak 40/a, 40/b.
     # 434: a páratlan oldalon a 43 az utolsó házszám.
     invalid: ['9', '9d', '11', '13', '22', '40', '434']
+  Zoltán utca:
+    # 14: sima 14 nincs, csak 14/1, 14/2.
+    invalid: ['14']
   Zöldike utca:
     # 8: sima 8 nincs, csak 8/1, 8/2.
     invalid: ['8']
