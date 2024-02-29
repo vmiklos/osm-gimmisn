@@ -154,11 +154,12 @@ filters:
     # TODO: A Bem József utca 7. és az Avar utca 7. közös telken van, nem egyértelmű, hogy a házszám melyik utcához tartozik. Valószínűleg az Avar utcához.
     # 9: ez és a Görög utca 1. közös telken van, házszám a Görög utcáról van csak.
     # 11/a: nincs ilyen, csak 11, 11/b.
+    # 13: nincs ilyen, csak 13/a van.
     # 17: sima 17 nincs, csak 17/a, 17/b.
     # 23: ez és a Gádor utca 84. közös telken van, házszám a Gádor utcáról van csak.
     # 2/b: nincs ilyen, csak sima 2 van.
     # 16/f: nincs ilyen, csak sima 16 van.
-    invalid: ['9', '11a', '17', '23', '2b', '16f']
+    invalid: ['9', '11a', '13', '17', '23', '2b', '16f']
   Bérkocsi utca:
     # 25: sima 25 nincs, csak 25/a, 25/b.
     # 37/a: nincs ilyen, csak sima 37 van.
