@@ -494,10 +494,7 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '12'}
-  Csíkihegyek utca:
-    ranges:
-      - {start: '1', end: '15'}
-      - {start: '2', end: '26'}
+  # Csiki-hegyek utca:
   Csóka utca:
     invalid: ['2a', '3', '3h', '5b', '9j']
     ranges:
@@ -2688,7 +2685,6 @@ refstreets:
   'Alsóhegy lépcső': 'Alsóhegyi lépcső'  # tábla hiba
   'Boldizsár utca': 'Boldizsár út'
   'Citadella utca': 'Citadella út'  # Vegyesen vannak a táblák
-  'Csíkihegyek utca': 'Csiki-hegyek utca'
   'Felső határút': 'Felső határ út'
   'Gombocz Zoltán utca': 'Gombócz Zoltán utca'
   'Henryk Sławik rakpart': 'Henryk Slawik rakpart'
