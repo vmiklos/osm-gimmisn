@@ -31,7 +31,6 @@ filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bulcsú vezér utca': 'Bulcsu vezér utca' # Budaliget
-  'Díszfű utca': 'Diszfű utca'  # Budaliget
   'Rézsű utca': 'Rézsü utca'  # Adyliget/Máriaremete
   'Szép Ilona utca': 'Szépilona utca'  # Erzsébettelek
 source: survey
