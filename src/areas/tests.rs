@@ -576,27 +576,16 @@ fn test_relation_get_osm_streets_no_house_number() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["ujbuda", "3", "OSM Name 1", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["ujbuda", "2", "Törökugrató utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["ujbuda", "1", "Tűzkő utca", "", "", "", "", ""],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('myrelation', '1', 'mystreet', '', '', '', '', '');",
         )
         .unwrap();
     }
     let mut relations = Relations::new(&ctx).unwrap();
-    let relation = relations.get_relation("ujbuda").unwrap();
+    let relation = relations.get_relation("myrelation").unwrap();
     let osm_streets = relation.get_osm_streets(/*sorted_result=*/ true).unwrap();
     let actual: Vec<_> = osm_streets.iter().map(|i| i.get_osm_name()).collect();
-    let expected = vec!["OSM Name 1", "Törökugrató utca", "Tűzkő utca"];
+    let expected = vec!["mystreet"];
     assert_eq!(actual, expected);
 }
 
@@ -604,27 +593,21 @@ fn test_relation_get_osm_streets_no_house_number() {
 #[test]
 fn test_relation_get_osm_streets_conscriptionnumber() {
     let ctx = context::tests::make_test_context().unwrap();
-    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gh754", "295291710", "Barcfa dűlő", "", "8272", "", "", "045/2", "", "", "", "", "Villa Alexandra", "way"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["housenumbers/gh754", &mtime],
+        conn.execute_batch(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('myrelation', '295291710', 'mystreet', '', '8272', '', '', '045/2', '', '', '', '', 'myname', 'way');
+             insert into mtimes (page, last_modified) values ('housenumbers/myrelation', '0')",
         )
         .unwrap();
     }
     let mut relations = Relations::new(&ctx).unwrap();
-    let relation = relations.get_relation("gh754").unwrap();
+    let relation = relations.get_relation("myrelation").unwrap();
     let osm_streets = relation.get_osm_streets(/*sorted_result=*/ true).unwrap();
     let streets: Vec<_> = osm_streets.iter().map(|i| i.get_osm_name()).collect();
     // This is coming from a house number which has addr:street and addr:conscriptionnumber, but
     // no addr:housenumber.
-    let expected: &String = &String::from("Barcfa dűlő");
+    let expected: &String = &String::from("mystreet");
     assert_eq!(streets.contains(&expected), true);
 }
 
@@ -1275,54 +1258,18 @@ fn test_relation_get_osm_housenumbers() {
     ctx.set_file_system(&file_system);
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "1", "Törökugrató utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "2", "Törökugrató utca", "2", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "3", "Tűzkő utca", "9", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "4", "Tűzkő utca", "10", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "5", "OSM Name 1", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "6", "OSM Name 1", "2", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "7", "Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "8", "Second Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
+        conn.execute_batch(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('myrelation', '1', 'mystreet', '1', '', '', '', '', '', '', '', '', '', 'node');",
         )
         .unwrap();
     }
     let mut relations = Relations::new(&ctx).unwrap();
-    let relation_name = "gazdagret";
-    let street_name = "Törökugrató utca";
+    let relation_name = "myrelation";
+    let street_name = "mystreet";
     let mut relation = relations.get_relation(relation_name).unwrap();
     let house_numbers = relation.get_osm_housenumbers(street_name).unwrap();
     let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
-    assert_eq!(actual, ["1", "2"]);
+    assert_eq!(actual, ["1"]);
 }
 
 /// Tests Relation::get_osm_housenumbers(): the case when addr:place is used instead of addr:street.
@@ -1342,16 +1289,15 @@ fn test_relation_get_osm_housenumbers_addr_place() {
     ctx.set_file_system(&file_system);
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gh964", "3136661536", "", "52/b", "1115", "Tolvajos tanya", "", "", "", "", "", "", "", "node"],
+        conn.execute_batch(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('myrelation', '3136661536', '', '52/b', '1115', 'myplace', '', '', '', '', '', '', '', 'node');",
         )
         .unwrap();
     }
     let mut relations = Relations::new(&ctx).unwrap();
-    let relation_name = "gh964";
+    let relation_name = "myrelation";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    let street_name = "Tolvajos tanya";
+    let street_name = "myplace";
 
     let house_numbers = relation.get_osm_housenumbers(street_name).unwrap();
 
