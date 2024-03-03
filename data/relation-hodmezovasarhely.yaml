@@ -23,10 +23,12 @@ street-filters:
   - Szikáncs Dózsa Gy. utca  # Szikáncs/Kútvölgy is Dózsa György utca osm-en
   - Szikáncs Petőfi Sándor utca  # Szikács/Kútvölgy is Petőfi utca osm-en
   - Üdülő Szeder utca  # nem mappelhető, mert van sima Szerer utca is
+  - Erzsébet Erzsébet utca  # van Erzsébeti út
   # nem igazi utcák
   - Nagyállomás vasútállomás
   - Porcelángyár munkásszálló
   # tanyák
+  - Bodzás part
   - Bővehalom tanya
   - Ciriák tanya
   - Csókási puszta
