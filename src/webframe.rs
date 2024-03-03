@@ -181,6 +181,22 @@ fn fill_header_function(
             a.text(&tr("View query"));
         }
         items.push(doc);
+    } else if function == "invalid-addr-cities" {
+        let doc = yattag::Doc::new();
+        {
+            let span = doc.tag("span", &[("id", "trigger-invalid-addr-cities-update")]);
+            {
+                let a = span.tag(
+                    "a",
+                    &[(
+                        "href",
+                        &format!("{prefix}/lints/whole-country/invalid-addr-cities/update-result"),
+                    )],
+                );
+                a.text(&tr("Update from OSM"));
+            }
+        }
+        items.push(doc);
     }
     Ok(items)
 }
@@ -712,7 +728,7 @@ fn handle_invalid_addr_cities(
         get_toolbar(
             ctx,
             Some(relations),
-            /*function=*/ "",
+            /*function=*/ "invalid-addr-cities",
             /*relation_name=*/ "",
             /*relation_osmid=*/ 0,
         )?
