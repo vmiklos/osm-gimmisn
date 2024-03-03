@@ -12,6 +12,7 @@
 
 use crate::areas;
 use crate::context;
+use crate::cron;
 use crate::i18n::translate as tr;
 use crate::stats;
 use crate::util;
@@ -784,6 +785,37 @@ fn handle_invalid_addr_cities(
     Ok(doc)
 }
 
+/// Expected request uri: /lints/whole-country/invalid-addr-cities/update-result.
+fn handle_invalid_addr_cities_update(
+    ctx: &context::Context,
+    relations: &mut areas::Relations<'_>,
+) -> anyhow::Result<yattag::Doc> {
+    cron::update_stats_overpass(ctx)?;
+    let statedir = ctx.get_abspath("workdir/stats");
+    stats::update_invalid_addr_cities(ctx, &statedir)?;
+
+    let doc = yattag::Doc::new();
+    doc.append_value(
+        get_toolbar(
+            ctx,
+            Some(relations),
+            /*function=*/ "",
+            /*relation_name=*/ "",
+            /*relation_osmid=*/ 0,
+        )?
+        .get_value(),
+    );
+
+    doc.text(&tr("Update successful: "));
+    let prefix = ctx.get_ini().get_uri_prefix();
+    let link = format!("{prefix}/lints/whole-country/invalid-addr-cities");
+    doc.append_value(util::gen_link(&link, &tr("View updated result")).get_value());
+
+    let date = format_timestamp(&stats::get_sql_mtime(ctx, "stats/invalid-addr-cities")?)?;
+    doc.append_value(get_footer(&date).get_value());
+    Ok(doc)
+}
+
 /// Expected request_uri: e.g. /osm/lints/whole-country/invalid-relations."""
 fn handle_invalid_refstreets(
     ctx: &context::Context,
@@ -1040,6 +1072,10 @@ pub fn handle_lints(
 
     if request_uri.ends_with("/invalid-addr-cities") {
         return handle_invalid_addr_cities(ctx, relations);
+    }
+
+    if request_uri.ends_with("/invalid-addr-cities/update-result") {
+        return handle_invalid_addr_cities_update(ctx, relations);
     }
 
     let doc = yattag::Doc::new();
