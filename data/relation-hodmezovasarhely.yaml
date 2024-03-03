@@ -1,11 +1,61 @@
 missing-streets: 'yes'
-#osm-street-filters:
+osm-street-filters:
   # Nem igazi utca
+  - Ártéri bemutatóhely feltáróhíd
+  # parkok
+  - Batida park
+  - Európa park
+  - Kórház park
+  - Népkert
+  - Tiszapart sétány
+  # dűlők
+  - Búzás dűlő
+  - Csókás-dűlő
+  - Hatrongyosi dűlő
+  - III. számú dűlő
+  - Kollektív Művésztelep, alkotóházak
+  - Kútvölgyi dűlő
   # Parkok, sétautak amire nincs számozva semmi
   # Területhatáron lévő utca
 street-filters:
+  # nem mappelhető, dupla utcanév osm-ben
   - Szikáncs Ady Endre utca  # nem mappelhető, mert van sima Ady Endre utca is
+  - Szikáncs Dózsa Gy. utca  # Szikáncs/Kútvölgy is Dózsa György utca osm-en
+  - Szikáncs Petőfi Sándor utca  # Szikács/Kútvölgy is Petőfi utca osm-en
   - Üdülő Szeder utca  # nem mappelhető, mert van sima Szerer utca is
+  # nem igazi utcák
+  - Nagyállomás vasútállomás
+  - Porcelángyár munkásszálló
+  # tanyák
+  - Bővehalom tanya
+  - Ciriák tanya
+  - Csókási puszta
+  - Dilinka tanya
+  - Endrei telep
+  - Gorzsa tanya
+  - Hatrongyosi tanya
+  - Hódtó tanya
+  - Katraszél tanya
+  - Kéktó puszta
+  - Kenyere part
+  - Kistóvölgy tanya
+  - Kopáncs tanya
+  - Kútvölgy tanya
+  - Lúdvár tanya
+  - Nagyrét tanya
+  - Nagysziget tanya
+  - Nyomásszél tanya
+  - Palé tanya
+  - Pusztaszél tanya
+  - Rárós puszta
+  - Répáshát tanya
+  - Sóshalom tanya
+  - Szentkirály tanya
+  - Szőrhát tanya
+  - Táncoshalom tanya
+  - Téglás part
+  - Tisza szél
+  - Vajhát tanya
 refstreets:
   'Ady Endre utca': 'Ady Endre út'  # van Szikáncs Ady is
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
@@ -46,14 +96,14 @@ refstreets:
   'Vasvári utca': 'Erzsébet Vasvári utca'
   # Kútvölgy
   'Bem József utca': 'Kútvölgy Bem József utca'
-  # 'Dózsa György utca': 'Kútvölgy Dózsa György út' - Kútvölgy/Szikáncs ugyanaz a név nem mappelhető
-  # 'Petőfi utca': 'Kútvölgy Petőfi utca' - Kútvölgy/Szikáncs ugyanaz a név nem mappelhető
+  'Dózsa György utca': 'Kútvölgy Dózsa György út' # Kútvölgy/Szikáncs ugyanaz a név
+  'Petőfi utca': 'Kútvölgy Petőfi utca'   # Kútvölgy/Szikáncs ugyanaz a név
   'Rákóczi utca': 'Kútvölgy Rákóczi utca'
   'Táncsics Mihály utca': 'Kútvölgy Táncsics M. utca'
   # Szikáncs
   'Ács Lajos utca': 'Szikáncs Ács Lajos utca'
   # 'Ady Endre utca': 'Szikáncs Ady Endre utca'  * nem mappelhető, van sima Ady Endre utca is
-  'Dózsa György utca': 'Szikáncs Dózsa Gy. utca' # Kútvölgy/Szikáncs is Dózsa György utca
+  # 'Dózsa György utca': 'Szikáncs Dózsa Gy. utca' # Kútvölgy/Szikáncs is Dózsa György utca
   'Fő utca': 'Szikáncs Fő utca'
   'Hétvezér tér': 'Szikáncs Hét vezér tér'
   # 'Petőfi utca': 'Szikáncs Petőfi Sándor utca' - Kútvölgy/Szikáncs ugyanaz a név nem mappelhető
