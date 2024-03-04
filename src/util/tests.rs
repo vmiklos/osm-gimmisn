@@ -293,7 +293,7 @@ fn test_setup_localization_parse_error() {
 #[test]
 fn test_gen_link() {
     let doc = gen_link("http://www.example.com", "label");
-    let expected = r#"<a href="http://www.example.com">label...</a>"#;
+    let expected = r#"<a href="http://www.example.com">label</a>"#;
     assert_eq!(doc.get_value(), expected);
 }
 

@@ -766,7 +766,7 @@ pub fn setup_localization(ctx: &context::Context, headers: rouille::HeadersIter<
 pub fn gen_link(url: &str, label: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
     let a = doc.tag("a", &[("href", url)]);
-    a.text(&(label.to_string() + "..."));
+    a.text(label);
     doc
 }
 
