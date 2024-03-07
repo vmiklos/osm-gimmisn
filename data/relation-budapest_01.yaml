@@ -146,7 +146,9 @@ filters:
       - {start: '2', end: '2'}
   Krisztina körút:
     # 61: sima 61 nincs, csak 61/a, 61/b.
-    invalid: ['61']
+    # 75/a: nincs ilyen, csak sima 75 van.
+    # 75/b: nincs ilyen, csak sima 75 van.
+    invalid: ['61', '75a', '75b']
   Krisztina tér:
     interpolation: 'all'
     # 37: a 10 az utolsó házszám.
@@ -160,8 +162,10 @@ filters:
     # 2-3: hibás házszám, a páros oldalon nincsenek épületek, a páratlan oldalon pedig az 5 az első házszám.
     invalid: ['1', '2', '3']
   Logodi utca:
+    # 19: sima 19 nincs, 19/a-b van kitáblázva.
+    # 27: sima 27 nincs, csak 27/a, 27/b.
     # 78: sima 78 nincs, csak 78/a, 78/b.
-    invalid: ['78']
+    invalid: ['19', '27', '78']
   Lovas út:
     interpolation: 'all'
     # 6: sima 6 nincs, csak 6/a, 6/b.
