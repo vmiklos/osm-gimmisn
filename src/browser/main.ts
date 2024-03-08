@@ -326,6 +326,32 @@ async function onUpdateRefHousenumbers()
 }
 
 /**
+ * Updates an outdated invalid-addr-cities list.
+ */
+async function onUpdateInvalidAddrCities()
+{
+    const invalidAddrCities = document.querySelector("#trigger-invalid-addr-cities-update");
+    invalidAddrCities.removeChild(invalidAddrCities.childNodes[0]);
+    createLoader(invalidAddrCities, getOsmString("str-toolbar-overpass-wait"));
+    const link = config.uriPrefix + "/lints/whole-country/invalid-addr-cities/update-result.json";
+    const request = new Request(link);
+    try
+    {
+        const response = await window.fetch(request);
+        const ret = await response.json();
+        if (ret.error != "")
+        {
+            throw ret.error;
+        }
+        window.location.reload();
+    }
+    catch (reason)
+    {
+        invalidAddrCities.textContent += " " + getOsmString("str-toolbar-overpass-error") + reason;
+    }
+}
+
+/**
  * Starts various JSON requests in case some input of a ref vs osm diff is outdated.
  */
 async function initTriggerUpdate()
@@ -353,10 +379,17 @@ async function initTriggerUpdate()
         missingHousenumbersLink.onclick = onUpdateRefHousenumbers;
         missingHousenumbersLink.href = "#";
     }
+
+    const invalidAddrCities = document.querySelector("#trigger-invalid-addr-cities-update");
+    if (invalidAddrCities)
+    {
+        const link = <HTMLLinkElement>invalidAddrCities.childNodes[0];
+        link.onclick = onUpdateInvalidAddrCities;
+        link.href = "#";
+    }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-document.addEventListener("DOMContentLoaded", async function(event) {
+document.addEventListener("DOMContentLoaded", async function() {
     initGps();
     initRedirects();
     initTriggerUpdate();
