@@ -801,14 +801,27 @@ fn handle_invalid_addr_cities(
     Ok(doc)
 }
 
-/// Expected request uri: /lints/whole-country/invalid-addr-cities/update-result.
-fn handle_invalid_addr_cities_update(
-    ctx: &context::Context,
-    relations: &mut areas::Relations<'_>,
-) -> anyhow::Result<yattag::Doc> {
+fn handle_invalid_addr_cities_update(ctx: &context::Context) -> anyhow::Result<()> {
     cron::update_stats_overpass(ctx)?;
     let statedir = ctx.get_abspath("workdir/stats");
     stats::update_invalid_addr_cities(ctx, &statedir)?;
+    Ok(())
+}
+
+/// Expected request uri: /lints/whole-country/invalid-addr-cities/update-result.json.
+pub fn handle_invalid_addr_cities_update_json(ctx: &context::Context) -> anyhow::Result<String> {
+    handle_invalid_addr_cities_update(ctx)?;
+    let mut ret: HashMap<String, String> = HashMap::new();
+    ret.insert("error".into(), "".into());
+    Ok(serde_json::to_string(&ret)?)
+}
+
+/// Expected request uri: /lints/whole-country/invalid-addr-cities/update-result.
+fn handle_invalid_addr_cities_update_html(
+    ctx: &context::Context,
+    relations: &mut areas::Relations<'_>,
+) -> anyhow::Result<yattag::Doc> {
+    handle_invalid_addr_cities_update(ctx)?;
 
     let doc = yattag::Doc::new();
     doc.append_value(
@@ -1091,7 +1104,7 @@ pub fn handle_lints(
     }
 
     if request_uri.ends_with("/invalid-addr-cities/update-result") {
-        return handle_invalid_addr_cities_update(ctx, relations);
+        return handle_invalid_addr_cities_update_html(ctx, relations);
     }
 
     let doc = yattag::Doc::new();

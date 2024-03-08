@@ -297,6 +297,7 @@ fn test_handle_lints() {
     // 2 lint types.
     assert_eq!(results.len(), 2);
 }
+
 /// Tests handle_invalid_addr_cities_update().
 #[test]
 fn test_handle_invalid_addr_cities_update() {
@@ -366,4 +367,74 @@ fn test_handle_invalid_addr_cities_update() {
     // Output is well-formed:
     let results = wsgi::tests::TestWsgi::find_all(&root, "body");
     assert_eq!(results.len(), 1);
+}
+
+/// Tests handle_invalid_addr_cities_update_json().
+#[test]
+fn test_handle_invalid_addr_cities_update_json() {
+    // Given a context to get /invalid-addr-cities/update-result.json:
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+    let routes = vec![
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-stats.csv",
+        ),
+    ];
+    let network = context::tests::TestNetwork::new(&routes);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.get_ctx().set_network(network_rc);
+    let csv_value = context::tests::TestFileSystem::make_file();
+    let overpass_template = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.get_ctx(),
+        &[
+            ("workdir/stats/whole-country.csv", &csv_value),
+            (
+                "data/street-housenumbers-hungary.overpassql",
+                &overpass_template,
+            ),
+        ],
+    );
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
+
+    // When getting that page:
+    let root =
+        test_wsgi.get_json_for_path("/lints/whole-country/invalid-addr-cities/update-result.json");
+    assert_eq!(root.as_object().unwrap()["error"], "");
+
+    // Then make sure the whole-country.csv is updated:
+    let path = test_wsgi
+        .get_ctx()
+        .get_abspath(&format!("workdir/stats/whole-country.csv"));
+    let actual = test_wsgi
+        .get_ctx()
+        .get_file_system()
+        .read_to_string(&path)
+        .unwrap();
+    assert_eq!(
+        actual,
+        String::from_utf8(std::fs::read("src/fixtures/network/overpass-stats.csv").unwrap())
+            .unwrap()
+    );
+    // SQL is updated:
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        let last_modified: String = conn
+            .query_row(
+                "select last_modified from mtimes where page = ?1",
+                ["stats/invalid-addr-cities"],
+                |row| row.get(0),
+            )
+            .unwrap();
+        assert!(!last_modified.is_empty());
+    }
 }
