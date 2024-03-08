@@ -127,6 +127,10 @@ pub fn our_application_json(
             // Assume view-result.json.
             output = missing_housenumbers_view_result_json(relations, request_uri)?;
         }
+    } else if request_uri
+        == format!("{prefix}/lints/whole-country/invalid-addr-cities/update-result.json")
+    {
+        output = webframe::handle_invalid_addr_cities_update_json(ctx)?;
     } else {
         // Assume /additional-housenumbers/<relation>/view-result.json.
         output = additional_housenumbers_view_result_json(relations, request_uri)?;
