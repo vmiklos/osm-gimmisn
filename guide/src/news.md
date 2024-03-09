@@ -4,6 +4,7 @@
 
 - Resolves: gh#3744 cron: add a new --refarea switch
 - Resolves: gh#3558 `,` is now also recognized as a housenumber separator, similar to `;`
+- Resolves: gh#3768 lints, invalid addr:city values: add new 'update from OSM' button
 
 ## 24.2
 
