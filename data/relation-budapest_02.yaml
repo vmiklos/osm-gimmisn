@@ -207,8 +207,17 @@ filters:
       - {start: '1', end: '63'}
       - {start: '2', end: '52'}
   Keleti Károly utca:
+    # 2a: 2 van sarkon kitáblázva
+    # 5a: KSH címe 5-7
     # 41 nincs kiírva, helyén a lelkészség van térképezve a tempommal azonos címen
-    invalid: ['41']
+    # 9a, 9b: 9 van kitáblázva
+    # 11a: 11/A-B van kitáblázva
+    # 18: 18/... van kitáblázva
+    # 20: 20/... van kitáblázva
+    # 28: 28/... van kitáblázva
+    # 31a: 29/a után 31/b van kitáblázva
+    # 37b, 37d: II. Rákóczi Ferenc Gimnázium címe 37
+    invalid: ['2a', '5a', '9a', '9b', '11a', '18', '20', '28', '31a', '37b', '37d', '41']
   Kis Rókus utca:
     # 39: 39a és 39b helyette
     invalid: ['39']
