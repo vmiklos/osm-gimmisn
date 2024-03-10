@@ -780,6 +780,12 @@ filters:
     # 17: a páratlan oldalon a 15 az utolsó házszám.
     # 10: ez és a Szigetvári utca 9. közös telken van, házszám a Szigetvári utcáról van csak.
     invalid: ['17', '10']
+  Madách utca:
+    # A nyugati oldalon 2-6, a keleti oldalon 2-1/a van az utcatáblákon, az épületeken viszont a nyugati oldalon 3, a keleti oldalon 2 van kitáblázva.
+    # 1: nincs ilyen, csak 2 és 3 van.
+    # 4: nincs ilyen, csak 2 és 3 van.
+    # 14: a páros oldalon 6 az utolsó házszám az utcatáblán.
+    invalid: ['1', '4', '14']
   Magdolna utca:
     # 23: a páratlan oldalon a 7 az utolsó házszám.
     # 37-39: a páratlan oldalon a 7 az utolsó házszám.
