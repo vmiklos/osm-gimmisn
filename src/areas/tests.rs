@@ -1537,14 +1537,9 @@ fn test_relation_get_lints_out_of_range() {
     ctx.set_file_system(&file_system);
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gh3073", "7988705", "Hadak útja", "residential", "", "asphalt", "", "way"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gh3073", "7988706", "Hadak útja2", "residential", "", "asphalt", "", "way"],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh3073', '7988705', 'Hadak útja', 'residential', '', 'asphalt', '', 'way');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh3073', '7988706', 'Hadak útja2', 'residential', '', 'asphalt', '', 'way');",
         )
         .unwrap();
     }
