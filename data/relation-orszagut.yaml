@@ -105,6 +105,9 @@ filters:
     interpolation: 'all'
     ranges:
       - {start: '4', end: '5'}
+  Tizedes utca:
+    # 1-7, 2-6
+    invalid: ['8']
   Trombitás út:
     ranges:
       - {start: '1', end: '3'}
