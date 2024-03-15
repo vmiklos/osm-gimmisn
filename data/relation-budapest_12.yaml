@@ -132,6 +132,11 @@ filters:
     # 2 nincs
     # 9 = Svájci út 13
     invalid: ['2', '9']
+  Fülemile út:
+    # 7: nincs ilyen, csak 7/b van.
+    # 9: ez és az Eötvös út 30. ugyanaz az épület, házszám az Eötvös útról van csak, a Fülemile út felül betonfal van.
+    # 4-10: ez a megszűnt tábor, de csak 8 van titáblázva.
+    invalid: ['7', '9', '4', '6', '10']
   Gaál József út:
     # at least 70-72 looks invalid
     ranges:
@@ -333,9 +338,15 @@ filters:
       - {start: '1', end: '57'}
       - {start: '2', end: '52'}
   Ordas köz:
-    ranges:
-      - {start: '1', end: '5'}
-      - {start: '2', end: '10'}
+    # Az utcatáblán 1-5, 2-8 van, a házszámok keverednek az Ordas útival.
+    # 3: nincs ilyen, talán össze van nyitva az 1-gyel?
+    # 9: ez Ordas út, nem Ordas köz házszám.
+    # 9/a: ez Ordas út, nem Ordas köz házszám, de ott is csak sima 9 van.
+    # 9/b: ez Ordas út, nem Ordas köz házszám, de ott is csak sima 9 van.
+    # 10/a: ez Ordas út, nem Ordas köz házszám.
+    # 10/b: ez Ordas út, nem Ordas köz házszám.
+    # 12: ez Ordas út, nem Ordas köz házszám.
+    invalid: ['3', '9', '9a', '9b', '10a', '10b', '12']
   Pagony utca:
     ranges:
       - {start: '1', end: '29'}
