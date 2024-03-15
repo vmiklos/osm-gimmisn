@@ -345,6 +345,9 @@ filters:
     ranges:
       - {start: '3', end: '13'}
       - {start: '4', end: '18'}
+  Tizedes utca:
+    # 1-7, 2-6
+    invalid: ['8']
   Tömörkény utca:
     # 1-17
     invalid: ['25']
