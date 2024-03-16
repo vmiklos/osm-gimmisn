@@ -1109,6 +1109,9 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '24'}
+  Jégvirág utca:
+    # 6a, 6b: már csak 6-os szám van kiírva
+    invalid: ['6a', '6b']
   Június utca:
     # 1 = Olajfa utca 17
     # 15 = Torma utca 11
