@@ -1643,14 +1643,9 @@ fn test_relation_get_missing_housenumbers_letter_suffix() {
     ctx.set_file_system(&file_system);
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gh267", "24746223", "Kalotaszeg utca", "residential", "", "asphalt", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gh267", "695548547", "Kalotaszeg utca", "residential", "", "", "", ""],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh267', '24746223', 'Kalotaszeg utca', 'residential', '', 'asphalt', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh267', '695548547', 'Kalotaszeg utca', 'residential', '', '', '', '');",
         )
         .unwrap();
     }
