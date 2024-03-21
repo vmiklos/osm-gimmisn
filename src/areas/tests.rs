@@ -1886,17 +1886,11 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize_semicolon() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
-    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gh303", "6852648009", "Albert utca", "43/B;43/C", "1119", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["housenumbers/gh303", &mtime],
+        conn.execute_batch(
+            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gh303', '6852648009', 'Albert utca', '43/B;43/C', '1119', '', '', '', '', '', '', '', '', 'node');
+             insert into mtimes (page, last_modified) values ('housenumbers/gh303', '0');",
         )
         .unwrap();
     }
