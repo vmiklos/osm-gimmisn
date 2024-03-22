@@ -5,6 +5,8 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '16'}
+  Aranyvölgy utca:
+    interpolation: all
   Árpád fejedelem útja:
     interpolation: all
     ranges:
@@ -22,10 +24,14 @@ filters:
     ranges:
       - {start: '1', end: '57'}
       - {start: '2', end: '76'}
+  Dévai Bíró Mátyás tér:
+    interpolation: all
   Evező utca:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
+  Flórián tér:
+    interpolation: all
   Folyamőr utca:
     # páratlan: Waterfront city épül, nem ismert a házszámuk 2021-10
     # páros: 2-6 panel, utána a panelek merőlegesen a másik utcáról számozódnak. Az utca végén 1 szóló ház a végén: 22.
@@ -33,12 +39,18 @@ filters:
       - {start: '1', end: '99'}
       - {start: '2', end: '6'}
       - {start: '22', end: '22'}
+  Határ út:
+    interpolation: all
   Igló utca:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '58'}
+  József utca:
+    interpolation: all
   Kaszásdűlő utca:
     show-refstreet: false
+  Kossuth Lajos üdülőpart:
+    interpolation: all
   Ladik utca:
     # semmi nincs ki, az utca negy része le van zárva, magánterület, bevásárlóközpontot terveztek ide
     # a HÉV-vel párhuzamos részen se szám se utcanév
@@ -66,6 +78,8 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '14'}
+  Vasút sor:
+    interpolation: all
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Aquincum őrház
