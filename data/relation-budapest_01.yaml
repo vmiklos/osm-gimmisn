@@ -321,6 +321,8 @@ filters:
   Toldy lépcső:
     # 55: ez a Toldy Ferenc utca 55., a Toldy lépcsőn nincsenek épületek.
     invalid: ['55']
+  Tóth Árpád sétány:
+    interpolation: all
   Úri utca:
     # 107: a páratlan oldalon az 53 az utolsó házszám.
     invalid: ['107']
