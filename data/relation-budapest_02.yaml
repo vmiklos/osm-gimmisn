@@ -265,6 +265,10 @@ filters:
   Nagybányai lépcső:
     # nincs házszám
     ranges: []
+  Nyúl utca:
+    # 3a: 3 van kitáblázva
+    # 24/6: 24 van kitáblázva
+    invalid: ['3a', '24/6']
   Őzgida utca:
     # 5a, 5-7 = Búzavirág utca 9.
     # 19/a, 19/b: 19/1 .. 19/10
