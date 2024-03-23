@@ -75,3 +75,13 @@ fn test_write_osm_json_housenumbers_duplicate() {
         .write_osm_json_housenumbers(&ctx, &result)
         .unwrap();
 }
+
+/// Tests write_whole_country(), when it gets non-JSON input.
+#[test]
+fn test_write_whole_country_non_json_input() {
+    let ctx = context::tests::make_test_context().unwrap();
+
+    let ret = write_whole_country(&ctx, "");
+
+    assert!(ret.is_ok());
+}

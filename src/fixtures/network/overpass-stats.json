@@ -1,0 +1,36 @@
+{
+  "osm3s": {
+    "timestamp_osm_base": "2024-03-17T13:58:46Z",
+    "timestamp_areas_base": "2024-03-17T12:06:15Z"
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 42,
+      "timestamp": "2017-03-13T22:02:25Z",
+      "user": "vasony",
+      "tags": {
+        "addr:city": "Orfű",
+        "addr:housenumber": "1",
+        "addr:postcode": "7677",
+        "addr:street": "Dollár utca",
+        "entrance": "yes",
+        "exit": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 43,
+      "timestamp": "2017-03-13T22:02:25Z",
+      "user": "vasony",
+      "tags": {
+        "addr:city": "Orfű",
+        "addr:housenumber": "2",
+        "addr:postcode": "7677",
+        "addr:street": "Dollár utca",
+        "entrance": "yes",
+        "exit": "yes"
+      }
+    }
+  ]
+}

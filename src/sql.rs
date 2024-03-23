@@ -264,7 +264,27 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
         )?;
     }
 
-    conn.execute("pragma user_version = 14", [])?;
+    if user_version < 15 {
+        // Tracks housenumbers for the whole country.
+        conn.execute_batch(
+            "create table whole_country (
+                    postcode text not null,
+                    city text not null,
+                    street text not null,
+                    housenumber text not null,
+                    user text not null,
+                    osm_id text not null,
+                    osm_type text not null,
+                    timestamp text not null,
+                    place text not null,
+                    unit text not null,
+                    name text not null,
+                    fixme text not null
+                );",
+        )?;
+    }
+
+    conn.execute("pragma user_version = 15", [])?;
     Ok(())
 }
 

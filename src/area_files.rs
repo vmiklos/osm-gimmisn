@@ -55,7 +55,10 @@ struct OverpassTags {
     door: Option<String>,
     #[serde(rename(deserialize = "addr:unit"))]
     unit: Option<String>,
+    #[serde(rename(deserialize = "addr:city"))]
+    city: Option<String>,
     // endregion housenumbers
+    fixme: Option<String>,
 }
 
 /// OverpassElement represents one result from Overpass.
@@ -64,6 +67,8 @@ struct OverpassElement {
     id: u64,
     #[serde(rename(deserialize = "type"))]
     osm_type: String,
+    pub user: Option<String>,
+    pub timestamp: Option<String>,
     tags: OverpassTags,
 }
 
@@ -329,6 +334,55 @@ impl RelationFiles {
 
         Ok(())
     }
+}
+
+pub fn write_whole_country(ctx: &context::Context, result: &str) -> anyhow::Result<()> {
+    let overpass: OverpassResult = match serde_json::from_str(result) {
+        Ok(value) => value,
+        // Not a JSON, ignore.
+        Err(_) => {
+            return Ok(());
+        }
+    };
+
+    let mut conn = ctx.get_database_connection()?;
+    let tx = conn.transaction()?;
+    tx.execute("delete from whole_country", [])?;
+    for element in overpass.elements {
+        let postcode = element.tags.postcode.unwrap_or("".into());
+        let city = element.tags.city.unwrap_or("".into());
+        let street = element.tags.street.unwrap_or("".into());
+        let housenumber = element.tags.housenumber.unwrap_or("".into());
+        let user = element.user.unwrap_or("".into());
+        let osm_id = element.id.to_string();
+        let osm_type = element.osm_type.to_string();
+        let timestamp = element.timestamp.unwrap_or("".into());
+        let place = element.tags.place.unwrap_or("".into());
+        let unit = element.tags.unit.unwrap_or("".into());
+        let name = element.tags.name.unwrap_or("".into());
+        let fixme = element.tags.fixme.unwrap_or("".into());
+        tx.execute(
+                "insert into whole_country (postcode, city, street, housenumber, user, osm_id, osm_type, timestamp, place, unit, name, fixme) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)",
+                [postcode, city, street, housenumber, user, osm_id, osm_type, timestamp, place, unit, name, fixme],
+            )?;
+    }
+
+    let osm_time = overpass.osm3s.timestamp_osm_base.unix_timestamp_nanos();
+    tx.execute(
+        r#"insert into mtimes (page, last_modified) values ('whole-country/osm-base', ?1)
+                 on conflict(page) do update set last_modified = excluded.last_modified"#,
+        [osm_time.to_string()],
+    )?;
+
+    let areas_time = overpass.osm3s.timestamp_areas_base.unix_timestamp_nanos();
+    tx.execute(
+        r#"insert into mtimes (page, last_modified) values ('whole-country/areas-base', ?1)
+                 on conflict(page) do update set last_modified = excluded.last_modified"#,
+        [areas_time.to_string()],
+    )?;
+    tx.commit()?;
+
+    Ok(())
 }
 
 #[cfg(test)]

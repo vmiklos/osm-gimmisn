@@ -963,6 +963,16 @@ fn test_update_stats() {
             /*data_path=*/ "",
             /*result_path=*/ "src/fixtures/network/overpass-stats.csv",
         ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-stats.json",
+        ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
@@ -972,6 +982,10 @@ fn test_update_stats() {
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
+    overpass_template
+        .borrow_mut()
+        .write_all("first line\nsecond line\n".as_bytes())
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
