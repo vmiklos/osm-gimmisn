@@ -10,6 +10,7 @@
 
 //! The cron module allows doing nightly tasks.
 
+use crate::area_files;
 use crate::areas;
 use crate::context;
 use crate::overpass_query;
@@ -410,6 +411,7 @@ fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Res
 
 /// Performs the update of whole-country.csv.
 pub fn update_stats_overpass(ctx: &context::Context) -> anyhow::Result<()> {
+    // Old style: CSV.
     let query = ctx
         .get_file_system()
         .read_to_string(&ctx.get_abspath("data/street-housenumbers-hungary.overpassql"))?;
@@ -432,6 +434,39 @@ pub fn update_stats_overpass(ctx: &context::Context) -> anyhow::Result<()> {
         };
         ctx.get_file_system()
             .write_from_string(&response, &csv_path)?;
+        break;
+    }
+
+    // New style: JSON.
+    let mut i = 0;
+    let mut lines = Vec::new();
+    for line in query.lines() {
+        i += 1;
+        if i == 1 {
+            lines.push("[out:json]  [timeout:425];".to_string());
+            continue;
+        }
+
+        lines.push(line.to_string());
+    }
+    let json_query = lines.join("\n");
+    info!("update_stats_overpass: json, talking to overpass");
+    let mut retry = 0;
+    while should_retry(retry) {
+        if retry > 0 {
+            info!("update_stats_overpass: try #{retry}");
+        }
+        retry += 1;
+        overpass_sleep(ctx);
+        let response = match overpass_query::overpass_query(ctx, &json_query) {
+            Ok(value) => value,
+            Err(err) => {
+                info!("update_stats_overpass: http error: {err}");
+                continue;
+            }
+        };
+
+        area_files::write_whole_country(ctx, &response)?;
         break;
     }
     Ok(())
