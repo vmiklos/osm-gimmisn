@@ -551,8 +551,9 @@ filters:
   Dávid Ferenc utca:
     # 2: 2/a, 2/b
     # 4-6: Henkel csak a 6-ot használja
+    # 8: játszótér
     # 21, 21b = Bocskai út 47-49
-    invalid: ['2', '2d', '4', '21b']
+    invalid: ['2', '2d', '4', '8', '21b']
   Dayka Gábor utca:
     # páratlan ---------------------------------------------------------------
     # 17, 19: 17/a, 17/b, 17/c, 19/a, 19/b, 19/c
@@ -807,11 +808,12 @@ filters:
   Forrás utca:
     # 1 = Halmi utca 30.
     # 5 = Fraknó utca 7. idősek otthona
-    invalid: ['1', '5']
+    invalid: ['1', '5', '9']
   Fraknó utca:
     # Panelek, minden számra a és b: 6a-28b-ig: 6a,6b,8a,8b stb..
     # 5 = Forrás utca 8-10
-    invalid: ['4a', '5', '8', '10', '12', '14', '16', '16d', '18', '18c', '20', '22', '22d', '24', '26', '28', '30', '40']
+    # 9: idősek otthona telke, az csak 7-et használja
+    invalid: ['4a', '5', '8', '9', '10', '12', '14', '16', '16d', '18', '18c', '20', '22', '22d', '24', '26', '28', '30', '40']
   Frankhegy utca:
     interpolation: all
   Fülőke utca:
@@ -1983,7 +1985,8 @@ filters:
     # 18-22: egyedileg számozva a házak: 18/a, 18/b, 22/a, 22/b
     # 21: Bártfai utca 7.
     # 29: 27 után 31-33 jön
-    invalid: ['1b', '2', '16', '17', '18', '20', '21', '22', '22c', '22d', '22e', '29']
+    # 45-47: Mérnök utcai sporttelep másik oldala, innen nincs szám
+    invalid: ['1b', '2', '16', '17', '18', '20', '21', '22', '22c', '22d', '22e', '29', '45', '47']
   Pór Bertalan köz:
     invalid: ['10b', '106']
   Postás utca:
@@ -2660,8 +2663,9 @@ filters:
       - {start: '1', end: '49'}
       - {start: '2', end: '44'}
   Zsombolyai utca:
+    # 2: nincs, parkoló
     # 3: nincs. 1/b után 5 jön
-    invalid: [ '3']
+    invalid: ['2', '3']
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '22'}
