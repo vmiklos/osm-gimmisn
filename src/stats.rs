@@ -573,8 +573,6 @@ pub fn update_invalid_addr_cities(ctx: &context::Context, state_dir: &str) -> an
         tx.commit()?;
     }
 
-    set_sql_mtime(ctx, "stats/invalid-addr-cities")?;
-
     Ok(())
 }
 

@@ -209,14 +209,18 @@ fn test_get_toolbar() {
 #[test]
 fn test_handle_invalid_addr_cities() {
     let mut test_wsgi = wsgi::tests::TestWsgi::new();
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
         conn.execute("insert into stats_invalid_addr_cities (osm_id, osm_type, postcode, city, street, housenumber, user) values (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
                    ["42", "type", "1111", "mycity", "mystreet", "myhousenumber", "myuser"]).unwrap();
         conn.execute(
             "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["stats/invalid-addr-cities", &mtime],
+            ["whole-country/osm-base", "0"],
+        )
+        .unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["whole-country/areas-base", "0"],
         )
         .unwrap();
     }
@@ -314,6 +318,16 @@ fn test_handle_invalid_addr_cities_update() {
             /*data_path=*/ "",
             /*result_path=*/ "src/fixtures/network/overpass-stats.csv",
         ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-stats.json",
+        ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
@@ -358,7 +372,7 @@ fn test_handle_invalid_addr_cities_update() {
         let last_modified: String = conn
             .query_row(
                 "select last_modified from mtimes where page = ?1",
-                ["stats/invalid-addr-cities"],
+                ["whole-country/osm-base"],
                 |row| row.get(0),
             )
             .unwrap();
@@ -384,6 +398,16 @@ fn test_handle_invalid_addr_cities_update_json() {
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
             /*result_path=*/ "src/fixtures/network/overpass-stats.csv",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-stats.json",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
@@ -431,7 +455,7 @@ fn test_handle_invalid_addr_cities_update_json() {
         let last_modified: String = conn
             .query_row(
                 "select last_modified from mtimes where page = ?1",
-                ["stats/invalid-addr-cities"],
+                ["whole-country/osm-base"],
                 |row| row.get(0),
             )
             .unwrap();

@@ -718,6 +718,14 @@ Only zip codes with house numbers in OSM are considered."#,
     Ok(doc)
 }
 
+/// Gets the update date of the whole country.
+fn get_whole_county_last_modified(ctx: &context::Context) -> anyhow::Result<String> {
+    let format = tr("{0} (osm), {1} (areas)");
+    let osm = format_timestamp(&stats::get_sql_mtime(ctx, "whole-country/osm-base")?)?;
+    let areas = format_timestamp(&stats::get_sql_mtime(ctx, "whole-country/areas-base")?)?;
+    Ok(format.replace("{0}", &osm).replace("{1}", &areas))
+}
+
 /// Expected request uri: /housenumber-stats/whole-country/invalid-addr-cities.
 fn handle_invalid_addr_cities(
     ctx: &context::Context,
@@ -796,8 +804,7 @@ fn handle_invalid_addr_cities(
         );
     }
     doc.append_value(util::html_table_from_list(&table).get_value());
-    let date = format_timestamp(&stats::get_sql_mtime(ctx, "stats/invalid-addr-cities")?)?;
-    doc.append_value(get_footer(&date).get_value());
+    doc.append_value(get_footer(&get_whole_county_last_modified(ctx)?).get_value());
     Ok(doc)
 }
 
@@ -840,8 +847,7 @@ fn handle_invalid_addr_cities_update_html(
     let link = format!("{prefix}/lints/whole-country/invalid-addr-cities");
     doc.append_value(util::gen_link(&link, &tr("View updated result")).get_value());
 
-    let date = format_timestamp(&stats::get_sql_mtime(ctx, "stats/invalid-addr-cities")?)?;
-    doc.append_value(get_footer(&date).get_value());
+    doc.append_value(get_footer(&get_whole_county_last_modified(ctx)?).get_value());
     Ok(doc)
 }
 
