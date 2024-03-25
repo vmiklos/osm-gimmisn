@@ -68,6 +68,9 @@ pub fn download(
     let conn = ctx.get_database_connection()?;
     conn.execute("delete from ref_housenumbers", [])?;
     conn.execute("delete from ref_streets", [])?;
+    // Garbage collect other unused data.
+    // 2024-03-24
+    conn.execute_batch("delete from mtimes where page = 'stats/invalid-addr-cities'")?;
 
     ctx.get_file_system()
         .write_from_string(&config_data, &ctx.get_abspath("workdir/wsgi.ini"))?;
