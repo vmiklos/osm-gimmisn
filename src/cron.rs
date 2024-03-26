@@ -281,44 +281,44 @@ fn write_zip_count_path(
 
 /// Counts the # of all house numbers as of today.
 fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()> {
-    let statedir = ctx.get_abspath("workdir/stats");
-    let csv_path = format!("{statedir}/whole-country.csv");
-    if !ctx.get_file_system().path_exists(&csv_path) {
-        return Ok(());
-    }
     let mut house_numbers: HashSet<String> = HashSet::new();
     let mut cities: HashMap<String, HashSet<String>> = HashMap::new();
     let mut zips: HashMap<String, HashSet<String>> = HashMap::new();
     let valid_settlements =
         util::get_valid_settlements(ctx).context("get_valid_settlements() failed")?;
-    let stream = ctx.get_file_system().open_read(&csv_path)?;
-    let mut guard = stream.borrow_mut();
-    let mut read = std::io::BufReader::new(guard.deref_mut());
-    let mut csv_reader = util::make_csv_reader(&mut read);
-    for result in csv_reader.deserialize() {
-        let row: util::OsmLightHouseNumber = result?;
-        // This ignores the @user column.
-        house_numbers.insert(
-            [
-                row.postcode.to_string(),
-                row.city.to_string(),
-                row.street.to_string(),
-                row.housenumber.to_string(),
-            ]
-            .join("\t"),
-        );
-        let city_key = util::get_city_key(&row.postcode, &row.city, &valid_settlements)
-            .context("get_city_key() failed")?;
-        let city_value = [row.street.to_string(), row.housenumber.to_string()].join("\t");
-        let entry = cities.entry(city_key).or_default();
-        entry.insert(city_value);
+    {
+        let conn = ctx.get_database_connection()?;
+        let mut stmt =
+            conn.prepare("select postcode, city, street, housenumber from whole_country")?;
+        let mut rows = stmt.query([])?;
+        while let Some(row) = rows.next()? {
+            let postcode: String = row.get(0).unwrap();
+            let city: String = row.get(1).unwrap();
+            let street: String = row.get(2).unwrap();
+            let housenumber: String = row.get(3).unwrap();
+            // This ignores the @user column.
+            house_numbers.insert(
+                [
+                    postcode.to_string(),
+                    city.to_string(),
+                    street.to_string(),
+                    housenumber.to_string(),
+                ]
+                .join("\t"),
+            );
+            let city_key = util::get_city_key(&postcode, &city, &valid_settlements)
+                .context("get_city_key() failed")?;
+            let city_value = [street.to_string(), housenumber.to_string()].join("\t");
+            let entry = cities.entry(city_key).or_default();
+            entry.insert(city_value);
 
-        // Postcode.
-        let zip_key = row.postcode.to_string();
-        // Street name and housenumber.
-        let zip_value = [row.street, row.housenumber].join("\t");
-        let zip_entry = zips.entry(zip_key).or_default();
-        zip_entry.insert(zip_value);
+            // Postcode.
+            let zip_key = postcode.to_string();
+            // Street name and housenumber.
+            let zip_value = [street, housenumber].join("\t");
+            let zip_entry = zips.entry(zip_key).or_default();
+            zip_entry.insert(zip_value);
+        }
     }
 
     {
