@@ -1410,25 +1410,14 @@ fn test_main_error() {
 /// Tests update_stats_count().
 #[test]
 fn test_update_stats_count() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let mut file_system = context::tests::TestFileSystem::new();
-    let today_csv_value = context::tests::TestFileSystem::make_file();
-    today_csv_value
-        .borrow_mut()
-        .write_all(
-            r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user	@id	@type	@timestamp	fixme
-7677	Orfű	Dollár utca	1	mgpx	42	way	2020-05-10T22:02:25Z	
-"#
-            .as_bytes(),
+    let ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into whole_country (postcode, city, street, housenumber, user, osm_id, osm_type, timestamp, place, unit, name, fixme) values ('7677', 'Orfű', 'Dollár utca', '1', 'mgpx', '42', 'way', '2020-05-10T22:02:25Z', '', '', '', '');",
         )
         .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/stats/whole-country.csv", &today_csv_value)],
-    );
-    file_system.set_files(&files);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
+    }
 
     update_stats_count(&ctx, "2020-05-10").unwrap();
 
@@ -1469,31 +1458,6 @@ fn test_update_stats_count() {
     let mut zipcounts = stmt.query(["2020-05-10"]).unwrap();
     let zipcount = zipcounts.next().unwrap();
     assert!(zipcount.is_some());
-}
-
-/// Tests update_stats_count(): the case then the .csv is missing.
-#[test]
-fn test_update_stats_count_no_csv() {
-    let ctx = context::tests::make_test_context().unwrap();
-
-    update_stats_count(&ctx, "2020-05-10").unwrap();
-
-    // No .csv, no count or citycount.
-    let conn = ctx.get_database_connection().unwrap();
-    {
-        let mut stmt = conn
-            .prepare("select count from stats_counts where date = ?1")
-            .unwrap();
-        let mut counts = stmt.query(["2020-05-10"]).unwrap();
-        assert!(counts.next().unwrap().is_none());
-    }
-    {
-        let mut stmt = conn
-            .prepare("select count from stats_zipcounts where date = ?1")
-            .unwrap();
-        let mut zipcounts = stmt.query(["2020-05-10"]).unwrap();
-        assert!(zipcounts.next().unwrap().is_none());
-    }
 }
 
 /// Tests update_stats_count(): the case when we ask for CSV but get XML.
