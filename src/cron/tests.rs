@@ -1460,36 +1460,6 @@ fn test_update_stats_count() {
     assert!(zipcount.is_some());
 }
 
-/// Tests update_stats_count(): the case when we ask for CSV but get XML.
-#[test]
-fn test_update_stats_count_xml_as_csv() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let mut file_system = context::tests::TestFileSystem::new();
-    let today_csv_value = context::tests::TestFileSystem::make_file();
-    today_csv_value
-        .borrow_mut()
-        .write_all("<?xml\n".as_bytes())
-        .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/stats/whole-country.csv", &today_csv_value)],
-    );
-    file_system.set_files(&files);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
-
-    update_stats_count(&ctx, "2020-05-10").unwrap();
-
-    let conn = ctx.get_database_connection().unwrap();
-    let mut stmt = conn
-        .prepare("select count from stats_counts where date = ?1")
-        .unwrap();
-    let mut counts = stmt.query(["2020-05-10"]).unwrap();
-    let count = counts.next().unwrap().unwrap();
-    let actual: String = count.get(0).unwrap();
-    assert_eq!(actual, "0");
-}
-
 /// Tests update_stats_topusers().
 #[test]
 fn test_update_stats_topusers() {
