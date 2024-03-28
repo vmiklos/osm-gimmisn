@@ -338,21 +338,13 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
 
 /// Counts the top housenumber editors as of today.
 fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<()> {
-    let statedir = ctx.get_abspath("workdir/stats");
-    let csv_path = format!("{statedir}/whole-country.csv");
-    if !ctx.get_file_system().path_exists(&csv_path) {
-        return Ok(());
-    }
     let mut users: HashMap<String, u64> = HashMap::new();
     {
-        let stream = ctx.get_file_system().open_read(&csv_path)?;
-        let mut guard = stream.borrow_mut();
-        let mut read = std::io::BufReader::new(guard.deref_mut());
-        let mut csv_reader = util::make_csv_reader(&mut read);
-        for result in csv_reader.deserialize() {
-            let row: util::OsmLightHouseNumber = result?;
-            // Only care about the last column.
-            let user = row.user.to_string();
+        let conn = ctx.get_database_connection()?;
+        let mut stmt = conn.prepare("select user from whole_country")?;
+        let mut rows = stmt.query([])?;
+        while let Some(row) = rows.next()? {
+            let user: String = row.get(0).unwrap();
             let entry = users.entry(user).or_insert(0);
             (*entry) += 1;
         }
