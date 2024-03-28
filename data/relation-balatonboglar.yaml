@@ -36,7 +36,7 @@ refstreets:
   # 'Hunyadi János utca': 'Hunyadi utca'  # Hunyadi János utca: mindkét végén csak Hunyadi utcaként van kitáblázva, de több épületen is teljes névvel szerepel a házszámtáblán. Földhivatal: Hunyadi utca
   'Jurisics Miklós utca': 'Jurisics utca'  # teljes névvel van kitáblázva egy régi táblán.
   # 'Kinizsi utca': 'Kinizsi Pál utca' - Kinizsi Pál utca: egyik oldalon Kinizsi utca, a másik oldalon Kinizsi Pál utca van a táblán.
-  'Klapka György utca': 'Klapka utca'  # teljes névvel van kitáblázva egy régi táblán.
+  # 'Klapka György utca': 'Klapka utca'  # teljes névvel van kitáblázva egy régi táblán, út táblán Klapka utca.
   'Kupa vezér utca': 'Kupavezér utca'  # szóközzel szerepel az utcanévtáblán
   'Madách Imre utca': 'Madách utca'  # teljes névvel van kitáblázva egy régi táblán.
   # 'Mikszáth Kálmán utca': 'Mikszáth utca'  # A régi és az új táblán is csak Mikszáth utca van.
