@@ -3,10 +3,16 @@ filters:
   Akácfa utca:
     # 29 = ez és a Wesselényi utca 35. ugyanaz az épület, de bejárat és házszám a Wesselényi utcáról van csak.
     invalid: ['29']
+  Baross tér:
+    interpolation: all
   Dohány utca:
     # 2, 2-4: Zsinagóga külön részei, hivatalosan nincs ide számozva semmi.
     # 6: Zsinagóga külön részei, hivatalosan nincs ide számozva semmi.
     invalid: ['2', '4', '6']
+  Garay tér:
+    interpolation: all
+  Rózsák tere:
+    interpolation: all
 osm-street-filters:
   # Nem valós utcák
   - Baross téri felüljáró
