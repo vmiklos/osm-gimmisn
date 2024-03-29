@@ -72,6 +72,10 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '20'}
+  Miklós deák utca:
+    interpolation: all
+  Pataksor utca:
+    interpolation: all
   Pincesor utca:
     ranges:
       - {start: '1', end: '9'}
