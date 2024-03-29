@@ -9,6 +9,7 @@ filters:
     # 11/a: nincs ilyen.
     # 86: az utcatáblán a 22 az utolsó házszám.
     invalid: ['11', '11a', '86']
+    interpolation: 'all'
   Berzsenyi utca:
     # 2: sima 2 nincs, csak 2/a (utcatáblán), 2/b.
     invalid: ['2']
@@ -62,6 +63,8 @@ filters:
     # 4/b: nincs ilyen, csak 4-6 van.
     # 8: a páros oldalon a 4-6 az utolsó házszám.
     invalid: ['1', '4b', '8']
+  Mátyás tér:
+    interpolation: 'all'
   Mosonyi utca:
     # 8: csak utcatáblán van, a sarkon lévő iskola házszáma 6.
     # 10: ez és a Kerepesi út 1-5. F/VI ugyanaz az épület, bejárat és házszám a Kerepesi útról van csak.
@@ -101,6 +104,8 @@ filters:
     # 44/a: a SOTE Transzplantációs és Sebészeti Klinikán lehet valamelyik épület, az utcáról nem látható.
     # 46/b: a SOTE Transzplantációs és Sebészeti Klinikán lehet valamelyik épület, az utcáról nem látható.
     invalid: ['1', '25', '39', '83', '32', '44a', '46b']
+  Teleki László tér:
+    interpolation: 'all'
   Trefort utca:
     # 3-5: csak 3 van kitáblázva.
     invalid: ['5']
