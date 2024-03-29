@@ -1,5 +1,11 @@
 missing-streets: 'yes'
 filters:
+  Határ út:
+    interpolation: all
+  Helsinki út:
+    interpolation: all
+  Tátra tér:
+    interpolation: all
   Téglagyár tér:
     interpolation: 'all'
 osm-street-filters:
