@@ -1,5 +1,17 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Hősök tere:
+    interpolation: all
+  Körvasút sor:
+    interpolation: all
+  Pemete tér:
+    interpolation: all
+  Pálfi János tér:
+    interpolation: all
+  Szabadföld út:
+    interpolation: all
+  Templom tér:
+    interpolation: all
 # Paulheim József tér - Pilóta utca 27-nél
 street-filters:
   - Bánya tér  # Nincs tábla, nincs is teresedés, a Szabályozási Terven sem szerepel. A HERE szerint a Bánya köz vége.
