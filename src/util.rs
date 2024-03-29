@@ -1009,39 +1009,6 @@ impl OsmHouseNumber {
     }
 }
 
-/// One row in workdir/stats/<date>.csv. Keep this in sync with
-/// data/data/street-housenumbers-hungary.overpassql.
-#[derive(serde::Deserialize)]
-pub struct OsmLightHouseNumber {
-    /// Postal code.
-    #[serde(rename = "addr:postcode")]
-    pub postcode: String,
-    /// City name.
-    #[serde(rename = "addr:city")]
-    pub city: String,
-    /// Street name.
-    #[serde(rename = "addr:street")]
-    pub street: String,
-    /// House number.
-    #[serde(rename = "addr:housenumber")]
-    pub housenumber: String,
-    /// Last editor.
-    #[serde(rename = "@user")]
-    pub user: String,
-    /// OSM object ID.
-    #[serde(rename = "@id")]
-    pub osm_id: String,
-    /// OSM object type.
-    #[serde(rename = "@type")]
-    pub osm_type: String,
-    /// OSM object timestamp.
-    #[serde(rename = "@timestamp")]
-    pub timestamp: String,
-    /// Need further attention.
-    #[serde(rename = "fixme")]
-    pub fixme: String,
-}
-
 /// Reads a house number CSV and extracts streets from rows.
 /// Returns a list of street objects, with their name, ID and type set.
 pub fn get_street_from_housenumber(housenumbers: &[OsmHouseNumber]) -> anyhow::Result<Vec<Street>> {

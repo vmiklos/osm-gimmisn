@@ -810,8 +810,7 @@ fn handle_invalid_addr_cities(
 
 fn handle_invalid_addr_cities_update(ctx: &context::Context) -> anyhow::Result<()> {
     cron::update_stats_overpass(ctx)?;
-    let statedir = ctx.get_abspath("workdir/stats");
-    stats::update_invalid_addr_cities(ctx, &statedir)?;
+    stats::update_invalid_addr_cities(ctx)?;
     Ok(())
 }
 

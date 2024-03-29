@@ -532,46 +532,72 @@ pub fn has_sql_count(ctx: &context::Context, table: &str, relation: &str) -> any
     Ok(rows.next()?.is_some())
 }
 
-pub fn update_invalid_addr_cities(ctx: &context::Context, state_dir: &str) -> anyhow::Result<()> {
+struct InvalidAddrCity {
+    osm_id: String,
+    osm_type: String,
+    postcode: String,
+    city: String,
+    street: String,
+    housenumber: String,
+    user: String,
+    timestamp: String,
+    fixme: String,
+}
+
+pub fn update_invalid_addr_cities(ctx: &context::Context) -> anyhow::Result<()> {
     info!("stats: updating invalid_addr_cities");
     let valid_settlements =
         util::get_valid_settlements(ctx).context("get_valid_settlements() failed")?;
-    let csv_path = format!("{state_dir}/whole-country.csv");
-    if !ctx.get_file_system().path_exists(&csv_path) {
-        warn!("update_invalid_addr_cities: no such path: {csv_path}");
-        return Ok(());
-    }
 
-    let stream = ctx.get_file_system().open_read(&csv_path)?;
-    let mut guard = stream.borrow_mut();
-    let mut read = std::io::BufReader::new(guard.deref_mut());
-    let mut csv_reader = util::make_csv_reader(&mut read);
+    let mut invalids: Vec<InvalidAddrCity> = Vec::new();
     {
-        let mut conn = ctx.get_database_connection()?;
+        let conn = ctx.get_database_connection()?;
         conn.execute("delete from stats_invalid_addr_cities", [])?;
-        let tx = conn.transaction()?;
-        let mut count = 0;
-        for result in csv_reader.deserialize() {
-            let row: util::OsmLightHouseNumber = result?;
-            let city = row.city;
+        let mut stmt = conn.prepare("select postcode, city, street, housenumber, user, osm_id, osm_type, timestamp, fixme from whole_country")?;
+        let mut rows = stmt.query([])?;
+        while let Some(row) = rows.next()? {
+            let postcode: String = row.get(0).unwrap();
+            let city: String = row.get(1).unwrap();
+            let street: String = row.get(2).unwrap();
+            let housenumber: String = row.get(3).unwrap();
+            let user: String = row.get(4).unwrap();
+            let osm_id: String = row.get(5).unwrap();
+            let osm_type: String = row.get(6).unwrap();
+            let timestamp: String = row.get(7).unwrap();
+            let fixme: String = row.get(8).unwrap();
             if !valid_settlements.contains(&city) && city != "budapest" {
-                tx.execute("insert into stats_invalid_addr_cities (osm_id, osm_type, postcode, city, street, housenumber, user, timestamp, fixme) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
-                       [row.osm_id, row.osm_type, row.postcode, city, row.street, row.housenumber, row.user, row.timestamp, row.fixme])?;
-                count += 1;
+                let invalid = InvalidAddrCity {
+                    osm_id,
+                    osm_type,
+                    postcode,
+                    city,
+                    street,
+                    housenumber,
+                    user,
+                    timestamp,
+                    fixme,
+                };
+                invalids.push(invalid);
             }
         }
-
-        // Also append a row in the stats_invalid_addr_cities_counts table so we can chart this.
-        let now = ctx.get_time().now();
-        let format = time::format_description::parse("[year]-[month]-[day]")?;
-        let today = now.format(&format)?;
-        tx.execute(
-            r#"insert into stats_invalid_addr_cities_counts (date, count) values (?1, ?2)
-               on conflict(date) do update set count = excluded.count"#,
-            [today, count.to_string()],
-        )?;
-        tx.commit()?;
     }
+
+    let mut conn = ctx.get_database_connection()?;
+    let tx = conn.transaction()?;
+    // Also append a row in the stats_invalid_addr_cities_counts table so we can chart this.
+    let now = ctx.get_time().now();
+    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let today = now.format(&format)?;
+    for row in &invalids {
+        tx.execute("insert into stats_invalid_addr_cities (osm_id, osm_type, postcode, city, street, housenumber, user, timestamp, fixme) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
+            [&row.osm_id, &row.osm_type, &row.postcode, &row.city, &row.street, &row.housenumber, &row.user, &row.timestamp, &row.fixme])?;
+    }
+    tx.execute(
+        r#"insert into stats_invalid_addr_cities_counts (date, count) values (?1, ?2)
+               on conflict(date) do update set count = excluded.count"#,
+        [today, invalids.len().to_string()],
+    )?;
+    tx.commit()?;
 
     Ok(())
 }
