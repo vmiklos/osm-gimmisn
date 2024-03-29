@@ -1,5 +1,9 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Gilice tér:
+    interpolation: all
+  Hargita tér:
+    interpolation: all
 osm-street-filters:
   # nem igazi utcák
   - Garázs-sor
