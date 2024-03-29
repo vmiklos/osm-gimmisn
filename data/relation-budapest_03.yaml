@@ -58,6 +58,8 @@ filters:
     ranges:
       - {start: '2', end: '6'}
       - {start: '1', end: '1'}
+  Papírgyár utca:
+    interpolation: all
   Reményi Ede utca:
     # 5 nincs kiírva, de 3 után 23 jön
     invalid: ['5']
