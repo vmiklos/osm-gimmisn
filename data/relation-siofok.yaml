@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Baross Gábor utca:
+    interpolation: 'all'
   Béri Balogh Ádám utca:
     show-refstreet: false
   Beszédes József sétány:
@@ -8,6 +10,10 @@ filters:
     show-refstreet: false
   Kiss János altábornagy utca:
     show-refstreet: false
+  Meggyfa utca:
+    interpolation: 'all'
+  Őrház utca:
+    interpolation: 'all'
   Pusztatorony tér:
     show-refstreet: false
   Szépvölgyi köz:
@@ -20,6 +26,8 @@ filters:
     show-refstreet: false
   Wesselényi Miklós utca:
     show-refstreet: false
+  Zichy Mihály utca:
+    interpolation: 'all'
 refstreets:
    # rövidítés
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
