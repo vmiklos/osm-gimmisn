@@ -1,5 +1,13 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  525. tér:
+    interpolation: all
+  Bélatelepi út:
+    interpolation: all
+  Hősök tere:
+    interpolation: all
+  Orgoványi utca:
+    interpolation: all
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Máv őrház
