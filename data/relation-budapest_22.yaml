@@ -1087,6 +1087,8 @@ filters:
     # 6: nincs ilyen házszám, a páros oldalon csak a 10-es szám van.
     # 20: nincs ilyen házszám, a páros oldalon csak a 10-es szám van.
     invalid: ['25', '27', '133a', '6', '20']
+  Savoyai Jenő tér:
+    interpolation: all
   Síp utca:
     # 13: ez és a Szegfű utca 2. közös telken van, bejárat és házszám a Szegfű utcáról van csak.
     # 36: sima 36 nincs, csak 36/a-b, 36/c, 36/d.
