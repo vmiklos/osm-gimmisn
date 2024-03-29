@@ -1,5 +1,9 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Kossuth tér:
+    interpolation: all
+  Templom tér:
+    interpolation: all
 street-filters:
   # nem igazi utcák / csak hrsz.
   - MÁV állomás
