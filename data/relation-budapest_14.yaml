@@ -17,9 +17,13 @@ filters:
     invalid: ['23a', '23b', '23c', '23d', '23e', '23f', '23g']
   # Dévényi utca:
   # páratlan XIII. páros XIV. (vonat)
+  Csertő park:
+    interpolation: all
   Dózsa György út:
     ranges:
       - {start: '1', end: '45'}
+  Egressy tér:
+    interpolation: all
   Egressy út:
     ranges:
       - {start: '1', end: '171'}
@@ -32,6 +36,8 @@ filters:
     ranges:
       - {start: '1', end: '199'}
       - {start: '2', end: '230'}
+  Francia út
+    interpolation: all
   Füredi utca:
     ranges:
       - {start: '1', end: '51'}
@@ -71,6 +77,10 @@ filters:
     ranges:
       - {start: '18', end: '58'}
       - {start: '76', end: '154'}
+  Limanova tér:
+    interpolation: all
+  Mexikói út:
+    interpolation: all
   Mogyoródi út:
     ranges:
       - {start: '1', end: '201'}
@@ -79,6 +89,8 @@ filters:
     ranges:
       - {start: '2', end: '998'}
       - {start: '1', end: '215'}
+  Ógyalla tér:
+    interpolation: all
   Ond vezér útja:
     ranges:
       - {start: '1', end: '47'}
@@ -91,6 +103,8 @@ filters:
   Padlizsán utca:
     # 37: ez és a Fogarasi út 45. ugyanaz az épület, de házszám a Fogarasi útról van csak. Az épület nyugati sarkán van egy Nyisztor utca 37 --> 15 tábla, ez lehetett az utca régi neve.
     invalid: ['37']
+  Rákos tér:
+    interpolation: all
   Rátót utca:
     ranges:
       - {start: '1', end: '11'}
@@ -100,10 +114,6 @@ filters:
       - {start: '1', end: '45'}
       - {start: '2', end: '42'}
       - {start: '49', end: '99'}
-  Thököly út:
-    ranges:
-      - {start: '29', end: '999'}
-      - {start: '44', end: '178'}
   Szőnyi út:
     ranges:
       - {start: '1', end: '51'}
@@ -112,10 +122,20 @@ filters:
     ranges:
       - {start: '1', end: '191'}
       - {start: '2', end: '222'}
+  Szuglói körvasút sor:
+    interpolation: all
+  Thököly út:
+    ranges:
+      - {start: '29', end: '999'}
+      - {start: '44', end: '178'}
   Teleki Blanka utca:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '98'}
+  Újvidék tér:
+    interpolation: all
+  Újváros park:
+    interpolation: all
   Vágány utca:
     ranges:
       - {start: '1', end: '11'}
