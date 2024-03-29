@@ -12,6 +12,8 @@ filters:
     invalid: ['1a', '2', '4']
   Boráros tér:
     interpolation: all
+  Csarnok tér:
+    interpolation: all
   Dandár utca:
     # 22: sima 22 nincs, csak 22/a, 22/b, 22/c.
     invalid: ['22']
@@ -19,6 +21,8 @@ filters:
     # 39/b: nincs ilyen, csak sima 39 van.
     # 45: ez és az Üllői út 45-51. ugyanaz az épület, bejárat és házszám az Üllői útról van csak.
     invalid: ['39b', '45']
+  Ferenc tér:
+    interpolation: all
   Fővám tér:
     interpolation: all
   Gát utca:
