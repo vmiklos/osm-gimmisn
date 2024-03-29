@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Béke tér:
+    interpolation: all
   Carl Lutz rakpart:
     # 1: nincsenek állandó épületek, csak hajók XIII/?? raszter vagy ?? kikötő címen futnak.
     invalid: ['1']
@@ -14,6 +16,8 @@ filters:
   Göncöl utca:
     # 93 = Rákospalotai út 47.
     invalid: ['93']
+  József Attila tér:
+    interpolation: all
   Mór utca:
     # 8/a: nincs ilyen, a Saldo Zrt. parkolója van itt 6/a számmal.
     invalid: ['8a']
