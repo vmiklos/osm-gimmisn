@@ -2,6 +2,8 @@ missing-streets: 'yes'
 filters:
   Árnyas utca:
     show-refstreet: false
+  Entz Géza sétány:
+    interpolation: all
   Felsőmajori út:
     show-refstreet: false
   Ifjúság utca:
