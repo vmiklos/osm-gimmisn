@@ -99,6 +99,10 @@ filters:
     invalid: ['3a', '9', '13']
     ranges:
       - {start: '1', end: '14'}
+  Kozák tér:
+    interpolation: all
+  Kőrakás park:
+    interpolation: all
   Közvágóhíd utca:
     # 3, 9/A nincs
     # 4, 6 az a volt növényolajgyár => az a rész viszont most nagyon kaotikus, megközelíthetetlen
