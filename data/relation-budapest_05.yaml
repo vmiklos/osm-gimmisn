@@ -83,6 +83,8 @@ filters:
   Kozma Ferenc utca:
     # páratlan oldal a másik utcákról számozódik
     invalid: ['7']
+  Kristóf tér:
+    interpolation: all
   Magyar utca:
     # 7: ez és a Reáltanoda utca 18. ugyanaz az épület, házszám a Reáltanoda utcáról van csak.
     # 17: ez a Károlyi kert.
