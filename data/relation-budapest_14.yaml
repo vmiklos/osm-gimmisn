@@ -36,7 +36,7 @@ filters:
     ranges:
       - {start: '1', end: '199'}
       - {start: '2', end: '230'}
-  Francia út
+  Francia út:
     interpolation: all
   Füredi utca:
     ranges:
