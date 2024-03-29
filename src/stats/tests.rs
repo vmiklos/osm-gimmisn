@@ -11,7 +11,6 @@
 //! Tests for the stats module.
 
 use super::*;
-use std::io::Write;
 use std::rc::Rc;
 
 use crate::context::FileSystem as _;
@@ -471,27 +470,17 @@ fn test_get_previous_month() {
 /// Tests update_invalid_addr_cities().
 #[test]
 fn test_update_invalid_addr_cities() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let state_dir = ctx.get_abspath("workdir/stats");
-    let today_csv = context::tests::TestFileSystem::make_file();
-    today_csv
-        .borrow_mut()
-        .write_all(
-            r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user	@id	@type	@timestamp	fixme
-7677	mycity	mystreet	1	myuser	42	way	2020-05-10T22:02:25Z	
-7677	Budapest	mystreet	1	myuser	43	node	2020-05-10T22:02:25Z	
-"#
-            .as_bytes(),
+    let ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into whole_country (postcode, city, street, housenumber, user, osm_id, osm_type, timestamp, place, unit, name, fixme) values ('7677', 'mycity', 'mystreet', '1', 'myuser', '42', 'way', '2020-05-10T22:02:25Z', '', '', '', '');
+             insert into whole_country (postcode, city, street, housenumber, user, osm_id, osm_type, timestamp, place, unit, name, fixme) values ('7677', 'Budapest', 'mystreet', '1', 'myuser1', '43', 'node', '2020-05-10T22:02:25Z', '', '', '', '');"
         )
         .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/stats/whole-country.csv", &today_csv)],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
+    }
 
-    update_invalid_addr_cities(&ctx, &state_dir).unwrap();
+    update_invalid_addr_cities(&ctx).unwrap();
 
     let conn = ctx.get_database_connection().unwrap();
     let mut stmt = conn
