@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Fő utca:
+    interpolation: all
   Nyírfa utca:
     show-refstreet: false
   Leiningen-Westerburg Károly köz:
