@@ -1,6 +1,6 @@
 missing-streets: 'yes'
 filters:
-  Horgász part:    
+  Horgász part:
     interpolation: all
 street-filters:
   # nem igazi utcák / csak hrsz.
