@@ -32,6 +32,8 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '10'}
+  Apor Vilmos tér:
+    interpolation: 'all'
   Arató köz:
     ranges:
       - {start: '1', end: '5'}
@@ -71,6 +73,8 @@ filters:
     ranges:
       - {start: '1', end: '111'}
       - {start: '2', end: '36'}
+  Csillagvizsgáló út:
+    interpolation: 'all'
   Csipke út:
     # 500-700 is invalid
     ranges:
@@ -243,6 +247,8 @@ filters:
   Királyhágó utca:
     # 4: sima 4 nincs, csak 4/a, 4/b.
     invalid: ['4']
+  Királyhágó tér:
+    interpolation: 'all'
   Kiss János altábornagy utca:
     # 29/b: két 29-es van, az ELTE Gyakorló Óvoda nincs kitáblázva, csak a honlapjukon szerepel, a társasházon pedig csak sima 29 van.
     # 35/a: az épületen lévő kiírás szerint átszámozták, az új házszám 35/c.
@@ -297,6 +303,8 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '16'}
+  Magyar jakobinusok tere:
+    interpolation: 'all'
   Márvány utca:
     # 21: sima 21 nincs, csak 21/a, 21/b.
     # 31/a: nincs ilyen, csak sima 31 van.
