@@ -1,5 +1,7 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Horgász part:    
+    interpolation: all
 street-filters:
   # nem igazi utcák / csak hrsz.
   - MÁV 7-es vasúti őrház
