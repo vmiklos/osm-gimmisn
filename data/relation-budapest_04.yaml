@@ -1,5 +1,11 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Szent István tér:
+    interpolation: all
+  Szent László tér:
+    interpolation: all
+  Széchenyi tér:
+    interpolation: all
 osm-street-filters:
   # nem igazi utcák
   - Árpád úti felüljáró
