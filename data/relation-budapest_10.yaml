@@ -1,5 +1,9 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Szent László tér:
+    interpolation: all
+  Tündérfürt utca:
+    interpolation: all
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Keresztúri úti 1-es őrház
