@@ -435,21 +435,7 @@ fn test_handle_invalid_addr_cities_update_json() {
         test_wsgi.get_json_for_path("/lints/whole-country/invalid-addr-cities/update-result.json");
     assert_eq!(root.as_object().unwrap()["error"], "");
 
-    // Then make sure the whole-country.csv is updated:
-    let path = test_wsgi
-        .get_ctx()
-        .get_abspath(&format!("workdir/stats/whole-country.csv"));
-    let actual = test_wsgi
-        .get_ctx()
-        .get_file_system()
-        .read_to_string(&path)
-        .unwrap();
-    assert_eq!(
-        actual,
-        String::from_utf8(std::fs::read("src/fixtures/network/overpass-stats.csv").unwrap())
-            .unwrap()
-    );
-    // SQL is updated:
+    // Then make sure the whole_country table is updated:
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
         let last_modified: String = conn
