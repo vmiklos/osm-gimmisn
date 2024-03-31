@@ -61,6 +61,9 @@ filters:
   Vadkörte utca:
     # 4: nincs, a 2-es ház használja a 4-es telket is. kiírva nincs se 2, se 4.
     invalid: ['4']
+  Vadszeder utca:
+    # 8: üres telek, 7-nél illetve 12-nél indulnak a házak
+    invalid: ['8']
   Virág köz:
     # 30: valószínű Jánoshegyi út 30.
     invalid: ['30']
