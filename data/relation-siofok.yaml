@@ -14,8 +14,6 @@ filters:
     interpolation: 'all'
   Őrház utca:
     interpolation: 'all'
-  Pusztatorony tér:
-    show-refstreet: false
   Szépvölgyi köz:
     show-refstreet: false
   Szépvölgyi utca:
@@ -39,7 +37,6 @@ refstreets:
   'Halápy János utca': 'Halápi János utca'
   'Hubay Jenő utca': 'Hubai Jenő utca'  # A teljes név van kitáblázva, Y-nal a vezetéknév végén.
   'Medgyessy Ferenc utca': 'Medgyesi Ferenc utca'
-  'Pusztatorony tér': 'Puszta-torony tér'
   'Szilágyi Erzsébet utca': 'Szilágyi Erzsébet fasor'  # Szilágyi Erzsébet utca szerepel a táblán
   'Szépvölgyi köz': 'Szép-völgyi köz'  # Nincs utcanévtábla, csak az egyik épületre van kiírva egybe írva.
   'Szépvölgyi utca': 'Szép-völgyi utca'  # Egybe van írva, Szépvölgyi utca.
@@ -62,12 +59,15 @@ street-filters:
   - Rádióállomás egyéb  # Nincs kint utcanévtábla és a toronynak sincs házszáma kitáblázva. https://www.openstreetmap.org/note/3265989
   - Lovasiskola
   # településrész/dűlő
+  - Agyagos dűlő
   - Békás dűlő
   - Foki szőlőhegy
+  - Horgász dűlő
   - Kiliti szőlőhegy
   - Papkuta puszta
   - Szigeti szőlőhegy
   - Töreki hegy
+  - Töreki puszta
 osm-street-filters:
   # Nem valós utcák
   - M7 autópálya
