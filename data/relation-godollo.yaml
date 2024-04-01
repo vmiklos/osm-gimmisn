@@ -60,15 +60,11 @@ street-filters:
   - Temetői őrház
   - Tessedik Kollégium
   - Repülőtér
-  - Vágóhíd
   # Területként
   - Száritó puszta  # szerepel Szárítópusztaként
   # Hiányzó
   # - Bojtorján utca - Kankalin utca folytatása
   # - Raktár utca - HÉV és a vasút között, Palotakert megállónál
-  # - Gépgyári lakótelep - Gödöllői Gépgyár buszmegállónál
-  # Ismertelen
-  # - Makarenkó telep
 refstreets:
   'Alkony út': 'Alkony utca'
   'Ambrus köz': 'Ambrus Zoltán köz'
@@ -93,7 +89,6 @@ refstreets:
   'Premontrei út': 'Premontrei utca'
   'Semmelweis Ignác utca': 'Semmelweis utca'
   'Sík Sándor utca': 'Sik Sándor utca'
-  'Szent-Györgyi Albert utca': 'Szentgyörgyi Albert utca'
   'Tessedik Sámuel utca': 'Tessedik Sámuel út'
   'Toldi Miklós út': 'Toldi Miklós utca'
 source: survey
