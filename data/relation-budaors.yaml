@@ -244,7 +244,7 @@ filters:
     invalid: ['9', '12', '38', '54', '126', '134']
   Ifjúság utca:
     invalid: ['2', '37']
-  Jókai Mór utca:
+  Jókai utca:
     # 17 az utolsó ház átszámozás után
     invalid: ['19']
   József Attila utca:
@@ -806,4 +806,5 @@ refstreets:
   'Jókai utca': 'Jókai Mór utca'  # Kertváros
   'Odvashegy köz': 'Odvas-hegy köz'  # Hegyvidékek
   'Rákóczi utca': 'Rákóczi Ferenc utca'  # Belváros
+  'Munkácsy utca': 'Munkácsy Mihály utca'
 inactive: true
