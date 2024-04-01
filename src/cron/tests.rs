@@ -961,16 +961,6 @@ fn test_update_stats() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-stats.csv",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/status",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
             /*result_path=*/ "src/fixtures/network/overpass-stats.json",
         ),
     ];
@@ -978,7 +968,6 @@ fn test_update_stats() {
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     ctx.set_network(network_rc);
 
-    let csv_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
@@ -989,7 +978,6 @@ fn test_update_stats() {
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            ("workdir/stats/whole-country.csv", &csv_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
             (
@@ -1003,16 +991,17 @@ fn test_update_stats() {
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
 
-    let path = ctx.get_abspath(&format!("workdir/stats/whole-country.csv"));
-
     update_stats(&ctx, /*overpass=*/ true).unwrap();
 
-    let actual = ctx.get_file_system().read_to_string(&path).unwrap();
-    assert_eq!(
-        actual,
-        String::from_utf8(std::fs::read("src/fixtures/network/overpass-stats.csv").unwrap())
-            .unwrap()
-    );
+    let conn = ctx.get_database_connection().unwrap();
+    let last_modified: String = conn
+        .query_row(
+            "select last_modified from mtimes where page = ?1",
+            ["whole-country/osm-base"],
+            |row| row.get(0),
+        )
+        .unwrap();
+    assert!(!last_modified.is_empty());
 
     let num_ref: i64 = ctx
         .get_file_system()
@@ -1289,7 +1278,6 @@ fn test_our_main_stats() {
     let mut file_system = context::tests::TestFileSystem::new();
     let stats_value = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
-    let today_csv = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -1299,15 +1287,10 @@ fn test_our_main_stats() {
                 "data/street-housenumbers-hungary.overpassql",
                 &overpass_template,
             ),
-            ("workdir/stats/whole-country.csv", &today_csv),
             ("workdir/stats/ref.count", &ref_count),
         ],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/stats/whole-country.csv");
-    mtimes.insert(path, Rc::new(RefCell::new(ctx.get_time().now())));
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
