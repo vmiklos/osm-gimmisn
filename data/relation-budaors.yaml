@@ -244,7 +244,7 @@ filters:
     invalid: ['9', '12', '38', '54', '126', '134']
   Ifjúság utca:
     invalid: ['2', '37']
-  Jókai utca:
+  Jókai Mór utca:
     # 17 az utolsó ház átszámozás után
     invalid: ['19']
   József Attila utca:
@@ -779,29 +779,31 @@ street-filters:
   - Csiki dűlő
   - Erdő utca  # Nincs
   - Frank-hegy
-  - Geisbardt dűlő  # megszűnt
-  - Harangvirág utca  # Pitypang utcában, ahol volt jelölve, ott nincs utca
-  - Törökugrató dűlő
+  # Harangvirág utca  # Pitypang utcában, ahol volt jelölve, ott nincs utca
   - Vasútáll.és körny. dűlő  # Váltóőr utca régi neve (itt van kiírva, valószínű az egész környék az volt)
   # Iskolai körzetlistából jön, máshol nincs nyoma
-  - Dézsma köz
-  - Franktanya utca
-  - Jedlik Ányos utca
-  - Kinizsi dűlő
-  - Liget köz
-  - Lomb utca
+  # Dézsma köz
+  # Franktanya utca
+  # Jedlik Ányos utca
+  # Kinizsi dűlő
+  # Liget köz
+  # Lomb utca
   # Csak terven létezik, tábla nincs
   - Ágas utca  # valóságban nem létezik
-  - Bérc utca  # w108362524 - valóságban egy erdei ösvény - törölve
+  # Bérc utca  # w108362524 - valóságban egy erdei ösvény - törölve
   - Darázs utca  # Szarvas utca vége volt ennek jelölve, a helyszínen Szarvas utcára van számozva minden
-  - Hegyközi utca  # egy benőtt ösvény a Cserebogár utcából
-  - Sáfrány utca  # Ringló utcáról nyíló ösvény - törölve
-  - Szeder utca  # Lezárt magánút Naphegy utcáról - törölve
+  # Hegyközi utca  # egy benőtt ösvény a Cserebogár utcából
+  # Sáfrány utca  # Ringló utcáról nyíló ösvény - törölve
+  # Szeder utca  # Lezárt magánút Naphegy utcáról - törölve
 refstreets:
   # OSM Name 1: Ref Name 1
-  Aszú utca: Aszu utca  # Szállások: utcatábla Aszú utca
-  Írisz utca: Irisz utca  # Hegyvidékek: nincs utcatábla
-  Csík falu köz: Csik Falu köz  # Hegyvidékek: utcatábla Csík falu köz
+  # 'Aszú utca': 'Aszu utca'  # Szállások: utcatábla Aszú utca, ref dupla, Aszu utca törölve
+  'Írisz utca': 'Irisz utca'  # Hegyvidékek: nincs utcatábla
+  'Csík falu köz': 'Csik Falu köz'  # Hegyvidékek: utcatábla Csík falu köz
   # Petőfi Sándor utca: Petőfi utca  # Belváros/Gazdasági: táblák vegyesen
-  Széchenyi utca: Széchenyi István utca  # Kertváros: utcatábla Széchenyi utca
+  'Széchenyi utca': 'Széchenyi István utca'  # Kertváros: utcatábla Széchenyi utca
+  # kérdéses 2024
+  'Jókai utca': 'Jókai Mór utca'  # Kertváros
+  'Odvashegy köz': 'Odvas-hegy köz'  # Hegyvidékek
+  'Rákóczi utca': 'Rákóczi Ferenc utca'  # Belváros
 inactive: true
