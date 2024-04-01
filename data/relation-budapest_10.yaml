@@ -54,6 +54,7 @@ osm-street-filters:
   - 1848-49-es honvédsírok
   - II. körönd
   # Népliget sétányok
+  - Népliget
   - Andreánszky Gábor sétány
   - Borbás Vince sétány
   - Boros Ádám sétány
@@ -71,7 +72,6 @@ osm-street-filters:
   - Lechner Ödön sétány
   - Moesz Gusztáv sétány
   - Mutatványos tér
-  - Népligeti út
   - Petz Ármin sétány
   - Räde Károly sétány
   - Rapaics Raymund sétány
