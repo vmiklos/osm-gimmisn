@@ -12,7 +12,7 @@ filters:
     ranges: []
 refstreets:
   'Akácfa utca': 'Akácfa út'
-  'Málna utca': 'Málna út'
+  'Kígyó utca': 'Kigyó utca'  # helyesírás
   'Tímár utca': 'Timár utca'
   # Agárd
   'Alkotmány utca': 'Agárd-Alkotmány utca'
