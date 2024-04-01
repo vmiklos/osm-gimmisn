@@ -802,6 +802,6 @@ refstreets:
   Aszú utca: Aszu utca  # Szállások: utcatábla Aszú utca
   Írisz utca: Irisz utca  # Hegyvidékek: nincs utcatábla
   Csík falu köz: Csik Falu köz  # Hegyvidékek: utcatábla Csík falu köz
-  Petőfi Sándor utca: Petőfi utca  # Belváros/Gazdasági: táblák vegyesen
+  # Petőfi Sándor utca: Petőfi utca  # Belváros/Gazdasági: táblák vegyesen
   Széchenyi utca: Széchenyi István utca  # Kertváros: utcatábla Széchenyi utca
 inactive: true
