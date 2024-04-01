@@ -24,6 +24,8 @@ osm-street-filters:
   - Szépasszony-völgy
   - Táncsics Mihály sétány
   - Várfal sétány
+  # dűlők
+  - Rózsásdűlő
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Bagolyvár kültelek
@@ -34,18 +36,31 @@ street-filters:
   - Vasuti őrház  # dupla
   - Vasúti őrház
   # dűlők
-  # - Agárdi-dűlő
-  # - Almár-dűlő
-  # - Birka dűlő
-  # - Braunvölgy-dűlő
-  # - Ceglédi dűlő
-  # - Hajdúhegyi külterület dűlő
-  # - Kenderföld-dűlő
-  # - Kis-Eged-dűlő
-  # - Kiskőporos dűlő
-  # - Merengő dülő
-  # - Paphegy-dűlő
-  # - Szőlőcske-puszta
+  - Agárdi-dűlő
+  - Bajusz-völgy dűlő
+  - Birka dűlő
+  - Braunvölgy-dűlő
+  - Ceglédi dűlő
+  - Donát-dűlő
+  - Fertő-dűlő
+  - Grőber-dűlő
+  - Hajdúhegyi külterület dűlő
+  - Hergyimó-dűlő
+  - Kenderföld-dűlő
+  - Kis-Eged-dűlő
+  - Kis-kocs-dűlő
+  - Kiskőporos dűlő
+  - Kőlyuktető-dűlő
+  - Kőporos-dűlő
+  - Merengő-dűlő
+  - Nagy-Eged-dűlő
+  - Olajostető-dűlő
+  - Paphegy-dűlő
+  - Rózsás-dűlő
+  - Szépasszonyvölgy-dűlő  # != Szépasszony-völgy parknak jelölt rész a Disznófő sornál
+  - Szőlőcske-dűlő
+  - Szőlőcske-puszta
+  - Tihamér-dűlő
   # Ismeretlen
   # - Berva-völgy utca
   # - Halom utca
@@ -71,13 +86,14 @@ refstreets:
   'Foglár utca': 'Foglár György utca'  # Táblán Foglár u. - 2023.07 - https://www.openstreetmap.org/note/2803211
   # note
   # Akácfa utca - Akácos utca: dupla nem mappelhető
+  'Borház sor': 'Borház sor utca' # Note 4178003
   'Bem tábornok utca': 'Bem tábornok tér'  # Note 2803168
   'Deméndi utca': 'Deméndi út'  # Note 2803218
-  'Disznófő-sor': 'Szépasszonyvölgy-Disznófősor utca'  # Note 2803215
+  'Disznófő-sor': 'Disznófősor'  # Note 2803215
   'Egri út': 'Egri utca'  # Note 2803225
   'Hevesi Sándor utca': 'Hevesy Sándor utca'  # Note 2803219
   'II. Rákóczi Ferenc út': 'II. Rákóczi Ferenc utca'
-  'Maczki Valér utca': 'Macki Valér utca'  # Note 2803212
+  # 'Maczki Valér utca': 'Macki Valér utca'  # Note 2803212 - ref 2024-ben már Maczki Valér utca
   'Nagylapos utca': 'Nagylaposi út'  # Note 2803222
   'Pásztorvölgyi utca': 'Pásztorvölgy utca'  # Note 2803217
   'Rottenstein köz': 'Rottenstein Károly utca'  # Note 2803227
