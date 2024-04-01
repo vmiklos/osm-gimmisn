@@ -10,6 +10,6 @@ osm-street-filters:
 refstreets:
   'Jókai Mór utca': 'Jókai utca'
   'Rákóczi út': 'Rákóczi utca'
-  'Tomorvári utca': 'Tomorvár út'
+  'Tomorvári utca': 'Tomorvár utca'
 source: survey
 inactive: true
