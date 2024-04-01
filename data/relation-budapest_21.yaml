@@ -88,15 +88,10 @@ refstreets:
   # nincs tábla
   'Simon Bolivar sétány': 'Simon Bolivár sétány'
   # Utcajegyzék = OSM, ref hibás
-  'Deák tér': 'Deák Ferenc tér'
   'Gál ispán utca': 'Gál Ispán utca'  # https://www.openstreetmap.org/changeset/146194183
   'Kis-Duna sor': 'Kisduna sor'
-  'Nagy-Duna sor': 'Nagydunasor'
-  'Plútó utca': 'Plutó utca'
-  'Tas utca': 'Tass utca'
   # Helyesírás
   'Merkúr utca': 'Merkur utca'
-  'Szállító utca': 'Szállitó utca'
   'Szikratávíró utca': 'Szikratáviró utca'
   'Színesfém utca': 'Szinesfém utca'
 source: survey
