@@ -6,6 +6,5 @@ street-filters:
 refstreets:
   'Ifjúság utca': 'Ifjuság utca'
   'Kendereskert út': 'Kendereskerti út'
-  'Sport út': 'Sport utca'
 source: survey
 inactive: false
