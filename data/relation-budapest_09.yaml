@@ -136,8 +136,6 @@ osm-street-filters:
   - Tóth Aladár út
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  # helyesírás
-  'Távíró köz': 'Táviró köz'
   # utcajegyzék = REF, OSM eltér
   # 'Knézich utca': 'Knézits utca'  # kijavították a táblát
   'Gregersen Gulbrand körönd': 'Gregersen körönd'
