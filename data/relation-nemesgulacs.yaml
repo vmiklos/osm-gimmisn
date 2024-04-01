@@ -31,6 +31,6 @@ osm-street-filters:
   - Spiccer köz
 refstreets:
   'Hegyalja út': 'Hegyalja utca'  # nincs tábla
-  'Gyártelep utca': 'Bányatelep'
+  'Gyártelep utca': 'Bánya telep'
 source: survey
 inactive: true
