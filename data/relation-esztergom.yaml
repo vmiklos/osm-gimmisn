@@ -215,6 +215,13 @@ osm-street-filters:
   - Sötétkapu
   - Szent István lépcső
   - Szontagh Ottó útja
+  # dűlők
+  - Borzhegy dűlő
+  - Csenkei híd dűlő
+  - Dankhegy dűlő
+  - Holopkút dűlő
+  - Újföldek dűlő
+  - Zsellértag dűlő
   # loc_name
   - Hoffmann út
   # place
@@ -227,10 +234,6 @@ street-filters:
   - MÁV lakások telep
   # dűlők
   - Csapási dűlő
-  - Dankhegy dűlő
-  - Kerektó dűlő
-  - Öreg-kúria dűlő
-  - Szamárhegy dűlő
   # városhatár
   # - Bocskai István sor  # Eszergom / Dorog határ: Patak sor / Bocskai sor
   # Pilisszentlélek, nem mappelhető
@@ -241,7 +244,6 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'AMP út': 'AMP utca'
   'Bocskai sor': 'Bocskai István sor'
-  'Döbönkút utca': 'Döbönkút dűlő'
   'Hegytető utca': 'Hegy-tető utca'
   'Kenderesi utca': 'Kenderesi út'
   # 'Madách Imre tér': 'Madách Imre út'
