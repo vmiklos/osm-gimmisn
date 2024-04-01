@@ -806,5 +806,5 @@ refstreets:
   'Jókai utca': 'Jókai Mór utca'  # Kertváros
   'Odvashegy köz': 'Odvas-hegy köz'  # Hegyvidékek
   'Rákóczi utca': 'Rákóczi Ferenc utca'  # Belváros
-  'Munkácsy utca': 'Munkácsy Mihály utca'
+  'Munkácsy utca': 'Munkácsy Mihály utca' # Belváros, táblák vegyesen
 inactive: true
