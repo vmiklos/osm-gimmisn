@@ -59,7 +59,6 @@ refstreets:
   # ellenőrizve
   'Camping utca': 'Kemping utca'  # Camping utca van írva a hivatalos utcanévtáblára, de az épületeken Kemping utcaként is szerepel.
   'Jókai Mór utca': 'Jókai utca'  # Jókai Mór utca az egyik sarkon ki van írva teljes névvel, a másikon nincs. A környéken mindenhol teljes névvel vannak az utcák.
-  # 'Kvassay sétány': 'Kwassay sétány'  # Kvassay Jenőról lett elnevezve a sétány. A kikötőben szobra is van.
   # Báthori István utca I-vel van írva, beszéltem egy tulajdonossal, a tulajdoni lapján is így van.
   # Eötvös utca minden sarkon így szerepel.
   # Gárdonyi Géza utca teljes névvel van kiírva.
@@ -72,6 +71,8 @@ street-filters:
   # dupla a ref-ben
   - Camping utca
 osm-street-filters:
+  # park, sétány
+  - Kvassay sétány  # Kvassay Jenőról lett elnevezve a sétány. A kikötőben szobra is van.
   # Kőröshegy átlógó utcák
   - Ágos sziget
   - Gyár utca
