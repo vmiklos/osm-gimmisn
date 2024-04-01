@@ -3,14 +3,11 @@ refstreets:
   # helyesírás/rövidítés
   'Bálint major': 'Bálintmajor'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
-  'Kiscséri új telep': 'Kiscséri uj telep'
+  'Kiscséri új telep': 'Kiscséri új telep'
   # ellenőrzött
   'Balassi Bálint út': 'Balassy Bálint utca'  # nincs tábla, 1 házon van kint Balassi Bálint út 1
 street-filters:
   # nem igazi utcák
-  - 6.vasúti őrház
-  - 10.vasúti őrház
-  - 142.vasúti őrház
   - MÁV Kiscséripuszta vasútállomás
   - MÁV Polgárdi Ipart. vasútállomás
   - MÁV Polgárdi vasútállomás
