@@ -12,7 +12,7 @@ filters:
     ranges: []
 refstreets:
   'Akácfa utca': 'Akácfa út'
-  'Szúnyog utca': 'Szunyog utca'  # új táblákon Szúnyog utca
+  'Málna utca': 'Málna út'
   'Tímár utca': 'Timár utca'
   # Agárd
   'Alkotmány utca': 'Agárd-Alkotmány utca'
