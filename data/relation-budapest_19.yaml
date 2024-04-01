@@ -32,13 +32,13 @@ refstreets:
   # helyesírás, ref hibás
   'Kiss János altábornagy utca': 'Kiss János altbgy. utca'
   # utcajegyzék = OSM, ref hibás
-  'Bóné András utca': 'Bohné András utca'
+  # 'Bóné András utca': 'Bohné András utca'
   'Drágfy köz': 'Drágffy köz'
   'Ferihegyi repülőtérre vezető út': 'Ferihegyi reptérre vezető út'
   'Györffy István tér': 'Győrffy István tér'
   'Körös köz': 'Kőrös köz'
   'Petur utca': 'Petúr utca'
-  'Tas utca': 'Tass utca'
+  # 'Tas utca': 'Tass utca'
   # utcajegyzék = REF, OSM eltér
   'Citroën utca': 'Citroen utca'  # utcatábla = OSM
 source: survey
