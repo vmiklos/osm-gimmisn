@@ -2702,7 +2702,7 @@ refstreets:
   'Károly Iréneusz József utca': 'Károly Ireneusz J. utca'
   'Keserűvíz utca': 'Keserűviz utca'
   'Kis Fenyves köz': 'Kis-Fenyves köz'
-  'Madárhegyi út': 'Madárhegy utca'  # hivatalosan Madárhegyi út
+  # 'Madárhegyi út': 'Madárhegy utca'  # hivatalosan Madárhegyi út, ref dupla Madárhegy utca törölve
   'Mesterházi utca': 'Mesterházy utca'
   'Új barázda utca': 'Új Barázda utca'
   'Zólyomi köz': 'Zólyom köz'
