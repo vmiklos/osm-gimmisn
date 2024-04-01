@@ -30,7 +30,6 @@ filters:
     invalid: ['53']
 refstreets:
   'Csokonai Vitéz Mihály utca': 'Csokonai Mihály utca'
-  'Ipari park': 'Ipari park ipartelep'
   'Szent-Györgyi Albert út': 'Szentgyörgyi Albert út'
   'Zsámbékos dűlő': 'Zsámbékos völgy'
 source: survey by turboscsiga
