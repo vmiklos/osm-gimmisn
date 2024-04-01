@@ -3,7 +3,6 @@ refstreets:
   # helyesírás/rövidítés
   'Bálint major': 'Bálintmajor'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
-  'Kiscséri új telep': 'Kiscséri új telep'
   # ellenőrzött
   'Balassi Bálint út': 'Balassy Bálint utca'  # nincs tábla, 1 házon van kint Balassi Bálint út 1
 street-filters:
