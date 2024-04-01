@@ -13,8 +13,8 @@
 use crate::context;
 
 thread_local! {
-    static TRANSLATIONS: std::cell::RefCell<Option<gettext::Catalog>> = std::cell::RefCell::new(None);
-    static LANGUAGE: std::cell::RefCell<Option<String>> = std::cell::RefCell::new(None);
+    static TRANSLATIONS: std::cell::RefCell<Option<gettext::Catalog>> = const { std::cell::RefCell::new(None) };
+    static LANGUAGE: std::cell::RefCell<Option<String>> = const { std::cell::RefCell::new(None) };
 }
 
 /// Sets the language of the current thread.
