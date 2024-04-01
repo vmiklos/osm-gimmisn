@@ -47,8 +47,6 @@ filters:
     invalid: ['954']
 refstreets:
   # helyesírás
-  'Bendegúz tér': 'Bendeguz tér'
-  'Bulcsú utca': 'Bulcsu utca'
   'Örs utca': 'Őrs utca'
   # ellenőrzött
   'Akácos utca': 'Akácos út'  # https://www.openstreetmap.org/note/3286508
