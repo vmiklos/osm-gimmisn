@@ -102,9 +102,6 @@ filters:
   Deák Ferenc utca:
     # 4-6: Csak 4 van kiírva
     invalid: ['6']
-  Dembinszky utca:
-    # 6 = Klapka 10
-    invalid: ['6']
   Dózsa György utca:
     show-refstreet: false
     # 13-15: csak 13 van kiírva
@@ -170,12 +167,8 @@ filters:
   Győri utca:
     # 21-23: Vízmeder utca 22 címet használja
     invalid: ['21', '23']
-  Hadak útja:
+  # Hadak útja:
     # 1 = park, 3 = építkezés, 5 = nincs
-    invalid: ['3']
-  Halacs utca:
-    # 5: nincs kiírva
-    invalid: ['5']
   Hajnal utca:
     # 8-10: új ház 2 telken, még a régi 8-as házszám van kint 2023-02. RESURVEY 2023-07
     invalid: ['10']
@@ -248,7 +241,7 @@ filters:
     # 48-52: csak 52 van
     # 70 helyett 72 van táblázva
     # 91-93: csak 91 van kiírva
-    invalid: ['48', '50', '70', '93']
+    invalid: ['70', '93']
   Kisfaludy köz:
     # 2-4: csak 4 van a kukán, kiírva nincs semmi
     invalid: ['2']
@@ -309,10 +302,8 @@ filters:
   Maros utca:
     # 15-17: csak 17 van kiírva
     invalid: ['15']
-  Mátyás király utca:
-    # 69: még nincs, 63 az utolsó. 2 épül. 2023-01. RESURVEY 2024
-    # 64: beépítetlen rész. 2022-12. RESURVEY 2024
-    invalid: ['64']
+  # Mátyás király utca:
+    # 67, 69: még nincs, 63 az utolsó. 2 épül. 2023-01. RESURVEY 2024
   Moha utca:
     # 1: nincs kint házszám 2024-02. RESURVEY 2025
     invalid: ['1']
@@ -359,7 +350,7 @@ filters:
     # 1 = 3-5-tel azonos telek, de a számozás csak 3 és 5
     # max 41
     # 43 Balkom már Szabolcs utca 4, a hulladékudvar címe maradt
-    invalid: ['1', '59', '63', '89']
+    invalid: ['1']
   # Rekettye utca:
     # 12 után 16, de a 18-nál van egy 14/b
   Remetevölgyi út:
@@ -440,9 +431,8 @@ filters:
     # 2: Földhivatal szerint a vasútállomás Városház tér 2-3, MÁV szerint csak 3
     # 7: coop volt. a helyén nyíló DM már az 5-ös házszámot használja, ami ugyanaz mint az étterem (1 telken van).
     invalid: ['2', '7']
-  Vécsey Károly utca:
+  # Vécsey Károly utca:
     # páros oldalon nincsenek számok, más ucákra vannak számozva
-    invalid: ['46']
   Venyige utca:
     # 1-3: csak 3 van kiírva
     invalid: ['1']
@@ -473,10 +463,7 @@ filters:
     # 13: nincs kiírva
     # 33: nincs kiírva
     # 38-40: HÉSZ szerinti helyén 36 van táblázva
-    invalid: ['13', '33', '38', '40']
-    ranges:
-      - {start: '1', end: '41'}
-      - {start: '2', end: '60'}
+    invalid: ['33', '38', '40']
     show-refstreet: false
   Vöröskő utca:
     # 8: 3 van kiírva
