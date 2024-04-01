@@ -26,6 +26,19 @@ osm-street-filters:
   # turistaút
   - Aranylépcső
   - Mária sétány
+  # dűlők
+  - Deszkásoldal dűlő
+  - Fazekas dűlő
+  - Gáma dűlő
+  - Gólyahír dűlő
+  - Jónás dűlő
+  - Juhdöglővölgy dűlő
+  - Károlyi Mihály dűlő
+  - Kevlár dűlő
+  - Kismagashegy dűlő
+  - Láng dűlő
+  - Magashegy dűlő
+  - Pünkösd dűlő
 street-filters:
   - Kisavas sor  # Kisavas, Első sor stb..
   - Termál barlangfürdő  # Van rendes címe
@@ -43,7 +56,6 @@ street-filters:
   - Nagyavasi sor  # Nagyavas-alsó sor stb.
   - Nagy Csermőke dűlő  # Nagycsermőke dűlő
   - Nagykőkötő  # Nagy-kőkötő utca
-  - Nagy magas hegy  # Nagymagashegy
   - Ruzsinszőlő utca  # Ruzsinszőlő dűlő
   - Tetemvár sor  # Tetemvár Alsó sor stb..
   - Varga oldal  # Vargaloldal
@@ -52,8 +64,12 @@ street-filters:
   - MÁV vasgyári 6-os őrház
   - Rendező pályaudvar
   - Garadna erdészház
-  # csak hrsz / nincs hsz.
+  # csak hrsz / nincs hsz. / dűlők
   - Ágazat
+  - Bábonyibérc dűlő
+  - Bábonyibérc hegy
+  - Bandzsalgó dűlő
+  - Bedegvölgy dűlő
   - Bolló alja dűlő
   - Csabagyöngye I. dűlő
   - Erenyő
@@ -64,15 +80,20 @@ street-filters:
   - Herceg Hajtás dűlő
   - Hidegoldal dűlő
   - Jenke tanya
+  - Kakas-hegy
   - Kankós dűlő
   - Kerekhegy
   - Kis-ágazat dűlő
+  - Kisszilvás völgy
   - Kis Szent Benedek
   - Lapocka dűlő
   - Margitta dűlő
+  - Nagyszilvás völgy
+  - Nagy magas hegy
   - Őzugró dűlő
   - Szabadka dűlő
   - Szarkahegy dűlő
+  - Szentbenedekhegyi dűlő
   - Szentlélek
   - Vadász dűlő
   # hamlet/suburb/landuse
@@ -104,11 +125,7 @@ street-filters:
   # - Visó utca
   # hiányzó egyéb
   # - Annabánya telep
-  # - Bábonyibérc dűlő
-  # - Bábonyibérc hegy
   # - Bábonyibérc Új telep
-  # - Bandzsalgó dűlő
-  # - Bedegvölgy dűlő
   # - Békeszálló telep
   # - Csernaj - Kodály Zoltán utca folytatása
   # - Erenyő völgy
@@ -118,9 +135,6 @@ street-filters:
   # - József Attila telep
   # - Kakas-hegy
   # - Kiserenyő
-  # - Kisszilvás völgy
-  # - Nagyszilvás völgy
-  # - Nagymagashegy
   # - Kutyorvölgy
   # - Lyukóoldal
   # - Lyukóvölgy Bánya oldal
@@ -131,7 +145,6 @@ street-filters:
   # - Pap tanya
   # - Rendező pályaudvar
   # - Rózsás dűlő
-  # - Szentbenedekhegyi dűlő
   # - Szilvásvölgy
   # - Táncihegy
   # - Vadászlak
