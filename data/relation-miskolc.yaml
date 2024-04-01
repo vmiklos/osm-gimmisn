@@ -28,18 +28,14 @@ osm-street-filters:
   - Mária sétány
 street-filters:
   - Kisavas sor  # Kisavas, Első sor stb..
-  - Közdomb  # Közdomb utca, I. sor stb..
   - Termál barlangfürdő  # Van rendes címe
   - Tiszai pályaudvar  # Van rendes címe
   # - Sporttelep utca  # átnevezve: Vanger Vilmos utca
   # - Vendég utca  # átnevezve: Vanger Vilmos utca
   # dupla
-  - Bábonyi bérc telep  # Bábonyibérc telep
   - Bábonyibérc telep  # Bábonyibérc Új telep
   - Erdőalja telep  # Csavar utca
-  - Felsőavas Teleki sor  # Teleki sor
-  - Felsőavas Hidegsor  # Hideg sor
-  - Felsőavas Lővei sor  # Lővei sor
+  # Felsőavas Teleki sor  # Teleki sor
   - Lyukóvölgy Kishajtás  # Kishajtás dűlő
   - Nádastó utca  # Nádastó dűlő
   - Középső sor  # Nagyavas-közép sor
@@ -87,11 +83,9 @@ street-filters:
   - Csermőke
   - Csorba telep  # Csorbatelep
   - Jávorkút
-  - Ládi Fatelep
   - Mechatronikai park
   - Lyukóbánya telep  # Lyukóbánya
   - Mexikó telep  # Mexikóitelep
-  - Mexikóvölgy
   - Mihályka
   - Tatárdomb
   - Újmassa
@@ -121,11 +115,9 @@ street-filters:
   # - Fürészmalom
   # - Garadna
   # - Garadnavölgy
-  # - Gubacska tanya
   # - József Attila telep
   # - Kakas-hegy
   # - Kiserenyő
-  # - Kiskőbányaszőlő dűlő
   # - Kisszilvás völgy
   # - Nagyszilvás völgy
   # - Nagymagashegy
@@ -215,7 +207,6 @@ refstreets:
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Guttenberg utca': 'Gutenberg utca'
   'Körös utca': 'Kőrös utca'
-  'Lokomotív utca': 'Lokomotiv utca'
   'Pilinyszky János utca': 'Pilinszky János utca'
   'Szénffy Gusztáv utca': 'Szénfy Gusztáv utca'
   'Szrog Sámuel utca': 'Szrogh Sámuel utca'
@@ -230,7 +221,7 @@ refstreets:
   'Hunyadi utca': 'Hunyadi János utca'
   'Kisavas, Első sor': 'Első sor'
   'Kisavas, Második sor': 'Második sor'
-  'Kisavas, Harmadik sor': 'Harmadik sor'
+  # 'Kisavas, Harmadik sor': 'Harmadik sor'
   'Kisavas, Negyedik sor': 'Negyedik sor'
   'Mártírok utcája': 'Mártirok utcája'
   'Munkácsy utca': 'Munkácsy Mihály utca'
@@ -240,6 +231,7 @@ refstreets:
   'Danlos': 'Danlos dűlő'
   'Lövei sor': 'Lővei sor'
   'Muszkásoldal dűlő': 'Muszkás oldal'
+  'Hideg sor': 'Felsőavas Hidegsor'
   # 3532
   'Kislyukó dűlő': 'Kislyukó dűlőút'
   'Kutyor völgy': 'Kutyorvölgy'
@@ -260,7 +252,7 @@ refstreets:
   'Kiss tábornok utca': 'Kiss tábornok út'
   'Mártonbíró utca': 'Márton bíró utca'
   'Tatár árok': 'Tatárárok utca'
-  # 3535
+  # 3535 - Majláth
   'Ágó dűlő': 'Ágó dűlőút'
   'Bakancs dűlő': 'Bakancs dűlőút'
   'Fülep József utca': 'Fülepp József utca'
