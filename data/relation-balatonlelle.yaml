@@ -79,7 +79,6 @@ refstreets:
   # helyesírás
   'Dr. Kiss Károly utca': 'Dr.Kiss Károly utca'
   'Szent László utca': 'Szt.László utca'
-  'Zrínyi Miklós utca': 'Zrinyi Miklós utca'
   # ellenőrzött
   'Margaréta köz': 'Margaréta utca'  # https://www.openstreetmap.org/note/3286437
   # A régi utcanévtáblákon Vezetéknév Keresztnév szerepel, az új utcanévtáblákon csak Vezetéknév. Feltételezem, hogy minden utca teljes nevű. Ez az egész településre értendő.
