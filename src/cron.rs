@@ -401,35 +401,11 @@ fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Res
     ctx.get_file_system().write_from_string(&string, &path)
 }
 
-/// Performs the update of whole-country.csv.
+/// Performs the update of the whole_country table.
 pub fn update_stats_overpass(ctx: &context::Context) -> anyhow::Result<()> {
-    // Old style: CSV.
     let query = ctx
         .get_file_system()
         .read_to_string(&ctx.get_abspath("data/street-housenumbers-hungary.overpassql"))?;
-    let statedir = ctx.get_abspath("workdir/stats");
-    let csv_path = format!("{statedir}/whole-country.csv");
-    info!("update_stats_overpass: talking to overpass");
-    let mut retry = 0;
-    while should_retry(retry) {
-        if retry > 0 {
-            info!("update_stats_overpass: try #{retry}");
-        }
-        retry += 1;
-        overpass_sleep(ctx);
-        let response = match overpass_query::overpass_query(ctx, &query) {
-            Ok(value) => value,
-            Err(err) => {
-                info!("update_stats_overpass: http error: {err}");
-                continue;
-            }
-        };
-        ctx.get_file_system()
-            .write_from_string(&response, &csv_path)?;
-        break;
-    }
-
-    // New style: JSON.
     let mut i = 0;
     let mut lines = Vec::new();
     for line in query.lines() {
@@ -467,7 +443,7 @@ pub fn update_stats_overpass(ctx: &context::Context) -> anyhow::Result<()> {
 /// Performs the update of country-level stats.
 fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     // Fetch house numbers for the whole country.
-    info!("update_stats: start, updating whole-country csv");
+    info!("update_stats: start, updating the whole_country table");
     let statedir = ctx.get_abspath("workdir/stats");
     let now = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]")?;

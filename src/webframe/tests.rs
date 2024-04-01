@@ -316,33 +316,19 @@ fn test_handle_invalid_addr_cities_update() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-stats.csv",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/status",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
             /*result_path=*/ "src/fixtures/network/overpass-stats.json",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     test_wsgi.get_ctx().set_network(network_rc);
-    let csv_value = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.get_ctx(),
-        &[
-            ("workdir/stats/whole-country.csv", &csv_value),
-            (
-                "data/street-housenumbers-hungary.overpassql",
-                &overpass_template,
-            ),
-        ],
+        &[(
+            "data/street-housenumbers-hungary.overpassql",
+            &overpass_template,
+        )],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
@@ -352,21 +338,7 @@ fn test_handle_invalid_addr_cities_update() {
     // When getting that page:
     let root = test_wsgi.get_dom_for_path("/lints/whole-country/invalid-addr-cities/update-result");
 
-    // Then make sure the whole-country.csv is updated:
-    let path = test_wsgi
-        .get_ctx()
-        .get_abspath(&format!("workdir/stats/whole-country.csv"));
-    let actual = test_wsgi
-        .get_ctx()
-        .get_file_system()
-        .read_to_string(&path)
-        .unwrap();
-    assert_eq!(
-        actual,
-        String::from_utf8(std::fs::read("src/fixtures/network/overpass-stats.csv").unwrap())
-            .unwrap()
-    );
-    // SQL is updated:
+    // Then make sure the whole_country table is updated:
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
         let last_modified: String = conn
@@ -397,33 +369,19 @@ fn test_handle_invalid_addr_cities_update_json() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-stats.csv",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/status",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/interpreter",
-            /*data_path=*/ "",
             /*result_path=*/ "src/fixtures/network/overpass-stats.json",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     test_wsgi.get_ctx().set_network(network_rc);
-    let csv_value = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.get_ctx(),
-        &[
-            ("workdir/stats/whole-country.csv", &csv_value),
-            (
-                "data/street-housenumbers-hungary.overpassql",
-                &overpass_template,
-            ),
-        ],
+        &[(
+            "data/street-housenumbers-hungary.overpassql",
+            &overpass_template,
+        )],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
