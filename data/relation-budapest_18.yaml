@@ -61,12 +61,12 @@ refstreets:
   'Tímea tér': 'Timea tér'
   # utcajegyzék = OSM: ref hibás
   'Áchim András utca': 'Achim András utca'
-  'Besence utca': 'Besence út'
+  # 'Besence utca': 'Besence út'
   'Ferihegyi repülőtérre vezető út': 'Ferihegyi reptérre vezető út'
   'Ipacsfa utca': 'Ipacsfa út'
   'Királyhágó út': 'Királyhágó utca'
   'Körös utca': 'Kőrös utca'
-  'Zádor utca': 'Zádor út'
+  # 'Zádor utca': 'Zádor út'
   # utcatábla hibák, utcatábla = OSM
   'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'
   'Hétvezér tér': 'Hét vezér tér'
