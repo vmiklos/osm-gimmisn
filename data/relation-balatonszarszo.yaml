@@ -1,14 +1,13 @@
 missing-streets: 'yes'
 filters:
   Berzsenyi Dániel utca:
-    # 3/B: nincs ilyen, csak 3 és 3/A.
     # 65/B: nincs ilyen, csak 65 és 65/A.
     # 83/B: a 83/A után a 85/A következik, de van egy sima 83 is. Az lenne vajon a 83/B?
     # 83/C: a 83/A után a 85/A következik, de van egy sima 83 is. Az lenne vajon a 83/C?
     # 4: osztott telek, de csak 4 van kitáblázva. Újra felmérendő.
     # 22/A: a 22 osztott telken van, de nincs semmi sem kitáblázva. Újra felmérendő.
     # 86: sima 86 nincs, csak 86/A, 86/B. A terepen viszont 86 van kitéve mindkét oldalra.
-    invalid: ['3b', '65b', '86']
+    invalid: ['65b', '86']
   # Jenő utca:
   #   8/B: nem látszik kitáblázva, de van egy másik épület is a telken.
   Esztergom utca:
@@ -24,8 +23,8 @@ filters:
     invalid: ['20', '22']
   Kaza utca:
     # 115: ez helyrajzi szám, nem házszám.
-    # 358/0: ez helyrajzi szám, nem házszám.
-    invalid: ['115', '358/0']
+    # 358: ez helyrajzi szám, nem házszám.
+    invalid: ['115', '358']
   Kisfaludy Sándor utca:
     # 8/A: nincs ilyen, csak sima 8 van.
     # 44/A: a Kisfaludy Sándor utca és a Tas utca sarkán lévő telken nincs házszám.
