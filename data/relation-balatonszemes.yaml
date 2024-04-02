@@ -3,14 +3,10 @@ filters:
   Ady Endre utca:
     # 11/b: nincs ilyen, csak sima 11 van.
     # 159: a páratlan oldalon a 39 az utolsó házszám. Ez a Party sétány 159. alatt lévő OTP Hotel lesz.
-    # 26/a: nincs ilyen, csak sima 26 van. Ez most már egy lakópark.
-    # 26/b: nincs ilyen, csak sima 26 van. Ez most már egy lakópark.
-    # 30/d: nincs ilyen, csak sima 30 van.
-    # 32/a: nincs ilyen, csak sima 32 van.
     # 184: a páros oldalon a 46 az utolsó házszám. A 184 a Parti sétányon lévő étterem helyrajzi száma.
     # 184/4: a páros oldalon a 46 az utolsó házszám. A 184/4 a Parti sétányon lévő étterem helyrajzi száma.
     # 192: a páros oldalon a 46 az utolsó házszám. A 192 a Pék-Lángos helyrajzi száma.
-    invalid: ['11b', '159', '26a', '26b', '30d', '32a', '184', '184/4', '192']
+    invalid: ['11b', '159', '184', '184/4', '192']
   Arany János utca:
     # 19: sima 19 nincs, csak 19/a, 19/b.
     # 27: ez és a Semmelweis utca 58. közös telken van, de bejárat és házszám csak a Semmelweis utcáról van.
@@ -35,8 +31,8 @@ filters:
     invalid: ['41a', '47', '109', '159', '82', '110a', '212', '226', '244b']
   Bánk bán utca:
     # 14: csak páratlan oldal van, a páros oldal a vasút.
-    # 802/0: ez helyrajzi szám, nem házszám.
-    invalid: ['14', '802/0']
+    # 802: ez helyrajzi szám, nem házszám.
+    invalid: ['14', '802']
   Bem József utca:
     # 9/a: ikerház, de csak 9 van kitáblázva.
     # 11: sima 11 nincs, csak 11/a, 11/b, 11/c.
@@ -93,9 +89,8 @@ filters:
   Kikötő utca:
     # Ez mindenhogy ki van táblázva: Kikötő utca, Kikötő út, Kikötő sor
     # 1/a: nincs ilyen, csak Kikötő utca 1. A épület.
-    # 1/b: nincs ilyen, csak Kikötő utca 1. B épület.
     # 147/2: ez helyrajzi szám, nem házszám.
-    invalid: ['1a', '1b', '147/2']
+    invalid: ['1a', '147/2']
   Kinizsi Pál utca:
     # 17: a páratlan oldalon a 15 az utolsó házszám.
     # 21: a páratlan oldalon a 15 az utolsó házszám.
@@ -117,11 +112,11 @@ filters:
       - {start: '1', end: '15'}
       - {start: '2', end: '12'}
   Lellei utca:
-    # 694/0: ez helyrajzi szám, nem házszám.
+    # 694: ez helyrajzi szám, nem házszám.
     # 695: ez helyrajzi szám, nem házszám.
     # 695/b: ez helyrajzi szám, nem házszám.
     interpolation: 'all'
-    invalid: ['694/0', '695', '695b']
+    invalid: ['694', '695', '695b']
   Madách Imre utca:
     # 9/a: nincs ilyen, csak sima 9 van. A 15 után viszont van egy 9/b.
     # 16/b: nincs ilyen, csak sima 16 van. A páros oldalon a 16 az utolsó házszám.
