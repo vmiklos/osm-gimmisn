@@ -71,22 +71,23 @@ street-filters:
   # - Pannon kert
   # - Shalbert sziget
   # Tanyák, dűlők -----------
-  # - Janitsárypuszta
-  # - Farkastanya
-  # - Kabóktanya
-  # - Leitner tanya
-  # - Mehádia puszta
-  # - Nyúli tanya
-  # - Oroszi tanya
-  # - Országút dűlő
-  # - Réti tanya
-  # - Úsztató dűlő
+  - Farkastanya
+  - Janitsárypuszta
+  - Kabóktanya
+  - Leitner tanya
+  - Mehádia puszta
+  - Nyúli tanya
+  - Oroszi tanya
+  - Országút dűlő
+  - Réti tanya
+  - Úsztató dűlő
 refstreets:
   'Aranyvölgyi út': 'Aranyvölgy út'
   'Apáczai Csere János utca': 'Apáczai Csere János út'
   'Barsi Dénes utca': 'Barsi Dénes út'
   'Béke körút': 'Béke utca'
   'Bolyai János utca': 'Bólyai utca'
+  'Császár lejtő sor': 'Császár lejtő utca'
   'Derkovits Gyula utca': 'Derkovits utca'
   'Devecseri utca': 'Devecseri Gábor utca'
   'Erdő sor': 'Erdősor'
