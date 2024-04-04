@@ -41,10 +41,9 @@ refstreets:
   'Hétvezér utca': 'Hét vezér utca'  # táblán Hétvezér utca
   'Kossuth Lajos utca': 'Kossuth utca'  # táblán Kossuth Lajos utca
   'Rákóczi Ferenc utca': 'Rákóczi út'  # nincs utcatábla, a házszámtáblákon vegyesen
-   # Táncsics Mihály utca az utcanévtáblán csak Táncsics utca, de minden más utca teljes névvel van, így ez is marad.
+  'Táncsics Mihály utca': 'Táncsics utca'  # Táncsics Mihály utca az utcanévtáblán csak Táncsics utca, de minden más utca teljes névvel van, így ez is marad.
 street-filters:
   # nem igazi utcák
-  - Balatonvilágos vasúti megálló
   - Vasútállomás
 source: survey
 housenumber-letters: true
