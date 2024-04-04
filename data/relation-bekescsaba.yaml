@@ -44,6 +44,7 @@ osm-street-filters:
   # parkok, sétautak amire nincs számozva semmi
   - Kisszik domb
   - Kisszik-park
+  - Petőfi liget
   - Széchenyi liget
   - Veres Péter utcai park
 refstreets:
