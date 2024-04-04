@@ -1,7 +1,8 @@
 missing-streets: 'yes'
 filters: {}
 street-filters:
-  # nem igazi utcák
+  # nem igazi utcák, tanyák
+  - László major
   - Tsz. kertészet telep
 osm-street-filters:
   # name:left / right
