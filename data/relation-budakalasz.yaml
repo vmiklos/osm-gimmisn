@@ -30,6 +30,6 @@ refstreets:
   'Scholcz Ferenc utca': 'Scholz Ferenc utca'
   'Széchenyi István utca': 'Széchenyi utca'
   # megváltozott
-  'Bánya utca': 'Málna utca'
+  # 'Bánya utca': 'Málna utca'
 source: survey
 inactive: true
