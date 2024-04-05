@@ -210,10 +210,10 @@ street-filters:
   - Mozdony utca  # Mozdonyvezető utca van a helyén
   # Szabályozási Tervben szerepelnek, de a terepen még egyben művelt szántóföld az egész.
   - Barack utca
-  - Erdő menti út  # Az SZT-n "Erdőmenti" szerepel.
+  # - Erdő menti út  # Az SZT-n "Erdőmenti" szerepel.
   - Hagyma utca
   - Káka köz
-  - Kékszilva út
+  # - Kékszilva út
   - Kukorica utca
   - Nadály utca
   - Paszternák utca
@@ -238,6 +238,9 @@ osm-street-filters:
   - Kaktusz kert  # Note
   - Páskom liget
   - Szilas-patak tanösvény
+refstreets:
+  'Erdőmenti út': 'Erdő menti út'
+  'Kékszilva utca': 'Kékszilva út'
 source: survey
 inactive: true
 housenumber-letters: true
