@@ -128,6 +128,25 @@ sync-ref: ok
     assert_eq!(ret, 0);
 }
 
+/// Tests main(), the local mode.
+#[test]
+fn test_main_local() {
+    let argv = vec!["".to_string(), "--mode".to_string(), "local".to_string()];
+    let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+    let mut ctx = context::tests::make_test_context().unwrap();
+
+    let ret = main(&argv, &mut buf, &mut ctx);
+
+    assert_eq!(ret, 0);
+    let buf = String::from_utf8(buf.into_inner()).unwrap();
+    assert_eq!(
+        buf,
+        r#"sync-ref: removing old index...
+sync-ref: ok
+"#
+    );
+}
+
 /// Tests main(), missing URL.
 #[test]
 fn test_main_no_url() {
