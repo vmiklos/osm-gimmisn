@@ -79,6 +79,8 @@ filters:
   Derék utca:
     # 16: sima 16 nincs, csak 16/a, 16/b.
     invalid: ['16']
+  Dísz tér:
+    interpolation: all
   Donáti utca:
     # 5: sima 5 nincs, csak 5/a, 5/b, 5/c, 5d.
     # 7: sima 7 nincs, csak 7/a, 7/b, 7/c.
@@ -274,6 +276,8 @@ filters:
     interpolation: 'all'
     # 1: ez a Sziklatemplom és kolostor a honlapjuk szerint, de ez már a XI. kerületben van, bár a Posta szerint az 1/a I. kerület, az 1/b+ XI. kerület.
     invalid: ['1']
+  Szent György tér:
+    interpolation: all
   Szent Sebestyén köz:
     # 1: ez és a Somlói út 49-53. (Mathias Corvinus Collegium) ugyanaz az épület, házszám a Somlói útról van csak.
     invalid: ['1']
