@@ -23,7 +23,7 @@ filters:
       - {start: '2', end: '12'}
   Árpád fejedelem útja:
     # 1-47: 2. kerület, 48+: III. kerület
-    invalid: ['2', '5', '20', '23']
+    invalid: ['2', '20', '23']
     interpolation: 'all'
   Baba utca:
     # 4/a: régi házszám, új cím Baba utca 4-6. A épület A lépcsőház.
@@ -32,9 +32,6 @@ filters:
     ranges:
       - {start: '2', end: '8'}
       - {start: '1', end: '11'}
-  Barsi utca:
-    # 11 = Ady Endre utca 24
-    invalid: ['11']
   Bécsi út:
     # 1-35 II. kerület, 37+ III. kerület
     # 2-32 II. kerület, 34+ III. kerület
@@ -51,13 +48,10 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
   Bimbó út:
-    # 13 = Ady Endre utca 2-4
-    # 55 = Pajzs utca 1
-    # 181 = Rügy utca 8
     # 183 = Rügy utca 10
     # 191 = Balogh Ádám utca 18/a
     # 208: 206/a, 206, 210
-    invalid: ['13', '55', '181', '183', '191', '208']
+    invalid: ['183', '191', '208']
   Bolyai utca:
     ranges:
       - {start: '1', end: '15'}
@@ -72,15 +66,7 @@ filters:
     ranges:
       - {start: '3', end: '13'}
       - {start: '2', end: '14'}
-  Búzavirág utca:
-    # 8b: 8 és 8/a
-    invalid: ['8b']
-    ranges:
-      - {start: '1', end: '11'}
-      - {start: '2', end: '14'}
-  Cimbalom köz:
-   # 2 = Kupeczky utca 9.
-    invalid: ['2']
+  # Búzavirág utca:
   Csalit utca:
     ranges:
       - {start: '1', end: '9'}
@@ -89,25 +75,15 @@ filters:
     # páros: I. kerület, páratlan: II. kerület
     ranges:
       - {start: '1', end: '55'}
-  Csapláros utca:
-    # 3/c: a páratlan oldalon az 5 az első házszám.
-    # 2: ez és a Kapás utca 6-12. ugyanaz az épület, bejárat és házszám a Kapás utcáról van csak.
-    # 4: ez és az Erőd utca 5. ugyanaz az épület, bejárat és házszám az Erőd utcáról van csak.
-    invalid: ['3c', '2', '4']
   Cseppkő köz:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '8'}
   Dénes utca:
-    # páratlan oldalon nincs kiírva házszám, máshohhan számozódik
-    invalid: ['1', '3']
-  Endrődi köz:
-    ranges: []
-  Eszter utca:
-    # 3 nincs
-    # 22 = Vérhalom utca 44
-    # 29 = Alsó-Törökvész út 2
-    invalid: ['3']
+    # páratlan oldalon nincs kiírva házszám, máshonnan számozódik
+    invalid: ['1']
+  # Endrődi köz:
+  #  ranges: []
   Ezredes utca:
     # 1 = 1a, 1b
     # 5a = 5-7 C épület A lépcsőház
@@ -142,8 +118,6 @@ filters:
       - {start: '47', end: '51'}
       - {start: '61', end: '83'}
       - {start: '62', end: '92'}
-  Frankel Leó út:
-    invalid: ['37', '56']
   Fullánk utca:
     # 3: 1 után 5 jön, ref szerint 1-3 van, de ez a helyszínen nem láttam
     # 12 = Gárdonyi Géza út 20/a
@@ -162,15 +136,14 @@ filters:
     # 1-11: Móricz Zsigmond Gimnázium, számozás nem innen van.
     # 2 = Törökvész út 46/d
     # 8: 6/b után 10 jön, de az egyik házrészen nincs szám
-    invalid: ['2', '7', '8', '9', '11']
+    invalid: ['2', '7', '8', '11']
   # Garas utca: 1-11. 2+
   Gomba utca:
     # 4 = régi házszám, ma Muraközi utca 26.
     # 5 = Vend utca 30
     # 9/b: 9 és 9/a
     # 11: 11/a, 11/b, 11/c
-    # 20/a, 20/b: csak sima 20.
-    invalid: ['5', '4', '9b', '11', '20a']
+    invalid: ['5', '4', '11']
   Gül Baba utca:
     # 18-20-22 helyén a türbe alatt üres telek
     invalid: ['22']
@@ -182,11 +155,7 @@ filters:
       - {start: '22', end: '48'}
   Házmán utca:
     # 1: ez a Budagyöngye, de az a Szilágyi Erzsébet fasor 121.
-    # 25: a páratlan oldalon a 17 az utolsó házszám.
-    invalid: ['1', '25']
-  Jurányi utca:
-    # 1-11, 2-14
-    invalid: ['20']
+    invalid: ['1']
   Kacsa utca:
     ranges:
       - {start: '1', end: '99'}
@@ -200,24 +169,17 @@ filters:
   Káplár utca:
     # 1-19, 2-12; 2/b, 2/c & 2/d; 10/a & 10/b
     invalid: ['2', '10', '25']
-  Kapor utca:
-    invalid: ['2']
   Kapy utca:
     ranges:
       - {start: '1', end: '63'}
       - {start: '2', end: '52'}
   Keleti Károly utca:
-    # 2a: 2 van sarkon kitáblázva
-    # 5a: KSH címe 5-7
-    # 41 nincs kiírva, helyén a lelkészség van térképezve a tempommal azonos címen
-    # 9a, 9b: 9 van kitáblázva
     # 11a: 11/A-B van kitáblázva
     # 18: 18/... van kitáblázva
     # 20: 20/... van kitáblázva
     # 28: 28/... van kitáblázva
     # 31a: 29/a után 31/b van kitáblázva
-    # 37b, 37d: II. Rákóczi Ferenc Gimnázium címe 37
-    invalid: ['2a', '5a', '9a', '9b', '11a', '18', '20', '28', '31a', '37b', '37d', '41']
+    invalid: ['11a', '18', '20', '28']
   Kis Rókus utca:
     # 39: 39a és 39b helyette
     invalid: ['39']
@@ -262,18 +224,12 @@ filters:
     # 39 = 35, U kanyar 2 oldala
     # 56-58: csak sima 56 van
     invalid: ['2', '39', '58']
-  Nagybányai lépcső:
+  # Nagybányai lépcső:
     # nincs házszám
-    ranges: []
-  Nyúl utca:
-    # 3a: 3 van kitáblázva
-    # 24/6: 24 van kitáblázva
-    invalid: ['3a', '24/6']
+    # ranges: []
   Őzgida utca:
-    # 5a, 5-7 = Búzavirág utca 9.
-    # 19/a, 19/b: 19/1 .. 19/10
     # 20/c: régi házszám, új: 16-20 B épület C. lépcsőház
-    invalid: ['5', '5a', '7', '19a', '19b', '20c']
+    invalid: ['20c']
   Pajzs utca:
     # 17 nincs
     # 24 valószínű a 26 mögötti ház, nincs kiírva semmi
@@ -282,9 +238,6 @@ filters:
     ranges:
       - {start: '1', end: '203'}
       - {start: '2', end: '126'}
-  Pázsit utca:
-    # 61: a páratlan oldalon a 15 az utolsó házszám.
-    invalid: ['61']
   Pengő utca:
     ranges:
       - {start: '1', end: '5'}
@@ -294,9 +247,6 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '12'}
-  Pusztaszeri út:
-    # 91a: csak sima 91.
-    invalid: ['91a']
   Radna utca:
     ranges:
       - {start: '1', end: '7'}
@@ -304,10 +254,7 @@ filters:
   Rét utca:
     # 2 = Marczibányi tér 12
     # 6 = Ribáry utca 6
-    invalid: ['2', '6']
-  Retek utca:
-    # 21a = 21-27a
-    invalid: ['21a']
+    invalid: ['6']
   Ribáry utca:
     ranges:
       - {start: '1', end: '11'}
@@ -322,12 +269,7 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '10'}
-  Rügy utca:
-    # 2 = Bimbó út 177.
-    invalid: ['2']
-    ranges:
-      - {start: '1', end: '11'}
-      - {start: '2', end: '24'}
+  # Rügy utca:
   Szilágyi Erzsébet fasor:
     # páros XII. kerület
     # 123 = Házmán utca 2.
@@ -335,9 +277,6 @@ filters:
     invalid: ['123', '127']
     ranges:
       - {start: '1', end: '131'}
-  Szemlőhegy utca:
-    # 24 = Vérhalom utca 20
-    invalid: ['24']
   Széna tér:
     # 1-3,6-7 vizivaros, 4-5 orszagut
     # 1-2,6-7 I. kerület, 3 II. kerület
@@ -349,12 +288,6 @@ filters:
     ranges:
       - {start: '3', end: '13'}
       - {start: '4', end: '18'}
-  Tizedes utca:
-    # 1-7, 2-6
-    invalid: ['8']
-  Tömörkény utca:
-    # 1-17
-    invalid: ['25']
   Törökvész lejtő:
     # 25 = Gárdonyi Géza út 12
     invalid: ['25']
@@ -367,60 +300,43 @@ filters:
       - {start: '1', end: '103'}
       - {start: '111', end: '147'}
       - {start: '2', end: '128'}
-  Tulipán utca:
-    invalid: ['7']
   Ürömi köz:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
-  Ürömi utca:
+  # Ürömi utca:
     # sok lebontott vagy romos ház, ezért lyukas a számozás
-    ranges:
-      - {start: '1', end: '7'}
-      - {start: '15', end: '59'}
-      - {start: '2', end: '2'}
-      - {start: '8', end: '14'}
-      - {start: '18', end: '34'}
-      - {start: '38', end: '66'}
   Varsányi Irén utca:
     # 27: a 23-29 a Jurányi utca 12-ben lévő parkoló.
     # 29: a 23-29 a Jurányi utca 12-ben lévő parkoló.
     # 2: ez és a Kapás utca 22. ugyanaz az épület, bejárat és házszám a Kapás utcáról van csak.
-    # 38/c: nincs ilyen, csak 38, 38/a.
     # 40-44: ez a Fővárosi Törvényszék Gazdasági Kollégiumának régi címe, az új cím 38-40.
-    invalid: ['27', '29', '2', '38c', '42', '44']
+    invalid: ['2', '27', '29', '42', '44']
   Varsányi udvar:
     interpolation: 'all'
     ranges:
       - {start: '2', end: '3'}
   Vend utca:
     # 9 = Kupeczky utca 16
-    # 19/a: itt új ház épül, nincs kiírva semmi. Földhivatal szerint Vend utca 19 és Pusztaszeri út 77 a telek.
     # 23: kiírva: 23 A kapu, és 23 B kapu, most 23/a és 23/b van a házon
     # 22 = Muraközi utca 16
-    # 24/a: csak sima 24.
     # 25 = Muraközi utca 17.
-    invalid: ['9', '19a', '22', '23', '24a', '25']
+    invalid: ['9', '22', '23', '25']
   Vérhalom tér:
     interpolation: all
     ranges:
       - {start: '1', end: '12'}
   Vérhalom utca:
     # 26: Bejárat a mandula utca felől
-    invalid: ['11', '13', '26']
+    invalid: ['26']
   Veronika utca:
     ranges:
       - {start: '2', end: '4'}
   Vitéz utca:
     # 3: a 3-5. közötti szakasz a Nagy Imre tér.
-    # 13/b: nincs ilyen, csak sima 13 van.
     # 15: sima 15 nincs, csak 15/a, 15/b.
     # 27: a páratlan oldalon a 17 az utolsó házszám az utcatáblán, amely ugyanaz az épület, mint a Fazekas utca 27.
-    # 22/b: a páros oldalon a 22 az utolsó házszám az utcatáblán, amely ugyanaz az épület, mint a Fazekas utca 25., bejárat és házszám a Fazekas utcáról van csak.
-    invalid: ['3', '13b', '15', '27', '22b']
-  Volkmann utca:
-    # 3: sima 3 nincs, csak 3/A, 3/B.
-    invalid: ['3']
+    invalid: ['3', '15', '27']
   Zivatar utca:
     # 2-6 = Ady Endre utca 3, Szent Angéla
     ranges:
@@ -433,7 +349,6 @@ filters:
   Zsigmond tér:
     # Óbuda Gate 5-7 alatt, de nem ezt a címet használja
     interpolation: all
-    invalid: ['5', '6', '7']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bulcsú vezér utca': 'Bulcsu vezér utca' # Budaliget (Pesthidegkút)
