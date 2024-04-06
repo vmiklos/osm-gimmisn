@@ -60,6 +60,8 @@ filters:
     ranges:
       - {start: '2', end: '6'}
       - {start: '1', end: '1'}
+  Pablo Neruda utca:
+    interpolation: all
   Papírgyár utca:
     interpolation: all
   Reményi Ede utca:
@@ -78,6 +80,8 @@ filters:
     invalid: ['3', '10']
   Szérűskert utca:
     show-refstreet: false
+  Torma Károly utca:
+    interpolation: all
   Uszály utca:
     ranges:
       - {start: '1', end: '13'}
