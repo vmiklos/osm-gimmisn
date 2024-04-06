@@ -49,6 +49,8 @@ filters:
     interpolation: all
   Kaszásdűlő utca:
     show-refstreet: false
+  Kolosy tér:
+    interpolation: all
   Kossuth Lajos üdülőpart:
     interpolation: all
   Ladik utca:
