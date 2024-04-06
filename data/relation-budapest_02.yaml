@@ -82,17 +82,14 @@ filters:
   Dénes utca:
     # páratlan oldalon nincs kiírva házszám, máshonnan számozódik
     invalid: ['1']
-  # Endrődi köz:
-  #  ranges: []
   Ezredes utca:
-    # 1 = 1a, 1b
     # 5a = 5-7 C épület A lépcsőház
     # 5b = 5-7 C épület B lépcsőház
     # 5c = 5-7 C épület C lépcsőház
     # 5d = 5-7 C épület D lépcsőház
     # 7a = 5-7 B épület A lépcsőház
     # 7b = 5-7 B épület B lépcsőház
-    invalid: ['1', '5a', '5b', '5c', '5d', '7a', '7b']
+    invalid: ['5a', '5b', '5c', '5d', '7a', '7b']
   Fazekas utca:
     # 1-3: I. kerület, 5+ II. kerület
     # 2-4: I. kerület, 6+ II. kerület
@@ -166,9 +163,6 @@ filters:
     ranges:
       - {start: '5', end: '99'}
       - {start: '6', end: '98'}
-  Káplár utca:
-    # 1-19, 2-12; 2/b, 2/c & 2/d; 10/a & 10/b
-    invalid: ['2', '10', '25']
   Kapy utca:
     ranges:
       - {start: '1', end: '63'}
@@ -206,12 +200,10 @@ filters:
     # 1 = Hűvösvölgyi út 179
     invalid: ['1']
   Muraközi utca:
-    # 4: 4/a, 4/b
     # 7 = Kulpa utca 12.
     # 11: 11/a, 11/b
-    # 12: 12/a, 12/b
     # 14: 14/a, 14/b
-    invalid: ['4', '7', '11', '12', '14', '28']
+    invalid: ['7', '11', '14', '28']
   Nagy Imre tér:
     interpolation: 'all'
     # 4-5: a 4 az utolsó házszám.
@@ -221,12 +213,11 @@ filters:
     invalid: ['2']
   Nagybányai út:
     # 2 = Csalán út 15
-    # 39 = 35, U kanyar 2 oldala
     # 56-58: csak sima 56 van
-    invalid: ['2', '39', '58']
-  # Nagybányai lépcső:
+    invalid: ['2', '58']
+  Nagybányai lépcső:
     # nincs házszám
-    # ranges: []
+    invalid: ['62a', '65']
   Őzgida utca:
     # 20/c: régi házszám, új: 16-20 B épület C. lépcsőház
     invalid: ['20c']
@@ -239,10 +230,7 @@ filters:
       - {start: '1', end: '203'}
       - {start: '2', end: '126'}
   Pengő utca:
-    ranges:
-      - {start: '1', end: '5'}
-      - {start: '2', end: '2'}
-      - {start: '6', end: '8'}
+    invalid: ['4']
   Pitypang utca:
     ranges:
       - {start: '1', end: '17'}
@@ -295,11 +283,9 @@ filters:
       - {start: '1', end: '27'}
       - {start: '2', end: '32'}
   Törökvész út:
+    # 94: nincs, csak 94/a, 94/b.
     # 103 után 111 jön, nincs köztes épület
-    ranges:
-      - {start: '1', end: '103'}
-      - {start: '111', end: '147'}
-      - {start: '2', end: '128'}
+    invalid: ['94']
   Ürömi köz:
     ranges:
       - {start: '1', end: '3'}
@@ -335,8 +321,7 @@ filters:
   Vitéz utca:
     # 3: a 3-5. közötti szakasz a Nagy Imre tér.
     # 15: sima 15 nincs, csak 15/a, 15/b.
-    # 27: a páratlan oldalon a 17 az utolsó házszám az utcatáblán, amely ugyanaz az épület, mint a Fazekas utca 27.
-    invalid: ['3', '15', '27']
+    invalid: ['3', '15']
   Zivatar utca:
     # 2-6 = Ady Endre utca 3, Szent Angéla
     ranges:
