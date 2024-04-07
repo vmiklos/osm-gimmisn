@@ -79,6 +79,7 @@ refstreets:
   'Bolyai Farkas utca': 'Bólyai Farkas utca'  # ember Bolyai Farkas
   'Hargita utca': 'Hargitta utca'  # utcatábla 2019.06: Hargita u.
   'Rát Mátyás tér': 'Ráth Mátyás tér'  # utcatábla: 2021.07: Rát Mátyás tér 1.
+  'Mérföldkő utca': 'Mérföldkő magánút'  # eligazító táblán Mérföldkő utca. 2011-es képen még Mfkő. magánút
   # helyesírás
   'Benczúr utca': 'Benczur utca'
   'Bulcsú utca': 'Bulcsu utca'
