@@ -1,8 +1,12 @@
 missing-streets: 'yes'
 filters:
+  Kálvin tér:
+    show-refstreet: false
   Fogarasi utca:
     # 8: 8/2 van kint, ami lehet hogy ajtó
     invalid: ['8']
+  Vízöntő utca:
+    show-refstreet: false
 refstreets:
   # ellenőrzött
   # 'Fenyves utca': 'Fenyves köz'  # táblán Fenyves köz (2023-05-23)
@@ -13,6 +17,7 @@ refstreets:
   # 'Szomorodni utca': 'Szamorodni utca'  # táblán Szamorodni utca (2023-05-23)
   # 'Tétényi út': 'Tétényi utca'  # Új táblák vannak, mindegyiken utca van (2023-05-20)
   # 'Tokaj utca': 'Tokaji utca'  #  táblán Tokaji utca (2023-05-23)
+  'Kálvin tér': 'Calvin tér'  # táblán: Kálvin tér (2023-07-24)
   'Vízöntő utca': 'Vízöntő út'  # Ipari park: táblán Vízöntő utca (2023-02-18)
   # kérdéses
   'Báthori István utca': 'Báthory István utca'  # https://www.openstreetmap.org/note/3701570
