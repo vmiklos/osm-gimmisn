@@ -341,6 +341,7 @@ pub fn write_whole_country(ctx: &context::Context, result: &str) -> anyhow::Resu
         Ok(value) => value,
         // Not a JSON, ignore.
         Err(_) => {
+            println!("area::files::write_whole_country: failed to parse '{result}' as json");
             return Ok(());
         }
     };
