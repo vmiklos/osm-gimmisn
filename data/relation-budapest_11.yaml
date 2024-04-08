@@ -488,12 +488,13 @@ filters:
       - {start: '1', end: '23'}
       - {start: '4', end: '18'}
   Daróczi út:
+    # 2-16: 4-6 Mermel, a többi házszám nincs használatban
     # 5: nincs
     # 11: 13/a lett átszámozva, ott még nincs kiírva, de a 9-11-ről már lekerült
     # 19 = Nagyszőlős utca 11-15.
     # 40-42: 38-40 a falon, de a Ibrahim utca 9 az épület
     # 56 = Nagyszőlős utca 9.
-    invalid: ['5', '11', '19', '42', '56']
+    invalid: ['5', '11', '19', '42', '56', '8', '10', '12', '14', '16']
   Dávid Ferenc utca:
     # 2: 2/a, 2/b
     # 4-6: Henkel csak a 6-ot használja
@@ -2209,6 +2210,7 @@ filters:
   Sopron út:
     # 21/a*: Avanti: 21 A épület
     # 52: Óvoda oldala, melynek címe: Lecke utca 15-19
+    # 58-64
     invalid: ['21a', '52']
   Söjtör utca:
     # 1-es címen ikerház van, csak 1-es van kiírva
@@ -2376,7 +2378,8 @@ filters:
     # 1 = Bartók Béla út 106-110
     # 3: nincs
     # 67: 67/a, 67/b
-    invalid: ['3', '3a', '32', '34', '36', '38', '40', '42', '67', '71b', '98', '100', '101', '111a', '126b']
+    # 44-60 ben használt cím, a bölcsőde a 46-48-at használja
+    invalid: ['3', '3a', '32', '34', '36', '38', '40', '42', '44', '67', '71b', '98', '100', '101', '111a', '126b']
     ranges:
       - {start: '1', end: '141'}
       - {start: '2', end: '48'}
