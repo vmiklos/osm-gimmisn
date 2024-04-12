@@ -226,12 +226,9 @@ filters:
     # 51-65: nagy társasház amiben a CBA grill is van
     # 50-54: a ház csak az 50-es számot használja
     # 56-72: park
-    invalid: ['1a', '54']
-#    ranges:
-#      - {start: '1', end: '79'}
-#      - {start: '2', end: '54'}
-#      - {start: '74', end: '90'}
-#      - {start: '134', end: '146'}
+    # 71/b: csak 71 van
+    # 89: utolsó házszám a 79
+    invalid: ['1a', '54', '71b', '89']
   Bod Péter lejtő:
     ranges:
       - {start: '2', end: '6'}
@@ -289,11 +286,10 @@ filters:
     # 1,4,9,11: nincsenek: csak 32 van kiírva az egész utcában
     # 13-45 hivatalosan a járműtelep, erre Gyergyótölgyes utca 2. van kiírva
   Botfalu köz:
+    # 1-23, 2-20
     # 12a: nincs semmi sem kiírva
     # 15a: csak 15. régebben lehetett /a és /b, ez utóbbi nyoma még látszik
     invalid: ['12a']
-      - {start: '1', end: '23'}
-      - {start: '2', end: '20'}
   Botfalu utca:
     # 8/a: nincs. 8 és 8/b a térképen, kiírva viszont csak a 8/b van
     # 15b: ikerház de csak 15 van kiírva
@@ -488,11 +484,12 @@ filters:
   Daróczi út:
     # 2-16: 4-6 Mermel, a többi házszám nincs használatban
     # 5: nincs
-    # 11: 13/a lett átszámozva, ott még nincs kiírva, de a 9-11-ről már lekerült
+    # 11: 13/a lett átszámozva, ott még nincs kiírva, de a 9-11-ről már lekerült.
+    # 13: 13/b lett átszámozva, még mindig 13/a és 13/b van kiírva. 2024-04
     # 19 = Nagyszőlős utca 11-15.
     # 40-42: 38-40 a falon, de a Ibrahim utca 9 az épület
     # 56 = Nagyszőlős utca 9.
-    invalid: ['5', '11', '19', '42', '56', '8', '10', '12', '14', '16']
+    invalid: ['5', '11', '19', '42', '56', '8', '10', '12', '13', '14', '16']
   Dávid Ferenc utca:
     # 2: 2/a, 2/b
     # 4-6: Henkel csak a 6-ot használja
@@ -909,10 +906,11 @@ filters:
     invalid: ['10', '12b']
   Hauszmann Alajos utca:
     # Budapart egy része éríntett: 13-19, 12-20 Nádorkerthez tartozik
+    # 1: Alkotmányvédelmi Hivatal, innen nincs házszáma
     # 4a, 6b, 4c, 4d: Nádorliget utca 7/a-7/b-7/c-7/d-re számozva
     # 7a: nincs
     # 10 = Budafoki út 97-103
-    invalid: ['4a', '4c', '4d', '6b', '7a', '10']
+    invalid: ['1', '4a', '4c', '4d', '6b', '7a', '10']
   Hegyalja út:
     # páratlan ---------------------------------------------------------------
     # 37-93: XII. kerület
@@ -1514,6 +1512,7 @@ filters:
     # 17: 17/a, 17/b
     # 31ab: 31 A és B épület
     # 43: nincs 41 után 45 jön, ami a Budai Arborétum felső kertje
+    # 51: 51/a, 51/b régi kapukon, a házon nincs szám
     # 59: 59/a, 59/b
     # 61/a-c: 61 A,B,C épületek
     # 71/a: 71, 71/b
@@ -1524,7 +1523,7 @@ filters:
     # 42: nincs
     # 46,54: Arborétum hátsó fele
     # 84: nincs, Köbölkút utca 27-29 iskola hátsó fele
-    invalid: ['1a', '4a', '17', '31a', '31b', '43', '59', '71a', '77a', '79b', '85', '42', '46', '54', '84']
+    invalid: ['1a', '4a', '17', '31a', '31b', '43', '51', '59', '71a', '77a', '79b', '85', '42', '46', '54', '84']
     ranges:
       - {start: '1', end: '87'}
       - {start: '2', end: '104'}
@@ -1577,11 +1576,8 @@ filters:
     invalid: ['2', '17']
   Mohai út:
     # 49-55: panel a következő bejáratokkal: 49/a,49/b,51/a,51/b;53/a,53/b,55/a,55/b
-    invalid: ['49', '51', '53', '55']
-    ranges:
-      - {start: '1', end: '17'}
-      - {start: '23', end: '55'}
-      - {start: '2', end: '56'}
+    # 2-56, 1-17,23-55
+    invalid: ['30a', '49', '51', '53', '55']
   Molnárfecske utca:
     # https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/ujbudahu/2018_09/kmbt28220180914083648.pdf
     ranges:
@@ -1930,7 +1926,8 @@ filters:
     # 21: Bártfai utca 7.
     # 29-35: 27 után 31-33 jön
     # 45-47: Mérnök utcai sporttelep másik oldala, innen nincs szám
-    invalid: ['1b', '2', '16', '17', '18', '20', '21', '22', '22c', '22d', '22e', '29', '35', '45', '47']
+    # 50-56: bejáratok 50,52,56
+    invalid: ['1b', '2', '16', '17', '18', '20', '21', '22', '22c', '22d', '22e', '29', '35', '45', '47', '54']
   Pór Bertalan köz:
     invalid: ['10b', '106']
   Postás utca:
@@ -2122,10 +2119,9 @@ filters:
       - {start: '1', end: '81'}
       - {start: '2', end: '54'}
   Sárbogárdi út:
+    # 1b: nincs
     interpolation: 'all'
-    invalid: ['14', '15b']
-    ranges:
-      - {start: '1', end: '26'}
+    invalid: ['1b', '14', '15b']
   Sasadi köz:
     # 1: 1/a, 1/b
     invalid: ['1', '1c']
