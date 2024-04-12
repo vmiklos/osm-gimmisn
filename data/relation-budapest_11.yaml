@@ -291,9 +291,7 @@ filters:
   Botfalu köz:
     # 12a: nincs semmi sem kiírva
     # 15a: csak 15. régebben lehetett /a és /b, ez utóbbi nyoma még látszik
-    # 23: 23/a, 23/b
-    invalid: ['12a', '23']
-    ranges:
+    invalid: ['12a']
       - {start: '1', end: '23'}
       - {start: '2', end: '20'}
   Botfalu utca:
@@ -898,7 +896,7 @@ filters:
     # 19: 19, 19/b
     # 52a, 52b: csak sima 52 van
     # 56: 56/1, 56/2, 56/3
-    invalid: ['17b', '19a', '52a', '52b', '56', '56a']
+    invalid: ['17b', '19a', '56', '56a']
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '56'}
@@ -974,8 +972,10 @@ filters:
   Homoród utca:
     # 18a: csak sima 18 van
     invalid: ['18a']
-  # Hosszúréti utca:
+  Hosszúréti utca:
     # Madárhegy lakópark G épület = 27, nem a házszám része (E=25, F,H=Bakfű utca 4-6, A-D Pacsirtafű utca 2-8 nincs kiírva)
+    # 63a, 63b: Saroktelek, Csak az egyik kapunk van szám, ott Rózsaszőlő utca 1. van kiírva.
+    invalid: ['63a', '63b']
   Hunyadi János út:
     # 6-10: Pappas Autó csak 6 van kiírva
     # 19 Savoya, 23 OBI, 162 volt házgyár
@@ -1058,7 +1058,7 @@ filters:
       - {start: '2', end: '24'}
   Jégvirág utca:
     # 6a, 6b: már csak 6-os szám van kiírva
-    invalid: ['6a', '6b']
+    invalid: ['6b']
   Június utca:
     # 1 = Olajfa utca 17
     # 15 = Torma utca 11
@@ -1711,11 +1711,9 @@ filters:
   Neszmélyi út:
     # 9: 9b
     # 12a, 12b: csak sima 12 van
-    # 11: 11a, 11b, 11c
     # 22-28, 38-44: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
     # 29-33: 31, 33, 33/b van; zöldségesbódé címének van ez megadva
-    # 41, 43: ebből a szakaszból Neszmélyi köz lett az autópálya másik oldalán
-    invalid: ['9', '11', '12a', '29', '12b', '38a', '40b', '41', '43', '42a', '44b', '72']
+    invalid: ['9', '12a', '12b', '29', '44b', '72']
   #Nevegy köz:
   Nevegy utca:
     ranges:
@@ -1930,9 +1928,9 @@ filters:
     # 16: Náday Ferenc utca 14.
     # 18-22: egyedileg számozva a házak: 18/a, 18/b, 22/a, 22/b
     # 21: Bártfai utca 7.
-    # 29: 27 után 31-33 jön
+    # 29-35: 27 után 31-33 jön
     # 45-47: Mérnök utcai sporttelep másik oldala, innen nincs szám
-    invalid: ['1b', '2', '16', '17', '18', '20', '21', '22', '22c', '22d', '22e', '29', '45', '47']
+    invalid: ['1b', '2', '16', '17', '18', '20', '21', '22', '22c', '22d', '22e', '29', '35', '45', '47']
   Pór Bertalan köz:
     invalid: ['10b', '106']
   Postás utca:
@@ -1990,10 +1988,9 @@ filters:
       - {start: '1', end: '57'}
       - {start: '2', end: '60'}
   Ramocsa utca:
-    # 1a: 1, 1/b
     # 17a: 17 és 17/b van kiírva
     # 23: 23/a, 23/b
-    invalid: ['1a', '17a', '23']
+    invalid: ['17a', '23']
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '30'}
@@ -2002,10 +1999,10 @@ filters:
       - {start: '1', end: '5'}
       - {start: '2', end: '8'}
   Ratkóc utca:
-    # 2: nincs, 8-tól indulnak a számok a páros oldalon
+    # 8-tól indulnak a számok a páros oldalon
     # 3: nincs, igazából 9 az első szám a többi a másik utcákra van számozva
     # 10/*: csak sima 10 van kiírva, ugyanakkor 10/a a címe a műkörmösnek
-    invalid: ['2', '3', '10b', '10c', '10d']
+    invalid: ['3', '10b', '10c', '10d']
   Rátz László utca:
     # 1-3: 1 nincs az az Etele út 26, a 3-7 pedig egyben egy iskola
     # 8a, 8b, 8c = Bikszádi 8a, 8b, 8c
@@ -2030,16 +2027,7 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '16'}
-  Rendőr utca:
-    ranges:
-      - {start: '3', end: '3'}
-      - {start: '6', end: '6'}
-  Repcsény utca:
-    # 7: 7a, 7b
-    ranges:
-      - {start: '1', end: '7'}
-      - {start: '2', end: '8'}
-    invalid: ['7']
+  # Rendőr utca:
   Repülő utca:
     # 20 felett mező van
     ranges:
@@ -2088,9 +2076,8 @@ filters:
     ranges:
       - {start: '2', end: '130'}
   Rodostó utca:
-    # 1: nincs, az iskola címe: Beregszász út 10.
     # 7: nincs 7/a, csak sima 7
-    invalid: ['1', '7a']
+    invalid: ['7a']
   Rozmaring utca:
     # not sure about the 16
     # 11/a: 11, 11/b
@@ -2448,7 +2435,7 @@ filters:
   Törökbálinti út:
     # páratlan ---------------------------------------------------------------
     # 1-75: XII. kerület
-    # 105 most az utolso felmert, de meg vannak telkek
+    # 105 az utolsó felmért, de még építkeznek
     # páros ------------------------------------------------------------------
     # 4: 4/a, 4/b, 4/c
     # 8a: ez a régi házszám valószínű, csak sima 8 van
@@ -2463,7 +2450,7 @@ filters:
     # 79: csak 79/c
     # 83/a: csak 83
     # 90: beépítetlen terület
-    invalid: ['4', '8a', '26b', '32a', '38', '44b', '46a', '46d', '50', '58', '77', '77a', '79', '83a', '85a', '90']
+    invalid: ['4', '8a', '26b', '32a', '38', '44b', '46a', '46d', '50', '58', '77', '79', '83a']
     ranges:
       - {start: '77', end: '119'}
       - {start: '2', end: '998'}
