@@ -1541,12 +1541,10 @@ filters:
     # 41: ikerháznak tűnik, de csak 41/b van kiíva
     invalid: ['12', '28b']
   Mérnök utca:
+    # ranges: 33-39, 10-14, 28-42
+    # 36, 38: nincs
     # 37: 37 a-d
-    invalid: ['37']
-    ranges:
-      - {start: '33', end: '39'}
-      - {start: '10', end: '14'}
-      - {start: '28', end: '42'}
+    invalid: ['36', '37', '38']
   Mezőkövesd út:
     # 3a,b,c,d: ezek lépcsőházak, bejárat magánterületről, csak 1 főkapu van 3-as számmal
     # MOL kút házszáma a Hunyadi János úton kérdéses
@@ -2193,8 +2191,8 @@ filters:
   Sopron út:
     # 21/a*: Avanti: 21 A épület
     # 52: Óvoda oldala, melynek címe: Lecke utca 15-19
-    # 58-64
-    invalid: ['21a', '52']
+    # 58-64: 60 Aldi és 64 iroda épület van.
+    invalid: ['21a', '52', '58', '62']
   Söjtör utca:
     # 1-es címen ikerház van, csak 1-es van kiírva
     invalid: ['1b']
