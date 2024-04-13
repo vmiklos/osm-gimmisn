@@ -7,6 +7,7 @@
 - Resolves: gh#3768 lints, invalid addr:city values: add new 'update from OSM' button
 - Resolves: gh#3792 /lints/whole-country/invalid-addr-cities now has separate osm and areas dates
 - Resolves: gh#3818 invalid addr:city values: make sure history is not modified after the fact
+- Resolves: gh#3826 sync-ref has a new `--mode local` switch to work offline
 
 ## 24.2
 
