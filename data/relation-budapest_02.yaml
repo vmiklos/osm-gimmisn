@@ -261,9 +261,12 @@ filters:
   # Rügy utca:
   Szilágyi Erzsébet fasor:
     # páros XII. kerület
+    # 5a: 5 van kitáblázva
+    # 43: 43a van kitáblázva
+    # 45: 45a van kitáblázva
     # 123 = Házmán utca 2.
     # 125-127: 125 van kiírva illetve 127=Volkmann utca 2.
-    invalid: ['123', '127']
+    invalid: ['5a', '43', '45', '123', '127']
     ranges:
       - {start: '1', end: '131'}
   Széna tér:
