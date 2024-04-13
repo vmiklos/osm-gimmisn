@@ -54,6 +54,9 @@ filters:
       - {start: '13', end: '49'}
       - {start: '18', end: '54'}
   Garas utca:
+    # 2-30
+    # 26a, 26b: 26/a-b van kitáblázva
+    invalid: ['26a', '26b', '32']
     ranges:
       - {start: '2', end: '98'}
   Gárdonyi Géza út:
