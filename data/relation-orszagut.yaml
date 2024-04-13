@@ -29,22 +29,18 @@ filters:
       - {start: '1', end: '11'}
   Káplár utca:
     # 1-19, 2-12; 2/b, 2/c & 2/d; 10/a & 10/b
-    invalid: ['2', '10']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '12'}
   Keleti Károly utca:
-    # 2a: 2 van sarkon kitáblázva
-    # 5a: KSH címe 5-7
     # 41 nincs kiírva, helyén a lelkészség van térképezve a tempommal azonos címen
-    # 9a, 9b: 9 van kitáblázva
     # 11a: 11/A-B van kitáblázva
     # 18: 18/... van kitáblázva
     # 20: 20/... van kitáblázva
     # 28: 28/... van kitáblázva
     # 31a: 29/a után 31/b van kitáblázva
     # 37b, 37d: II. Rákóczi Ferenc Gimnázium címe 37
-    invalid: ['2a', '5a', '9a', '9b', '11a', '18', '20', '28']
+    invalid: ['9b', '11a', '18', '20', '28']
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '54'}
@@ -86,9 +82,6 @@ filters:
       - {start: '1', end: '5'}
       - {start: '2', end: '2'}
       - {start: '6', end: '8'}
-  Retek utca:
-    # 21a = 21-27a
-    invalid: ['21a']
   Rómer Flóris utca:
     ranges:
       - {start: '2', end: '32'}
@@ -99,15 +92,16 @@ filters:
   Szász Károly utca:
     ranges: []
   Szilágyi Erzsébet fasor:
+    # 5a: 5 van kitáblázva
+    # 43: 43a van kitáblázva
+    # 45: 45a van kitáblázva
+    invalid: ['5a', '43', '45']
     ranges:
       - {start: '1', end: '47'}
   Széna tér:
     interpolation: 'all'
     ranges:
       - {start: '4', end: '5'}
-  Tizedes utca:
-    # 1-7, 2-6
-    invalid: ['8']
   Trombitás út:
     ranges:
       - {start: '1', end: '3'}
