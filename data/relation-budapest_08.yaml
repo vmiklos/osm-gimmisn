@@ -22,6 +22,9 @@ filters:
     # 23: sima 23 nincs, csak 23/a, 23/b.
     # 30: sima 30 nincs, csak 30/a, 30/b.
     invalid: ['17a', '23', '30']
+  Hős utca:
+    # 4: ez és a Stróbl Alajos utca 7. K épület ugyanaz, házszám és bejárat a Stróbl Alajos utcáról van csak.
+    invalid: ['4']
   II. János Pál pápa tér:
     interpolation: 'all'
     # 23/f: nincs ilyen, csak sima 23 van.
@@ -95,6 +98,10 @@ filters:
   Sárkány utca:
     # 12: sima 12 nincs, csak 12/a, 12/b.
     invalid: ['12']
+  Stróbl Alajos utca:
+    # 7/K: Stróbl Alajos utca 7. K épületként van megadva.
+    # 7/L: Stróbl Alajos utca 7. L épületként van megadva.
+    invalid: ['7k', '7l']
   Szentkirályi utca:
     # 1: sima 1 nincs, csak 1/a (utcatáblán), 1/b.
     # 25: sima 25 nincs, csak 25/a, 25/b.
