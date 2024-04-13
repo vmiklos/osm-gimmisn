@@ -409,10 +409,8 @@ filters:
     # itt csak elméletben vannak házszámok 1-3, 2-4, gyakorlatban Kapolcs utca 2/a címet visel minden
     ranges: []
   Csenger utca:
-    # 11d, 13c, 15b: Csak sima házszámok vannak.
-    # 18: Nincs, 18a, 18b van.
-    # 20: Nincs, 20a, 20b van.
-    invalid: ['11d', '13c', '15b', '18', '20']
+    # 11d: Csak sima 11 van.
+    invalid: ['11d']
   Cseresznye köz:
     ranges:
       - {start: '1', end: '3'}
@@ -421,11 +419,10 @@ filters:
     # 22: 22/a, 22/b
     # 32: 32/a, 32/b
     # 36: 36/a, 36/b
-    # 42a, 44a: csak 42 és 44
     # 52b: 52 és 52/a
     # 54a, 54/b: 54, 54 és 54/c a 3 rész házszáma
     # 56a, 56b: több részből áll, mindegyiken 56-os szám
-    invalid: ['22', '32', '36', '42a', '44a', '52b', '54a', '54b', '56a', '56b']
+    invalid: ['22', '32', '36', '52b', '54a', '54b', '56a', '56b']
     ranges:
       - {start: '1', end: '61'}
       - {start: '2', end: '36'}
@@ -434,21 +431,16 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '12'}
-  Csiki-hegyek utca:
-    # 17, 25: utolsó páratlan a 13-15 Gazdagrét-Csíkihegyek Általános Iskola
-    invalid: ['17', '25']
   Csóka utca:
-    invalid: ['2a', '3', '3h', '5b', '9j']
-    ranges:
-      - {start: '1', end: '13'}
-      - {start: '2', end: '4'}
+    # 1-13, 2-4
+    invalid: ['9j']
   Csonka János tér:
     ranges: []
   Csonttollú utca:
     # 3a: csak sima 3 van
     invalid: ['3a']
   Csorbai utca:
-    invalid: ['2', '2a', '3', '6', '10c', '13a', '18', '22', '28a']
+    invalid: ['2', '2a', '6', '10c', '13a', '18', '22', '28a']
     # 2b után 12 jön, közben a CBA és egy nyomásszabályozó állomás van
     ranges:
       - {start: '3', end: '23'}
@@ -718,10 +710,9 @@ filters:
       - {start: '2', end: '2'}
       - {start: '10', end: '204'}
   Fejér Lipót utca:
-    ranges:
-      - {start: '13', end: '15'}
-      - {start: '55', end: '67'}
-      - {start: '2', end: '70'}
+    # 13-15, 55-67, 2-70
+    # 57: Bártfai utca 34/a a címe az óvodának
+    invalid: ['57']
   Felsőhatár utca:
     # Budaörsi írásmód, nem kell
     ranges: []
