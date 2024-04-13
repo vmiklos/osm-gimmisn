@@ -134,7 +134,10 @@ filters:
     # 2 = Törökvész út 46/d
     # 8: 6/b után 10 jön, de az egyik házrészen nincs szám
     invalid: ['2', '7', '8', '11']
-  # Garas utca: 1-11. 2+
+  Garas utca:
+    # 1-11, 2-30
+    # 26a, 26b: 26/a-b van kitáblázva
+    invalid: ['26a', '26b', '32']
   Gomba utca:
     # 4 = régi házszám, ma Muraközi utca 26.
     # 5 = Vend utca 30
