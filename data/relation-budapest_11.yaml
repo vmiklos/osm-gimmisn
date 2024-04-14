@@ -634,15 +634,12 @@ filters:
       - {start: '3', end: '7'}
       - {start: '9', end: '13'}
   Etele út:
-    # 3 után 15
+    # 3 után 15, max 73, 2-66
     # 32: 32/a, 32/b, 32/c
+    # 44: 44/a, 44/b
     # 54-58 panel, bejáratok: 54/a, 54/b, 56/a, 56/b, 58/a
     # 68: volt Számalk. Elete Plaza már Hadak útja 1-re van számozva, de az üzletek egy része ezt a címet használja
-    invalid: ['32', '58b', '67/5']
-    ranges:
-      - {start: '1', end: '3'}
-      - {start: '15', end: '73'}
-      - {start: '2', end: '68'}
+    invalid: ['32', '58b', '44', '67/5']
   Éva utca:
     # Az Éva utca 1. és a Péterhegyi út 51/B. közös telken van, házszám a Péterhegyi útról van csak.
     # Az Éva utca 2. és a Péterhegyi út 53. közös telken van, házszám a Péterhegyi útról van csak.
@@ -712,7 +709,8 @@ filters:
   Fejér Lipót utca:
     # 13-15, 55-67, 2-70
     # 57: Bártfai utca 34/a a címe az óvodának
-    invalid: ['57']
+    # 72: 70,72: Gábor Dénes Egyetem, a 70-et használja
+    invalid: ['57', '72']
   Felsőhatár utca:
     # Budaörsi írásmód, nem kell
     ranges: []
