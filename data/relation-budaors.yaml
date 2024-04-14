@@ -56,7 +56,7 @@ filters:
   Bárány utca:
     # össze vissza számozva
     interpolation: all
-    invalid: ['1', '7', '11', '12']
+    invalid: ['7', '11', '12']
   Baross utca:
     # 179: 177 után 181/a Jehova
     # 183-185: 181 után 187
@@ -78,7 +78,7 @@ filters:
     invalid: ['37']
   Boróka utca:
     # az utcában viskók vannak, csak 2 normális házon van szám 5 és 6
-    invalid: ['7', '8', '9', '10', '12']
+    invalid: ['8', '9', '10', '12']
   Budakeszi utca:
     # össze vissza számozva
     invalid: ['7', '14', '15', '16', '17', '19', '22', '23', '24', '25', '26', '27', '28']
@@ -183,12 +183,10 @@ filters:
       - {start: '1', end: '9'}
       - {start: '4', end: '4'}
   Fügefa utca:
+    # 1-97, 2-136
     # 90: helyén 88
     # 108: nincs kiírva
     invalid: ['108']
-    ranges:
-      - {start: '1', end: '97'}
-      - {start: '2', end: '136'}
   Frankhegyi utca:
     # nincsenek kint házszámok, csak a 4
     invalid: ['10', '12', '14']
@@ -201,10 +199,7 @@ filters:
   Gerle köz:
     # ezek nincsenek kiírva, de sok ház van szám nélkül, a számozás nem logikus
     invalid: ['2', '5', '8']
-  Gesztenye köz:
-    ranges:
-      - {start: '4', end: '4'}
-      - {start: '1', end: '3'}
+  # Gesztenye köz:
   # Gesztenye utca:
   Gida utca:
     # 4 és 6 nincs, a 2 után 5/a jön
@@ -291,7 +286,7 @@ filters:
       - {start: '2', end: '6'}
   Kígyó utca:
     # privát nem felmérhető
-    invalid: ['1', '2', '6', '10', '11', '12', '15', '16', '20', '21', '22', '23']
+    invalid: ['2', '6', '10', '11', '12', '15', '20', '21', '22', '23']
   Kikelet utca:
     # így jönnek sorba: 5, 11, 13, 9, 21
     # 25: 23 után 27 a kettő között hátul a 29-es számhoz tartozó 3 ház egyike
@@ -329,11 +324,11 @@ filters:
   Koszorú utca:
     # Az utca egyik részét Panoráma utcára átnevezték, így néhol a régi hászámok is kint vannak, vagy csak azok vannak kint
     # 146/2019. (IX. 18.) Képviselő-testületi határozat Közterület átnevezése (Koszorú utca átnevezése a 11438 hrsz-ú ingatlantól a Lejtő utcáig)
-    invalid: ['19', '30', '44', '46', '48', '50', '51', '54', '56', '57', '73', '75', '78', '81', '87', '89']
+    invalid: ['19', '30', '44', '46', '51', '54', '57', '75', '87']
   Kőfejtő utca:
     # lényegében csak a hegy felöli oldal van számozva
     # újraszámozva az utca, ezek a számok nincsenek. RESURVEY 2024
-    invalid: ['11', '17', '19', '40', '50']
+    invalid: ['11', '17', '40', '50']
   Kőhalom utca:
     interpolation: all
   Kőhát utca:
@@ -367,7 +362,7 @@ filters:
     interpolation: all
   Kőszikla utca:
     interpolation: all
-    invalid: ['1', '3']
+    invalid: ['3']
     ranges:
       - {start: '1', end: '20'}
   Kötő utca:
@@ -463,7 +458,7 @@ filters:
     # 8: zegzugos, de 8 az nincs táblázva
     # 7-17: páratan oldal a lenti utcákról van számozva
     # 44: 42 az utolsó páros
-    invalid: ['7', '8', '13', '15', '17', '44']
+    invalid: ['7', '8', '13', '17', '44']
   Otthon utca:
     invalid: ['1', '25']
   Ötvös utca:
@@ -503,7 +498,7 @@ filters:
     invalid: ['6', '8']
   Pihenő utca:
     # 1,9 nincs kiírva
-    invalid: ['1', '9']
+    invalid: ['9']
   Pillangó utca:
     ranges:
       - {start: '1', end: '13'}
@@ -678,7 +673,7 @@ filters:
       - {start: '2', end: '8'}
   Tűzkőhegyi utca:
     # 6-8 nincs kiírva
-    invalid: ['6', '8']
+    invalid: ['8']
   Vasvári Pál utca:
     ranges:
       - {start: '1', end: '27'}
