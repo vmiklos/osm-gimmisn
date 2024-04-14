@@ -313,7 +313,10 @@ filters:
     # 75: 71 után 77 jön
     # 38: 38-at lebontották, a telket a 40-es házhoz csatolták
     invalid: ['3', '38', '75']
-  # Kolozsvári utca:
+  Kolozsvári utca:
+    # 53: 51 az utolsó házszám utána park
+    # 61: hibás üzlet cím
+    invalid: ['53', '61']
   Komáromi utca:
     ranges:
       - {start: '1', end: '73'}
@@ -331,8 +334,9 @@ filters:
     invalid: ['19', '30', '44', '46', '51', '54', '57', '75', '87']
   Kőfejtő utca:
     # lényegében csak a hegy felöli oldal van számozva
-    # újraszámozva az utca, ezek a számok nincsenek. RESURVEY 2024
-    invalid: ['11', '17', '40', '50']
+    # újraszámozva az utca, ezek a számok nincsenek. RESURVEY 2025
+    # 26: nincs, körforgalomnál kellene legyen
+    invalid: ['11', '17', '26', '40', '50']
   Kőhalom utca:
     interpolation: all
   Kőhát utca:
@@ -363,6 +367,8 @@ filters:
     # 105-107: csak 105 van kiírva
     invalid: ['11', '15', '85', '107']
   Kőláb utca:
+    # 24: nincs. max házszám a 13, fh. szerint a 8-cal szemben kéne lennie valahol
+    invalid: ['24']
     interpolation: all
   Kőszikla utca:
     interpolation: all
@@ -396,7 +402,9 @@ filters:
     # 1, 9 nincs
     invalid: ['1', '9']
   Mátra utca:
-    invalid: ['5']
+    # páratlan oldal nagy része Uzsoki közre van számozva, így max táblázott páratlan házszám 11, miközben páros az 46.
+    # 41: hivatalosan Kékes utca 6, de ez most Kékes utca 7, egyébként 11-ig megy a házszám
+    invalid: ['5', '41']
   Méhecske utca:
     # Másik fele Törökbálint, de ott nincs szám
     # 4:  = ismeretlen hol kellene legyen
@@ -678,8 +686,9 @@ filters:
       - {start: '19', end: '19'}
       - {start: '2', end: '8'}
   Tűzkőhegyi utca:
+    # 4 nincs kiírva, 2 új háznak még nincs száma. RESURVEY 2025
     # 6-8 nincs kiírva
-    invalid: ['8']
+    invalid: ['4','8']
   Vasvári Pál utca:
     ranges:
       - {start: '1', end: '27'}
