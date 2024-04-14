@@ -580,8 +580,9 @@ filters:
     # 242: helyén 214 van kiírva
     # 314: heléyn 312/a van kírva
     # 360: 358 utcán 362
-    # 387: utolsó szám 385
-    invalid: ['6', '8', '10', '12', '16', '28', '29', '31', '144', '153', '314', '387']
+    # 387: beépítetlen terület
+    # 396: utolsó szám a 392, a földhivatallal nem egyezik a számozás
+    invalid: ['6', '8', '10', '12', '16', '28', '29', '31', '144', '153', '314', '387', '396']
   Szálláshegy utca:
     interpolation: all
   Szamorodni utca:
