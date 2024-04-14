@@ -128,6 +128,9 @@ filters:
   Csillagvölgyi utca:
     # 19: nincs kiírva
     invalid: ['19']
+  Dózsa György utca:
+    # 36: 32 van kiírva, a végét földhivatal szerint újraszámozták, de helyszínen ennek nincs nyoma. RESURVEY 2025.
+    invalid: ['36']
   Dráva köz:
     invalid: ['3', '5', '7']
   Ebner György köz:
@@ -233,10 +236,11 @@ filters:
     # 9: Veolia parkoló
     # 12: 10 után 14-16
     # 38: 36 után 40
+    # 43: helyén 45/b-c van kiírva
     # 52-54: csak 52 van kiírva
     # 126: 124 után 128 2x
     # 134: 132 után 136-138
-    invalid: ['9', '12', '38', '54', '126', '134']
+    invalid: ['9', '12', '38', '43', '54', '126', '134']
   Ifjúság utca:
     invalid: ['2', '37']
   Jókai utca:
