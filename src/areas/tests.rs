@@ -2264,9 +2264,8 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
     ctx.set_file_system(&file_system_rc);
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["budafok", "458338075", "Vöröskúti határsor", "residential", "", "asphalt", "", ""],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('budafok', '458338075', 'Vöröskúti határsor', 'residential', '', 'asphalt', '', '');",
         )
         .unwrap();
     }
@@ -2313,14 +2312,9 @@ fn test_relation_write_missing_housenumbers_sorting() {
     ctx.set_file_system(&file_system_rc);
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gh414", "46985966", "A utca", "residential", "", "asphalt", "", "way"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gh414", "46985967", "B utca", "residential", "", "asphalt", "", "way"],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh414', '46985966', 'A utca', 'residential', '', 'asphalt', '', 'way');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh414', '46985967', 'B utca', 'residential', '', 'asphalt', '', 'way');",
         )
         .unwrap();
     }
@@ -2375,24 +2369,11 @@ fn test_write_missing_streets() {
     ctx.set_file_system(&file_system);
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');",
         )
         .unwrap();
     }
