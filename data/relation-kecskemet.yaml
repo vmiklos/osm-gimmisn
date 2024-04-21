@@ -43,7 +43,18 @@ refstreets:
   'Zrínyi Ilona utca': 'Zrínyi utca'
 street-filters:
   # nem igazi utcák
-  # place
+  # tanyák
+  - Alsószéktó tanya
+  - Belsőnyir tanya
+  - Hetény-Belsőnyir tanya
+  - Hetény-Belsőnyír tanya
+  - Hetény-Szarkás tanya
+  - Hetény-Úrihegy tanya
+  - Katonatelep tanya
+  - Külsőnyir tanya
+  - Matkó tanya
+  - Méntelek tanya
+  - Szolnokihegy tanya
   # kerületek
   - Árpádváros  # I. kerület - https://www.openstreetmap.org/node/984225158
   - Máriaváros  # II. kerület - https://www.openstreetmap.org/node/984206848
@@ -63,11 +74,15 @@ osm-street-filters:
   # településrész - földhivatal szerint ezek vannak, de felülvizsgálat alatt
   - Borbás
   - Városföld
+  #
+  - Belsőnyír
   # átlógó utcák
   # nem igazi utcák
+  - Ladánybenei elágazás
   - M44
   # parkok
   - Diófás
+  - Guba park
   - Hankovszky Zsigmond liget
   - Honvéd park
   - Hunyadi park
