@@ -30,61 +30,70 @@ street-filters:
   - Máv pályaudvar
   - Külterület tanya
   # tanyák
-  # - Aranyág tanya
-  # - Bánom tanya
-  # - Belsőtörökzug tanya
-  # - Bicere tanya
-  # - Farkashalom tanya
-  # - Józsefbenedek tanya
-  # - Kálvária tanya
-  # - Kisökörjárás tanya
-  # - Külsőtörökzug tanya
-  # - Nagyfenék tanya
-  # - Nagyökörjárás tanya
-  # - Pejrét tanya
-  # - Remete tanya
-  # - Siórét tanya
-  # - Sitka tanya
-  # - Szabadka tanya
-  # - Szentbenedek tanya
-  # - Szeregyháza tanya
-  # - Szlányi tanya
-  # hiányzó utcák - Note van
-  # - Bíbic utca
-  # - Birs utca - Szanazug
-  # - Cseresznye utca - Szanazug
-  # - Csigás utca -- nem Csiga, az is van
-  # - Fácán utca - Szanazug
-  # - Gyöngyösi Lázár utca - Ajtósfalva
-  # - Hicu-telepi út
+  - Aranyág tanya
+  - Bánom tanya
+  - Belsőtörökzug tanya
+  - Bicere tanya
+  - Duzzasztó zug
+  - Farkashalom tanya
+  - Józsefbenedek tanya
+  - Kálvária tanya
+  - Kisökörjárás tanya
+  - Külsőtörökzug tanya
+  - Nagyfenék tanya
+  - Nagyökörjárás tanya
+  - Pejrét tanya
+  - Remete tanya
+  - Siórét tanya
+  - Sitka tanya
+  - Szabadka tanya
+  - Szentbenedek tanya
+  - Szeregyháza tanya
+  - Szlányi tanya
+  # hiányzó utcák
+  # - Álmos vezér utca - https://www.openstreetmap.org/note/4207667
+  # - Bíbic utca - https://www.openstreetmap.org/note/2796511
+  # - Déli utca  - https://www.openstreetmap.org/note/4207641
+  # - Erdő utca - vagy Erdő sor # https://www.openstreetmap.org/note/2796490
+  # - Hicu-telepi út - https://www.openstreetmap.org/note/2796510
   # - Hosszúkás utca -- nem Hosszú utca, az is van
-  # - Kajszi utca - Szanazug
-  # - Mandula utca - Szanazug
-  # - Nyírfa utca
-  # - Saláta utca
-  # - Tiszafa utca
-  # hiányzó utcák - ismeretlen
-  # - Déli utca
-  # - Duzzasztó zug
-  # - Kiskert utca
-  # - Meggy utca
+  # - Kiskert utca - https://www.openstreetmap.org/note/4207671
+  # - Maróthy tér - https://www.openstreetmap.org/note/4207683
+  # - Seregély utca - https://www.openstreetmap.org/note/4207686
+  # - Vécsey Károly utca
+  # Szanazug
+  # - Alma utca - https://www.openstreetmap.org/note/4207666
+  # - Borsó utca - https://www.openstreetmap.org/note/2796507
+  # - Berkenye utca - https://www.openstreetmap.org/note/2796507
+  # - Cseresznye utca - https://www.openstreetmap.org/note/2278547
+  # - Csigás utca -- nem Csiga, az is van
+  # - Fácán utca - https://www.openstreetmap.org/note/2796513
+  # - Kajszi utca - https://www.openstreetmap.org/note/2278547
+  # - Mandula utca - https://www.openstreetmap.org/note/2796507
+  # - Meggy utca - Kajszi utca környékén
+  # - Nyírfa utca - https://www.openstreetmap.org/note/2796507
+  # - Répa utca - https://www.openstreetmap.org/note/2796513
+  # - Retek utca  - https://www.openstreetmap.org/note/2796513
+  # - Tiszafa utca - https://www.openstreetmap.org/note/2796507
+  # - Saláta utca - https://www.openstreetmap.org/note/2796507
 refstreets:
   # 'Csiga utca': 'Csigás utca' -- van másik Csiga utca, nem lehet mappelni
-  'Csikóséri sor': 'Csikoséri sor'
-  'Erdő sor': 'Erdő sor út'
+  'Csikóséri sor': 'Csikoséri sor'  # https://www.openstreetmap.org/note/2796284
+  'Erdő sor': 'Erdő sor út'         # https://www.openstreetmap.org/note/2796490
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
-  'Fenyő út': 'Fenyő utca'
+  'Fenyő út': 'Fenyő utca'          # https://www.openstreetmap.org/note/2796493
   # 'Ferenczi Béni utca': 'Ferenczy Béni utca'  # A házszámok nagy része az y-os írásmódon jön. Tábla Ferenczy Béni utca.
   # 'Hosszú utca': 'Hosszúkás utca' -- van másik Hosszú utca, nem lehet mappelni
-  'Lilaakác utca': 'Lila akác utca'
-  'Rigó út': 'Rigó utca'
-  'Rita út': 'Rita utca'
-  'Szabadkai út': 'Szabadkai utca'
-  'Széchenyi út': 'Széchenyi utca'
+  'Lilaakác utca': 'Lila akác utca'  # https://www.openstreetmap.org/note/2796283
+  'Rigó út': 'Rigó utca'             # https://www.openstreetmap.org/note/2796491
+  'Rita út': 'Rita utca'             # https://www.openstreetmap.org/note/2796488
+  'Szabadkai út': 'Szabadkai utca'   # https://www.openstreetmap.org/note/2796288
+  'Széchenyi út': 'Széchenyi utca'   # https://www.openstreetmap.org/note/2796291
   'Sándorhegytanya': 'Sándorhegy tanya'
-  'Víz utca': 'Vízi utca'
-  'Új élet utca': 'Újélet utca'
-  'Újülés utca': 'Újűlés utca'
+  'Szőlő út': 'Szőlő utca'           # https://www.openstreetmap.org/note/4207687
+  'Víz utca': 'Vízi utca'            # https://www.openstreetmap.org/note/2796279
+  'Új élet utca': 'Újélet utca'      # https://www.openstreetmap.org/note/2796492
+  'Újülés utca': 'Újűlés utca'       # https://www.openstreetmap.org/note/2796489
   # ellenőrzött
   'Körös utca': 'Kőrös utca'  # táblán Körös utca - https://www.openstreetmap.org/note/2796498
   # helyesírás, rövidítés
