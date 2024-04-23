@@ -2,17 +2,20 @@ missing-streets: 'yes'
 filters: {}
 street-filters:
   - Sportpálya
-  # - Blanka
-  # - Belenta
-  # - Kereki - Kereki utca van, de ezen külön is vannak hászámok
-  # - Galamb utca
-  # - Hosszútelki tanyák
-  # - Keselyűsi tanyák
-  # - London szél
-  # - Ókert
-  # - Párizs rész
-  # - Tanya utca
-  # - Ugari tanyák
+  # településrész
+  - Belenta
+  - Blanka  # https://www.openstreetmap.org/way/99709614
+  - Kereki  # https://www.openstreetmap.org/way/228356090
+  # tanyák
+  - Hosszútelki tanyák
+  - Keselyűsi tanyák
+  - Laposi Kertek 9. kapu  # hrsz
+  - London szél
+  - Madarász tanya
+  - Párizs rész
+  - Tanya utca
+  - Ugari tanyák
+  - V. kerület
 refstreets:
   '56-os emléktér': '56-os emléktér tér'
   'Áchim András utca': 'Áchim L. András utca'
