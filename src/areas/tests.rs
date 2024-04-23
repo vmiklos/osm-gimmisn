@@ -3314,26 +3314,13 @@ fn test_relations_is_new() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
-    let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/myrelation", &mtime],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["housenumbers/myrelation", &mtime],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
-            ["myrelation", "", ""],
-        ).unwrap();
-        conn.execute(
-            r#"insert into osm_street_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
-            ["myrelation", "", ""],
+        conn.execute_batch(
+            "insert into mtimes (page, last_modified) values ('streets/myrelation', '0');
+             insert into mtimes (page, last_modified) values ('housenumbers/myrelation', '0');
+             insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values ('myrelation', '', '');
+             insert into osm_street_coverages (relation_name, coverage, last_modified) values ('myrelation', '', '');",
         ).unwrap();
     }
     let mut relations = Relations::new(&ctx).unwrap();
