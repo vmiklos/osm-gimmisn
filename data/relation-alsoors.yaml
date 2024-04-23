@@ -74,6 +74,9 @@ filters:
     # 1: nincs, a Hotelhez tartozik a telek
     # 25: nincs, 23 után 27.
     invalid: ['1', '25']
+  Szépkilátó köz:
+    # 21: nincs páratlan oldalon házszám, egyébként is rövid az utca
+    invalid: ['21']
   Vízöntő utca:
     # 11 = Hotel Mayer vendégháza, nincs külön száma erről az utcáról
     invalid: ['11']
