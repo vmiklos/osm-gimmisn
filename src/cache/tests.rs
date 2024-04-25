@@ -149,9 +149,8 @@ fn test_is_cache_current_false_from_sql() {
     ctx.set_file_system(&file_system_rc);
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", "1"],
+        conn.execute_batch(
+            "insert into mtimes (page, last_modified) values ('streets/gazdagret', '1');",
         )
         .unwrap();
     }
