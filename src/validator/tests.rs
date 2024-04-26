@@ -274,6 +274,18 @@ failed to validate {0}
     assert_failure_msg(content, expected);
 }
 
+/// Tests the relation path: bad refstreets value, osm=ref.
+#[test]
+fn test_relation_refstreets_bad_value() {
+    let content = r#"refstreets:
+  'OSM Name 1': 'OSM Name 1'
+"#;
+    let expected = r#"expected value != key for 'refstreets.OSM Name 1'
+failed to validate {0}
+"#;
+    assert_failure_msg(content, expected);
+}
+
 /// Tests the relation path: bad filters -> ... -> invalid subkey.
 #[test]
 fn test_relation_filters_invalid_bad2() {
