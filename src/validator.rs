@@ -164,6 +164,9 @@ fn validate_refstreets(
         if value.contains('\'') || value.contains('"') {
             errors.push(format!("expected no quotes in value of '{context}{key}'"));
         }
+        if key == value {
+            errors.push(format!("expected value != key for '{context}{key}'"));
+        }
     }
     let mut reverse: Vec<_> = refstreets
         .iter()
