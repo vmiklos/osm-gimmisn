@@ -44,21 +44,21 @@ filters:
     # 158: autószerviz és a Kürt utca közt nincs ház
     # 226: szervizút végén 228, mellette 224
     invalid: ['5', '7', '140', '158', '226']
-  Ballada köz:
-    # 8-10: még épül. 2022-12. RESURVEY 2023
-    invalid: ['8', '10']
-  Barabás Miklós utca:
+  # Ballada köz:
+  # 8-10: még épül. 2022-12. RESURVEY 2023
+  #  invalid: ['8', '10']
+  # Barabás Miklós utca:
     # 9, 11: Alsó szakaszon lenne 11 az utolsó ház, de nincs kiírva semmi, most 9-re van állítva. RESURVEY 2023-07 kuka szerda
     # 13-15: 15 van kiírva
     # 14-16: semmi sincs kiírva, terven 16 van
-    invalid: ['11', '13', '14']
-  Bartók Béla út:
+    # invalid: ['11', '13', '14']
+  # Bartók Béla út:
     # 2022-12. RESURVEY 2023
     # 59 helyén 57/b van kírva, a házon és a kukán is
     # 71 nincs kiírva és ház sincs
     # 32-48 között régi hászámok: teljes káosz: 28 után 34,32,38, majd megint 36, utána nincs kírva 48-ig semmi.
     # 30 helyén 34, 34 helyén 38, 44-46 helyén 48a, 48b
-    invalid: ['30', '44', '46', '59', '71']
+    # invalid: ['30', '44', '46', '59', '71']
   Báthory utca:
     show-refstreet: false
   Batthyány utca:
@@ -66,9 +66,9 @@ filters:
     # 28: 26/b után 32 - Tinódi utca 6 lett belőle (KCR)
     # 30-32: csak 32 van kiírva
     invalid: ['3', '30']
-  Béke utca:
+  # Béke utca:
     # 11, 13: üres telek 2023-01. RESURVEY 2024.
-    invalid: ['11', '13']
+    # invalid: ['11', '13']
   Bem utca:
     # 2-4: csak 2 van kiírva
     invalid: ['4']
@@ -81,10 +81,10 @@ filters:
   Bocskai tér:
     # ez egy park
     ranges: []
-  Bokréta utca:
+  # Bokréta utca:
     # földhivatal szerint 13 a Felsőörsi út 41 és ami épül mellette az a 41. 2022-11. RESURVEY 2023
     # 14 = Paál László utca 34: ÉTDR. még nem épül. 2022-11. RESURVEY 2023
-    invalid: ['13', '14']
+    # invalid: ['13', '14']
   Csaba köz:
     invalid: ['1']
   Csalogány utca:
@@ -93,9 +93,9 @@ filters:
     invalid: ['11']
   Csikász lépcső:
     show-refstreet: false
-  Csóka köz:
-    # 2-4: nincs kiírva: 2022-11. RESURVEY 2023
-    invalid: ['2', '4']
+  # Csóka köz:
+  # 2-4: nincs kiírva: 2022-11. RESURVEY 2023
+  #  invalid: ['2', '4']
   Csokonai köz:
     # 1-3: csak 1 van kiírva
     invalid: ['3']
@@ -123,9 +123,9 @@ filters:
   Erkel Ferenc utca:
     invalid: ['44', '96']
     show-refstreet: false
-  Építő utca:
+  # Építő utca:
     # 4 = nincs kiírva: 2021-10. RESURVEY 2023
-    invalid: ['4']
+    # invalid: ['4']
   Erdőalja utca:
     # 21-23: csak 21 van kiírva
     # 26-32: 26 és 28 van kiírva
@@ -146,7 +146,7 @@ filters:
     # 3-13: 3, 5, 11 van kiírva, utána van még egy ház
     invalid: ['7', '9', '13']
   Forrás utca:
-    # 2022-12. RESURVEY 2023
+    # 2022-12. RESURVEY 2025
     # 6-22 egy zsákutcás osztatlan telek tele sok apró üdülőházzal
     # 6: nem a zsákutcás részen
     # 10: ez az egyetlen normális ház, a többin nincs házszám
@@ -158,9 +158,9 @@ filters:
   Galamb utca:
     # 18-20: csak 20 van kiírva
     invalid: ['18']
-  Gesztenye utca:
+  # Gesztenye utca:
     # 2: w971150528 vagy w971150527, de nincs kiírva: 2022-12. RESURVEY 2023
-    invalid: ['2']
+    # invalid: ['2']
   Gólya utca:
     # 7: Egzotikus kert alsó része
     invalid: ['7']
@@ -169,18 +169,18 @@ filters:
     invalid: ['21', '23']
   # Hadak útja:
     # 1 = park, 3 = építkezés, 5 = nincs
-  Hajnal utca:
+  # Hajnal utca:
     # 8-10: új ház 2 telken, még a régi 8-as házszám van kint 2023-02. RESURVEY 2023-07
-    invalid: ['10']
+    # invalid: ['10']
   Harangvirág utca:
     # 4-6: az utcában semmi sincs táblázva, még utcatálba sincs. RESURVEY 2024
     invalid: ['4', '6']
-  Harkály utca:
+  #Harkály utca:
     # 7-9: csak 7 és 11 van kiírva egy kapun
     # 15-17: csak 15 van kiírva
     # 18-20: csak 20 van kiírva
     # 23: Galamb utca felől lenne. 2022-10. RESURVEY 2023
-    invalid: ['9', '17', '23']
+    #invalid: ['9', '17', '23']
   Hársas utca:
     # terv és a valóság nincs összhangban
     invalid: ['49']
@@ -213,10 +213,10 @@ filters:
   Ipoly utca:
     # 13: valószínű az Ipoly köz végén lévő ház, nincs kiírva. 2024-02. RESURVEY 2025
     invalid: ['13']
-  Jedlik Ányos utca:
+  # Jedlik Ányos utca:
     # 19: 17 van kiírva, de eléggé a jobb szélén van a teleknek, ez és a faház között egy üres telek.
     # 40: 44 van kiírva. 2022-12. RESURVEY 2023
-    invalid: ['19', '40']
+    # invalid: ['19', '40']
   József Attila út:
     # 6: régi 2, az van kiírva
     # 8: MÁV üzemi épület? nincs kiírva semmi
@@ -228,15 +228,15 @@ filters:
   Juhász Gyula köz:
     # 4 = Kiírás szerint a Villa Succa címe 5
     invalid: ['4']
-  Káplár utca:
+  # Káplár utca:
     # 7 kivételével nincsenek kint házszámok: 2022-12. RESURVEY 2023
-    invalid: ['11']
+    # invalid: ['11']
   Kert utca:
     invalid: ['21', '23']
-  Kilátóhegyi utca:
+  # Kilátóhegyi utca:
     # 2: 10 van kiírva # 2022-12. RESURVEY 2023
     # 5 nincs kiírva semmi
-    invalid: ['2', '5']
+    # invalid: ['2', '5']
   Kisberényi út:
     # 48-52: csak 52 van
     # 70 helyett 72 van táblázva
@@ -254,9 +254,9 @@ filters:
     invalid: ['3']
   Kölcsey Ferenc utca:
     show-refstreet: false
-  Könyök utca:
+  # Könyök utca:
     # 9-11: Tamás Autó 81 Kft. melléképülete, épülőben, innen nem hiszem hogy lesz bejárat. RESURVEY 2023
-    invalid: ['9', '11']
+    # invalid: ['9', '11']
   Kövesalja utca:
     # 8 helyén 4 van kiírva
     invalid: ['8']
@@ -275,20 +275,20 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '3'}
-  Lomb utca:
+  # Lomb utca:
     # 2022-12. RESURVEY 2023
     # 5: nincs kiírva csak a 11
     # 9: terv szerint ez a 7, nincs kiírva. 
-    invalid: ['5']
+    # invalid: ['5']
   Madách Imre tér:
     show-refstreet: false
   Madách Imre utca:
     show-refstreet: false
-  Magyar utca:
+  # Magyar utca:
     # az utcát átszámozták, most vegyesen vannak kint a házszámok és mellesleg az utcának sok mellékága van
     # 12: ÉTDR új épület. RESURVEY 2024
     # 30: KCR új, még nincs épület, 10592/6. RESURVEY 2024
-    invalid: ['25', '30', '45', '55', '75']
+    # invalid: ['25', '30', '45', '55', '75']
   Malomvölgyi utca:
     # 25: domboldal, nem látszik épkézláb bejárat lentről
     # 32: tulaj megkérdezve, ok
@@ -317,9 +317,9 @@ filters:
   Noszlopy Gáspár utca:
     # 6: nincs, 4 és 8 egy ikerház
     invalid: ['6']
-  Őszapó utca:
+  # Őszapó utca:
     # 6-8: még épül, nincs kiírva semmi. 2022-12. RESURVEY 2023
-    invalid: ['6', '8']
+    # invalid: ['6', '8']
   Őz utca:
     # csak 5 és 11 van kiírva. 2023-06. RESURVEY 2024. kuka kedd.
     invalid: ['7']
@@ -393,26 +393,26 @@ filters:
     # 38-40: csak 40 van kiírva
     # 54 = Iskola utca 41.
     invalid: ['10', '38', '54']
-  Szömörce utca:
+  # Szömörce utca:
     # 30: az első leágaóz, nincs kiírva 2023-04. RESURVEY 2024
     #,62, 64 nincs kiírva 2023-04. RESURVEY 2024
-    invalid: ['30', '62', '64']
+    # invalid: ['30', '62', '64']
   Szúnyog utca:
     # 1-9 nincsenek házak csak fák, nádas
     invalid: ['9']
-  Szürkebarát utca:
+  # Szürkebarát utca:
     # 40: Felső vízszintes részen nincsenek kint házszámok és utcanév se: 2023-04. RESURVEY 2024
-    invalid: ['40']
+    # invalid: ['40']
   Tas utca:
     # 16-18: csak 18 van kiírva
     invalid: ['16']
-  Tóállás utca:
+  # Tóállás utca:
     # 35: elvileg a 33-35 egy telek, 33 van kiírva
     # 37 nincs kiírva, kizárásos alapon. 2022-12. RESURVEY 2023
-    invalid: ['35']
-  Tóth Árpád utca:
+    # invalid: ['35']
+  # Tóth Árpád utca:
     # 34: 36 van kiírva, következő 2 házon nincs házszám. 2022-12. RESURVEY 2023
-    invalid: ['34']
+    # invalid: ['34']
   Töltés utca:
     invalid: ['15']
   Töhötöm utca:
@@ -446,13 +446,13 @@ filters:
     # 89: Máltai alapszabályában 89, a facebook oldalukon 87-es házszám van
     # 101: 99 után 103
     invalid: ['7', '46', '83', '101']
-  Vidovszky Béla utca:
+  # Vidovszky Béla utca:
     # 25: új épület, nincs kiírva 2023-04. RESURVEY 2024
     # 26: Tisza utca 12-14 van kiírva
-    invalid: ['25', '26']
-  Vízmeder utca:
+    # invalid: ['25', '26']
+  # Vízmeder utca:
     # 3: Feszty Árpád/Vízmeder sarok: nincs kint a házszám, 2022-12. RESURVEY 2023.
-    invalid: ['3']
+    # invalid: ['3']
   Vödörvölgyi út:
     # páratlan oldal Szentkirályszabadja
     ranges:
