@@ -104,9 +104,6 @@ filters:
     invalid: ['11']
   Csikász lépcső:
     show-refstreet: false
-  Csóka köz:
-    # 2-4: nincs kiírva: 2024-04. RESURVEY 2025
-    invalid: ['2', '4']
   Csokonai köz:
     # 1-3: csak 1 van kiírva
     invalid: ['3']
@@ -415,7 +412,7 @@ filters:
   Szömörce utca:
     # 30: az első leágazó, nincs kiírva, néni szerint az új privát, bár a kapu nyitva
     # 62, 64 nincs kiírva, terv alapján felvéve
-    invalid: ['30', '32']
+    invalid: ['30']
   Szúnyog utca:
     # 1-9 nincsenek házak csak fák, nádas
     invalid: ['9']
