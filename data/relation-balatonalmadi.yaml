@@ -44,14 +44,15 @@ filters:
     # 158: autószerviz és a Kürt utca közt nincs ház
     # 226: szervizút végén 228, mellette 224
     invalid: ['5', '7', '140', '158', '226']
-  # Ballada köz:
-  # 8-10: még épül. 2022-12. RESURVEY 2023
-  #  invalid: ['8', '10']
-  # Barabás Miklós utca:
-    # 9, 11: Alsó szakaszon lenne 11 az utolsó ház, de nincs kiírva semmi, most 9-re van állítva. RESURVEY 2023-07 kuka szerda
+  Ballada köz:
+    # 8-10: már majdnem kész, nincs kint házszám. 2024-04. RESURVEY 2025
+    # 16: egy üres telek szépen gondozva
+    invalid: ['10', '16']
+  Barabás Miklós utca:
+    # 9, 11: Alsó szakaszon lenne 11 az utolsó ház, de nincs kiírva semmi, terven 9 van. RESURVEY 2024-07 kuka szerda
     # 13-15: 15 van kiírva
     # 14-16: semmi sincs kiírva, terven 16 van
-    # invalid: ['11', '13', '14']
+    invalid: ['11', '13', '14']
   Bartók Béla út:
     # 2024-04. RESURVEY 2025-04
     # 59 helyén 57/b van kírva, a házon és a kukán is
@@ -68,9 +69,9 @@ filters:
     # 28: 26/b után 32 - Tinódi utca 6 lett belőle (KCR)
     # 30-32: csak 32 van kiírva
     invalid: ['3', '30']
-  # Béke utca:
-    # 11, 13: üres telek 2023-01. RESURVEY 2024.
-    # invalid: ['11', '13']
+  Béke utca:
+    # 11, 13: A 9-es ház kertje
+    invalid: ['11', '13']
   Bem utca:
     # 2-4: csak 2 van kiírva
     invalid: ['4']
@@ -88,10 +89,13 @@ filters:
   Bocskai tér:
     # ez egy park
     ranges: []
-  # Bokréta utca:
-    # földhivatal szerint 13 a Felsőörsi út 41 és ami épül mellette az a 41. 2022-11. RESURVEY 2023
-    # 14 = Paál László utca 34: ÉTDR. még nem épül. 2022-11. RESURVEY 2023
-    # invalid: ['13', '14']
+  Bokréta utca:
+    # földhivatal szerint 13 a Felsőörsi út 41 és ami épül mellette az a 41. 2024-04. RESURVEY 2025
+    # 14 = Paál László utca 34: ÉTDR. valamit már túrnak. 2024-04. RESURVEY 2025
+    invalid: ['13', '14']
+  Budai Nagy Antal utca:
+    # 28-32: nincs kiírva. kuka szerda. RESURVEY 2025
+    invalid: ['28', '30', '32']
   Csaba köz:
     invalid: ['1']
   Csalogány utca:
@@ -100,9 +104,9 @@ filters:
     invalid: ['11']
   Csikász lépcső:
     show-refstreet: false
-  # Csóka köz:
-  # 2-4: nincs kiírva: 2022-11. RESURVEY 2023
-  #  invalid: ['2', '4']
+  Csóka köz:
+    # 2-4: nincs kiírva: 2024-04. RESURVEY 2025
+    invalid: ['2', '4']
   Csokonai köz:
     # 1-3: csak 1 van kiírva
     invalid: ['3']
@@ -146,9 +150,10 @@ filters:
     invalid: ['5']
   Felsőörsi út:
     # 9 = Rózsa utca 8
+    # 10 . Székely Bertalan utca sarka, épp építik. RESURVEY 2025
     # 34-36: csak 34 vagy kiírva
     # 48 = 46-ra van számozva, ez az utolsó ház Balatonalmádiban
-    invalid: ['9', '36', '48']
+    invalid: ['9', '10', '36', '48']
   Fény utca:
     # 3-13: 3, 5, 11 van kiírva, utána van még egy ház
     invalid: ['7', '9', '13']
@@ -165,12 +170,15 @@ filters:
   Galamb utca:
     # 18-20: csak 20 van kiírva
     invalid: ['18']
+  Gerle utca:
+    # 3: 1 után 5. Hivatalosan az 1-es számot viselő telek a 3-as.
+    invalid: ['3']
   Gesztenye utca:
     # 2: nincs kiírva semmi: 2024-05. RESURVEY 2025-05
     invalid: ['2']
   Gólya utca:
-    # 7: Egzotikus kert alsó része
-    invalid: ['7']
+    # 7-9-11-13: Egzotikus kert, 11-re számozva
+    invalid: ['7', '9']
   Győri utca:
     # 21-23: Vízmeder utca 22 címet használja
     invalid: ['21', '23']
@@ -182,12 +190,11 @@ filters:
   Harangvirág utca:
     # 4-6: az utcában semmi sincs táblázva, még utcatálba sincs. RESURVEY 2024
     invalid: ['4', '6']
-  #Harkály utca:
+  Harkály utca:
     # 7-9: csak 7 és 11 van kiírva egy kapun
     # 15-17: csak 15 van kiírva
-    # 18-20: csak 20 van kiírva
-    # 23: Galamb utca felől lenne. 2022-10. RESURVEY 2023
-    #invalid: ['9', '17', '23']
+    # 23: Galamb utca felől nincs bejárat, Cinke utca felől ellenőrizendő. RESURVEY 2024
+    invalid: ['9', '17', '23']
   Hársas utca:
     # terv és a valóság nincs összhangban
     invalid: ['49']
@@ -220,10 +227,9 @@ filters:
   Ipoly utca:
     # 13: valószínű az Ipoly köz végén lévő ház, nincs kiírva. 2024-02. RESURVEY 2025
     invalid: ['13']
-  # Jedlik Ányos utca:
-    # 19: 17 van kiírva, de eléggé a jobb szélén van a teleknek, ez és a faház között egy üres telek.
-    # 40: 44 van kiírva. 2022-12. RESURVEY 2023
-    # invalid: ['19', '40']
+  Jedlik Ányos utca:
+    # 40: 44 van kiírva. RESUREY 2025
+    invalid: ['40']
   József Attila út:
     # 6: régi 2, az van kiírva
     # 8: MÁV üzemi épület? nincs kiírva semmi
@@ -232,20 +238,19 @@ filters:
     # 27 nincs
     # 39 = Bajcsy-Zsilinszky út 14 - Hotel Bál Resort
     # 87-89: csak 87 van kiírva
-    invalid: ['6', '8', '16', '89']
+    invalid: ['6', '8', '16', '39', '89']
   Juhász Gyula köz:
     # 4 = Kiírás szerint a Villa Succa címe 5
     invalid: ['4']
-  # Káplár utca:
-    # 7 kivételével nincsenek kint házszámok: 2022-12. RESURVEY 2023
-    # invalid: ['11']
+  Káplár utca:
+    # 11: csak 7 és 9 van táblázva
+    invalid: ['11']
   Kert utca:
     invalid: ['21', '23']
   Kilátóhegyi utca:
-    # 2: 10 van kiírva # 2022-12. RESURVEY 2023
+    # 2: 10 van kiírva # 2024-04. RESURVEY 2025
     # 5 nincs kiírva semmi
-    # invalid: ['2', '5']
-    invalid: ['5']
+    invalid: ['2', '5']
   Kisberényi út:
     # 48-52: csak 52 van
     # 70 helyett 72 van táblázva
@@ -293,11 +298,10 @@ filters:
     show-refstreet: false
   Madách Imre utca:
     show-refstreet: false
-  # Magyar utca:
+  Magyar utca:
     # az utcát átszámozták, most vegyesen vannak kint a házszámok és mellesleg az utcának sok mellékága van
-    # 12: ÉTDR új épület. RESURVEY 2024
-    # 30: KCR új, még nincs épület, 10592/6. RESURVEY 2024
-    # invalid: ['25', '30', '45', '55', '75']
+    # 30: KCR új, még nincs épület, 10592/6. RESURVEY 2025
+    invalid: ['25', '30', '45', '55', '73', '75']
   Malomvölgyi utca:
     # 25: domboldal, nem látszik épkézláb bejárat lentről
     # 32: tulaj megkérdezve, ok
@@ -312,7 +316,7 @@ filters:
     # 15-17: csak 17 van kiírva
     invalid: ['15']
   # Mátyás király utca:
-    # 67, 69: még nincs, 63 az utolsó. 2 épül. 2023-01. RESURVEY 2024
+    # 69: még épül. RESURVEY 2025
   Mesgye utca:
     # 29: üres telkek, hrsz ismerelen, valószínű telekosztás volt. RESURVEY 2026
     invalid: ['29']
@@ -328,9 +332,9 @@ filters:
   Noszlopy Gáspár utca:
     # 6: nincs, 4 és 8 egy ikerház
     invalid: ['6']
-  # Őszapó utca:
-    # 6-8: még épül, nincs kiírva semmi. 2022-12. RESURVEY 2023
-    # invalid: ['6', '8']
+  Őszapó utca:
+    # 8: nincs, 6-os az utlsó ház
+    invalid: ['8']
   Őz utca:
     # csak 5 és 11 van kiírva. 2023-06. RESURVEY 2024. kuka kedd.
     invalid: ['7']
@@ -407,26 +411,26 @@ filters:
     # 38-40: csak 40 van kiírva
     # 54 = Iskola utca 41.
     invalid: ['10', '38', '54']
-  # Szömörce utca:
-    # 30: az első leágaóz, nincs kiírva 2023-04. RESURVEY 2024
-    #,62, 64 nincs kiírva 2023-04. RESURVEY 2024
-    # invalid: ['30', '62', '64']
+  Szömörce utca:
+    # 30: az első leágazó, nincs kiírva, néni szerint az új privát, bár a kapu nyitva
+    # 62, 64 nincs kiírva, terv alapján felvéve
+    invalid: ['30', '32']
   Szúnyog utca:
     # 1-9 nincsenek házak csak fák, nádas
     invalid: ['9']
-  # Szürkebarát utca:
-    # 40: Felső vízszintes részen nincsenek kint házszámok és utcanév se: 2023-04. RESURVEY 2024
-    # invalid: ['40']
+  Szürkebarát utca:
+    # 40: Felső vízszintes részen nincsenek kint házszámok és utcanév se: 2024-04. RESURVEY 2025
+    invalid: ['40']
   Tas utca:
     # 16-18: csak 18 van kiírva
     invalid: ['16']
-  # Tóállás utca:
+  Tóállás utca:
     # 35: elvileg a 33-35 egy telek, 33 van kiírva
-    # 37 nincs kiírva, kizárásos alapon. 2022-12. RESURVEY 2023
-    # invalid: ['35']
-  # Tóth Árpád utca:
-    # 34: 36 van kiírva, következő 2 házon nincs házszám. 2022-12. RESURVEY 2023
-    # invalid: ['34']
+    # 37 nincs kiírva, terv alapjűn számozva
+    invalid: ['35']
+  Tóth Árpád utca:
+    # 34: 36 van kiírva, következő 2 házon nincs házszám. 2022-12/2024-04. RESURVEY 2024-07. kuka szerda.
+    invalid: ['34']
   Töltés utca:
     # 5-9: 7 és 9 van kiírva
     invalid: ['5','15']
@@ -465,20 +469,21 @@ filters:
   Vidovszky Béla utca:
     # 26: Tisza utca 12-14 van kiírva
     invalid: ['26']
-  # Vízmeder utca:
-    # 3: Feszty Árpád/Vízmeder sarok: nincs kint a házszám, 2022-12. RESURVEY 2023.
-    # invalid: ['3']
+  Vízmeder utca:
+    # 3: Feszty Árpád/Vízmeder sarok: nincs kint a házszám. kuka kedd. 2024-04. RESURVEY 2024-07.
+    invalid: ['3']
   Vödörvölgyi út:
     # páratlan oldal Szentkirályszabadja
     ranges:
       - {start: '2', end: '98'}
   Vöröshegyi utca:
-    # 1 fa táblán, illetve némely házon Vöröshegyi út van, de a hivatalos utcatáblán Vöröshegyi utca
+    # 1 táblán, illetve némely házon Vöröshegyi út van, de a hivatalos utcatáblán Vöröshegyi utca
     # külső részen alig vannak táblázva
     # 13: nincs kiírva
+    # 24-26: csak 26 van a házon
     # 33: nincs kiírva
     # 38-40: HÉSZ szerinti helyén 36 van táblázva
-    invalid: ['33', '38', '40']
+    invalid: ['24', '33', '38', '40']
     show-refstreet: false
   Vöröskő utca:
     # 8: 3 van kiírva
