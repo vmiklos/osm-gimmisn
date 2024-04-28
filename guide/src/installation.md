@@ -47,9 +47,10 @@ osm-gimmisn sync-ref --mode download --url https://osm.example.com/data/
 
 ## Install steps (Windows)
 
-- Install `git` and `cargo`.
+- Install [git](https://git-scm.com/download/win) and
+  [cargo](https://www.rust-lang.org/tools/install).
 
-- Open e.g. the Command Prompt and clone the repo (see above).
+- Open e.g. PowerShell and clone the repo (see above).
 
 - Build the code:
 
