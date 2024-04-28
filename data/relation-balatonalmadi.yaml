@@ -228,8 +228,9 @@ filters:
     # 13: valószínű az Ipoly köz végén lévő ház, nincs kiírva. 2024-02. RESURVEY 2025
     invalid: ['13']
   Jedlik Ányos utca:
+    # 23: 21-27 között 1 vagy 2 üres telek
     # 40: 44 van kiírva. RESUREY 2025
-    invalid: ['40']
+    invalid: ['23', '40']
   József Attila út:
     # 6: régi 2, az van kiírva
     # 8: MÁV üzemi épület? nincs kiírva semmi
