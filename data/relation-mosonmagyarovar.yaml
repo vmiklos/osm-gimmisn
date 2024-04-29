@@ -34,6 +34,7 @@ refstreets:
   'Széchenyi utca': 'Széchenyi István utca'
   'Tallós Prohászka utca': 'Tallós Prohászka István utca'
   'Timföldgyári út': 'Timföldgyári utca'
+  'Wittman Antal park': 'Wittmann Antal park'
 source: survey
 housenumber-letters: true
 inactive: false
