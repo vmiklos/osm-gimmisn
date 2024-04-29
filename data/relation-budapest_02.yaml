@@ -190,6 +190,11 @@ filters:
     ranges:
       - {start: '1', end: '41'}
       - {start: '2', end: '34'}
+  Lövőház utca:
+    # 19 van, nem 19a
+    # 21 van, nem 21b
+    # Mammut 2-6-ig, Fény utcai piac 12-től
+    invalid: ['19a', '21b', '10']
   Margit utca:
     ranges:
       - {start: '1', end: '27'}
