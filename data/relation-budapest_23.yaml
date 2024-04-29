@@ -8,7 +8,6 @@ street-filters:
   - MÁV 8/B őrház
   - Máv vasútállomás
   - Sziget dűlő
-  - Közös legelő dűlő
   # egyéb
   # Szigetdűlő középső útja - Szigetdűlő közepén
   # proposed
@@ -36,6 +35,7 @@ osm-street-filters:
   - Juta-dombi tüzérek tere
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'Közöslegelő dűlő': 'Közös legelő dűlő'
   # nincs tábla
   'Ciklámen utca': 'Ciklámen út'
   # helyesírás, ref hibás
