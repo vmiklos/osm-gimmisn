@@ -2282,6 +2282,9 @@ filters:
     # 13-19: másik utcákról számozva
     # 21-27, 29-33, 35-39, 41-45: társasházak - a lépcsőházakon nincs betűjel, egyedi számok vannak
     invalid: ['1', '7', '19', '23c', '29c', '37b', '43b', '8', '10', '12a', '12b']
+  Szerenád utca:
+    # 6a: 6. A. lépcsőház
+    invalid: ['6a']
   Szirtes út:
     # nincs XI. kerületi része ahol hászám lenne: 1-19 és páros oldal I. kerület
     # 21 = Számadó utca 2

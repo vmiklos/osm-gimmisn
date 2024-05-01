@@ -1402,6 +1402,7 @@ osm-street-filters:
   - Tétényi utca
   # Megszűnt
   - Dráva utca  # https://www.openstreetmap.org/node/6779492219
+  - Nyugalom utca  # https://www.openstreetmap.org/way/475115569
 refstreets:
   # 'Boros utca': 'Boros út'  # utcatáblán Boros út (2019), majd leszedték az összes utcatáblát (2023-05-23)
   'Kiskőbánya utca': 'Kis Kőbánya utca'  # utcatáblán Kiskőbánya utca (2023-05-20)
