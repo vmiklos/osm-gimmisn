@@ -678,7 +678,7 @@ impl<'a> Relation<'a> {
             for (street_name, housenumbers) in &self.osm_housenumbers {
                 let mut invalids: Vec<String> = Vec::new();
                 if let Some(value) = streets_invalids.get(street_name) {
-                    invalids = value.clone();
+                    invalids.clone_from(value);
                     invalids = self.normalize_invalids(street_name, &invalids)?;
 
                     // housenumber letters: OSM data is already in the 42/A, do the same for the
@@ -840,7 +840,7 @@ impl<'a> Relation<'a> {
             let ref_street_name = self.config.get_ref_street_from_osm_street(osm_street_name);
             let mut street_invalid: Vec<String> = Vec::new();
             if let Some(value) = streets_invalid.get(osm_street_name) {
-                street_invalid = value.clone();
+                street_invalid.clone_from(value);
 
                 // Simplify invalid items by default, so the 42a markup can be used, no matter what
                 // is the value of housenumber-letters.
