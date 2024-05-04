@@ -37,17 +37,41 @@ osm-street-filters:
   # nem igazi utcák / csak hrsz.
   - ANGRO áruátvétel szervizút
   - Békéscsaba - Gyula kerékpárút
+  - Körgát
   - Jókai utca kerékpárút
   - Pósteleki buszforduló
   - Repülőhíd
   - Vállalkozói udvar
   - Wenckheim kerékpárút
   # parkok, sétautak amire nincs számozva semmi
+  - Cserkész tér
   - Kisszik domb
   - Kisszik-park
+  - Kis liget
+  - Kisrét
+  - Nagyrét
   - Petőfi liget
   - Széchenyi liget
   - Veres Péter utcai park
+  # dűlők
+  - 53. dűlő
+  - 56. dűlő
+  - Akácfás dűlő
+  - Eczedi dűlő
+  - Fenyőfás dűlő
+  - Franyó dűlő
+  - Határ dűlő
+  - III. dűlő
+  - Iskola dűlő
+  - Krizsán dűlő
+  - Lőrinczi dűlő
+  - Martincsek dűlő
+  - Réti dűlő
+  - Sztanek dűlő
+  - Tejes dűlő
+  - Vandháti dűlő
+  - Varságh dűlő
+  - Zsilák dűlő
 refstreets:
   '4-es honvéd utca': '4-es Honvéd utca'
   'Alsó-Körös sor': 'Alsó Körös sor'
