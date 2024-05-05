@@ -46,6 +46,18 @@ filters:
   Fillér lépcső:
     ranges: []
   Fillér utca:
+    # 45-47: /a és/b helyette
+    # 53: 53/b helyette
+    # 69a: 69 helyette
+    # 75: 75a, 75b, 75c helyette
+    # 6a: 6 helyette
+    # 10a: 10-12 helyette
+    # 10b: 10-12 helyette
+    # 50: 50/b helyette
+    # 54a: 54 és 54b helyette
+    # 64: 64/b helyette
+    # 84: /a és/b helyette
+    invalid: ['45', '47', '53', '69a', '75', '6a', '10a', '10b', '50', '54a', '64', '84']
     ranges:
       - {start: '33', end: '99'}
       - {start: '26', end: '98'}
