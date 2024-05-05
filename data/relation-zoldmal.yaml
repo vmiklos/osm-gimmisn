@@ -16,6 +16,8 @@ filters:
     ranges:
       - {start: '14', end: '98'}
   Felső Zöldmáli út:
+    # 101: helyén 99 van kiírva
+    invalid: ['101']
     ranges:
       - {start: '1', end: '133'}
       - {start: '16', end: '130'}
