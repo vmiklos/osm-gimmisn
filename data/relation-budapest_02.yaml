@@ -97,6 +97,10 @@ filters:
       - {start: '5', end: '99'}
       - {start: '6', end: '98'}
   Felső Zöldmáli út:
+    # 101: helyén 99 van kiírva
+    # 123a, 125a, 129b: 123-127 A és B épület
+    # 129b: 2 épületrész, de mindkettőnél csak 129 van kiírva
+    invalid: ['101', '123a', '125a', '129b']
     ranges:
       - {start: '1', end: '133'}
       - {start: '2', end: '130'}
