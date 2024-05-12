@@ -53,6 +53,9 @@ filters:
     # 13-15: 15 van kiírva
     # 14-16: semmi sincs kiírva, terven 16 van
     invalid: ['11', '13', '14']
+  Baross Gábor utca:
+    # 26 = Kálvin utca 1. Egyis sincs kiírva. RESURVEY 2024-07
+    invalid: ['26']
   Bartók Béla út:
     # 2024-04. RESURVEY 2025-04
     # 59 helyén 57/b van kírva, a házon és a kukán is
@@ -185,13 +188,13 @@ filters:
     # 8-10: új ház 2 telken, még a régi 8-as házszám van kint.
     invalid: ['10']
   Harangvirág utca:
-    # 4-6: az utcában semmi sincs táblázva, még utcatálba sincs. RESURVEY 2024
+    # 4-6: az utcában semmi sincs táblázva, még utcatálba sincs. RESURVEY 2025
     invalid: ['4', '6']
   Harkály utca:
     # 7-9: csak 7 és 11 van kiírva egy kapun
     # 15-17: csak 15 van kiírva
-    # 23: Galamb utca felől nincs bejárat, Cinke utca felől ellenőrizendő. RESURVEY 2024
-    invalid: ['9', '17', '23']
+    # 23: Galamb utca felől nincs bejárat, Cinke utca felől van egy ház, nincs rajta szám. RESURVEY 2026
+    invalid: ['9', '17']
   Hársas utca:
     # terv és a valóság nincs összhangban
     invalid: ['49']
@@ -287,11 +290,14 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '3'}
-  # Lomb utca:
-    # 2022-12. RESURVEY 2023
-    # 5: nincs kiírva csak a 11
-    # 9: terv szerint ez a 7, nincs kiírva. 
-    # invalid: ['5']
+  Lomb utca:
+    # 2024-05. RESURVEY 2026
+    # 3-5-7 nincs kiírva, tervről került fel
+    # 9-11: nincs kiírva csak a 11
+    invalid: ['9']
+  # Lozsántai út: 
+  # RESURVEY 2024-07. 
+  # 11 és 13 ki van írva, utána a másik szakaszon 17-19, 13 és 17-19 közt 2 ház van. Most jelölve van 15-re valami, de ott nincs kiírva semmi.
   Madách Imre tér:
     show-refstreet: false
   Madách Imre utca:
@@ -457,7 +463,8 @@ filters:
     # 1: nincs, 3=Ciszterci, más épület nincs
     invalid: ['1']
   Veszprémi út:
-    # 5, 7: 3 után 9 jön, valahol belül lehet, de nincs kiírva
+    # 1: Az első ház a 3.
+    # 5, 7: 3 után 9 jön, valahol belül lehet, de ott nincs több ház
     # 46-48: csak 48 van kiírva
     # 83 templom kellene leyen, de más források szerint a kolostor, de ott 85 van kiírva
     # 89: Máltai alapszabályában 89, a facebook oldalukon 87-es házszám van
