@@ -2,6 +2,9 @@ missing-streets: 'yes'
 filters:
   Alsóerdősor:
     show-refstreet: false
+  Árpád köz:
+    # 1: nincs, 3-tól indul a páratlan
+    invalid: ['1']
   Balaton körút:
     # 1: nincs, 3-tól indul a páratlan
     invalid: ['1']
