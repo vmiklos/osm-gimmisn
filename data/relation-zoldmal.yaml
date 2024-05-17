@@ -2,6 +2,8 @@
 missing-streets: 'no'
 filters:
   Alsó Zöldmáli út:
+    # 14: 14/a, 14/b
+    invalid: ['14']
     ranges:
       - {start: '13', end: '99'}
       - {start: '12', end: '98'}
@@ -16,8 +18,12 @@ filters:
     ranges:
       - {start: '14', end: '98'}
   Felső Zöldmáli út:
+    # 96: nincs kiírva
+    # 98-100: csak 98 van kiírva
     # 101: helyén 99 van kiírva
-    invalid: ['101']
+    # 123a, 125a, 129b: 123-127 A és B épület
+    # 129b: 2 épületrész, de mindkettőnél csak 129 van kiírva
+    invalid: ['96', '100', '101', '123a', '125a', '129b']
     ranges:
       - {start: '1', end: '133'}
       - {start: '16', end: '130'}
@@ -29,6 +35,8 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
   Pusztaszeri út:
+    # 33: 33/a, 33/b, 33/c, 33/d van kiírva, de könnyen lehet hogy 33 és A-D épületek
+    invalid: ['33']
     ranges:
       - {start: '1', end: '33'}
   Szépvölgyi út:
@@ -45,6 +53,11 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
+  Zsindely utca:
+    # 6: nincs, 2 után 12
+    # 23 = Felső Zöldmáli út 42.
+    # 26 = 26/a, 26/b
+    invalid: ['6', '23', '26']
 source: survey
 inactive: true
 housenumber-letters: true

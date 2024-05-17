@@ -13,6 +13,9 @@ filters:
     # 9: 9/a, 9/b, 9/c
     # 15-17: csak 17 van kiírva
     invalid: ['9', '15']
+  Alsó Zöldmáli út:
+    # 14: 14/a, 14/b
+    invalid: ['14']
   Alvinci út:
     ranges:
       - {start: '1', end: '37'}
@@ -97,10 +100,12 @@ filters:
       - {start: '5', end: '99'}
       - {start: '6', end: '98'}
   Felső Zöldmáli út:
+    # 96: nincs kiírva
+    # 98-100: csak 98 van kiírva
     # 101: helyén 99 van kiírva
     # 123a, 125a, 129b: 123-127 A és B épület
     # 129b: 2 épületrész, de mindkettőnél csak 129 van kiírva
-    invalid: ['101', '123a', '125a', '129b']
+    invalid: ['96', '100', '101', '123a', '125a', '129b']
     ranges:
       - {start: '1', end: '133'}
       - {start: '2', end: '130'}
@@ -258,6 +263,9 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '12'}
+  Pusztaszeri út:
+    # 33: 33/a, 33/b, 33/c, 33/d van kiírva, de könnyen lehet hogy 33 és A-D épületek
+    invalid: ['33']
   Radna utca:
     ranges:
       - {start: '1', end: '7'}
@@ -360,6 +368,11 @@ filters:
   Zsigmond tér:
     # Óbuda Gate 5-7 alatt, de nem ezt a címet használja
     interpolation: all
+  Zsindely utca:
+    # 6: nincs, 2 után 12
+    # 23 = Felső Zöldmáli út 42.
+    # 26 = 26/a, 26/b
+    invalid: ['6', '23', '26']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bulcsú vezér utca': 'Bulcsu vezér utca' # Budaliget (Pesthidegkút)
