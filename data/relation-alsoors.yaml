@@ -77,6 +77,9 @@ filters:
   Szépkilátó köz:
     # 21: nincs páratlan oldalon házszám, egyébként is rövid az utca
     invalid: ['21']
+  Templom utca:
+    # 42: max házszám 14
+    invalid: ['42']
   Vízöntő utca:
     # 11 = Hotel Mayer vendégháza, nincs külön száma erről az utcáról
     invalid: ['11']
