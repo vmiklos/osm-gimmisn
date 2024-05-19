@@ -48,10 +48,10 @@ filters:
       - {start: '51', end: '99'}
       - {start: '56', end: '98'}
   Gárdonyi Géza út:
-    # 1-11: Mórciz Zsigmond Gimnázium, számozás nem innen vam.
+    # 1-11: Mórciz Zsigmond Gimnázium, számozás nem innen van.
     # 2 = Törökvész út 46/d
     # 8: 6/b után 10 jön, de az egyik házrészen nincs szám
-    invalid: ['2', '7', '8', '9', '11']
+    invalid: ['2', '7', '8', '11']
     # terület lehatárolás
     ranges:
       - {start: '1', end: '99'}
