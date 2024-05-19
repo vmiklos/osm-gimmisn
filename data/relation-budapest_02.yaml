@@ -106,12 +106,16 @@ filters:
       - {start: '5', end: '99'}
       - {start: '6', end: '98'}
   Felső Zöldmáli út:
+    # 1: 1/a, 1/b, 1/c
+    # 7: 7/a, 7/b
+    # 24/b: 24, 24/a
+    # 36/a: csak sima 36
+    # 56: 56/a, 56/b
     # 96: nincs kiírva
     # 98-100: csak 98 van kiírva
     # 101: helyén 99 van kiírva
-    # 123a, 125a, 129b: 123-127 A és B épület
     # 129b: 2 épületrész, de mindkettőnél csak 129 van kiírva
-    invalid: ['96', '100', '101', '123a', '125a', '129b']
+    invalid: ['1', '7', '24b', '36a', '56', '96', '100', '101', '129b']
     ranges:
       - {start: '1', end: '133'}
       - {start: '2', end: '130'}
@@ -270,8 +274,9 @@ filters:
       - {start: '1', end: '17'}
       - {start: '2', end: '12'}
   Pusztaszeri út:
+    # 5: 5/a, illetve a ház előtt az információs táblán 5/b zárójelben
     # 33: 33/a, 33/b, 33/c, 33/d van kiírva, de könnyen lehet hogy 33 és A-D épületek
-    invalid: ['33']
+    invalid: ['5', '33']
   Radna utca:
     ranges:
       - {start: '1', end: '7'}
