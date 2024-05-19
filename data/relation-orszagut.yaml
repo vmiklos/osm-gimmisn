@@ -40,7 +40,7 @@ filters:
     # 28: 28/... van kitáblázva
     # 31a: 29/a után 31/b van kitáblázva
     # 37b, 37d: II. Rákóczi Ferenc Gimnázium címe 37
-    invalid: ['9b', '11a', '18', '20', '28']
+    invalid: ['11a', '18', '20', '28']
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '54'}
@@ -107,8 +107,11 @@ filters:
     ranges:
       - {start: '4', end: '5'}
   Trombitás út:
+    # 16a: 16 van kitáblázva
+    # 18: 18a van kitáblázva
+    invalid: ['16a', '18']
     ranges:
-      - {start: '1', end: '3'}
+      - {start: '1', end: '1'}
       - {start: '2', end: '20'}
   Zivatar utca:
     ranges:

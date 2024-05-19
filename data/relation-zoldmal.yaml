@@ -23,11 +23,16 @@ filters:
     ranges:
       - {start: '14', end: '98'}
   Felső Zöldmáli út:
+    # 1: 1/a, 1/b, 1/c
+    # 7: 7/a, 7/b
+    # 24/b: 24, 24/a
+    # 36/a: csak sima 36
+    # 56: 56/a, 56/b
     # 96: nincs kiírva
     # 98-100: csak 98 van kiírva
     # 101: helyén 99 van kiírva
     # 129b: 2 épületrész, de mindkettőnél csak 129 van kiírva
-    invalid: ['96', '100', '101', '129b']
+    invalid: ['1', '7', '24b', '36a', '56', '96', '100', '101', '129b']
     ranges:
       - {start: '1', end: '133'}
       - {start: '16', end: '130'}
