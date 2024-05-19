@@ -111,7 +111,7 @@ filters:
     # 18: 18a van kitáblázva
     invalid: ['16a', '18']
     ranges:
-      - {start: '1', end: '1'}
+      - {start: '1', end: '3'}
       - {start: '2', end: '20'}
   Zivatar utca:
     ranges:
