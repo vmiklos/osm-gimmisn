@@ -125,8 +125,11 @@ filters:
     ranges:
       - {start: '84', end: '126'}
   Trombitás út:
+    # 7: nincs kitáblázva
+    # 39: 39/1, 39/2 helyette
+    invalid: ['7', '39']
     ranges:
-      - {start: '1', end: '23'}
+      - {start: '3', end: '23'}
 source: survey
 inactive: true
 housenumber-letters: true
