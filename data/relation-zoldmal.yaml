@@ -26,9 +26,8 @@ filters:
     # 96: nincs kiírva
     # 98-100: csak 98 van kiírva
     # 101: helyén 99 van kiírva
-    # 123a, 125a, 129b: 123-127 A és B épület
     # 129b: 2 épületrész, de mindkettőnél csak 129 van kiírva
-    invalid: ['96', '100', '101', '123a', '125a', '129b']
+    invalid: ['96', '100', '101', '129b']
     ranges:
       - {start: '1', end: '133'}
       - {start: '16', end: '130'}
