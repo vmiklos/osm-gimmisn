@@ -90,6 +90,8 @@ things which are not part of CI:
 
 - Run `cargo outdated --depth=1` from time to time and make sure Rust dependencies are reasonably up to date.
 
+- Run `npm outdated` from time to time and make sure JS dependencies are reasonably up to date.
+
 - Update `.github/workflows/tests.yml` based on `rustc --version`.
 
-- Run `npm outdated` from time to time and make sure JS dependencies are reasonably up to date.
+- Update `tools/container/Containerfile` to track the latest stable base image.
