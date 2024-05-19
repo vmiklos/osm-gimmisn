@@ -39,8 +39,9 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
   Pusztaszeri út:
+    # 5: 5/a, illetve a ház előtt az információs táblán 5/b zárójelben
     # 33: 33/a, 33/b, 33/c, 33/d van kiírva, de könnyen lehet hogy 33 és A-D épületek
-    invalid: ['33']
+    invalid: ['5', '33']
     ranges:
       - {start: '1', end: '33'}
   Szépvölgyi út:
