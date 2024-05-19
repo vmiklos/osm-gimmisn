@@ -3,11 +3,16 @@ missing-streets: 'no'
 filters:
   Alsó Zöldmáli út:
     # 14: 14/a, 14/b
-    invalid: ['14']
+    # 15b: 15, 15/a
+    # 19b: 19, 19/a
+    invalid: ['14', '15b', '19b']
     ranges:
       - {start: '13', end: '99'}
       - {start: '12', end: '98'}
   Barlang utca:
+    # 5-9: erdő van a helyén
+    # 11-17: csak 17 van kiírva
+    invalid: ['5', '7', '9', '11', '13', '15']
     ranges:
       - {start: '1', end: '99'}
   Csalit utca:
