@@ -10,7 +10,7 @@ filters:
     interpolation: all
     ranges:
       - {start: '14', end: '47', refsettlement: '002'}
-      - {start: '48', end: '69', refsettlement: '003'}
+      - {start: '48', end: '125', refsettlement: '003'}
   Bécsi út:
     # 10-14 helyén parkoló
     ranges:
@@ -54,10 +54,9 @@ filters:
     ranges:
       - {start: '1', end: '11'}
   Frankel Leó út:
-    invalid: ['80']
     ranges:
       - {start: '47', end: '57'}
-      - {start: '74', end: '112'}
+      - {start: '74', end: '114'}
   Galagonya utca:
     refsettlement: '003'
   Harcsa utca:
@@ -98,6 +97,7 @@ filters:
     refsettlement: '003'
     ranges:
       - {start: '2', end: '98'}
+      - {start: '21', end: '99'}
   Pacsirtamező utca:
     refsettlement: '003'
     ranges: []

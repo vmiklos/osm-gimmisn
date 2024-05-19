@@ -6,7 +6,7 @@ filters:
       - {start: '2', end: '98'}
   Cimbalom utca:
     ranges:
-      - {start: '1', end: '19'}
+      - {start: '1', end: '21'}
   Daru utca:
     # felmerendo
     ranges:

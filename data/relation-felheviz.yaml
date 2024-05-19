@@ -6,20 +6,19 @@ filters:
       - {start: '15', end: '27'}
       - {start: '20', end: '30'}
   Árpád fejedelem útja:
-    invalid: ['2', '5']
+    invalid: ['2']
     interpolation: 'all'
     ranges:
       - {start: '1', end: '13'}
   Bem rakpart:
     interpolation: 'all'
     ranges:
-      - {start: '50', end: '55'}
+      - {start: '50', end: '56'}
   Bem József tér:
     interpolation: 'all'
     ranges:
       - {start: '1', end: '2'}
   Frankel Leó út:
-    invalid: ['37', '56']
     ranges:
       - {start: '1', end: '45'}
       - {start: '24', end: '72'}
@@ -37,11 +36,8 @@ filters:
     ranges:
       - {start: '1', end: '99'}
   Vérhalom utca:
-    invalid: ['9', '11', '13']
     ranges:
       - {start: '1', end: '27'}
-  Zsigmond köz:
-    ranges: []
 source: survey
 inactive: true
 housenumber-letters: true
