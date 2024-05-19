@@ -19,13 +19,7 @@ filters:
   Aranka utca:
     ranges:
       - {start: '1', end: '99'}
-  Barsi utca:
-    # 11 = Ady Endre utca 24
-    invalid: ['11']
   Bimbó út:
-    # 13 = Ady Endre utca 2-4
-    # 55 = Pajzs utca 1
-    invalid: ['13', '55']
     ranges:
       - {start: '13', end: '63'}
       - {start: '12', end: '42'}
@@ -38,10 +32,8 @@ filters:
       - {start: '3', end: '13'}
       - {start: '2', end: '14'}
   Eszter utca:
-    # 3 nincs
     # 22 = Vérhalom utca 44
     # 29 = Alsó-Törökvész út 2
-    invalid: ['3']
     ranges:
       - {start: '1', end: '27'}
       - {start: '2', end: '20'}
@@ -51,13 +43,11 @@ filters:
     ranges:
       - {start: '2', end: '36'}
   Keleti Károly utca:
-    # 41 nincs kiírva, helyén a lelkészség van térképezve a tempommal azonos címen
-    invalid: ['41']
     ranges:
       - {start: '15', end: '43'}
   Kitaibel Pál utca:
     ranges:
-      - {start: '8', end: '12'}
+      - {start: '8', end: '14'}
   Mandula utca:
     ranges:
       - {start: '17', end: '35'}
@@ -77,17 +67,12 @@ filters:
       - {start: '8', end: '14'}
       - {start: '15', end: '21'}
   Pajzs utca:
-    # 14 saroktelek, bejárat Eszter utca 21
     # 17 nincs
-    # 21 saroktelek, bejárat Berkenye utca 20
-    # 23 saroktelek, bejárat Berkenye utca 19
     # 24 valószínű a 26 mögötti ház, nincs kiírva semmi
-    # 25 saroktelek, bejárat Vérhalom utca 36a
-    invalid: ['14', '17', '21', '23', '24', '25']
+    invalid: ['17', '24']
   Rét utca:
-    # 2 = Marczibányi tér 12
     # 6 = Ribáry utca 6
-    invalid: ['2', '6']
+    invalid: ['6']
     ranges:
       - {start: '2', end: '6'}
       - {start: '1', end: '7'}
@@ -102,8 +87,6 @@ filters:
       - {start: '39', end: '57'}
       - {start: '34', end: '60'}
   Szemlőhegy utca:
-    # 24 = Vérhalom utca 20
-    invalid: ['24']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
@@ -118,7 +101,7 @@ filters:
     # 26: Bejárat a mandula utca felől
     invalid: ['26']
     ranges:
-      - {start: '2', end: '36'}
+      - {start: '2', end: '44'}
   Veronika utca:
     ranges:
       - {start: '2', end: '4'}

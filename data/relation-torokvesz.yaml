@@ -10,6 +10,10 @@ filters:
   Alvinci út:
     ranges:
       - {start: '2', end: '60'}
+  Balogvár utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '12'}
   Battai út:
     ranges:
       - {start: '2', end: '12'}
@@ -19,18 +23,16 @@ filters:
       - {start: '2', end: '4'}
   Bimbó út:
     # 104: 102 után 106
-    # 155: 151 után 157/b, de van egy üres telek
-    # 181 = Rügy utca 8
     # 183 = Rügy utca 10
     # 191 = Balogh Ádám utca 18/a
     # 208: 206/a, 206, 210
-    invalid: ['104', '155', '181', '183', '191', '208']
+    invalid: ['104', '183', '191', '208']
     ranges:
       - {start: '102', end: '234'}
       - {start: '103', end: '207'}
   Cirok utca:
     ranges:
-      - {start: '2', end: '98'}
+      - {start: '1', end: '99'}
   Csalán út:
     ranges:
       - {start: '1', end: '99'}
@@ -43,21 +45,16 @@ filters:
     ranges:
       - {start: '61', end: '99'}
       - {start: '2', end: '98'}
-  Fillér lépcső:
-    ranges: []
   Fillér utca:
     # 45-47: /a és/b helyette
     # 53: 53/b helyette
     # 69a: 69 helyette
     # 75: 75a, 75b, 75c helyette
-    # 6a: 6 helyette
-    # 10a: 10-12 helyette
-    # 10b: 10-12 helyette
     # 50: 50/b helyette
     # 54a: 54 és 54b helyette
     # 64: 64/b helyette
     # 84: /a és/b helyette
-    invalid: ['45', '47', '53', '69a', '75', '6a', '10a', '10b', '50', '54a', '64', '84']
+    invalid: ['45', '47', '53', '69a', '75', '50', '54a', '64', '84']
     ranges:
       - {start: '33', end: '99'}
       - {start: '26', end: '98'}
@@ -92,7 +89,8 @@ filters:
       - {start: '1', end: '99'}
       - {start: '14', end: '22'}
   Marczibányi tér:
-    ranges: []
+    ranges:
+      - {start: '5', end: '5'}
   Nagyajtai utca:
     ranges:
       - {start: '13', end: '99'}
@@ -101,9 +99,8 @@ filters:
     ranges: []
   Nagybányai út:
     # 2 = Csalán út 15
-    # 39 = 35, U kanyar 2 oldala
     # 56-58: csak sima 56 van
-    invalid: ['2', '39', '58']
+    invalid: ['2', '58']
     ranges:
       - {start: '1', end: '91'}
       - {start: '2', end: '60'}
@@ -116,8 +113,6 @@ filters:
     ranges:
       - {start: '2', end: '98'}
   Rügy utca:
-    # 2 = Bimbó út 177.
-    invalid: ['2']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '24'}
@@ -126,8 +121,7 @@ filters:
       - {start: '84', end: '126'}
   Trombitás út:
     # 7: nincs kitáblázva
-    # 39: 39/1, 39/2 helyette
-    invalid: ['7', '39']
+    invalid: ['7']
     ranges:
       - {start: '3', end: '23'}
 source: survey

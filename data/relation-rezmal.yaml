@@ -15,7 +15,9 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
   Balogvár utca:
-    ranges: []
+    ranges:
+      - {start: '11', end: '13'}
+      - {start: '14', end: '16'}
   Bimbó út:
     ranges:
       - {start: '65', end: '101'}
@@ -34,8 +36,6 @@ filters:
       - {start: '1', end: '7'}
   Felvinci út:
     invalid: ['39']
-  Kapor utca:
-    invalid: ['2']
   Marczibányi tér:
     interpolation: 'all'
     ranges:
@@ -44,8 +44,6 @@ filters:
     ranges:
       - {start: '3', end: '13'}
       - {start: '4', end: '18'}
-  Tulipán utca:
-    invalid: ['1', '7']
 source: survey
 inactive: true
 housenumber-letters: true
