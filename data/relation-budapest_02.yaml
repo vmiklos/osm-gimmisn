@@ -326,6 +326,12 @@ filters:
     # 94: nincs, csak 94/a, 94/b.
     # 103 után 111 jön, nincs köztes épület
     invalid: ['94']
+  Trombitás út:
+    # 7: nincs kitáblázva
+    # 39: 39/1, 39/2 helyette
+    # 16a: 16 van kitáblázva
+    # 18: 18a van kitáblázva
+    invalid: ['7', '39', '16a', '18']
   Ürömi köz:
     ranges:
       - {start: '1', end: '3'}
