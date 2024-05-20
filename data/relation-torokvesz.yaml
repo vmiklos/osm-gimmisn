@@ -123,7 +123,7 @@ filters:
     # 7: nincs kitáblázva
     invalid: ['7']
     ranges:
-      - {start: '3', end: '23'}
+      - {start: '5', end: '23'}
 source: survey
 inactive: true
 housenumber-letters: true
