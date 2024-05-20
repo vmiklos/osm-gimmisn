@@ -72,6 +72,8 @@ filters:
     ranges:
       - {start: '49', end: '131'}
   Trombitás út:
+    # 39: 39/1, 39/2 helyette
+    invalid: ['39']
     ranges:
       - {start: '25', end: '39'}
       - {start: '22', end: '32'}
