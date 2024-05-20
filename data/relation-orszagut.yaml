@@ -18,6 +18,10 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '10'}
   Fillér utca:
+    # 6a: 6 helyette
+    # 10a: 10-12 helyette
+    # 10b: 10-12 helyette
+    invalid: ['6a', '10a', '10b']
     ranges:
       - {start: '1', end: '31'}
       - {start: '2', end: '24'}
