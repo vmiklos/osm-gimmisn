@@ -35,11 +35,12 @@ osm-street-filters:
 street-filters:
   - Szadai utca  # Rossz helyen fut a Szada/Gödöllő határ, vagy az utca van rossz helyen
   # Dűlők/tanyák
-  # - Bonoka tanya
   - Babat puszta  # szerepel Babatpuszta néven, place-ként
-  # - Gulyás tanya
+  - Bonoka tanya
+  - Gulyás tanya
   - Küttel tanya  # szerepel place-ként
   - Peres dűlő  # szerepel Peres néven
+  - Peresi Fácános tanya
   - Szabó tanya  # szerepel tanyaként
   # Nem igazi utcák / Hrsz
   - 26 MÁV őrház
@@ -50,6 +51,7 @@ street-filters:
   - Arborétum
   - ATE Kisérleti tér
   - Baromfi telep
+  - Egyetemi Kollégiumok
   - Incsői erdészház
   - Kastély
   - MÁV állomás
@@ -75,6 +77,8 @@ refstreets:
   'Borbolya út': 'Borbolya utca'
   'Csillagfürt út': 'Csillagfürt utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
+  'Felsőtó utca': 'Felső-tó utca'
+  'Kis-Kormos utca': 'Kiss-Komlós utca'
   'Klapka György utca': 'Klapka György út'
   'Klebelsberg Kunó utca': 'Klebelsberg Kuno utca'
   'Kőrösi Csoma Sándor utca': 'Kőrösi Csoma utca'
