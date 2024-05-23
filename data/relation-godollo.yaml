@@ -7,6 +7,7 @@ osm-street-filters:
   # parkok, sétányok
   - Csörsz-árok tanösvény
   - Erzsébet park
+  - Erzsébet udvar
   - Gödöllői Arborétum
   - Mária kert
   - Manna-kert
@@ -67,29 +68,30 @@ street-filters:
   # - Raktár utca - HÉV és a vasút között, Palotakert megállónál
 refstreets:
   'Alkony út': 'Alkony utca'
-  'Ambrus köz': 'Ambrus Zoltán köz'
   'Antalhegy lejtő': 'Antalhegyi lejtő'
   'Arany János utca': 'Arany János út'
   'Babati út': 'Babati utca'
-  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Báthory István utca': 'Báthori István utca'
   'Borbolya út': 'Borbolya utca'
   'Csillagfürt út': 'Csillagfürt utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
-  'Ganz Ábrahám út': 'Ganz Ábrahám utca'
-  'Kenyérgyári út': 'Kenyérgyári utca'
   'Klapka György utca': 'Klapka György út'
   'Klebelsberg Kunó utca': 'Klebelsberg Kuno utca'
-  'Körösfői Kriesch Aladár utca': 'Körösfői K. Aladár utca'
   'Kőrösi Csoma Sándor utca': 'Kőrösi Csoma utca'
-  'Palotakert': 'Palota-kert'
-  'Petőfi Sándor utca': 'Petőfi Sándor út'
   'Pitypang út': 'Pitypang utca'
-  'Podmaniczky Frigyes utca': 'Podmaniczky utca'
-  'Premontrei út': 'Premontrei utca'
-  'Semmelweis Ignác utca': 'Semmelweis utca'
-  'Sík Sándor utca': 'Sik Sándor utca'
-  'Tessedik Sámuel utca': 'Tessedik Sámuel út'
-  'Toldi Miklós út': 'Toldi Miklós utca'
+  # ellenőrzött
+  'Körösfői Kriesch Aladár utca': 'Körösfői K. Aladár utca'  # táblán Körösfői Kriesch Aladár utca
+  'Podmaniczky Frigyes utca': 'Podmaniczky utca'  # táblán Podmaniczky Frigyes utca
+  'Sík Sándor utca': 'Sik Sándor utca'  # táblán Sík Sándor utca
+  'Semmelweis Ignác utca': 'Semmelweis utca'  # táblák vegyesen
+  'Tessedik Sámuel utca': 'Tessedik Sámuel út'  # táblán Tessedik Sámuel utca
+  # táblán Ambrus Zoltán köz
+  # táblán Bajcsy-Zsilinszky utca
+  # táblán Palota-kert
+  # táblán Ganz Ábrahám utca
+  # táblán Kenyérgyári utca
+  # táblán Toldi Miklós utca
+  # táblákon Petőfi Sándor út, Petőfi utca
+  # táblán  Premontrei utca
 source: survey
 inactive: true
