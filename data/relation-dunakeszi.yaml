@@ -38,6 +38,7 @@ refstreets:
   'Dr. Osvai László utca': 'Dr. Osvay László utca'
   'Bayer Emil utca': 'Dr. Bayer Emil utca'
   'Ecsh Győző utca': 'Esch Győző utca'
+  'IV. Béla tér': 'IV. Béla király tér'  # táblán valószínű IV. Béla király tér
   'Jókai Mór utca': 'Jókai utca'
   'Hűtőház utca': 'Hűtőház munkásszálló'
   'Katonadomb sor': 'Katonadomb utca'
@@ -50,6 +51,7 @@ refstreets:
   'Óceán-árok utca': 'Óceánárok utca'
   'Repülőtéri út': 'Repülőtéri utca'
   'Rév utca': 'Rév út'
+  'Székesdűlő': 'Székes dűlő'
   'Szondi utca': 'Szondy utca'
   'Teleki Pál utca': 'Teleky Pál utca'
   'Tetétlen utca': 'Tetétlen dűlő'
