@@ -222,6 +222,9 @@ filters:
     ranges:
       - {start: '1', end: '41'}
       - {start: '2', end: '34'}
+  Lorántffy Zsuzsanna út:
+    # 20b: 20 és 20a van kitáblázva
+    invalid: ['20b']
   Lövőház utca:
     # 19 van, nem 19a
     # 21 van, nem 21b
