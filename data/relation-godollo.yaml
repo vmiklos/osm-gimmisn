@@ -1,11 +1,19 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Mária utca:
+    # 195/55: ez helyrajzi szám, nem házszám.
+    invalid: ['195']
+  Semmelweis Ignác utca:
+    # 660: ez helyrajzi szám, nem házszám.
+    invalid: ['660']
+  Tájkép utca:
+    # 258/77: ez helyrajzi szám, nem házszám.
+    invalid: ['258']
 osm-street-filters:
   # nem igazi utcák
   - Gödöllő Airport
   - Oktatóközpont udvar
   # parkok, sétányok
-  - Csörsz-árok tanösvény
   - Erzsébet park
   - Erzsébet udvar
   - Gödöllői Arborétum
@@ -13,7 +21,6 @@ osm-street-filters:
   - Manna-kert
   - Meseösvény
   - Nemzeti Együvé Tartozás Parkja
-  - Rét
   - Szentháromság park
   # Alsó park és sétányai
   - Alsó park
@@ -98,4 +105,5 @@ refstreets:
   # táblákon Petőfi Sándor út, Petőfi utca
   # táblán  Premontrei utca
 source: survey
+housenumber-letters: true
 inactive: true
