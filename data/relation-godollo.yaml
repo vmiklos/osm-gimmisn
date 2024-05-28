@@ -50,6 +50,8 @@ osm-street-filters:
   - Felső park
   - Erzsébet-előkert
   - Ferenc József-előkert
+  # Ellenőrzött
+  # Raktár utca - nincs kint tábla - https://www.openstreetmap.org/note/4259319
 street-filters:
   - Szadai utca  # Rossz helyen fut a Szada/Gödöllő határ, vagy az utca van rossz helyen
   # Dűlők/tanyák
@@ -85,7 +87,6 @@ street-filters:
   - Száritó puszta  # szerepel Szárítópusztaként
   # Hiányzó
   # - Bojtorján utca - Kankalin utca folytatása
-  # - Raktár utca - HÉV és a vasút között, Palotakert megállónál
 refstreets:
   'Alkony út': 'Alkony utca'
   'Antalhegy lejtő': 'Antalhegyi lejtő'
