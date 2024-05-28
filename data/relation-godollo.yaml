@@ -1,8 +1,19 @@
 missing-streets: 'yes'
 filters:
+  Honvéd utca:
+    # 27: a páratlan oldalon a 21 az utolsó házszám.
+    # 30: nincs ilyen, a 28 után a 32 következik.
+    # 44: a páros oldalon a 32 az utolsó házszám.
+    invalid: ['27', '30', '44']
+  Lovas utca:
+    # 18: ez a Major utca házszáma, a Lovas utcában a 7 az utolsó házszám.
+    invalid: ['18']
   Mária utca:
     # 195/55: ez helyrajzi szám, nem házszám.
     invalid: ['195']
+  Repülőtéri út:
+    # 101/6: ez helyrajzi szám, nem házszám.
+    invalid: ['101/6']
   Semmelweis Ignác utca:
     # 660: ez helyrajzi szám, nem házszám.
     invalid: ['660']
