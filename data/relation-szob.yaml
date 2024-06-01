@@ -28,6 +28,8 @@ osm-street-filters:
   - közbenső feladóállomás kezelővágány
   # parkok, sétányok amire nincs számozva semmi
   - Luczenbacher sétány
+  # átlógó-Zebegény
+  - Ország út
 street-filters:
   # nincs
   - Diófa köz
