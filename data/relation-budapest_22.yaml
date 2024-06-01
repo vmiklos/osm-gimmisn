@@ -1367,6 +1367,7 @@ street-filters:
   - Fazekas forduló
   - Kása utca  # Régen a Gyöngyszem utca folytatása volt a Fülesbagoly utca felé, most beépített telkek vannak a helyén.
   - Támfal utca  # Régen a 223938 helyrajzi számú utca volt, most a tőle keletre lévő telekkel van összenyitva és elkerítve.
+  - Nyugalom utca  # https://www.openstreetmap.org/way/475115569
   # Ismeretlen
   - Száva utca
   - Vízmosás utca
@@ -1402,7 +1403,6 @@ osm-street-filters:
   - Tétényi utca
   # Megszűnt
   - Dráva utca  # https://www.openstreetmap.org/node/6779492219
-  - Nyugalom utca  # https://www.openstreetmap.org/way/475115569
 refstreets:
   # 'Boros utca': 'Boros út'  # utcatáblán Boros út (2019), majd leszedték az összes utcatáblát (2023-05-23)
   'Kiskőbánya utca': 'Kis Kőbánya utca'  # utcatáblán Kiskőbánya utca (2023-05-20)
