@@ -28,32 +28,33 @@ filters:
     invalid: ['24']
 refstreets:
   # kérdéses
-  'Alsóújsor utca': 'Alsó-újsor'
-  'Bányai utca': 'Bányai Júlia utca'
-  'Csererdő utca': 'Csererdei út'
-  'Dióssy Márton utca': 'Diósy Márton utca'
-  'Felsőújsor utca': 'Felső-újsor'
-  'Füzesi utca': 'Füzesi út'
-  'Gombkötő utca': 'Gombkötő köz'
-  'Karacs Teréz út': 'Karacs Teréz utca'
-  'Kastélykert utca': 'Kastélykert'
-  'Kinizsi utca': 'Kinizsi Pál utca'
-  'Kiss utca': 'Kiss János utca'
-  'Löwey Klára utca': 'Lövey Klára utca'
-  'Óvári Ferenc utca': 'Óvári Ferenc út'
-  'Poeltenberg Ernő utca': 'Pöltenberg Ernő utca'
-  'Répavölgyi utca': 'Répavölgy utca'
-  'Sarkantyús utca': 'Sarkantyú utca'
-  'Seregély utca': 'Seregély út'
-  'Sigray utca': 'Sigray Jakab utca'
-  'Szendrey Júlia utca': 'Szendrei Júlia utca'
-  'Szigethi József utca': 'Szigeti József utca'
-  'Sziklay János utca': 'Sziklai János utca'
+  'Alsóújsor utca': 'Alsó-újsor'  # https://www.openstreetmap.org/note/4274953
+  'Bányai utca': 'Bányai Júlia utca'  # https://www.openstreetmap.org/note/4274954
+  'Csererdő utca': 'Csererdei út'  # https://www.openstreetmap.org/note/4274955
+  'Dióssy Márton utca': 'Diósy Márton utca'  # https://www.openstreetmap.org/note/4274962
+  'Felsőújsor utca': 'Felső-újsor'  # https://www.openstreetmap.org/note/4274958
+  'Füzesi utca': 'Füzesi út'  # https://www.openstreetmap.org/note/4274960
+  'Gombkötő utca': 'Gombkötő köz'  # https://www.openstreetmap.org/note/4274964
+  'Karacs Teréz út': 'Karacs Teréz utca'  # https://www.openstreetmap.org/note/4274965
+  'Kastélykert utca': 'Kastélykert'  # https://www.openstreetmap.org/note/3052512
+  'Kinizsi utca': 'Kinizsi Pál utca'  # https://www.openstreetmap.org/note/4274978
+  'Kiss utca': 'Kiss János utca'  # https://www.openstreetmap.org/note/4274979
+  'Lilaakác utca': 'Lila akác utca'  # https://www.openstreetmap.org/note/4274951
+  'Löwey Klára utca': 'Lövey Klára utca'  # https://www.openstreetmap.org/note/4274982
+  'Óvári Ferenc utca': 'Óvári Ferenc út'  # https://www.openstreetmap.org/note/4274983
+  'Poeltenberg Ernő utca': 'Pöltenberg Ernő utca'  # https://www.openstreetmap.org/note/4274985
+  'Répavölgyi utca': 'Répavölgy utca'  # https://www.openstreetmap.org/note/4274987
+  'Sarkantyús utca': 'Sarkantyú utca'  # https://www.openstreetmap.org/note/4274989
+  'Seregély utca': 'Seregély út'  # https://www.openstreetmap.org/note/4274993
+  'Sigray utca': 'Sigray Jakab utca'  # https://www.openstreetmap.org/note/4274996
+  'Szendrey Júlia utca': 'Szendrei Júlia utca'  # https://www.openstreetmap.org/note/4274997
+  'Szigethi József utca': 'Szigeti József utca'  # https://www.openstreetmap.org/note/4274998
+  'Sziklay János utca': 'Sziklai János utca'  # https://www.openstreetmap.org/note/4274999
   # 'Táborállás park': 'Táborállás tér'
-  'Thököly utca': 'Thököly Imre utca'
-  'Vámosi út': 'Vámosi utca'
-  'Vértanúk utca': 'Vértanú utca'
-  'Vízi utca': 'Vizi utca'
+  'Thököly utca': 'Thököly Imre utca'  # https://www.openstreetmap.org/note/4275001
+  'Vámosi út': 'Vámosi utca'  # https://www.openstreetmap.org/note/4275002
+  'Vértanúk utca': 'Vértanú utca'  # https://www.openstreetmap.org/note/4275004
+  'Vízi utca': 'Vizi utca'  # https://www.openstreetmap.org/note/4275013
 street-filters:
   # nem igazi utcák
   - Eplény vasútállomás
