@@ -17,6 +17,19 @@ filters:
   Semmelweis Ignác utca:
     # 660: ez helyrajzi szám, nem házszám.
     invalid: ['660']
+  Szabadság út:
+    # 15: sima 15 nincs, csak 15/a, 15/b.
+    # 19: sima 19 nincs, csak 19/a, 19/b, 19/c.
+    # 25/b: nincs ilyen, csak sima 25 van.
+    # 29/a: ez Szabadság tér 29/a lesz, a Szabadság út 25. egy családi ház.
+    # 29/b: ez Szabadság tér 29/b lesz, a Szabadság út 25. egy családi ház.
+    # 29/c: ez Szabadság tér 29/a lesz, a Szabadság út 25. egy családi ház.
+    # 29/d: ez Szabadság tér 29/a lesz, a Szabadság út 25. egy családi ház.
+    # 29/f: ez Szabadság tér 29/a lesz, a Szabadság út 25. egy családi ház.
+    # 99-105: nincs ilyen, 99/a-c, 101/a-c, 103/a-c, 105/a-c van kitáblázva.
+    # 101: sima 101 nincs, csak 101/a, 101/b, 101/c.
+    # 105: sima 105 nincs, csak 105/a, 105/b, 105/c.
+    invalid: ['15', '19', '25b', '29a', '29b', '29c', '29d', '29f', '99', '101', '103', '105']
   Tájkép utca:
     # 258/77: ez helyrajzi szám, nem házszám.
     invalid: ['258']
