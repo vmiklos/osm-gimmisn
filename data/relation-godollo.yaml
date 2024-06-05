@@ -1,5 +1,10 @@
 missing-streets: 'yes'
 filters:
+  Egyetem tér:
+    # 2: sima 2 nincs, csak 2/a, 2/b, 2/c.
+    # 3: sima 3 nincs, csak 3/a, 3/b, 3/c.
+    # 4: sima 4 nincs, csak 4/a, 4/b, 4/c.
+    invalid: ['2', '3', '4']
   Honvéd utca:
     # 27: a páratlan oldalon a 21 az utolsó házszám.
     # 30: nincs ilyen, a 28 után a 32 következik.
@@ -17,6 +22,12 @@ filters:
   Semmelweis Ignác utca:
     # 660: ez helyrajzi szám, nem házszám.
     invalid: ['660']
+  Szabadka utca:
+    # 4: sima 4 nincs, csak 4/a, 4/b.
+    # 6: sima 6 nincs, csak 6/a, 6/b.
+    # 8: sima 8 nincs, csak 8/a, 8/b.
+    # 8/c: 8/c nincs, csak 8/a, 8/b.
+    invalid: ['4', '6', '8', '8/c']
   Szabadság út:
     # 15: sima 15 nincs, csak 15/a, 15/b.
     # 19: sima 19 nincs, csak 19/a, 19/b, 19/c.
@@ -30,6 +41,17 @@ filters:
     # 101: sima 101 nincs, csak 101/a, 101/b, 101/c.
     # 105: sima 105 nincs, csak 105/a, 105/b, 105/c.
     invalid: ['15', '19', '25b', '29a', '29b', '29c', '29d', '29f', '99', '101', '103', '105']
+  Szent János utca:
+    # 1: sima 1 nincs, csak 1/a, 1/b, 1/c, 1/d.
+    # 2: sima 2 nincs, csak 2/a, 2/b.
+    # 4: sima 4 nincs, csak 4/a, 4/b.
+    # 6-8: 6-8 nincs, csak 6, 8/a, 8/b
+    # 8: sima 8 nincs, csak 8/a, 8/b.
+    # 11: sima 11 nincs, csak 11/a, 11/b, 11/c.
+    # 12: sima 12 nincs, csak 12/a, 12/b.
+    # 14: sima 14 nincs, csak 14/a, 14/b.
+    # 16: sima 16 nincs, csak 16/a, 16/b.
+    invalid: ['1', '2', '4', '6-8', '8', '11', '12', '14', '16']
   Tájkép utca:
     # 258/77: ez helyrajzi szám, nem házszám.
     invalid: ['258']
