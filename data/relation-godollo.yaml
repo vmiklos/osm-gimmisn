@@ -27,7 +27,7 @@ filters:
     # 6: sima 6 nincs, csak 6/a, 6/b.
     # 8: sima 8 nincs, csak 8/a, 8/b.
     # 8/c: 8/c nincs, csak 8/a, 8/b.
-    invalid: ['4', '6', '8', '8/c']
+    invalid: ['4', '6', '8', '8c']
   Szabadság út:
     # 15: sima 15 nincs, csak 15/a, 15/b.
     # 19: sima 19 nincs, csak 19/a, 19/b, 19/c.
@@ -51,7 +51,7 @@ filters:
     # 12: sima 12 nincs, csak 12/a, 12/b.
     # 14: sima 14 nincs, csak 14/a, 14/b.
     # 16: sima 16 nincs, csak 16/a, 16/b.
-    invalid: ['1', '2', '4', '6-8', '8', '11', '12', '14', '16']
+    invalid: ['1', '2', '4', '6', '8', '11', '12', '14', '16']
   Tájkép utca:
     # 258/77: ez helyrajzi szám, nem házszám.
     invalid: ['258']
