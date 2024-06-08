@@ -99,6 +99,9 @@ osm-street-filters:
   # Raktár utca - nincs kint tábla - https://www.openstreetmap.org/note/4259319
 street-filters:
   - Szadai utca  # Rossz helyen fut a Szada/Gödöllő határ, vagy az utca van rossz helyen
+  # Királytelep - nincs kiépítve
+  - Érsek utca
+  - Jogar utca
   # Dűlők/tanyák
   - Babat puszta  # szerepel Babatpuszta néven, place-ként
   - Bonoka tanya
