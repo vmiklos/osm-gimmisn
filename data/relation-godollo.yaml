@@ -17,6 +17,11 @@ filters:
     # 30: nincs ilyen, a 28 után a 32 következik.
     # 44: a páros oldalon a 32 az utolsó házszám.
     invalid: ['27', '30', '44']
+  Kard utca:
+    # 16: sima 16 nincs, csak 16/1, 16/2, 16/3.
+    # 17: sima 17 nincs, csak 17/1, 17/2, 17/3.
+    interpolation: all
+    invalid: ['16', '17']
   Lovas utca:
     # 18: ez a Major utca házszáma, a Lovas utcában a 7 az utolsó házszám.
     invalid: ['18']
