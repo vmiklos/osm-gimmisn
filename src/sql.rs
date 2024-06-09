@@ -288,15 +288,15 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
     Ok(())
 }
 
-/// Ignores a unique constraint violation error, but not other errors.
-pub fn ignore_unique_constraint(
+/// Ignores a primary key constraint violation error, but not other errors.
+pub fn ignore_primary_key_constraint(
     result: Result<usize, rusqlite::Error>,
 ) -> Result<(), rusqlite::Error> {
     match result {
         Err(rusqlite::Error::SqliteFailure(
             rusqlite::ffi::Error {
                 code: rusqlite::ErrorCode::ConstraintViolation,
-                extended_code: rusqlite::ffi::SQLITE_CONSTRAINT_UNIQUE,
+                extended_code: rusqlite::ffi::SQLITE_CONSTRAINT_PRIMARYKEY,
             },
             _,
         )) => Ok(()),

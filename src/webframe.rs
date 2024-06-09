@@ -809,14 +809,14 @@ fn handle_invalid_addr_cities(
 }
 
 fn handle_invalid_addr_cities_update(ctx: &context::Context) -> anyhow::Result<()> {
-    cron::update_stats_overpass(ctx)?;
-    stats::update_invalid_addr_cities(ctx)?;
+    cron::update_stats_overpass(ctx).context("update_stats_overpass failed")?;
+    stats::update_invalid_addr_cities(ctx).context("update_invalid_addr_cities failed")?;
     Ok(())
 }
 
 /// Expected request uri: /lints/whole-country/invalid-addr-cities/update-result.json.
 pub fn handle_invalid_addr_cities_update_json(ctx: &context::Context) -> anyhow::Result<String> {
-    handle_invalid_addr_cities_update(ctx)?;
+    handle_invalid_addr_cities_update(ctx).context("handle_invalid_addr_cities_update failed")?;
     let mut ret: HashMap<String, String> = HashMap::new();
     ret.insert("error".into(), "".into());
     Ok(serde_json::to_string(&ret)?)

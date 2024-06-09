@@ -594,10 +594,11 @@ pub fn update_invalid_addr_cities(ctx: &context::Context) -> anyhow::Result<()> 
             [&row.osm_id, &row.osm_type, &row.postcode, &row.city, &row.street, &row.housenumber, &row.user, &row.timestamp, &row.fixme])?;
     }
     // It's OK to not overwrite previous count from the same day.
-    sql::ignore_unique_constraint(tx.execute(
+    sql::ignore_primary_key_constraint(tx.execute(
         "insert into stats_invalid_addr_cities_counts (date, count) values (?1, ?2)",
         [today, invalids.len().to_string()],
-    ))?;
+    ))
+    .context("insert into stats_invalid_addr_cities_counts failed")?;
     tx.commit()?;
 
     Ok(())
