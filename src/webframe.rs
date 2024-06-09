@@ -492,6 +492,12 @@ pub fn handle_static(
 
 /// Displays an unhandled error on the page.
 pub fn handle_error(request: &rouille::Request, error: &str) -> rouille::Response {
+    if request.url().ends_with(".json") {
+        let mut ret: HashMap<String, String> = HashMap::new();
+        ret.insert("error".into(), error.into());
+        return rouille::Response::json(&ret);
+    }
+
     let doc = yattag::Doc::new();
     util::write_html_header(&doc);
     {

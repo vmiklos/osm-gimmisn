@@ -406,3 +406,18 @@ fn test_handle_invalid_addr_cities_update_json() {
         assert!(!last_modified.is_empty());
     }
 }
+
+/// Tests the generic error handler for the json case.
+#[test]
+fn test_handle_error_json() {
+    let request = rouille::Request::fake_http("GET", "/test.json", vec![], vec![]);
+
+    let response = handle_error(&request, "myerror");
+
+    let mut data = Vec::new();
+    let (mut reader, _size) = response.data.into_reader_and_size();
+    reader.read_to_end(&mut data).unwrap();
+    let output = String::from_utf8(data).unwrap();
+    let value: HashMap<String, String> = serde_json::from_str(&output).unwrap();
+    assert_eq!(value["error"], "myerror");
+}
