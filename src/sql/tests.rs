@@ -23,10 +23,10 @@ fn test_init() {
     init(&conn).unwrap();
 }
 
-/// Tests ignore_unique_constraint(), when the error is a unique constraint violation.
+/// Tests ignore_primary_key_constraint(), when the error is a primary key constraint violation.
 #[test]
-fn test_ignore_unique_constraint_mapped_to_ok() {
-    let ret = ignore_unique_constraint(Err(rusqlite::Error::SqliteFailure(
+fn test_ignore_primary_key_constraint_mapped_to_ok() {
+    let ret = ignore_primary_key_constraint(Err(rusqlite::Error::SqliteFailure(
         rusqlite::ffi::Error {
             code: rusqlite::ErrorCode::Unknown,
             extended_code: 0,
@@ -37,13 +37,13 @@ fn test_ignore_unique_constraint_mapped_to_ok() {
     assert!(ret.is_err());
 }
 
-/// Tests ignore_unique_constraint(), when the error is something else.
+/// Tests ignore_primary_key_constraint(), when the error is something else.
 #[test]
-fn test_ignore_unique_constraint_err() {
-    let ret = ignore_unique_constraint(Err(rusqlite::Error::SqliteFailure(
+fn test_ignore_primary_key_constraint_err() {
+    let ret = ignore_primary_key_constraint(Err(rusqlite::Error::SqliteFailure(
         rusqlite::ffi::Error {
             code: rusqlite::ErrorCode::ConstraintViolation,
-            extended_code: rusqlite::ffi::SQLITE_CONSTRAINT_UNIQUE,
+            extended_code: rusqlite::ffi::SQLITE_CONSTRAINT_PRIMARYKEY,
         },
         None,
     )));
