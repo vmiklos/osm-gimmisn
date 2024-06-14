@@ -1,5 +1,9 @@
 missing-streets: 'yes'
 filters:
+  Ádám utca:
+    ranges:
+      - {start: '1', end: '91'}
+      - {start: '2', end: '56'}
   Buzogány utca:
     # 1: sima 1 nincs, csak 1/a, 1/b.
     # 3: sima 3 nincs, csak 3/a, 3/b.
@@ -22,6 +26,9 @@ filters:
     # 17: sima 17 nincs, csak 17/1, 17/2, 17/3.
     interpolation: all
     invalid: ['16', '17']
+  Kápolna köz:
+    # 12: sima 12 nincs, csak 12/a, 12/b.
+    invalid: ['12']
   Lovas utca:
     # 18: ez a Major utca házszáma, a Lovas utcában a 7 az utolsó házszám.
     invalid: ['18']
