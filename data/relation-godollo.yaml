@@ -4,6 +4,8 @@ filters:
     ranges:
       - {start: '1', end: '91'}
       - {start: '2', end: '56'}
+    # 38/b: 38/b nincs, csak 38, 38/a.
+    invalid: ['38b']
   Buzogány utca:
     # 1: sima 1 nincs, csak 1/a, 1/b.
     # 3: sima 3 nincs, csak 3/a, 3/b.
