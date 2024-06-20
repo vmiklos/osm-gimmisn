@@ -175,10 +175,7 @@ impl RelationConfig {
 
     /// Gets the alias(es) of the relation: alternative names which are also accepted.
     fn get_alias(&self) -> Vec<String> {
-        match RelationConfig::get_property(&self.parent.alias, &self.dict.alias) {
-            Some(value) => value,
-            None => Vec::new(),
-        }
+        RelationConfig::get_property(&self.parent.alias, &self.dict.alias).unwrap_or_default()
     }
 
     /// Return value can be 'yes', 'no' and 'only'.
@@ -293,21 +290,17 @@ impl RelationConfig {
 
     /// Gets list of streets which are only in reference, but have to be filtered out.
     fn get_street_filters(&self) -> Vec<String> {
-        match RelationConfig::get_property(&self.parent.street_filters, &self.dict.street_filters) {
-            Some(value) => value,
-            None => vec![],
-        }
+        RelationConfig::get_property(&self.parent.street_filters, &self.dict.street_filters)
+            .unwrap_or_default()
     }
 
     /// Gets list of streets which are only in OSM, but have to be filtered out.
     fn get_osm_street_filters(&self) -> Vec<String> {
-        match RelationConfig::get_property(
+        RelationConfig::get_property(
             &self.parent.osm_street_filters,
             &self.dict.osm_street_filters,
-        ) {
-            Some(value) => value,
-            None => vec![],
-        }
+        )
+        .unwrap_or_default()
     }
 
     /// Maps an OSM street name to a ref street name.
