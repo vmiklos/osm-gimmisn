@@ -203,13 +203,11 @@ fn test_update_missing_housenumbers() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let json_cache = context::tests::TestFileSystem::make_file();
     let ref_housenumbers = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/cache-gazdagret.json", &json_cache),
             (
                 "workdir/street-housenumbers-reference-gazdagret.lst",
                 &ref_housenumbers,
@@ -224,12 +222,6 @@ fn test_update_missing_housenumbers() {
             &ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"),
         )
         .unwrap();
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        ctx.get_abspath("workdir/cache-gazdagret.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let mtime = ctx.get_time().now_string();
@@ -1140,7 +1132,6 @@ fn test_our_main() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
-    let missing_housenumbers_json = context::tests::TestFileSystem::make_file();
     let template_value = context::tests::TestFileSystem::make_file();
     template_value
         .borrow_mut()
@@ -1159,7 +1150,6 @@ fn test_our_main() {
                 "workdir/street-housenumbers-reference-gazdagret.lst",
                 &ref_housenumbers_value,
             ),
-            ("workdir/cache-gazdagret.json", &missing_housenumbers_json),
             ("data/streets-template.overpassql", &template_value),
             (
                 "data/street-housenumbers-template.overpassql",
@@ -1169,13 +1159,6 @@ fn test_our_main() {
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/cache-gazdagret.json");
-    mtimes.insert(
-        path,
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let mtime = ctx.get_time().now_string();

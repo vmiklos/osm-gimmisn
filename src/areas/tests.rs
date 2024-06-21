@@ -2132,7 +2132,6 @@ fn table_doc_to_string(table: &[Vec<yattag::Doc>]) -> Vec<Vec<String>> {
 #[test]
 fn test_relation_write_missing_housenumbers() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let json_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -2155,19 +2154,10 @@ fn test_relation_write_missing_housenumbers() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/cache-gazdagret.json", &json_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        ctx.get_abspath("workdir/cache-gazdagret.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     {
@@ -2294,22 +2284,7 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
 /// Tests Relation::write_missing_housenumbers(): sorting is performed after range reduction.
 #[test]
 fn test_relation_write_missing_housenumbers_sorting() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let json_value = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/cache-gh414.json", &json_value)],
-    );
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        ctx.get_abspath("workdir/cache-gh414.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
+    let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute_batch(
@@ -2337,8 +2312,15 @@ fn test_relation_write_missing_housenumbers_sorting() {
         ]
     );
     assert_eq!(relation.has_osm_housenumber_coverage().unwrap(), true);
-    let mut guard = json_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    let conn = ctx.get_database_connection().unwrap();
+    let json: String = conn
+        .query_row(
+            "select json from missing_housenumbers_cache where relation = ?1",
+            ["gh414"],
+            |row| row.get(0),
+        )
+        .unwrap();
+    assert!(!json.is_empty());
 }
 
 /// Tests Relation::write_missing_streets().
