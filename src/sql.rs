@@ -284,7 +284,20 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
         )?;
     }
 
-    conn.execute("pragma user_version = 15", [])?;
+    if user_version < 16 {
+        // Per-relation cache for the missing-housenumbers analysis.
+        conn.execute_batch(
+            "create table missing_housenumbers_cache (
+                    relation text not null,
+                    json text not null,
+                    unique(relation)
+                );
+            create index idx_missing_housenumbers_cache
+                on missing_housenumbers_cache(relation);",
+        )?;
+    }
+
+    conn.execute("pragma user_version = 16", [])?;
     Ok(())
 }
 

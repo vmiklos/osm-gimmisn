@@ -440,21 +440,11 @@ fn test_per_relation_lints() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let json_cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/cache-gazdagret.json", &json_cache_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/cache-gazdagret.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
@@ -624,21 +614,11 @@ fn test_missing_housenumbers_well_formed() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let json_cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/cache-gazdagret.json", &json_cache_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/cache-gazdagret.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
@@ -703,7 +683,6 @@ fn test_missing_housenumbers_no_such_relation() {
 fn test_missing_housenumbers_compat() {
     let mut test_wsgi = TestWsgi::new();
     let mut file_system = context::tests::TestFileSystem::new();
-    let jsoncache_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -714,19 +693,9 @@ fn test_missing_housenumbers_compat() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/cache-gazdagret.json", &jsoncache_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    // Make sure the cache is outdated.
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/cache-gazdagret.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
@@ -771,8 +740,15 @@ fn test_missing_housenumbers_compat() {
     let relation = relations.get_relation("gazdagret").unwrap();
     assert_eq!(relation.has_osm_housenumber_coverage().unwrap(), true);
     {
-        let mut guard = jsoncache_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        let json: String = conn
+            .query_row(
+                "select json from missing_housenumbers_cache where relation = ?1",
+                ["gazdagret"],
+                |row| row.get(0),
+            )
+            .unwrap();
+        assert!(!json.is_empty());
     }
     let results = TestWsgi::find_all(&root, "body/table");
     assert_eq!(results.len(), 1);
@@ -1031,13 +1007,9 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let json_cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/cache-gazdagret.json", &json_cache_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
@@ -1115,12 +1087,6 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
         )
         .unwrap();
     }
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/cache-gazdagret.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
 
