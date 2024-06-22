@@ -76,6 +76,11 @@ pub fn download(
     let conn = ctx.get_database_connection()?;
     conn.execute("delete from ref_housenumbers", [])?;
     conn.execute("delete from ref_streets", [])?;
+
+    // These caches have explicit dependencies only on OSM data, so empty them now.
+    conn.execute_batch("delete from missing_housenumbers_cache")?;
+    conn.execute_batch("delete from mtimes where page like 'missing-housenumbers-cache/%'")?;
+
     // Garbage collect other unused data.
     // 2024-03-24
     conn.execute_batch("delete from mtimes where page = 'stats/invalid-addr-cities'")?;
