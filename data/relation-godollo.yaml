@@ -28,6 +28,11 @@ filters:
     # 17: sima 17 nincs, csak 17/1, 17/2, 17/3.
     interpolation: all
     invalid: ['16', '17']
+  Kazinczy körút:
+    # 27: sima 27 nincs, csak 27/a, 27/b,.
+    # 29: sima 29 nincs, csak 29/a, 29/b.
+    # 31: sima 31 nincs, csak 31/a, 31/b.
+    invalid: ['27', '29', '31']
   Kápolna köz:
     # 12: sima 12 nincs, csak 12/a, 12/b.
     invalid: ['12']
@@ -73,6 +78,9 @@ filters:
     # 14: sima 14 nincs, csak 14/a, 14/b.
     # 16: sima 16 nincs, csak 16/a, 16/b.
     invalid: ['1', '2', '4', '6', '8', '11', '12', '14', '16']
+  Szilhát utca:
+    # 17: sima 17 nincs, csak 17/a, 17/b.
+    invalid: ['17']
   Tájkép utca:
     # 258/77: ez helyrajzi szám, nem házszám.
     invalid: ['258']
