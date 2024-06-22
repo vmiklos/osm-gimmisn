@@ -87,6 +87,9 @@ filters:
   Tájkép utca:
     # 258/77: ez helyrajzi szám, nem házszám.
     invalid: ['258']
+  Tompa Mihály utca:
+    # 1: sima 1 nincs, csak 1/a, 1/b, 1/c.
+    invalid: ['1']
   Vak Bottyán utca:
     # 4: sima 4 nincs, csak 4/a, 4/b.
     invalid: ['4']
