@@ -18,6 +18,9 @@ filters:
     # 3: sima 3 nincs, csak 3/a, 3/b, 3/c.
     # 4: sima 4 nincs, csak 4/a, 4/b, 4/c.
     invalid: ['2', '3', '4']
+  Esze Tamás utca:
+    # 170/37: ez helyrajzi szám, nem házszám.
+    invalid: ['170']
   Honvéd utca:
     # 27: a páratlan oldalon a 21 az utolsó házszám.
     # 30: nincs ilyen, a 28 után a 32 következik.
