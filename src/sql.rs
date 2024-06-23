@@ -12,13 +12,16 @@
 
 use anyhow::Context as _;
 
-pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
-    let mut stmt = conn.prepare("pragma user_version")?;
-    let mut rows = stmt.query([])?;
-    let row = rows.next()?.context("no row")?;
-    let user_version: i64 = row.get(0).context("no col")?;
+pub fn init(conn: &mut rusqlite::Connection) -> anyhow::Result<()> {
+    let tx = conn.transaction()?;
+    let user_version: i64 = {
+        let mut stmt = tx.prepare("pragma user_version")?;
+        let mut rows = stmt.query([])?;
+        let row = rows.next()?.context("no row")?;
+        row.get(0).context("no col")?
+    };
     if user_version < 1 {
-        conn.execute(
+        tx.execute(
             "create table ref_housenumbers (
             county_code text not null,
             settlement_code text not null,
@@ -28,12 +31,12 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
          )",
             [],
         )?;
-        conn.execute(
+        tx.execute(
             "create index idx_ref_housenumbers
             on ref_housenumbers (county_code, settlement_code, street)",
             [],
         )?;
-        conn.execute(
+        tx.execute(
             "create table ref_streets (
             county_code text not null,
             settlement_code text not null,
@@ -41,12 +44,12 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
          )",
             [],
         )?;
-        conn.execute(
+        tx.execute(
             "create index idx_ref_streets
             on ref_streets (county_code, settlement_code)",
             [],
         )?;
-        conn.execute(
+        tx.execute(
             "create table osm_housenumber_coverages (
             relation_name text primary key not null,
             coverage text not null,
@@ -54,7 +57,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
          )",
             [],
         )?;
-        conn.execute(
+        tx.execute(
             "create table osm_street_coverages (
              relation_name text primary key not null,
              coverage text not null,
@@ -62,7 +65,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
          )",
             [],
         )?;
-        conn.execute(
+        tx.execute(
             "create table stats_invalid_addr_cities (
             osm_id text not null,
             osm_type text not null,
@@ -74,7 +77,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
         )",
             [],
         )?;
-        conn.execute(
+        tx.execute(
             "create table mtimes (
             page text primary key not null,
             last_modified text not null
@@ -83,12 +86,12 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
         )?;
     }
     if user_version < 2 {
-        conn.execute(
+        tx.execute(
             "alter table stats_invalid_addr_cities add column
             timestamp text not null default ''",
             [],
         )?;
-        conn.execute(
+        tx.execute(
             "alter table stats_invalid_addr_cities add column
             fixme text not null default ''",
             [],
@@ -96,7 +99,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
     }
     if user_version < 3 {
         // Tracks the number of rows in the stats_invalid_addr_cities table over time.
-        conn.execute(
+        tx.execute(
             "create table stats_invalid_addr_cities_counts (
             date text primary key not null,
             count text not null
@@ -106,7 +109,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
     }
     if user_version < 4 {
         // Tracks the number of OSM house numbers over time.
-        conn.execute(
+        tx.execute(
             "create table stats_counts (
             date text primary key not null,
             count text not null
@@ -116,7 +119,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
     }
     if user_version < 5 {
         // Tracks the number of OSM house number editors over time.
-        conn.execute(
+        tx.execute(
             "create table stats_usercounts (
             date text primary key not null,
             count text not null
@@ -126,7 +129,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
     }
     if user_version < 6 {
         // Tracks lint results for a relation.
-        conn.execute(
+        tx.execute(
             "create table relation_lints (
             id integer primary key autoincrement,
             relation_name text not null,
@@ -140,12 +143,12 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
     }
     if user_version < 7 {
         // OSM link for relation_lints rows.
-        conn.execute(
+        tx.execute(
             "alter table relation_lints add column
             object_id text not null default ''",
             [],
         )?;
-        conn.execute(
+        tx.execute(
             "alter table relation_lints add column
             object_type text not null default ''",
             [],
@@ -153,7 +156,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
     }
     if user_version < 8 {
         // Tracks house numbers of cities over time.
-        conn.execute(
+        tx.execute(
             "create table stats_citycounts (
             date text not null,
             city text not null,
@@ -165,7 +168,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
     }
     if user_version < 9 {
         // Tracks house numbers of cities over time.
-        conn.execute(
+        tx.execute(
             "create table stats_topusers (
             date text not null,
             user text not null,
@@ -177,7 +180,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
     }
     if user_version < 10 {
         // Tracks house numbers of ZIP areas over time.
-        conn.execute(
+        tx.execute(
             "create table stats_zipcounts (
             date text not null,
             zip text not null,
@@ -189,7 +192,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
     }
     if user_version < 11 {
         // Tracks streets from OSM for a relation.
-        conn.execute(
+        tx.execute(
             "create table osm_streets (
             relation text not null,
             osm_id text not null,
@@ -203,7 +206,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
         )",
             [],
         )?;
-        conn.execute(
+        tx.execute(
             "create index idx_osm_streets
             on osm_streets (relation)",
             [],
@@ -211,7 +214,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
     }
     if user_version < 12 {
         // Tracks housenumbers from OSM for a relation.
-        conn.execute(
+        tx.execute(
             "create table osm_housenumbers (
             relation text not null,
             osm_id text not null,
@@ -231,7 +234,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
         )",
             [],
         )?;
-        conn.execute(
+        tx.execute(
             "create index idx_osm_housenumbers
             on osm_housenumbers (relation)",
             [],
@@ -240,7 +243,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
 
     if user_version < 13 {
         // Tracks the number of additional streets for a relation.
-        conn.execute_batch(
+        tx.execute_batch(
             "create table additional_streets_counts (
                     relation text not null,
                     count text not null,
@@ -253,7 +256,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
 
     if user_version < 14 {
         // Tracks the number of additional housenumbers for a relation.
-        conn.execute_batch(
+        tx.execute_batch(
             "create table additional_housenumbers_counts (
                     relation text not null,
                     count text not null,
@@ -266,7 +269,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
 
     if user_version < 15 {
         // Tracks housenumbers for the whole country.
-        conn.execute_batch(
+        tx.execute_batch(
             "create table whole_country (
                     postcode text not null,
                     city text not null,
@@ -286,7 +289,7 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
 
     if user_version < 16 {
         // Per-relation cache for the missing-housenumbers analysis.
-        conn.execute_batch(
+        tx.execute_batch(
             "create table missing_housenumbers_cache (
                     relation text not null,
                     json text not null,
@@ -297,7 +300,8 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
         )?;
     }
 
-    conn.execute("pragma user_version = 16", [])?;
+    tx.execute("pragma user_version = 16", [])?;
+    tx.commit()?;
     Ok(())
 }
 

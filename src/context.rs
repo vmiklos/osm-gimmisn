@@ -68,8 +68,8 @@ pub trait Database {
 
     /// Opens and initializes a new database connection.
     fn create(&self) -> anyhow::Result<rusqlite::Connection> {
-        let conn = self.open()?;
-        sql::init(&conn)?;
+        let mut conn = self.open()?;
+        sql::init(&mut conn)?;
         Ok(conn)
     }
 }

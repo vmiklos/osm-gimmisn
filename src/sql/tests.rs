@@ -17,10 +17,10 @@ use crate::context;
 #[test]
 fn test_init() {
     let ctx = context::tests::make_test_context().unwrap();
-    let conn = ctx.get_database_connection().unwrap();
+    let mut conn = ctx.get_database_connection().unwrap();
 
     // Check that init() for an already up to date schema results in no errors.
-    init(&conn).unwrap();
+    init(&mut conn).unwrap();
 }
 
 /// Tests ignore_primary_key_constraint(), when the error is a primary key constraint violation.
