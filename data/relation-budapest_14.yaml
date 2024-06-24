@@ -179,6 +179,15 @@ osm-street-filters:
   - Vasúti átjáró
   - Víztorony park
   - Zugló vasútállomás környéki park
+  # Kresz park
+  - Gőzös utca
+  - Hidroplán utca
+  - Hintó utca
+  - Kocsi köz
+  - Léghajó körút
+  - Omnibusz utca
+  - Vasút körtér
+  - Villamos utca
   # Intézmény címében használt
   - Rózsavölgyi köz  # https://www.openstreetmap.org/node/3535130937
   # Nem létezik
