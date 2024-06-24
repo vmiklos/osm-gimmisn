@@ -18,12 +18,12 @@ refstreets:
   # 'Tétényi út': 'Tétényi utca'  # Új táblák vannak, mindegyiken utca van (2023-05-20)
   # 'Tokaj utca': 'Tokaji utca'  #  táblán Tokaji utca (2023-05-23)
   'Kálvin tér': 'Calvin tér'  # táblán: Kálvin tér (2023-07-24)
+  'Loránd utca': 'Lóránd utca'  # az utcanévtáblákon rövid O-val van, a házszámtáblákon hosszú Ó-val. OSM-en hagytam röviden. (2024-06-22)
   'Vízöntő utca': 'Vízöntő út'  # Ipari park: táblán Vízöntő utca (2023-02-18)
   # kérdéses
   # 'Báthori István utca': 'Báthory István utca'  # Báthory István utca Y-nal van kitáblázva
   'Fehérkereszti út': 'Fehérkereszti utca'  # https://www.openstreetmap.org/note/3701569
   'Gereblye köz': 'Gereblye utca'  # https://www.openstreetmap.org/note/3701520
-  'Loránd utca': 'Lóránd utca'  # https://www.openstreetmap.org/note/3701578
   'Mély utca': 'Mély út'  # https://www.openstreetmap.org/note/3701586
   'Sánchegyi út': 'Sánchegyi utca'  # https://www.openstreetmap.org/note/3701589
   'Simonpuszta': 'Simon puszta'  # https://www.openstreetmap.org/note/3701592
