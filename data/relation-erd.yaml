@@ -20,7 +20,7 @@ refstreets:
   'Kálvin tér': 'Calvin tér'  # táblán: Kálvin tér (2023-07-24)
   'Vízöntő utca': 'Vízöntő út'  # Ipari park: táblán Vízöntő utca (2023-02-18)
   # kérdéses
-  'Báthori István utca': 'Báthory István utca'  # https://www.openstreetmap.org/note/3701570
+  # 'Báthori István utca': 'Báthory István utca'  # Báthory István utca Y-nal van kitáblázva
   'Fehérkereszti út': 'Fehérkereszti utca'  # https://www.openstreetmap.org/note/3701569
   'Gereblye köz': 'Gereblye utca'  # https://www.openstreetmap.org/note/3701520
   'Loránd utca': 'Lóránd utca'  # https://www.openstreetmap.org/note/3701578
