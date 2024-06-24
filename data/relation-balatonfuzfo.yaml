@@ -34,6 +34,9 @@ filters:
     # RESURVEY 2024-06
     # 25: nincs kiírva, 23 után a másik utcáról számozódnak, de a Meggyes utca sarkon  van egy házszám nélküli épület
     invalid: ['25']
+  Hóvirág köz:
+    # Nincsenek házak erre számozva
+    invalid: ['8', '34']
   Jankovich Ferenc utca:
     ranges:
       - {start: '1', end: '19'}
