@@ -370,8 +370,9 @@ filters:
     # max 41
     # 43 Balkom már Szabolcs utca 4, a hulladékudvar címe maradt
     invalid: ['1']
-  # Rekettye utca:
-    # 12 után 16, de a 18-nál van egy 14/b
+  Rekettye utca:
+    # 9: nincs. 7/b és 13/a között épül vmi. RESURVEY 2025
+    invalid: ['9']
   Remetevölgyi út:
     # 31- nincsenek kiírva számok
     invalid: ['33', '35']
