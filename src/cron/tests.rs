@@ -298,6 +298,11 @@ fn test_update_missing_housenumbers() {
 #[test]
 fn test_update_missing_streets() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let mut conn = ctx.get_database_connection().unwrap();
+        let ref_streets = ctx.get_ini().get_reference_street_path().unwrap();
+        util::build_street_reference_index(&ctx, &mut conn, &ref_streets).unwrap();
+    }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -373,6 +378,11 @@ fn test_update_missing_streets() {
 #[test]
 fn test_update_additional_streets() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let mut conn = ctx.get_database_connection().unwrap();
+        let ref_streets = ctx.get_ini().get_reference_street_path().unwrap();
+        util::build_street_reference_index(&ctx, &mut conn, &ref_streets).unwrap();
+    }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -1105,6 +1115,11 @@ fn test_update_stats_no_overpass() {
 #[test]
 fn test_our_main() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let mut conn = ctx.get_database_connection().unwrap();
+        let ref_streets = ctx.get_ini().get_reference_street_path().unwrap();
+        util::build_street_reference_index(&ctx, &mut conn, &ref_streets).unwrap();
+    }
     let routes = vec![
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
