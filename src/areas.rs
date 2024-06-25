@@ -605,9 +605,7 @@ impl<'a> Relation<'a> {
 
     /// Gets streets from reference.
     fn get_ref_streets(&self) -> anyhow::Result<Vec<String>> {
-        let mut conn = self.ctx.get_database_connection()?;
-        let reference = self.ctx.get_ini().get_reference_street_path()?;
-        util::build_street_reference_index(self.ctx, &mut conn, &reference)?;
+        let conn = self.ctx.get_database_connection()?;
 
         let mut streets: Vec<String> = Vec::new();
         let mut stmt = conn.prepare(

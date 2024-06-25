@@ -47,6 +47,36 @@ fn test_streets_view_result_txt() {
     test_wsgi.get_ctx().set_file_system(&file_system);
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Törökugrató utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Tűzkő utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Ref Name 1"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Only In Ref utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Only In Ref Nonsense utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Hamzsabégi út"],
+        )
+        .unwrap();
         conn.execute_batch(
             "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
@@ -108,6 +138,36 @@ fn test_streets_view_result_gpx() {
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Törökugrató utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Tűzkő utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Ref Name 1"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Only In Ref utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Only In Ref Nonsense utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Hamzsabégi út"],
+        )
+        .unwrap();
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gazdagret", "1", "Törökugrató utca", "1", "", "", "", "", "", "", "", "", "", "node"],
@@ -189,6 +249,36 @@ fn test_streets_view_result_chkl() {
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Törökugrató utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Tűzkő utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Ref Name 1"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Only In Ref utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Only In Ref Nonsense utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Hamzsabégi út"],
+        )
+        .unwrap();
         conn.execute(
             r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
             ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
@@ -605,6 +695,36 @@ fn test_streets_well_formed() {
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Törökugrató utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Tűzkő utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Ref Name 1"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Only In Ref utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Only In Ref Nonsense utca"],
+        )
+        .unwrap();
+        conn.execute(
+            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
+            ["01", "011", "Hamzsabégi út"],
+        )
+        .unwrap();
         conn.execute(
             r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
             ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],

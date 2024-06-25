@@ -11,6 +11,7 @@
 //! Synchronizes reference data between a public instance and a local dev instance.
 
 use crate::context;
+use crate::util;
 use anyhow::Context as _;
 use std::collections::HashMap;
 use std::io::Write;
@@ -73,9 +74,11 @@ pub fn download(
     }
 
     stream.write_all("sync-ref: removing old index...\n".as_bytes())?;
-    let conn = ctx.get_database_connection()?;
+    let mut conn = ctx.get_database_connection()?;
     conn.execute("delete from ref_housenumbers", [])?;
     conn.execute("delete from ref_streets", [])?;
+    let ref_streets = ctx.get_ini().get_reference_street_path()?;
+    util::build_street_reference_index(ctx, &mut conn, &ref_streets)?;
 
     // These caches have explicit dependencies only on OSM data, so empty them now.
     conn.execute_batch("delete from missing_housenumbers_cache")?;

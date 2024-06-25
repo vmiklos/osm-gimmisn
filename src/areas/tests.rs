@@ -1209,6 +1209,11 @@ way{color:blue; width:4;}
 #[test]
 fn test_relation_get_ref_streets() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let mut conn = ctx.get_database_connection().unwrap();
+        let ref_streets = ctx.get_ini().get_reference_street_path().unwrap();
+        util::build_street_reference_index(&ctx, &mut conn, &ref_streets).unwrap();
+    }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
         },
@@ -1916,6 +1921,11 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize_semicolon() {
 #[test]
 fn test_relation_get_missing_streets() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let mut conn = ctx.get_database_connection().unwrap();
+        let ref_streets = ctx.get_ini().get_reference_street_path().unwrap();
+        util::build_street_reference_index(&ctx, &mut conn, &ref_streets).unwrap();
+    }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
         },
@@ -1970,6 +1980,11 @@ fn test_relation_get_missing_streets() {
 #[test]
 fn test_relation_get_additional_streets() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let mut conn = ctx.get_database_connection().unwrap();
+        let ref_streets = ctx.get_ini().get_reference_street_path().unwrap();
+        util::build_street_reference_index(&ctx, &mut conn, &ref_streets).unwrap();
+    }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -2327,6 +2342,11 @@ fn test_relation_write_missing_housenumbers_sorting() {
 #[test]
 fn test_write_missing_streets() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let mut conn = ctx.get_database_connection().unwrap();
+        let ref_streets = ctx.get_ini().get_reference_street_path().unwrap();
+        util::build_street_reference_index(&ctx, &mut conn, &ref_streets).unwrap();
+    }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
