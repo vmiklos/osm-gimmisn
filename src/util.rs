@@ -663,11 +663,8 @@ pub fn build_reference_index(
 }
 
 /// Builds an in-database index from the reference TSV (street version).
-pub fn build_street_reference_index(
-    ctx: &context::Context,
-    conn: &mut rusqlite::Connection,
-    path: &str,
-) -> anyhow::Result<()> {
+pub fn build_street_reference_index(ctx: &context::Context, path: &str) -> anyhow::Result<()> {
+    let mut conn = ctx.get_database_connection()?;
     {
         // Check if the TSV is imported already.
         let mut stmt = conn.prepare("select count(*) from (select 0 from ref_streets limit 1)")?;

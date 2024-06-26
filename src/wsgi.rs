@@ -810,9 +810,9 @@ fn handle_missing_streets(
         doc.append_value(missing_streets_view_turbo(relations, request_uri)?.get_value());
     } else if action == "view-query" {
         let pre = doc.tag("pre", &[]);
-        let mut conn = ctx.get_database_connection()?;
         let reference = ctx.get_ini().get_reference_street_path()?;
-        util::build_street_reference_index(ctx, &mut conn, &reference)?;
+        util::build_street_reference_index(ctx, &reference)?;
+        let conn = ctx.get_database_connection()?;
         let mut lst: Vec<String> = Vec::new();
         let mut stmt = conn.prepare(
             "select distinct street from ref_streets where county_code = ?1 and settlement_code = ?2 order by street",
