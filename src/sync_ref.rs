@@ -74,13 +74,16 @@ pub fn download(
     }
 
     stream.write_all("sync-ref: removing old index...\n".as_bytes())?;
-    let mut conn = ctx.get_database_connection()?;
-    conn.execute("delete from ref_housenumbers", [])?;
-    conn.execute("delete from ref_streets", [])?;
+    {
+        let conn = ctx.get_database_connection()?;
+        conn.execute("delete from ref_housenumbers", [])?;
+        conn.execute("delete from ref_streets", [])?;
+    }
     let ref_streets = ctx.get_ini().get_reference_street_path()?;
-    util::build_street_reference_index(ctx, &mut conn, &ref_streets)?;
+    util::build_street_reference_index(ctx, &ref_streets)?;
 
     // These caches have explicit dependencies only on OSM data, so empty them now.
+    let conn = ctx.get_database_connection()?;
     conn.execute_batch("delete from missing_housenumbers_cache")?;
     conn.execute_batch("delete from mtimes where page like 'missing-housenumbers-cache/%'")?;
 

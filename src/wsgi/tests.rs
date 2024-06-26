@@ -2054,9 +2054,8 @@ fn test_missing_streets_well_formed() {
 fn test_missing_streets_well_formed_compat() {
     let mut test_wsgi = TestWsgi::new();
     {
-        let mut conn = test_wsgi.ctx.get_database_connection().unwrap();
         let ref_streets = test_wsgi.ctx.get_ini().get_reference_street_path().unwrap();
-        util::build_street_reference_index(&test_wsgi.ctx, &mut conn, &ref_streets).unwrap();
+        util::build_street_reference_index(&test_wsgi.ctx, &ref_streets).unwrap();
     }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
@@ -2143,9 +2142,8 @@ fn test_missing_streets_no_osm_streets_well_formed() {
 fn test_missing_streets_view_result_txt() {
     let mut test_wsgi = TestWsgi::new();
     {
-        let mut conn = test_wsgi.ctx.get_database_connection().unwrap();
         let ref_streets = test_wsgi.ctx.get_ini().get_reference_street_path().unwrap();
-        util::build_street_reference_index(&test_wsgi.ctx, &mut conn, &ref_streets).unwrap();
+        util::build_street_reference_index(&test_wsgi.ctx, &ref_streets).unwrap();
     }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
@@ -2208,9 +2206,8 @@ fn test_missing_streets_view_result_txt() {
 fn test_missing_streets_view_result_chkl() {
     let mut test_wsgi = TestWsgi::new();
     {
-        let mut conn = test_wsgi.ctx.get_database_connection().unwrap();
         let ref_streets = test_wsgi.ctx.get_ini().get_reference_street_path().unwrap();
-        util::build_street_reference_index(&test_wsgi.ctx, &mut conn, &ref_streets).unwrap();
+        util::build_street_reference_index(&test_wsgi.ctx, &ref_streets).unwrap();
     }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
