@@ -99,11 +99,14 @@ fn test_format_even_odd_html_multi_odd() {
 #[test]
 fn test_build_reference_index() {
     let ctx = context::tests::make_test_context().unwrap();
-    let mut conn = ctx.get_database_connection().unwrap();
-    conn.execute("delete from ref_housenumbers", []).unwrap();
-    let refpath = ctx.get_abspath("workdir/refs/hazszamok_20190511.tsv");
-    build_reference_index(&ctx, &mut conn, &[refpath.clone()]).unwrap();
     {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute("delete from ref_housenumbers", []).unwrap();
+    }
+    let refpath = ctx.get_abspath("workdir/refs/hazszamok_20190511.tsv");
+    build_reference_index(&ctx, &[refpath.clone()]).unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
         let mut stmt = conn
             .prepare("select count(*) from ref_housenumbers")
             .unwrap();
@@ -115,8 +118,9 @@ fn test_build_reference_index() {
         }
     }
 
-    build_reference_index(&ctx, &mut conn, &[refpath]).unwrap();
+    build_reference_index(&ctx, &[refpath]).unwrap();
     {
+        let conn = ctx.get_database_connection().unwrap();
         let mut stmt = conn
             .prepare("select count(*) from ref_housenumbers")
             .unwrap();
