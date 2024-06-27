@@ -728,10 +728,7 @@ impl<'a> Relation<'a> {
     /// from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
     /// used by get_ref_housenumbers().
     pub fn write_ref_housenumbers(&self, references: &[String]) -> anyhow::Result<()> {
-        {
-            let mut conn = self.ctx.get_database_connection()?;
-            util::build_reference_index(self.ctx, &mut conn, references)?;
-        }
+        util::build_reference_index(self.ctx, references)?;
 
         let streets: Vec<String> = self
             .get_osm_streets(/*sorted_results=*/ true)?

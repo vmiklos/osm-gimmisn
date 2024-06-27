@@ -600,11 +600,8 @@ pub struct RefHouseNumber {
 }
 
 /// Builds an in-database index from the reference TSV (house number version).
-pub fn build_reference_index(
-    ctx: &context::Context,
-    conn: &mut rusqlite::Connection,
-    paths: &[String],
-) -> anyhow::Result<()> {
+pub fn build_reference_index(ctx: &context::Context, paths: &[String]) -> anyhow::Result<()> {
+    let mut conn = ctx.get_database_connection()?;
     {
         // Check if the TSV is imported already.
         let mut stmt =
