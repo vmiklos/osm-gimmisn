@@ -140,14 +140,13 @@ fn update_ref_housenumbers(
         {
             continue;
         }
-        let references = ctx.get_ini().get_reference_housenumber_paths()?;
         let streets = relation.get_config().should_check_missing_streets();
         if streets == "only" {
             continue;
         }
 
         info!("update_ref_housenumbers: start: {relation_name}");
-        relation.write_ref_housenumbers(&references)?;
+        relation.write_ref_housenumbers()?;
         info!("update_ref_housenumbers: end: {relation_name}");
     }
 

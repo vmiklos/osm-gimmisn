@@ -81,6 +81,8 @@ pub fn download(
     }
     let ref_streets = ctx.get_ini().get_reference_street_path()?;
     util::build_street_reference_index(ctx, &ref_streets)?;
+    let references = ctx.get_ini().get_reference_housenumber_paths()?;
+    util::build_reference_index(ctx, &references)?;
 
     // These caches have explicit dependencies only on OSM data, so empty them now.
     let conn = ctx.get_database_connection()?;

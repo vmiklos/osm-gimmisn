@@ -258,6 +258,12 @@ fn test_missing_housenumbers_update_result_json() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
+    let references = test_wsgi
+        .get_ctx()
+        .get_ini()
+        .get_reference_housenumber_paths()
+        .unwrap();
+    util::build_reference_index(test_wsgi.get_ctx(), &references).unwrap();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
         conn.execute_batch(

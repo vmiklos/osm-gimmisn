@@ -2440,9 +2440,6 @@ fn test_relation_writer_ref_housenumbers() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let refdir = ctx.get_abspath("workdir/refs");
-    let refpath = format!("{refdir}/hazszamok_20190511.tsv");
-    let refpath2 = format!("{refdir}/hazszamok_kieg_20190808.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers2 = context::tests::TestFileSystem::make_file();
     ref_housenumbers2
@@ -2471,6 +2468,8 @@ fn test_relation_writer_ref_housenumbers() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    let references = ctx.get_ini().get_reference_housenumber_paths().unwrap();
+    util::build_reference_index(&ctx, &references).unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute_batch(
@@ -2502,9 +2501,7 @@ Tűzkő utca	9
 "#;
     let relation = relations.get_relation(relation_name).unwrap();
 
-    relation
-        .write_ref_housenumbers(&[refpath, refpath2])
-        .unwrap();
+    relation.write_ref_housenumbers().unwrap();
 
     let mut guard = ref_value.borrow_mut();
     guard.seek(SeekFrom::Start(0)).unwrap();
@@ -2527,8 +2524,6 @@ fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let refdir = ctx.get_abspath("workdir/refs");
-    let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -2546,7 +2541,7 @@ fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
     let relation_name = "nosuchrefcounty";
     let relation = relations.get_relation(relation_name).unwrap();
 
-    relation.write_ref_housenumbers(&[refpath]).unwrap();
+    relation.write_ref_housenumbers().unwrap();
 }
 
 /// Tests Relation::write_ref_housenumbers(): the case when the refsettlement code is missing in the reference.
@@ -2562,8 +2557,6 @@ fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let refdir = ctx.get_abspath("workdir/refs");
-    let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -2581,7 +2574,7 @@ fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
     let relation_name = "nosuchrefsettlement";
     let relation = relations.get_relation(relation_name).unwrap();
 
-    relation.write_ref_housenumbers(&[refpath]).unwrap();
+    relation.write_ref_housenumbers().unwrap();
 }
 
 /// Tests the Relations struct.

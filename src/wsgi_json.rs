@@ -68,17 +68,15 @@ fn street_housenumbers_update_result_json(
 
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.json.
 fn missing_housenumbers_update_result_json(
-    ctx: &context::Context,
     relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
     let relation_name = tokens.next_back().context("short tokens")?;
-    let references = ctx.get_ini().get_reference_housenumber_paths()?;
     let relation = relations.get_relation(relation_name)?;
     let mut ret: HashMap<String, String> = HashMap::new();
-    relation.write_ref_housenumbers(&references)?;
+    relation.write_ref_housenumbers()?;
     ret.insert("error".into(), "".into());
     Ok(serde_json::to_string(&ret)?)
 }
@@ -122,7 +120,7 @@ pub fn our_application_json(
         output = street_housenumbers_update_result_json(ctx, relations, request_uri)?;
     } else if request_uri.starts_with(&format!("{prefix}/missing-housenumbers/")) {
         if request_uri.ends_with("/update-result.json") {
-            output = missing_housenumbers_update_result_json(ctx, relations, request_uri)?;
+            output = missing_housenumbers_update_result_json(relations, request_uri)?;
         } else {
             // Assume view-result.json.
             output = missing_housenumbers_view_result_json(relations, request_uri)?;

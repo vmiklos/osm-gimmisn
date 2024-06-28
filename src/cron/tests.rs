@@ -122,6 +122,8 @@ fn test_update_ref_housenumbers() {
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
+    let references = ctx.get_ini().get_reference_housenumber_paths().unwrap();
+    util::build_reference_index(&ctx, &references).unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
@@ -1113,10 +1115,10 @@ fn test_update_stats_no_overpass() {
 #[test]
 fn test_our_main() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    {
-        let ref_streets = ctx.get_ini().get_reference_street_path().unwrap();
-        util::build_street_reference_index(&ctx, &ref_streets).unwrap();
-    }
+    let ref_streets = ctx.get_ini().get_reference_street_path().unwrap();
+    util::build_street_reference_index(&ctx, &ref_streets).unwrap();
+    let references = ctx.get_ini().get_reference_housenumber_paths().unwrap();
+    util::build_reference_index(&ctx, &references).unwrap();
     let routes = vec![
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
