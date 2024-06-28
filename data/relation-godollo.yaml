@@ -54,6 +54,7 @@ filters:
     invalid: ['101/6']
   Rigó utca:
     # 13: sima 13 nincs, csak 13/a, 13/b.
+    invalid: ['13']
   Semmelweis Ignác utca:
     # 660: ez helyrajzi szám, nem házszám.
     invalid: ['660']
