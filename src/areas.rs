@@ -727,9 +727,7 @@ impl<'a> Relation<'a> {
     /// Writes known house numbers (not their coordinates) from a reference, based on street names
     /// from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
     /// used by get_ref_housenumbers().
-    pub fn write_ref_housenumbers(&self, references: &[String]) -> anyhow::Result<()> {
-        util::build_reference_index(self.ctx, references)?;
-
+    pub fn write_ref_housenumbers(&self) -> anyhow::Result<()> {
         let streets: Vec<String> = self
             .get_osm_streets(/*sorted_results=*/ true)?
             .iter()

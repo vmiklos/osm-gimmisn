@@ -692,9 +692,8 @@ fn missing_housenumbers_update(
     relations: &mut areas::Relations<'_>,
     relation_name: &str,
 ) -> anyhow::Result<yattag::Doc> {
-    let references = ctx.get_ini().get_reference_housenumber_paths()?;
     let relation = relations.get_relation(relation_name)?;
-    relation.write_ref_housenumbers(&references)?;
+    relation.write_ref_housenumbers()?;
     let doc = yattag::Doc::new();
     doc.text(&tr("Update successful: "));
     let prefix = ctx.get_ini().get_uri_prefix();

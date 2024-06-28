@@ -1645,6 +1645,12 @@ fn test_missing_housenumbers_update_result_link() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
+    let references = test_wsgi
+        .ctx
+        .get_ini()
+        .get_reference_housenumber_paths()
+        .unwrap();
+    util::build_reference_index(&test_wsgi.ctx, &references).unwrap();
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
