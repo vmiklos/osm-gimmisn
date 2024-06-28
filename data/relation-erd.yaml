@@ -9,6 +9,7 @@ filters:
     show-refstreet: false
 refstreets:
   # ellenőrzött
+  # 'Báthori István utca': 'Báthory István utca'  # Báthory István utca Y-nal van kitáblázva (2024-06-22)
   # 'Fenyves utca': 'Fenyves köz'  # táblán Fenyves köz (2023-05-23)
   # 'Gladiolus utca': 'Gladiólusz utca'  # táblán Gladiólusz utca (2023-05-23)
   # 'Hegyaljai út': 'Hegyaljai utca'  # táblán Hegyaljai utca (2024-01-06)
@@ -21,7 +22,6 @@ refstreets:
   'Loránd utca': 'Lóránd utca'  # az utcanévtáblákon rövid O-val van, a házszámtáblákon hosszú Ó-val. OSM-en hagytam röviden. (2024-06-22)
   'Vízöntő utca': 'Vízöntő út'  # Ipari park: táblán Vízöntő utca (2023-02-18)
   # kérdéses
-  # 'Báthori István utca': 'Báthory István utca'  # Báthory István utca Y-nal van kitáblázva
   'Fehérkereszti út': 'Fehérkereszti utca'  # https://www.openstreetmap.org/note/3701569
   'Gereblye köz': 'Gereblye utca'  # https://www.openstreetmap.org/note/3701520
   'Mély utca': 'Mély út'  # https://www.openstreetmap.org/note/3701586

@@ -1,18 +1,17 @@
 missing-streets: 'yes'
 refstreets:
+  # ellenőrzött
+  'Jókai Mór utca': 'Jókai utca'  # táblán Jókai Mór utca (2024-06-22)
+  'Madách Imre utca': 'Madách utca'  # táblán Madách Imre utca (2024-06-22)
+  'Munkácsy Mihály utca': 'Munkácsy utca'  # táblán Munkácsy Mihály utca (2024-06-22)
+  'Rákóczi Ferenc út': 'Rákóczi út'  # táblán Rákóczi Ferenc út (2024-06-22)
+  'Tompa Mihály utca': 'Tompa utca'  # táblán Tompa Mihály utca (2024-06-22)
+  'Zrínyi Miklós utca': 'Zrínyi utca'  # táblán Zrínyi Miklós utca (2024-06-22)
+  # 'Dózsa György utca': 'Dózsa György út'  # táblákon Dózsa György út szerepel (2024-06-22)
+  # 'Vörösmarty Mihály utca': 'Vörösmarty utca' # táblán Vörösmarty utca (2024-06-22)
   # kérdéses
-  # 'Anasztázia utca': 'Anasztázia puszta'
   'Compó utca': 'Compó köz'  # https://www.openstreetmap.org/note/3688189
-  'Dózsa György utca': 'Dózsa György út'
-  'Jókai Mór utca': 'Jókai utca'
-  'Madách Imre utca': 'Madách utca'
-  'Munkácsy Mihály utca': 'Munkácsy utca'
-  'Rákóczi Ferenc út': 'Rákóczi út'
   'Siklósi utca': 'Siklósi út'
-  # 'Szőlőhegyi út': 'Szőlőhegy'
-  'Tompa Mihály utca': 'Tompa utca'
-  'Vörösmarty Mihály utca': 'Vörösmarty utca'
-  'Zrínyi Miklós utca': 'Zrínyi utca'
   # helyesírás
   'Írisz utca': 'Irisz utca'
   'Szegfű utca': 'Szegfü utca'
