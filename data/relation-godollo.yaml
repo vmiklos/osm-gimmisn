@@ -26,13 +26,17 @@ filters:
     # 30: nincs ilyen, a 28 után a 32 következik.
     # 44: a páros oldalon a 32 az utolsó házszám.
     invalid: ['27', '30', '44']
+  Jászóvár utca:
+    # 10: sima 10 nincs, csak 10/a, 10/b.
+    # 10/1: 10/1 nincs, csak 10/a, 10/b.
+    invalid: ['10']
   Kard utca:
     # 16: sima 16 nincs, csak 16/1, 16/2, 16/3.
     # 17: sima 17 nincs, csak 17/1, 17/2, 17/3.
     interpolation: all
     invalid: ['16', '17']
   Kazinczy körút:
-    # 27: sima 27 nincs, csak 27/a, 27/b,.
+    # 27: sima 27 nincs, csak 27/a, 27/b.
     # 29: sima 29 nincs, csak 29/a, 29/b.
     # 31: sima 31 nincs, csak 31/a, 31/b.
     invalid: ['27', '29', '31']
@@ -48,6 +52,8 @@ filters:
   Repülőtéri út:
     # 101/6: ez helyrajzi szám, nem házszám.
     invalid: ['101/6']
+  Rigó utca:
+    # 13: sima 13 nincs, csak 13/a, 13/b.
   Semmelweis Ignác utca:
     # 660: ez helyrajzi szám, nem házszám.
     invalid: ['660']
