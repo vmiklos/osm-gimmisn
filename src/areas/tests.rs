@@ -1466,7 +1466,9 @@ fn test_relation_get_lints_hn_letters() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
         },
-        "relation-gh964.yaml": {
+        "relation-myrelation.yaml": {
+            "refcounty": "0",
+            "refsettlement": "0",
             "filters": {
                 "Tolvajos tanya": {
                     "invalid": [ "52b" ],
@@ -1476,23 +1478,32 @@ fn test_relation_get_lints_hn_letters() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            (
+                "workdir/street-housenumbers-reference-myrelation.lst",
+                &ref_file,
+            ),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute_batch(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gh964', '1', '', '52/b', '', 'Tolvajos tanya', '', '', '', '', '', '', '', 'node');
-             insert into mtimes (page, last_modified) values ('housenumbers/gh964', '0');",
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tolvajos tanya', '52/b', '');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('myrelation', '1', '', '52/b', '', 'Tolvajos tanya', '', '', '', '', '', '', '', 'node');
+             insert into mtimes (page, last_modified) values ('housenumbers/myrelation', '0');",
         )
         .unwrap();
     }
     let mut relations = Relations::new(&ctx).unwrap();
-    let relation_name = "gh964";
+    let relation_name = "myrelation";
     let mut relation = relations.get_relation(relation_name).unwrap();
+    relation.write_ref_housenumbers().unwrap();
     let _missing_housenumbers = relation.get_missing_housenumbers().unwrap();
 
     let lints = relation.get_lints();
@@ -1500,7 +1511,7 @@ fn test_relation_get_lints_hn_letters() {
     // Previously this failed, lints was empty.
     assert_eq!(lints.len(), 1);
     let lint = lints[0].clone();
-    assert_eq!(lint.relation_name, "gh964");
+    assert_eq!(lint.relation_name, "myrelation");
     assert_eq!(lint.street_name, "Tolvajos tanya");
     assert_eq!(lint.source, RelationLintSource::Invalid);
     assert_eq!(format!("{:?}", lint.source), "Invalid");
