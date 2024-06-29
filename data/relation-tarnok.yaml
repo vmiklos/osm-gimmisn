@@ -8,7 +8,7 @@ refstreets:
   'Tompa Mihály utca': 'Tompa utca'  # táblán Tompa Mihály utca (2024-06-22)
   'Zrínyi Miklós utca': 'Zrínyi utca'  # táblán Zrínyi Miklós utca (2024-06-22)
   # 'Dózsa György utca': 'Dózsa György út'  # táblákon Dózsa György út szerepel (2024-06-22)
-  # 'Vörösmarty Mihály utca': 'Vörösmarty utca' # táblán Vörösmarty utca (2024-06-22)
+  # 'Vörösmarty Mihály utca': 'Vörösmarty utca' # házszámtáblákon (2024-06-22) és utca táblán Vörösmarty utca (2024-04)
   # kérdéses
   'Compó utca': 'Compó köz'  # https://www.openstreetmap.org/note/3688189
   'Siklósi utca': 'Siklósi út'
