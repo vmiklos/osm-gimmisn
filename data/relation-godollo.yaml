@@ -49,6 +49,14 @@ filters:
   Mária utca:
     # 195/55: ez helyrajzi szám, nem házszám.
     invalid: ['195']
+  Petőfi Sándor tér:
+    # 5: 5 nincs, csak 4-6.
+    # 7: A tér egyik sarkán 4-6 van, a következőn 8.
+    # 13/2, 13/3 ... : csak sima 13 van.
+    # 14/a: csak sima 14 van.
+    # 15/2: csak sima 15 van.
+    # 165: ez helyrajzi szám, nem házszám.
+    invalid: ['5', '7', '13', '14a', '15', '165']
   Repülőtéri út:
     # 101/6: ez helyrajzi szám, nem házszám.
     invalid: ['101/6']
