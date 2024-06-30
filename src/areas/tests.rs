@@ -2307,18 +2307,44 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
 /// Tests Relation::write_missing_housenumbers(): sorting is performed after range reduction.
 #[test]
 fn test_relation_write_missing_housenumbers_sorting() {
-    let ctx = context::tests::make_test_context().unwrap();
+    let mut ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute_batch(
-            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh414', '46985966', 'A utca', 'residential', '', 'asphalt', '', 'way');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh414', '46985967', 'B utca', 'residential', '', 'asphalt', '', 'way');",
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'A utca', '2-10', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'B utca', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'B utca', '3', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('myrelation', '46985966', 'A utca', 'residential', '', 'asphalt', '', 'way');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('myrelation', '46985967', 'B utca', 'residential', '', 'asphalt', '', 'way');",
         )
         .unwrap();
     }
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+        },
+        "relation-myrelation.yaml": {
+            "refcounty": "0",
+            "refsettlement": "0",
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let ref_file = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            (
+                "workdir/street-housenumbers-reference-myrelation.lst",
+                &ref_file,
+            ),
+        ],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
     let mut relations = Relations::new(&ctx).unwrap();
-    let relation_name = "gh414";
+    let relation_name = "myrelation";
     let mut relation = relations.get_relation(relation_name).unwrap();
+    relation.write_ref_housenumbers().unwrap();
 
     let ret = relation.write_missing_housenumbers().unwrap();
 
@@ -2339,7 +2365,7 @@ fn test_relation_write_missing_housenumbers_sorting() {
     let json: String = conn
         .query_row(
             "select json from missing_housenumbers_cache where relation = ?1",
-            ["gh414"],
+            ["myrelation"],
             |row| row.get(0),
         )
         .unwrap();
