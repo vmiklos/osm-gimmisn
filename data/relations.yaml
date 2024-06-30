@@ -342,6 +342,10 @@ morahalom:
     refcounty: "06"
     refsettlement: "036"
 # 07 - Fejér megye
+baracska:
+    osmrelation: 1370245
+    refcounty: "07"
+    refsettlement: "010"
 dunaujvaros:
     osmrelation: 1420733
     refcounty: "07"
