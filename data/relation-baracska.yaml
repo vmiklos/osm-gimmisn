@@ -1,8 +1,12 @@
 missing-streets: 'yes'
 #osm-street-filters:
   # Nem igazi utcák
-#street-filters:
-  # Nem igazi utcák
+
+street-filters:
+  # Tanyák
+  - Gellért puszta  # https://www.openstreetmap.org/node/10921276916
+  - Roboz tanya  # https://www.openstreetmap.org/node/5933661310
+  - Vattai tanya
 refstreets:
   'Petőfi Sándor utca': 'Petőfi utca'
   'Rákóczi Ferenc utca': 'Rákóczi utca'
