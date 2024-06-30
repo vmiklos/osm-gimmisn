@@ -1,7 +1,12 @@
 missing-streets: 'yes'
 filters:
-  # Ady Endre utca:
+  Ady Endre utca:
     # 17-21: HÉSZ: 1 ház 4 telek, kiírva nincs semmi. RESURVEY 2024
+    # 16, 18 nincs kiírva, utolsó 14 amin szám van.
+    invalid: ['16', '18']
+  Arany János utca:
+    # 15: üres telek. RESURVEY 2025.
+    invalid: ['15']
   Árnyas utca:
     interpolation: all
   Balatoni út:
@@ -29,12 +34,18 @@ filters:
   Király utca:
     interpolation: all
   Kötéssűrű utca:
-    invalid: ['1', '6']
+    invalid: ['1']
   Köztársaság utca:
    interpolation: all
+  Márai Sándor utca:
+    # 2: üres telek. RESURVEY 2025
+    invalid: ['2']
   Petőfi Sándor utca:
     # 28, 32: nincsenek beépítve a telkek. utolsó kiírt házszám a 26. RESUREY 2024
     invalid: ['28', '32']
+  Rákóczi utca:
+    # 65: 63 után 67, 65 helyén az Erkel Ferenc utca
+    invalid: ['65']
   Szabadság utca:
     interpolation: all
   Széchenyi utca:
