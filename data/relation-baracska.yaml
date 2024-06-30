@@ -1,0 +1,13 @@
+missing-streets: 'yes'
+#osm-street-filters:
+  # Nem igazi utcák
+#street-filters:
+  # Nem igazi utcák
+refstreets:
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Rákóczi Ferenc utca': 'Rákóczi utca'
+  'Széchenyi István utca': 'Széchenyi utca'
+  'Zrínyi Miklós utca': 'Zrínyi utca'
+source: survey
+housenumber-letters: true
+inactive: true
