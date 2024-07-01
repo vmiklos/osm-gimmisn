@@ -1739,23 +1739,40 @@ fn test_relation_get_missing_housenumbers_letter_suffix_invalid() {
 #[test]
 fn test_relation_get_missing_housenumbers_invalid_simplify() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Kővirág sor', '37/B', '');",
+         )
+         .unwrap();
+    }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
-            "gh385": {
+            "myrelation": {
+                "refcounty": "0",
+                "refsettlement": "0",
                 "osmrelation": 42,
             },
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            (
+                "workdir/street-housenumbers-reference-myrelation.lst",
+                &ref_file,
+            ),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     let mut relations = Relations::new(&ctx).unwrap();
-    let relation_name = "gh385";
+    let relation_name = "myrelation";
     let mut relation = relations.get_relation(relation_name).unwrap();
+    relation.write_ref_housenumbers().unwrap();
 
     // Default case: housenumber-letters=false.
     {
@@ -2050,23 +2067,40 @@ fn test_relation_get_additional_streets() {
 #[test]
 fn test_relation_get_additional_streets_no_osm_street_filters() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Kővirág sor', '37/B', '');",
+         )
+         .unwrap();
+    }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
-            "gh385": {
+            "myrelation": {
+                "refcounty": "0",
+                "refsettlement": "0",
                 "osmrelation": 42,
             },
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            (
+                "workdir/street-housenumbers-reference-myrelation.lst",
+                &ref_file,
+            ),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     let mut relations = Relations::new(&ctx).unwrap();
-    let relation_name = "gh385";
+    let relation_name = "myrelation";
     let relation = relations.get_relation(relation_name).unwrap();
+    relation.write_ref_housenumbers().unwrap();
     assert_eq!(
         relation.get_config().get_osm_street_filters().is_empty(),
         true
