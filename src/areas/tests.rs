@@ -1525,6 +1525,10 @@ fn test_relation_get_lints_out_of_range() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
+            "gh3073": {
+                "refcounty": "0",
+                "refsettlement": "0",
+            },
         },
         "relation-gh3073.yaml": {
             "filters": {
@@ -1544,16 +1548,24 @@ fn test_relation_get_lints_out_of_range() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            (
+                "workdir/street-housenumbers-reference-gh3073.lst",
+                &ref_file,
+            ),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute_batch(
-            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh3073', '7988705', 'Hadak útja', 'residential', '', 'asphalt', '', 'way');
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Hadak útja', '3', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh3073', '7988705', 'Hadak útja', 'residential', '', 'asphalt', '', 'way');
              insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh3073', '7988706', 'Hadak útja2', 'residential', '', 'asphalt', '', 'way');",
         )
         .unwrap();
@@ -1561,6 +1573,7 @@ fn test_relation_get_lints_out_of_range() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh3073";
     let mut relation = relations.get_relation(relation_name).unwrap();
+    relation.write_ref_housenumbers().unwrap();
     let _missing_housenumbers = relation.get_missing_housenumbers().unwrap();
 
     let lints = relation.get_lints();
