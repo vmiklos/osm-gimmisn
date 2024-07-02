@@ -13,6 +13,7 @@
 use crate::areas;
 use crate::context;
 use crate::stats;
+use anyhow::Context as _;
 
 /// Decides if we have an up to date cache entry or not.
 fn is_cache_current(
@@ -61,7 +62,11 @@ fn is_sql_cache_current(
 
     for dependency in dependencies {
         if ctx.get_file_system().path_exists(dependency)
-            && ctx.get_file_system().getmtime(dependency)? > cache_mtime
+            && ctx
+                .get_file_system()
+                .getmtime(dependency)
+                .context("getmtime() failed")?
+                > cache_mtime
         {
             return Ok(false);
         }
@@ -96,12 +101,15 @@ fn is_missing_housenumbers_json_cached(relation: &mut areas::Relation<'_>) -> an
         &dependencies,
         &sql_dependencies,
     )
+    .context("is_sql_cache_current() failed")
 }
 
 /// Gets the cached json of the missing housenumbers for a relation.
 pub fn get_missing_housenumbers_json(relation: &mut areas::Relation<'_>) -> anyhow::Result<String> {
     let output: String;
-    if is_missing_housenumbers_json_cached(relation)? {
+    if is_missing_housenumbers_json_cached(relation)
+        .context("is_missing_housenumbers_json_cached() failed")?
+    {
         output = stats::get_sql_json(
             relation.get_ctx(),
             "missing_housenumbers_cache",

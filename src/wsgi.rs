@@ -249,7 +249,8 @@ fn missing_housenumbers_view_lints(
     let doc = yattag::Doc::new();
 
     // Update lints if they are outdated.
-    cache::get_missing_housenumbers_json(relation)?;
+    cache::get_missing_housenumbers_json(relation)
+        .context("get_missing_housenumbers_json() failed")?;
 
     let mut table: Vec<Vec<yattag::Doc>> = Vec::new();
     let mut count = 0;
@@ -740,7 +741,11 @@ fn handle_missing_housenumbers(
     } else if action == "update-result" {
         doc.append_value(missing_housenumbers_update(ctx, relations, relation_name)?.get_value())
     } else if action == "view-lints" {
-        doc.append_value(missing_housenumbers_view_lints(ctx, &mut relation)?.get_value())
+        doc.append_value(
+            missing_housenumbers_view_lints(ctx, &mut relation)
+                .context("missing_housenumbers_view_lints() failed")?
+                .get_value(),
+        )
     } else {
         // assume view-result
         let ret = missing_housenumbers_view_res(ctx, relations, request_uri);
