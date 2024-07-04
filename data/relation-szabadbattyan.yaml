@@ -12,6 +12,8 @@ street-filters:
   # place
   - Felsősomlyó puszta  # Felsősomlyó - https://www.openstreetmap.org/node/1123396512
   - Lajostelep puszta  # Lajosteleppuszta - https://www.openstreetmap.org/relation/6757160
+  - Tilos puszta  # nincs nyoma terepen, vízmű
+  - Ábrahám tanya  # nincs nyoma terepen, szennyvíztelep
 osm-street-filters:
   # átlógó utcák
   - Somlyói út
