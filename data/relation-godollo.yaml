@@ -195,7 +195,6 @@ refstreets:
   'Pitypang út': 'Pitypang utca'
   # ellenőrzött
   'Körösfői Kriesch Aladár utca': 'Körösfői K. Aladár utca'  # táblán Körösfői Kriesch Aladár utca
-  'Podmaniczky Frigyes utca': 'Podmaniczky utca'  # táblán Podmaniczky Frigyes utca
   'Sík Sándor utca': 'Sik Sándor utca'  # táblán Sík Sándor utca
   'Semmelweis Ignác utca': 'Semmelweis utca'  # táblák vegyesen
   'Tessedik Sámuel utca': 'Tessedik Sámuel út'  # táblán Tessedik Sámuel utca
@@ -207,6 +206,7 @@ refstreets:
   # táblán Toldi Miklós utca
   # táblákon Petőfi Sándor út, Petőfi utca
   # táblán  Premontrei utca
+  # táblánkon Podmaniczky utca (2) Podmaniczky Frigyes utca (1)
 source: survey
 housenumber-letters: true
 inactive: true
