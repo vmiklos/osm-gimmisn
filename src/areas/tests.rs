@@ -1858,21 +1858,29 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gh286": {
+                "refcounty": "0",
+                "refsettlement": "0",
                 "osmrelation": 42,
             },
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("workdir/street-housenumbers-reference-gh286.lst", &ref_file),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute_batch(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gh286', '460828116', 'Királyleányka utca', '10/B', '1112', '', '', '', '', '', '', '', '', 'way');
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Királyleányka utca', '10 A', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Királyleányka utca', '10 B', '');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gh286', '460828116', 'Királyleányka utca', '10/B', '1112', '', '', '', '', '', '', '', '', 'way');
              insert into mtimes (page, last_modified) values ('housenumbers/gh286', '0');",
         )
         .unwrap();
@@ -1880,6 +1888,7 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh286";
     let mut relation = relations.get_relation(relation_name).unwrap();
+    relation.write_ref_housenumbers().unwrap();
     // Opt-in, this is not the default behavior.
     let mut config = relation.get_config().clone();
     set_config_housenumber_letters(&mut config, true);
