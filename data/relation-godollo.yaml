@@ -205,8 +205,8 @@ refstreets:
   # táblán Kenyérgyári utca
   # táblán Toldi Miklós utca
   # táblákon Petőfi Sándor út, Petőfi utca
-  # táblán  Premontrei utca
-  # táblánkon Podmaniczky utca (2) Podmaniczky Frigyes utca (1)
+  # táblán Premontrei utca
+  # táblákon Podmaniczky utca (2) Podmaniczky Frigyes utca (1)
 source: survey
 housenumber-letters: true
 inactive: true
