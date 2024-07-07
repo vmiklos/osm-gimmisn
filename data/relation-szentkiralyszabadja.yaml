@@ -48,7 +48,7 @@ filters:
     # 1: honlap szerint Veszprémi utca 1, egyik sincs kiírva
     # 15: üres telek
     # 6-12: páros oldal nincs beépítve
-    invalid: ['1', '6', '8', '10', '12']
+    invalid: ['1', '6', '8', '10', '12', '15']
   Petőfi Sándor utca:
     # 28, 32: nincsenek beépítve a telkek. utolsó kiírt házszám a 26. RESUREY 2024
     invalid: ['28', '32']
