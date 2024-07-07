@@ -7,6 +7,7 @@ refstreets:
   'Radnóti utca': 'Radnóti Miklós utca'
   'Zrínyi utca': 'Zrínyi Miklós utca'
 # street-filters:
+# Meggyfa utca - nincs tábla
 osm-street-filters:
   # átlógó utcák
   - Diófa dűlő
