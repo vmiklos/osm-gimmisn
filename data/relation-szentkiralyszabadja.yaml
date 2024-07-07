@@ -1,9 +1,12 @@
 missing-streets: 'yes'
 filters:
   Ady Endre utca:
-    # 17-21: HÉSZ: 1 ház 4 telek, kiírva nincs semmi. RESURVEY 2024
+    # 17-21: HÉSZ: 1 ház 4 telek, kiírva nincs semmi. RESURVEY 2025
     # 16, 18 nincs kiírva, utolsó 14 amin szám van.
     invalid: ['16', '18']
+  Alsódomb utca:
+    # üres telkek. RESURVEY 2025.
+    invalid: ['14', '16', '17', '18', '19', '20']
   Arany János utca:
     # 15: üres telek. RESURVEY 2025.
     invalid: ['15']
@@ -40,6 +43,12 @@ filters:
   Márai Sándor utca:
     # 2: üres telek. RESURVEY 2025
     invalid: ['2']
+  Meggyespusztai utca:
+    # RESURVEY 2026
+    # 1: honlap szerint Veszprémi utca 1, egyik sincs kiírva
+    # 15: üres telek
+    # 6-12: páros oldal nincs beépítve
+    invalid: ['1', '6', '8', '10', '12']
   Petőfi Sándor utca:
     # 28, 32: nincsenek beépítve a telkek. utolsó kiírt házszám a 26. RESUREY 2024
     invalid: ['28', '32']
