@@ -3,6 +3,9 @@ osm-street-filters:
   # Nem igazi utca
   - Alakulótér
   - Dunaparti kerékpárút
+  - Quad track I.
+  - Quad track II.
+  - Quad track III.
   # Parkok, sétautak amire nincs számozva semmi
   - Czóbel park
   - Duna parti sétány
