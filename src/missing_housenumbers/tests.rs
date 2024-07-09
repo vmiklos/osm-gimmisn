@@ -23,16 +23,9 @@ fn test_main() {
     let mut ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gh195", "24746223", "Kalotaszeg utca", "residential", "", "asphalt", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gh195", "695548547", "Kalotaszeg utca", "residential", "", "", "", ""],
-        )
-        .unwrap();
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh195', '24746223', 'Kalotaszeg utca', 'residential', '', 'asphalt', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh195', '695548547', 'Kalotaszeg utca', 'residential', '', '', '', '');").unwrap();
     }
 
     let ret = main(&argv, &mut buf, &mut ctx);
