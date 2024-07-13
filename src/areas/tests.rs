@@ -1315,6 +1315,11 @@ fn test_relation_get_missing_housenumbers() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
+            "gazdagret": {
+                "refcounty": "0",
+                "refsettlement": "0",
+                "osmrelation": 42,
+            },
         },
         "relation-gazdagret.yaml": {
             "filters": {
@@ -1328,16 +1333,36 @@ fn test_relation_get_missing_housenumbers() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            (
+                "workdir/street-housenumbers-reference-gazdagret.lst",
+                &ref_file,
+            ),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute_batch(
-            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Hamzsabégi út', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '10', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '11', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '12', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '7', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '10', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '9', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
              insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
              insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
              insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
@@ -1355,6 +1380,7 @@ fn test_relation_get_missing_housenumbers() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let mut relation = relations.get_relation(relation_name).unwrap();
+    relation.write_ref_housenumbers().unwrap();
     let missing_housenumbers = relation.get_missing_housenumbers().unwrap();
     let ongoing_streets_strs: Vec<_> = missing_housenumbers
         .ongoing_streets
