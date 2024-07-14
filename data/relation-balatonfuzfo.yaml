@@ -2,6 +2,10 @@ missing-streets: 'yes'
 filters:
   Alsóerdősor:
     show-refstreet: false
+  Aradi utca:
+    # 4: nincs
+    # 28: utolsó házszám a 26
+    invalid: ['4', '28']
   Árpád köz:
     # 1: nincs, 3-tól indul a páratlan
     invalid: ['1']
@@ -37,6 +41,9 @@ filters:
   Hóvirág köz:
     # Nincsenek házak erre számozva
     invalid: ['8', '34']
+  Iglói utca:
+    # utolsó házszám 15-17, a maradék a Kilátó utcáról számozódik
+    invalid: ['19']
   Jankovich Ferenc utca:
     ranges:
       - {start: '1', end: '19'}
@@ -45,6 +52,9 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '22'}
+  Kilátó köz:
+    # max páratlan 7
+    invalid: ['9', '19']
   Kilátó utca:
     # 123: a Kilátó utca egyik szakaszának helyrajzi száma, a max kiírt 107 de még vannak házak, melyeken nincs szám.
     invalid: ['123']
@@ -54,6 +64,9 @@ filters:
   Munkácsy Mihály utca:
     interpolation: all
     invalid: ['7']
+  Papkeszi utca:
+    # 1: nincs
+    invalid: ['1']
   Rákóczi utca:
     # 10: 2 db 8-as van, majd 12
     invalid: ['10']
@@ -73,6 +86,9 @@ filters:
   Virág köz:
     # 30: valószínű Jánoshegyi út 30.
     invalid: ['30']
+  Zombor utca:
+    # 43: 
+    invalid: ['43']
 refstreets:
   # ellenőrzött
   'Alsóerdősor': 'Alsóerdősor utca'  # táblán csak Alsóerdősor
