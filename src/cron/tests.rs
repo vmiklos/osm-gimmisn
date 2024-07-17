@@ -77,7 +77,6 @@ fn test_update_ref_housenumbers() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
-                "refsettlement": "42",
                 "refcounty": "01",
                 "refsettlement": "011",
             },
