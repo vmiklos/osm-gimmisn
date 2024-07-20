@@ -450,6 +450,10 @@ berekfurdo:
     osmrelation: 1325377
     refcounty: "11"
     refsettlement: "003"
+cserkeszolo:
+    osmrelation: 1319860
+    refcounty: "11"
+    refsettlement: "007"
 # 12 - Komárom-Esztergom megye
 bajna:
     osmrelation: 1027812
