@@ -1,0 +1,7 @@
+missing-streets: 'yes'
+street-filters:
+  # nem igazi utcák
+  - Gombászó
+  - MTSZ major
+source: survey
+inactive: false
