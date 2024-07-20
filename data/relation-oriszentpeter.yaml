@@ -1,7 +1,7 @@
 missing-streets: 'yes'
 street-filters:
   # nem igazi utcák
-  - Gombászó
+  # - Gombászó
   - MTSZ major
 source: survey
 inactive: false
