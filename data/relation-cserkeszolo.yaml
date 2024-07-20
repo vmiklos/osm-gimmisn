@@ -1,0 +1,13 @@
+missing-streets: 'yes'
+refstreets:
+  'Ady Endre út': 'Ady Endre utca'
+  'Bokros utca': 'Bokor utca'
+  'Dózsa György út': 'Dózsa György utca'
+  'Kossuth út': 'Kossuth utca'
+  'Kurázs-dűlő': 'Kurázs dűlő'
+  'Munkácsy Mihály utca': 'Munkácsy utca'
+  'Petőfi út': 'Petőfi utca'
+  'Rákóczi utca': 'Rákóczi Ferenc utca'
+  'Szabadság út': 'Szabadság utca'
+source: survey
+inactive: false
