@@ -28,6 +28,9 @@ filters:
     # 7: páratlan oldalon mező van
     invalid: ['7']
   Gagarin utca:
+    # 14: Irinyi János utca 11 régi címe, de még kint van a 14-es szám a C lépcsőháznál
+    # 18: 16 után 20 jön, valószínű az Irinyi János utca 13 régi címe
+    invalid: ['18']
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '26'}
@@ -44,6 +47,9 @@ filters:
   Iglói utca:
     # utolsó házszám 15-17, a maradék a Kilátó utcáról számozódik
     invalid: ['19']
+  Irinyi János utca:
+    # 14, 28: max páros házszám a 10.
+    invalid: ['14', '28']
   Jankovich Ferenc utca:
     ranges:
       - {start: '1', end: '19'}
