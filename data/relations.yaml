@@ -791,6 +791,11 @@ szekszard:
     osmrelation: 1501296
     refcounty: "17"
     refsettlement: "095"
+# 18 - Vas megye
+oriszentpeter:
+    osmrelation: 1131459
+    refcounty: "18"
+    refsettlement: "140"
 # 19 - Veszprém megye
 alsoors:
     osmrelation: 1078460
