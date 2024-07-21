@@ -1,0 +1,36 @@
+missing-streets: 'yes'
+osm-street-filters:
+  # parkok
+  - Állomás park
+street-filters:
+  # tanyák
+  - Gyékényes tanya
+  - Hergyevica tanya
+  - Kecskés tanya
+  - Kiserdő tanya
+  - Parcelok tanya
+refstreets:
+  # kérdéses
+  'Bajai út': 'Bajai utca'
+  'Báthory István utca': 'Báthori István utca'
+  'Batthyány Lajos utca': 'Batthyány utca'
+  'Csokonai Vitéz Mihály utca': 'Csokonai utca'
+  'Damjanich János utca': 'Damjanich utca'
+  'Hétvezér tér': 'Hét vezér tere'
+  'Hosszúhegyi utca': 'Hosszúhegyi út'
+  'Irányi utca': 'Irányi Dániel utca'
+  'Kazinczy Ferenc utca': 'Kazinczy utca'
+  'Kélesi út': 'Kélesi utca'
+  'Körösi Csoma Sándor utca': 'Kőrösi Csoma utca'
+  'Mélykúti út': 'Mélykúti utca'
+  'Mogyorófa út': 'Mogyorófa utca'
+  'Széchenyi István utca': 'Széchenyi utca'
+  'Szondi György utca': 'Szondy utca'
+  'Táncsics Mihály utca': 'Táncsics utca'
+  'Terézhalmi út': 'Terézhalmi utca'
+  'Vasvári utca': 'Vasvári Pál utca'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+  'Zenész sor': 'Zenészsor utca'
+source: survey
+housenumber-letters: true
+inactive: false
