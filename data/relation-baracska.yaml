@@ -1,8 +1,4 @@
 missing-streets: 'yes'
-osm-street-filters:
-  # Nem igazi utcák
-  # parkok
-  - Emlékpark
 street-filters:
   # nem létező utca
   - Templom köz   # Rózsa utca van kitáblázva helyette
