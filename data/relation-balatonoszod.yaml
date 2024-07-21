@@ -41,17 +41,14 @@ filters:
   # Szabadság tér:
   #   2: nem találtam meg, nincs kitáblázva.
 street-filters:
-  # hiányzók
-  # Kismetszés köz
   # dupla
   - Dülő út  # Dűlő utca
 osm-street-filters:
-  # Balatonszemesről átlógó utca, mert a településtábla nem a határvonalon van, hanem attól 50 méterre Balatonőszöd területén
-  - Bajcsy-Zsilinszky utca
+  - Akác utca  # területhatár
+  - Bajcsy-Zsilinszky utca  # Balatonszemesről átlógó utca, mert a településtábla nem a határvonalon van, hanem attól 50 méterre Balatonőszöd területén
+  - Pósa Lajos utca  # az utca Balatonszemesen van, 1 db balatonőszdi ház erről van számozva
   # park
   - Öreg-hegyi pihenő
-  # az utca Balatonszemesen van, 1 db balatonőszdi ház erről van számozva
-  - Pósa Lajos utca
 refstreets:
   'Bozsik József út': 'Bozsik József utca'
   'Hidegkuti Nándor köz': 'Hidegkúti Nándor köz'
