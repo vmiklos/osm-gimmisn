@@ -22,7 +22,7 @@ osm-street-filters:
   # - Karikahegy köz - https://www.openstreetmap.org/note/3346381
   # BALATONFŐKAJÁR belterület 442  Karikahegy köz 1.
   # BALATONFŐKAJÁR belterület 447/3  Karikahegy köz 2.
-  # - Kossuth köz - https://www.openstreetmap.org/note/3346384
+  - Kossuth köz  # nincs táblázva - https://www.openstreetmap.org/note/3346384 - https://www.openstreetmap.org/note/4097931
   # BALATONFŐKAJÁR belterület 776/1  Vasvári Pál utca 12. = Kossuth köz 2.
   # BALATONFŐKAJÁR belterület 776/2  Vasvári Pál utca 12/A. = Kossuth köz 3.
   # nincs
