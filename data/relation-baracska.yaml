@@ -1,17 +1,20 @@
 missing-streets: 'yes'
-#osm-street-filters:
+osm-street-filters:
   # Nem igazi utcák
-
+  # parkok
+  - Emlékpark
 street-filters:
-  # Tanyák
+  # nem létező utca
+  - Templom köz   # Rózsa utca van kitáblázva helyette
+  # tanyák
   - Gellért puszta  # https://www.openstreetmap.org/node/10921276916
   - Roboz tanya  # https://www.openstreetmap.org/node/5933661310
   - Vattai tanya
-refstreets:
-  'Petőfi Sándor utca': 'Petőfi utca'
-  'Rákóczi Ferenc utca': 'Rákóczi utca'
-  'Széchenyi István utca': 'Széchenyi utca'
-  'Zrínyi Miklós utca': 'Zrínyi utca'
+# refstreets:
+  # 'Petőfi Sándor utca': 'Petőfi utca' - táblán Petőfi utca
+  # 'Rákóczi Ferenc utca': 'Rákóczi utca' - egyetlen régi Rákóczi F. utca tábla van, de az összes többin csak Rákóczi utca van, beleértve a házszámtáblákat is
+  # 'Széchenyi István utca': 'Széchenyi utca' - táblán Széchenyi utca
+  # 'Zrínyi Miklós utca': 'Zrínyi utca' - táblán Zrínyi utca
 source: survey
 housenumber-letters: true
 inactive: true
