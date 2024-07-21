@@ -452,6 +452,8 @@ fn test_additional_housenumbers_well_formed() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
+                "refcounty": "0",
+                "refsettlement": "0",
                 "osmrelation": 42,
             },
         },
@@ -459,6 +461,7 @@ fn test_additional_housenumbers_well_formed() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let count_value = context::tests::TestFileSystem::make_file();
     let cache_value = context::tests::TestFileSystem::make_file();
+    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
         &[
@@ -468,6 +471,10 @@ fn test_additional_housenumbers_well_formed() {
                 &count_value,
             ),
             ("workdir/additional-cache-gazdagret.json", &cache_value),
+            (
+                "workdir/street-housenumbers-reference-gazdagret.lst",
+                &ref_file,
+            ),
         ],
     );
     file_system.set_files(&files);
@@ -478,12 +485,34 @@ fn test_additional_housenumbers_well_formed() {
             .get_abspath("workdir/additional-cache-gazdagret.json"),
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
+    mtimes.insert(
+        test_wsgi
+            .get_ctx()
+            .get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.get_ctx().set_file_system(&file_system_rc);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Hamzsabégi út', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '10', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '11', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '12', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '7', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '10', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '9', '');"
+        )
+        .unwrap();
         conn.execute(
             r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
             ["gazdagret", "1", "my street", "", "", "", "", ""],
@@ -540,6 +569,12 @@ fn test_additional_housenumbers_well_formed() {
             ["housenumbers/gazdagret", &mtime],
         )
         .unwrap();
+    }
+    {
+        let ctx = test_wsgi.get_ctx();
+        let mut relations = areas::Relations::new(ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        relation.write_ref_housenumbers().unwrap();
     }
 
     let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
