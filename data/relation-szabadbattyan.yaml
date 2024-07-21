@@ -7,6 +7,7 @@ refstreets:
   'Kossuth Lajos utca': 'Kossuth utca'  # teljes névvel van kitáblázva, és a Földhivatalnál is teljes névvel van.
   'Petőfi Sándor utca': 'Petőfi utca'  # a keleti végén Petőfi Sándor utca, a nyugati végén csak Petőfi utca.
 street-filters:
+  - Patak utca  # Patak utca nincs, az épület a Malom utcára van számozva - https://www.openstreetmap.org/note/3351363
   # nem igazi utcák
   - Vasútállomás
   # place
