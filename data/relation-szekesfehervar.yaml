@@ -1,0 +1,35 @@
+missing-streets: 'yes'
+# osm-street-filters:
+  # Nem igazi utcák
+  # parkok
+#  - Emlékpark
+# street-filters:
+refstreets:
+  # kérdéses
+  # 'Fő utca': 'Börgöndi Fő utca' - nem mappelhető 2 Fő utca van - https://www.openstreetmap.org/note/4343362
+  'Béla út': 'Béla utca'          # https://www.openstreetmap.org/note/4343406
+  'Bulcsú utca': 'Bulcsu utca'    # https://www.openstreetmap.org/note/4343407
+  'Csíki utca': 'Csiki utca'      # https://www.openstreetmap.org/note/4343409
+  'Új Csóri út': 'Csóri Új út'    # https://www.openstreetmap.org/note/4343412
+  'Dévény utca': 'Dévényi utca'   # https://www.openstreetmap.org/note/4343413
+  'Erdő sor': 'Erdősor'           # https://www.openstreetmap.org/note/4343414
+  'Karinthy Frigyes tér': 'Karinthy tér'   # https://www.openstreetmap.org/note/4343415
+  'Kereszttöltés utca': 'Kereszttöltés út' # https://www.openstreetmap.org/note/4343417
+  'Királyerdő utca': 'Királyerdői utca' # https://www.openstreetmap.org/note/4343421
+  'Kistelekitanya': 'Kisteleki tanya'   # https://www.openstreetmap.org/note/4343428
+  'Kölcsey Ferenc utca': 'Kölcsey utca' # https://www.openstreetmap.org/note/4343432
+  'Körösmezei utca': 'Kőrösmezei utca'  # https://www.openstreetmap.org/note/4343434
+  'Körmöci utca': 'Körmőci utca'   # https://www.openstreetmap.org/note/4343436
+  'Ligetsor': 'Liget sor'          # https://www.openstreetmap.org/note/4343438
+  'Madách Imre tér': 'Madách tér'  # https://www.openstreetmap.org/note/4343441
+  'Murvás út': 'Murvás utca'       # https://www.openstreetmap.org/note/4343378
+  'Pestispincék': 'Pestispincék utca'  # https://www.openstreetmap.org/note/4343442
+  'Radnóti tér': 'Radnóti Miklós tér'  # https://www.openstreetmap.org/note/4343445
+  'Szőlősi utca': 'Szöllősi utca'      # https://www.openstreetmap.org/note/4343458
+  'Tas utca': 'Tass utca'      # https://www.openstreetmap.org/note/4343464
+  'Újlaki utca': 'Ujlaki utca' # https://www.openstreetmap.org/note/4343469
+  'Vargacsatorna part': 'Vargacsatornapart'  # https://www.openstreetmap.org/note/4343438
+  'Zágoni út': 'Zágoni utca'   # https://www.openstreetmap.org/note/4343475
+source: survey
+housenumber-letters: true
+inactive: true
