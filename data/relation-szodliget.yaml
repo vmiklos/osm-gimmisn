@@ -15,7 +15,7 @@ street-filters:
   - Trafóház
 refstreets:
   # ellenőrzött
-  'Árpád-házi Szent Erzsébet sétány': 'Árpádházi Szent Ezsébet sétány' # Kötőjellel, Árpád-házi Szent Erzsébet sétány van az utcanévtáblán.
+  'Árpád-házi Szent Erzsébet sétány': 'Árpádházi Szent Erzsébet sétány' # Kötőjellel, Árpád-házi Szent Erzsébet sétány van az utcanévtáblán.
   'Jókai Mór utca': 'Jókai utca'  # A régi utcanévtáblán csak vezetéknévvel van, az új táblán teljes néven.
   # 'Akácos utca': 'Akácos út'  # Egyik sarkon sincs utcanévtábla. A szabályozási terven útként van, ahogy a földhivatalnál is.
   # 'Barack köz': 'Barackos köz'  # Barackos köz szerepel az utcanévtáblán.
