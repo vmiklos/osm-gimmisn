@@ -1,21 +1,29 @@
 missing-streets: 'yes'
 osm-street-filters:
   # Nem igazi utcák
-  - McDrive
-  # parkok
+  - Alakulótér
+  - Nyugati elkerülőút
+  # parkok, sétányok
   - Alsóvárosi pihenőpark
+  - Barátság liget
+  - Csikvári sétány
   - Gyergyó emlékpark
   - Halesz park
   - Hübner park
   - János vitéz park
   - Királyok parkja
   - Nemes Nagy Ágnes park
+  - Ős-sziget
+  - Ötvenhatosok tere
   - Őzikés liget
   - Palotaváros Központi park
   - Petőfi park
   - Prohászka liget
   - Radnóti Mikós park
+  - Rácbánya
   - Rózsaliget
+  - Stadion sétány
+  - Várfal park
 street-filters:
   # lakótelep
   - Börgönd lakótelep  # Börgönd - https://www.openstreetmap.org/node/312963221
@@ -37,10 +45,14 @@ street-filters:
   # tanyák
   - Alsóvárosi pásztor telep
   - Börgönd puszta
+  - Csalapuszta
+  - István major
   - Kisfalud Alsómajor
   - Kisfalud puszta
-  - Csalapuszta
+  - Kőrakás
   - Zsíros tanya
+  # régi név
+  - Sóstói lakótelep  # Rádió utca
 refstreets:
   # kérdéses
   # 'Fő utca': 'Börgöndi Fő utca' - nem mappelhető 2 Fő utca van - https://www.openstreetmap.org/note/4343362
