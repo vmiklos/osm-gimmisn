@@ -52,10 +52,10 @@ refstreets:
   # ellenőrizve
   'Lővey Klára utca': 'Lövey Klára utca'  # https://www.openstreetmap.org/note/4274982
   'Pöltenberg utca': 'Pöltenberg Ernő utca'  # https://www.openstreetmap.org/note/4274985
-  'Szendrey Júlia utca': 'Szendrei Júlia utca' # https://www.openstreetmap.org/note/4274997  - táblán Szendrey J. utca
-  # Bányai Júlia utca  # https://www.openstreetmap.org/note/4274954
-  # Diósy Márton utca  # https://www.openstreetmap.org/note/4274962
-  # Karacs Teréz utca  # https://www.openstreetmap.org/note/4274965
+  # Szendrey Júlia utca # https://www.openstreetmap.org/note/4274997  - táblán Szendrey J. utca
+  # Bányai Júlia utca   # https://www.openstreetmap.org/note/4274954
+  # Diósy Márton utca   # https://www.openstreetmap.org/note/4274962
+  # Karacs Teréz utca   # https://www.openstreetmap.org/note/4274965
 street-filters:
   # nem igazi utcák
   - Eplény vasútállomás
@@ -65,6 +65,7 @@ street-filters:
 osm-street-filters:
   # parkok, sétányok, ösvények
   - Carlos Perez sétány
+  - Cserepes park
   - Dévai Bíró Mátyás park
   - Magyar-lengyel barátság park
   - Magyar Nobel-díjasok parkja
