@@ -5,17 +5,27 @@ refstreets:
   'Madách Imre utca': 'Madách utca'  # táblán Madách Imre utca (2024-06-22)
   'Munkácsy Mihály utca': 'Munkácsy utca'  # táblán Munkácsy Mihály utca (2024-06-22)
   'Rákóczi Ferenc út': 'Rákóczi út'  # táblán Rákóczi Ferenc út (2024-06-22)
+  'Siklósi utca': 'Siklósi út'  # táblán Siklósi utca (2024-07-20)
   'Tompa Mihály utca': 'Tompa utca'  # táblán Tompa Mihály utca (2024-06-22)
   'Zrínyi Miklós utca': 'Zrínyi utca'  # táblán Zrínyi Miklós utca (2024-06-22)
   # 'Dózsa György utca': 'Dózsa György út'  # táblákon Dózsa György út szerepel (2024-06-22)
   # 'Vörösmarty Mihály utca': 'Vörösmarty utca' # házszámtáblákon (2024-06-22) és utca táblán Vörösmarty utca (2024-04)
   # kérdéses
   'Compó utca': 'Compó köz'  # https://www.openstreetmap.org/note/3688189
-  'Siklósi utca': 'Siklósi út'
   # helyesírás
   'Írisz utca': 'Irisz utca'
-  'Szegfű utca': 'Szegfü utca'
+  'Szegfű utca': 'Szegfü utca'  # nincs tábla (2024-07-20)
   'Újhegyi út': 'Ujhegyi út'
+street-filters:
+  # nem igazi utcák
+  - Rádióállomás
+  - Vasútállomás
+  # tanya/településrész
+  - Anasztázia puszta
+  - Fridl tanya
+  - Szőlőhegy
+  - Török tanya
+  - Vizekdűlő tanya
 osm-street-filters:
   # nem igazi utcák
   - Vadlúd utcai csomópont
