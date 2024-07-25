@@ -1,4 +1,11 @@
 missing-streets: 'yes'
+filters:
+  Dózsa György út:
+    # 3/j: régi házszám, átszámozták, most Dózsa György út 29.
+    # 3/k: régi házszám, átszámozták, most Dózsa György út 31.
+    # 17: sima 17 nincs, scak 17/1, 17/2.
+    # 27: sima 27 nincs, csak 27/1, 27/2.
+    invalid: ['3j', '3k', '17', '27']
 refstreets:
   # ellenőrzött
   'Jókai Mór utca': 'Jókai utca'  # táblán Jókai Mór utca (2024-06-22)
