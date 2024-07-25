@@ -1262,6 +1262,8 @@ fn test_missing_housenumbers_view_result_chkl_even_odd() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
+                "refcounty": "0",
+                "refsettlement": "0",
                 "osmrelation": 42,
             },
         },
@@ -1274,15 +1276,38 @@ fn test_missing_housenumbers_view_result_chkl_even_odd() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            (
+                "workdir/street-housenumbers-reference-gazdagret.lst",
+                &ref_file,
+            ),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Hamzsabégi út', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '10', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '11', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '12', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '7', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '10', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '9', '');"
+        )
+        .unwrap();
         conn.execute(
             r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
             ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
@@ -1354,6 +1379,12 @@ fn test_missing_housenumbers_view_result_chkl_even_odd() {
             ["housenumbers/gazdagret", &mtime],
         )
         .unwrap();
+    }
+    {
+        let ctx = test_wsgi.get_ctx();
+        let mut relations = areas::Relations::new(ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        relation.write_ref_housenumbers().unwrap();
     }
 
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
