@@ -10,10 +10,12 @@ street-filters:
   - MÁV Kiscséripuszta vasútállomás
   - MÁV Polgárdi Ipart. vasútállomás
   - MÁV Polgárdi vasútállomás
-  # place
+  # place/dűlő/tanya
+  - Hamvas dűlő
   - Tekeres puszta  # Tekerespuszta  - https://www.openstreetmap.org/node/9406751139
   # nincs kiépítve
   - Bánki Donát utca
+  - Széchenyi István köz
   # tanya/puszta
   - Alsósomlyó puszta  # https://www.openstreetmap.org/note/3347384
   - Kiscséri puszta  # https://www.openstreetmap.org/node/2193202497
