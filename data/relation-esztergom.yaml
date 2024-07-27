@@ -249,6 +249,5 @@ refstreets:
   'Kenderesi utca': 'Kenderesi út'
   # 'Madách Imre tér': 'Madách Imre út'
   'Mindszenty hercegprímás tere': 'Mindszenty hercegprímás tér'  # A táblákon Mindszenty hercegprímás tere, illetve Mindszenty tér 4.
-  'Siszler utca': 'Siszler út'
   'Szent Tamás utca': 'Szenttamás utca'
 inactive: true
