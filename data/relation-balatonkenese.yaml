@@ -21,6 +21,7 @@ osm-street-filters:
   # nem igazi utcák
   - Régi játszótér
   # parkok
+  - Hősők kertje
   - Liget
   - Uniós park
   # régi nevek
