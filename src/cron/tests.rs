@@ -77,8 +77,8 @@ fn test_update_ref_housenumbers() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
-                "refcounty": "01",
-                "refsettlement": "011",
+                "refcounty": "0",
+                "refsettlement": "0",
             },
             "ujbuda": {
                 "refsettlement": "42",
@@ -121,10 +121,24 @@ fn test_update_ref_housenumbers() {
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
-    let references = ctx.get_ini().get_reference_housenumber_paths().unwrap();
-    util::build_reference_index(&ctx, &references).unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Hamzsabégi út', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '10', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '11', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '12', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '7', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '10', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '9', '');"
+        )
+        .unwrap();
         conn.execute_batch(
             "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
              insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
@@ -147,7 +161,21 @@ fn test_update_ref_housenumbers() {
 
     assert_eq!(ctx.get_file_system().getmtime(&path).unwrap(), mtime);
     let actual = context::tests::TestFileSystem::get_content(&ref_file1);
-    let expected = std::fs::read_to_string(&path).unwrap();
+    let expected = "Hamzsabégi út	1	
+Ref Name 1	1	
+Ref Name 1	2	
+Törökugrató utca	1	
+Törökugrató utca	10	
+Törökugrató utca	11	
+Törökugrató utca	12	
+Törökugrató utca	2	
+Törökugrató utca	7	
+Tűzkő utca	1	
+Tűzkő utca	10	
+Tűzkő utca	2	
+Tűzkő utca	9	
+"
+    .to_string();
     assert_eq!(actual, expected);
     // Make sure housenumber ref is not created for the streets=only case.
     let mut guard = ref_file2.borrow_mut();
