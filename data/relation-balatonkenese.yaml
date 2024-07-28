@@ -1,4 +1,8 @@
 missing-streets: 'yes'
+filters:
+  Schédl Lajos utca:
+    # 51, 57: nincs kiírva, nem azonosítható
+    invalid: ['51','57']
 refstreets:
    # helyesírás
   'Bolyai János utca': 'Bólyai János utca'  # nincs tábla
