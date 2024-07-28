@@ -6,7 +6,6 @@ refstreets:
   'Rozgonyi Cecília utca': 'Rozgonyi Cecilia utca'
   # tábla = osm
   'Maja utca': 'Maya utca'
-  'Schédl Alajos utca': 'Schédl Lajos utca'
 street-filters:
   # terület
   - Öreghegy
@@ -17,6 +16,9 @@ street-filters:
   # ezek nincsenek kiépítve - 2023.12
   - Cinege utca  # itt nincs utca, a Móricz Zsigmond utcánál a kerítés folyamatos, nem látszik, hogy itt lenne hely egyáltalán
   - Öregtó park  # egy mező egy kis utca végén
+  # ezek nincsenek kiépítve - 2024.07
+  - Mária utca  # telkek vannak a helyén meg egy bozótos terület
+  - Zsuzsanna utca  # telkek vannak a helyén meg egy bozótos terület
 osm-street-filters:
   # nem igazi utcák
   - Régi játszótér
