@@ -2469,9 +2469,13 @@ fn test_relation_write_missing_housenumbers() {
 fn test_relation_write_missing_housenumbers_empty() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let json_value = context::tests::TestFileSystem::make_file();
+    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("workdir/cache-empty.json", &json_value)],
+        &[
+            ("workdir/cache-empty.json", &json_value),
+            ("workdir/street-housenumbers-reference-empty.lst", &ref_file),
+        ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
