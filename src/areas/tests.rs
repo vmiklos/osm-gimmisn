@@ -2502,10 +2502,27 @@ fn test_relation_write_missing_housenumbers_empty() {
 #[test]
 fn test_relation_write_missing_housenumbers_interpolation_all() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "budafok": {
+                "refcounty": "0",
+                "refsettlement": "0",
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let json_value = context::tests::TestFileSystem::make_file();
+    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("workdir/cache-budafok.json", &json_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("workdir/cache-budafok.json", &json_value),
+            (
+                "workdir/street-housenumbers-reference-budafok.lst",
+                &ref_file,
+            ),
+        ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
@@ -2521,13 +2538,18 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute_batch(
-            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('budafok', '458338075', 'Vöröskúti határsor', 'residential', '', 'asphalt', '', '');",
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '34', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '36', ' ');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '12', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '2', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('budafok', '458338075', 'Vöröskúti határsor', 'residential', '', 'asphalt', '', '');",
         )
         .unwrap();
     }
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "budafok";
     let mut relation = relations.get_relation(relation_name).unwrap();
+    relation.write_ref_housenumbers().unwrap();
 
     let ret = relation.write_missing_housenumbers().unwrap();
 
