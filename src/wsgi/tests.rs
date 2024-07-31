@@ -869,6 +869,8 @@ fn test_missing_housenumbers_compat_relation() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "budafok": {
+                "refcounty": "0",
+                "refsettlement": "0",
                 "osmrelation": 42,
             },
         },
@@ -880,11 +882,16 @@ fn test_missing_housenumbers_compat_relation() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let jsoncache_value = context::tests::TestFileSystem::make_file();
+    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/cache-budafok.json", &jsoncache_value),
+            (
+                "workdir/street-housenumbers-reference-budafok.lst",
+                &ref_file,
+            ),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
@@ -900,6 +907,13 @@ fn test_missing_housenumbers_compat_relation() {
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '34', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '36', ' ');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '12', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '2', '');",
+         )
+         .unwrap();
         conn.execute(
             r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
             ["budafok", "458338075", "Vöröskúti határsor", "", "", "", "", ""],
@@ -915,6 +929,12 @@ fn test_missing_housenumbers_compat_relation() {
             ["housenumbers/budafok", &mtime],
         )
         .unwrap();
+    }
+    {
+        let ctx = test_wsgi.get_ctx();
+        let mut relations = areas::Relations::new(ctx).unwrap();
+        let relation = relations.get_relation("budafok").unwrap();
+        relation.write_ref_housenumbers().unwrap();
     }
 
     let root = test_wsgi.get_dom_for_path("/suspicious-streets/budapest_22/view-result");
