@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## 24.8
 
 - Resolves: gh#3744 cron: add a new --refarea switch
 - Resolves: gh#3558 `,` is now also recognized as a housenumber separator, similar to `;`
