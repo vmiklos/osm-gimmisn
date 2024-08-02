@@ -1072,10 +1072,27 @@ fn test_missing_housenumbers_no_ref_housenumbers_well_formed() {
 fn test_missing_housenumbers_view_result_txt() {
     let mut test_wsgi = TestWsgi::new();
     let mut file_system = context::tests::TestFileSystem::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "budafok": {
+                "refcounty": "0",
+                "refsettlement": "0",
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let ref_file = context::tests::TestFileSystem::make_file();
     let json_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[("workdir/cache-budafok.json", &json_cache)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            (
+                "workdir/street-housenumbers-reference-budafok.lst",
+                &ref_file,
+            ),
+            ("workdir/cache-budafok.json", &json_cache),
+        ],
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
@@ -1089,6 +1106,11 @@ fn test_missing_housenumbers_view_result_txt() {
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '12', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '2', '');",
+         )
+         .unwrap();
         conn.execute(
             r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
             ["budafok", "458338075", "Vöröskúti határsor", "", "", "", "", ""],
@@ -1105,11 +1127,17 @@ fn test_missing_housenumbers_view_result_txt() {
         )
         .unwrap();
     }
+    {
+        let ctx = test_wsgi.get_ctx();
+        let mut relations = areas::Relations::new(ctx).unwrap();
+        let relation = relations.get_relation("budafok").unwrap();
+        relation.write_ref_housenumbers().unwrap();
+    }
 
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/budafok/view-result.txt");
 
     // Note how 12 is ordered after 2.
-    assert_eq!(result, "Vöröskúti határsor\t[2, 12, 34, 36*]");
+    assert_eq!(result, "Vöröskúti határsor\t[2, 12]");
 }
 
 /// Tests the missing house numbers page: the txt output (even-odd streets).
