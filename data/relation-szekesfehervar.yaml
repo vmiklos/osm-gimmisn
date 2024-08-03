@@ -3,6 +3,8 @@ osm-street-filters:
   # Nem igazi utcák
   - Alakulótér
   - Nyugati elkerülőút
+  - Déli elkerülőút
+  - Déli összekötő út
   # parkok, sétányok
   - Alsóvárosi pihenőpark
   - Barátság liget
@@ -24,6 +26,21 @@ osm-street-filters:
   - Rózsaliget
   - Stadion sétány
   - Várfal park
+  - Videoton ipari park park
+  # dűlő
+  - 7. dűlő
+  - Csali dűlő
+  - Gólya dűlő
+  - Hajnal dűlő
+  - Holló dűlő
+  - Illatos dűlő
+  - Négyes dűlő
+  - Pacsirta dűlő
+  - Pótkerék dűlő
+  - Rezeda dűlő
+  - Sárkánykúti dűlő
+  - Vasutas dűlő
+  - Veréb dűlő
 street-filters:
   # lakótelep
   - Börgönd lakótelep  # Börgönd - https://www.openstreetmap.org/node/312963221
@@ -42,6 +59,7 @@ street-filters:
   - Nagykanizsai vasúti őrház
   - Rádió úti vasúti őrház
   - Sóstói új csőszház egyéb
+  - Vízműtelep
   # tanyák
   - Alsóvárosi pásztor telep
   - Börgönd puszta
