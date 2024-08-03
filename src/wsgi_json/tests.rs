@@ -335,17 +335,24 @@ fn test_additional_housenumbers_view_result_json() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
+                "refcounty": "0",
+                "refsettlement": "0",
                 "osmrelation": 42,
             },
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let ref_file = context::tests::TestFileSystem::make_file();
     let cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/additional-cache-budafok.json", &cache_value),
+            (
+                "workdir/street-housenumbers-reference-budafok.lst",
+                &ref_file,
+            ),
         ],
     );
     file_system.set_files(&files);
@@ -356,9 +363,31 @@ fn test_additional_housenumbers_view_result_json() {
             .get_abspath("workdir/additional-cache-budafok.json"),
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
+    mtimes.insert(
+        test_wsgi
+            .get_ctx()
+            .get_abspath("workdir/street-housenumbers-reference-budafok.lst"),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.get_ctx().set_file_system(&file_system_rc);
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '34', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '36', ' ');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '12', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '2', '');",
+         )
+         .unwrap();
+    }
+    {
+        let ctx = test_wsgi.get_ctx();
+        let mut relations = areas::Relations::new(ctx).unwrap();
+        let relation = relations.get_relation("budafok").unwrap();
+        relation.write_ref_housenumbers().unwrap();
+    }
 
     let result = test_wsgi.get_json_for_path("/additional-housenumbers/budafok/view-result.json");
 
