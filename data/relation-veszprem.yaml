@@ -50,6 +50,7 @@ refstreets:
   # ellenőrizve
   'Lővey Klára utca': 'Lövey Klára utca'  # https://www.openstreetmap.org/note/4274982
   'Pöltenberg utca': 'Pöltenberg Ernő utca'  # https://www.openstreetmap.org/note/4274985
+  'Szigethy József utca': 'Szigeti József utca'  # https://www.openstreetmap.org/note/4274998
   # Bányai Júlia utca   # https://www.openstreetmap.org/note/4274954
   # Diósy Márton utca   # https://www.openstreetmap.org/note/4274962
   # Karacs Teréz utca   # https://www.openstreetmap.org/note/4274965
@@ -57,7 +58,6 @@ refstreets:
   # Óvári Ferenc út     # https://www.openstreetmap.org/note/4274983
   # Sarkantyú utca'     # https://www.openstreetmap.org/note/4274989
   # Szendrey Júlia utca # https://www.openstreetmap.org/note/4274997  - táblán Szendrey J. utca
-  # Szigeti József utca # https://www.openstreetmap.org/note/4274998
   # Sziklai János utca  # https://www.openstreetmap.org/note/4274999
   # Thököly Imre utca   # https://www.openstreetmap.org/note/4275001
   # Vámosi utca         # https://www.openstreetmap.org/note/4275002
