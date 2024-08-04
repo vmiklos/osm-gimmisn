@@ -84,14 +84,12 @@ refstreets:
   'Kereszttöltés utca': 'Kereszttöltés út' # https://www.openstreetmap.org/note/4343417
   'Királyerdő utca': 'Királyerdői utca' # https://www.openstreetmap.org/note/4343421
   'Kistelekitanya': 'Kisteleki tanya'   # https://www.openstreetmap.org/note/4343428
-  'Kölcsey Ferenc utca': 'Kölcsey utca' # https://www.openstreetmap.org/note/4352873
   'Körösmezei utca': 'Kőrösmezei utca'  # https://www.openstreetmap.org/note/4343434
   'Körmöci utca': 'Körmőci utca'   # https://www.openstreetmap.org/note/4343436
   'Ligetsor': 'Liget sor'          # https://www.openstreetmap.org/note/4343438
   'Madách Imre tér': 'Madách tér'  # https://www.openstreetmap.org/note/4343441
   'Murvás út': 'Murvás utca'       # https://www.openstreetmap.org/note/4343378
   'Pestispincék': 'Pestispincék utca'  # https://www.openstreetmap.org/note/4343442
-  'Radnóti tér': 'Radnóti Miklós tér'  # https://www.openstreetmap.org/note/4343445
   'Szőlősi utca': 'Szöllősi utca'      # https://www.openstreetmap.org/note/4343458
   'Tas utca': 'Tass utca'      # https://www.openstreetmap.org/note/4343464
   'Újlaki utca': 'Ujlaki utca' # https://www.openstreetmap.org/note/4343469
@@ -99,6 +97,8 @@ refstreets:
   'Zágoni út': 'Zágoni utca'   # https://www.openstreetmap.org/note/4343475
   # ellenőrzött
   'Hosszúsétatér utca': 'Hosszúsétatér'  # táblán Hosszúsétatér u.
+  # Kölcsey utca       - https://www.openstreetmap.org/note/4352873
+  # Radnóti Miklós tér - https://www.openstreetmap.org/note/4343445
 source: survey
 housenumber-letters: true
 inactive: true
