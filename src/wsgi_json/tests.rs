@@ -292,10 +292,27 @@ fn test_missing_housenumbers_update_result_json() {
 fn test_missing_housenumbers_view_result_json() {
     let mut test_wsgi = wsgi::tests::TestWsgi::new();
     let mut file_system = context::tests::TestFileSystem::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "budafok": {
+                "refcounty": "0",
+                "refsettlement": "0",
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let ref_file = context::tests::TestFileSystem::make_file();
     let json_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
-        &[("workdir/cache-budafok.json", &json_cache)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            (
+                "workdir/street-housenumbers-reference-budafok.lst",
+                &ref_file,
+            ),
+            ("workdir/cache-budafok.json", &json_cache),
+        ],
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
@@ -311,9 +328,22 @@ fn test_missing_housenumbers_view_result_json() {
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
         conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '34', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '36', ' ');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '12', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '2', '');",
+         )
+         .unwrap();
+        conn.execute_batch(
             "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('budafok', '458338075', 'Vöröskúti határsor', '', '', '', '', '');"
         )
         .unwrap();
+    }
+    {
+        let ctx = test_wsgi.get_ctx();
+        let mut relations = areas::Relations::new(ctx).unwrap();
+        let relation = relations.get_relation("budafok").unwrap();
+        relation.write_ref_housenumbers().unwrap();
     }
 
     let result = test_wsgi.get_json_for_path("/missing-housenumbers/budafok/view-result.json");
