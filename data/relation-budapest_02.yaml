@@ -33,6 +33,10 @@ filters:
   Baba utca:
     # 4/a: régi házszám, új cím Baba utca 4-6. A épület A lépcsőház.
     invalid: ['4a']
+  Balogvár utca:
+    # 7a után 9
+    # 4 helyett 4a és 4b
+    invalid: ['4', '7b']
   Bajvívó utca:
     ranges:
       - {start: '2', end: '8'}
