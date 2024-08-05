@@ -231,6 +231,10 @@ fn test_update_missing_housenumbers() {
     let mtime = ctx.get_time().now_string();
     {
         let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('01', '011', 'Tűzkő utca', '1/A', '');"
+        )
+        .unwrap();
         conn.execute(
             "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             ["gazdagret", "1", "Törökugrató utca", "1", "", "", "", "", "", "", "", "", "", "node"],
