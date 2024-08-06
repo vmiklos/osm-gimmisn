@@ -1505,6 +1505,8 @@ fn test_missing_housenumbers_view_result_chkl_even_odd_split() {
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
+                "refcounty": "0",
+                "refsettlement": "0",
                 "osmrelation": 42,
             },
         },
@@ -1571,6 +1573,41 @@ Tűzkő utca	31
     let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Hamzsabégi út', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '1', 'comment');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '10', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '11', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '12', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '7', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '9', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '10', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '12', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '13', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '14', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '15', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '16', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '17', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '18', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '19', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '20', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '21', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '22', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '24', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '25', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '26', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '27', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '28', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '29', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '30', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '31', '');",
+         )
+         .unwrap();
         conn.execute(
             r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
             ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
