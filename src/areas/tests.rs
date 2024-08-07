@@ -12,9 +12,12 @@
 
 use super::*;
 use rusqlite::types::FromSql as _;
+use std::cell::RefCell;
+use std::io::Read as _;
 use std::io::Seek;
 use std::io::SeekFrom;
 use std::io::Write;
+use std::rc::Rc;
 
 /// Tests normalize().
 #[test]

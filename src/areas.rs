@@ -19,13 +19,9 @@ use crate::stats;
 use crate::util;
 use crate::yattag;
 use anyhow::Context;
-use std::cell::RefCell;
 use std::collections::HashMap;
 use std::fmt::Write as _;
-use std::io::BufRead;
-use std::io::Read;
 use std::ops::DerefMut;
-use std::rc::Rc;
 
 /// The filters -> <street> -> ranges key from data/relation-<name>.yaml.
 #[derive(Clone, serde::Deserialize)]
@@ -799,22 +795,27 @@ impl<'a> Relation<'a> {
     ) -> anyhow::Result<HashMap<String, Vec<util::HouseNumber>>> {
         let mut ret: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
         let mut lines: HashMap<String, Vec<String>> = HashMap::new();
-        let read: Rc<RefCell<dyn Read>> = self.file.get_ref_housenumbers_read_stream(self.ctx)?;
-        let mut guard = read.borrow_mut();
-        let stream = std::io::BufReader::new(guard.deref_mut());
-        for line in stream.lines() {
-            let line = line?;
-            let tokens: Vec<&str> = line.splitn(2, '\t').collect();
-            let mut iter = tokens.iter();
-            let mut key: String = "".into();
-            if let Some(value) = iter.next() {
-                key = (*value).into();
+        let conn = self.ctx.get_database_connection()?;
+        let mut stmt = conn.prepare(
+            "select housenumber, comment from ref_housenumbers where county_code = ?1 and settlement_code = ?2 and street = ?3")?;
+        for street in osm_street_names {
+            let street = self
+                .config
+                .get_ref_street_from_osm_street(street.get_osm_name());
+            for refsettlement in self.config.get_street_refsettlement(&street) {
+                let mut rows =
+                    stmt.query([&self.config.get_refcounty(), &refsettlement, &street])?;
+                while let Some(row) = rows.next()? {
+                    let housenumber: String = row.get(0).unwrap();
+                    let mut comment: String = row.get(1).unwrap();
+                    let suffix = Relation::get_ref_suffix(if comment.is_empty() { 0 } else { 1 });
+                    if comment == " " {
+                        comment = "".into();
+                    }
+                    let value = housenumber + suffix + "\t" + &comment;
+                    lines.entry(street.to_string()).or_default().push(value);
+                }
             }
-            let mut value = "";
-            if let Some(v) = iter.next() {
-                value = v;
-            }
-            lines.entry(key).or_default().push(value.into());
         }
         let street_ranges = self
             .get_street_ranges()
