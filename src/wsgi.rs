@@ -732,11 +732,38 @@ fn handle_missing_housenumbers(
     } else if action == "view-query" {
         {
             let pre = doc.tag("pre", &[]);
-            let stream = relation.get_files().get_ref_housenumbers_read_stream(ctx)?;
-            let mut guard = stream.borrow_mut();
-            let mut buffer: Vec<u8> = Vec::new();
-            guard.read_to_end(&mut buffer)?;
-            pre.text(&String::from_utf8(buffer)?);
+            let streets: Vec<String> = relation
+                .get_osm_streets(/*sorted_results=*/ true)?
+                .iter()
+                .map(|i| i.get_osm_name().into())
+                .collect();
+            let conn = ctx.get_database_connection()?;
+            let mut lst: Vec<String> = Vec::new();
+            let mut stmt = conn.prepare(
+            "select distinct housenumber, comment from ref_housenumbers where county_code = ?1 and settlement_code = ?2 and street = ?3 order by housenumber")?;
+            for street in streets {
+                let street = relation
+                    .get_config()
+                    .get_ref_street_from_osm_street(&street);
+                for refsettlement in relation.get_config().get_street_refsettlement(&street) {
+                    let mut rows = stmt.query([
+                        &relation.get_config().get_refcounty(),
+                        &refsettlement,
+                        &street,
+                    ])?;
+                    while let Some(row) = rows.next()? {
+                        let housenumber: String = row.get(0).unwrap();
+                        let mut comment: String = row.get(1).unwrap();
+                        let suffix =
+                            areas::Relation::get_ref_suffix(if comment.is_empty() { 0 } else { 1 });
+                        if comment == " " {
+                            comment = "".into();
+                        }
+                        lst.push(street.clone() + "\t" + &housenumber + suffix + "\t" + &comment);
+                    }
+                }
+            }
+            pre.text(&lst.join("\n"));
         }
     } else if action == "update-result" {
         doc.append_value(missing_housenumbers_update(ctx, relations, relation_name)?.get_value())

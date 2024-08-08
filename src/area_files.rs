@@ -15,7 +15,6 @@ use crate::stats;
 use crate::util;
 use anyhow::Context;
 use std::cell::RefCell;
-use std::io::Read;
 use std::io::Write;
 use std::rc::Rc;
 
@@ -180,15 +179,6 @@ impl RelationFiles {
             ));
         }
         Ok(ret)
-    }
-
-    /// Opens the reference house number list of a relation for reading.
-    pub fn get_ref_housenumbers_read_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
-        let path = self.get_ref_housenumbers_path();
-        ctx.get_file_system().open_read(&path)
     }
 
     /// Opens the reference house number list of a relation for writing.
