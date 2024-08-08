@@ -253,7 +253,7 @@ impl RelationConfig {
     }
 
     /// Returns a list of refsettlement values specific to a street.
-    fn get_street_refsettlement(&self, street: &str) -> Vec<String> {
+    pub fn get_street_refsettlement(&self, street: &str) -> Vec<String> {
         let mut ret: Vec<String> = vec![self.get_refsettlement()];
         let filters = match self.get_filters() {
             Some(value) => value,
@@ -300,7 +300,7 @@ impl RelationConfig {
     }
 
     /// Maps an OSM street name to a ref street name.
-    fn get_ref_street_from_osm_street(&self, osm_street_name: &str) -> String {
+    pub fn get_ref_street_from_osm_street(&self, osm_street_name: &str) -> String {
         let refstreets = self.get_refstreets();
         match refstreets.get(osm_street_name) {
             Some(value) => value.into(),
@@ -541,7 +541,7 @@ impl<'a> Relation<'a> {
     }
 
     /// Reads list of streets for an area from OSM.
-    fn get_osm_streets(&self, sorted_result: bool) -> anyhow::Result<Vec<util::Street>> {
+    pub fn get_osm_streets(&self, sorted_result: bool) -> anyhow::Result<Vec<util::Street>> {
         let mut ret: Vec<util::Street> = Vec::new();
         for row in self.file.get_osm_json_streets(self.ctx)? {
             let mut street = util::Street::new(
@@ -713,7 +713,7 @@ impl<'a> Relation<'a> {
     }
 
     /// Determines what suffix should the Nth reference use for hours numbers.
-    fn get_ref_suffix(index: usize) -> &'static str {
+    pub fn get_ref_suffix(index: usize) -> &'static str {
         match index {
             0 => "",
             _ => "*",
