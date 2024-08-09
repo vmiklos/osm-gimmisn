@@ -300,7 +300,20 @@ pub fn init(conn: &mut rusqlite::Connection) -> anyhow::Result<()> {
         )?;
     }
 
-    tx.execute("pragma user_version = 16", [])?;
+    if user_version < 17 {
+        // Per-relation cache for the additional-housenumbers analysis.
+        tx.execute_batch(
+            "create table additional_housenumbers_cache (
+                    relation text not null,
+                    json text not null,
+                    unique(relation)
+                );
+            create index idx_additional_housenumbers_cache
+                on additional_housenumbers_cache(relation);",
+        )?;
+    }
+
+    tx.execute("pragma user_version = 17", [])?;
     tx.commit()?;
     Ok(())
 }

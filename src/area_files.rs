@@ -131,11 +131,6 @@ impl RelationFiles {
         )
     }
 
-    /// Builds the file name of the additional house number json cache file of a relation.
-    pub fn get_additional_housenumbers_jsoncache_path(&self) -> String {
-        format!("{}/additional-cache-{}.json", self.workdir, self.name)
-    }
-
     /// Opens the OSM street list of a relation for reading.
     pub fn get_osm_json_streets(&self, ctx: &context::Context) -> anyhow::Result<Vec<OsmStreet>> {
         let mut ret: Vec<OsmStreet> = Vec::new();
