@@ -797,7 +797,7 @@ impl<'a> Relation<'a> {
         let mut lines: HashMap<String, Vec<String>> = HashMap::new();
         let conn = self.ctx.get_database_connection()?;
         let mut stmt = conn.prepare(
-            "select housenumber, comment from ref_housenumbers where county_code = ?1 and settlement_code = ?2 and street = ?3")?;
+            "select housenumber, comment from ref_housenumbers where county_code = ?1 and settlement_code = ?2 and street = ?3 order by housenumber")?;
         for street in osm_street_names {
             let street = self
                 .config
