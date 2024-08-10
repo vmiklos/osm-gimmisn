@@ -88,6 +88,8 @@ pub fn download(
     let conn = ctx.get_database_connection()?;
     conn.execute_batch("delete from missing_housenumbers_cache")?;
     conn.execute_batch("delete from mtimes where page like 'missing-housenumbers-cache/%'")?;
+    conn.execute_batch("delete from additional_housenumbers_cache")?;
+    conn.execute_batch("delete from mtimes where page like 'additional-housenumbers-cache/%'")?;
 
     // Garbage collect other unused data.
     // 2024-03-24
