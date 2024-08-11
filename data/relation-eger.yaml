@@ -93,11 +93,11 @@ refstreets:
   'Egri út': 'Egri utca'  # Note 2803225
   'Hevesi Sándor utca': 'Hevesy Sándor utca'  # Note 2803219
   'II. Rákóczi Ferenc út': 'II. Rákóczi Ferenc utca'
-  # 'Maczki Valér utca': 'Macki Valér utca'  # Note 2803212 - ref 2024-ben már Maczki Valér utca
+  # 'Maczki Valér utca': 'Macki Valér utca'  # Note 2803212 - ref 2024-ben már Maczki Valér utca, táblán Maczki Valér utca, régi táblén Maczky Valér utca
   'Nagylapos utca': 'Nagylaposi út'  # Note 2803222
   'Rottenstein köz': 'Rottenstein Károly utca'  # Note 2803227
   'Rózsa völgy': 'Rózsavölgy utca'  # Note 2803213
   'Tibrik dűlő': 'Tibrikdűlő utca'  # Note 2803220
-  'Törvényház út': 'Törvényház utca'  # Note 2803216
+  # 'Törvényház út': 'Törvényház utca'  # Note 2803216
 source: survey
 inactive: true
