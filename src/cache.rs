@@ -55,10 +55,7 @@ fn is_sql_cache_current(
 fn is_missing_housenumbers_json_cached(relation: &mut areas::Relation<'_>) -> anyhow::Result<bool> {
     let datadir = relation.get_ctx().get_abspath("data");
     let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
-    let dependencies = vec![
-        relation.get_files().get_ref_housenumbers_path(),
-        relation_path,
-    ];
+    let dependencies = vec![relation_path];
     let sql_dependencies = vec![
         format!("streets/{}", relation.get_name()),
         format!("housenumbers/{}", relation.get_name()),
@@ -111,10 +108,7 @@ fn is_additional_housenumbers_json_cached(
 ) -> anyhow::Result<bool> {
     let datadir = relation.get_ctx().get_abspath("data");
     let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
-    let dependencies = vec![
-        relation.get_files().get_ref_housenumbers_path(),
-        relation_path,
-    ];
+    let dependencies = vec![relation_path];
     let sql_dependencies = vec![
         format!("streets/{}", relation.get_name()),
         format!("housenumbers/{}", relation.get_name()),
