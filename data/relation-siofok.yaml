@@ -71,6 +71,8 @@ street-filters:
 osm-street-filters:
   # Nem valós utcák
   - M7 autópálya
+  # parkok
+  - Szent Miklós park
   # Balatonviláos
   - Temető utca
   - Vörösmarty utca
