@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Balaton köz:
+    # max házszám 3 ill. 10. ezek a számok a Balatoni út számai
+    invalid: ['7', '18', '20', '21', '31', '39', '41', '42', '47', '60', '65', '67', '71', '73', '77', '81', '83', '89', '101', '103', '105', '113', '137', '169', '171', '221' ,'227' ,'235','269', '814']
   Schédl Lajos utca:
     # 51, 57: nincs kiírva, nem azonosítható
     invalid: ['51','57']
