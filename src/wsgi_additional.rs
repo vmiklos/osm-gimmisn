@@ -287,11 +287,6 @@ pub fn additional_housenumbers_view_result(
         doc = webframe::handle_no_osm_streets(&prefix, relation_name);
     } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
         doc = webframe::handle_no_osm_housenumbers(&prefix, relation_name);
-    } else if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_ref_housenumbers_path())
-    {
-        doc = webframe::handle_no_ref_housenumbers(&prefix, relation_name);
     } else {
         doc = additional_housenumbers_view_result_html(&mut relation)?;
     }
