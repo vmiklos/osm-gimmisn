@@ -13,6 +13,9 @@ filters:
   Céhház utca:
     # 35, 37: utolsó házszám 33, utána a Dózsa György Általános Iskola tömbje
     invalid: ['35', '37']
+  Erzsébet liget:
+    # max páratlan 17
+    invalid: ['21', '23', '25']
   Kórház utca:
     # páros oldal nincs, páratlanon az egyetlen házszám a kórház
     ranges:
@@ -34,16 +37,13 @@ refstreets:
   'Felsőújsor utca': 'Felső-újsor'  # https://www.openstreetmap.org/note/4274958
   'Füzesi utca': 'Füzesi út'  # https://www.openstreetmap.org/note/4274960
   'Gépraktár utca': 'Gépraktár út'  # https://www.openstreetmap.org/note/3808728
-  'Gombkötő utca': 'Gombkötő köz'  # https://www.openstreetmap.org/note/4274964
   'Hegybíró utca': 'Hegybíró út'  # https://www.openstreetmap.org/note/4362580
   'Kastélykert utca': 'Kastélykert'  # https://www.openstreetmap.org/note/3052512
   'Kavics utca': 'Kavicsos utca'  # https://www.openstreetmap.org/note/4362581
   'Kerekes utca': 'Kerekeskút utca'  # https://www.openstreetmap.org/note/4362584
-  'Kiss utca': 'Kiss János utca'  # https://www.openstreetmap.org/note/4274979
   'Lilaakác utca': 'Lila akác utca'  # https://www.openstreetmap.org/note/4274951
   'Répavölgyi utca': 'Répavölgy utca'  # https://www.openstreetmap.org/note/4274987
   'Seregély utca': 'Seregély út'  # https://www.openstreetmap.org/note/4274993
-  'Sigray utca': 'Sigray Jakab utca'  # https://www.openstreetmap.org/note/4274996
   # 'Táborállás park': 'Táborállás tér'
   'Vértanúk utca': 'Vértanú utca'  # https://www.openstreetmap.org/note/4275004
   'Vízi utca': 'Vizi utca'  # https://www.openstreetmap.org/note/4275013
@@ -53,11 +53,14 @@ refstreets:
   'Szigethy József utca': 'Szigeti József utca'  # https://www.openstreetmap.org/note/4274998
   # Bányai Júlia utca   # https://www.openstreetmap.org/note/4274954
   # Diósy Márton utca   # https://www.openstreetmap.org/note/4274962
+  # Gombkötő köz        # https://www.openstreetmap.org/note/4274964
   # Karacs Teréz utca   # https://www.openstreetmap.org/note/4274965
+  # Kiss János utca     # https://www.openstreetmap.org/note/4274979
   # Kinizsi Pál utca    # https://www.openstreetmap.org/note/4274978
   # Óvári Ferenc út     # https://www.openstreetmap.org/note/4274983
   # Sarkantyú utca'     # https://www.openstreetmap.org/note/4274989
-  # Szendrey Júlia utca # https://www.openstreetmap.org/note/4274997  - táblán Szendrey J. utca
+  # Sigray Jakab utca'  # https://www.openstreetmap.org/note/4274996 - új tábla Sigray Jakab utca, régi Sigray utca
+  # Szendrey Júlia utca # https://www.openstreetmap.org/note/4274997 - táblán Szendrey J. utca
   # Sziklai János utca  # https://www.openstreetmap.org/note/4274999
   # Thököly Imre utca   # https://www.openstreetmap.org/note/4275001
   # Vámosi utca         # https://www.openstreetmap.org/note/4275002
