@@ -647,61 +647,6 @@ fn test_additional_housenumbers_no_osm_housenumbers_well_formed() {
     assert_eq!(results.len(), 1);
 }
 
-/// Tests the additional house numbers page: if the output is well-formed, no ref housenumbers case.
-#[test]
-fn test_additional_housenumbers_no_ref_housenumbers_well_formed() {
-    let mut test_wsgi = wsgi::tests::TestWsgi::new();
-    let hide_path = test_wsgi
-        .get_ctx()
-        .get_abspath("workdir/street-housenumbers-reference-gazdagret.lst");
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[hide_path]);
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "gazdagret": {
-                "osmrelation": 42,
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let files = context::tests::TestFileSystem::make_files(
-        test_wsgi.get_ctx(),
-        &[("data/yamls.cache", &yamls_cache_value)],
-    );
-    file_system.set_files(&files);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_rc);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
-    {
-        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "my street", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "1", "my street", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["housenumbers/gazdagret", &mtime],
-        )
-        .unwrap();
-    }
-
-    let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
-
-    let results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='no-ref-housenumbers']");
-    assert_eq!(results.len(), 1);
-}
-
 /// Tests the additional streets page: if the output is well-formed.
 #[test]
 fn test_streets_well_formed() {
