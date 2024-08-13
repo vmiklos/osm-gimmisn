@@ -1280,27 +1280,6 @@ pub fn handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::
     doc
 }
 
-/// Handles the no-ref-housenumbers error on a page using JS.
-pub fn handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::Doc {
-    let doc = yattag::Doc::new();
-    let link = format!("{prefix}/missing-housenumbers/{relation_name}/uppdate-result");
-    {
-        let div = doc.tag("div", &[("id", "no-ref-housenumbers")]);
-        let a = div.tag("a", &[("href", &link)]);
-        a.text(&tr("No reference house numbers: create from reference..."));
-    }
-    // Emit localized strings for JS purposes.
-    let string_pairs = &[
-        (
-            "str-reference-wait",
-            tr("No reference house numbers: creating from reference..."),
-        ),
-        ("str-reference-error", tr("Error from reference: ")),
-    ];
-    emit_l10n_strings_for_js(&doc, string_pairs);
-    doc
-}
-
 /// Handles a GitHub style webhook.
 pub fn handle_github_webhook(
     request: &rouille::Request,

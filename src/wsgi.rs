@@ -437,11 +437,6 @@ fn missing_housenumbers_view_res(
         doc = webframe::handle_no_osm_streets(&prefix, relation_name);
     } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
         doc = webframe::handle_no_osm_housenumbers(&prefix, relation_name);
-    } else if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_ref_housenumbers_path())
-    {
-        doc = webframe::handle_no_ref_housenumbers(&prefix, relation_name);
     } else {
         let ret = missing_housenumbers_view_res_html(ctx, &mut relation);
         doc = ret.context("get_missing_housenumbers_html() failed")?;
@@ -550,13 +545,6 @@ fn missing_housenumbers_view_txt(
         return Ok(tr("No existing house numbers"));
     }
 
-    if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_ref_housenumbers_path())
-    {
-        return Ok(tr("No reference house numbers"));
-    }
-
     let json = cache::get_missing_housenumbers_json(&mut relation)?;
     let missing_housenumbers: areas::MissingHousenumbers = serde_json::from_str(&json)?;
     let ongoing_streets = missing_housenumbers.ongoing_streets;
@@ -609,11 +597,6 @@ fn missing_housenumbers_view_chkl(
         output = tr("No existing streets");
     } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
         output = tr("No existing house numbers");
-    } else if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_ref_housenumbers_path())
-    {
-        output = tr("No reference house numbers");
     } else {
         let ongoing_streets = relation.get_missing_housenumbers()?.ongoing_streets;
 
