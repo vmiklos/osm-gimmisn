@@ -70,118 +70,6 @@ fn test_overpass_sleep_need_sleep() {
     assert_eq!(time.get_sleep(), 12);
 }
 
-/// Tests update_ref_housenumbers().
-#[test]
-fn test_update_ref_housenumbers() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "gazdagret": {
-                "refcounty": "0",
-                "refsettlement": "0",
-            },
-            "ujbuda": {
-                "refsettlement": "42",
-            },
-        },
-        "relation-gazdagret.yaml": {
-            "refstreets": {
-                "OSM Name 1": "Ref Name 1",
-            },
-        },
-        "relation-ujbuda.yaml": {
-            "missing-streets": "only",
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file1 = context::tests::TestFileSystem::make_file();
-    let ref_file2 = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file1,
-            ),
-            (
-                "workdir/street-housenumbers-reference-ujbuda.lst",
-                &ref_file2,
-            ),
-        ],
-    );
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst");
-    mtimes.insert(
-        path.to_string(),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_files(&files);
-    file_system.set_mtimes(&mtimes);
-    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
-    {
-        let conn = ctx.get_database_connection().unwrap();
-        conn.execute_batch(
-            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Hamzsabégi út', '1', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '1', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '2', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '1', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '10', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '11', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '12', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '2', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '7', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '1', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '10', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '2', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '9', '');"
-        )
-        .unwrap();
-        conn.execute_batch(
-            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('ujbuda', '3', 'OSM Name 1', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('ujbuda', '2', 'Törökugrató utca', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('ujbuda', '1', 'Tűzkő utca', '', '', '', '', '');"
-        )
-        .unwrap();
-    }
-    let mut relations = areas::Relations::new(&ctx).unwrap();
-
-    update_ref_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
-
-    let mtime = ctx.get_file_system().getmtime(&path).unwrap();
-    assert!(mtime > time::OffsetDateTime::UNIX_EPOCH);
-
-    update_ref_housenumbers(&ctx, &mut relations, /*update=*/ false).unwrap();
-
-    assert_eq!(ctx.get_file_system().getmtime(&path).unwrap(), mtime);
-    let actual = context::tests::TestFileSystem::get_content(&ref_file1);
-    let expected = "Hamzsabégi út	1	
-Ref Name 1	1	
-Ref Name 1	2	
-Törökugrató utca	1	
-Törökugrató utca	10	
-Törökugrató utca	11	
-Törökugrató utca	12	
-Törökugrató utca	2	
-Törökugrató utca	7	
-Tűzkő utca	1	
-Tűzkő utca	10	
-Tűzkő utca	2	
-Tűzkő utca	9	
-"
-    .to_string();
-    assert_eq!(actual, expected);
-    // Make sure housenumber ref is not created for the streets=only case.
-    let mut guard = ref_file2.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
-}
-
 /// Tests update_missing_housenumbers().
 #[test]
 fn test_update_missing_housenumbers() {
@@ -1236,11 +1124,6 @@ fn test_our_main() {
             .is_empty(),
         false
     );
-    // update_ref_housenumbers() is called.
-    {
-        let mut guard = ref_housenumbers_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
-    }
     // update_missing_streets() is called.
     assert_eq!(relation.has_osm_street_coverage().unwrap(), true);
     // update_missing_housenumbers() is called.

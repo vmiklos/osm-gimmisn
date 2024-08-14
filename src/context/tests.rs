@@ -101,14 +101,6 @@ impl TestFileSystem {
         ret
     }
 
-    pub fn get_content(file: &Rc<RefCell<std::io::Cursor<Vec<u8>>>>) -> String {
-        let mut guard = file.borrow_mut();
-        guard.seek(SeekFrom::Start(0)).unwrap();
-        let mut buf: Vec<u8> = Vec::new();
-        guard.read_to_end(&mut buf).unwrap();
-        String::from_utf8(buf).unwrap()
-    }
-
     /// Sets the hide paths.
     pub fn set_hide_paths(&mut self, hide_paths: &[String]) {
         self.hide_paths = Rc::new(RefCell::new(hide_paths.to_vec()));
