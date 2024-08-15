@@ -1504,14 +1504,11 @@ impl<'a> Relations<'a> {
             return false;
         }
 
-        let file_system = self.ctx.get_file_system();
-        let files = relation.get_files();
         let osm_housenumber_coverage_exists = relation.has_osm_housenumber_coverage().unwrap();
         let osm_street_coverage_exists = relation.has_osm_street_coverage().unwrap();
         if stats::has_sql_mtime(self.ctx, &format!("streets/{}", relation.get_name())).unwrap()
             && stats::has_sql_mtime(self.ctx, &format!("housenumbers/{}", relation.get_name()))
                 .unwrap()
-            && file_system.path_exists(&files.get_ref_housenumbers_path())
             && osm_street_coverage_exists
             && osm_housenumber_coverage_exists
         {
