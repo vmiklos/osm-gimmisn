@@ -66,21 +66,6 @@ fn street_housenumbers_update_result_json(
     Ok(serde_json::to_string(&ret)?)
 }
 
-/// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.json.
-fn missing_housenumbers_update_result_json(
-    relations: &mut areas::Relations<'_>,
-    request_uri: &str,
-) -> anyhow::Result<String> {
-    let mut tokens = request_uri.split('/');
-    tokens.next_back();
-    let relation_name = tokens.next_back().context("short tokens")?;
-    let relation = relations.get_relation(relation_name)?;
-    let mut ret: HashMap<String, String> = HashMap::new();
-    relation.write_ref_housenumbers()?;
-    ret.insert("error".into(), "".into());
-    Ok(serde_json::to_string(&ret)?)
-}
-
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.json.
 fn missing_housenumbers_view_result_json(
     relations: &mut areas::Relations<'_>,
@@ -119,12 +104,8 @@ pub fn our_application_json(
     } else if request_uri.starts_with(&format!("{prefix}/street-housenumbers/")) {
         output = street_housenumbers_update_result_json(ctx, relations, request_uri)?;
     } else if request_uri.starts_with(&format!("{prefix}/missing-housenumbers/")) {
-        if request_uri.ends_with("/update-result.json") {
-            output = missing_housenumbers_update_result_json(relations, request_uri)?;
-        } else {
-            // Assume view-result.json.
-            output = missing_housenumbers_view_result_json(relations, request_uri)?;
-        }
+        // Assume request_uri ends with view-result.json.
+        output = missing_housenumbers_view_result_json(relations, request_uri)?;
     } else if request_uri
         == format!("{prefix}/lints/whole-country/invalid-addr-cities/update-result.json")
     {
