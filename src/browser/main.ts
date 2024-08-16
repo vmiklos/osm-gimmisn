@@ -204,31 +204,6 @@ async function initRedirects()
         }
         return;
     }
-
-    const noRefHousenumbers = document.querySelector("#no-ref-housenumbers");
-    if (noRefHousenumbers)
-    {
-        noRefHousenumbers.removeChild(noRefHousenumbers.childNodes[0]);
-        createLoader(noRefHousenumbers, getOsmString("str-reference-wait"));
-        const relationName = tokens[tokens.length - 2];
-        const link = config.uriPrefix + "/missing-housenumbers/" + relationName + "/update-result.json";
-        const request = new Request(link);
-        try
-        {
-            const response = await window.fetch(request);
-            const refHousenumbers = await response.json();
-            if (refHousenumbers.error != "")
-            {
-                throw refHousenumbers.error;
-            }
-            window.location.reload();
-        }
-        catch (reason)
-        {
-            noRefHousenumbers.textContent += " " + getOsmString("str-reference-error") + reason;
-        }
-        return;
-    }
 }
 
 /**
@@ -298,34 +273,6 @@ async function onUpdateOsmHousenumbers()
 }
 
 /**
- * Updates an outdated reference house number list for a relation.
- */
-async function onUpdateRefHousenumbers()
-{
-    const tokens = window.location.pathname.split('/');
-
-    const housenumbers = document.querySelector("#trigger-missing-housenumbers-update");
-    createLoader(housenumbers, getOsmString("str-toolbar-reference-wait"));
-    const relationName = tokens[tokens.length - 2];
-    const link = config.uriPrefix + "/missing-housenumbers/" + relationName + "/update-result.json";
-    const request = new Request(link);
-    try
-    {
-        const response = await window.fetch(request);
-        const refHousenumbers = await response.json();
-        if (refHousenumbers.error != "")
-        {
-            throw refHousenumbers.error;
-        }
-        window.location.reload();
-    }
-    catch (reason)
-    {
-        housenumbers.textContent += " " + getOsmString("str-toolbar-reference-error") + reason;
-    }
-}
-
-/**
  * Updates an outdated invalid-addr-cities list.
  */
 async function onUpdateInvalidAddrCities()
@@ -370,14 +317,6 @@ async function initTriggerUpdate()
         const streetsLink = <HTMLLinkElement>streets.childNodes[0];
         streetsLink.onclick = onUpdateOsmStreets;
         streetsLink.href = "#";
-    }
-
-    const missingHousenumbers = document.querySelector("#trigger-missing-housenumbers-update");
-    if (missingHousenumbers)
-    {
-        const missingHousenumbersLink = <HTMLLinkElement>missingHousenumbers.childNodes[0];
-        missingHousenumbersLink.onclick = onUpdateRefHousenumbers;
-        missingHousenumbersLink.href = "#";
     }
 
     const invalidAddrCities = document.querySelector("#trigger-invalid-addr-cities-update");

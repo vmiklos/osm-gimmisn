@@ -12,8 +12,6 @@
 
 use std::cell::RefCell;
 use std::collections::HashMap;
-use std::io::Seek;
-use std::io::SeekFrom;
 use std::io::Write as _;
 use std::rc::Rc;
 
@@ -229,62 +227,6 @@ fn test_json_housenumbers_update_result_error() {
 
     let error = root.as_object().unwrap()["error"].as_str().unwrap();
     assert_eq!(error.is_empty(), false);
-}
-
-/// Tests missing_housenumbers_update_result_json().
-#[test]
-fn test_missing_housenumbers_update_result_json() {
-    let mut test_wsgi = wsgi::tests::TestWsgi::new();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "gazdagret": {
-                "osmrelation": 42,
-                "refcounty": "01",
-                "refsettlement": "011",
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let housenumbers_value = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        test_wsgi.get_ctx(),
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &housenumbers_value,
-            ),
-        ],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    test_wsgi.get_ctx().set_file_system(&file_system);
-    let references = test_wsgi
-        .get_ctx()
-        .get_ini()
-        .get_reference_housenumber_paths()
-        .unwrap();
-    util::build_reference_index(test_wsgi.get_ctx(), &references).unwrap();
-    {
-        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
-        conn.execute_batch(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '1', 'Törökugrató utca', '1', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '2', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '3', 'Tűzkő utca', '9', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '4', 'Tűzkő utca', '10', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '5', 'OSM Name 1', '1', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '6', 'OSM Name 1', '2', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '7', 'Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '8', 'Second Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
-            insert into mtimes (page, last_modified) values ('housenumbers/gazdagret', 0);"
-        )
-        .unwrap();
-    }
-
-    let root = test_wsgi.get_json_for_path("/missing-housenumbers/gazdagret/update-result.json");
-
-    assert_eq!(root.as_object().unwrap()["error"], "");
-    let mut guard = housenumbers_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
 }
 
 /// Tests missing_housenumbers_view_result_json().
