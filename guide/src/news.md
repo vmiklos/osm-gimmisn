@@ -1,5 +1,10 @@
 # Changelog
 
+## master
+
+- Resolves: gh#4088 missing-housenumbers output is now deterministic for the `housenumber-letters:
+  true` case when `1/a`, `1/b`, etc is simplified to only one of the matches
+
 ## 24.8
 
 - Resolves: gh#3744 cron: add a new --refarea switch
