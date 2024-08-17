@@ -13,8 +13,6 @@
 use super::*;
 use std::cell::RefCell;
 use std::io::Read;
-use std::io::Seek;
-use std::io::SeekFrom;
 use std::io::Write;
 use std::ops::DerefMut;
 use std::rc::Rc;
@@ -1876,101 +1874,6 @@ fn test_missing_housenumbers_view_query_well_formed() {
     let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-query");
 
     let results = TestWsgi::find_all(&root, "body/pre");
-    assert_eq!(results.len(), 1);
-}
-
-/// Tests the missing house numbers page: if the update-result output links back to the correct page.
-#[test]
-fn test_missing_housenumbers_update_result_link() {
-    let mut test_wsgi = TestWsgi::new();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "gazdagret": {
-                "osmrelation": 42,
-                "refcounty": "01",
-                "refsettlement": "011",
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let housenumbers_value = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &housenumbers_value,
-            ),
-        ],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    test_wsgi.ctx.set_file_system(&file_system);
-    let references = test_wsgi
-        .ctx
-        .get_ini()
-        .get_reference_housenumber_paths()
-        .unwrap();
-    util::build_reference_index(&test_wsgi.ctx, &references).unwrap();
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
-    {
-        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "1", "Törökugrató utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "2", "Törökugrató utca", "2", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "3", "Tűzkő utca", "9", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "4", "Tűzkő utca", "10", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "5", "OSM Name 1", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "6", "OSM Name 1", "2", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "7", "Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "8", "Second Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["housenumbers/gazdagret", &mtime],
-        )
-        .unwrap();
-    }
-
-    let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/update-result");
-
-    let mut guard = housenumbers_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
-    let prefix = test_wsgi.ctx.get_ini().get_uri_prefix();
-    let results = TestWsgi::find_all(
-        &root,
-        &format!("body/a[@href='{prefix}/missing-housenumbers/gazdagret/view-result']"),
-    );
     assert_eq!(results.len(), 1);
 }
 
