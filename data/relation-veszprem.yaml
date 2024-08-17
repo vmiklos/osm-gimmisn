@@ -26,33 +26,34 @@ filters:
   Pajta utca:
     # 26, 34: utolsó páros a 24.
     invalid: ['26', '34']
+  Szajkó utca:
+    # 1 = Csereredi út 31.
+    # 3,5 = 5 és 5/b van a két épületeten
+    invalid: ['1', '3']
   Vár utca:
     # 24: utolsó páros a 20.
     invalid: ['24']
 refstreets:
   # kérdéses
   'Alsóújsor utca': 'Alsó-újsor'  # https://www.openstreetmap.org/note/4274953
-  'Csererdő utca': 'Csererdei út'  # https://www.openstreetmap.org/note/4274955
   'Dallos köz': 'Dalos köz'  # https://www.openstreetmap.org/note/4362579
   'Felsőújsor utca': 'Felső-újsor'  # https://www.openstreetmap.org/note/4274958
   'Füzesi utca': 'Füzesi út'  # https://www.openstreetmap.org/note/4274960
-  'Gépraktár utca': 'Gépraktár út'  # https://www.openstreetmap.org/note/3808728
   'Hegybíró utca': 'Hegybíró út'  # https://www.openstreetmap.org/note/4362580
   'Kastélykert utca': 'Kastélykert'  # https://www.openstreetmap.org/note/3052512
   'Kavics utca': 'Kavicsos utca'  # https://www.openstreetmap.org/note/4362581
   'Kerekes utca': 'Kerekeskút utca'  # https://www.openstreetmap.org/note/4362584
   'Lilaakác utca': 'Lila akác utca'  # https://www.openstreetmap.org/note/4274951
   'Répavölgyi utca': 'Répavölgy utca'  # https://www.openstreetmap.org/note/4274987
-  'Seregély utca': 'Seregély út'  # https://www.openstreetmap.org/note/4274993
-  # 'Táborállás park': 'Táborállás tér'
-  'Vértanúk utca': 'Vértanú utca'  # https://www.openstreetmap.org/note/4275004
   'Vízi utca': 'Vizi utca'  # https://www.openstreetmap.org/note/4275013
   # ellenőrizve
   'Lővey Klára utca': 'Lövey Klára utca'  # https://www.openstreetmap.org/note/4274982
   'Pöltenberg utca': 'Pöltenberg Ernő utca'  # https://www.openstreetmap.org/note/4274985
+  'Seregély utca': 'Seregély út'  # https://www.openstreetmap.org/note/4274993 - utcatáblán Seregély utca, házak egy részén Seregély út
   'Szigethy József utca': 'Szigeti József utca'  # https://www.openstreetmap.org/note/4274998
   # Bányai Júlia utca   # https://www.openstreetmap.org/note/4274954
   # Diósy Márton utca   # https://www.openstreetmap.org/note/4274962
+  # Csererdei út'       # https://www.openstreetmap.org/note/4274955
   # Gombkötő köz        # https://www.openstreetmap.org/note/4274964
   # Karacs Teréz utca   # https://www.openstreetmap.org/note/4274965
   # Kiss János utca     # https://www.openstreetmap.org/note/4274979
@@ -64,6 +65,8 @@ refstreets:
   # Sziklai János utca  # https://www.openstreetmap.org/note/4274999
   # Thököly Imre utca   # https://www.openstreetmap.org/note/4275001
   # Vámosi utca         # https://www.openstreetmap.org/note/4275002
+  # Vértanú utca        # https://www.openstreetmap.org/note/4275004
+  # 'Gépraktár utca': 'Gépraktár út'  # https://www.openstreetmap.org/note/3808728 - nincs tábla
 street-filters:
   # nem igazi utcák
   - Eplény vasútállomás
