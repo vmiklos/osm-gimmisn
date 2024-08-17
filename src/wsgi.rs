@@ -670,22 +670,6 @@ fn missing_streets_view_txt(
     Ok((output, relation_name.into()))
 }
 
-/// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.
-fn missing_housenumbers_update(
-    ctx: &context::Context,
-    relations: &mut areas::Relations<'_>,
-    relation_name: &str,
-) -> anyhow::Result<yattag::Doc> {
-    let relation = relations.get_relation(relation_name)?;
-    relation.write_ref_housenumbers()?;
-    let doc = yattag::Doc::new();
-    doc.text(&tr("Update successful: "));
-    let prefix = ctx.get_ini().get_uri_prefix();
-    let link = format!("{prefix}/missing-housenumbers/{relation_name}/view-result");
-    doc.append_value(util::gen_link(&link, &tr("View missing house numbers")).get_value());
-    Ok(doc)
-}
-
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query].
 fn handle_missing_housenumbers(
     ctx: &context::Context,
@@ -748,8 +732,6 @@ fn handle_missing_housenumbers(
             }
             pre.text(&lst.join("\n"));
         }
-    } else if action == "update-result" {
-        doc.append_value(missing_housenumbers_update(ctx, relations, relation_name)?.get_value())
     } else if action == "view-lints" {
         doc.append_value(
             missing_housenumbers_view_lints(ctx, &mut relation)
