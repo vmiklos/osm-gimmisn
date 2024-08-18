@@ -838,6 +838,10 @@ balatonkenese:
     osmrelation: 1078608
     refcounty: "19"
     refsettlement: "029"
+csopak:
+    osmrelation: 1078599
+    refcounty: "19"
+    refsettlement: "049"
 epleny:
     osmrelation: 1078459
     refcounty: "19"
@@ -855,6 +859,10 @@ obudavar:
     osmrelation: 1078648
     refcounty: "19"
     refsettlement: "146"
+paloznak:
+    osmrelation: 1078590
+    refcounty: "19"
+    refsettlement: "151"
 szentantalfa:
     osmrelation: 1078476
     refcounty: "19"
