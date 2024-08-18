@@ -879,6 +879,10 @@ tagyon:
     osmrelation: 1078627
     refcounty: "19"
     refsettlement: "185"
+tihany:
+    osmrelation: 1078511
+    refcounty: "19"
+    refsettlement: "190"
 veszprem:
     osmrelation: 1078442
     refcounty: "19"
