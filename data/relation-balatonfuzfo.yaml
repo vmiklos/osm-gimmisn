@@ -8,7 +8,10 @@ filters:
     invalid: ['4', '28']
   Árpád köz:
     # 1: nincs, 3-tól indul a páratlan
-    invalid: ['1']
+    invalid: ['1', '18']
+  Árpád utca:
+    # 9: nincs, Váradi Caravan által használt üres telek
+    invalid: ['9']
   Balaton körút:
     # 1: nincs, 3-tól indul a páratlan
     invalid: ['1']
@@ -34,6 +37,9 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '26'}
+  Gyári utca:
+    # 16-28 között nincsenek házak
+    invalid: ['16', '18', '20', '22', '24', '26'] 
   Harmat utca:
     # 9: nincs, max házszám az 5 a páratlan oldalon
     invalid: ['9']
@@ -64,6 +70,9 @@ filters:
   Kilátó utca:
     # 123: a Kilátó utca egyik szakaszának helyrajzi száma, a max kiírt 107 de még vannak házak, melyeken nincs szám.
     invalid: ['123']
+  Meggyes utca:
+    # 1-13: 1 ház épül semmi sincs kiírva. RESURVEY 2025
+    invalid: ['13']
   Móricz Zsigmond utca:
     # 14: max páros a 8.
     invalid: ['14']
@@ -83,6 +92,10 @@ filters:
   Sirály utca:
     # 91: utolsó ház a 87.
     invalid: ['91']
+  Szállás utca:
+    # 2: nincs, első épület a 4.
+    # 10: nincs, utolsó épület a 8.
+    invalid: ['2', '10']
   Vadkörte utca:
     # 4: nincs, a 2-es ház használja a 4-es telket is. kiírva nincs se 2, se 4.
     invalid: ['4']
@@ -92,6 +105,9 @@ filters:
   Virág köz:
     # 30: valószínű Jánoshegyi út 30.
     invalid: ['30']
+  Vízmű utca:
+    # 2: nincs, helyén a Lidl parkoló van
+    invalid: ['2']
   Zombor utca:
     # 43: 
     invalid: ['43']
