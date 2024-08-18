@@ -441,7 +441,7 @@ impl<'a> Relation<'a> {
         yaml_cache: &HashMap<String, serde_json::Value>,
     ) -> anyhow::Result<Relation<'a>> {
         let mut my_config = RelationDict::default();
-        let file = area_files::RelationFiles::new(&ctx.get_ini().get_workdir(), name);
+        let file = area_files::RelationFiles::new(name);
         let relation_path = format!("relation-{name}.yaml");
         // Intentionally don't require this cache to be present, it's fine to omit it for simple
         // relations.
@@ -720,52 +720,6 @@ impl<'a> Relation<'a> {
         }
     }
 
-    /// Writes known house numbers (not their coordinates) from a reference, based on street names
-    /// from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
-    /// used by get_ref_housenumbers().
-    pub fn write_ref_housenumbers(&self) -> anyhow::Result<()> {
-        let streets: Vec<String> = self
-            .get_osm_streets(/*sorted_results=*/ true)?
-            .iter()
-            .map(|i| i.get_osm_name().into())
-            .collect();
-
-        let conn = self.ctx.get_database_connection()?;
-        let mut lst: Vec<String> = Vec::new();
-        let mut stmt = conn.prepare(
-            "select housenumber, comment from ref_housenumbers where county_code = ?1 and settlement_code = ?2 and street = ?3")?;
-        for street in streets {
-            let street = self.config.get_ref_street_from_osm_street(&street);
-            for refsettlement in self.config.get_street_refsettlement(&street) {
-                let mut rows =
-                    stmt.query([&self.config.get_refcounty(), &refsettlement, &street])?;
-                while let Some(row) = rows.next()? {
-                    let housenumber: String = row.get(0).unwrap();
-                    let mut comment: String = row.get(1).unwrap();
-                    let suffix = Relation::get_ref_suffix(if comment.is_empty() { 0 } else { 1 });
-                    if comment == " " {
-                        comment = "".into();
-                    }
-                    lst.push(street.clone() + "\t" + &housenumber + suffix + "\t" + &comment);
-                }
-            }
-        }
-
-        lst.sort();
-        lst.dedup();
-        let stream = self
-            .file
-            .get_ref_housenumbers_write_stream(self.ctx)
-            .context("get_ref_housenumbers_write_stream() failed")?;
-        let mut guard = stream.borrow_mut();
-        let write = guard.deref_mut();
-        for line in lst {
-            write.write_all((line + "\n").as_bytes())?;
-        }
-
-        Ok(())
-    }
-
     /// Normalizes an 'invalid' list.
     fn normalize_invalids(
         &self,
@@ -788,7 +742,7 @@ impl<'a> Relation<'a> {
         Ok(normalized_invalids)
     }
 
-    /// Gets house numbers from reference, produced by write_ref_housenumbers()."""
+    /// Gets house numbers from reference in SQL."""
     fn get_ref_housenumbers(
         &mut self,
         osm_street_names: &[util::Street],

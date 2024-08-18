@@ -50,12 +50,6 @@ fn test_main() {
              insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh195', '24746223', 'Kalotaszeg utca', 'residential', '', 'asphalt', '', '');
              insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh195', '695548547', 'Kalotaszeg utca', 'residential', '', '', '', '');").unwrap();
     }
-    {
-        let mut relations = areas::Relations::new(&ctx).unwrap();
-        let relation_name = "gh195";
-        let relation = relations.get_relation(relation_name).unwrap();
-        relation.write_ref_housenumbers().unwrap();
-    }
 
     let ret = main(&argv, &mut buf, &mut ctx);
 

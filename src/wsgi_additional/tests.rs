@@ -570,12 +570,6 @@ fn test_additional_housenumbers_well_formed() {
         )
         .unwrap();
     }
-    {
-        let ctx = test_wsgi.get_ctx();
-        let mut relations = areas::Relations::new(ctx).unwrap();
-        let relation = relations.get_relation("gazdagret").unwrap();
-        relation.write_ref_housenumbers().unwrap();
-    }
 
     let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
 

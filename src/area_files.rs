@@ -13,10 +13,6 @@
 use crate::context;
 use crate::stats;
 use crate::util;
-use anyhow::Context;
-use std::cell::RefCell;
-use std::io::Write;
-use std::rc::Rc;
 
 #[cfg(not(test))]
 use log::info;
@@ -111,24 +107,12 @@ impl OsmStreet {
 /// A relation's file interface provides access to files associated with a relation.
 #[derive(Clone)]
 pub struct RelationFiles {
-    workdir: String,
     name: String,
 }
 
 impl RelationFiles {
-    pub fn new(workdir: &str, name: &str) -> Self {
-        RelationFiles {
-            workdir: workdir.into(),
-            name: name.into(),
-        }
-    }
-
-    /// Build the file name of the reference house number list of a relation.
-    pub fn get_ref_housenumbers_path(&self) -> String {
-        format!(
-            "{}/street-housenumbers-reference-{}.lst",
-            self.workdir, self.name
-        )
+    pub fn new(name: &str) -> Self {
+        RelationFiles { name: name.into() }
     }
 
     /// Opens the OSM street list of a relation for reading.
@@ -174,17 +158,6 @@ impl RelationFiles {
             ));
         }
         Ok(ret)
-    }
-
-    /// Opens the reference house number list of a relation for writing.
-    pub fn get_ref_housenumbers_write_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        let path = self.get_ref_housenumbers_path();
-        ctx.get_file_system()
-            .open_write(&path)
-            .context("open_write() failed")
     }
 
     /// Writes the result for overpass of Relation.get_osm_streets_json_query().
