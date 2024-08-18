@@ -281,12 +281,6 @@ fn test_missing_housenumbers_view_result_json() {
         )
         .unwrap();
     }
-    {
-        let ctx = test_wsgi.get_ctx();
-        let mut relations = areas::Relations::new(ctx).unwrap();
-        let relation = relations.get_relation("budafok").unwrap();
-        relation.write_ref_housenumbers().unwrap();
-    }
 
     let result = test_wsgi.get_json_for_path("/missing-housenumbers/budafok/view-result.json");
 
@@ -353,12 +347,6 @@ fn test_additional_housenumbers_view_result_json() {
              insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '2', '');",
          )
          .unwrap();
-    }
-    {
-        let ctx = test_wsgi.get_ctx();
-        let mut relations = areas::Relations::new(ctx).unwrap();
-        let relation = relations.get_relation("budafok").unwrap();
-        relation.write_ref_housenumbers().unwrap();
     }
 
     let result = test_wsgi.get_json_for_path("/additional-housenumbers/budafok/view-result.json");

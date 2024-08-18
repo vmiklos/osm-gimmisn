@@ -531,7 +531,6 @@ fn test_per_relation_lints() {
     {
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let mut relation = relations.get_relation("gazdagret").unwrap();
-        relation.write_ref_housenumbers().unwrap();
         cache::get_missing_housenumbers_json(&mut relation).unwrap();
         relation.write_lints().unwrap();
     }
@@ -629,7 +628,6 @@ fn test_per_relation_lints_out_of_range() {
     {
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let mut relation = relations.get_relation("gh3073").unwrap();
-        relation.write_ref_housenumbers().unwrap();
         cache::get_missing_housenumbers_json(&mut relation).unwrap();
         relation.write_lints().unwrap();
     }
@@ -727,9 +725,6 @@ fn test_missing_housenumbers_well_formed() {
         )
         .unwrap();
     }
-    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
-    let relation = relations.get_relation("gazdagret").unwrap();
-    relation.write_ref_housenumbers().unwrap();
 
     let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
 
@@ -833,12 +828,6 @@ fn test_missing_housenumbers_compat() {
         )
         .unwrap();
     }
-    {
-        let ctx = test_wsgi.get_ctx();
-        let mut relations = areas::Relations::new(ctx).unwrap();
-        let relation = relations.get_relation("gazdagret").unwrap();
-        relation.write_ref_housenumbers().unwrap();
-    }
 
     let root = test_wsgi.get_dom_for_path("/suspicious-streets/gazdagret/view-result");
 
@@ -927,12 +916,6 @@ fn test_missing_housenumbers_compat_relation() {
             ["housenumbers/budafok", &mtime],
         )
         .unwrap();
-    }
-    {
-        let ctx = test_wsgi.get_ctx();
-        let mut relations = areas::Relations::new(ctx).unwrap();
-        let relation = relations.get_relation("budafok").unwrap();
-        relation.write_ref_housenumbers().unwrap();
     }
 
     let root = test_wsgi.get_dom_for_path("/suspicious-streets/budapest_22/view-result");
@@ -1080,12 +1063,6 @@ fn test_missing_housenumbers_view_result_txt() {
         )
         .unwrap();
     }
-    {
-        let ctx = test_wsgi.get_ctx();
-        let mut relations = areas::Relations::new(ctx).unwrap();
-        let relation = relations.get_relation("budafok").unwrap();
-        relation.write_ref_housenumbers().unwrap();
-    }
 
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/budafok/view-result.txt");
 
@@ -1223,12 +1200,6 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
     }
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
-    {
-        let ctx = test_wsgi.get_ctx();
-        let mut relations = areas::Relations::new(ctx).unwrap();
-        let relation = relations.get_relation("gazdagret").unwrap();
-        relation.write_ref_housenumbers().unwrap();
-    }
 
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
 
@@ -1297,12 +1268,6 @@ fn test_missing_housenumbers_view_result_chkl() {
             ["housenumbers/budafok", &mtime],
         )
         .unwrap();
-    }
-    {
-        let ctx = test_wsgi.get_ctx();
-        let mut relations = areas::Relations::new(ctx).unwrap();
-        let relation = relations.get_relation("budafok").unwrap();
-        relation.write_ref_housenumbers().unwrap();
     }
 
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/budafok/view-result.chkl");
@@ -1435,12 +1400,6 @@ fn test_missing_housenumbers_view_result_chkl_even_odd() {
             ["housenumbers/gazdagret", &mtime],
         )
         .unwrap();
-    }
-    {
-        let ctx = test_wsgi.get_ctx();
-        let mut relations = areas::Relations::new(ctx).unwrap();
-        let relation = relations.get_relation("gazdagret").unwrap();
-        relation.write_ref_housenumbers().unwrap();
     }
 
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
@@ -1785,12 +1744,6 @@ fn test_missing_housenumbers_view_turbo_well_formed() {
         )
         .unwrap();
     }
-    {
-        let ctx = test_wsgi.get_ctx();
-        let mut relations = areas::Relations::new(ctx).unwrap();
-        let relation = relations.get_relation("gazdagret").unwrap();
-        relation.write_ref_housenumbers().unwrap();
-    }
 
     let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-turbo");
 
@@ -1863,12 +1816,6 @@ fn test_missing_housenumbers_view_query_well_formed() {
             ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
         )
         .unwrap();
-    }
-    {
-        let ctx = test_wsgi.get_ctx();
-        let mut relations = areas::Relations::new(ctx).unwrap();
-        let relation = relations.get_relation("gazdagret").unwrap();
-        relation.write_ref_housenumbers().unwrap();
     }
 
     let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-query");

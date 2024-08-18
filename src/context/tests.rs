@@ -170,10 +170,7 @@ impl FileSystem for TestFileSystem {
             hide_paths.remove(position);
         }
 
-        if let Some(value) = self.mtimes.get(path) {
-            let mut guard = value.borrow_mut();
-            *guard = time::OffsetDateTime::now_utc();
-        }
+        assert!(self.mtimes.get(path).is_none());
 
         let ret = self.files[path].clone();
         ret.borrow_mut().seek(SeekFrom::Start(0))?;

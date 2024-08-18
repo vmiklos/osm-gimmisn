@@ -13,9 +13,6 @@
 use super::*;
 use rusqlite::types::FromSql as _;
 use std::cell::RefCell;
-use std::io::Read as _;
-use std::io::Seek;
-use std::io::SeekFrom;
 use std::io::Write;
 use std::rc::Rc;
 
@@ -1383,7 +1380,6 @@ fn test_relation_get_missing_housenumbers() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
     let missing_housenumbers = relation.get_missing_housenumbers().unwrap();
     let ongoing_streets_strs: Vec<_> = missing_housenumbers
         .ongoing_streets
@@ -1490,7 +1486,6 @@ fn test_relation_get_lints() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
     let _missing_housenumbers = relation.get_missing_housenumbers().unwrap();
 
     let lints = relation.get_lints();
@@ -1557,7 +1552,6 @@ fn test_relation_get_lints_hn_letters() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "myrelation";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
     let _missing_housenumbers = relation.get_missing_housenumbers().unwrap();
 
     let lints = relation.get_lints();
@@ -1627,7 +1621,6 @@ fn test_relation_get_lints_out_of_range() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh3073";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
     let _missing_housenumbers = relation.get_missing_housenumbers().unwrap();
 
     let lints = relation.get_lints();
@@ -1706,7 +1699,6 @@ fn test_relation_write_lints() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
     let _missing_housenumbers = relation.get_missing_housenumbers().unwrap();
 
     relation.write_lints().unwrap();
@@ -1783,7 +1775,6 @@ fn test_relation_get_missing_housenumbers_letter_suffix() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh267";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
     // Opt-in, this is not the default behavior.
     let mut config = relation.get_config().clone();
     set_config_housenumber_letters(&mut config, true);
@@ -1839,7 +1830,6 @@ fn test_relation_get_missing_housenumbers_letter_suffix_invalid() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh296";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
     // Opt-in, this is not the default behavior.
     let mut config = relation.get_config().clone();
     set_config_housenumber_letters(&mut config, true);
@@ -1900,7 +1890,6 @@ fn test_relation_get_missing_housenumbers_invalid_simplify() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "myrelation";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
 
     // Default case: housenumber-letters=false.
     {
@@ -1992,7 +1981,6 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh286";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
     // Opt-in, this is not the default behavior.
     let mut config = relation.get_config().clone();
     set_config_housenumber_letters(&mut config, true);
@@ -2041,7 +2029,6 @@ fn test_relation_get_missing_housenumbers_letter_suffix_source_suffix() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh299";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
     // Opt-in, this is not the default behavior.
     let mut config = relation.get_config().clone();
     set_config_housenumber_letters(&mut config, true);
@@ -2090,7 +2077,6 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize_semicolon() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh303";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
     // Opt-in, this is not the default behavior.
     let mut config = relation.get_config().clone();
     set_config_housenumber_letters(&mut config, true);
@@ -2262,7 +2248,6 @@ fn test_relation_get_additional_streets_no_osm_street_filters() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "myrelation";
     let relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
     assert_eq!(
         relation.get_config().get_osm_street_filters().is_empty(),
         true
@@ -2337,7 +2322,6 @@ fn test_relation_get_additional_housenumbers() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
     let only_in_osm = relation.get_additional_housenumbers().unwrap();
     let only_in_osm_strs: Vec<_> = only_in_osm
         .iter()
@@ -2445,7 +2429,6 @@ fn test_relation_write_missing_housenumbers() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
 
     let ret = relation.write_missing_housenumbers().unwrap();
 
@@ -2552,7 +2535,6 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "budafok";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
 
     let ret = relation.write_missing_housenumbers().unwrap();
 
@@ -2612,7 +2594,6 @@ fn test_relation_write_missing_housenumbers_sorting() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "myrelation";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    relation.write_ref_housenumbers().unwrap();
 
     let ret = relation.write_missing_housenumbers().unwrap();
 
@@ -2724,162 +2705,6 @@ fn test_write_missing_streets_empty() {
     assert_eq!(relation.has_osm_street_coverage().unwrap(), true);
     let (_todo_count, _done_count, percent, _streets) = ret;
     assert_eq!(format!("{percent:.2}"), "100.00");
-}
-
-/// Tests Relation::write_ref_housenumbers().
-#[test]
-fn test_relation_writer_ref_housenumbers() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "gazdagret": {
-                "osmrelation": 42,
-                "refcounty": "01",
-                "refsettlement": "011",
-            },
-        },
-        "relation-gazdagret.yaml": {
-            "refstreets": {
-                "OSM Name 1": "Ref Name 1",
-            }
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_value = context::tests::TestFileSystem::make_file();
-    let ref_housenumbers2 = context::tests::TestFileSystem::make_file();
-    ref_housenumbers2
-        .borrow_mut()
-        .write_all(
-            r#"COUNTY_CODE	SETTLEMENT_CODE	STREET	HOUSENUMBER	COMMENT
-01	011	Márton Áron tér	1	comment
-01	011	Márton Áron tér	2	
-"#
-            .as_bytes(),
-        )
-        .unwrap();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_value,
-            ),
-            (
-                "workdir/refs/hazszamok_kieg_20190808.tsv",
-                &ref_housenumbers2,
-            ),
-            ("data/yamls.cache", &yamls_cache_value),
-        ],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let references = ctx.get_ini().get_reference_housenumber_paths().unwrap();
-    util::build_reference_index(&ctx, &references).unwrap();
-    {
-        let conn = ctx.get_database_connection().unwrap();
-        conn.execute_batch(
-            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '5', 'Márton Áron tér', '', '', '', '', '');",
-        )
-        .unwrap();
-    }
-    let mut relations = Relations::new(&ctx).unwrap();
-    let relation_name = "gazdagret";
-    let expected = r#"Hamzsabégi út	1	
-Márton Áron tér	1*	comment
-Márton Áron tér	2*	
-Ref Name 1	1	
-Ref Name 1	2	
-Törökugrató utca	1	
-Törökugrató utca	10	
-Törökugrató utca	11	
-Törökugrató utca	12	
-Törökugrató utca	2	
-Törökugrató utca	7	
-Tűzkő utca	1	
-Tűzkő utca	10	
-Tűzkő utca	2	
-Tűzkő utca	9	
-"#;
-    let relation = relations.get_relation(relation_name).unwrap();
-
-    relation.write_ref_housenumbers().unwrap();
-
-    let mut guard = ref_value.borrow_mut();
-    guard.seek(SeekFrom::Start(0)).unwrap();
-    let mut actual: Vec<u8> = Vec::new();
-    guard.read_to_end(&mut actual).unwrap();
-    assert_eq!(String::from_utf8(actual).unwrap(), expected);
-}
-
-/// Tests Relation::write_ref_housenumbers(): the case when the refcounty code is missing in the reference.
-#[test]
-fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "nosuchrefcounty": {
-                "refsettlement": "43",
-                "refcounty": "98",
-                "refsettlement": "99",
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_value = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            (
-                "workdir/street-housenumbers-reference-nosuchrefcounty.lst",
-                &ref_value,
-            ),
-            ("data/yamls.cache", &yamls_cache_value),
-        ],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let mut relations = Relations::new(&ctx).unwrap();
-    let relation_name = "nosuchrefcounty";
-    let relation = relations.get_relation(relation_name).unwrap();
-
-    relation.write_ref_housenumbers().unwrap();
-}
-
-/// Tests Relation::write_ref_housenumbers(): the case when the refsettlement code is missing in the reference.
-#[test]
-fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "nosuchrefsettlement": {
-                "refcounty": "01",
-                "refsettlement": "99",
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_value = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            (
-                "workdir/street-housenumbers-reference-nosuchrefsettlement.lst",
-                &ref_value,
-            ),
-            ("data/yamls.cache", &yamls_cache_value),
-        ],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let mut relations = Relations::new(&ctx).unwrap();
-    let relation_name = "nosuchrefsettlement";
-    let relation = relations.get_relation(relation_name).unwrap();
-
-    relation.write_ref_housenumbers().unwrap();
 }
 
 /// Tests the Relations struct.

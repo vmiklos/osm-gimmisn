@@ -12,6 +12,7 @@
 
 use super::*;
 use crate::areas;
+use std::rc::Rc;
 
 /// Tests RelationFiles::write_osm_json_streets(), when the json has duplicated streets.
 #[test]
