@@ -1,0 +1,13 @@
+missing-streets: 'yes'
+refstreets:
+  'Alsóóvári utca': 'Alsó Óvár utca'
+  'Alsókopaszhegyi utca': 'Alsókopaszhegyi út'
+  'Cserhegyi utca': 'Cserhegy utca'
+  'Csokonai Mihály utca': 'Csokonai utca'
+  'Felsőóvári utca': 'Felső Óvár utca'
+  'Felsőkopaszhegyi utca': 'Felsőkopaszhegyi út'
+  'Kiskopaszhegy utca': 'Kiskopaszhegyi út'
+  'Középsőóvári utca': 'Középső Óvár utca'
+source: survey
+housenumber-letters: false
+inactive: true
