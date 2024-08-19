@@ -838,6 +838,10 @@ balatonkenese:
     osmrelation: 1078608
     refcounty: "19"
     refsettlement: "029"
+balatonfured:
+    osmrelation: 1078616
+    refcounty: "19"
+    refsettlement: "026"
 csopak:
     osmrelation: 1078599
     refcounty: "19"

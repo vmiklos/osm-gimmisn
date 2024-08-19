@@ -1,4 +1,12 @@
 missing-streets: 'yes'
+street-filters:
+  # tanyák
+  - Domokos tanya
+  - MOHOSZ horgásztanya
+osm-street-filters:
+  # parkok/sétányok
+  - Pünkösdi liget
+  - Rege udvar
 refstreets:
   'Alsóóvári utca': 'Alsó Óvár utca'
   'Alsókopaszhegyi utca': 'Alsókopaszhegyi út'
