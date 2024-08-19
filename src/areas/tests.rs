@@ -1333,16 +1333,9 @@ fn test_relation_get_missing_housenumbers() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -1442,16 +1435,9 @@ fn test_relation_get_lints() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -1527,16 +1513,9 @@ fn test_relation_get_lints_hn_letters() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-myrelation.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -1596,16 +1575,9 @@ fn test_relation_get_lints_out_of_range() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gh3073.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -1655,16 +1627,9 @@ fn test_relation_write_lints() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -1736,13 +1701,9 @@ fn test_relation_get_missing_housenumbers_letter_suffix() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/street-housenumbers-reference-gh267.lst", &ref_file),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -1806,13 +1767,9 @@ fn test_relation_get_missing_housenumbers_letter_suffix_invalid() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/street-housenumbers-reference-gh296.lst", &ref_file),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -1874,16 +1831,9 @@ fn test_relation_get_missing_housenumbers_invalid_simplify() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-myrelation.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -1958,13 +1908,9 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/street-housenumbers-reference-gh286.lst", &ref_file),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -2009,13 +1955,9 @@ fn test_relation_get_missing_housenumbers_letter_suffix_source_suffix() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/street-housenumbers-reference-gh299.lst", &ref_file),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -2052,13 +1994,9 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize_semicolon() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/street-housenumbers-reference-gh303.lst", &ref_file),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -2232,16 +2170,9 @@ fn test_relation_get_additional_streets_no_osm_street_filters() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-myrelation.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -2278,16 +2209,9 @@ fn test_relation_get_additional_housenumbers() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -2380,16 +2304,9 @@ fn test_relation_write_missing_housenumbers() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
@@ -2455,13 +2372,9 @@ fn test_relation_write_missing_housenumbers() {
 fn test_relation_write_missing_housenumbers_empty() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let json_value = context::tests::TestFileSystem::make_file();
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("workdir/cache-empty.json", &json_value),
-            ("workdir/street-housenumbers-reference-empty.lst", &ref_file),
-        ],
+        &[("workdir/cache-empty.json", &json_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
@@ -2498,16 +2411,11 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let json_value = context::tests::TestFileSystem::make_file();
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/cache-budafok.json", &json_value),
-            (
-                "workdir/street-housenumbers-reference-budafok.lst",
-                &ref_file,
-            ),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
@@ -2578,16 +2486,9 @@ fn test_relation_write_missing_housenumbers_sorting() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-myrelation.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -3418,7 +3319,6 @@ fn test_relations_is_new() {
 
     // Case 3: active-new is true and myrelation is not new -> myrelation is not found.
     let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
-    let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -3426,10 +3326,6 @@ fn test_relations_is_new() {
             (
                 "workdir/street-housenumbers-myrelation.csv",
                 &osm_housenumbers_value,
-            ),
-            (
-                "workdir/street-housenumbers-reference-myrelation.lst",
-                &ref_housenumbers_value,
             ),
         ],
     );
