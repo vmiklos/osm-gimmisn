@@ -27,6 +27,9 @@ filters:
     # 14/2: nincs ilyen, csak 14/1, 14/a.
     # 14/I: ez 14/1, csak római számmal írva.
     invalid: ['14', '14/2', '14i']
+  Mikes Kelemen utca:
+    # 33: a páratlan oldalon nincsenek épületek.
+    invalid: ['33']
   Munkácsy Mihály utca:
     # 21: sima 21 nincs, csak 21/1, 21/2.
     # 32/I: nincs ilyen, 32/a van kitáblázva.
@@ -35,6 +38,10 @@ filters:
   Nyírfa utca:
     # 4/4: a 4 társasház, csak 4 van kitáblázva. A 4/4 emelet/ajtónak tűnik.
     invalid: ['4/4']
+  Panoráma körút:
+    # 21: sima 21 nincs, csak 21/1, 21/2.
+    # 29: sima 29 nincs, csak 29/a, 29/b, 29/c, 29/d, 29/e.
+    invalid: ['21', '29']
   Radnóti Miklós utca:
     interpolation: 'all'
   Rákóczi Ferenc utca:
@@ -53,6 +60,9 @@ filters:
     invalid: ['3', '3b']
   Tó utca:
     interpolation: 'all'
+  Zrínyi Miklós utca:
+    # 7: sima 7 nincs, csak 7/1 A-B épület, 7/2 A-B épület, 7/3 A-B épület.
+    invalid: ['7']
 refstreets:
   # rövidítés
   # 'Kiss János altábornagy utca': 'Kiss János atb. utca'
