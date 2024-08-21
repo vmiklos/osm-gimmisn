@@ -95,25 +95,12 @@ fn test_update_missing_housenumbers() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_housenumbers = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_housenumbers,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    file_system
-        .write_from_string(
-            "Tűzkő utca\t1/A\t",
-            &ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"),
-        )
-        .unwrap();
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let mtime = ctx.get_time().now_string();
@@ -1039,7 +1026,6 @@ fn test_our_main() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
     let template_value = context::tests::TestFileSystem::make_file();
     template_value
         .borrow_mut()
@@ -1054,10 +1040,6 @@ fn test_our_main() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_housenumbers_value,
-            ),
             ("data/streets-template.overpassql", &template_value),
             (
                 "data/street-housenumbers-template.overpassql",
