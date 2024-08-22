@@ -31,13 +31,9 @@ fn test_main() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/street-housenumbers-reference-gh195.lst", &ref_file),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
