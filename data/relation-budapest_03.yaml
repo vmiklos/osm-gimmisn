@@ -121,15 +121,16 @@ refstreets:
   'Jó szerencse utca': 'Jószerencse út'
   'Petur utca': 'Petúr utca'
   # utcajegyzék = REF, OSM eltér
-  'Barátpatak utca': 'Barát-patak utca'  # osm = utcatábla
+  'Barátpatak utca': 'Barát-patak utca'  # utcatábla Barátpatak utca
   'Bebo Károly utca': 'Bebó Károly utca'  # nem hivatalos táblán Bebó Károly, nincs rendes kép
   # 'Feketesalak út': 'Fekete salak utca'  # nincs tábla - közben át lett variálva
+  'Jószerencse utca': 'Jó szerencse utca' # utcatábla Jószerencse utca
   'Kis Csikós köz': 'Kiscsikós köz'  # nincs tábla
-  'Montevideo utca': 'Montevideo út'  # osm = utcatábla
+  'Montevideo utca': 'Montevideo út'  # utcatábla Montevideo utca
   'Nagy-Kevély utca': 'Nagykevély utca'  # régi kép van
   'Római sétány': 'Római út'  # vegyesen vannak a táblák
   'Stefan Wyszyński utca': 'Stefan Wyszynski utca'  # határozatban a Stefan Wyszyński van
-  'Schön Győző utca': 'Schőn Győző utca'  # utcanévtábla = osm
+  'Schön Győző utca': 'Schőn Győző utca'  # utcatábla Schön Győző utca
   # egyéb
   'gróf Esterházy János rakpart': 'Gróf Esterházy János rakpart'
 osm-street-filters:
