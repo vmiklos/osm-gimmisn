@@ -1,17 +1,17 @@
 missing-streets: 'yes'
 refstreets:
-  'Balatoni utca': 'Balaton utca'
   'Füredi utca': 'Füredi út'
-  'Ifjúság sétány': 'Ifjúsági sétány'
-  'Kossuth utca': 'Kossuth Lajos utca'
   'Lápotai út': 'Lápotai utca'
   'Nádaskúti utca': 'Nádaskuti utca'
   'Nagykúti utca': 'Nagykuti utca'
-  'Ördöngös utca': 'Ördöngős utca'
-  'Paloznaki utca': 'Paloznaki út'
   'Petőfi utca': 'Petőfi Sándor utca'
-  'Szérűskert utca': 'Szérüskert utca'
   'Timár József utca': 'Tímár József utca'
+  'Szérűskert utca': 'Szérüskert utca'  # táblán mindkettő
+  # ellenőrizve
+  'Kossuth utca': 'Kossuth Lajos utca'  # táblán Kossuth utca 2023.09
+  'Paloznaki utca': 'Paloznaki út'  # táblán Paloznaki utca 2023.09
+  # helyesírás
+  'Ördöngös utca': 'Ördöngős utca'
 source: survey
 housenumber-letters: false
 inactive: true
