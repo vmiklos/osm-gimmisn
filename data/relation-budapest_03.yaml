@@ -118,13 +118,11 @@ refstreets:
   'Lékai bíboros tér': 'Lékai biboros tér'
   'Szérűskert utca': 'Szérüskert utca'
   # utcajegyzék = OSM, ref hibás
-  'Jó szerencse utca': 'Jószerencse út'
   'Petur utca': 'Petúr utca'
   # utcajegyzék = REF, OSM eltér
   'Barátpatak utca': 'Barát-patak utca'  # utcatábla Barátpatak utca
   'Bebo Károly utca': 'Bebó Károly utca'  # nem hivatalos táblán Bebó Károly, nincs rendes kép
   # 'Feketesalak út': 'Fekete salak utca'  # nincs tábla - közben át lett variálva
-  'Jószerencse utca': 'Jó szerencse utca' # utcatábla Jószerencse utca
   'Kis Csikós köz': 'Kiscsikós köz'  # nincs tábla
   'Montevideo utca': 'Montevideo út'  # utcatábla Montevideo utca
   'Nagy-Kevély utca': 'Nagykevély utca'  # régi kép van
@@ -133,6 +131,7 @@ refstreets:
   'Schön Győző utca': 'Schőn Győző utca'  # utcatábla Schön Győző utca
   # egyéb
   'gróf Esterházy János rakpart': 'Gróf Esterházy János rakpart'
+  'Jószerencse utca': 'Jószerencse út' # utcatábla Jószerencse utca, hivatalosan Jó szerencse utca
 osm-street-filters:
   # Nem valós utcák
   - Árpád híd
