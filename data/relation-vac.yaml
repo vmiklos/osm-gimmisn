@@ -119,7 +119,6 @@ refstreets:
   'Homokdűlő út': 'Homok dűlő'  # https://www.openstreetmap.org/note/3485459
   'Kálvária': 'Kálvária dűlő'  # https://www.openstreetmap.org/note/3673566
   'Kaszálórét': 'Kaszálórét utca'  # https://www.openstreetmap.org/note/3673568
-  'Kertvárosi utca': 'Kertvárosi út'  # Kertváros (i sor) folytatása lenne - https://www.openstreetmap.org/note/3734483
   'Ordítóárok utca': 'Ordító-árok utca'  # https://www.openstreetmap.org/note/3643313
   'Szederfa sor': 'Szederfasor'  # https://www.openstreetmap.org/note/3643320
   'Ulrich köz': 'Ulrich Károly köz'  # https://www.openstreetmap.org/note/3673556
@@ -162,6 +161,7 @@ refstreets:
   'Karcsu Arzén utca': 'Karcsu Antal Arzén utca'  # utcatáblán Karcsu Arzén utca (2023.06), az Excelben Karcsu Antal Arzén utca - https://www.openstreetmap.org/note/3673528
   'Kálvin utca': 'Kálvin János utca'  # nincs tábla (2023.06), az Excelben Kálvin János utca - https://www.openstreetmap.org/note/3673524
   'Kertváros': 'Kertvárosi sor'  # táblán Kertváros (2023.06), az Excelben Kertvárois sor - https://www.openstreetmap.org/note/3673569
+  'Kertvárosi utca': 'Kertvárosi út'  # nincs tábla (2024.06). a Kertváros (i sor) folytatása lenne - https://www.openstreetmap.org/note/3734483
   'Konstantin tér': 'Schuszter Konstantin tér'  # utcatáblán Konstantin tér (2023.06), az Excelben  Schuszter Konstantin tér - # https://www.openstreetmap.org/note/3716227
   'Kórház út': 'Kórház utca'  # utcatáblán Kórház út (2023.06), az Excelben Kórház utca - https://www.openstreetmap.org/note/3673581
   'Kossuth tér': 'Kossuth Lajos tér'  # utcatáblán Kossuth tér (2023.06), az Excelben Kossuth Lajos tér - https://www.openstreetmap.org/note/3673504
