@@ -440,26 +440,11 @@ fn test_per_relation_lints() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi
-            .ctx
-            .get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
@@ -582,16 +567,11 @@ fn test_per_relation_lints_out_of_range() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let json_cache_value = context::tests::TestFileSystem::make_file();
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/cache-gh3073.json", &json_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gh3073.lst",
-                &ref_file,
-            ),
         ],
     );
     file_system.set_files(&files);
@@ -600,14 +580,6 @@ fn test_per_relation_lints_out_of_range() {
         test_wsgi.ctx.get_abspath("workdir/cache-gh3073.json"),
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
-    let now = test_wsgi.ctx.get_time().now();
-    mtimes.insert(
-        test_wsgi
-            .ctx
-            .get_abspath("workdir/street-housenumbers-reference-gh3073.lst"),
-        Rc::new(RefCell::new(now)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
@@ -661,16 +633,9 @@ fn test_missing_housenumbers_well_formed() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
@@ -763,16 +728,9 @@ fn test_missing_housenumbers_compat() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
@@ -869,16 +827,11 @@ fn test_missing_housenumbers_compat_relation() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let jsoncache_value = context::tests::TestFileSystem::make_file();
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/cache-budafok.json", &jsoncache_value),
-            (
-                "workdir/street-housenumbers-reference-budafok.lst",
-                &ref_file,
-            ),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
@@ -1017,16 +970,11 @@ fn test_missing_housenumbers_view_result_txt() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let json_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-budafok.lst",
-                &ref_file,
-            ),
             ("workdir/cache-budafok.json", &json_cache),
         ],
     );
@@ -1095,16 +1043,9 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
@@ -1230,16 +1171,9 @@ fn test_missing_housenumbers_view_result_chkl() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-budafok.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
@@ -1297,16 +1231,9 @@ fn test_missing_housenumbers_view_result_chkl_even_odd() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
@@ -1431,54 +1358,9 @@ fn test_missing_housenumbers_view_result_chkl_even_odd_split() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let hoursnumbers_ref = r#"Hamzsabégi út	1
-Ref Name 1	1
-Ref Name 1	2
-Törökugrató utca	1	comment
-Törökugrató utca	10
-Törökugrató utca	11
-Törökugrató utca	12
-Törökugrató utca	2
-Törökugrató utca	7
-Tűzkő utca	1
-Tűzkő utca	2
-Tűzkő utca	9
-Tűzkő utca	10
-Tűzkő utca	12
-Tűzkő utca	13
-Tűzkő utca	14
-Tűzkő utca	15
-Tűzkő utca	16
-Tűzkő utca	17
-Tűzkő utca	18
-Tűzkő utca	19
-Tűzkő utca	20
-Tűzkő utca	21
-Tűzkő utca	22
-Tűzkő utca	22
-Tűzkő utca	24
-Tűzkő utca	25
-Tűzkő utca	26
-Tűzkő utca	27
-Tűzkő utca	28
-Tűzkő utca	29
-Tűzkő utca	30
-Tűzkő utca	31
-"#;
-    let housenumbers_ref_value = context::tests::TestFileSystem::make_file();
-    housenumbers_ref_value
-        .borrow_mut()
-        .write_all(hoursnumbers_ref.as_bytes())
-        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &housenumbers_ref_value,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
@@ -1666,16 +1548,9 @@ fn test_missing_housenumbers_view_turbo_well_formed() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
@@ -1765,16 +1640,9 @@ fn test_missing_housenumbers_view_query_well_formed() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
