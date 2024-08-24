@@ -91,6 +91,7 @@ osm-street-filters:
   - Alakulótér
   - Északi hadiút
   - Szent István völgyhíd
+  - Hadiút
 source: survey
 housenumber-letters: false
 inactive: true
