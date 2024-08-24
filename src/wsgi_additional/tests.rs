@@ -461,7 +461,6 @@ fn test_additional_housenumbers_well_formed() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let count_value = context::tests::TestFileSystem::make_file();
     let cache_value = context::tests::TestFileSystem::make_file();
-    let ref_file = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
         &[
@@ -471,10 +470,6 @@ fn test_additional_housenumbers_well_formed() {
                 &count_value,
             ),
             ("workdir/additional-cache-gazdagret.json", &cache_value),
-            (
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_file,
-            ),
         ],
     );
     file_system.set_files(&files);
@@ -483,12 +478,6 @@ fn test_additional_housenumbers_well_formed() {
         test_wsgi
             .get_ctx()
             .get_abspath("workdir/additional-cache-gazdagret.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    mtimes.insert(
-        test_wsgi
-            .get_ctx()
-            .get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"),
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
