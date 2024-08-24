@@ -152,6 +152,7 @@ filters:
       - {start: '58', end: '66'}
       - {start: '74', end: '78'}
       - {start: '82', end: '88'}
+    interpolation: 'all'
   Bem utca:
     ranges:
       - {start: '3', end: '25'}
