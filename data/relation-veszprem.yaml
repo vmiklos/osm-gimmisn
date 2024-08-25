@@ -16,6 +16,9 @@ filters:
   Erzsébet liget:
     # max páratlan 17
     invalid: ['21', '23', '25']
+  Gelencsér utca:
+    # 9 nincs: max házszám a 7
+    invalid: ['9']
   Kórház utca:
     # páros oldal nincs, páratlanon az egyetlen házszám a kórház
     ranges:
@@ -26,6 +29,10 @@ filters:
   Pajta utca:
     # 26, 34: utolsó páros a 24.
     invalid: ['26', '34']
+  Sigray Jakab utca:
+    # 17: nincs, max páratlan házszám a 15.
+    # 34: nincs, max páros házszám a 28.
+    invalid: ['17', '34']
   Szajkó utca:
     # 1 = Csereredi út 31.
     # 3,5 = 5 és 5/b van a két épületeten
