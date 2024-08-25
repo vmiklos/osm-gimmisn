@@ -22,7 +22,9 @@ filters:
   Berzsenyi Dániel utca:
     interpolation: all
   Bugyogóforrás utca:
+    # 24: max páros a 22.
     show-refstreet: false
+    invalid: ['24']
   Felsővillasor:
     # 30 = Fürdő köz 1.
     # 50: utolsó ház 48.
@@ -30,6 +32,10 @@ filters:
   Fürj utca:
     # 7: páratlan oldalon mező van
     invalid: ['7']
+  Fűzfő tér:
+    # 13: max házszám a 8.
+    interpolation: all
+    invalid: ['13']
   Gagarin utca:
     # 14: Irinyi János utca 11 régi címe, de még kint van a 14-es szám a C lépcsőháznál
     # 18: 16 után 20 jön, valószínű az Irinyi János utca 13 régi címe
@@ -92,6 +98,9 @@ filters:
   Sirály utca:
     # 91: utolsó ház a 87.
     invalid: ['91']
+  Sorház utca:
+    # 6: nincs, házszámok 1 és 2.
+    invalid: ['6']
   Szállás utca:
     # 2: nincs, első épület a 4.
     # 10: nincs, utolsó épület a 8.
