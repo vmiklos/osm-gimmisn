@@ -1,5 +1,13 @@
 missing-streets: 'yes'
 filters:
+  Báthori István utca:
+    # 5: sima 5 nincs, csak 5/1, 5/2, 5/3.
+    # 9: sima 9 nincs, csak 9/1, 9/2.
+    # 51: sima 51 nincs, csak 51/1, 51/2.
+    # 55: sima 55 nincs, csak 55/1, 55/2.
+    # 6/c: nincs ilyen, csak sima 6 van.
+    # 28: sima 28 nincs, csak 28/1, 28/2.
+    invalid: ['5', '9', '51', '55', '6c', '28']
   Berzsenyi Dániel utca:
     # 25: sima 25 nincs, csak 25/a, 25/b.
     # 87: sima 87 nincs, csak 87/a, 87/b.
@@ -9,12 +17,23 @@ filters:
   Budapesti út:
     # 139: sima 139 nincs, csak 139/1, 139/2.
     # 143: sima 143 nincs, csak 143/a, 143/2.
-    invalid: ['139', '143']
+    # 22: ez és a Spur István utca 23. közös telken van, de házszám csak a Spur István utcáról van.
+    # 26: ez és a Spur István utca 27. közös telken van, de házszám csak a Spur István utcáról van.
+    # 34/a: nincs ilyen, csak sima 34 van.
+    # 46: nincs ilyen, a 44 után a 48 következik, amjd kettő 50-es egymás mellett.
+    # 52: nincs ilyen, az 50 után kettő 54-es van egymás mellett.
+    # 58: ez és a Spur István utca 59. közös telken van, de házszám csak a Spur István utcáról van.
+    # 78: sima 78 nincs, csak 78/a, 78/b.
+    # 88: sima 88 nincs, csak 88/a, 88/b.
+    invalid: ['139', '143', '22', '26', '34a', '46', '52', '58', '78', '88']
   Camping utca:
     show-refstreet: false
   Csokonai utca:
     # 713: a páratlan oldalon a 25 az utolsó házszám.
     invalid: ['713']
+  Damjanich utca:
+    # 1: ez és a Bajcsy-Zsilinszky utca 15. közös telken van, de bejárat és házszám csak a Bajcsy-Zsilinszky utcáról van.
+    invalid: ['1']
   Hunyadi János utca:
     interpolation: 'all'
   Jókai Mór utca:
@@ -54,6 +73,9 @@ filters:
   Sport köz:
     # 9: ilyet nem láttam; a páratlan oldalon a 9-es szám az Ady Endre utca 2. lenne, a páros oldal végén pedig van egy Gábor Áron utca 9.
     invalid: ['9']
+  Spur István utca:
+    # 1: ez a park az utca végén, az első házszám a 3-5. a páratlan oldalon.
+    invalid: ['1']
   Székely Bertalan utca:
     # 3: ikerház, az észak-nyugati felén kint van a 3, de a hozzá tartozó bejáraton 3/a van, így azt tettem fel a térképre.
     # 3/b: nincs ilyen, 3/a és 3/2 van kitáblázva.
