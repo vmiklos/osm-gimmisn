@@ -243,16 +243,11 @@ fn test_missing_housenumbers_view_result_json() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let json_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/street-housenumbers-reference-budafok.lst",
-                &ref_file,
-            ),
             ("workdir/cache-budafok.json", &json_cache),
         ],
     );
@@ -308,17 +303,12 @@ fn test_additional_housenumbers_view_result_json() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_file = context::tests::TestFileSystem::make_file();
     let cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/additional-cache-budafok.json", &cache_value),
-            (
-                "workdir/street-housenumbers-reference-budafok.lst",
-                &ref_file,
-            ),
         ],
     );
     file_system.set_files(&files);
@@ -327,12 +317,6 @@ fn test_additional_housenumbers_view_result_json() {
         test_wsgi
             .get_ctx()
             .get_abspath("workdir/additional-cache-budafok.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    mtimes.insert(
-        test_wsgi
-            .get_ctx()
-            .get_abspath("workdir/street-housenumbers-reference-budafok.lst"),
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
