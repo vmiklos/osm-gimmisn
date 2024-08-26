@@ -10,8 +10,6 @@
 
 //! Tests for the wsgi_additional module.
 
-use std::cell::RefCell;
-use std::collections::HashMap;
 use std::rc::Rc;
 
 use crate::areas;
@@ -460,7 +458,6 @@ fn test_additional_housenumbers_well_formed() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let count_value = context::tests::TestFileSystem::make_file();
-    let cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
         &[
@@ -469,18 +466,9 @@ fn test_additional_housenumbers_well_formed() {
                 "workdir/gazdagret-additional-housenumbers.count",
                 &count_value,
             ),
-            ("workdir/additional-cache-gazdagret.json", &cache_value),
         ],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi
-            .get_ctx()
-            .get_abspath("workdir/additional-cache-gazdagret.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.get_ctx().set_file_system(&file_system_rc);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
