@@ -303,23 +303,11 @@ fn test_additional_housenumbers_view_result_json() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/additional-cache-budafok.json", &cache_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi
-            .get_ctx()
-            .get_abspath("workdir/additional-cache-budafok.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.get_ctx().set_file_system(&file_system_rc);
     {
