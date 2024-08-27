@@ -10,8 +10,6 @@
 
 //! Tests for the wsgi_json module.
 
-use std::cell::RefCell;
-use std::collections::HashMap;
 use std::io::Write as _;
 use std::rc::Rc;
 
@@ -243,23 +241,11 @@ fn test_missing_housenumbers_view_result_json() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let json_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/cache-budafok.json", &json_cache),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi
-            .get_ctx()
-            .get_abspath("workdir/cache-budafok.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.get_ctx().set_file_system(&file_system_rc);
     {

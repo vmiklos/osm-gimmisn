@@ -566,20 +566,11 @@ fn test_per_relation_lints_out_of_range() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let json_cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/cache-gh3073.json", &json_cache_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/cache-gh3073.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
@@ -826,22 +817,12 @@ fn test_missing_housenumbers_compat_relation() {
         }
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let jsoncache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/cache-budafok.json", &jsoncache_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/cache-budafok.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
@@ -970,21 +951,11 @@ fn test_missing_housenumbers_view_result_txt() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let json_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/cache-budafok.json", &json_cache),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/cache-budafok.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
     let mtime = test_wsgi.get_ctx().get_time().now_string();
