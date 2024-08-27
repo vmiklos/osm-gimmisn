@@ -38,6 +38,10 @@ filters:
     interpolation: 'all'
   Jókai Mór utca:
     show-refstreet: false
+  József Attila utca:
+    # 5: ez és a Petőfi Sándor utca 6. közös telken van, de házszám csak a Petőfi Sándor utcáról van.
+    # 11: ez és a Petőfi Sándor utca 14. közös telken van, de házszám csak a Petőfi Sándor utcáról van.
+    invalid: ['5', '11']
   #Kiss János altábornagy utca:
     # 4/1: nincs ilyen, csak 4/a, 4/b.
     # invalid: ['4/1']
@@ -57,6 +61,9 @@ filters:
   Nyírfa utca:
     # 4/4: a 4 társasház, csak 4 van kitáblázva. A 4/4 emelet/ajtónak tűnik.
     invalid: ['4/4']
+  Petőfi Sándor utca:
+    # 13: sima 13 nincs, csak 13/a, 13/b, 13/c.
+    invalid: ['13']
   Panoráma körút:
     # 21: sima 21 nincs, csak 21/1, 21/2.
     # 29: sima 29 nincs, csak 29/a, 29/b, 29/c, 29/d, 29/e.
@@ -75,7 +82,8 @@ filters:
     invalid: ['9']
   Spur István utca:
     # 1: ez a park az utca végén, az első házszám a 3-5. a páratlan oldalon.
-    invalid: ['1']
+    # 16-18: csak 18 van kitáblázva a hotelre és a honalpon is csak 18 szerepel a kapcsolati oldalon.
+    invalid: ['1', '16']
   Székely Bertalan utca:
     # 3: ikerház, az észak-nyugati felén kint van a 3, de a hozzá tartozó bejáraton 3/a van, így azt tettem fel a térképre.
     # 3/b: nincs ilyen, 3/a és 3/2 van kitáblázva.
