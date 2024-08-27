@@ -53,6 +53,11 @@ filters:
   Mikes Kelemen utca:
     # 33: a páratlan oldalon nincsenek épületek.
     invalid: ['33']
+  Móricz Zsigmond utca:
+    # 26: sima 26 nincs, csak 26/a/1-4, 26/b/1-5.
+    # 26/3: nincs ilyen, csak 26/a/3 vagy 26/b/3.
+    # 26/b: nincs ilyen, csak 26/b/1-5.
+    invalid: ['26', '26/3', '26b']
   Munkácsy Mihály utca:
     # 21: sima 21 nincs, csak 21/1, 21/2.
     # 32/I: nincs ilyen, 32/a van kitáblázva.
