@@ -12,7 +12,6 @@
 
 use super::*;
 use rusqlite::types::FromSql as _;
-use std::cell::RefCell;
 use std::io::Write;
 use std::rc::Rc;
 
@@ -2370,22 +2369,7 @@ fn test_relation_write_missing_housenumbers() {
 /// Tests Relation::write_missing_housenumbers(): the case when percent can't be determined.
 #[test]
 fn test_relation_write_missing_housenumbers_empty() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let json_value = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/cache-empty.json", &json_value)],
-    );
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        ctx.get_abspath("workdir/cache-empty.json"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
+    let ctx = context::tests::make_test_context().unwrap();
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "empty";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2410,23 +2394,12 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let json_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/cache-budafok.json", &json_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/cache-budafok.json");
-    mtimes.insert(
-        path,
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     {
