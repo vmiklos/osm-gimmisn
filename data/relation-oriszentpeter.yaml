@@ -1,4 +1,6 @@
 missing-streets: 'yes'
+refstreets:
+  'Gombászó utca': 'Gombászó'
 street-filters:
   # nem igazi utcák
   # - Gombászó
