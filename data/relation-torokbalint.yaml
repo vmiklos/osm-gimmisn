@@ -96,7 +96,7 @@ refstreets:
   'Petőfi Sándor utca': 'Petőfi utca'
   'Ráczug utca': 'Ráczug tanya'
   'Rákóczi Ferenc utca': 'Rákóczi utca'
-  'Régi Vasút sor': 'Régivasútsor utca'
+  # 'Régi Vasút sor': 'Régivasútsor utca' - https://www.openstreetmap.org/note/3677931
   'Somlyói utca': 'Somlyói út'
   'Szabadházi utca': 'Szabadházi út'
   'Szőlőskert utca': 'Szőlőskerti út'
