@@ -163,7 +163,7 @@ fn is_relation_recently_added(
 /// Update frequent_relations based on get_topcities():
 /// 1) The top 5 edited cities count as frequent, even if they have ~no visitors.
 /// 2) If a relation got <5 house numbers in the last 30 days, then they are not frequent, even with
-/// lots of visitors.
+///    lots of visitors.
 fn check_top_edited_relations(
     ctx: &context::Context,
     frequent_relations: &mut HashSet<String>,
