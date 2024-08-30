@@ -445,6 +445,10 @@ gyongyos-matrafured:  # 3232 Gyöngyös-Mátrafüred
     osmrelation: 6841611
     refcounty: "10"
     refsettlement: "039"
+hatvan:
+    osmrelation: 1418333
+    refcounty: "10"
+    refsettlement: "046"
 sarud:
     osmrelation: 1325122
     refcounty: "10"
@@ -540,6 +544,14 @@ paszto:
     osmrelation: 1417422
     refcounty: "13"
     refsettlement: "097"
+retsag:
+    osmrelation: 1322031
+    refcounty: "13"
+    refsettlement: "100"
+szecseny:
+    osmrelation: 1370535
+    refcounty: "13"
+    refsettlement: "114"
 tar:
     osmrelation: 1372130
     refcounty: "13"
