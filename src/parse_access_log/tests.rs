@@ -22,74 +22,21 @@ fn test_check_top_edited_relations() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-04-10", "foo", "0"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-04-10", "city1", "0"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-04-10", "city2", "0"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-04-10", "city3", "0"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-04-10", "city4", "0"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-04-10", "bar", "0"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-04-10", "baz", "0"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "foo", "1000"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "city1", "1000"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "city2", "1000"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "city3", "1000"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "city4", "1000"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "bar", "2"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "baz", "2"],
+        conn.execute_batch(
+            "insert into stats_citycounts (date, city, count) values ('2020-04-10', 'foo', '0');
+             insert into stats_citycounts (date, city, count) values ('2020-04-10', 'city1', '0');
+             insert into stats_citycounts (date, city, count) values ('2020-04-10', 'city2', '0');
+             insert into stats_citycounts (date, city, count) values ('2020-04-10', 'city3', '0');
+             insert into stats_citycounts (date, city, count) values ('2020-04-10', 'city4', '0');
+             insert into stats_citycounts (date, city, count) values ('2020-04-10', 'bar', '0');
+             insert into stats_citycounts (date, city, count) values ('2020-04-10', 'baz', '0');
+             insert into stats_citycounts (date, city, count) values ('2020-05-10', 'foo', '1000');
+             insert into stats_citycounts (date, city, count) values ('2020-05-10', 'city1', '1000');
+             insert into stats_citycounts (date, city, count) values ('2020-05-10', 'city2', '1000');
+             insert into stats_citycounts (date, city, count) values ('2020-05-10', 'city3', '1000');
+             insert into stats_citycounts (date, city, count) values ('2020-05-10', 'city4', '1000');
+             insert into stats_citycounts (date, city, count) values ('2020-05-10', 'bar', '2');
+             insert into stats_citycounts (date, city, count) values ('2020-05-10', 'baz', '2');",
         )
         .unwrap();
     }
@@ -126,14 +73,13 @@ fn test_is_complete_relation_complete() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
-            ["gazdagret", "100.00", ""],
+        conn.execute_batch(
+            "insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values ('myrelation', '100.00', '');",
         ).unwrap();
     }
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
-    let ret = is_complete_relation(&mut relations, "gazdagret").unwrap();
+    let ret = is_complete_relation(&mut relations, "myrelation").unwrap();
 
     assert_eq!(ret, true);
 }
