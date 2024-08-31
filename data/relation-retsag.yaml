@@ -4,7 +4,10 @@ refstreets:
   'Petőfi Sándor utca': 'Petőfi utca'
   # 'Piac tér': 'Piac udvar'
 # street-filters:
-# osm-street-filters:
+osm-street-filters:
+  # parkok
+  - KRESZ Park
+  - Rétsági laktanya emlékpark
 source: survey
 housenumber-letters: true
 inactive: false
