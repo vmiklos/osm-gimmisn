@@ -1,0 +1,23 @@
+missing-streets: 'yes'
+refstreets:
+  'Bajcsy-Zsilinszky Endre út': 'Bajcsy-Zsilinszky út'
+  'Bibó István utca': 'Bibó István út'
+  'Báthory István utca': 'Báthori István utca'
+  'Dózsa György tér': 'Dózsa tér'
+  'Hatvany Lajos utca': 'Hatvani Lajos utca'
+  'Hét vezér utca': 'Hétvezér utca'
+  'Jókai Mór utca': 'Jókai utca'
+  'Kinizsi Pál utca': 'Kinizsi utca'
+  'Kosztolányi Dezső utca': 'Kosztolányi út'
+  # 'Népkert': 'Népkert utca'
+  'Szabadság utca': 'Szabadság út'
+  'Szepes Béla út': 'Szepes Béla utca'
+  'Tabán utca': 'Tabán út'
+  'Tarjáni utca': 'Tarjáni út'
+  'Temető út': 'Temető utca'
+  'Vereckei utca': 'Vereczkei utca'
+# street-filters:
+# osm-street-filters:
+source: survey
+housenumber-letters: true
+inactive: false
