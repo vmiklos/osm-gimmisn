@@ -1,0 +1,10 @@
+missing-streets: 'yes'
+refstreets:
+  'Hunyadi János sor': 'Hunyadi sor'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  # 'Piac tér': 'Piac udvar'
+# street-filters:
+# osm-street-filters:
+source: survey
+housenumber-letters: true
+inactive: false
