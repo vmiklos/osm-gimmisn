@@ -1,0 +1,12 @@
+missing-streets: 'yes'
+refstreets:
+  'Bocskai út': 'Bocskay út'
+  'Dugonics utca': 'Dugonics út'
+  'Gábor Áron utca': 'Gábor Áron út'
+  'Ifjúság út': 'Ifjuság út'
+  'Széchenyi út': 'Szécsényi út'
+# street-filters:
+# osm-street-filters:
+source: survey
+housenumber-letters: true
+inactive: false
