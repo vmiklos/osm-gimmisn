@@ -1,5 +1,9 @@
 missing-streets: 'yes'
 filters:
+  Akácos utca:
+    # 21: üres telek
+    # 25: nincs kiírva, fh szerint nem stimmel a 27 telke
+    invalid: ['21', '25']
   Alsóerdősor:
     show-refstreet: false
   Aradi utca:
@@ -14,7 +18,9 @@ filters:
     invalid: ['9']
   Balaton körút:
     # 1: nincs, 3-tól indul a páratlan
-    invalid: ['1']
+    # 71, 81: nincs, másik utcáról
+    # 111: nincs.
+    invalid: ['1', '71', '81', '111']
   Bercsényi utca:
     ranges:
       - {start: '1', end: '51'}
@@ -28,7 +34,7 @@ filters:
   Felsővillasor:
     # 30 = Fürdő köz 1.
     # 50: utolsó ház 48.
-    invalid: ['50']
+    invalid: ['30', '50']
   Fürj utca:
     # 7: páratlan oldalon mező van
     invalid: ['7']
@@ -44,8 +50,9 @@ filters:
       - {start: '1', end: '29'}
       - {start: '2', end: '26'}
   Gyári utca:
+    # 2: nincs kiírva. RESURVEY 2025.
     # 16-28 között nincsenek házak
-    invalid: ['16', '18', '20', '22', '24', '26'] 
+    invalid: ['2', '16', '18', '20', '22', '24', '26'] 
   Harmat utca:
     # 9: nincs, max házszám az 5 a páratlan oldalon
     invalid: ['9']
@@ -53,12 +60,16 @@ filters:
     # RESURVEY 2024-06
     # 25: nincs kiírva, 23 után a másik utcáról számozódnak, de a Meggyes utca sarkon  van egy házszám nélküli épület
     invalid: ['25']
+  Horgász utca:
+    # 25: max házszám 10 alatt mindkét oldalon
+    invalid: ['25']
   Hóvirág köz:
     # Nincsenek házak erre számozva
     invalid: ['8', '34']
   Iglói utca:
-    # utolsó házszám 15-17, a maradék a Kilátó utcáról számozódik
-    invalid: ['19']
+    # 12: nincs, van egy rom a telek végén, semmi nincs kiírva. valamint a 18-as régi házszáma. RESURVEY 2026.
+    # 19: utolsó házszám 15-17, a maradék a Kilátó utcáról számozódik
+    invalid: ['12', '19']
   Irinyi János utca:
     # 14, 28: max páros házszám a 10.
     invalid: ['14', '28']
@@ -70,12 +81,19 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '22'}
+  József Attila utca:
+    # 12-13: csak 12 van kiírva
+    invalid: ['13']
   Kilátó köz:
     # max páratlan 7
     invalid: ['9', '19']
   Kilátó utca:
     # 123: a Kilátó utca egyik szakaszának helyrajzi száma, a max kiírt 107 de még vannak házak, melyeken nincs szám.
     invalid: ['123']
+  Mámatető utca:
+    # 18, 20: üres telkek
+    # 29: Az utca végén épül egy társasház, a többi telek a Hóvirág utcáról számozva.
+    invalid: ['18', '20', '29']
   Meggyes utca:
     # 1-13: 1 ház épül semmi sincs kiírva. RESURVEY 2025
     invalid: ['13']
@@ -88,6 +106,12 @@ filters:
   Papkeszi utca:
     # 1: nincs
     invalid: ['1']
+  Petőfi Sándor utca:
+    # 26: nincs, max páros a 24.
+    invalid: ['26']
+  Pipa utca:
+    # 8: nincs, úres telek. Földhivatalnál meg a Petőfi Sándor utca 8-ra hozza, ami nem felel meg a valóságnak.
+    invalid: ['8']
   Rákóczi utca:
     # 10: 2 db 8-as van, majd 12
     invalid: ['10']
