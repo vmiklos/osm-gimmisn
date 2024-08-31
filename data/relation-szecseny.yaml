@@ -1,12 +1,19 @@
 missing-streets: 'yes'
 refstreets:
+  # kérdéses
   'Bocskai út': 'Bocskay út'
   'Dugonics utca': 'Dugonics út'
   'Gábor Áron utca': 'Gábor Áron út'
-  'Ifjúság út': 'Ifjuság út'
   'Széchenyi út': 'Szécsényi út'
-# street-filters:
-# osm-street-filters:
+  # helyesírás
+  'Ifjúság út': 'Ifjuság út'
+street-filters:
+  # tanyák
+  - Vancsó puszta
+  - Váradvölgy puszta
+osm-street-filters:
+  # parkok
+  - Várkert
 source: survey
 housenumber-letters: true
 inactive: false
