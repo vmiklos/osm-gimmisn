@@ -82,6 +82,8 @@ street-filters:
   - Kádárta major
   - Külterület
   - Laci-major
+  # Bakony Művek, nincs táblázva semmi, nem eldönthető
+  - Szerelde köz
 osm-street-filters:
   # parkok, sétányok, ösvények
   - Carlos Perez sétány
@@ -99,6 +101,8 @@ osm-street-filters:
   - Északi hadiút
   - Szent István völgyhíd
   - Hadiút
+  # nincs táblázva, nem eldönthető
+  - Cserhát utca
 source: survey
 housenumber-letters: false
 inactive: true
