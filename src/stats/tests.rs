@@ -25,9 +25,8 @@ fn test_handle_progress() {
     let mut ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2020-05-10", "254651"],
+        conn.execute_batch(
+            "insert into stats_counts (date, count) values ('2020-05-10', '254651');",
         )
         .unwrap();
     }
@@ -60,14 +59,9 @@ fn test_handle_capital_progress() {
     let mut ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "Budapest_02", "200"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "Budapest_11", "11"],
+        conn.execute_batch(
+            "insert into stats_citycounts (date, city, count) values ('2020-05-10', 'Budapest_02', '200');
+             insert into stats_citycounts (date, city, count) values ('2020-05-10', 'Budapest_11', '11');",
         )
         .unwrap();
     }
@@ -131,15 +125,15 @@ fn test_handle_topusers() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
+        let mut stmt = conn
+            .prepare("insert into stats_topusers (date, user, count) values (?1, ?2, ?3)")
+            .unwrap();
         for i in 0..20 {
-            conn.execute(
-                r#"insert into stats_topusers (date, user, count) values (?1, ?2, ?3)"#,
-                [
-                    "2020-05-10",
-                    &format!("user{}", i + 1),
-                    &format!("{}", 20 - i),
-                ],
-            )
+            stmt.execute([
+                "2020-05-10",
+                &format!("user{}", i + 1),
+                &format!("{}", 20 - i),
+            ])
             .unwrap();
         }
     }
@@ -192,14 +186,9 @@ fn test_hanle_daily_new() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2020-04-26", "251250"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2020-04-27", "251614"],
+        conn.execute_batch(
+            "insert into stats_counts (date, count) values ('2020-04-26', '251250');
+             insert into stats_counts (date, count) values ('2020-04-27', '251614');",
         )
         .unwrap();
     }
@@ -218,14 +207,9 @@ fn test_handle_invalid_addr_cities() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_invalid_addr_cities_counts (date, count) values (?1, ?2)"#,
-            ["2020-04-26", "1"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_invalid_addr_cities_counts (date, count) values (?1, ?2)"#,
-            ["2020-04-27", "2"],
+        conn.execute_batch(
+            "insert into stats_invalid_addr_cities_counts (date, count) values ('2020-04-26', '1');
+             insert into stats_invalid_addr_cities_counts (date, count) values ('2020-04-27', '2');",
         )
         .unwrap();
     }
@@ -256,24 +240,11 @@ fn test_handle_monthly_new() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2019-05-01", "199518"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2019-06-01", "203317"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2020-05-01", "253027"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2020-05-10", "254651"],
+        conn.execute_batch(
+            "insert into stats_counts (date, count) values ('2019-05-01', '199518');
+             insert into stats_counts (date, count) values ('2019-06-01', '203317');
+             insert into stats_counts (date, count) values ('2020-05-01', '253027');
+             insert into stats_counts (date, count) values ('2020-05-10', '254651');",
         )
         .unwrap();
     }
@@ -293,14 +264,9 @@ fn test_handle_monthly_new_empty_month_range() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2020-05-01", "253027"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2020-05-10", "254651"],
+        conn.execute_batch(
+            "insert into stats_counts (date, count) values ('2020-05-01', '253027');
+              insert into stats_counts (date, count) values ('2020-05-10', '254651');",
         )
         .unwrap();
     }
@@ -316,19 +282,10 @@ fn test_handle_monthly_new_incomplete_last_month() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2019-05-01", "199518"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2019-06-01", "203317"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2020-05-01", "253027"],
+        conn.execute_batch(
+            "insert into stats_counts (date, count) values ('2019-05-01', '199518');
+             insert into stats_counts (date, count) values ('2019-06-01', '203317');
+             insert into stats_counts (date, count) values ('2020-05-01', '253027');",
         )
         .unwrap();
         // 2020-05-10 would be the data for the current state of the last, incomplete month.
@@ -349,9 +306,8 @@ fn test_handle_daily_total() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2020-04-27", "251614"],
+        conn.execute_batch(
+            "insert into stats_counts (date, count) values ('2020-04-27', '251614');",
         )
         .unwrap();
     }
@@ -378,9 +334,8 @@ fn test_handle_user_total() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_usercounts (date, count) values (?1, ?2)"#,
-            ["2020-04-27", "43"],
+        conn.execute_batch(
+            "insert into stats_usercounts (date, count) values ('2020-04-27', '43');",
         )
         .unwrap();
     }
@@ -407,9 +362,8 @@ fn test_handle_monthly_total() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2019-06-01", "203317"],
+        conn.execute_batch(
+            "insert into stats_counts (date, count) values ('2019-06-01', '203317');",
         )
         .unwrap();
     }
@@ -436,14 +390,9 @@ fn test_handle_monthly_total_one_element_day_range() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2020-05-01", "253027"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_counts (date, count) values (?1, ?2)"#,
-            ["2020-05-10", "254651"],
+        conn.execute_batch(
+            "insert into stats_counts (date, count) values ('2020-05-01', '253027');
+             insert into stats_counts (date, count) values ('2020-05-10', '254651');",
         )
         .unwrap();
     }
