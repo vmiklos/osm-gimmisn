@@ -101,7 +101,7 @@ fn test_build_reference_index() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute("delete from ref_housenumbers", []).unwrap();
+        conn.execute_batch("delete from ref_housenumbers").unwrap();
     }
     let refpath = ctx.get_abspath("workdir/refs/hazszamok_20190511.tsv");
     build_reference_index(&ctx, &[refpath.clone()]).unwrap();
@@ -139,7 +139,7 @@ fn test_build_street_reference_index() {
     let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute("delete from ref_streets", []).unwrap();
+        conn.execute_batch("delete from ref_streets").unwrap();
     }
     let refpath = ctx.get_abspath("workdir/refs/utcak_20190514.tsv");
     build_street_reference_index(&ctx, &refpath).unwrap();
