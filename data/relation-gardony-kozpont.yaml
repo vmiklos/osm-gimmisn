@@ -9,7 +9,7 @@ filters:
     ranges: []
   Benczúr Gyula tér:
     interpolation: 'all'
-  Bikavölgyi út:
+  Bikavölgyi utca:
     # 168/42: ez helyrajzi szám, nem házszám.
     invalid: ['168']
   Csók István tér:
