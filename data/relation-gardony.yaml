@@ -11,13 +11,17 @@ street-filters:
   - Pálmajor puszta  # Pálmajorpuszta, place nem mappelhető
   # place
   - Agárdpuszta  # https://www.openstreetmap.org/node/4159119774
+  # nincs tálba
+  # Szőlő út - https://www.openstreetmap.org/note/3514046
+  # Napraforgó út - https://www.openstreetmap.org/note/3787202
 refstreets:
   # Gárdony ------------------------------------------------------------------
   'Bem József utca': 'Bem köz'  # az utca egyik végén Bem köz (régi tábla), a másik végén Bem József utca (új tábla) van kitéve. földhivatal Bem utca
-  'Diófa utca': 'Diófa út'
+  'Bikavölgyi utca': 'Bikavölgyi út'  # táblán Bikavölgyi utca
+  'Diófa utca': 'Diófa út'  # táblán Diófa utca
   'Erkel köz': 'Erkel Ferenc köz'  # táblán Erkel köz
   'Málna utca': 'Málna út'
-  'Mandula utca': 'Mandula út'
+  'Mandula utca': 'Mandula út'  # táblán Mandula utca - https://www.openstreetmap.org/note/3518401
   'Munkácsy Mihály körút': 'Munkácsy Mihály utca'  # táblán Munkácsy Mihály körút - https://www.openstreetmap.org/note/3518399
   'Táncsics Mihály utca': 'Táncsics utca'  # táblán Táncsics Mihály utca
   'Semmelweis Ignác utca': 'Semmelweis utca'  # táblán Semmelweis I. utca
