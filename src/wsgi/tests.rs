@@ -1277,10 +1277,10 @@ fn test_housenumbers_view_result_update_result_link() {
     let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/view-result");
 
     let uri = format!(
-        "{}/missing-housenumbers/gazdagret/view-result",
+        "{}/street-housenumbers/gazdagret/update-result",
         test_wsgi.ctx.get_ini().get_uri_prefix()
     );
-    let results = TestWsgi::find_all(&root, &format!("body/div[@id='toolbar']/a[@href='{uri}']"));
+    let results = TestWsgi::find_all(&root, &format!("body/div[@id='toolbar']//a[@href='{uri}']"));
     assert_eq!(results.len(), 1);
 }
 
