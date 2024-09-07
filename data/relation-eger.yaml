@@ -91,7 +91,7 @@ refstreets:
   'Deméndi utca': 'Deméndi út'  # Note 2803218
   'Disznófő-sor': 'Disznófősor'  # Note 2803215
   'Egri út': 'Egri utca'  # Note 2803225
-  'Hevesi Sándor utca': 'Hevesy Sándor utca'  # Note 2803219
+  # 'Hevesi Sándor utca': 'Hevesy Sándor utca' # Táblán Hevesy Sándor utca - Note 2803219
   'II. Rákóczi Ferenc út': 'II. Rákóczi Ferenc utca'
   # 'Maczki Valér utca': 'Macki Valér utca'  # Note 2803212 - ref 2024-ben már Maczki Valér utca, táblán Maczki Valér utca, régi táblén Maczky Valér utca
   'Nagylapos utca': 'Nagylaposi út'  # Note 2803222
