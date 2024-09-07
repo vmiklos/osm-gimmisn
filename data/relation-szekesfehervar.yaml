@@ -93,6 +93,7 @@ refstreets:
   'Vargacsatorna part': 'Vargacsatornapart'  # https://www.openstreetmap.org/note/4343438
   'Zágoni út': 'Zágoni utca'   # https://www.openstreetmap.org/note/4343475
   # ellenőrzött
+  'Gellért újsor': 'Gellért új sor'      # táblán Gellért újsor, másik helyen Gellért újsor + Kelemen Béla köz
   'Hosszúsétatér utca': 'Hosszúsétatér'  # táblán Hosszúsétatér u.
   'Újlaki utca': 'Ujlaki utca'           # táblán Újlaki utca - https://www.openstreetmap.org/note/4343469
   # Kölcsey utca       - https://www.openstreetmap.org/note/4352873
