@@ -1478,32 +1478,14 @@ fn test_missing_streets_well_formed() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
+             insert into mtimes (page, last_modified) values ('streets/gazdagret', '0');",
         )
         .unwrap();
     }
@@ -1547,32 +1529,14 @@ fn test_missing_streets_well_formed_compat() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
+             insert into mtimes (page, last_modified) values ('streets/gazdagret', '0');",
         )
         .unwrap();
     }
@@ -1640,32 +1604,14 @@ fn test_missing_streets_view_result_txt() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
+             insert into mtimes (page, last_modified) values ('streets/gazdagret', '0');",
         )
         .unwrap();
     }
@@ -1705,32 +1651,14 @@ fn test_missing_streets_view_result_chkl() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
+             insert into mtimes (page, last_modified) values ('streets/gazdagret', '0');",
         )
         .unwrap();
     }
@@ -2163,14 +2091,9 @@ fn test_handle_stats_cityprogress_well_formed() {
     let mut test_wsgi = TestWsgi::new();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "budapest_11", "11"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_citycounts (date, city, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "budapest_12", "12"],
+        conn.execute_batch(
+            "insert into stats_citycounts (date, city, count) values ('2020-05-10', 'budapest_11', '11');
+             insert into stats_citycounts (date, city, count) values ('2020-05-10', 'budapest_12', '12');",
         )
         .unwrap();
     }
@@ -2188,14 +2111,9 @@ fn test_handle_stats_zipprogress_well_formed() {
     let mut test_wsgi = TestWsgi::new();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into stats_zipcounts (date, zip, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "1111", "10"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into stats_zipcounts (date, zip, count) values (?1, ?2, ?3)"#,
-            ["2020-05-10", "1121", "20"],
+        conn.execute_batch(
+            "insert into stats_zipcounts (date, zip, count) values ('2020-05-10', '1111', '10');
+             insert into stats_zipcounts (date, zip, count) values ('2020-05-10', '1121', '20');",
         )
         .unwrap();
     }
@@ -2232,32 +2150,14 @@ fn test_handle_invalid_refstreets() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
+             insert into mtimes (page, last_modified) values ('streets/gazdagret', '0');",
         )
         .unwrap();
     }
@@ -2314,12 +2214,10 @@ fn test_handle_invalid_refstreets_no_invalids() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/myrelation", &mtime],
+        conn.execute_batch(
+            "insert into mtimes (page, last_modified) values ('streets/myrelation', '0');",
         )
         .unwrap();
     }
@@ -2509,9 +2407,8 @@ fn test_handle_main_housenr_percent() {
     file_system.set_files(&files);
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
-            ["gazdagret", "4.2", "0"],
+        conn.execute_batch(
+            "insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values ('gazdagret', '4.2', '0');",
         ).unwrap();
     }
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
@@ -2531,9 +2428,8 @@ fn test_handle_main_street_percent() {
     let mut ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_street_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
-            ["gazdagret", "80.00", "0"],
+        conn.execute_batch(
+            "insert into osm_street_coverages (relation_name, coverage, last_modified) values ('gazdagret', '80.00', '0');",
         ).unwrap();
     }
     let yamls_cache = serde_json::json!({
