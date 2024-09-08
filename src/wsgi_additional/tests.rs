@@ -45,51 +45,27 @@ fn test_streets_view_result_txt() {
     test_wsgi.get_ctx().set_file_system(&file_system);
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Törökugrató utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Tűzkő utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Ref Name 1"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Only In Ref utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Only In Ref Nonsense utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Hamzsabégi út"],
-        )
-        .unwrap();
         conn.execute_batch(
-            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
-            insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
-            insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
-            insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
-            insert into mtimes (page, last_modified) values ('streets/gazdagret', '0');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '1', 'Törökugrató utca', '1', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '2', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '3', 'Tűzkő utca', '9', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '4', 'Tűzkő utca', '10', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '5', 'OSM Name 1', '1', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '6', 'OSM Name 1', '2', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '7', 'Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '8', 'Second Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
-            insert into mtimes (page, last_modified) values ('housenumbers/gazdagret', '0');",
+            "insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Törökugrató utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Tűzkő utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Ref Name 1');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Only In Ref utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Only In Ref Nonsense utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Hamzsabégi út');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
+             insert into mtimes (page, last_modified) values ('streets/gazdagret', '0');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '1', 'Törökugrató utca', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '2', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '3', 'Tűzkő utca', '9', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '4', 'Tűzkő utca', '10', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '5', 'OSM Name 1', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '6', 'OSM Name 1', '2', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '7', 'Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '8', 'Second Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into mtimes (page, last_modified) values ('housenumbers/gazdagret', '0');",
         )
         .unwrap();
     }
@@ -133,82 +109,24 @@ fn test_streets_view_result_gpx() {
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     test_wsgi.get_ctx().set_network(network_rc);
     test_wsgi.set_content_type("text/gpx+xml; charset=utf-8");
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Törökugrató utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Tűzkő utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Ref Name 1"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Only In Ref utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Only In Ref Nonsense utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Hamzsabégi út"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "1", "Törökugrató utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "2", "Törökugrató utca", "2", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "3", "Tűzkő utca", "9", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "4", "Tűzkő utca", "10", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "5", "OSM Name 1", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "6", "OSM Name 1", "2", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "7", "Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "8", "Second Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["housenumbers/gazdagret", &mtime],
+        conn.execute_batch(
+            "insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Törökugrató utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Tűzkő utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Ref Name 1');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Only In Ref utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Only In Ref Nonsense utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Hamzsabégi út');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '1', 'Törökugrató utca', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '2', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '3', 'Tűzkő utca', '9', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '4', 'Tűzkő utca', '10', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '5', 'OSM Name 1', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '6', 'OSM Name 1', '2', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '7', 'Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '8', 'Second Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into mtimes (page, last_modified) values ('housenumbers/gazdagret', '0');",
         )
         .unwrap();
     }
@@ -244,108 +162,29 @@ fn test_streets_view_result_chkl() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Törökugrató utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Tűzkő utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Ref Name 1"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Only In Ref utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Only In Ref Nonsense utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Hamzsabégi út"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
-        )
-        .unwrap();
-
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "1", "Törökugrató utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "2", "Törökugrató utca", "2", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "3", "Tűzkő utca", "9", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "4", "Tűzkő utca", "10", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "5", "OSM Name 1", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "6", "OSM Name 1", "2", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "7", "Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "8", "Second Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["housenumbers/gazdagret", &mtime],
+        conn.execute_batch(
+            "insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Törökugrató utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Tűzkő utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Ref Name 1');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Only In Ref utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Only In Ref Nonsense utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Hamzsabégi út');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
+             insert into mtimes (page, last_modified) values ('streets/gazdagret', '0');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '1', 'Törökugrató utca', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '2', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '3', 'Tűzkő utca', '9', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '4', 'Tűzkő utca', '10', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '5', 'OSM Name 1', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '6', 'OSM Name 1', '2', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '7', 'Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '8', 'Second Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into mtimes (page, last_modified) values ('housenumbers/gazdagret', '0');",
         )
         .unwrap();
     }
@@ -471,7 +310,6 @@ fn test_additional_housenumbers_well_formed() {
     file_system.set_files(&files);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.get_ctx().set_file_system(&file_system_rc);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
         conn.execute_batch(
@@ -487,63 +325,18 @@ fn test_additional_housenumbers_well_formed() {
              insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '1', '');
              insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '10', '');
              insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '2', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '9', '');"
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "my street", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
-        )
-        .unwrap();
-
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "1", "Törökugrató utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "2", "Törökugrató utca", "2", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "3", "Tűzkő utca", "9", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "4", "Tűzkő utca", "10", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "5", "OSM Name 1", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "6", "OSM Name 1", "2", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "7", "Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gazdagret", "8", "Second Only In OSM utca", "1", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["housenumbers/gazdagret", &mtime],
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '9', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'my street', '', '', '', '', '');
+             insert into mtimes (page, last_modified) values ('streets/gazdagret', '0');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '1', 'Törökugrató utca', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '2', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '3', 'Tűzkő utca', '9', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '4', 'Tűzkő utca', '10', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '5', 'OSM Name 1', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '6', 'OSM Name 1', '2', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '7', 'Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '8', 'Second Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into mtimes (page, last_modified) values ('housenumbers/gazdagret', '0');",
         )
         .unwrap();
     }
@@ -597,17 +390,11 @@ fn test_additional_housenumbers_no_osm_housenumbers_well_formed() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "my street", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'my street', '', '', '', '', '');
+            insert into mtimes (page, last_modified) values ('streets/gazdagret', '0');",
         )
         .unwrap();
     }
@@ -643,68 +430,21 @@ fn test_streets_well_formed() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Törökugrató utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Tűzkő utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Ref Name 1"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Only In Ref utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Only In Ref Nonsense utca"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)"#,
-            ["01", "011", "Hamzsabégi út"],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "1", "Tűzkő utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "2", "Törökugrató utca", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "3", "OSM Name 1", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gazdagret", "4", "Hamzsabégi út", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gazdagret", &mtime],
-        )
-        .unwrap();
-
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["housenumbers/gazdagret", &mtime],
+        conn.execute_batch(
+            "insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Törökugrató utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Tűzkő utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Ref Name 1');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Only In Ref utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Only In Ref Nonsense utca');
+             insert into ref_streets (county_code, settlement_code, street) values ('01', '011', 'Hamzsabégi út');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
+             insert into mtimes (page, last_modified) values ('streets/gazdagret', '0');
+             insert into mtimes (page, last_modified) values ('housenumbers/gazdagret', '0');",
         )
         .unwrap();
     }
@@ -751,28 +491,13 @@ fn test_streets_street_from_housenr_well_formed() {
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
-    let mtime = test_wsgi.get_ctx().get_time().now_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
-        conn.execute(
-            r#"insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"#,
-            ["gh611", "42", "Street name", "", "", "", "", ""],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["streets/gh611", &mtime],
-        )
-        .unwrap();
-
-        conn.execute(
-            "insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
-            ["gh611", "6852648009", "Albert utca", "42", "", "", "", "", "", "", "", "", "", "node"],
-        )
-        .unwrap();
-        conn.execute(
-            "insert into mtimes (page, last_modified) values (?1, ?2)",
-            ["housenumbers/gh611", &mtime],
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gh611', '42', 'Street name', '', '', '', '', '');
+             insert into mtimes (page, last_modified) values ('streets/gh611', '0');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gh611', '6852648009', 'Albert utca', '42', '', '', '', '', '', '', '', '', '', 'node');
+             insert into mtimes (page, last_modified) values ('housenumbers/gh611', '0');",
         )
         .unwrap();
     }

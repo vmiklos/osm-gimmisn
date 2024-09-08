@@ -89,12 +89,6 @@ pub trait Time {
     /// Calculates the current time.
     fn now(&self) -> time::OffsetDateTime;
 
-    /// The current time as a unix timestamp nanosec string.
-    fn now_string(&self) -> String {
-        let now = self.now();
-        now.unix_timestamp_nanos().to_string()
-    }
-
     /// Delay execution for a given number of seconds.
     fn sleep(&self, seconds: u64);
 
