@@ -794,6 +794,10 @@ somogysard:
     osmrelation: 1367837
     refcounty: "15"
     refsettlement: "192"
+somogyszentpal:
+    osmrelation: 1367926
+    refcounty: "15"
+    refsettlement: "194"
 szantod:
     osmrelation: 1368096
     refcounty: "15"
