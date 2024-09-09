@@ -8,9 +8,10 @@ filters:
     interpolation: all
 # refstreets:
 #  'Ady utca': 'Ady Endre utca'
-# street-filters:
+street-filters:
   # tanya/településrész
-  # nem igazi utcák
+  - Amilla major
+  - Központi major
 #osm-street-filters:
   # parkok
 source: survey
