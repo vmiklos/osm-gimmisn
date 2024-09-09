@@ -1,0 +1,18 @@
+missing-streets: 'yes'
+filters:
+  Kossuth tér:
+    interpolation: all
+  Jókai utca:
+    interpolation: all
+  Táncsics utca:
+    interpolation: all
+# refstreets:
+#  'Ady utca': 'Ady Endre utca'
+# street-filters:
+  # tanya/településrész
+  # nem igazi utcák
+#osm-street-filters:
+  # parkok
+source: survey
+housenumber-letters: true
+inactive: false
