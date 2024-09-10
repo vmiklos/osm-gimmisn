@@ -402,6 +402,10 @@ velence:
     osmrelation: 1418512
     refcounty: "07"
     refsettlement: "102"
+zamoly:
+    osmrelation: 1321962
+    refcounty: "07"
+    refsettlement: "106"
 # 08 - Győr-Moson-Sopron
 gyor:
     osmrelation: 1440627
