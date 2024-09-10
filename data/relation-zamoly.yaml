@@ -1,0 +1,17 @@
+missing-streets: 'yes'
+refstreets:
+  # kérdéses
+  'Ady Endre utca': 'Ady utca'
+  # rövidítés
+  'József Attila utca': 'József A. utca'
+  'Nyári Pál utca': 'Nyári P. utca'
+  'Táncsics Mihály utca': 'Táncsics M. utca'
+#street-filters:
+  # tanya/településrész
+  # - Borbála-puszta puszta
+  # - Kossuth-tanya tanya
+#osm-street-filters:
+  # parkok
+source: survey
+housenumber-letters: true
+inactive: false
