@@ -1,4 +1,20 @@
 missing-streets: 'yes'
+filters:
+  József Attila utca:
+    show-refstreet: false
+  Nyári Pál utca:
+    show-refstreet: false
+  Petőfi utca:
+    # 852: a páros oldalon a 122 az utolsó házszám.
+    invalid: ['852']
+  Rákóczi utca:
+    # 486: ez helyrajzi szám, nem házszám.
+    invalid: ['486']
+  Táncsics Mihály utca:
+    show-refstreet: false
+  Vasvári Pál utca:
+    # 186: a páros oldalon a 38 lehet az utolsó házszám.
+    invalid: ['186']
 refstreets:
   # kérdéses
   'Ady Endre utca': 'Ady utca'
