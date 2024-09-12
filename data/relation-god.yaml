@@ -16,8 +16,6 @@ refstreets:
   # rövidítés
   'Szent István utca': 'Szt. István utca'
   'Szent László utca': 'Szt. László utca'
-  # kérdéses
-  'Bischoff házaspár utca': 'Bischof házaspár utca'  # tábla Bischoff házaspár utca (2014)
   # 'Száhlender Béla dűlő': 'Szálender tanya'
   # ellenőrzött 
   'Bozóky Gyula tér': 'Bozóki Gyula tér'  # tábla Bozóky Gyula tér (2023.05)
@@ -34,6 +32,7 @@ refstreets:
   'III. Körforgalmi út': 'III. körforgalmi út'
   'IV. Körforgalmi út': 'IV. körforgalmi út'
   'V. Körforgalmi út': 'V. körforgalmi út'
+  'Bischoff házaspár utca': 'Bischof házaspár utca'  # tábla Bischoff házaspár utca (2024.09)- https://www.openstreetmap.org/note/3675152
 source: survey
 housenumber-letters: false
 inactive: false
