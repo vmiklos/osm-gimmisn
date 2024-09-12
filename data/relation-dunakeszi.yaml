@@ -28,6 +28,7 @@ street-filters:
   - Vasutas sportpálya
   - Vízműtelep
   # nincs
+  - Lejtő köz  # https://www.openstreetmap.org/note/3679664
   - Tűzoltó utca
 refstreets:
   'Alagimajor út': 'Alagi majori út'
