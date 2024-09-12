@@ -1,5 +1,31 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Görög utca:
+    invalid: ['111']
+  Kárpát utca:
+    invalid: ['922']
+  Mekcsey István utca:
+    invalid: ['810']
+  Pásztorvölgy utca:
+    invalid: ['401']
+  Remenyik Zsigmond utca:
+    # max házszám 18 körül
+    invalid: ['37', '61/1', '77', '374']
+  Servita utca:
+    invalid: ['215']
+  # hrsz szűrések
+  Almár-dűlő:
+    invalid: ['49']
+  Donát út:
+    invalid: ['190/5']
+  Galagonyás utca:
+    invalid: ['808']
+  Kőkút utca:
+    invalid: ['835', '834']
+  Paphegy utca:
+    invalid: ['852/2']
+  Szalóki út:
+    invalid: ['852']
 osm-street-filters:
   # nem igazi utcák
   - Bástya utcai aluljáró
@@ -88,7 +114,7 @@ refstreets:
   # Akácfa utca - Akácos utca: dupla nem mappelhető
   'Borház sor': 'Borház sor utca' # Note 4178003
   # 'Bem tábornok utca': 'Bem tábornok tér'  # Note 2803168 - táblák vegyesen
-  'Deméndi utca': 'Deméndi út'  # Note 2803218
+  # 'Deméndi utca': 'Deméndi út'  # Note 2803218
   'Disznófő-sor': 'Disznófősor'  # Note 2803215
   'Egri út': 'Egri utca'  # Note 2803225
   # 'Hevesi Sándor utca': 'Hevesy Sándor utca' # Táblán Hevesy Sándor utca - Note 2803219
@@ -101,3 +127,4 @@ refstreets:
   # 'Törvényház út': 'Törvényház utca'  # Note 2803216
 source: survey
 inactive: true
+housenumber-letters: true
