@@ -23,8 +23,9 @@ filters:
   Sulymosi kertsor:
     interpolation: 'all'
 # osm-street-filters:
-# street-filters:
+street-filters:
   # tanyák
+  - Tanya
   # nem igazi utcák
 source: survey
 housenumber-letters: true
