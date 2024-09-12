@@ -47,6 +47,12 @@ filters:
   Mátyás király utca:
     # 10: helyén 8 van kiírva. tulaj nem tudta megerősíteni, hogy 10 lenne a házszáma
     invalid: ['10']
+  May János utca:
+    # 2x2 új ház, nincs kiírva semmi, a hrsz-eket újra szervezték. RESURVEY 2025.
+    invalid: ['48a']
+  Merse út:
+    # 5: nincs kiírva, földhivatal nem tartja nyilván
+    invalid: ['5']
   Mihálkovics sétány:
     # 19, 28: nincsenek kiírva, de vannak még építkezések és nem kiírt házak a Patak utcánál is. RESURVEY 2024
     invalid: ['19', '28']
