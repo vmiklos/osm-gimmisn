@@ -73,11 +73,9 @@ filters:
     # 2: nincs, illetve a földhivatalban Patak utca 14-re mutat, ami egész máshol van
     invalid: ['2']
   Római út:
+    invalid: ['120']
     # Hrsz 1066-os telek földhivatal szerint a 61-85 közötti házszámok. RESURVEY 2024
     # A telken 4 ház van, az egyiken 1066/6 van kiírva, a többin semmi.
-    ranges:
-      - {start: '1', end: '59'}
-      - {start: '2', end: '120'}
   Sarló utca:
     # 6: helyén 4 van kiírva
     invalid: ['6']
