@@ -23,6 +23,9 @@ filters:
     # 20: nincs, 18 után 22
     # 47: nincs, utolsó ház a 41.
     invalid: ['20', '47']
+  Füredi utca:
+    # 2, 6: nincs, legkisebb házszám a 10
+    invalid: ['2', '6']
   Gárdonyi Géza utca:
     # 34: utolsó kiírt páros 14 és egy sarki ház van amint nincs szám
     invalid: ['34']
@@ -41,12 +44,19 @@ filters:
   Hunyadi János utca:
     # 19: max páratlan a 11
     invalid: ['19']
+  Loki út:
+    # 47/a = Szilvás köz 8
+    # 48 = 32 van kírva
+    invalid: ['47', '48']
   Madách Imre utca:
     # 72: max páros a 26
     invalid: ['72']
   Mátyás király utca:
     # 10: helyén 8 van kiírva. tulaj nem tudta megerősíteni, hogy 10 lenne a házszáma
     invalid: ['10']
+  # Mandula utca:
+    # RESURVEY 2025
+    # invalid: ['2']
   May János utca:
     # 2x2 új ház, nincs kiírva semmi, a hrsz-eket újra szervezték. RESURVEY 2025.
     invalid: ['48a']
@@ -56,6 +66,9 @@ filters:
   Mihálkovics sétány:
     # 19, 28: nincsenek kiírva, de vannak még építkezések és nem kiírt házak a Patak utcánál is. RESURVEY 2024
     invalid: ['19', '28']
+  Nyírfa köz:
+    # 4, 6: nincs kiírva
+    invalid: ['6']
   Petőfi köz:
     # 2: nincs, illetve a földhivatalban Patak utca 14-re mutat, ami egész máshol van
     invalid: ['2']
@@ -68,6 +81,10 @@ filters:
   Sarló utca:
     # 6: helyén 4 van kiírva
     invalid: ['6']
+  Sebők Soma köz:
+    # 10: max páros a 8
+    # 19: max páratlan a 11
+    invalid: ['10', '19']
   Szabadság tér:
     # 5: A helyén 3 van a ház kukáján, és az ÉTDR-ben is.
     # 24: Földhivatal szerint a Hegyalja utca 24 ez, ami 2 utcára van innen.
