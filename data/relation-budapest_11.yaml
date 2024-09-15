@@ -811,7 +811,7 @@ filters:
       - {start: '2', end: '14'}
   Gulyás köz:
     # 1, 3, 5ab, 5b, 5c, 7, 7c, 9
-    invalid: ['1a', '1d', '3a', '3b', '5a', '5d', '7a', '7b', '7d', '9/3', '9a', '9b', '9c', '9d']
+    invalid: ['1a', '1b', '1c', '1d', '3a', '3b', '3c', '3d', '5a', '5d', '7a', '7b', '7d', '9/3', '9a', '9b', '9c', '9d']
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '8'}
