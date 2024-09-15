@@ -157,6 +157,9 @@ filters:
     # 6a, 6b: csak sima hat van kiírva
     # 11-13: jobb oldali kapun a "13a" felül lett ragasztva 11-essel, és az "a" betűjel lekaparva (13a > 11), házon bal oldalt 13/b maradt
     invalid: ['4a', '6a', '6b', '13']
+  Baranyai utca:
+    # 6 = nincs, az épület a Kőrösy József utca 17. MU színház
+    invalid: ['6']
   Barázda utca:
     # 2 = Fehérvári út 118/b
     # 3: még épül. RESURVEY 2024
@@ -332,8 +335,9 @@ filters:
     # 32b: 32/b-c, fel van rögzítve így
     # 34c: 34/c-d, fel van rögzítve így
     # 40-50 között nincs semmi, 52 az erőmű, Budapart miatt valtozhat
+    # 54/a, 54/b: FH szerint is van, de csak 54 van kiírva
     # 57: 57/a, 57/b
-    # 59-63: 59-es van használatban
+    # 59-63: 59-es van használatban *** szűrőhöz hozzáadni #3892 után
     # 62-64: csak a 64 használatos
     # 76, 78, 82/A, 82/B: zöldmező
     # 65-77: nincs
@@ -343,7 +347,7 @@ filters:
     # 115-181: Újbuda Center, Hengermalomra számozva
     # 209a: 209. A épület
     # 215: páratlan: utolso ismert páratlan a 215, de meg vannak telkek
-    invalid: ['10', '26', '32b', '34c', '52a', '57', '62', '76', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117', '209a']
+    invalid: ['10', '26', '32b', '34c', '52a', '54a', '54b', '57', '62', '76', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117', '209a', '61']
   Budaörsi út:
     # páratlan ---------------------------------------------------------------
     # ezek vannak: 23/a, 25/a, 25/b, 27, 29, 31/a, 31, 31/b, 33/a, 33/b, 33/c
@@ -379,8 +383,9 @@ filters:
     # 168: nincs, elírt 165
     # 170: Safru
     # 180: 180/b - 180/i között
+    # 172-188: valójában 172-178 *** szűrőhöz hozzáadni #3892 után
     # max páros: 180
-    invalid: ['23', '23b', '36b', '40', '44b', '48a', '48b', '50b', '47', '55', '58', '68', '70', '72', '73/7', '74', '76', '76a', '80', '82', '84', '85', '86', '87', '89', '92a', '92b', '91', '94', '95', '97', '99', '101/2', '101a', '101c', '105', '109', '112a', '112b', '112c', '120c', '122', '123', '124', '125', '125e', '125g', '127', '128', '129', '129d', '129g', '130', '132', '140', '141a', '148a', '149', '151', '163', '168', '180/1', '180a', '181', '181b', '183', '187a', '201', '259b']
+    invalid: ['23', '23b', '36b', '40', '44b', '48a', '48b', '50b', '47', '55', '58', '68', '70', '72', '73/7', '74', '76', '76a', '80', '82', '84', '85', '86', '87', '89', '92a', '92b', '91', '94', '95', '97', '99', '101/2', '101a', '101c', '105', '109', '112a', '112b', '112c', '120c', '122', '123', '124', '125', '125e', '125g', '127', '128', '129', '129d', '129g', '130', '132', '140', '141a', '148a', '149', '151', '163', '168', '180/1', '180a', '181', '181b', '183', '187a', '201', '259b', '180', '182', '184', '186', '188']
   Bükköny utca:
     # 1 = Albertfalva utca 8, Szent Mihály templom
     # 5: 5/a, 5/b
