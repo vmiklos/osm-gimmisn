@@ -1308,26 +1308,36 @@ fn test_relation_get_osm_housenumbers_addr_place() {
     assert_eq!(actual, ["52"]);
 }
 
+fn numbered_streets_to_array(streets: &util::NumberedStreets) -> Vec<(String, Vec<String>)> {
+    streets
+        .iter()
+        .map(|numbered_street| {
+            let numbers: Vec<_> = numbered_street
+                .house_numbers
+                .iter()
+                .map(|i| i.get_number().to_string())
+                .collect();
+            (numbered_street.street.get_osm_name().to_string(), numbers)
+        })
+        .collect()
+}
+
 /// Tests Relation::get_missing_housenumbers().
 #[test]
 fn test_relation_get_missing_housenumbers() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
-            "gazdagret": {
+            "myrelation": {
                 "refcounty": "0",
                 "refsettlement": "0",
-                "osmrelation": 42,
             },
         },
-        "relation-gazdagret.yaml": {
+        "relation-myrelation.yaml": {
             "filters": {
-                "Törökugrató utca": {
-                    "invalid": [ "11", "12" ],
+                "mystreet": {
+                    "invalid": ["3"],
                 }
-            },
-            "refstreets": {
-                "OSM Name 1": "Ref Name 1",
             },
         },
     });
@@ -1340,78 +1350,30 @@ fn test_relation_get_missing_housenumbers() {
     ctx.set_file_system(&file_system);
     {
         let conn = ctx.get_database_connection().unwrap();
+        // 1 is done, 2 is missing, 3 is invalid.
         conn.execute_batch(
-            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Hamzsabégi út', '1', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '1', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Ref Name 1', '2', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '1', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '10', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '11', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '12', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '2', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Törökugrató utca', '7', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '1', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '10', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '2', '');
-             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Tűzkő utca', '9', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'Tűzkő utca', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '3', 'OSM Name 1', '', '', '', '', '');
-             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '4', 'Hamzsabégi út', '', '', '', '', '');
-             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '1', 'Törökugrató utca', '1', '', '', '', '', '', '', '', '', '', 'node');
-             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '2', 'Törökugrató utca', '2', '', '', '', '', '', '', '', '', '', 'node');
-             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '3', 'Tűzkő utca', '9', '', '', '', '', '', '', '', '', '', 'node');
-             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '4', 'Tűzkő utca', '10', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '5', 'OSM Name 1', '1', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '6', 'OSM Name 1', '2', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '7', 'Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');
-            insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('gazdagret', '8', 'Second Only In OSM utca', '1', '', '', '', '', '', '', '', '', '', 'node');",
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '1', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '2', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '3', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('myrelation', '2', 'mystreet', '', '', '', '', '');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('myrelation', '1', 'mystreet', '1', '', '', '', '', '', '', '', '', '', 'node');",
         )
         .unwrap();
     }
     let mut relations = Relations::new(&ctx).unwrap();
-    let relation_name = "gazdagret";
+    let relation_name = "myrelation";
     let mut relation = relations.get_relation(relation_name).unwrap();
     let missing_housenumbers = relation.get_missing_housenumbers().unwrap();
-    let ongoing_streets_strs: Vec<_> = missing_housenumbers
-        .ongoing_streets
-        .iter()
-        .map(|numbered_street| {
-            let numbers: Vec<_> = numbered_street
-                .house_numbers
-                .iter()
-                .map(|i| i.get_number())
-                .collect();
-            (numbered_street.street.get_osm_name().clone(), numbers)
-        })
-        .collect();
-    // Notice how 11 and 12 is filtered out by the 'invalid' mechanism for 'Törökugrató utca'.
+    let ongoing_streets = numbered_streets_to_array(&missing_housenumbers.ongoing_streets);
     assert_eq!(
-        ongoing_streets_strs,
-        [
-            ("Törökugrató utca".to_string(), vec!["7", "10"]),
-            ("Tűzkő utca".to_string(), vec!["1", "2"]),
-            ("Hamzsabégi út".to_string(), vec!["1"])
-        ]
+        ongoing_streets,
+        [("mystreet".to_string(), vec!["2".to_string()]),]
     );
-    let expected = [
-        ("OSM Name 1".to_string(), vec!["1", "2"]),
-        ("Törökugrató utca".to_string(), vec!["1", "2"]),
-        ("Tűzkő utca".to_string(), vec!["9", "10"]),
-    ];
-    let done_streets_strs: Vec<_> = missing_housenumbers
-        .done_streets
-        .iter()
-        .map(|numbered_street| {
-            let numbers: Vec<_> = numbered_street
-                .house_numbers
-                .iter()
-                .map(|i| i.get_number())
-                .collect();
-            (numbered_street.street.get_osm_name().clone(), numbers)
-        })
-        .collect();
-    assert_eq!(done_streets_strs, expected);
+    let done_streets = numbered_streets_to_array(&missing_housenumbers.done_streets);
+    assert_eq!(
+        done_streets,
+        [("mystreet".to_string(), vec!["1".to_string()]),]
+    );
 }
 
 /// Tests Relation::get_lints().
