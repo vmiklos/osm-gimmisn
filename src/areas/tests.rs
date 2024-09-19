@@ -1376,6 +1376,67 @@ fn test_relation_get_missing_housenumbers() {
     );
 }
 
+/// Tests Relation::get_missing_housenumbers(), the case when 'invalid' contains hyphens.
+#[test]
+fn test_relation_get_missing_housenumbers_invalid_hyphens() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "myrelation": {
+                "refcounty": "0",
+                "refsettlement": "0",
+            },
+        },
+        "relation-myrelation.yaml": {
+            "housenumber-letters": true,
+            "filters": {
+                "mystreet": {
+                    "invalid": ["42", "40-60", "48", "50a-b"],
+                }
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        // 1 is done, 2 is missing, 3 is invalid.
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '42', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '44-46', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '48', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '48/A', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '40-60', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '50/A', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '50/A-B', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('myrelation', '2', 'mystreet', '', '', '', '', '');",
+        )
+        .unwrap();
+    }
+    let mut relations = Relations::new(&ctx).unwrap();
+    let relation_name = "myrelation";
+    let mut relation = relations.get_relation(relation_name).unwrap();
+    let missing_housenumbers = relation.get_missing_housenumbers().unwrap();
+    let ongoing_streets = numbered_streets_to_array(&missing_housenumbers.ongoing_streets);
+    assert_eq!(
+        ongoing_streets,
+        [(
+            "mystreet".to_string(),
+            vec![
+                "44".to_string(),
+                "46".to_string(),
+                "48/A".to_string(),
+                "50/A".to_string(),
+            ]
+        ),]
+    );
+}
+
 /// Tests Relation::get_lints().
 #[test]
 fn test_relation_get_lints() {

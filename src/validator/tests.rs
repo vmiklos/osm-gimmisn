@@ -223,6 +223,26 @@ fn test_validate_filter_invalid_valid2() {
     assert_success(content);
 }
 
+/// Tests validate_filter_invalid_valid(): 40-60 is a valid filter item.
+#[test]
+fn test_validate_filter_invalid_valid3() {
+    let content = r#"filters:
+  'mystreet':
+    invalid: ['40-60']
+"#;
+    assert_success(content);
+}
+
+/// Tests validate_filter_invalid_valid(): 50a-b is a valid filter item.
+#[test]
+fn test_validate_filter_invalid_valid4() {
+    let content = r#"filters:
+  'mystreet':
+    invalid: ['50a-b']
+"#;
+    assert_success(content);
+}
+
 /// Tests the relation path: bad source type.
 #[test]
 fn test_relation_source_bad_type() {

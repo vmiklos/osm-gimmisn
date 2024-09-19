@@ -98,6 +98,14 @@ fn validate_filter_invalid_valid(
         if regex::Regex::new(r"^[0-9]+/[0-9]$")?.is_match(invalid_data) {
             continue;
         }
+
+        // 40-60 or 50a-b: OK, but won't be parsed.
+        if regex::Regex::new(r"^[0-9]+-[0-9]+$")?.is_match(invalid_data) {
+            continue;
+        }
+        if regex::Regex::new(r"^[0-9]+[a-z]-[a-z]$")?.is_match(invalid_data) {
+            continue;
+        }
         errors.push(format!(
             "expected format for '{parent}[{index}]' is '42', '42a' or '42/1'"
         ));

@@ -790,7 +790,24 @@ impl<'a> Relation<'a> {
 
             let mut used_invalids: Vec<String> = Vec::new();
             if let Some(value) = lines.get(&ref_street_name) {
-                for house_number in value {
+                // Find 'invalid' items which are ranges.
+                let invalid_ranges: Vec<String> = street_invalid
+                    .iter()
+                    .filter(|i| i.contains('-'))
+                    .map(|i| i.replace("/", "").to_lowercase())
+                    .collect();
+
+                // Filter out ref items which match such invalid items.
+                let hns: Vec<_> = value
+                    .iter()
+                    .filter(|i| {
+                        let mut it = i.split('\t');
+                        let i = it.next().expect("token list should not be empty");
+                        !invalid_ranges.contains(&i.replace("/", "").to_lowercase())
+                    })
+                    .collect();
+
+                for house_number in hns {
                     let normalized = normalize(
                         self,
                         house_number,
