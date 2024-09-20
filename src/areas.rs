@@ -331,7 +331,7 @@ pub struct MissingHousenumbers {
     pub done_streets: util::NumberedStreets,
 }
 
-#[derive(Clone, Ord, PartialOrd, derivative::Derivative)]
+#[derive(Clone, Debug, Ord, PartialOrd, derivative::Derivative)]
 #[derivative(Eq, PartialEq)]
 pub struct RelationLint {
     pub relation_name: String,
@@ -803,7 +803,13 @@ impl<'a> Relation<'a> {
                     .filter(|i| {
                         let mut it = i.split('\t');
                         let i = it.next().expect("token list should not be empty");
-                        !invalid_ranges.contains(&i.replace("/", "").to_lowercase())
+                        let hn = i.replace("/", "").to_lowercase();
+                        let contains = invalid_ranges.contains(&hn);
+                        if contains {
+                            // Mark this 'invalid' item as used.
+                            used_invalids.push(hn.to_string());
+                        }
+                        !contains
                     })
                     .collect();
 

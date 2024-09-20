@@ -1421,7 +1421,9 @@ fn test_relation_get_missing_housenumbers_invalid_hyphens() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "myrelation";
     let mut relation = relations.get_relation(relation_name).unwrap();
+
     let missing_housenumbers = relation.get_missing_housenumbers().unwrap();
+
     let ongoing_streets = numbered_streets_to_array(&missing_housenumbers.ongoing_streets);
     assert_eq!(
         ongoing_streets,
@@ -1435,6 +1437,11 @@ fn test_relation_get_missing_housenumbers_invalid_hyphens() {
             ]
         ),]
     );
+
+    let lints = relation.get_lints();
+
+    // Assert that invalid items containing hyphens are considered used.
+    assert_eq!(lints.len(), 0);
 }
 
 /// Tests Relation::get_lints().
