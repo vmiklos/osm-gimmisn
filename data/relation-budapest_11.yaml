@@ -986,7 +986,7 @@ filters:
       - {start: '2', end: '14'}
   Irinyi József utca:
     # 4-20, 28/a..c, 32/a..c, 36/a..c
-    invalid: ['4a', '24', '31a', '31b']
+    invalid: ['4a', '24', '31a', '31b', '32']
     ranges:
       # Kollégium 1-17, Science Park 4-20
       - {start: '1', end: '47'}
