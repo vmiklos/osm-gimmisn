@@ -386,7 +386,8 @@ filters:
   Bükköny utca:
     # 1 = Albertfalva utca 8, Szent Mihály templom
     # 5: 5/a, 5/b
-    invalid: ['1', '5']
+    # 9-29: Óvoda a 9-es számot használja
+    invalid: ['1', '5', '9-29']
   Cirmos utca:
     # 1-3, 4-6: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
     invalid: ['1b']
@@ -664,7 +665,6 @@ filters:
       - {start: '1', end: '123'}
       - {start: '2', end: '12'}
       - {start: '52', end: '58'}
-  #Fehérló utca
   Fehérvári út:
     # páratlan ---------------------------------------------------------------
     # 81: nincs, 79 után 83 jön
@@ -681,12 +681,13 @@ filters:
     # 44 A épület, de 44 van csak kiírva
     # 45/a: 45 és 45-53/B van kiírva. RESURVEY 2024
     # 90-96: Hengermalom út
+    # 96-100: 77 Elektronuka a 98-at használja
     # 100/A, 102, 102/A, 102/B: nincsenek, 77 elektronika irodaház a helyén 98-as számmal
     # 120-124: ezzel a címmel fut az épületegyüttes, de ki csak a 120 van írva, így lett felvive, a sporklub pedig a 124-et használja
     # 150 = Temesvár utca 2
     # 154-164: 152/B után 160 jön, majd 166 a benzinkút
     # 182-190: lakóház egyben, a és b épület/lépcsőház
-    invalid: ['21a', '44a', '44h', '64a', '81', '83a', '85c', '96', '102', '107', '118', '122', '152', '181', '182a', '231b', '245']
+    invalid: ['21a', '44a', '44h', '64a', '81', '83a', '85c', '96-100', '102', '107', '118', '122', '152', '181', '182a', '231b', '245']
     ranges:
       - {start: '1', end: '161'}
       - {start: '179', end: '247'}
@@ -2059,11 +2060,8 @@ filters:
       - {start: '2', end: '98'}
   Somogyi út:
     # 2-4 nem letezik, 35-ös az Etele tér buszpályaudvar
+    # 6-30, 3-35
     # 28-30 A,B,C lh.
-    invalid: ['15', '23']
-    ranges:
-      - {start: '6', end: '30'}
-      - {start: '3', end: '35'}
   Sopron út:
     # 21/a*: Avanti: 21 A épület
     # 52: Óvoda oldala, melynek címe: Lecke utca 15-19
@@ -2229,8 +2227,8 @@ filters:
     # 1 = Bartók Béla út 106-110
     # 3: nincs
     # 67: 67/a, 67/b
-    # 44-60 ben használt cím, a bölcsőde a 46-48-at használja
-    invalid: ['38', '44', '71b', '98', '126b']
+    # 44-60 nen használt cím, a bölcsőde a 46-48-at használja
+    invalid: ['38', '44-60', '71b', '98', '126b']
   Thallóczy Lajos utca:
     # 1-21 a remiz oldala, nincs ház, viszont a gimnázium 1-es számot használja
     # 25b: 23-25 B lépcsőház
