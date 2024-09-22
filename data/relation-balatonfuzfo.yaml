@@ -11,8 +11,8 @@ filters:
     # 28: utolsó házszám a 26
     invalid: ['4', '28']
   Árpád köz:
-    # 1: nincs, 3-tól indul a páratlan
-    invalid: ['1', '18']
+    # 18: max páros a 4.
+    invalid: ['18']
   Árpád utca:
     # 9: nincs, Váradi Caravan által használt üres telek
     invalid: ['9']
@@ -29,8 +29,9 @@ filters:
     interpolation: all
   Bugyogóforrás utca:
     # 24: max páros a 22.
+    # 47: max páratlan a 39.
     show-refstreet: false
-    invalid: ['24']
+    invalid: ['24', '47']
   Felsővillasor:
     # 30 = Fürdő köz 1.
     # 50: utolsó ház 48.
@@ -88,8 +89,9 @@ filters:
     # max páratlan 7
     invalid: ['9', '19']
   Kilátó utca:
+    # 15: nincs. sorban: 11 ki van írva, de szeirntem iker, utána a most 13-nak jelöltön nincs szám, majd Diófa utca 1, utca túloldalán 17.
     # 123: a Kilátó utca egyik szakaszának helyrajzi száma, a max kiírt 107 de még vannak házak, melyeken nincs szám.
-    invalid: ['123']
+    invalid: ['15', '123']
   Mámatető utca:
     # 18, 20: üres telkek
     # 29: Az utca végén épül egy társasház, a többi telek a Hóvirág utcáról számozva.
@@ -135,6 +137,9 @@ filters:
   Vadszeder utca:
     # 8: üres telek, 7-nél illetve 12-nél indulnak a házak
     invalid: ['8']
+  Viola utca:
+    # 18: max hászám a 16, de még van két ház. RESURVEY 2025-09
+    invalid: ['18']
   Virág köz:
     # 30: valószínű Jánoshegyi út 30.
     invalid: ['30']
@@ -148,6 +153,7 @@ refstreets:
   # ellenőrzött
   'Alsóerdősor': 'Alsóerdősor utca'  # táblán csak Alsóerdősor
   'Bugyogóforrás utca': 'Bugyogó forrás utca'  # egyben és kötőjellel vannak a táblák, külön írva nincs
+  'Vitorlaház utca': 'Vitorlaház'  # nincs kiírva, a vitorlás klub és a kikötő utcaként hivatkozik rá
   # Cserje köz - Cserje utca  # hivatalosnak kinéző táblán Cserje köz, házakon és a kézzel írt táblán Cserje utca, földhivatalnál 0 találat.
   'Uszodai út': 'Uszodai utca'  # nincs kint tábla
 street-filters:
