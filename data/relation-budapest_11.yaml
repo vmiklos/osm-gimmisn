@@ -2058,7 +2058,7 @@ filters:
     ranges:
       - {start: '1', end: '47'}
       - {start: '2', end: '98'}
-  Somogyi út:
+  # Somogyi út:
     # 2-4 nem letezik, 35-ös az Etele tér buszpályaudvar
     # 6-30, 3-35
     # 28-30 A,B,C lh.
