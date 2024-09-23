@@ -18,5 +18,5 @@ osm-street-filters:
   # nem igazi utcák
   - M7 autópálya
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true
