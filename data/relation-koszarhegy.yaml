@@ -2,6 +2,9 @@ missing-streets: 'yes'
 filters:
   Deák Ferenc utca:
     interpolation: all
+  Petőfi utca:
+    # 864: ez hrsz.
+    invalid: ['864']
 refstreets:
    # ellenőrzött
   'Radnóti utca': 'Radnóti Miklós utca'
