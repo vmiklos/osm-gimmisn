@@ -803,7 +803,13 @@ impl<'a> Relation<'a> {
                     .filter(|i| {
                         let mut it = i.split('\t');
                         let i = it.next().expect("token list should not be empty");
-                        let hn = i.replace("/", "").to_lowercase();
+                        let mut hn = i.replace("/", "").to_lowercase();
+                        if hn.ends_with('*') {
+                            // a-b filters out both a-b and a-b*, so ignore the trailing *.
+                            let mut chars = hn.chars();
+                            chars.next_back();
+                            hn = chars.as_str().into();
+                        }
                         let contains = invalid_ranges.contains(&hn);
                         if contains {
                             // Mark this 'invalid' item as used.
