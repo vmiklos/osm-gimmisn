@@ -1742,12 +1742,9 @@ filters:
     ranges:
       - {start: '4', end: '12'}
       - {start: '3', end: '17'}
-  Pázmány Péter sétány:
-    # gyakorlatilag csak 1-es szám van, a 9-es terinfo.ujbuda.hu szerint létetik
+  # Pázmány Péter sétány:
+    # gyakorlatilag csak 1-es szám van, a 9-es terinfo.ujbuda.hu szerint létezik
     # 1: 1/A, 1/C
-    invalid: ['1']
-    ranges:
-      - {start: '1', end: '9'}
   Pecz Samu utca:
     # 2: 2/a, 2/b
     # 4: 4/c, 4/d, 4/e
