@@ -3,7 +3,8 @@ filters:
   Andrássy út:
     # 54/a: a bolt címe Andrássy út 54. A épület pinceszint, de csak sima 54 van.
     # 94: nincs ilyen, a 92 után a 96 következik.
-    invalid: ['54a', '94']
+    # 106: nincs ilyen, a 104 után a 108 következik.
+    invalid: ['54a', '94', '106']
   Bulcsú utca:
     # 2-12: egykor pályaudvar volt, most minden épületet lebontottak és üresen áll.
     invalid: ['2', '4', '6', '8', '10', '12']
@@ -60,9 +61,8 @@ filters:
     # 96: sima 96 nincs, csak 96/b.
     invalid: ['19a', '57', '44', '96']
   Teréz körút:
-    # 52/b: nincs ilyen, csak sima 52 van.
     # 122: a páros oldalon a 62 az utolsó házszám.
-    invalid: ['52b', '122']
+    invalid: ['122']
   Váci út:
     # 7: ez a XIII. kerületben van.
     invalid: ['7']
