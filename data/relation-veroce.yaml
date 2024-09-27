@@ -47,6 +47,8 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
+street-filters:
+  - Vasúti őrházak
 osm-street-filters:
   # Nem valós utcák
   - Szob-Vác EuroVelo-6 kerékpárút
@@ -55,6 +57,8 @@ osm-street-filters:
   - Migazzi-kastély parkja
   - Wass Albert emlékpark
   - Templomkert
+  # turistaút
+  - Vízkelety László útja
 refstreets:
   'Brassói út': 'Brassói utca'  # táblák Brassói út
   'Fehérhegyi dűlő': 'Fehérhegy dűlő'
