@@ -1391,7 +1391,7 @@ fn test_relation_get_missing_housenumbers_invalid_hyphens() {
             "housenumber-letters": true,
             "filters": {
                 "mystreet": {
-                    "invalid": ["42", "40-60", "48", "50a-b"],
+                    "invalid": ["42", "40-60", "48", "50a-b", "1-2"],
                 }
             },
         },
@@ -1414,6 +1414,7 @@ fn test_relation_get_missing_housenumbers_invalid_hyphens() {
              insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '40-60', '');
              insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '50/A', '');
              insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '50/A-B', '');
+             insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '1-2', ' ');
              insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('myrelation', '2', 'mystreet', '', '', '', '', '');",
         )
         .unwrap();
