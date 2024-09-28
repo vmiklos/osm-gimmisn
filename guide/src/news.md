@@ -4,6 +4,7 @@
 
 - Resolves: gh#4088 missing-housenumbers output is now deterministic for the `housenumber-letters:
   true` case when `1/a`, `1/b`, etc is simplified to only one of the matches
+- Resolves: gh#3892 relation filters: `invalid` items can now contain hyphens
 
 ## 24.8
 
