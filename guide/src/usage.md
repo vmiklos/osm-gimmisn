@@ -117,6 +117,8 @@ In other words, there is only minimal filtering for the reference data (1-999 an
 accepted) by default. If you want to filter out noise, then you need to cover the correct house
 numbers with ranges, and whatever is not in this range will be filtered out.
 
+### Invalid house numbers instead of ranges
+
 An alternative way of filtering out invalid data from the reference is explicitly stating what items
 are invalid:
 
@@ -133,6 +135,10 @@ The items of the `invalid` list are normalized, the same way as reference house 
 case '42a' is normalized to '42', you can write '42a' in the invalid list, and it'll silence '42'.
 This has the benefit that the `invalid` items will keep working even if you later decide to set the
 `housenumber-letters: true` mode.
+
+The items of the `invalid` list containing hyphens (`-`) are handled before other `invalid` items:
+the hyphen is not expanded, and they filter out reference items. Both sides delete slashes (`/`) and
+convert to lowercase before comparing.
 
 ## Searching for missing streets
 
