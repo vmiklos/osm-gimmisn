@@ -1,12 +1,12 @@
 missing-streets: 'yes'
 refstreets:
-  'Kishegyi út': 'Kishegyi utca'
-  'Malom utca': 'Malom út'
-  'Mandula út': 'Mandula utca'
-  'Nagyhegyi út': 'Nagyhegyi utca'
-  'Pincesor út': 'Pincesor utca'
-  'Rizling út': 'Rizling utca'
-  'Vincellér út': 'Vincellér utca'
+  # ellenőrzött
+  'Kishegyi út': 'Kishegyi utca'    # táblák vegyesen Kishegyi út és utca
+  'Mandula út': 'Mandula utca'      # táblán Mandula út
+  'Nagyhegyi út': 'Nagyhegyi utca'  # táblán Nagyhegyi út illetve elgépelve: Nagyhegyei utca
+  'Pincesor út': 'Pincesor utca'    # táblán Pincesor út, házon Pincesor utca 5.
+  'Rizling út': 'Rizling utca'      # táblán Rizling út
+  'Vincellér út': 'Vincellér utca'  # táblán Vincellér út
 source: survey
 housenumber-letters: false
 inactive: true
