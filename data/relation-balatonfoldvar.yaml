@@ -1,5 +1,14 @@
 missing-streets: 'yes'
 filters:
+  Arany János utca:
+    # 42: sima 42 nincs, csak 42/1, 42/2.
+    # 42/a: nincs ilyen, csak 42/1, 42/2.
+    # 44: sima 44 nincs, csak 44/1, 44/2, 44/a.
+    invalid: ['42', '42a', '44']
+  Balatonszentgyörgyi út:
+    # 10/1: nincs ilyen, csak 10, 10/a.
+    # 10/2: nincs ilyen, csak 10, 10/a.
+    invalid: ['10/1', '10/2']
   Báthori István utca:
     # 5: sima 5 nincs, csak 5/1, 5/2, 5/3.
     # 9: sima 9 nincs, csak 9/1, 9/2.
@@ -11,9 +20,8 @@ filters:
   Berzsenyi Dániel utca:
     # 25: sima 25 nincs, csak 25/a, 25/b.
     # 87: sima 87 nincs, csak 87/a, 87/b.
-    # 89: a páratlan oldalon a 87/b az utolsó házszám.
     # 80: a páros oldalon az 56 vagy 58 az utolsó házszám. A Földhivatal szerint az 523 hrsz. a 80, de az a páratlan oldalon van és 85 van kitáblázva.
-    invalid: ['25', '87', '89', '80']
+    invalid: ['25', '87', '80']
   Budapesti út:
     # 139: sima 139 nincs, csak 139/1, 139/2.
     # 143: sima 143 nincs, csak 143/a, 143/2.
@@ -28,12 +36,16 @@ filters:
     invalid: ['139', '143', '22', '26', '34a', '46', '52', '58', '78', '88']
   Camping utca:
     show-refstreet: false
-  Csokonai utca:
-    # 713: a páratlan oldalon a 25 az utolsó házszám.
-    invalid: ['713']
   Damjanich utca:
     # 1: ez és a Bajcsy-Zsilinszky utca 15. közös telken van, de bejárat és házszám csak a Bajcsy-Zsilinszky utcáról van.
     invalid: ['1']
+  Deák Ferenc utca:
+    # 5: sima 5 nincs, csak 5/1, 5/2.
+    invalid: ['5']
+  Hegyalja utca:
+    # 27/a: nincs ilyen, csak 27, 27/b.
+    # 10: sima 10 nincs, csak 10/a, 10/b.
+    invalid: ['27a', '10']
   Hunyadi János utca:
     interpolation: 'all'
   Jókai Mór utca:
@@ -45,27 +57,29 @@ filters:
   #Kiss János altábornagy utca:
     # 4/1: nincs ilyen, csak 4/a, 4/b.
     # invalid: ['4/1']
+  Kossuth Lajos utca:
+    # 4: nincs ilyen, a 2 után dupla telek következik 6-os számmal.
+    invalid: ['4']
   Kőröshegyi út:
+    # 55/a: nincs ilyen, csak 55, 55/2.
     # 14: sima 14 nincs, csak 14/1, 14/a.
-    # 14/2: nincs ilyen, csak 14/1, 14/a.
-    # 14/I: ez 14/1, csak római számmal írva.
-    invalid: ['14', '14/2', '14i']
+    # 28/b: nincs ilyen, csak 28, 28/a.
+    # 48: sima 48 nincs, csak 48/1, 48/2.
+    # 90/1: nincs ilyen, a 90 társasházház A és B épülettel, épületenként 3-3 lakással.
+    # 90/a: nincs ilyen, a 90 társasházház A és B épülettel, épületenként 3-3 lakással.
+    invalid: ['55a', '14', '28b', '48', '90/1', '90a']
   Mikes Kelemen utca:
     # 33: a páratlan oldalon nincsenek épületek.
     invalid: ['33']
   Móricz Zsigmond utca:
     # 26: sima 26 nincs, csak 26/a/1-4, 26/b/1-5.
     # 26/3: nincs ilyen, csak 26/a/3 vagy 26/b/3.
-    # 26/b: nincs ilyen, csak 26/b/1-5.
-    invalid: ['26', '26/3', '26b']
+    invalid: ['26', '26/3']
   Munkácsy Mihály utca:
     # 21: sima 21 nincs, csak 21/1, 21/2.
     # 32/I: nincs ilyen, 32/a van kitáblázva.
     # 32/2: nincs ilyen, 32/b van kitáblázva.
     invalid: ['21', '32i', '32/2']
-  Nyírfa utca:
-    # 4/4: a 4 társasház, csak 4 van kitáblázva. A 4/4 emelet/ajtónak tűnik.
-    invalid: ['4/4']
   Petőfi Sándor utca:
     # 13: sima 13 nincs, csak 13/a, 13/b, 13/c.
     invalid: ['13']
@@ -77,9 +91,6 @@ filters:
     interpolation: 'all'
   Rákóczi Ferenc utca:
     interpolation: 'all'
-  Somfa utca:
-    # 4: sima 4 nincs, csak 4/a, 4/b.
-    invalid: ['4']
   Somogyi Béla utca:
     interpolation: 'all'
   Sport köz:
@@ -97,7 +108,9 @@ filters:
     interpolation: 'all'
   Zrínyi Miklós utca:
     # 7: sima 7 nincs, csak 7/1 A-B épület, 7/2 A-B épület, 7/3 A-B épület.
-    invalid: ['7']
+    # 26: sima 26 nincs, csak 26/a, 26/b.
+    # 28/b: nincs ilyen, csak 28/1, 28/2.
+    invalid: ['7', '26', '28b']
 refstreets:
   # rövidítés
   # 'Kiss János altábornagy utca': 'Kiss János atb. utca'
