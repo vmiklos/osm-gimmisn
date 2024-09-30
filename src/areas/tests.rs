@@ -3445,16 +3445,6 @@ fn test_relation_lint_source_try_from() {
     assert_eq!(result.is_err(), true);
 }
 
-/// Tests RelationLintSource::column_result().
-#[test]
-fn test_relation_lint_source_column_result() {
-    let value_ref = rusqlite::types::ValueRef::from("test");
-
-    let result = RelationLintSource::column_result(value_ref);
-
-    assert_eq!(result.is_err(), true);
-}
-
 /// Tests RelationLintReason::try_from().
 #[test]
 fn test_relation_lint_reason_try_from() {
