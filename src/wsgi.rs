@@ -280,7 +280,8 @@ fn missing_housenumbers_view_lints(
                 areas::RelationLintSource::Invalid => tr("invalid housenumbers"),
             };
             let housenumber: String = lint.get(2).unwrap();
-            let reason: areas::RelationLintReason = lint.get(3).unwrap();
+            let reason =
+                areas::RelationLintReason::try_from(lint.get::<_, String>(3).unwrap().as_str())?;
             let id: String = lint.get(4).unwrap();
             let object_type: String = lint.get(5).unwrap();
             let reason_string = match reason {
