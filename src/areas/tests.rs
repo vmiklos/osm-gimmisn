@@ -11,7 +11,6 @@
 //! Tests for the areas module.
 
 use super::*;
-use rusqlite::types::FromSql as _;
 use std::io::Write;
 use std::rc::Rc;
 
@@ -3449,16 +3448,6 @@ fn test_relation_lint_source_try_from() {
 #[test]
 fn test_relation_lint_reason_try_from() {
     let result = RelationLintReason::try_from("test");
-    assert_eq!(result.is_err(), true);
-}
-
-/// Tests RelationLintReason::column_result().
-#[test]
-fn test_relation_lint_reason_column_result() {
-    let value_ref = rusqlite::types::ValueRef::from("test");
-
-    let result = RelationLintReason::column_result(value_ref);
-
     assert_eq!(result.is_err(), true);
 }
 
