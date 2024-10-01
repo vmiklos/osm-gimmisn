@@ -107,10 +107,11 @@ filters:
   Tó utca:
     interpolation: 'all'
   Zrínyi Miklós utca:
+    # 3/a: nincs ilyen, csak 3, 3/2.
     # 7: sima 7 nincs, csak 7/1 A-B épület, 7/2 A-B épület, 7/3 A-B épület.
     # 26: sima 26 nincs, csak 26/a, 26/b.
     # 28/b: nincs ilyen, csak 28/1, 28/2.
-    invalid: ['7', '26', '28b']
+    invalid: ['3a', '7', '26', '28b']
 refstreets:
   # rövidítés
   # 'Kiss János altábornagy utca': 'Kiss János atb. utca'
