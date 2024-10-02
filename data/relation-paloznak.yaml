@@ -1,4 +1,9 @@
 missing-streets: 'yes'
+filters:
+  Sport utca:
+    interpolation: all
+  Tó utca:
+    interpolation: all
 refstreets:
   # ellenőrzött
   'Kishegyi út': 'Kishegyi utca'    # táblák vegyesen Kishegyi út és utca
