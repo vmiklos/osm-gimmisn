@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Fő utca:
+    # 8: földhivatal szerint a harangtorony, kiírva nincs
+    invalid: ['8']
   Sport utca:
     interpolation: all
   Tó utca:
@@ -7,6 +10,7 @@ filters:
 refstreets:
   # ellenőrzött
   'Kishegyi út': 'Kishegyi utca'    # táblák vegyesen Kishegyi út és utca
+  'Kossuth Lajos utca': 'Kossuth utca'    # táblán Kossuth Lajos utca
   'Mandula út': 'Mandula utca'      # táblán Mandula út
   'Nagyhegyi út': 'Nagyhegyi utca'  # táblán Nagyhegyi út illetve elgépelve: Nagyhegyei utca
   'Pincesor út': 'Pincesor utca'    # táblán Pincesor út, házon Pincesor utca 5.
