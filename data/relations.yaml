@@ -242,6 +242,10 @@ komlo:
     osmrelation: 575200
     refcounty: "02"
     refsettlement: "137"
+pecs:
+    osmrelation: 575380
+    refcounty: "02"
+    refsettlement: "217"
 # 03 - Bács-Kiskun megye
 baja:
     osmrelation: 1130381
@@ -345,6 +349,10 @@ morahalom:
     osmrelation: 1025067
     refcounty: "06"
     refsettlement: "036"
+szeged:
+    osmrelation: 1025105
+    refcounty: "06"
+    refsettlement: "051"    
 # 07 - Fejér megye
 baracska:
     osmrelation: 1370245
@@ -354,6 +362,10 @@ dunaujvaros:
     osmrelation: 1420733
     refcounty: "07"
     refsettlement: "024"
+ercsi:
+    osmrelation: 1418513
+    refcounty: "07"
+    refsettlement: "027"
 fule:
     osmrelation: 1458114
     refcounty: "07"
@@ -420,6 +432,10 @@ nagybajcs:
     refcounty: "08"
     refsettlement: "108"
 # 09 - Hajdú-Bihar
+debrecen:
+    osmrelation: 1444234
+    refcounty: "09"
+    refsettlement: "018"
 hosszupalyi:
     osmrelation: 1443909
     refcounty: "09"
@@ -531,6 +547,10 @@ tat:
     osmrelation: 1027833
     refcounty: "12"
     refsettlement: "067"
+tatabanya:
+    osmrelation: 1027771
+    refcounty: "12"
+    refsettlement: "065"
 tokod:
     osmrelation: 1027760
     refcounty: "12"
@@ -560,6 +580,10 @@ retsag:
     osmrelation: 1322031
     refcounty: "13"
     refsettlement: "100"
+salgotarjan:
+    osmrelation: 1372090
+    refcounty: "13"
+    refsettlement: "103"
 szecseny:
     osmrelation: 1370535
     refcounty: "13"
@@ -790,6 +814,10 @@ balatonvilagos:
     osmrelation: 1458087
     refcounty: "15"
     refsettlement: "246"
+kaposvar:
+    osmrelation: 1368050
+    refcounty: "15"
+    refsettlement: "091"
 koroshegy:
     osmrelation: 1367868
     refcounty: "15"
@@ -822,11 +850,20 @@ zamardi:
     osmrelation: 1368080
     refcounty: "15"
     refsettlement: "238"
+# 16 - Szabolcs-Szatmár-Bereg megye
+nyiregyhaza:
+    osmrelation: 1447608
+    refcounty: "16"
+    refsettlement: "119"
 # 17 - Tolna
 bonyhad:
     osmrelation: 1501376
     refcounty: "17"
     refsettlement: "011"
+dombovar:
+    osmrelation: 1502215
+    refcounty: "17"
+    refsettlement: "020"
 szekszard:
     osmrelation: 1501296
     refcounty: "17"
@@ -836,6 +873,14 @@ oriszentpeter:
     osmrelation: 1131459
     refcounty: "18"
     refsettlement: "140"
+sarvar:
+    osmrelation: 1131510
+    refcounty: "18"
+    refsettlement: "167"
+szombathely:
+    osmrelation: 1131673
+    refcounty: "18"
+    refsettlement: "186"
 # 19 - Veszprém megye
 alsoors:
     osmrelation: 1078460
