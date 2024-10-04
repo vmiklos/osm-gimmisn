@@ -1,0 +1,53 @@
+missing-streets: 'yes'
+refstreets:
+  'Báthory István utca': 'Báthori István utca'
+  'Bozsokihegyi út': 'Bozsoki-hegyi út'
+  'Bozsokivölgyi út': 'Bozsoki-völgyi út'
+  'Ebergényi út': 'Ebergényi utca'
+  'Göcseji Pataki Ferenc utca': 'Göcseji Pataki F. utca'
+  'Hétvezér utca': 'Hét vezér utca'
+  'Ipari út': 'Ipari utca'
+  # 'Hosszújánka': 'Hosszú-Jánka utca'
+  # 'Jánkahegy': 'Jánkahegyi utca'
+  'Kápolnahegyi út': 'Kápolna-hegyi út'
+  'Karácsonyhegyi út': 'Karácsony-hegyi út'
+  # 'Király-Horhos': 'Király-horhos utca'
+  'Külső Kórház utca': 'Külső-Kórház utca'
+  'Öreg-Szívhegyi utca': 'Öreg-szívhegyi utca'
+  'Petelihegyi út': 'Peteli-hegyi út'
+  'Pipahegyi utca': 'Pipahegyi út'
+  # 'Rövidjánka': 'Rövid-Jánka utca'
+  'Szendrey Júlia utca': 'Szendrei Júlia utca'
+  'Új utca': 'Új út'
+  'Vakaroshegyi út': 'Vakaros-hegyi út'
+  'Varikút utca': 'Vari-kút utca'
+# street-filters:
+  # nem igazi utcák
+  # tanyák
+osm-street-filters:
+  # ZalaZone
+  - East_Entry_lane_from_Bridge
+  - Dinamikai felület
+  - East_Entry_lane_from_Bridge
+  - Egyetemi tesztpálya
+  - Fékfelületek
+  - Kezelhetőségi pálya
+  - MW_East_Curve_90
+  - MW_East_Curve_start_90km/h
+  - MW_East_straight
+  - MW_West_concrete
+  - MW_West_North_130km/h
+  - MW_West_South_exit
+  - Nagysebességű oválpálya
+  - West_Exit_to_Bridge
+  # nem igazi utcák
+  # parkok, sétányok
+  - Kaszaházi sétány
+  - Malom sétány
+  - Parkerdő
+  - Skanzen
+  - Szent András park
+  - Vizslapark
+source: survey
+housenumber-letters: true
+inactive: true
