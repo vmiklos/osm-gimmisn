@@ -1996,7 +1996,7 @@ fn test_webhooks_github() {
         .downcast_ref::<context::tests::TestSubprocess>()
         .unwrap();
     assert_eq!(subprocess.get_runs().is_empty(), false);
-    assert_eq!(subprocess.get_exits(), &[1]);
+    assert_eq!(test_wsgi.ctx.get_shutdown(), true);
 }
 
 /// Tests /osm/webhooks/: /osm/webhooks/github, the case when a non-master branch is updated.

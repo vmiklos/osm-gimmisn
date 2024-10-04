@@ -103,9 +103,6 @@ pub trait Subprocess {
     /// Runs a commmand, capturing its output.
     fn run(&self, args: Vec<String>) -> anyhow::Result<String>;
 
-    /// Terminates the current process with the specified exit code.
-    fn exit(&self, code: i32);
-
     /// Allows accessing the implementing struct.
     fn as_any(&self) -> &dyn std::any::Any;
 }
@@ -240,6 +237,7 @@ pub struct Context {
     file_system: Rc<dyn FileSystem>,
     database: Rc<dyn Database>,
     connection: OnceCell<Rc<RefCell<rusqlite::Connection>>>,
+    shutdown: Rc<RefCell<bool>>,
 }
 
 impl Context {
@@ -256,6 +254,7 @@ impl Context {
         let database: Rc<dyn Database> = Rc::new(StdDatabase {});
         let ini = Ini::new(&file_system, &format!("{root}/workdir/wsgi.ini"), &root)?;
         let connection = OnceCell::new();
+        let shutdown = Rc::new(RefCell::new(false));
         Ok(Context {
             root,
             ini,
@@ -266,6 +265,7 @@ impl Context {
             file_system,
             database,
             connection,
+            shutdown,
         })
     }
 
@@ -342,6 +342,16 @@ impl Context {
             },
         )?;
         Ok(connection.borrow_mut())
+    }
+
+    /// Marks the process to be stopped.
+    pub fn set_shutdown(&self) {
+        *self.shutdown.borrow_mut() = true;
+    }
+
+    /// Is this process marked to be stopped?
+    pub fn get_shutdown(&self) -> bool {
+        *self.shutdown.borrow()
     }
 }
 
