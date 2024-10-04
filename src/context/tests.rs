@@ -331,29 +331,18 @@ impl Unit for TestUnit {
 pub struct TestSubprocess {
     outputs: HashMap<String, String>,
     runs: Rc<RefCell<Vec<String>>>,
-    exits: Rc<RefCell<Vec<i32>>>,
 }
 
 impl TestSubprocess {
     pub fn new(outputs: &HashMap<String, String>) -> Self {
         let outputs = outputs.clone();
         let runs: Rc<RefCell<Vec<String>>> = Rc::new(RefCell::new(Vec::new()));
-        let exits: Rc<RefCell<Vec<i32>>> = Rc::new(RefCell::new(Vec::new()));
-        TestSubprocess {
-            outputs,
-            runs,
-            exits,
-        }
+        TestSubprocess { outputs, runs }
     }
 
     /// Gets a list of invoked commands.
     pub fn get_runs(&self) -> Vec<String> {
         self.runs.borrow_mut().clone()
-    }
-
-    /// Gets a list of exit codes.
-    pub fn get_exits(&self) -> Vec<i32> {
-        self.exits.borrow_mut().clone()
     }
 }
 
@@ -362,10 +351,6 @@ impl Subprocess for TestSubprocess {
         let key = args.join(" ");
         self.runs.borrow_mut().push(key.clone());
         Ok(self.outputs[&key].clone())
-    }
-
-    fn exit(&self, code: i32) {
-        self.exits.borrow_mut().push(code);
     }
 
     fn as_any(&self) -> &dyn std::any::Any {

@@ -1294,9 +1294,7 @@ pub fn handle_github_webhook(
             ctx.get_abspath(""),
             "deploy".into(),
         ])?;
-        // Nominally a failure, so the service gets restarted.
-        println!("Stopping the server after deploy.");
-        ctx.get_subprocess().exit(1);
+        ctx.set_shutdown();
     }
 
     Ok(yattag::Doc::from_text(""))

@@ -12,13 +12,36 @@
 
 use std::collections::HashMap;
 use std::io::Write;
+use std::sync::mpsc;
+use std::sync::Mutex;
 
 type Handler = fn(&[String], &mut dyn Write, &osm_gimmisn::context::Context) -> i32;
+
+struct SenderHolder {
+    inner: Option<mpsc::Sender<()>>,
+}
+
+impl SenderHolder {
+    const fn new() -> Self {
+        let inner = None;
+        SenderHolder { inner }
+    }
+}
+
+static STOPPABLE: Mutex<SenderHolder> = Mutex::new(SenderHolder::new());
 
 /// Wraps wsgi::application() to an app for rouille.
 fn rouille_app(request: &rouille::Request) -> rouille::Response {
     let ctx = osm_gimmisn::context::Context::new("").unwrap();
-    osm_gimmisn::wsgi::application(request, &ctx)
+    let res = osm_gimmisn::wsgi::application(request, &ctx);
+    if ctx.get_shutdown() {
+        if let Ok(mut stoppable_holder) = STOPPABLE.lock() {
+            if let Some(stoppable) = stoppable_holder.inner.as_mut() {
+                stoppable.send(()).expect("send() failed");
+            }
+        }
+    }
+    res
 }
 
 /// Commandline interface to this module.
@@ -53,9 +76,23 @@ fn rouille_main(
     )
     .unwrap();
     osm_gimmisn::context::system::get_tz_offset();
-    rouille::start_server_with_pool(format!("{host}:{port}"), None, move |request| {
+    let pool_size = {
+        8 * std::thread::available_parallelism()
+            .map(|n| n.get())
+            .unwrap_or(1)
+    };
+
+    let server = rouille::Server::new(format!("{host}:{port}"), move |request| {
         rouille_app(request)
-    });
+    })
+    .expect("Failed to start server")
+    .pool_size(pool_size);
+    let (handle, stoppable) = server.stoppable();
+    STOPPABLE.lock().expect("lock() failed").inner = Some(stoppable);
+    handle.join().expect("join() failed");
+    // Nominally a failure, so the service gets restarted.
+    println!("Stopping the server after deploy.");
+    1
 }
 
 /// Sets up logging.

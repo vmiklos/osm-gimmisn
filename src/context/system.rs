@@ -146,10 +146,6 @@ impl Subprocess for StdSubprocess {
         Ok(std::str::from_utf8(&output.stdout)?.to_string())
     }
 
-    fn exit(&self, code: i32) {
-        std::process::exit(code);
-    }
-
     fn as_any(&self) -> &dyn std::any::Any {
         self
     }
