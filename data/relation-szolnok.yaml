@@ -1,0 +1,65 @@
+missing-streets: 'yes'
+refstreets:
+  'Balogh Ádám utca': 'Balog Ádám utca'
+  'Bartók Béla utca': 'Bartók Béla út'
+  'Báthory István utca': 'Báthori utca'
+  'Bocskai István utca': 'Bocskai utca'
+  'Damjanich út': 'Damjanich utca'
+  'Dr. Kronberg János utca': 'dr. Kronberg János utca'
+  'Erdész út': 'Erdész utca'
+  'Füzér utca': 'Fűzér utca'
+  'Gurító utca': 'Guritó utca'
+  'Harmat utca': 'Hargita utca'
+  'Háromrózsa utca': 'Háromrózsa út'
+  'Hétvezér utca': 'Hét vezér utca'
+  'Holt-Tisza part': 'Holt-tiszapart út'
+  'Horánszky utca': 'Horánszky út'
+  'Jókai Mór utca': 'Jókai utca'
+  'Káka út': 'Káka utca'
+  'Kanalasgém utca': 'Kanalas gém utca'
+  'Kertész út': 'Kertész utca'
+  'Móra Ferenc utca': 'Móra Ferenc út'
+  'Nyíl út': 'Nyíl utca'
+  'Pajzs út': 'Pajzs utca'
+  'Piroskai utca': 'Piroskai út'
+  'Sándor Pál utca': 'Sándor utca'
+  'Simon Ferenc utca': 'Simon Ferenc út'
+  'Szolnok Ispán körút': 'Szolnok ispán körút'
+  'Tabántelep': 'Tabán telep'
+  'Vásárhelyi Pál utca': 'Vásárhelyi Pál út'
+  'Vásártér utca': 'Vásártér'
+  'Zsálya utca': 'Zsálya út'
+  # rövidítés
+  'Szent István tér': 'Szt. István tér'
+  'Szent István király utca': 'Szt. István király utca'
+  'Szent László király utca': 'Szt. László király utca'
+  'Tersánszky Józsi Jenő utca': 'Tersánszky J. Jenő utca'
+street-filters:
+  # nem igazi utcák
+  - Abonyiút vasúti megálló
+  - MÁV őrház
+  # tanyák
+  - Alcsipuszta tanya
+  - Alcsisziget tanya
+  - Békáspart tanya
+  - Cseberér tanya
+  - Ószanda tanya
+  - Piroskai Gazdaság tanya
+  - Rétpart tanya
+  - Tenyősziget tanya
+  - Ugar tanya
+  - Újszanda tanya
+osm-street-filters:
+  # nem igazi utcák
+  - Tiszaligeti-futókör 
+  # parkok, sétányok
+  - Angolkert
+  - Gólya park
+  - Gróf Széchenyi István park
+  - Ormos Imre park
+  - Sanmenxia kínai-magyar barátságpark
+  - Tiszaligeti körgát
+  - Zagyva-parti sétány
+source: survey
+housenumber-letters: true
+inactive: true
