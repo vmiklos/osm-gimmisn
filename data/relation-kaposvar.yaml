@@ -1,0 +1,45 @@
+missing-streets: 'yes'
+refstreets:
+  'Ballakúti utca': 'Ballakuti utca'
+  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
+  'Csutoraszárító dűlő': 'Csutoraszáritó dűlő'
+  'Cukorgyári köz': 'Cukorgyár köz'
+  'Dr. Kaposváry György utca': 'Dr. Kaposváry György út'
+  'Dr. Kovács-Sebestény Gyula utca': 'Dr.Kovács-Sebestény Gyula utca'
+  'Füredi út': 'Füredi utca'
+  'Hajnóczy József utca': 'Hajnóczi József utca'
+  'Ivánfahegyalja köz': 'Ivánfahegyalja-köz'
+  'Jókai Mór utca': 'Jókai utca'
+  'Kapoly Antal utca': 'Kapoli Antal utca'
+  'Kisgáti dűlő': 'Kisgát dűlő'
+  'Kisrómahegyi utca': 'Kisrómahegyi út'
+  'Kontrássy Sándor utca': 'Kontrássy utca'
+  'Kápolna utca': 'Kápolna út'
+  'Lonkahegyi út': 'Lonkai út'
+  'Rippl-Rónai József tér': 'Rippl-Rónai tér'
+  'Rippl-Rónai József utca': 'Rippl-Rónai utca'
+  'Répáspuszta': 'Répás puszta'
+  'Semmelweis Ignác utca': 'Semmelweis utca'
+  'Szondi György utca': 'Szondy György utca'
+  'Sávház utca': 'Sávház'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+street-filters:
+  # nem igazi utcák
+  - Desedai gátőrház
+  # tanyák
+  - Szarvasfarm tanya
+  - Tsz. újmajor
+  - Zarany puszta
+  # településrész
+  - Cigánytelep
+  - Cserhát
+  - Külterület
+  - Szentjakabi hegy
+  - Várhegy
+# osm-street-filters:
+  # nem igazi utcák
+  # parkok/sétányok
+  # tanyák/dűlők
+source: survey
+housenumber-letters: true
+inactive: true
