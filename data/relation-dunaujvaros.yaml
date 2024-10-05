@@ -13,6 +13,9 @@ osm-street-filters:
   - Városháza park
   - Dunaújvárosi Szoborpark
   - Dr. Molnár László emlékpark
+  - Petőfi liget
+  - Széchenyi park
+  - Tündérkert
   # házak nélküliek
   - Bástya utca
   - Berzsenyi út
@@ -34,6 +37,7 @@ osm-street-filters:
   - Fenyő sétány
   - Kiserdei sétány
   - Lombos köz
+  - Perem sétány
   # Vasműn belüliek
   - Béke téri út
   - Benzol út
