@@ -7,6 +7,7 @@ refstreets:
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Csik Ferenc sétány': 'Csík Ferenc sétány'
   'Csutoraszárító dűlő': 'Csutoraszáritó dűlő'
+  'Csutoraszárító utca': 'Csutoraszáritó utca'
   'Cukorgyári köz': 'Cukorgyár köz'
   'Dr. Kaposváry György utca': 'Dr. Kaposváry György út'
   'Dr. Kovács-Sebestény Gyula utca': 'Dr.Kovács-Sebestény Gyula utca'
@@ -43,25 +44,48 @@ refstreets:
 street-filters:
   # nem igazi utcák
   - Desedai gátőrház
+  - Gyepmester telep
+  - Nádasdy erdészlak
+  - Vízmű telep
   # tanyák
   - Fekete tanya
+  - Fészerlak puszta
+  - Jeli tanya
   - Kenese puszta
+  - Kisiván puszta
   - Szarvasfarm tanya
   - Tsz. újmajor
   - Zarany puszta
   # településrész
   - Cigánytelep
   - Cserhát
+  - Cseri dűlő
+  - Egyenesi dűlő
+  - Hangyásmál
   - Kaposhegy
   - Kecel hegy
   - Külterület
+  - Somhegy
   - Szentjakabi hegy
   - Várhegy
 osm-street-filters:
   # nem igazi utcák
+  - Alakulótér
   # parkok/sétányok
+  - Agg József sétány 
+  - Béke park
   - Berzsenyi park
+  - Cseri park
+  - Európa park
+  - Jókai liget
+  - Martyn park
+  - Medve park
+  - Színház park
+  - Toldi park
+  - Vár park
+  - Városliget
   # tanyák/dűlők
+  - Dénesmajor
 source: survey
 housenumber-letters: true
 inactive: true
