@@ -1,0 +1,49 @@
+missing-streets: 'yes'
+refstreets:
+  'Akácfa köz': 'Akácfa-köz'
+  'Bálicstető dűlő': 'Bálics-tető dűlő'
+  'Bókay János utca': 'Bókai János utca'
+  'Cikkcakk utca': 'Cikk-cakk utca'
+  'Csarnok köz': 'Csarnok-köz'
+  'Galilei út': 'Galilei utca'
+  'Hegedüs Mihály utca': 'Hegedűs Mihály utca'
+  'Hidegvölgyi út': 'Hideg-völgyi út'
+  'Hét vezér utca': 'Hétvezér utca'
+  'Hórukk domb': 'Hórukk-domb'
+  'Iskola köz': 'Iskola-köz'
+  'Kaposvári utca': 'Kaposvári út'
+  'Kismáli út': 'Kis-Máli út'
+  'Kis köz': 'Kis-köz'
+  'Kisdeindol-hegyhát dűlő': 'Kisdeindol hegyhát dűlő'
+  'Kis Flórián utca': 'Kisflórián utca'
+  'Kormoskő sor': 'Kormoskősor'
+  'Makratető dűlő': 'Makra-tető dűlő'
+  'Malomcseri út': 'Malom-cseri út'
+  'Marosvásárhely utca': 'Marosvásárhely út'
+  'Menta köz': 'Menta-köz'
+  'Nagyberki út': 'Nagy-berki út'
+  'Nagymáli út': 'Nagy-máli út'
+  'Nagy Flórián utca': 'Nagyflórián utca'
+  'Pala köz': 'Pala-köz'
+  'Pincesor': 'Pince sor'
+  'Rippl-Rónai utca': 'Rippl Rónai utca'
+  'Szabadság út': 'Szabadság utca'
+  'Sársom völgy': 'Sársom-völgy'
+  'Váradi Antal utca': 'Várady Antal utca'
+  'Zidina környék': 'Zidina'
+  'Zipernovszky Károly utca': 'Zipernowsky Károly utca'
+  'Zsebetető utca': 'Zsebe-tető utca'
+  'Zártkerti út': 'Zártkerti utca'
+  'Égetthegyi út': 'Égett-hegyi út'
+# street-filters:
+  # nem igazi utcák
+  # tanyák
+  # településrész
+# osm-street-filters:
+  # nem igazi utcák
+  # parkok/sétányok
+  # tanyák/dűlők
+  # átlógó
+source: survey
+housenumber-letters: true
+inactive: true
