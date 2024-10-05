@@ -1,0 +1,65 @@
+missing-streets: 'yes'
+refstreets:
+  'Alispántanya': 'Alispán tanya'
+  'Benczúr tér': 'Benczúr Gyula tér'
+  'Bodóbács utca': 'Bodobács utca'
+  'Bolyai tér': 'Bólyai tér'
+  'Borívó utca': 'Borivó utca'
+  'Borostyános utca': 'Borostyános út'
+  'Butykai utca': 'Butykai út'
+  'Butyka sor': 'Butykasor'
+  'Búzakalász sor': 'Búzakalász utca'
+  'Cifra fasor': 'Cifrafasor'
+  'Csobolyó utca': 'Csobolyó út'
+  'Császárszállási utca': 'Császárszállási út'
+  'Delicses köz': 'Delicsesz köz'
+  'Derkovits Gyula utca': 'Derkovits utca'
+  'Derűs utca': 'Derüs utca'
+  'Deák Ferenc utca': 'Deák Ferenc út'
+  'Fekete dűlő': 'Feketedűlő'
+  'Fűzesbokor': 'Füzesbokor'
+  'Gergely utca': 'Gerely utca'
+  'Gerliczky Mihály utca': 'Gerliczki Mihály utca'
+  'Henger sor': 'Hengersor'
+  'Hímes utca': 'Himes utca'
+  'Homok sor': 'Homoksor'
+  'Huszár sor': 'Huszársor'
+  'Íjász utca': 'Ijász utca'
+  'Jonatán utca': 'Jonathán utca'
+  'Jánoshegyi lakópark': 'Jánoshegy lakópark'
+  'Kerítés utca': 'Kerités utca'
+  'Kistelekibokori utca': 'Kistelekibokori út'
+  'Lévaitanya': 'Lévai tanya'
+  'LEGO utca': 'Lego utca'
+  'Merkúr utca': 'Merkur utca'
+  'Napvírág utca': 'Napvirág utca'
+  'Pompás utca': 'Pompás út'
+  'Repülőtér utca': 'Repülőtér út'
+  'Rozsrétbokori utca': 'Rozsrétbokori út'
+  'Simonyi Óbester utca': 'Simonyi óbester utca'
+  'Sipkai Barna utca': 'Sipkay Barna utca'
+  'Százkúttanya': 'Szászkúttanya'
+  'Sziget köz': 'Szigetköz utca'
+  'Színes utca': 'Szines utca'
+  'Szűrszabó utca': 'Szürszabó utca'
+  'Timár utca': 'Tímár utca'
+  'Vietorisz József utca': 'Vietórisz József utca'
+  'Westsik Vilmos út': 'Westsik Vilmos utca'
+street-filters:
+  # nem igazi utcák
+  - MÁV 340. vasúti őrház
+  # tanyák
+  # településrész
+osm-street-filters:
+  # nem igazi utcák
+  - Ipari park
+  # parkok/sétányok
+  - Bujtosi Városliget
+  - Egyetemi park
+  - Petőfi park
+  - Sóstói szabadidőpark
+  # tanyák/dűlők
+  # átlógó
+source: survey
+housenumber-letters: true
+inactive: true
