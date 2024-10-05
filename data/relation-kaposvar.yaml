@@ -86,6 +86,8 @@ osm-street-filters:
   - Városliget
   # tanyák/dűlők
   - Dénesmajor
+  # átlógó
+  - Deres-hegy
 source: survey
 housenumber-letters: true
 inactive: true
