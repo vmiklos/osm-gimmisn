@@ -1,0 +1,37 @@
+missing-streets: 'yes'
+refstreets:
+  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky út'
+  'Egressy Béni utca': 'Egressy utca'
+  'Felső Duna sor': 'Felső Dunasor sor'
+  'Kandó Kálmán utca': 'Kandó Kálmán út'
+  'Kinizsi utca': 'Kinizsi út'
+  'Kisfaludy utca': 'Kisfaludy út'
+  'Lehel utca': 'Lehel út'
+  'Szapári Péter utca': 'Szapáry Péter utca'
+  'Szent István utca': 'Szent István út'
+  # Sinatelep
+  'B. Sina György utca': 'Sinatelep B. Sina György utca'
+  'Bocskai István utca': 'Sinatelep Bocskai István utca'
+  'Sinatelep-Kölcsei utca': 'Kölcsey utca'
+  'Mátyás király utca': 'Sinatelep Mátyás Király utca'
+  'Madách utca': 'Sinatelep-Madách utca'
+street-filters:
+  # nem igazi utcák
+  - Gátőrház
+  - Ipari park
+  # tanyák
+  - Balázs farm
+  - Hidas tanya
+  # településrész
+  - Kovácssziget
+osm-street-filters:
+  # nem igazi utcák
+  - Váli-víz gát
+  # parkok/sétányok
+  - Béke park
+  - Dunapart
+  # tanyák/dűlők
+  - Terézmajor
+source: survey
+housenumber-letters: true
+inactive: true
