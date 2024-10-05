@@ -1,0 +1,34 @@
+missing-streets: 'yes'
+refstreets:
+  'Garay Gábor utca': 'Garay utca'
+  'Lehel sor': 'Lehelsor'
+  'Luczahegyi utca': 'Lucza hegyi utca'
+  'Park sor': 'Parksor utca'
+  'Sziget sor': 'Szigetsor'
+street-filters:
+  # nem igazi utcák
+  # tanyák
+  - Kiskonda puszta
+  - Lang tanya
+  - Nagykonda puszta
+  - Szarvasd puszta
+  - Szilfás puszta
+osm-street-filters:
+  # nem igazi utcák
+  # parkok/sétányok
+  - Béke park
+  # tanyák/dűlők
+  - Bikavér dűlő
+  - Brulovicstanya
+  - Forrás dűlő
+  - Hébér dűlő
+  - Homoki dűlő
+  - Horgásztanya
+  - Iskola dűlő
+  - Mausch dűlő
+  - Pintes dűlő
+  - Szlanka dűlő
+  - Szőlőhegy
+source: survey
+housenumber-letters: true
+inactive: true
