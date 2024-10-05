@@ -1,0 +1,151 @@
+missing-streets: 'yes'
+refstreets:
+  'Almáskert köz': 'Almáskerti köz'
+  'Baskír utca': 'Baskir utca'
+  'Bercsényi utca': 'Bercsényi Miklós utca'
+  'Biczó kert': 'Biczó István kert'
+  # 'Boroszlán utca': 'Borostyán utca'
+  # 'Cser utca': 'Cserfa utca'
+  'Derekas István köz': 'Derekassy István köz'
+  'Dózsa György út': 'Dózsa György utca'
+  'Fancsika': 'Fancsika tanya'
+  'Kellermann Márton utca': 'Kellerman Márton utca'
+  'Kádár dűlő': 'Kádárdűlő'
+  'Lóskúti utca': 'Lóskúti út'
+  'Madách tér': 'Madách Imre tér'
+  # 'Maros utca': 'Mars utca'
+  'Olimpiai fasor': 'Olimpia fasor'
+  'Sinai Miklós utca': 'Sinay Miklós utca'
+  'Szentgyörgyi erdősor': 'Szentgyörgyierdő sor'
+  'Thuróczy Gyula utca': 'Thuróczi Gyula utca'
+  'Vértesi utca': 'Vértesi út'
+street-filters:
+  # nem igazi utcák
+  - Apafa vasútállomás
+  - Máv vasúti őrház
+  - Macs vasútállomás
+  - MÁV hegesztő telep
+  - Szabadság telep vasútállomás
+  - Vontatási telep
+  # településrés
+  - Bayk András kert
+  - Bellegelő kert
+  # - Biczó István kert
+  - Domokos Márton kert
+  - Gáspár György kert
+
+  # tanyák
+  - Ágnes tanya
+  - Apafa tanya
+  - Babéros tanya
+  - Bánki-Fülöp tanya
+  - Bellegelői -Guszti tanya
+  - Bellegelői-Pipacs tanya
+  - Bellon tanya
+  - Betyár tanya
+  - Biri tanya
+  - Czeglédi tanya
+  - Czifra tanya
+  - Csereerdei Tóth tanya
+  - Csuka tanya
+  - Debreceni tanya
+  - Dombostanya
+  - Dóra major tanya
+  - Dorkász tanya
+  - Döncő tanya
+  - Egyetemi Tangazdaság tanya
+  - Fancsikai-Kocsis tanya
+  - Fenyvesvölgy tanya
+  - Frauenfarn tanya
+  - Fülöp tanya
+  - Gavallér tanya
+  - Gyügyei tanya
+  - Hegedűs tanya
+  - Hosszúpályi úti tanya
+  - Hunyadi tanya
+  - István tanya
+  - Jenei Családi tanya
+  - Juhász tanya
+  - Kállai tanya
+  - Kismacs 1-48 tanya
+  - Kismacs tanya
+  - Kismacsi Bajor tanya
+  - Kiss tanya
+  - Kiss-Pál tanya
+  - Kóka tanya
+  - Kovács István-Katalin tanya
+  - Kurely tanya
+  - Lakatos tanya
+  - Lakfalvi tanya
+  - Lovaspagony tanya
+  - Máriás tanya
+  - Miskolczi tanya
+  - Moha tanya
+  - Nagycserei-Csendes tanya
+  - Nagycserei Szabó tanya
+  - Nyárfarm tanya
+  - Ónodi tanya
+  - Ökrös major tanya
+  - Pálinkás tanya
+  - Pallag major
+  - Pallag tanya
+  - Papp tanya
+  - Perényi tanya
+  - Pipó tanya
+  - Reményerdő tanya
+  - Richter tanya
+  - Sáfrán tanya
+  - Senki szigete tanya
+  - Somogyi tanya
+  - Szabó tanya
+  - Szabó-Máriás tanya
+  - Szántó tanya
+  - Szepes tanya
+  - Szikigyakor tanya
+  - Szilágyi tanya
+  - Szilfa tanya
+  - Szitha tanya
+  - Szobonya tanya
+  - Szolnoki tanya
+  - Szondi tanya
+  - Szutor tanya
+  - Tana tanya
+  - Tardi tanya
+  - Timoska tanya
+  - Tornyostanya
+  - Tóth tanya
+  - Tölgyes tanya
+  - Trieb tanya
+  - Tulipán tanya
+  - Varga tanya
+  - Véghseő birtok tanya
+  - Veress tanya
+  - Zagyva tanya
+osm-street-filters:
+  # nem igazi utcák
+  - Homokkerti felüljáró
+  # parkok/sétányok
+  - Ady park
+  - Barátság park
+  - Emlékkert
+  - Falat sétány
+  - Fitpark
+  - Haláp kert
+  - Józsa Grund Sportpark
+  - Kutya park
+  # tanyák/dűlők
+  - Bohátka tanya
+  - Csendes dűlő
+  - Csereiér dűlő
+  - Csukásdűlő
+  - Erdei Kiskertek dűlő
+  - Fenyves dűlő
+  - Kölcsey major
+  - Lugosi tanya
+  - Szúcs tanya
+  - Vedres dűlő
+  - Veréb dűlő
+  - Virág dűlő
+source: survey
+housenumber-letters: true
+inactive: true
