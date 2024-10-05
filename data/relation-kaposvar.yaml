@@ -1,24 +1,41 @@
 missing-streets: 'yes'
 refstreets:
   'Ballakúti utca': 'Ballakuti utca'
+  'Béri Balogh Ádám utca': 'Balogh Ádám utca'
+  'Berzsenyi Dániel utca': 'Berzsenyi utca'
+  'Bibic utca': 'Bíbic utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
+  'Csik Ferenc sétány': 'Csík Ferenc sétány'
   'Csutoraszárító dűlő': 'Csutoraszáritó dűlő'
   'Cukorgyári köz': 'Cukorgyár köz'
   'Dr. Kaposváry György utca': 'Dr. Kaposváry György út'
   'Dr. Kovács-Sebestény Gyula utca': 'Dr.Kovács-Sebestény Gyula utca'
+  'Erkel Ferenc köz': 'Erkel köz'
+  'Erkel Ferenc utca': 'Erkel utca'
   'Füredi út': 'Füredi utca'
   'Hajnóczy József utca': 'Hajnóczi József utca'
   'Ivánfahegyalja köz': 'Ivánfahegyalja-köz'
   'Jókai Mór utca': 'Jókai utca'
+  'Kandó Kálmán köz': 'Kandó köz'
+  'Kápolna utca': 'Kápolna út'
   'Kapoly Antal utca': 'Kapoli Antal utca'
   'Kisgáti dűlő': 'Kisgát dűlő'
   'Kisrómahegyi utca': 'Kisrómahegyi út'
+  'Klapka György utca': 'Klapka utca'
+  'Kodály Zoltán utca': 'Kodály utca'
   'Kontrássy Sándor utca': 'Kontrássy utca'
-  'Kápolna utca': 'Kápolna út'
+  'Körös utca': 'Kőrös utca'
+  'Kölcsey Ferenc utca': 'Kölcsey utca'
+  'Krúdy Gyula köz': 'Krúdy köz'
+  'Kunffy Lajos utca': 'Kunffy utca'
   'Lonkahegyi út': 'Lonkai út'
+  'Lorántffy Zsuzsanna utca': 'Lórántffy Zsuzsanna utca'
+  'Petőfi Sándor tér': 'Petőfi tér'
+  'Petőfi Sándor utca': 'Petőfi utca'
   'Rippl-Rónai József tér': 'Rippl-Rónai tér'
   'Rippl-Rónai József utca': 'Rippl-Rónai utca'
   'Répáspuszta': 'Répás puszta'
+  'Sigray Antal utca': 'Sigray utca'
   'Semmelweis Ignác utca': 'Semmelweis utca'
   'Szondi György utca': 'Szondy György utca'
   'Sávház utca': 'Sávház'
@@ -27,18 +44,23 @@ street-filters:
   # nem igazi utcák
   - Desedai gátőrház
   # tanyák
+  - Fekete tanya
+  - Kenese puszta
   - Szarvasfarm tanya
   - Tsz. újmajor
   - Zarany puszta
   # településrész
   - Cigánytelep
   - Cserhát
+  - Kaposhegy
+  - Kecel hegy
   - Külterület
   - Szentjakabi hegy
   - Várhegy
-# osm-street-filters:
+osm-street-filters:
   # nem igazi utcák
   # parkok/sétányok
+  - Berzsenyi park
   # tanyák/dűlők
 source: survey
 housenumber-letters: true
