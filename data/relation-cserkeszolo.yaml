@@ -5,5 +5,7 @@ refstreets:
   'Munkácsy Mihály utca': 'Munkácsy utca'
   'Rákóczi utca': 'Rákóczi Ferenc utca'
   'Szabadság út': 'Szabadság utca'
+   # ellenőrzött
+  'Petőfi Sándor utca': 'Petőfi utca'  # táblán Petőfi Sándor utca
 source: survey
 inactive: false
