@@ -14,13 +14,17 @@ refstreets:
   'Tinódi Lantos Sebestyén utca': 'Tinódi Sebestyén utca'
   'Várkerület': 'Várkerület utca'
   'Vörösmarty utca': 'Vörösmarty Mihály utca'
-# street-filters:
+street-filters:
   # nem igazi utcák
   # tanyák
+  - Földvárpuszta major
+  - Kanotapuszta
   # településrész
-# osm-street-filters:
-  # nem igazi utcák
+osm-street-filters:
   # parkok/sétányok
+  - Abádi Benedek sétány
+  - Gayer Endre sétány
+  - Hild park
   # tanyák/dűlők
 source: survey
 housenumber-letters: true
