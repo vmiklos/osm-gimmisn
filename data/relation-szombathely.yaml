@@ -9,18 +9,34 @@ refstreets:
   'Írottkő utca': 'Irottkő utca'
   'Rumi Külső út': 'Rumi külső út'
   'Tinódi Lantos Sebestyén utca': 'Tinódi Sebestyén utca'
+  'Dr. Tóth Géza tér': 'Tóth Géza tér'
   # rövidítés
   'Erdősi Sylvester János utca': 'Erdősi Sylvester Ján utca'
 street-filters:
   # nem igazi utcák
+  - Csupor villa
+  - Oladi vasútállomás
   - Sárd-éri vízmű
+  - Trafóállomás
   - Vasúti őrház
   # tanyák
-  # településrész
-# osm-street-filters:
-  # nem igazi utcák
+  - Marlovics tanya
+  - Szinese major
+  - Zeli major
+osm-street-filters:
   # parkok/sétányok
-  # tanyák/dűlők
+  - Boldog Brenner János liget
+  - Brenner park
+  - Eisinger-gödör
+  - Ezredévi park
+  - Gayer park
+  - Múzeumpark
+  - Pelikán park
+  - Romkert sétány
+  - Rumi Rajki sétány
+  - Szabó Éva sétány
+  - Szent Qurinus sétány
+  - Tóth István park
 source: survey
 housenumber-letters: true
 inactive: true
