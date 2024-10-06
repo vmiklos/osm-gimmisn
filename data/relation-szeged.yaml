@@ -1,0 +1,34 @@
+missing-streets: 'yes'
+refstreets:
+  'Ballagitó sor': 'Ballagi-tó sor'
+  'Dorozsmai út': 'Dorozsmai köz'
+  'Erdőszéli utca': 'Erdőszéli út'
+  'Felső Tisza part': 'Felső Tisza-part'
+  'Fenyveslejtő sor': 'Fenyves-lejtő sor'
+  'Gyála széle': 'Gyála széle utca'
+  'Jánosér út': 'János-ér út'
+  'Kis Baktói út': 'Kis-Baktói út'
+  'Kisbogáros utca': 'Kis-bogáros utca'
+  'Kurucvölgyi út': 'Kuruc-völgyi út'
+  'Lúdvári utca': 'Lúdvári út'
+  'Makkoserdő sor': 'Makkos-erdő sor'
+  'Matyparti út': 'Maty-parti út'
+  'Mórahegyi út': 'Móra-hegyi út'
+  'Nagy Baktói út': 'Nagy-Baktói út'
+  'Sipos Iván utca': 'Sípos Iván utca'
+  'Szúnyog utca': 'Szúnyog út'
+  'Városgazda sor': 'Városgazda utca'
+  'Vásárhelyi Pál utca': 'Vásárhelyi Pál út'
+  'Vértói út': 'Vér-tói út'
+  'Zsámbokréti sor': 'Zsámbok-réti sor'
+# street-filters:
+  # nem igazi utcák
+  # tanyák
+  # településrész
+# osm-street-filters:
+  # nem igazi utcák
+  # parkok/sétányok
+  # tanyák/dűlők
+source: survey
+housenumber-letters: true
+inactive: true
