@@ -12,7 +12,7 @@ refstreets:
   # Sinatelep
   'B. Sina György utca': 'Sinatelep B. Sina György utca'
   'Bocskai István utca': 'Sinatelep Bocskai István utca'
-  'Sinatelep-Kölcsei utca': 'Kölcsey utca'
+  'Kölcsey utca': 'Sinatelep-Kölcsei utca'
   'Mátyás király utca': 'Sinatelep Mátyás Király utca'
   'Madách utca': 'Sinatelep-Madách utca'
 street-filters:
