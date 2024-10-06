@@ -1,0 +1,26 @@
+missing-streets: 'yes'
+filters:
+  Erdősi Sylvester János utca:
+    show-refstreet: false
+refstreets:
+  'Bolyai János utca': 'Bólyai János utca'
+  'Diána utca': 'Diana utca'
+  'Erdei iskola utca': 'Erdei Iskola utca'
+  'Írottkő utca': 'Irottkő utca'
+  'Rumi Külső út': 'Rumi külső út'
+  'Tinódi Lantos Sebestyén utca': 'Tinódi Sebestyén utca'
+  # rövidítés
+  'Erdősi Sylvester János utca': 'Erdősi Sylvester Ján utca'
+street-filters:
+  # nem igazi utcák
+  - Sárd-éri vízmű
+  - Vasúti őrház
+  # tanyák
+  # településrész
+# osm-street-filters:
+  # nem igazi utcák
+  # parkok/sétányok
+  # tanyák/dűlők
+source: survey
+housenumber-letters: true
+inactive: true
