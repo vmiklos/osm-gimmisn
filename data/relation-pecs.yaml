@@ -1,10 +1,15 @@
 missing-streets: 'yes'
 refstreets:
+  'A utca': 'A. utca'
   'Akácfa köz': 'Akácfa-köz'
+  'B utca': 'B. utca'
   'Bálicstető dűlő': 'Bálics-tető dűlő'
   'Bókay János utca': 'Bókai János utca'
+  'C utca': 'C. utca'
   'Cikkcakk utca': 'Cikk-cakk utca'
   'Csarnok köz': 'Csarnok-köz'
+  'D utca': 'D. utca'
+  'Díjasnyereg út': 'Dijasnyereg út'
   'Galilei út': 'Galilei utca'
   'Hegedüs Mihály utca': 'Hegedűs Mihály utca'
   'Hidegvölgyi út': 'Hideg-völgyi út'
@@ -17,6 +22,7 @@ refstreets:
   'Kisdeindol-hegyhát dűlő': 'Kisdeindol hegyhát dűlő'
   'Kis Flórián utca': 'Kisflórián utca'
   'Kormoskő sor': 'Kormoskősor'
+  'Lívia utca': 'Livia utca'
   'Makratető dűlő': 'Makra-tető dűlő'
   'Malomcseri út': 'Malom-cseri út'
   'Marosvásárhely utca': 'Marosvásárhely út'
@@ -27,23 +33,87 @@ refstreets:
   'Pala köz': 'Pala-köz'
   'Pincesor': 'Pince sor'
   'Rippl-Rónai utca': 'Rippl Rónai utca'
+  'Rózsavölgyi út': 'Rózsa-völgyi út'
+  'Sárkánytorok út': 'Sárkánytorok'
   'Szabadság út': 'Szabadság utca'
   'Sársom völgy': 'Sársom-völgy'
+  'T utca': 'T. utca'
   'Váradi Antal utca': 'Várady Antal utca'
+  'Dr. Veress Endre utca': 'Veress Endre utca'
   'Zidina környék': 'Zidina'
   'Zipernovszky Károly utca': 'Zipernowsky Károly utca'
   'Zsebetető utca': 'Zsebe-tető utca'
   'Zártkerti út': 'Zártkerti utca'
   'Égetthegyi út': 'Égett-hegyi út'
-# street-filters:
+street-filters:
   # nem igazi utcák
+  - Dömörkapui turistaház
+  - Fehérkuti turistaház
+  - Gyöngyöscsárda
+  - Homokbánya
+  - Kovácstelepi sportpálya
+  - Kulcsos csárda
+  - Mecsekszentkút erdészház
+  - Rácváros előtt egyéb
   # tanyák
   # településrész
+  - András-akna  # https://www.openstreetmap.org/node/1288910159
+  - Balázsmalom
+  - Borbálatelep  # https://www.openstreetmap.org/node/1288970165
+  - György-akna  # https://www.openstreetmap.org/node/3440859588
+  - Kültelek
+  - Malomvölgy
+  - Mecsekszentkút  # Szentkút - https://www.openstreetmap.org/node/983240903
+  - Széchenyi akna  # https://www.openstreetmap.org/node/1288910158
+  - Nagypostavölgy  # https://www.openstreetmap.org/node/3165846493
+  - Üszögpuszta  # https://www.openstreetmap.org/node/983246285
+  - Vasas I. külterület
 # osm-street-filters:
   # nem igazi utcák
+  - Árpád híd
   # parkok/sétányok
+  - A Hősök kertje
+  - Ágoston park
+  - Ajtósi park
+  - Balokány-liget
+  - Bányász emlékpark
+  - Barbakán kert
+  - Barbakán-várárok
+  - Béke park
+  - Eck Imre sétány
+  - Ércbányász park
+  - Északi várfalsétány
+  - Északi várfalsétány, piknik park
+  - Eszperantó park
+  - Fellbach sétaút
+  - Gergely-kert
+  - Guinness Rekord sétány
+  - Hild-udvar
+  - Honfoglalás park
+  # - Játszótér park
+  - Kálvária domb
+  - Komarov park
+  - Kőkert
+  - Lánc utca park
+  - Magasház park
+  - Mandulás park
+  - Mecsextrém Park
+  - Niké szobor park
+  - Nyugati várfalsétány, kultúrkert
+  - Ördögárok
+  - PTE Jubileumi Liget
+  - Római udvar
+  - Rózsakert park
+  - Szent Borbála emlékpark
+  - Szentágotai János Sétány
+  - Tettye
+  # - Wakeboard park
+  # turistautak
+  - Balog Károly út
+  - Rotary körsétány
+  - Stiglicfogdosó
+  - Vasasi-árok
   # tanyák/dűlők
-  # átlógó
 source: survey
 housenumber-letters: true
 inactive: true
