@@ -8,7 +8,6 @@ refstreets:
   # 'Cser utca': 'Cserfa utca'
   'Derekas István köz': 'Derekassy István köz'
   'Dózsa György út': 'Dózsa György utca'
-  'Fancsika': 'Fancsika tanya'
   'Kellermann Márton utca': 'Kellerman Márton utca'
   'Kádár dűlő': 'Kádárdűlő'
   'Lóskúti utca': 'Lóskúti út'
@@ -33,7 +32,6 @@ street-filters:
   # - Biczó István kert
   - Domokos Márton kert
   - Gáspár György kert
-
   # tanyák
   - Ágnes tanya
   - Apafa tanya
@@ -55,6 +53,7 @@ street-filters:
   - Döncő tanya
   - Egyetemi Tangazdaság tanya
   - Fancsikai-Kocsis tanya
+  - Fancsika tanya'
   - Fenyvesvölgy tanya
   - Frauenfarn tanya
   - Fülöp tanya
@@ -139,6 +138,7 @@ osm-street-filters:
   - Csereiér dűlő
   - Csukásdűlő
   - Erdei Kiskertek dűlő
+  - Fancsika
   - Fenyves dűlő
   - Kölcsey major
   - Lugosi tanya
