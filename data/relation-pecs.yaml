@@ -68,7 +68,7 @@ street-filters:
   - Nagypostavölgy  # https://www.openstreetmap.org/node/3165846493
   - Üszögpuszta  # https://www.openstreetmap.org/node/983246285
   - Vasas I. külterület
-# osm-street-filters:
+osm-street-filters:
   # nem igazi utcák
   - Árpád híd
   # parkok/sétányok
