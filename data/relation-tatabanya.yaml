@@ -41,11 +41,36 @@ refstreets:
 street-filters:
   # nem igazi utcák
   - TBC Szanatórium
+  - Aluminiumkohói-házak
+  - Czerman-ház
+  - Faraguna-házak
+  - Fatelepi bekötőút
+  - Felső vasútállomás
+  - MÁV 1,2,3,4 épületei
+  - Máv őrház
   # tanyák
+  - Rigómajor
   # településrész
-# osm-street-filters:
-  # nem igazi utcák
+  - Koldusszállás
+  - Körtvélyespuszta
+  - Síkvölgypuszta
+osm-street-filters:
+  # via ferrata
+  - Hét vezér via ferrata (D)
+  - Kata via ferrata (E)
+  - Kezdő via ferrata (B)
+  - Libegő variáns via ferrata (C)
+  - Makk Marci via ferrata (B)
+  - Öt vezér via ferrata (C)
+  - Turul via ferrata (D)
+  - Turul via ferrata (E)
   # parkok/sétányok
+  - Hunyadi park
+  - Ifjúsági park
+  - KRESZ Park
+  - Ranzinger Vince sétány
+  - Sétáló park
+  - Záray Márta pihenőpark
   # tanyák/dűlők
 source: survey
 housenumber-letters: true
