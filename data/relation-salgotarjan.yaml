@@ -2,11 +2,11 @@ missing-streets: 'yes'
 refstreets:
   # 'Barack utca': 'Barackfa utca'
   'Báthory utca': 'Báthori István út'
+  'Bem József utca': 'Bem utca'
   'Bereczky Máté út': 'Bereczki Máté út'
   'Bródy Sándor utca': 'Bródy Sándor út'
   'Bugát Pál utca': 'Bugát Pál út'
   'Cinege út': 'Cinege utca'
-  'Derencsényi': 'Derencsényi utca'
   'Dornyai utca': 'Dornyay utca'
   'Egressy Béni utca': 'Egressy Béni út'
   'Erkel Ferenc út': 'Erkel út'
@@ -49,14 +49,28 @@ refstreets:
   'Vároldal út': 'Vároldal utca'
   'Zagyvai rakodó': 'Zagyvai Rakodó utca'
   'Úttörők útja': 'Úttörők út'
-# street-filters:
+street-filters:
   # nem igazi utcák
-  # tanyák
-  # településrész
-# osm-street-filters:
+  - Csókás puszta
+  - Dugdel puszta
+  - Gedőc puszta
+  - Magyarbánya telep
+  - Nyárjas puszta
+  - Pécskő puszta
+  - Pécskő-garázs sor
+  - Salgó puszta
+  - Szilváskő puszta
+osm-street-filters:
   # nem igazi utcák
+  - Somoskői kőszállító vasút
   # parkok/sétányok
-  # tanyák/dűlők
+  - Dolinka Pihenőpark és játszótér
+  - Madárpark
+  - Millenniumi emlékpark
+  - Petőfi sétány
+  - Petőfi-liget
+  - Szoborpark
+  - Zenthe Ferenc Emlékpark
 source: survey
 housenumber-letters: true
 inactive: true
