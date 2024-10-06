@@ -1,0 +1,27 @@
+missing-streets: 'yes'
+refstreets:
+  'Batthyány Lajos utca': 'Batthyány utca'
+  'Cukorgyár utca': 'Cukorgyári utca'
+  'Dévai Bíró Mátyás utca': 'Dévai Biró Mátyás utca'
+  'Feketehíd utca': 'Fekete-híd utca'
+  'Felső Sótonyi utca': 'Felső-Sótonyi út'
+  'Kiss János altábornagy utca': 'Kiss János atb. utca'
+  'Kossuth Lajos tér': 'Kossuth tér'
+  'Nádasdy Ferenc utca': 'Nádasdy Ferenc út'
+  'Ostffyasszonyfai utca': 'Ostffyasszonyfai út'
+  'Rákóczi Ferenc út': 'Rákóczi Ferenc utca'
+  'Sótonyi utca': 'Sótonyi út'
+  'Tinódi Lantos Sebestyén utca': 'Tinódi Sebestyén utca'
+  'Várkerület': 'Várkerület utca'
+  'Vörösmarty utca': 'Vörösmarty Mihály utca'
+# street-filters:
+  # nem igazi utcák
+  # tanyák
+  # településrész
+# osm-street-filters:
+  # nem igazi utcák
+  # parkok/sétányok
+  # tanyák/dűlők
+source: survey
+housenumber-letters: true
+inactive: true
