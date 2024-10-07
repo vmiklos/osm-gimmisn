@@ -1,17 +1,16 @@
 missing-streets: 'yes'
 refstreets:
   'Ballagitó sor': 'Ballagi-tó sor'
-  'Dorozsmai út': 'Dorozsmai köz'
   'Erdőszéli utca': 'Erdőszéli út'
   'Felső Tisza part': 'Felső Tisza-part'
   'Fenyveslejtő sor': 'Fenyves-lejtő sor'
   'Gyála széle': 'Gyála széle utca'
   'Jánosér út': 'János-ér út'
   'Kis Baktói út': 'Kis-Baktói út'
-  'Kisbogáros utca': 'Kis-bogáros utca'
   'Kurucvölgyi út': 'Kuruc-völgyi út'
   'Lúdvári utca': 'Lúdvári út'
   'Makkoserdő sor': 'Makkos-erdő sor'
+  'Marostorok utca': 'Maros-torok utca'
   'Matyparti út': 'Maty-parti út'
   'Mórahegyi út': 'Móra-hegyi út'
   'Nagy Baktói út': 'Nagy-Baktói út'
@@ -22,6 +21,8 @@ refstreets:
   'Vértói út': 'Vér-tói út'
   'Zsámbokréti sor': 'Zsámbok-réti sor'
 street-filters:
+  # létező
+  - Vízügyi park  # https://www.openstreetmap.org/relation/14470618
   # nem igazi utcák
   - Hattyasi szivattyú telep
   - Repülőtér
