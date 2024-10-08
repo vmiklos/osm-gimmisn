@@ -219,7 +219,11 @@ filters:
     # 17,19: iskola 11-15, utána következő ház 27
     # 50a: csak sima 50
     invalid: ['50a']
-  #Bíró László József körút
+  Bíró László József körút:
+    # 11-15: 13 és 15/a van
+    # 22 = Budapart Downtown, Radison Sas: Dombóvári út 25, 25/a
+    # 24 = Budapart City, Dombóvári út 26.
+    invalid: ['11-15', '15', '24']
   Birs utca:
     # Beregszász út 56d, 56e át lettek számozva Birs utcára: 3/a, 3/b
     invalid: ['3']
@@ -873,7 +877,8 @@ filters:
     # 1: Alkotmányvédelmi Hivatal, innen nincs házszáma
     # 4a, 6b, 4c, 4d: Nádorliget utca 7/a-7/b-7/c-7/d-re számozva
     # 10 = Budafoki út 97-103
-    invalid: ['1', '4d', '6b']
+    # 16: építési terület. RESURVEY 2025
+    invalid: ['1', '4d', '6b', '16']
   Hegyalja út:
     # páratlan ---------------------------------------------------------------
     # 37-93: XII. kerület
@@ -1512,9 +1517,10 @@ filters:
     invalid: ['1', '3d', '3k', '5', '6r']
   Nádorliget utca:
     # ranges: 5-11, 4-8
+    # 2 = Dombóvári út 9.
     # 7 A-D; 8 A-F
     # 9 = Hauszamnn Alajos utca 3/b
-    invalid: ['7', '8']
+    invalid: ['2', '3', '7', '8']
   Nagyida köz:
     # 5: 5/a, 5/b
     invalid: ['5']
