@@ -22,7 +22,12 @@ refstreets:
   'Zsámbokréti sor': 'Zsámbok-réti sor'
 street-filters:
   # létező
+  - Borostyán liget  # https://www.openstreetmap.org/way/858118378
+  - Szomolya udvar  # https://www.openstreetmap.org/relation/11643313
   - Vízügyi park  # https://www.openstreetmap.org/relation/14470618
+  # proposed
+  - Örökzöld köz  # https://www.openstreetmap.org/way/1087066380
+  - Porgány köz   # https://www.openstreetmap.org/way/1322663112
   # nem igazi utcák
   - Hattyasi szivattyú telep
   - Repülőtér
