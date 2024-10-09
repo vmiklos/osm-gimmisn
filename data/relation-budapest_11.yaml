@@ -220,10 +220,12 @@ filters:
     # 50a: csak sima 50
     invalid: ['50a']
   Bíró László József körút:
+    # 1b: 1 B LH.
+    # 6: 6/a, 6/b van kiírva.
     # 11-15: 13 és 15/a van
     # 22 = Budapart Downtown, Radison Sas: Dombóvári út 25, 25/a
     # 24 = Budapart City, Dombóvári út 26.
-    invalid: ['11-15', '15', '24']
+    invalid: ['1b', '6', '11-15', '15', '22', '24']
   Birs utca:
     # Beregszász út 56d, 56e át lettek számozva Birs utcára: 3/a, 3/b
     invalid: ['3']
@@ -1325,6 +1327,9 @@ filters:
   Lágymányosi utca:
     # 17: alagsori fodrászat - termászetben Vak Bottyán utca 2 felől van a bejárat, ez van a honlapján is
     invalid: ['17']
+  Lakatos Gabriella utca:
+    # 1 = MOL Campus, Dombóvári út 28.
+    invalid: ['1']
   Lanka utca:
     # 21: 21/a, 21/b
     invalid: ['21']
@@ -2431,6 +2436,9 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '2'}
+  Völgycsillag utca:
+    # 3: 3/c van kiírva.
+    invalid: ['3']
   Vöröskúti határsor:
     # 15x/y helyrajzi számok, sima nincs
     invalid: ['151', '152/7']
