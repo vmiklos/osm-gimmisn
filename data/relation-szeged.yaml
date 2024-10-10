@@ -26,8 +26,16 @@ street-filters:
   - Szomolya udvar  # https://www.openstreetmap.org/relation/11643313
   - Vízügyi park  # https://www.openstreetmap.org/relation/14470618
   # proposed
+  - Aranyműves köz  # https://www.openstreetmap.org/way/453808958
+  - Bodorka köz  # https://www.openstreetmap.org/way/1322957236
+  - Csizmadia köz  # https://www.openstreetmap.org/way/682388772
+  - Fegyverkovács utca  # https://www.openstreetmap.org/way/682388770
+  - Lakatos utca  # https://www.openstreetmap.org/way/682388775
+  - Lőtér park  # https://www.openstreetmap.org/way/1322961933
+  - Ötvös köz  # https://www.openstreetmap.org/way/682388768
   - Örökzöld köz  # https://www.openstreetmap.org/way/1087066380
   - Porgány köz   # https://www.openstreetmap.org/way/1322663112
+  - Szíjártó köz  # https://www.openstreetmap.org/way/682388769
   # nem igazi utcák
   - Hattyasi szivattyú telep
   - Repülőtér
