@@ -131,6 +131,8 @@ street-filters:
 osm-street-filters:
   # nem igazi utcák
   - Belvárosi híd
+  - Hild kapu
+  - Vasúti rakodó
   # parkok/sétányok
   - Erzsébet-liget
   - Göncz Árpád sétány
