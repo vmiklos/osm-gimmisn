@@ -449,11 +449,8 @@ filters:
     # 3a: csak sima 3 van
     invalid: ['3a']
   Csorbai utca:
-    invalid: ['2', '2a', '6', '10c', '13a', '18', '22', '28a']
-    # 2b után 12 jön, közben a CBA és egy nyomásszabályozó állomás van
-    ranges:
-      - {start: '3', end: '23'}
-      - {start: '2', end: '28'}
+    invalid: ['2', '2a', '6', '6-8', '10c', '13a', '18', '22', '28a']
+    # 2b után 12 jön, közben építési telek a volt CBA és egy nyomásszabályozó helyén
   Csukló utca:
     # 2: park, illeve a vasúti alagút teteje
     # 6: 6/a, 6/b
@@ -604,9 +601,8 @@ filters:
       - {start: '2', end: '28'}
       - {start: '40', end: '44'}
   Ercsi út:
-    ranges:
-      - {start: '1', end: '21'}
-      - {start: '2', end: '24'}
+    # 17-21: Fraknó utca 13-15 - Mogyoróskert Bőlcsőde: 
+    invalid: ['17-21']
   Érdi út:
     # 6: 6/a, 6/b
     # 10: 10/a, 10/b
@@ -733,7 +729,8 @@ filters:
     # Panelek, minden számra a és b: 6a-28b-ig: 6a,6b,8a,8b stb..
     # 5 = Forrás utca 8-10
     # 9: idősek otthona telke, az csak 7-et használja
-    invalid: ['20']
+    # 19: 
+    invalid: ['19', '20']
   Frankhegy utca:
     interpolation: all
   Fülőke utca:
@@ -837,7 +834,9 @@ filters:
   Hajtás utca:
     # 5a: csak sima 5 van
     invalid: ['5a', '5b']
-  # Halmi utca:
+  Halmi utca:
+    # 26-28: csak 26 van kiírva
+    invalid: ['28']
   Hamzsabégi út:
     # 65: max házszám a 64, a tenisz pálya
     invalid: ['65']
@@ -911,6 +910,9 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '22'}
+  Hídvég utca:
+    # pároson csak ez van: 2/a, 2b
+    invalid: ['4', '6', '8', '10']
   Higany utca:
     # 1b; 3a,3b; 5a,5b
     invalid: ['1', '5']
@@ -1383,13 +1385,8 @@ filters:
   Major köz:
     ranges:
       - {start: '6', end: '12'}
-  # Major utca:
-  #  invalid: ['57']
-  #  ranges:
-  #    - {start: '1', end: '7'}
-  #    - {start: '17', end: '23'}
-  #    - {start: '27', end: '69'}
-  #    - {start: '12', end: '42'}
+  Major utca:
+    invalid: ['65']
   Május utca:
     ranges:
       - {start: '1', end: '3'}
@@ -1465,6 +1462,9 @@ filters:
     ranges:
       - {start: '1', end: '7'}
       - {start: '4', end: '16'}
+  Mezőtúr utca:
+    # 2 = Solt utca 19.
+    invalid: ['2']
   Mihály utca:
     # 4b: 4/B-6
     # 16: csak 16/a
@@ -1722,9 +1722,9 @@ filters:
   Örsöddűlő út:
     # csak helyrajzi számok
     ranges: []
-  # Pajkos utca:
-    # 17-21: Buszgarázs oldala
-    # invalid: ['22', '23c']
+  Pajkos utca:
+    # 21: lebontott terület a Pajkos utca és Andor utca sarkán
+    invalid: ['21']
   Pálinkás Antal utca:
     # 2: 2/A (A. épület), 2/B (C. épület)
     # 3: 3/A (D. épület), 3/B (F. épület)
@@ -1913,7 +1913,9 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '16'}
-  # Rendőr utca:
+  Rendőr utca:
+    # semmi nincs kiírva csak a 3
+    invalid: ['1a', '1b', '4', '5']
   Repülő utca:
     # 20 felett mező van
     ranges:
@@ -2234,13 +2236,17 @@ filters:
     # 1-141, 2-48, 62-92, 96-198
     # 1 = Bartók Béla út 106-110
     # 3: nincs
+    # 33-35: nincs
     # 67: 67/a, 67/b
     # 44-60 nen használt cím, a bölcsőde a 46-48-at használja
-    invalid: ['38', '44-60', '71b', '98', '126b']
+    invalid: ['33-35', '38', '44-60', '71b', '98', '126b']
   Thallóczy Lajos utca:
     # 1-21 a remiz oldala, nincs ház, viszont a gimnázium 1-es számot használja
     # 25b: 23-25 B lépcsőház
     invalid: ['25b']
+  Than Károly utca:
+    # 2: az egész páros oldalon csak a 20 van kiírva
+    invalid: ['2']
   Tibavár utca:
     # 2 = Vágfarkasd utca 9.
     invalid: ['2']
