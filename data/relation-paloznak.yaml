@@ -1,12 +1,47 @@
 missing-streets: 'yes'
 filters:
+  Diófa utca:
+    # 100+: hrsz.
+    invalid: ['242']
   Fő utca:
     # 8: földhivatal szerint a harangtorony, kiírva nincs
     invalid: ['8']
+  Kishegyi út:
+    # 100+: hrsz.
+    show-refstreet: false
+    invalid: ['331/1', '342']
+  Mandula út:
+    show-refstreet: false
+    # 100+: hrsz.
+    invalid: ['236/1', '247/1', '252/3', '254']
+  Nagyhegyi út:
+    show-refstreet: false
+    # 100+: hrsz.
+    invalid: ['246/6', '300/7', '323/6']
   Sport utca:
     interpolation: all
+  Pincesor út:
+    show-refstreet: false
+    invalid: ['278', '295/1', '299/3', '321/2']
+  Rizling út:
+    show-refstreet: false
+    invalid: ['342/9']
   Tó utca:
     interpolation: all
+  Tódi utca:
+    # RESURVEY 5-11, Venyige köz felől?
+    # 5, 7: nincs kiírva
+    # 9: helyén 11 van kiírva
+    # 100+: hrsz.
+    invalid: ['9', '343/7', '342/4']
+  Venyige köz:
+    show-refstreet: false
+  Vincellér út:
+    show-refstreet: false
+    invalid: ['534']
+street-filters:
+  # nem igazi utcák
+  - 30-as őrház utca  # 71-es főút lenne, ott nincs nyoma
 refstreets:
   # ellenőrzött
   'Kishegyi út': 'Kishegyi utca'    # táblák vegyesen Kishegyi út és utca
@@ -15,7 +50,8 @@ refstreets:
   'Nagyhegyi út': 'Nagyhegyi utca'  # táblán Nagyhegyi út illetve elgépelve: Nagyhegyei utca
   'Pincesor út': 'Pincesor utca'    # táblán Pincesor út, házon Pincesor utca 5.
   'Rizling út': 'Rizling utca'      # táblán Rizling út
+  'Venyige köz': 'Venyige utca'     # táblán Venyige köz
   'Vincellér út': 'Vincellér utca'  # táblán Vincellér út
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true
