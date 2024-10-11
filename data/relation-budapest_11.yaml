@@ -449,7 +449,7 @@ filters:
     # 3a: csak sima 3 van
     invalid: ['3a']
   Csorbai utca:
-    invalid: ['2', '2a', '6', '6-8', '10c', '13a', '18', '22', '28a']
+    invalid: ['2', '2a', '6-8', '10c', '13a', '18', '22', '28a']
     # 2b után 12 jön, közben építési telek a volt CBA és egy nyomásszabályozó helyén
   Csukló utca:
     # 2: park, illeve a vasúti alagút teteje
@@ -465,9 +465,9 @@ filters:
   Csurgói út:
     # 1-7 Ventura oldala, nincs házszám, 9 nincs
     # 2-16 masik utcakra számozva
-    # 22-32-t felbontották úgy, hogy minden háznak külön házszáma van, de közben megmaradt a betűje is
+    # 26a, 26b: egyedi számokból 22-32 lett épület betűjelekkel.
     # 36: 36/a, 36/b
-    invalid: ['18', '20', '21a', '22a', '36', '38', '38b', '39']
+    invalid: ['18', '20', '21a', '22a', '26a', '26b', '36', '38', '38b', '39']
     ranges:
       - {start: '11', end: '39'}
       - {start: '18', end: '40'}
@@ -601,7 +601,7 @@ filters:
       - {start: '2', end: '28'}
       - {start: '40', end: '44'}
   Ercsi út:
-    # 17-21: Fraknó utca 13-15 - Mogyoróskert Bőlcsőde: 
+    # 17-21: Fraknó utca 13-15 - Mogyoróskert Bőlcsőde
     invalid: ['17-21']
   Érdi út:
     # 6: 6/a, 6/b
@@ -822,7 +822,7 @@ filters:
     # 12: 6 után 30, közte csak a Teleki Blanka Általános Iskola
     # 29: nincs
     # 45-nél nincs kiírva semmi
-    invalid: ['3', '12', '13', '15', '45a', '45b', '63b']
+    invalid: ['3', '8-28', '12', '13', '15', '45a', '45b', '63b']
     ranges:
       - {start: '1', end: '19'}
       - {start: '31', end: '65'}
