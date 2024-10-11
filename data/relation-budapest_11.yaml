@@ -819,10 +819,10 @@ filters:
   Hadak útja:
     # 3: hivatalosan a járműtelep, erre Gyergyótölgyes utca 2. van kiírva
     # 11-27: csak 11 van kiírva, illetve egy cég címe 17-19
-    # 12: 6 után 30, közte csak a Teleki Blanka Általános Iskola
+    # 8-28: 6 után 30, közte csak a Teleki Blanka Általános Iskola
     # 29: nincs
     # 45-nél nincs kiírva semmi
-    invalid: ['3', '8-28', '12', '13', '15', '45a', '45b', '63b']
+    invalid: ['3', '8-28', '13', '15', '45a', '45b', '63b']
     ranges:
       - {start: '1', end: '19'}
       - {start: '31', end: '65'}
