@@ -2,8 +2,14 @@ missing-streets: 'yes'
 filters:
   József Attila utca:
     show-refstreet: false
+  Kossuth utca:
+    # 127: sportpálya, pm. szerint 145, nincs kiírva.
+    # 217: valószínű hrsz, mert a páratlan oldalon 145 az utolsó házszám.
+    invalid: ['127', '217']
   Nyári Pál utca:
+    # 61: páratlan oldalon 51 az utolsó házszám.
     show-refstreet: false
+    invalid: ['61']
   Petőfi utca:
     # 852: a páros oldalon a 122 az utolsó házszám.
     invalid: ['852']
@@ -13,11 +19,16 @@ filters:
   Táncsics Mihály utca:
     show-refstreet: false
   Vasvári Pál utca:
-    # 186: a páros oldalon a 38 lehet az utolsó házszám.
-    invalid: ['186']
+    # 5: nincs
+    # 5/2: helyén 9 van kiírva
+    # 6-8: csak 6 van kiírva.
+    # 7: üres telek.
+    # 17-19: valószínű hibás házszám, de üres telek.
+    # 21, 25: üres telkek.
+    # 40/C, 40/D, 40/E, 40/F: bontásra ítélt házak nincs kiírva semmi.
+    # 186: a páros oldalon a 42 az utolsó házszám, de a 42 le lett bontva, így 40.
+    invalid: ['5', '5/2','7',  '8', '17-19', '21', '25', '40c', '40d', '40e', '40f', '186']
 refstreets:
-  'Disznóhegyi dűlő': 'Disznó-hegyi dűlő'
-  'Kerékszenttamás dűlő': 'Kerekszenttamás dűlő'
   # rövidítés
   'József Attila utca': 'József A. utca'
   'Nyári Pál utca': 'Nyári P. utca'
