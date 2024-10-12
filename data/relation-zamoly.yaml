@@ -24,10 +24,10 @@ filters:
     # 6-8: csak 6 van kiírva.
     # 7: üres telek.
     # 17-19: valószínű hibás házszám, de üres telek.
-    # 21, 25: üres telkek.
+    # 21, 25, 27: üres telkek.
     # 40/C, 40/D, 40/E, 40/F: bontásra ítélt házak nincs kiírva semmi.
     # 186: a páros oldalon a 42 az utolsó házszám, de a 42 le lett bontva, így 40.
-    invalid: ['5', '5/2','7',  '8', '17-19', '21', '25', '40c', '40d', '40e', '40f', '186']
+    invalid: ['5', '5/2','7',  '8', '17-19', '21', '25', '27', '40c', '40d', '40e', '40f', '186']
 refstreets:
   # rövidítés
   'József Attila utca': 'József A. utca'
