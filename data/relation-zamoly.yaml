@@ -16,16 +16,21 @@ filters:
     # 186: a páros oldalon a 38 lehet az utolsó házszám.
     invalid: ['186']
 refstreets:
-  # kérdéses
-  'Ady Endre utca': 'Ady utca'
   # rövidítés
   'József Attila utca': 'József A. utca'
   'Nyári Pál utca': 'Nyári P. utca'
   'Táncsics Mihály utca': 'Táncsics M. utca'
-#street-filters:
+street-filters:
+  # nem létező utca
+  - Vadszőlők útja
+  - Vadászház út
   # tanya/településrész
-  # - Borbála-puszta puszta
-  # - Kossuth-tanya tanya
+  - Borbála-puszta puszta
+  - Forráspuszta
+  - Kossuth-tanya tanya
+  - Új Élet-tanya tanya
+  # dűlőkre bontva
+  - Szőlőhegy
 #osm-street-filters:
   # parkok
 source: survey
