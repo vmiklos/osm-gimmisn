@@ -78,23 +78,23 @@ pub fn download(
         let conn = ctx.get_database_connection()?;
         conn.execute("delete from ref_housenumbers", [])?;
         conn.execute("delete from ref_streets", [])?;
+
+        // These caches have explicit dependencies only on OSM data, so empty them now.
+        conn.execute_batch("delete from missing_housenumbers_cache")?;
+        conn.execute_batch("delete from mtimes where page like 'missing-housenumbers-cache/%'")?;
+        conn.execute_batch("delete from additional_housenumbers_cache")?;
+        conn.execute_batch("delete from mtimes where page like 'additional-housenumbers-cache/%'")?;
+
+        // Garbage collect other unused data.
+        // 2024-03-24
+        conn.execute_batch("delete from mtimes where page = 'stats/invalid-addr-cities'")?;
     }
+
+    stream.write_all("sync-ref: adding new index...\n".as_bytes())?;
     let ref_streets = ctx.get_ini().get_reference_street_path()?;
     util::build_street_reference_index(ctx, &ref_streets)?;
     let references = ctx.get_ini().get_reference_housenumber_paths()?;
     util::build_reference_index(ctx, &references)?;
-
-    // These caches have explicit dependencies only on OSM data, so empty them now.
-    let conn = ctx.get_database_connection()?;
-    conn.execute_batch("delete from missing_housenumbers_cache")?;
-    conn.execute_batch("delete from mtimes where page like 'missing-housenumbers-cache/%'")?;
-    conn.execute_batch("delete from additional_housenumbers_cache")?;
-    conn.execute_batch("delete from mtimes where page like 'additional-housenumbers-cache/%'")?;
-
-    // Garbage collect other unused data.
-    // 2024-03-24
-    conn.execute_batch("delete from mtimes where page = 'stats/invalid-addr-cities'")?;
-
     stream.write_all("sync-ref: ok\n".as_bytes())?;
     Ok(())
 }
