@@ -16,6 +16,8 @@ filters:
     # 186: a páros oldalon a 38 lehet az utolsó házszám.
     invalid: ['186']
 refstreets:
+  'Disznóhegyi dűlő': 'Disznó-hegyi dűlő'
+  'Kerékszenttamás dűlő': 'Kerekszenttamás dűlő'
   # rövidítés
   'József Attila utca': 'József A. utca'
   'Nyári Pál utca': 'Nyári P. utca'
@@ -31,8 +33,9 @@ street-filters:
   - Új Élet-tanya tanya
   # dűlőkre bontva
   - Szőlőhegy
-#osm-street-filters:
+osm-street-filters:
   # parkok
+  - Millenniumi park
 source: survey
 housenumber-letters: true
 inactive: false
