@@ -1,11 +1,27 @@
 missing-streets: 'yes'
 filters:
-  Diófa utca:
+  Camping utca:
+    # páros oldal Alsóörs
+    # páratlan max normál hászám a 17, a 19 a kemping, de alsóörsi címen fut (közös egyébként)
+    invalid: ['21', '23']
+  Deák Ferenc utca:
+    # épülnek a házak. RESURVEY 2025-10
+    # 2 = Balatoni utca 23.
+    # az utca elején vagy egy 12, ami nem illik a sorba és hivatalosan Balatoni utca 25.
+    invalid: ['2']
+  Diófa köz:
+    # nincsenek házszámok kiírva
     # 100+: hrsz.
-    invalid: ['242']
+    invalid: ['2', '3', '4', '6', '10' ,'242']
   Fő utca:
     # 8: földhivatal szerint a harangtorony, kiírva nincs
     invalid: ['8']
+  Hajódi utca:
+    # 20, 22: vasút felől, nincsenek épületek
+    invalid: ['20', '22']
+  Királydombi utca:
+    # 13: helyette 8 van kiírva. RESURVEY 2025-10
+    invalid: ['13']
   Kishegyi út:
     # 100+: hrsz.
     show-refstreet: false
@@ -26,6 +42,13 @@ filters:
   Rizling út:
     show-refstreet: false
     invalid: ['342/9']
+  Szőlőkalja utca:
+    # keveredik a páros és páratlan, a régi páros számok vannak kint a páratlan oldal egy részén. RESURVEY 2025-10
+    # 7: nincs itt épület
+    # 9: 10 van kiírva
+    # 23: 24 van kiírva
+    # 25: 26 van kiírva
+    invalid: ['3', '7', '9', '23', '25']
   Tó utca:
     interpolation: all
   Tódi utca:
@@ -39,11 +62,15 @@ filters:
   Vincellér út:
     show-refstreet: false
     invalid: ['534']
+  Zrínyi utca:
+    # 2: helyén 4 van kiírva és ez az utolsó ház.
+    invalid: ['2']
 street-filters:
   # nem igazi utcák
   - 30-as őrház utca  # 71-es főút lenne, ott nincs nyoma
 refstreets:
   # ellenőrzött
+  'Diófa köz': 'Diófa utca'         # táblán Diófa köz
   'Kishegyi út': 'Kishegyi utca'    # táblák vegyesen Kishegyi út és utca
   'Kossuth Lajos utca': 'Kossuth utca'    # táblán Kossuth Lajos utca
   'Mandula út': 'Mandula utca'      # táblán Mandula út
