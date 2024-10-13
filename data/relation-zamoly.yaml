@@ -15,8 +15,10 @@ filters:
     show-refstreet: false
     invalid: ['61']
   Petőfi utca:
+    # 36: nincs, 34 után 38 jön.
+    # 66: nincs.
     # 852: a páros oldalon a 122 az utolsó házszám.
-    invalid: ['852']
+    invalid: ['36', '66', '852']
   Rákóczi utca:
     # Főszabályként a déli oldalon indulnak a házszámok egyesével észak felé, majd az utca végén folytatódik a keleti oldalon dél felé. A keleti oldalon 29 és 39 között össze-vissza vannak.
     interpolation: 'all'
