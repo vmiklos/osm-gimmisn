@@ -1,11 +1,15 @@
 missing-streets: 'yes'
 filters:
+  Belmajor:
+    interpolation: 'all'
   József Attila utca:
     show-refstreet: false
   Kossuth utca:
     # 127: sportpálya, pm. szerint 145, nincs kiírva.
     # 217: valószínű hrsz, mert a páratlan oldalon 145 az utolsó házszám.
     invalid: ['127', '217']
+  Móra Ferenc utca:
+    interpolation: 'all'
   Nyári Pál utca:
     # 61: páratlan oldalon 51 az utolsó házszám.
     show-refstreet: false
@@ -14,6 +18,8 @@ filters:
     # 852: a páros oldalon a 122 az utolsó házszám.
     invalid: ['852']
   Rákóczi utca:
+    # Főszabályként a déli oldalon indulnak a házszámok egyesével észak felé, majd az utca végén folytatódik a keleti oldalon dél felé. A keleti oldalon 29 és 39 között össze-vissza vannak.
+    interpolation: 'all'
     # 486: ez helyrajzi szám, nem házszám.
     invalid: ['486']
   Táncsics Mihály utca:
