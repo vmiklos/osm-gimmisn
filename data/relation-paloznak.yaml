@@ -25,7 +25,9 @@ filters:
   Kishegyi út:
     # 100+: hrsz.
     show-refstreet: false
-    invalid: ['331/1', '342']
+    invalid: ['331/1', '342/4', '342/9', '342']
+  Malom út:
+    invalid: ['236']
   Mandula út:
     show-refstreet: false
     # 100+: hrsz.
@@ -33,7 +35,7 @@ filters:
   Nagyhegyi út:
     show-refstreet: false
     # 100+: hrsz.
-    invalid: ['246/6', '300/7', '323/6']
+    invalid: ['246/6', '246/7', '300/7', '323/6']
   Sport utca:
     interpolation: all
   Pincesor út:
@@ -52,11 +54,9 @@ filters:
   Tó utca:
     interpolation: all
   Tódi utca:
-    # RESURVEY 5-11, Venyige köz felől?
-    # 5, 7: nincs kiírva
-    # 9: helyén 11 van kiírva
+    # 7: nincs kiírva.
     # 100+: hrsz.
-    invalid: ['9', '343/7', '342/4']
+    invalid: ['7', '343/7', '342/4']
   Venyige köz:
     show-refstreet: false
   Vincellér út:
@@ -64,7 +64,8 @@ filters:
     invalid: ['534']
   Zrínyi utca:
     # 2: helyén 4 van kiírva és ez az utolsó ház.
-    invalid: ['2']
+    # 100+: hrsz.
+    invalid: ['2', '875']
 street-filters:
   # nem igazi utcák
   - 30-as őrház utca  # 71-es főút lenne, ott nincs nyoma
