@@ -27,6 +27,8 @@ filters:
     invalid: ['486']
   Táncsics Mihály utca:
     show-refstreet: false
+  Tó utca:
+    interpolation: 'all'
   Vasvári Pál utca:
     # 5: nincs
     # 6-8: csak 6 van kiírva.
@@ -36,6 +38,8 @@ filters:
     # 40/C, 40/D, 40/E, 40/F: bontásra ítélt házak nincs kiírva semmi.
     # 186: a páros oldalon a 42 az utolsó házszám, de a 42 le lett bontva, így 40.
     invalid: ['8', '17-19', '27', '40c', '40d', '40e', '40f', '186']
+  Zrínyi utca:
+    interpolation: 'all'
 refstreets:
   # rövidítés
   'József Attila utca': 'József A. utca'
