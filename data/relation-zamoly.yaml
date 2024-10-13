@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Ady utca:
+    # A Kossuth utcától indul a számozás egyesével a nyugati oldalon, majd a Nyári Pál utcánál folytatódik a keleti oldalon. 
+    interpolation: 'all'
   Belmajor:
     interpolation: 'all'
   József Attila utca:
