@@ -213,5 +213,14 @@ osm-street-filters:
   - Párizsi udvar
   - Salkaházi Sára rakpart  # a Pesti alsó rakpart nevét a Lánchíd és az Erzsébet híd között Jane Haning rakpartra, a Szabadság híd és a IX. kerület Közraktár utca között Salkaházi Sára rakpartra változtatták meg, így az V. kerületi szakasz hivatalosan továbbra is Pesti alsó rakpart lenne, de olyan meg nincs már az utcanévjegyzékben.
   - Széchenyi lánchíd
+  # elvileg új elnevezések, határozatot nem láttam - https://enbudapestem.hu/2024/04/17/nevet-kapnak-a-rakpart-lepcsoi-szombaton
+  - Csillag Illés lépcső
+  - Strand lépcső
+  - Kikötő lépcső
+  - Piknik lépcső
+  - Eötvös lépcső
+  - Úszó lépcső
+  - Matróz lépcső
+  - Kacsakő lépcső
 inactive: true
 housenumber-letters: true
