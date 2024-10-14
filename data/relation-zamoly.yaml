@@ -5,6 +5,8 @@ filters:
     interpolation: 'all'
   Belmajor:
     interpolation: 'all'
+  Harmat utca:
+    interpolation: 'all'
   József Attila utca:
     show-refstreet: false
   Kossuth utca:
