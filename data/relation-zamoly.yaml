@@ -62,6 +62,8 @@ street-filters:
   # dűlőkre bontva
   - Szőlőhegy
 osm-street-filters:
+  # híd
+  - Margit híd
   # parkok
   - Millenniumi park
 source: survey

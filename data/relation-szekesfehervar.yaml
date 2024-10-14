@@ -81,7 +81,6 @@ refstreets:
   'Erdő sor': 'Erdősor'           # https://www.openstreetmap.org/note/4343414
   'Karinthy Frigyes tér': 'Karinthy tér'   # https://www.openstreetmap.org/note/4343415
   'Kereszttöltés utca': 'Kereszttöltés út' # https://www.openstreetmap.org/note/4343417
-  'Királyerdő utca': 'Királyerdői utca' # https://www.openstreetmap.org/note/4343421
   'Kistelekitanya': 'Kisteleki tanya'   # https://www.openstreetmap.org/note/4343428
   'Körösmezei utca': 'Kőrösmezei utca'  # https://www.openstreetmap.org/note/4343434
   'Körmöci utca': 'Körmőci utca'   # https://www.openstreetmap.org/note/4343436
@@ -91,7 +90,6 @@ refstreets:
   'Szőlősi utca': 'Szöllősi utca'      # https://www.openstreetmap.org/note/4343458
   'Tas utca': 'Tass utca'      # https://www.openstreetmap.org/note/4343464
   'Vargacsatorna part': 'Vargacsatornapart'  # https://www.openstreetmap.org/note/4343438
-  'Zágoni út': 'Zágoni utca'   # https://www.openstreetmap.org/note/4343475
   # ellenőrzött
   'Gellért újsor': 'Gellért új sor'      # táblán Gellért újsor, másik helyen Gellért újsor + Kelemen Béla köz
   'Hosszúsétatér utca': 'Hosszúsétatér'  # táblán Hosszúsétatér u.
@@ -100,6 +98,8 @@ refstreets:
   # Radnóti Miklós tér - https://www.openstreetmap.org/note/4343445
   # Madách tér         - https://www.openstreetmap.org/note/4343441
   # Csiki utca         - https://www.openstreetmap.org/note/4343409
+  # Zágoni utca        - https://www.openstreetmap.org/note/4343475
+  # Királyerdői utca   - https://www.openstreetmap.org/note/4343421
 source: survey
 housenumber-letters: true
 inactive: true
