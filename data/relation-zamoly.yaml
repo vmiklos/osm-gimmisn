@@ -3,33 +3,60 @@ filters:
   Ady utca:
     # A Kossuth utcától indul a számozás egyesével a nyugati oldalon, majd a Nyári Pál utcánál folytatódik a keleti oldalon. 
     interpolation: 'all'
+    # 16-17: átszámozva, már csak 17. (forrás: polgármester).
+    invalid: ['16']
   Belmajor:
     interpolation: 'all'
+    # 2: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    # 13: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    # 15: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    # 17: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    invalid: ['2', '13', '15', '17']
+  Dózsa utca:
+    # 9: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    # 20: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    invalid: ['9', '20']
   Harmat utca:
     interpolation: 'all'
   József Attila utca:
     show-refstreet: false
   Kossuth utca:
+    # 43/b: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    # 51/a: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
     # 91-93: csak 91 van kiírva.
+    # 97-99: átszámozva, már csak 99. (forrás: polgármester).
     # 127: sportpálya, pm. szerint 145, nincs kiírva.
     # 217: valószínű hrsz, mert a páratlan oldalon 145 az utolsó házszám.
-    invalid: ['93', '127', '217']
+    # 30-32: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    # 34: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    # 36: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    # 118-120: átszámozva, már csak 118. (forrás: polgármester).
+    invalid: ['43b', '51a', '93', '97', '127', '217', '30', '32', '34', '36', '120']
   Móra Ferenc utca:
     interpolation: 'all'
   Nyári Pál utca:
     # 61: páratlan oldalon 51 az utolsó házszám.
+    # 20/a: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
     show-refstreet: false
-    invalid: ['61']
+    invalid: ['61', '20a']
   Petőfi utca:
+    # 105-107: átszámozva, már csak 107. (forrás: polgármester).
+    # 18-20: átszámozva, már csak 18. (forrás: polgármester).
     # 36: nincs, 34 után 38 jön.
     # 66: nincs.
+    # 116: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
     # 852: a páros oldalon a 122 az utolsó házszám.
-    invalid: ['36', '66', '852']
+    invalid: ['105', '20', '36', '66', '116', '852']
   Rákóczi utca:
     # Főszabályként a déli oldalon indulnak a házszámok egyesével észak felé, majd az utca végén folytatódik a keleti oldalon dél felé. A keleti oldalon 29 és 39 között össze-vissza vannak.
     interpolation: 'all'
+    # 30: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
     # 486: ez helyrajzi szám, nem házszám.
-    invalid: ['486']
+    invalid: ['30', '486']
+  Széchenyi utca:
+    # 8: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    # 10/b: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    invalid: ['8', '10b']
   Táncsics Mihály utca:
     show-refstreet: false
   Tó utca:
@@ -43,6 +70,10 @@ filters:
     # 40/C, 40/D, 40/E, 40/F: bontásra ítélt házak nincs kiírva semmi.
     # 186: a páros oldalon a 42 az utolsó házszám, de a 42 le lett bontva, így 40.
     invalid: ['8', '17-19', '27', '40c', '40d', '40e', '40f', '186']
+  Vörösmarty utca:
+    # 33: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    # 20-22: átszámozva, már csak 20. (forrás: polgármester).
+    invalid: ['33', '22']
   Zrínyi utca:
     interpolation: 'all'
 refstreets:
