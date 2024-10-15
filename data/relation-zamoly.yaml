@@ -5,6 +5,9 @@ filters:
     interpolation: 'all'
     # 16-17: átszámozva, már csak 17. (forrás: polgármester).
     invalid: ['16']
+  Arany János utca:
+    # 24/a: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
+    invalid: ['24a']
   Belmajor:
     interpolation: 'all'
     # 2: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
