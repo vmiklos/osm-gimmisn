@@ -85,12 +85,13 @@ refstreets:
   'József Attila utca': 'József A. utca'
   'Nyári Pál utca': 'Nyári P. utca'
   'Táncsics Mihály utca': 'Táncsics M. utca'
+  # duplázódás
+  'Borbála puszta': 'Borbála-puszta puszta'
 street-filters:
   # nem létező utca
   - Vadszőlők útja
   - Vadászház út
   # tanya/településrész
-  - Borbála-puszta puszta
   - Forráspuszta
   - Kossuth-tanya tanya
   - Új Élet-tanya tanya
