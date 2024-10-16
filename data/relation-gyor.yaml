@@ -112,7 +112,6 @@ refstreets:
   'Gutenberg János tér': 'Gutenberg tér'
   'Gyirmóti utca': 'Gyirmóti út'
   'Hármashatár utca': 'Hármashatár út'
-  'Hegyalja út': 'Hegyalja utca'  # https://www.openstreetmap.org/note/3096162
   'Hídalja utca': 'Hídalja'
   'Homokbánya utca': 'Homokbánya út'
   'Kálmán Imre utca': 'Kálmán Imre út'
@@ -158,6 +157,7 @@ refstreets:
   'Vonal utca': 'Vonal út'
   'Vonat utca': 'Vonat út'
   # javítva
-  # 'Áchim András utca': 'Achim András utca'  # https://www.openstreetmap.org/note/3096179
-  # 'Lajta utca': 'Lajta út'  # https://www.openstreetmap.org/note/3089595
+  # Achim András utca   # https://www.openstreetmap.org/note/3096179
+  # Lajta út            # https://www.openstreetmap.org/note/3089595
+  # Hegyalja utca       # https://www.openstreetmap.org/note/3096162
 inactive: true
