@@ -6,8 +6,9 @@ filters:
     # 16-17: átszámozva, már csak 17. (forrás: polgármester).
     invalid: ['16']
   Arany János utca:
+    # 20/a: átszámozás miatt megszűnt, a 20, a 22, a 22/a is egy család tulajdona, egyikben unokák, másikban szülők, harmadikban a mama lakik (forrás: polgármester).
     # 24/a: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
-    invalid: ['24a']
+    invalid: ['20a', '24a']
   Belmajor:
     interpolation: 'all'
     # 2: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
