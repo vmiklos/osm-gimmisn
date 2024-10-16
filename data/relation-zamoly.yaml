@@ -16,6 +16,9 @@ filters:
     # 15: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
     # 17: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
     invalid: ['2', '13', '15', '17']
+  Borbála puszta:
+    # 59/2 = 059/2 hrsz. - https://www.openstreetmap.org/way/1324234207
+    invalid: ['59/2']
   Dózsa utca:
     # 9: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
     # 20: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
