@@ -31,10 +31,9 @@ filters:
   Deák Ferenc tér:
     interpolation: all
   Deák Ferenc utca:
-    # 5/b: nincs ilyen, csak sima 5 van.
     # 13: ez és a Bécsi utca 5. ugyanaz az épület, házszám a Bécsi utcáról van csak.
     # 16-18: ez és az Erzsébet tér 9-10 ugyanaz az épület, házszám az Erzsébet térről van csak.
-    invalid: ['5b', '13', '16', '18']
+    invalid: ['13', '16', '18']
   Dorottya utca:
     # 10: a hotel oldala, innen nincs szám
     invalid: ['10']
@@ -122,12 +121,8 @@ filters:
     invalid: ['1']
   Petőfi tér:
     interpolation: all
-    # 6: a 3-5 az utolsó házszám.
     # 9: a 3-5 az utolsó házszám.
-    # 10: a 3-5 az utolsó házszám.
-    # 11: a 3-5 az utolsó házszám.
-    # 16: a 3-5 az utolsó házszám.
-    invalid: ['6', '9', '10', '11', '16']
+    invalid: ['9']
   Petőfi Sándor utca:
     # 3/b: nincs ilyen, csak sima 3 van.
     invalid: ['3b']
@@ -141,9 +136,8 @@ filters:
     # 6 = Akadémia utca 15
     invalid: ['6']
   Stollár Béla utca:
-    # 12: sima 12 nincs, csak 12/b, 12/c.
     # 14: sima 14 nincs, csak 14/a, 14/b.
-    invalid: ['12', '14']
+    invalid: ['14']
   Szabadság tér:
     interpolation: all
     # 10: USA nagykövetség foglalja el ezt is.
