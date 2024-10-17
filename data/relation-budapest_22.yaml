@@ -20,14 +20,12 @@ filters:
     invalid: ['4']
   Angeli utca:
     # 935: a páratlan oldalon a 223 az utolsó házszám.
-    # 969/0: a páratlan oldalon a 223 az utolsó házszám.
     # 310: a páros oldalon a 198 az utolsó házszám.
     # 852: a páros oldalon a 198 az utolsó házszám.
     # 852/1: a páros oldalon a 198 az utolsó házszám.
-    # 940/0: a páros oldalon a 198 az utolsó házszám.
     # 952: a páros oldalon a 198 az utolsó házszám.
     # 978: a páros oldalon a 198 az utolsó házszám.
-    invalid: ['935', '969/0', '310', '852', '852/1', '940/0', '952', '978']
+    invalid: ['935', '310', '852', '852/1', '952', '978']
   Anna utca:
     # 35-45: csak 45 van, 35 és 43 között nincsenek házak.
     # 51/b: ez és a Barkács utca 1 közös telken van, bejárat a Barkács utcáról van, de házszám nincs kitéve.
@@ -120,7 +118,6 @@ filters:
     # 3/a: nincs ilyen, csak sima 3 és 3-5 van.
     # 5/c: nincs ilyen, csak 3-5 van.
     # 7: sima 7 nincs, csak 7/a, 7/b.
-    # 9: sima 9 nincs, csak 9/a, 9/b.
     # 11: sima 11 nincs, csak 11/a, 11/b.
     # 25/a: nincs kitáblázva az ikerház ezen fele, az oda bejelentett Aquamedia Bt. alapján sima 25 a cím.
     # 2: ez és a Kőmáli utca 19. közös telken van, házszám a Kőmáli utcáról van csak.
@@ -129,7 +126,7 @@ filters:
     # 6: sima 6 nincs, csak 6/a, 6/b, 6/c.
     # 8: ez és az Erdőhegy utca 22. közös telken van, házszám az Erdőhegy utcáról van csak.
     # 18: sima 18 nincs, csak 18/1, 18/2.
-    invalid: ['1', '3a', '5c', '7', '9', '11', '25a', '2', '2a', '2b', '6', '8', '18']
+    invalid: ['1', '3a', '5c', '7', '11', '25a', '2', '2a', '2b', '6', '8', '18']
   Barkács utca:
     # 14/a: nincs ilyen, a páros oldalon csak egy épület van két bejárattal, az utcanévtáblán pedig 2-12.
     invalid: ['14a']
@@ -236,8 +233,7 @@ filters:
   Debrő utca:
     # 3/b: nincs ilyen, csak sima 3 van.
     # 7/a: nincs ilyen, csak 7 és 7. 2a. van kitáblázva.
-    # 6: ez és a Víg utca 22. közös telken van, házszám a Víg utcáról van csak.
-    invalid: ['3b', '7a', '6']
+    invalid: ['3b', '7a']
   Dézsmaház utca:
     # 162-164: a páros oldalon a 26 az utolsó házszám.
     invalid: ['162', '164']
@@ -348,7 +344,6 @@ filters:
     # 13: ez és a Csillag utca 4. közös telken van, házszám a Csillag utca felől van csak.
     invalid: ['13']
   Hajó utca:
-    # 1-10: nincs ilyen, csak 1 és 3 van.
     # 4: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
     # 6: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
     # 22: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
@@ -359,7 +354,7 @@ filters:
     # 42: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
     # 44: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
     # 46: a páros oldalon nincsenek épületek, csak a játszótéren lévő étterem.
-    invalid: ['4', '6', '10', '22', '28', '30', '34', '36', '42', '44', '46']
+    invalid: ['4', '6', '22', '28', '30', '34', '36', '42', '44', '46']
   Hant utca:
     # 1: ez és a Völgy utca 7. közös telken van, házszám a Völgy utcáról van csak.
     # 261/a: ez elírás, valószínűleg 26/a akart lenni.
@@ -548,8 +543,7 @@ filters:
     # 10/a: sima 10/a nincs, csak 10/a/1, 10/a/2.
     # 10/b: sima 10/b nincs, csak 10/b/1, 10/b/2.
     # 42: sima 42 nincs, csak 42/a, 42/b.
-    # 50: ez és a Kelenvölgyi utca 15. közös telken van, házszám a Kelenvölgyi utcáról van csak.
-    invalid: ['23b', '35', '57', '59', '61', '4', '8a', '8b', '8c', '8d', '10a', '10b', '42', '50']
+    invalid: ['23b', '35', '57', '59', '61', '4', '8a', '8b', '8c', '8d', '10a', '10b', '42']
   Katakomba utca:
     # 13: sima 13 nincs, csak 13/a, 13/b.
     # 18: sima 18 nincs, csak 18/a, 18/b.
@@ -1004,7 +998,6 @@ filters:
     # 43: ez és a Péter-Pál utca 34. közös telken van, házszám a Péter-Pál utcáról van csak.
     # 53/b: nincs ilyen, csak 53, 53/2.
     # 53/c: nincs ilyen, csak 53, 53/2.
-    # 55/c: ez és a Körte utca 1. közös telken van, házszám a Körte utcáról van csak.
     # 63: sima 63 nincs, csak 63/a, 63/b.
     # 63/c: nincs ilyen, csak 63/a, 63/b.
     # 2-4: csak a 2 van kitáblázva, utána a Plébánia utca 10-ig (az utcasarokig) a Törley kastély fala van.
@@ -1013,7 +1006,7 @@ filters:
     # 20/a: a telek középen el van választva kerítéssel, de mindkét félre sima 20 van kitáblázva.
     # 20/b: a telek középen el van választva kerítéssel, de mindkét félre sima 20 van kitáblázva.
     # 36/a: nincs kitáblázva, de a 36 és a 38 között van egy nagyon benőtt szolgalmi út, és az ortofotón is csak fák látszanak a telken.
-    invalid: ['3', '21', '43', '53b', '53c', '55c', '63', '63c', '4', '10', '18', '20a', '20b', '36a']
+    invalid: ['3', '21', '43', '53b', '53c', '63', '63c', '4', '10', '18', '20a', '20b', '36a']
   Pogány utca:
     # 1: ez, a Zombori utca 6. és a Bárány utca 20. közös telken van, házszám a Zombori utcáról és a Bárány utcáról van csak.
     # 7/a: nincs ilyen, csak sima 7 van.
