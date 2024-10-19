@@ -17,18 +17,7 @@ use std::sync::Mutex;
 
 type Handler = fn(&[String], &mut dyn Write, &osm_gimmisn::context::Context) -> i32;
 
-struct SenderHolder {
-    inner: Option<mpsc::Sender<()>>,
-}
-
-impl SenderHolder {
-    const fn new() -> Self {
-        let inner = None;
-        SenderHolder { inner }
-    }
-}
-
-static STOPPABLE: Mutex<SenderHolder> = Mutex::new(SenderHolder::new());
+static STOPPABLE: Mutex<Option<mpsc::Sender<()>>> = Mutex::new(None);
 
 /// Wraps wsgi::application() to an app for rouille.
 fn rouille_app(request: &rouille::Request) -> rouille::Response {
@@ -36,7 +25,7 @@ fn rouille_app(request: &rouille::Request) -> rouille::Response {
     let res = osm_gimmisn::wsgi::application(request, &ctx);
     if ctx.get_shutdown() {
         if let Ok(mut stoppable_holder) = STOPPABLE.lock() {
-            if let Some(stoppable) = stoppable_holder.inner.as_mut() {
+            if let Some(stoppable) = stoppable_holder.as_mut() {
                 stoppable.send(()).expect("send() failed");
             }
         }
@@ -88,7 +77,7 @@ fn rouille_main(
     .expect("Failed to start server")
     .pool_size(pool_size);
     let (handle, stoppable) = server.stoppable();
-    STOPPABLE.lock().expect("lock() failed").inner = Some(stoppable);
+    *STOPPABLE.lock().expect("lock() failed") = Some(stoppable);
     handle.join().expect("join() failed");
     // Nominally a failure, so the service gets restarted.
     println!("Stopping the server after deploy.");
