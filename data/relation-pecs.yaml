@@ -11,6 +11,7 @@ refstreets:
   'D utca': 'D. utca'
   'Díjasnyereg út': 'Dijasnyereg út'
   'Galilei út': 'Galilei utca'
+  'Guinness Rekord sétány': 'Guinness Világrekord sétány'
   'Hegedüs Mihály utca': 'Hegedűs Mihály utca'
   'Hidegvölgyi út': 'Hideg-völgyi út'
   'Hét vezér utca': 'Hétvezér utca'
@@ -31,11 +32,15 @@ refstreets:
   'Nagymáli út': 'Nagy-máli út'
   'Nagy Flórián utca': 'Nagyflórián utca'
   'Pala köz': 'Pala-köz'
+  'Pascal út': 'Pascal utca'
   'Pincesor': 'Pince sor'
   'Rippl-Rónai utca': 'Rippl Rónai utca'
   'Rózsavölgyi út': 'Rózsa-völgyi út'
   'Sárkánytorok út': 'Sárkánytorok'
+  'Steinmetz kapitány tér': 'Steinmetz Kapitány tér'
   'Szabadság út': 'Szabadság utca'
+  'Szentágotai János Sétány': 'Szentágothai János sétány'
+  'Szent Borbála emlékpark': 'Szent Borbála park'
   'Sársom völgy': 'Sársom-völgy'
   'T utca': 'T. utca'
   'Váradi Antal utca': 'Várady Antal utca'
@@ -77,17 +82,14 @@ osm-street-filters:
   - Ajtósi park
   - Balokány-liget
   - Bányász emlékpark
-  - Barbakán kert
   - Barbakán-várárok
   - Béke park
-  - Eck Imre sétány
   - Ércbányász park
   - Északi várfalsétány
   - Északi várfalsétány, piknik park
   - Eszperantó park
   - Fellbach sétaút
   - Gergely-kert
-  - Guinness Rekord sétány
   - Hild-udvar
   - Honfoglalás park
   # - Játszótér park
@@ -104,8 +106,6 @@ osm-street-filters:
   - PTE Jubileumi Liget
   - Római udvar
   - Rózsakert park
-  - Szent Borbála emlékpark
-  - Szentágotai János Sétány
   - Tettye
   # - Wakeboard park
   # turistautak
