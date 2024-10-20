@@ -22,6 +22,11 @@ filters:
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '60'}
+    # 14b: 14 van kitáblázva
+    # 21: 21a van kitáblázva
+    # 54a: 54 van kitáblázva
+    # 58: 56 után 60 van kitáblázva
+    invalid: ['14b', '21', '54a', '58']
   Aranka utca:
     ranges:
       - {start: '1', end: '99'}
