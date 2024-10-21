@@ -30,7 +30,7 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = OSM: ref hibás
-  'Ároktő út': 'Ároktő utca'
+  # 'Ároktő út': 'Ároktő utca' - táblán Ároktő utca, címjegyzékben Ároktő út
   'Csordakút út': 'Csordakút utca'
   'Dr. Kósa Pál park': 'Kósa Pál tér'
   'Fülöpszállás utca': 'Fülöpszállás út'
