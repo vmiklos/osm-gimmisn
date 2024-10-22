@@ -5,6 +5,8 @@ filters:
     ranges:
       - {start: '3', end: '11'}
   Alvinci út:
+    # 21: 21a van kitáblázva
+    invalid: ['21']
     ranges:
       - {start: '1', end: '37'}
   Aranka utca:

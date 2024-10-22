@@ -8,6 +8,10 @@ filters:
       - {start: '3', end: '9'}
       - {start: '2', end: '8'}
   Alvinci út:
+    # 14b: 14 van kitáblázva
+    # 54a: 54 van kitáblázva
+    # 58: 56 után 60 van kitáblázva
+    invalid: ['14b', '54a', '58']
     ranges:
       - {start: '2', end: '60'}
   Balogvár utca:
