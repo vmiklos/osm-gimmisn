@@ -27,11 +27,9 @@ filters:
       - {start: '1', end: '29'}
       - {start: '2', end: '8'}
   Alma utca:
+    # 1: 29-re van számozva, fh szerint Alma utca 1 + Akácfa köz 2.
     # 3 után 15 közte 2 bódé, nincs táblázva
-    ranges:
-      - {start: '1', end: '3'}
-      - {start: '15', end: '35'}
-      - {start: '2', end: '30'}
+    invalid: ['1', '7', '9']
   Aradi utca:
     # 2 nincs kiírva
     # 4,6-ost lebontották, 4a, 4b lett helyette
@@ -48,6 +46,9 @@ filters:
       - {start: '2', end: '2'}
   Árokparti utca:
     invalid: ['7']
+  Aszú utca:
+    # 2: páros oldalon semmi sincs kiírva
+    invalid: ['2']
   # Avar utca:
     # újraszámozva, keveredik páros/páratlan
   Bányász utca:
@@ -227,8 +228,9 @@ filters:
     invalid: ['6', '12', '110']
   Hurok utca:
     # gyengén van táblázva
+    # 24: 22 van már kiírva, a következő házszám a 26.
     interpolation: all
-    invalid: ['7', '10', '12', '13']
+    invalid: ['7', '10', '12', '13', '24']
   Ibolya köz:
     # 9: nincs
     invalid: ['9']
@@ -509,8 +511,8 @@ filters:
     # 6,8: nincsenek kiíva: 2021-04
     invalid: ['6', '8']
   Pihenő utca:
-    # 1,9 nincs kiírva
-    invalid: ['9']
+    # semmi sincs kiírva, fh szerint a max hászám a 11
+    invalid: ['15']
   Pillangó utca:
     ranges:
       - {start: '1', end: '13'}
@@ -602,7 +604,8 @@ filters:
     # nincsenek házszámok
     invalid: ['3', '6']
   Szarvas utca:
-    invalid: ['7']
+    # újraszámozva 1 -> 13, 3 -> 15
+    invalid: ['1', '3', '7']
   Száva köz:
     invalid: ['9']
   Széchenyi utca:
@@ -624,7 +627,7 @@ filters:
     invalid: ['31', '33', '35', '37', '64']
   Szépkilátó utca:
     # átszámozták az utcát, keverednek a régi és új számok
-    invalid: ['18', '61', '64', '68', '70', '78', '80']
+    invalid: ['18', '48', '61', '64', '67', '68', '70', '78', '80']
   Szirom utca:
     invalid: ['1']
   Szivárvány utca:
