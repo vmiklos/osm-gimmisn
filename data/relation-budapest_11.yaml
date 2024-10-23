@@ -602,7 +602,8 @@ filters:
       - {start: '40', end: '44'}
   Ercsi út:
     # 17-21: Fraknó utca 13-15 - Mogyoróskert Bőlcsőde
-    invalid: ['17-21']
+    # 34: nincs, 32 után 40/c
+    invalid: ['17-21', '34']
   Érdi út:
     # 6: 6/a, 6/b
     # 10: 10/a, 10/b
