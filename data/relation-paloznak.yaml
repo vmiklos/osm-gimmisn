@@ -38,6 +38,9 @@ filters:
     invalid: ['246/6', '246/7', '300/7', '323/6']
   Sport utca:
     interpolation: all
+  Szép utca:
+    # 5: nincs ilyen kiírva, de az egész utcában alig vannak számok
+    invalid: ['5']
   Pincesor út:
     show-refstreet: false
     invalid: ['278', '295/1', '299/3', '321/2']
