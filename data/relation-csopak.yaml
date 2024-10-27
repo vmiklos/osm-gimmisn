@@ -8,6 +8,7 @@ refstreets:
   'Timár József utca': 'Tímár József utca'
   'Szérűskert utca': 'Szérüskert utca'  # táblán mindkettő
   # ellenőrizve
+  'Arany János út': 'Arany János utca' # táblán Arany János út 2024.10
   'Kossuth utca': 'Kossuth Lajos utca'  # táblán Kossuth utca 2023.09
   'Paloznaki utca': 'Paloznaki út'  # táblán Paloznaki utca 2023.09
   # helyesírás
