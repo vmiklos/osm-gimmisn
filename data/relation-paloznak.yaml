@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  # Ady Endre utca:
+    # 11,13,15: nincs kiírva,
+    # invalid: ['11', '13', '15']
   Camping utca:
     # páros oldal Alsóörs
     # páratlan max normál hászám a 17, a 19 a kemping, de alsóörsi címen fut (közös egyébként)
@@ -16,6 +19,9 @@ filters:
   Fő utca:
     # 8: földhivatal szerint a harangtorony, kiírva nincs
     invalid: ['8']
+  Fűzfa utca:
+    # 14: nincs kiírva, RESURVEY 2025-10
+    invalid: ['14']
   Hajódi utca:
     # 20, 22: vasút felől, nincsenek épületek
     invalid: ['20', '22']
@@ -26,6 +32,10 @@ filters:
     # 100+: hrsz.
     show-refstreet: false
     invalid: ['331/1', '342/4', '342/9', '342']
+  Kisparti utca:
+    # 2, 2a: nincs kiírva
+    # 4, 6: üres telkek
+    invalid: ['4', '6']
   Malom út:
     invalid: ['236']
   Mandula út:
@@ -64,11 +74,18 @@ filters:
     show-refstreet: false
   Vincellér út:
     show-refstreet: false
-    invalid: ['534']
+    # gyengén táblázott
+    # 6/b, 7, 10: nincs kiírva
+    # 534: hrsz
+    invalid: ['6b', '7', '10', '534']
   Zrínyi utca:
     # 2: helyén 4 van kiírva és ez az utolsó ház.
+    # 15: nincs
     # 100+: hrsz.
-    invalid: ['2', '875']
+    invalid: ['2', '15', '875']
+osm-street-filters:
+  # átlógó Alsóörs
+  - Balaton utca
 street-filters:
   # nem igazi utcák
   - 30-as őrház utca  # 71-es főút lenne, ott nincs nyoma
