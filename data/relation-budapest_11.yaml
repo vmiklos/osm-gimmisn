@@ -1924,6 +1924,8 @@ filters:
       - {start: '1', end: '43'}
   Repülőtéri út:
     # össze vissza vannak a számok, úgy tűnik csak 1, 2 és 6 van
+    # 6/a: 6 A épület
+    invalid: ['6a']
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '6'}
