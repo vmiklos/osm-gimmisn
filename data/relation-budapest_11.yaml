@@ -1276,13 +1276,11 @@ filters:
     ranges: []
   Kőérberki út:
     invalid: ['2']
-    # 2 elég gyéren van kitáblázva
+    # 2 elég gyéren van kitáblázva, 2/a..2/f
     # 2 után 1 és 3 jön. A Kőérberki Autó után már nincs épület, kivéve a legvégét a reptérrel szemben a Pulzus
+    # 16: Pulzus régi címe, új cím: Repülőtéri út 4.
     # 37/C-ből lett a Puskapor utca 2/C
     # 37/G-ből lett a Löveg utca 3/G
-    ranges:
-      - {start: '1', end: '3'}
-      - {start: '2', end: '36'}
   Kőhalom utca:
     # 1: csak 1/a van
     invalid: ['1']
