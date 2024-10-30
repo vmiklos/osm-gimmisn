@@ -71,6 +71,7 @@ pub fn download(
 
         ctx.get_file_system()
             .write_from_string(&config_data, &ctx.get_abspath("workdir/wsgi.ini"))?;
+        ctx.update_ini()?;
     }
 
     stream.write_all("sync-ref: removing old index...\n".as_bytes())?;
