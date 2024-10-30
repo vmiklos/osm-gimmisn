@@ -12,6 +12,7 @@
 
 use anyhow::Context as _;
 use once_cell::unsync::OnceCell;
+use std::cell::Ref;
 use std::cell::RefCell;
 use std::cell::RefMut;
 use std::io::Read;
@@ -163,6 +164,17 @@ impl Ini {
         })
     }
 
+    fn update(
+        &mut self,
+        file_system: &Rc<dyn FileSystem>,
+        config_path: &str,
+    ) -> anyhow::Result<()> {
+        let data = file_system.read_to_string(config_path)?;
+        self.config = toml::from_str(&data)?;
+
+        Ok(())
+    }
+
     /// Gets the directory which is writable.
     pub fn get_workdir(&self) -> String {
         format!("{}/workdir", self.root)
@@ -229,7 +241,7 @@ impl Ini {
 /// Context owns global state which is set up once and then read everywhere.
 pub struct Context {
     root: String,
-    ini: Ini,
+    ini: Rc<RefCell<Ini>>,
     network: Rc<dyn Network>,
     time: Rc<dyn Time>,
     subprocess: Rc<dyn Subprocess>,
@@ -252,7 +264,11 @@ impl Context {
         let unit = Rc::new(StdUnit {});
         let file_system: Rc<dyn FileSystem> = Rc::new(StdFileSystem {});
         let database: Rc<dyn Database> = Rc::new(StdDatabase {});
-        let ini = Ini::new(&file_system, &format!("{root}/workdir/wsgi.ini"), &root)?;
+        let ini = Rc::new(RefCell::new(Ini::new(
+            &file_system,
+            &format!("{root}/workdir/wsgi.ini"),
+            &root,
+        )?));
         let connection = OnceCell::new();
         let shutdown = Rc::new(RefCell::new(false));
         Ok(Context {
@@ -275,8 +291,16 @@ impl Context {
     }
 
     /// Gets the ini file.
-    pub fn get_ini(&self) -> &Ini {
-        &self.ini
+    pub fn get_ini(&self) -> Ref<'_, Ini> {
+        self.ini.borrow()
+    }
+
+    /// Re-reads the ini file.
+    pub fn update_ini(&self) -> anyhow::Result<()> {
+        self.ini.borrow_mut().update(
+            &self.file_system,
+            &format!("{}/workdir/wsgi.ini", self.root),
+        )
     }
 
     /// Gets the network implementation.
