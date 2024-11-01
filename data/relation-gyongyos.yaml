@@ -1,4 +1,4 @@
-missing-streets: 'only'
+missing-streets: 'yes'
 filters: {}
 osm-street-filters:
   # Nem valós utcák
@@ -44,3 +44,4 @@ refstreets:
   'Zrínyi utca': 'Zrínyi Miklós utca'
 source: survey
 inactive: true
+housenumber-letters: true

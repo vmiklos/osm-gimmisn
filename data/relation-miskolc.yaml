@@ -1,4 +1,4 @@
-missing-streets: 'only'
+missing-streets: 'yes'
 osm-street-filters:
   # nem valós utcák
   - Árvízvédelmi töltés
@@ -273,3 +273,4 @@ refstreets:
   'Petákos dűlő': 'Petákos dűlőút'
   'Saroglya dűlő': 'Saroglya dűlőút'
 inactive: true
+housenumber-letters: true
