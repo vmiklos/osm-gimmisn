@@ -24,6 +24,7 @@ osm-street-filters:
   # átlógó/területhatár
   - Gárdonyi út
   - Meggyfa sor / Meggyfasor utca  # településhatár, az utca 2 oldalán eltérő név, OSM-ben a házszámok Meggyfa soron vannak, ezért ezt el kell nyomni
+  - Tóparti út  # Kovács Katalin Nemzeti Kajak-Kenu Akadémia - Sukoró
 refstreets:
   # településhatár, az utca 2 oldalán eltérő név
   # 'Meggyfasor': 'Meggyfa sor'  # Gárdony
