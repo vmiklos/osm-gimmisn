@@ -2,6 +2,8 @@ missing-streets: 'yes'
 filters: {}
 street-filters:
   - Vasútállomás
+osm-street-filters:
+  - Herman Ottó emlékpark
 refstreets:
   'Szalajka utca': 'Szalajka út'
   'Széchenyi István utca': 'Széchenyi utca'
