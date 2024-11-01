@@ -1,14 +1,18 @@
 {
   "license": "MIT",
   "dependencies": {
-    "@types/node": "22.7.4",
-    "chart.js": "4.4.4",
+    "@eslint/js": "9.13.0",
+    "@types/node": "22.8.5",
+    "chart.js": "4.4.6",
     "chartjs-plugin-datalabels": "2.2.0",
     "chartjs-plugin-trendline": "2.1.5",
     "clean-css-cli": "5.6.3",
+    "eslint": "9.13.0",
+    "globals": "15.11.0",
     "sorttable": "1.0.2",
     "ts-loader": "9.5.1",
-    "typescript": "5.5.4",
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.12.2",
     "webpack": "5.95.0",
     "webpack-cli": "5.1.4"
   },
@@ -16,11 +20,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/vmiklos/osm-gimmisn"
-  },
-  "devDependencies": {
-    "@eslint/js": "9.11.1",
-    "eslint": "9.11.1",
-    "globals": "15.10.0",
-    "typescript-eslint": "8.8.0"
   }
 }
