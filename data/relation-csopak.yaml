@@ -1,4 +1,9 @@
 missing-streets: 'yes'
+filters:
+  Örkény István sétány:
+    interpolation: all
+  Ifjúsági sétány:
+    interpolation: all
 refstreets:
   'Füredi utca': 'Füredi út'
   'Lápotai út': 'Lápotai utca'
