@@ -185,6 +185,10 @@ filters:
     # 9/b: 9 és 9/a
     # 11: 11/a, 11/b, 11/c
     invalid: ['5', '4', '11']
+  Gyergyó utca:
+    # 2 = Szilágyi Erzsébet fasor 79.
+    # 4 = 4/a, 4/b
+    invalid: ['2', '4']
   Gül Baba utca:
     # 18-20-22 helyén a türbe alatt üres telek
     invalid: ['22']
@@ -197,6 +201,9 @@ filters:
   Házmán utca:
     # 1: ez a Budagyöngye, de az a Szilágyi Erzsébet fasor 121.
     invalid: ['1']
+  Júlia utca:
+    # 2: 2/a, 2/b, 2/c
+    invalid: ['2']
   Kacsa utca:
     ranges:
       - {start: '1', end: '99'}
