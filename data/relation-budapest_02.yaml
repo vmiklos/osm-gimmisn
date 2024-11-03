@@ -301,6 +301,10 @@ filters:
     # 2 = Marczibányi tér 12
     # 6 = Ribáry utca 6
     invalid: ['6']
+  Rhédey utca:
+    # 8a: csak 8 van kiírva
+    # 14: nincs
+    invalid: ['8a', '14']
   Ribáry utca:
     ranges:
       - {start: '1', end: '11'}
