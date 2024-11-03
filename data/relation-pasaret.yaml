@@ -61,6 +61,10 @@ filters:
   Radna utca:
     ranges:
       - {start: '1', end: '7'}
+  Rhédey utca:
+    # 8a: csak 8 van kiírva
+    # 14: nincs
+    invalid: ['8a', '14']
   Szerb Antal utca:
     # területhatár: kurucles/lipotmezo/pasaret
     ranges:
