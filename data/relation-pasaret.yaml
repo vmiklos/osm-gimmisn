@@ -88,6 +88,9 @@ filters:
     ranges:
       - {start: '25', end: '39'}
       - {start: '22', end: '32'}
+  Torockó köz:
+    # 5: nincs, páratlan oldal a Júlia utcára van számozva
+    invalid: ['5']
 source: survey
 housenumber-letters: true
 inactive: true
