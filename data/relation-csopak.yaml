@@ -4,9 +4,10 @@ filters:
     interpolation: all
   Ifjúsági sétány:
     interpolation: all
+  Vasút utca:
+    interpolation: all
 refstreets:
   'Füredi utca': 'Füredi út'
-  'Lápotai út': 'Lápotai utca'
   'Nádaskúti utca': 'Nádaskuti utca'
   'Nagykúti utca': 'Nagykuti utca'
   'Petőfi utca': 'Petőfi Sándor utca'
@@ -15,6 +16,7 @@ refstreets:
   # ellenőrizve
   'Arany János út': 'Arany János utca' # táblán Arany János út 2024.10
   'Kossuth utca': 'Kossuth Lajos utca'  # táblán Kossuth utca 2023.09
+  'Lápotai út': 'Lápotai utca'  # táblán Lápotai út 2024.08
   'Paloznaki utca': 'Paloznaki út'  # táblán Paloznaki utca 2023.09
   # helyesírás
   'Ördöngös utca': 'Ördöngős utca'
