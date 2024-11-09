@@ -121,6 +121,9 @@ filters:
   Radna utca:
     ranges:
       - {start: '2', end: '98'}
+  Présház utca:
+    # 7: 7/a és 7/b van kitáblázva
+    invalid: ['7']
   Rügy utca:
     ranges:
       - {start: '1', end: '11'}
