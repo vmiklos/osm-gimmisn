@@ -296,6 +296,9 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '12'}
+  Présház utca:
+    # 7: 7/a és 7/b van kitáblázva
+    invalid: ['7']
   Pusztaszeri út:
     # 5: 5/a, illetve a ház előtt az információs táblán 5/b zárójelben
     # 33: 33/a, 33/b, 33/c, 33/d van kiírva, de könnyen lehet hogy 33 és A-D épületek
