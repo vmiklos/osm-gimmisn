@@ -1,5 +1,10 @@
 missing-streets: 'yes'
 filters:
+  Falukertje utca:
+    # 1: helyén 2 van kiírva
+    # 4: nincs épület
+    # 4: nincs épület
+    invalid: ['1', '4', '54']
   Kiskert utca:
     # 248/9: hrsz
     invalid: ['248/9']
