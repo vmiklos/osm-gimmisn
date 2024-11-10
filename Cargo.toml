@@ -45,3 +45,7 @@ default = ["icu"]
 [profile.symbols]
 inherits = "release"
 debug = true
+
+# Till <https://github.com/google/rust_icu/pull/306> hits a release.
+[patch.crates-io]
+rust_icu_sys = { git = "https://github.com/google/rust_icu", rev = "28820f8bbd4b4b107ce7c4e03c77b1f5c813c555" }
