@@ -1,9 +1,12 @@
 missing-streets: 'yes'
 filters:
-  # 4, 8: nincs még épület  / nincs kiírva
-  # 54: utolsó ház 40, 42 lehet még az Akácfa sarkon
-  # 147: utolsó ház 145
+  Diófa utca:
+    # 14: Pacsirta utca 36 van kiírva
+    invalid: ['14']
   Koppány sor:
+    # 4, 8: nincs még épület  / nincs kiírva
+    # 54: utolsó ház 40, 42 lehet még az Akácfa sarkon
+    # 147: utolsó ház 145
     invalid: ['4', '8', '54', '147']
 refstreets:
   # helyesírás
