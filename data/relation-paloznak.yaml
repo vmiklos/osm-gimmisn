@@ -49,10 +49,10 @@ filters:
   Kisparti utca:
     # az utca végén a számok el vannak csúszva a fh-hoz képest
     # 2, 2a: nincs kiírva, telek nem beazonosítható mert újraosztották
-    # 4, 6: üres telkek
+    # 4, 6, 10: üres telkek
     # 11: 9/b után 13, a  13 lenne a fh. szerinti 11
     # 16, 18: nincs kiírva
-    invalid: ['2', '2a', '4', '6', '16']
+    invalid: ['2', '2a', '4', '6', '10', '11', '16']
   Malom út:
     invalid: ['236']
   Mandula út:
