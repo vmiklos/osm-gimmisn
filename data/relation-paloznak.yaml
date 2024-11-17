@@ -1,8 +1,11 @@
 missing-streets: 'yes'
 filters:
-  # Ady Endre utca:
-    # 11,13,15: nincs kiírva,
-    # invalid: ['11', '13', '15']
+  Ady Endre utca:
+    # 13, 15: 11 után 17 jön
+    invalid: ['13', '15']
+  Balatoni utca:
+    # 16a: semmi sincs kiírva.
+    invalid: ['16a']
   Camping utca:
     # páros oldal Alsóörs
     # páratlan max normál hászám a 17, a 19 a kemping, de alsóörsi címen fut (közös egyébként)
@@ -25,17 +28,31 @@ filters:
   Hajódi utca:
     # 20, 22: vasút felől, nincsenek épületek
     invalid: ['20', '22']
+  Hegyalja utca:
+    # 8: nincs kiírva, ház sincs
+    # 21: Ibolya utca 2 van kiírva
+    # 22: nincs épület
+    # 24-30: semmi sincs kiírva
+    # 30-: régi házszámok: 10-12-14
+    invalid: ['8', '21', '22']
+  Ibolya utca:
+    # 3, 5: nincs kiírva, fh. nem ismeri
+    invalid: ['3', '5']
   Királydombi utca:
     # 13: helyette 8 van kiírva. RESURVEY 2025-10
     invalid: ['13']
   Kishegyi út:
+    # 5 felett semmi sincs kiírva
     # 100+: hrsz.
     show-refstreet: false
-    invalid: ['331/1', '342/4', '342/9', '342']
+    invalid: ['6', '6a', '6b', '7', '8', '10', '10/7', '13', '14', '15', '17', '331/1', '342/4', '342/9', '342']
   Kisparti utca:
-    # 2, 2a: nincs kiírva
+    # az utca végén a számok el vannak csúszva a fh-hoz képest
+    # 2, 2a: nincs kiírva, telek nem beazonosítható mert újraosztották
     # 4, 6: üres telkek
-    invalid: ['4', '6']
+    # 11: 9/b után 13, a  13 lenne a fh. szerinti 11
+    # 16, 18: nincs kiírva
+    invalid: ['2', '2a', '4', '6', '16']
   Malom út:
     invalid: ['236']
   Mandula út:
@@ -78,6 +95,9 @@ filters:
     # 6/b, 7, 10: nincs kiírva
     # 534: hrsz
     invalid: ['6b', '7', '10', '534']
+  Vörösparti sor:
+    # 7: 9 van kiírva. Átszámozták az utcát. A nő szerint azért nem cseréli le a táblát mert a többiek se.
+    invalid: ['7']
   Zrínyi utca:
     # 2: helyén 4 van kiírva és ez az utolsó ház.
     # 15: nincs
@@ -86,6 +106,8 @@ filters:
 osm-street-filters:
   # átlógó Alsóörs
   - Balaton utca
+  # átlógó Lovas
+  - Határ út
 street-filters:
   # nem igazi utcák
   - 30-as őrház utca  # 71-es főút lenne, ott nincs nyoma
