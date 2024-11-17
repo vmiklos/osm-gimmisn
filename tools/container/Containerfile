@@ -1,4 +1,4 @@
-FROM fedora:41
+FROM fedora:41 AS builder
 
 RUN dnf install -y \
     cargo \
@@ -12,9 +12,31 @@ RUN dnf install -y \
     sqlite-devel \
     openssl-devel
 
+WORKDIR /opt
+
 RUN git -C /opt clone https://github.com/vmiklos/osm-gimmisn
 
 RUN make -C /opt/osm-gimmisn
+
+FROM fedora:41
+
+RUN dnf install -y \
+    git \
+    libicu
+
+WORKDIR /opt
+
+RUN git clone https://github.com/vmiklos/osm-gimmisn
+
+WORKDIR /opt/osm-gimmisn
+
+RUN mkdir -p target/release/ target/browser/
+
+COPY --from=builder /opt/osm-gimmisn/target/release/osm-gimmisn target/release/osm-gimmisn
+COPY --from=builder /opt/osm-gimmisn/target/browser/bundle.js target/browser/bundle.js
+COPY --from=builder /opt/osm-gimmisn/target/browser/osm.min.css target/browser/osm.min.css
+
+RUN target/release/osm-gimmisn cache-yamls data workdir
 
 COPY /init.sh /
 

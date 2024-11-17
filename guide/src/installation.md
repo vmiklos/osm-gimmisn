@@ -137,7 +137,7 @@ Note that the comparison results are not only affected by changes in the OSM dat
 positives are also silenced by osm-gimmisn filters. To update those filters, run:
 
 ```
-podman exec -t -i osm-gimmisn bash -c 'cd /opt/osm-gimmisn && git pull -r && make data/yamls.cache'
+podman exec -t -i osm-gimmisn bash -c 'cd /opt/osm-gimmisn && git pull -r && target/release/osm-gimmisn cache-yamls data workdir'
 ```
 
 from time to time.
