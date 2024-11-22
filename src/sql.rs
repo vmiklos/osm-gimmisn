@@ -313,7 +313,19 @@ pub fn init(conn: &mut rusqlite::Connection) -> anyhow::Result<()> {
         )?;
     }
 
-    tx.execute("pragma user_version = 17", [])?;
+    if user_version < 18 {
+        // Tracks various counters.
+        tx.execute(
+            "create table counts (
+                    category text not null,
+                    count text not null,
+                    unique(category)
+                );",
+            [],
+        )?;
+    }
+
+    tx.execute("pragma user_version = 18", [])?;
     tx.commit()?;
     Ok(())
 }

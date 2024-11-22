@@ -369,7 +369,16 @@ fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Res
 
     let string = format!("{count}\n");
     let path = format!("{state_dir}/ref.count");
-    ctx.get_file_system().write_from_string(&string, &path)
+    ctx.get_file_system().write_from_string(&string, &path)?;
+
+    let conn = ctx.get_database_connection()?;
+    conn.execute(
+        r#"insert into counts (category, count) values ('ref', ?1)
+             on conflict(category) do update set count = excluded.count"#,
+        [count.to_string()],
+    )?;
+
+    Ok(())
 }
 
 /// Performs the update of the whole_country table.
