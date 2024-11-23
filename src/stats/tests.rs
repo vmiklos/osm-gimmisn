@@ -22,30 +22,18 @@ fn make_test_time_old() -> context::tests::TestTime {
 /// Tests handle_progress().
 #[test]
 fn test_handle_progress() {
-    let mut ctx = context::tests::make_test_context().unwrap();
+    let ctx = context::tests::make_test_context().unwrap();
     {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute_batch(
-            "insert into stats_counts (date, count) values ('2020-05-10', '254651');",
+            "insert into counts (category, count) values ('ref', '300');
+             insert into stats_counts (date, count) values ('2020-05-10', '254651');",
         )
         .unwrap();
     }
-    let ref_count = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/stats/ref.count", &ref_count)],
-    );
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_files(&files);
-    file_system
-        .write_from_string("300", &ctx.get_abspath("workdir/stats/ref.count"))
-        .unwrap();
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
 
-    let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
-    handle_progress(&ctx, &src_root, &mut j).unwrap();
+    handle_progress(&ctx, &mut j).unwrap();
 
     let progress = &j.as_object().unwrap()["progress"];
     assert_eq!(progress["date"], "2020-05-10");
@@ -95,25 +83,17 @@ fn test_handle_capital_progress() {
 #[test]
 fn test_handle_progress_old_time() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch("insert into counts (category, count) values ('ref', '42');")
+            .unwrap();
+    }
     let time = make_test_time_old();
     let time_rc: Rc<dyn context::Time> = Rc::new(time);
     ctx.set_time(&time_rc);
-    let ref_count = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/stats/ref.count", &ref_count)],
-    );
-    let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_files(&files);
-    file_system
-        .write_from_string("42", &ctx.get_abspath("workdir/stats/ref.count"))
-        .unwrap();
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
 
-    let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
-    handle_progress(&ctx, &src_root, &mut j).unwrap();
+    handle_progress(&ctx, &mut j).unwrap();
 
     let progress = &j.as_object().unwrap()["progress"];
     assert_eq!(progress["date"], "1970-01-01");

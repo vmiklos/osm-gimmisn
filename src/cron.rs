@@ -443,7 +443,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
 
     info!("update_stats: generating json");
     let json_path = format!("{}/stats.json", &statedir);
-    stats::generate_json(ctx, &statedir, &json_path).context("generate_json() failed")?;
+    stats::generate_json(ctx, &json_path).context("generate_json() failed")?;
 
     info!("update_stats: end");
 

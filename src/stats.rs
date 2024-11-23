@@ -28,26 +28,22 @@ use std::println as info;
 use std::println as warn;
 
 /// Generates stats for a global progressbar.
-fn handle_progress(
-    ctx: &context::Context,
-    src_root: &str,
-    j: &mut serde_json::Value,
-) -> anyhow::Result<()> {
+fn handle_progress(ctx: &context::Context, j: &mut serde_json::Value) -> anyhow::Result<()> {
     let mut ret = serde_json::json!({});
-    let num_ref: f64 = ctx
-        .get_file_system()
-        .read_to_string(&format!("{src_root}/ref.count"))
-        .context("failed to read ref.count")?
-        .trim()
-        .parse()
-        .context("failed to parse ref.count")?;
+    let conn = ctx.get_database_connection()?;
+    let num_ref: f64 = {
+        let mut stmt = conn.prepare("select count from counts where category = 'ref'")?;
+        let mut counts = stmt.query([])?;
+        let count = counts.next()?.context("no count")?;
+        let count: String = count.get(0).unwrap();
+        count.parse().context("failed to parse ref count")?
+    };
     let today = {
         let now = ctx.get_time().now();
         let format = time::format_description::parse("[year]-[month]-[day]")?;
         now.format(&format)?
     };
     let mut num_osm = 0_f64;
-    let conn = ctx.get_database_connection()?;
     let mut stmt = conn.prepare("select count from stats_counts where date = ?1")?;
     let mut counts = stmt.query([&today])?;
     if let Some(count) = counts.next()? {
@@ -433,13 +429,9 @@ fn handle_monthly_total(
 }
 
 /// Generates the stats json and writes it to `json_path`.
-pub fn generate_json(
-    ctx: &context::Context,
-    state_dir: &str,
-    json_path: &str,
-) -> anyhow::Result<()> {
+pub fn generate_json(ctx: &context::Context, json_path: &str) -> anyhow::Result<()> {
     let mut j = serde_json::json!({});
-    handle_progress(ctx, state_dir, &mut j).context("handle_progress failed")?;
+    handle_progress(ctx, &mut j).context("handle_progress failed")?;
     handle_capital_progress(ctx, &mut j).context("handle_capital_progress failed")?;
     handle_topusers(ctx, &mut j).context("handle_topusers failed")?;
     handle_topcities(ctx, &mut j).context("handle_topcities failed")?;
