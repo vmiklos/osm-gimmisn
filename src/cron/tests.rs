@@ -705,7 +705,6 @@ fn test_update_stats() {
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     ctx.set_network(network_rc);
 
-    let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
     overpass_template
@@ -715,7 +714,6 @@ fn test_update_stats() {
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
             (
                 "data/street-housenumbers-hungary.overpassql",
@@ -740,13 +738,13 @@ fn test_update_stats() {
         .unwrap();
     assert!(!last_modified.is_empty());
 
-    let num_ref: i64 = ctx
-        .get_file_system()
-        .read_to_string(&ctx.get_abspath("workdir/stats/ref.count"))
-        .unwrap()
-        .trim()
-        .parse()
+    let mut stmt = conn
+        .prepare("select count from counts where category = 'ref'")
         .unwrap();
+    let mut counts = stmt.query([]).unwrap();
+    let count = counts.next().unwrap().unwrap();
+    let count: String = count.get(0).unwrap();
+    let num_ref: i64 = count.parse().unwrap();
     assert_eq!(num_ref, 300);
 }
 
@@ -768,13 +766,11 @@ fn test_update_stats_http_error() {
         .borrow_mut()
         .write_all("254651\n".as_bytes())
         .unwrap();
-    let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
             (
                 "data/street-housenumbers-hungary.overpassql",
@@ -813,13 +809,11 @@ fn test_update_stats_no_overpass() {
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     ctx.set_network(network_rc);
 
-    let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
             (
                 "data/street-housenumbers-hungary.overpassql",
@@ -838,12 +832,16 @@ fn test_update_stats_no_overpass() {
         .downcast_ref::<context::tests::TestTime>()
         .unwrap();
     assert_eq!(time.get_sleep(), 0);
-    let actual = ctx
-        .get_file_system()
-        .read_to_string(&ctx.get_abspath("workdir/stats/ref.count"))
+    let conn = ctx.get_database_connection().unwrap();
+    let mut stmt = conn
+        .prepare("select count from counts where category = 'ref'")
         .unwrap();
+    let mut counts = stmt.query([]).unwrap();
+    let count = counts.next().unwrap().unwrap();
+    let count: String = count.get(0).unwrap();
+    let actual: i64 = count.parse().unwrap();
     // Same as in test_update_stats().
-    assert_eq!(actual, "300\n");
+    assert_eq!(actual, 300);
 }
 
 /// Tests our_main().
@@ -982,7 +980,6 @@ fn test_our_main_stats() {
     let mut file_system = context::tests::TestFileSystem::new();
     let stats_value = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
-    let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -991,7 +988,6 @@ fn test_our_main_stats() {
                 "data/street-housenumbers-hungary.overpassql",
                 &overpass_template,
             ),
-            ("workdir/stats/ref.count", &ref_count),
         ],
     );
     file_system.set_files(&files);
@@ -1019,7 +1015,6 @@ fn test_main() {
     let mut file_system = context::tests::TestFileSystem::new();
     let stats_value = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
-    let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -1028,7 +1023,6 @@ fn test_main() {
                 "data/street-housenumbers-hungary.overpassql",
                 &overpass_template,
             ),
-            ("workdir/stats/ref.count", &ref_count),
         ],
     );
     file_system.set_files(&files);
@@ -1049,12 +1043,16 @@ fn test_main() {
     let mut guard = stats_value.borrow_mut();
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
 
-    let actual = ctx
-        .get_file_system()
-        .read_to_string(&ctx.get_abspath("workdir/stats/ref.count"))
+    let conn = ctx.get_database_connection().unwrap();
+    let mut stmt = conn
+        .prepare("select count from counts where category = 'ref'")
         .unwrap();
+    let mut counts = stmt.query([]).unwrap();
+    let count = counts.next().unwrap().unwrap();
+    let count: String = count.get(0).unwrap();
+    let actual: i64 = count.parse().unwrap();
     // Same as in test_update_stats().
-    assert_eq!(actual, "300\n");
+    assert_eq!(actual, 300);
 }
 
 /// Tests main(): the path when our_main() returns an error.
@@ -1064,20 +1062,13 @@ fn test_main_error() {
     let unit = context::tests::TestUnit::new();
     let unit_rc: Rc<dyn context::Unit> = Rc::new(unit);
     ctx.set_unit(&unit_rc);
-    let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("workdir/stats/ref.count", &ref_count),
-            ("workdir/stats/stats.json", &stats_json),
-        ],
+        &[("workdir/stats/stats.json", &stats_json)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    file_system
-        .write_from_string("300", &ctx.get_abspath("workdir/stats/ref.count"))
-        .unwrap();
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let argv = vec![
