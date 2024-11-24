@@ -350,26 +350,20 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
     Ok(tx.commit()?)
 }
 
-/// Performs the update of workdir/stats/ref.count.
-fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Result<()> {
+/// Performs the update of 'ref' in the 'counts' table.
+fn update_stats_refcount(ctx: &context::Context) -> anyhow::Result<()> {
     let mut count = 0;
-    {
-        let stream = ctx
-            .get_file_system()
-            .open_read(&ctx.get_ini().get_reference_citycounts_path()?)?;
-        let mut guard = stream.borrow_mut();
-        let mut read = guard.deref_mut();
-        let mut csv_reader = util::make_csv_reader(&mut read);
-        for result in csv_reader.deserialize() {
-            let row: util::CityCount = result?;
+    let stream = ctx
+        .get_file_system()
+        .open_read(&ctx.get_ini().get_reference_citycounts_path()?)?;
+    let mut guard = stream.borrow_mut();
+    let mut read = guard.deref_mut();
+    let mut csv_reader = util::make_csv_reader(&mut read);
+    for result in csv_reader.deserialize() {
+        let row: util::CityCount = result?;
 
-            count += row.count;
-        }
+        count += row.count;
     }
-
-    let string = format!("{count}\n");
-    let path = format!("{state_dir}/ref.count");
-    ctx.get_file_system().write_from_string(&string, &path)?;
 
     let conn = ctx.get_database_connection()?;
     conn.execute(
@@ -437,8 +431,8 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     update_stats_count(ctx, &today).context("update_stats_count() failed")?;
     info!("update_stats: updating topusers");
     update_stats_topusers(ctx, &today)?;
-    info!("update_stats: updating refcount");
-    update_stats_refcount(ctx, &statedir)?;
+    info!("update_stats: updating 'ref' in 'counts'");
+    update_stats_refcount(ctx)?;
     stats::update_invalid_addr_cities(ctx)?;
 
     info!("update_stats: generating json");
