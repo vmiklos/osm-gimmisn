@@ -52,10 +52,13 @@ street-filters:
 osm-street-filters:
   # nem igazi utcák
   - Tiszaligeti-futókör 
+  - Tisza-híd
   # parkok, sétányok
   - Angolkert
+  - Dr. Béres József sétány
   - Gólya park
   - Gróf Széchenyi István park
+  - Nemes Gerzson sétány
   - Ormos Imre park
   - Sanmenxia kínai-magyar barátságpark
   - Tiszaligeti körgát
