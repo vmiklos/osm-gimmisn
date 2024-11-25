@@ -7,6 +7,8 @@ filters:
   Széchenyi tér:
     interpolation: all
 osm-street-filters:
+  # táblázott, de nem hivatalos
+  - Cseresznyevirág köz
   # nem igazi utcák
   - Árpád úti felüljáró
   - Autóklub
