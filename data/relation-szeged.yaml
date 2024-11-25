@@ -139,19 +139,23 @@ street-filters:
 osm-street-filters:
   # nem igazi utcák
   - Belvárosi híd
+  - ELI bekötőút
   - Hild kapu
   - Vasúti rakodó
   # parkok/sétányok
   - Erzsébet-liget
   - Göncz Árpád sétány
   - Gulácsi park
+  - Gyevi park
   - Gyík utcai park
   - Hősök ligete
   - Klinika kert
+  - Körsétaút
   - Liszt Ferenc sétány
   - Millecentenáriumi liget
   - Monti Sándor park
   - Nemzeti Emlékkert
+  - Passzázs sor
   - Selyem utcai park
   - Tisza-Maros sétány
   - Újrókus kert
@@ -161,8 +165,16 @@ osm-street-filters:
   - VUK park
   - Zápor kert
   - Zsinagóga kert
+  # töltés
+  - Kamaratöltés
+  - Körtöltés
   # tanyák/dűlők
   - Külterület III.
+  - Lúdvár dűlő
+  - Vereshomok dűlő
+  # place
+  - Sárga üdülőtelep
+  - Tömörkény üdülőtelep
   # átlógó
   - Tanya
 source: survey
