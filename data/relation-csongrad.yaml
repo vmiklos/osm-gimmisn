@@ -14,5 +14,7 @@ refstreets:
   'Ordódy Pál rakpart': 'Ordódy rakpart'
   'Pálffy János utca': 'Pálffy utca'
   'Szántó Kóvács János utca': 'Szántó Kovács János utca'
+  # ellenőrzött
+  'Kenderföldek utca': 'Kenderföldek utcája'  # táblán Kenderföldek utca
 source: survey
 inactive: false
