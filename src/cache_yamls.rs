@@ -71,6 +71,11 @@ pub fn our_main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
         let mut guard = write_stream.borrow_mut();
         let write = guard.deref_mut();
         serde_json::to_writer(write, &relation_ids)?;
+
+        let conn = ctx.get_database_connection()?;
+        let sql = r#"insert into stats_jsons (category, json) values ('relations', ?1)
+                     on conflict(category) do update set json = excluded.json"#;
+        conn.execute(sql, [serde_json::to_string(&relation_ids)?])?;
     }
 
     ctx.get_unit().make_error()

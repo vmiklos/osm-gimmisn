@@ -325,7 +325,19 @@ pub fn init(conn: &mut rusqlite::Connection) -> anyhow::Result<()> {
         )?;
     }
 
-    tx.execute("pragma user_version = 18", [])?;
+    if user_version < 19 {
+        // Tracks various stat JSON data.
+        tx.execute(
+            "create table stats_jsons (
+                    category text not null,
+                    json text not null,
+                    unique(category)
+                );",
+            [],
+        )?;
+    }
+
+    tx.execute("pragma user_version = 19", [])?;
     tx.commit()?;
     Ok(())
 }
