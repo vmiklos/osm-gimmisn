@@ -14,6 +14,7 @@ osm-street-filters:
   - Egri Országút
   - Vízitelepek
   # parkok, sétányok amire nincs számozva semmi
+  - Déryné-kert
   - Ferenczi Pihenő
   - Kálvária
   - Keresztút
