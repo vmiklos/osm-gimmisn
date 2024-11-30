@@ -42,9 +42,12 @@ osm-street-filters:
   - West_Exit_to_Bridge
   # nem igazi utcák
   # parkok, sétányok
+  - Béke-liget
   - Kaszaházi sétány
   - Malom sétány
+  - Május 1. liget
   - Parkerdő
+  # Saválló oszlop park
   - Skanzen
   - Szent András park
   - Vizslapark
