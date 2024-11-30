@@ -16,8 +16,9 @@ street-filters:
 osm-street-filters:
   # nem igazi utcák
   - Türr István híd
-  # parkok
+  # parkok, sétányok
   - Déri kert
+  - Derű sétány
   - Fecske park és szánkópálya 
   - Kismalom park
   - Lakóvárosi Játszópark
