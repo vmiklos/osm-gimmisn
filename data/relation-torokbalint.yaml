@@ -41,7 +41,6 @@ filters:
 osm-street-filters:
   # parkok
   - Ady park
-  - Belső városi tó és parkja
   - Családi park
   - Dióskert
   - Kálvária
@@ -49,6 +48,7 @@ osm-street-filters:
   - Kereszt park
   - Kis park
   - Múzeum park
+  - Nádas-tó és parkja
   - Nyár park
   - Sváb park
   - Széchenyi park
