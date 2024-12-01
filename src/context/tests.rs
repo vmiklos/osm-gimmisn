@@ -57,6 +57,7 @@ pub struct TestFileSystem {
 }
 
 impl TestFileSystem {
+    /// Creates a new TestFileSystem.
     pub fn new() -> Self {
         TestFileSystem {
             hide_paths: Rc::new(RefCell::new(Vec::new())),
@@ -75,10 +76,12 @@ impl TestFileSystem {
         file_system_rc
     }
 
+    /// Creates a new test file, not yet inserting it to the filesystem.
     pub fn make_file() -> Rc<RefCell<std::io::Cursor<Vec<u8>>>> {
         Rc::new(RefCell::new(std::io::Cursor::new(Vec::new())))
     }
 
+    /// Writes a json value to a test file & return that file.
     pub fn write_json_to_file(json: &serde_json::Value) -> Rc<RefCell<std::io::Cursor<Vec<u8>>>> {
         let file = TestFileSystem::make_file();
         {
@@ -89,6 +92,7 @@ impl TestFileSystem {
         file
     }
 
+    /// Creates new test files, specifying their content via path-value pairs.
     pub fn make_files(
         ctx: &Context,
         files: &[(&str, &Rc<RefCell<Cursor<Vec<u8>>>>)],
@@ -212,6 +216,7 @@ pub struct TestTime {
 }
 
 impl TestTime {
+    /// Creates a new TestTime.
     pub fn new(year: i32, month: u32, day: u32) -> Self {
         let date = time::Date::from_calendar_date(
             year,
@@ -258,6 +263,7 @@ pub struct URLRoute {
 }
 
 impl URLRoute {
+    /// Creates a new URLRoute.
     pub fn new(url: &str, data_path: &str, result_path: &str) -> Self {
         URLRoute {
             url: url.into(),
@@ -273,6 +279,7 @@ pub struct TestNetwork {
 }
 
 impl TestNetwork {
+    /// Creates a new TestNetwork.
     pub fn new(routes: &[URLRoute]) -> Self {
         let routes = Rc::new(RefCell::new(routes.to_vec()));
         TestNetwork { routes }
@@ -316,6 +323,7 @@ impl Network for TestNetwork {
 pub struct TestUnit {}
 
 impl TestUnit {
+    /// Creates a new TestUnit.
     pub fn new() -> Self {
         TestUnit {}
     }
@@ -334,6 +342,7 @@ pub struct TestSubprocess {
 }
 
 impl TestSubprocess {
+    /// Creates a new TestSubprocess.
     pub fn new(outputs: &HashMap<String, String>) -> Self {
         let outputs = outputs.clone();
         let runs: Rc<RefCell<Vec<String>>> = Rc::new(RefCell::new(Vec::new()));
