@@ -29,6 +29,7 @@ pub struct TestWsgi {
 }
 
 impl TestWsgi {
+    /// Creates a new TestWsgi.
     pub fn new() -> Self {
         let gzip_compress = false;
         let ctx = context::tests::make_test_context().unwrap();
@@ -48,6 +49,7 @@ impl TestWsgi {
         }
     }
 
+    /// Gets the Context of this TestWsgi.
     pub fn get_ctx(&mut self) -> &mut context::Context {
         &mut self.ctx
     }
@@ -63,6 +65,7 @@ impl TestWsgi {
         ret
     }
 
+    /// Sets the expected value of the Content-type header.
     pub fn set_content_type(&mut self, content_type: &str) {
         self.content_type = content_type.to_string();
     }
