@@ -851,6 +851,10 @@ zamardi:
     refcounty: "15"
     refsettlement: "238"
 # 16 - Szabolcs-Szatmár-Bereg megye
+nagyszekeres:
+    osmrelation: 1452452
+    refcounty: "16"
+    refsettlement: "107"
 nyiregyhaza:
     osmrelation: 1447608
     refcounty: "16"
