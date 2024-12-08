@@ -1,4 +1,7 @@
 missing-streets: 'yes'
+street-filters:
+  # nem igazi utcák
+  - Máv vasútállomás
 source: survey
 housenumber-letters: true
 inactive: false
