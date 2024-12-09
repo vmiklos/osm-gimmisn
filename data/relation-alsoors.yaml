@@ -108,6 +108,9 @@ filters:
   Templom utca:
     # 42: max házszám 14
     invalid: ['42']
+  Tulipán köz:
+    # 11: nincs ilyen táblázva, 9 az utolsó, de van még ott egy telek
+    invalid: ['11']
   Vízöntő utca:
     # 11 = Hotel Mayer vendégháza, nincs külön száma erről az utcáról
     invalid: ['11']
