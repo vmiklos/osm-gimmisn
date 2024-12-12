@@ -10,6 +10,32 @@ refstreets:
   'Segesdy utca': 'Segesdi utca'
   'Vázsonyi utca': 'Vázsonyi út'
   'Wesselényi Miklós utca': 'Wesselényi utca'
+  # ellenőrzött
+  'Palotaalja utca': 'Palota alja utca'
+street-filters:
+  # dűlők
+  - Kéki dűlő
+  - Laki dűlő
+  - Öreghegyi dűlő
+  - Száka dűlő
+  - Tamáshegyi dűlő
+osm-street-filters:
+  # nem igazi utcák
+  - Evetes-völgy
+  - Hidegkúti XC út
+  - Kéki-völgy
+  - Sárkány-völgy
+  # parkok/sétányok
+  - Füred Arács egyesülésének emlékparkja
+  - Kósa Pál Park
+  - Kovászna park
+  - Móló sétány
+  - Nagy Imre park
+  - Piac park
+  - Szivárvány utcai park
+  - Vaszary Gábor emlékpark
+  # dűlők
+  - Baricska dűlő
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true
