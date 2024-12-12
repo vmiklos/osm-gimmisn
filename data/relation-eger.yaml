@@ -141,7 +141,7 @@ refstreets:
   'Nagylapos utca': 'Nagylaposi út'  # Note 2803222
   'Rottenstein Károly köz': 'Rottenstein Károly utca'  # Note 2803227
   'Rózsa völgy': 'Rózsavölgy utca'  # Note 2803213
-  'Tibrik dűlő': 'Tibrikdűlő utca'  # Note 2803220
+  # 'Tibrik dűlő': 'Tibrikdűlő utca'  # Note 2803220
   # 'Törvényház út': 'Törvényház utca'  # Note 2803216
 source: survey
 inactive: true
