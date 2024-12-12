@@ -628,11 +628,11 @@ filters:
       - {start: '9', end: '13'}
   Etele út:
     # 3 után 15, max 73, 2-66
-    # 32: 32/a, 32/b, 32/c
+    # 32a: 32, 32/b, 32/c
     # 44: 44/a, 44/b
     # 54-58 panel, bejáratok: 54/a, 54/b, 56/a, 56/b, 58/a
     # 68: volt Számalk. Elete Plaza már Hadak útja 1-re van számozva, de az üzletek egy része ezt a címet használja
-    invalid: ['32', '58b', '44', '67/5']
+    invalid: ['32a', '58b', '44', '67/5']
   Éva utca:
     # Az Éva utca 1. és a Péterhegyi út 51/B. közös telken van, házszám a Péterhegyi útról van csak.
     # Az Éva utca 2. és a Péterhegyi út 53. közös telken van, házszám a Péterhegyi útról van csak.
