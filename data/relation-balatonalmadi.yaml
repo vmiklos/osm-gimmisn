@@ -158,11 +158,11 @@ filters:
     # 3-13: 3, 5, 11 van kiírva, utána van még egy ház
     invalid: ['7', '9', '13']
   Forrás utca:
-    # 2022-12. RESURVEY 2025
+    # 2024-11. RESURVEY 2025
     # 6-22 egy zsákutcás osztatlan telek tele sok apró üdülőházzal
     # 6: nem a zsákutcás részen
     # 10: ez az egyetlen normális ház, a többin nincs házszám
-    invalid: ['4', '8', '12', '14', '16', '18', '20', '22']
+    invalid: ['4']
   Fürj köz:
     # 3-5: csak 3 van kiírva
     # 14: A Vadász utca felöli utcacsonk magáról a Vadász köz 14-et állítja
