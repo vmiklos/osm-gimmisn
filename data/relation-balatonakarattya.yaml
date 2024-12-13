@@ -29,5 +29,5 @@ osm-street-filters:
   # parkok
   - Rákóczi park
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true

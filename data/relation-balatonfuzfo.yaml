@@ -170,5 +170,5 @@ osm-street-filters:
   - Nitrokémia
   # parkok
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: false
