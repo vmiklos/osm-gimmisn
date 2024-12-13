@@ -79,7 +79,7 @@ filters:
   Mihálkovics sétány:
     # 19, 28: nincsenek kiírva, de vannak még építkezések és nem kiírt házak a Patak utcánál is. RESURVEY 2024
     invalid: ['19', '28']
-  Napsugár utca:
+  Napsugár út:
     # 28-30: csak 28 van kiírva
     invalid: ['30']
   Nyírfa köz:
