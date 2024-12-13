@@ -27,5 +27,5 @@ osm-street-filters:
   # nem igazi utcák
   # parkok
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true

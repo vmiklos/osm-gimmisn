@@ -561,3 +561,4 @@ refstreets:
   'Vöröshegyi utca': 'Vöröshegyi út'  # táblán Vöröshegyi utca
 source: survey
 inactive: true
+housenumber-letters: true

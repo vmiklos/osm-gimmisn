@@ -104,5 +104,5 @@ osm-street-filters:
   - Szent István kerékpárút 
   # parkok
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true
