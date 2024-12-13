@@ -46,8 +46,9 @@ filters:
     invalid: ['10', '16', '26', '29']
   Hegyalja utca:
     # az utca elején teljes káosz a páros oldalon
+    # 25/1, 25/a, 25/b: csak 25 van kiírva, a következő házon nincs szám
     # 36-38: 38 nincs, csak 36 van kiírva
-    invalid: ['38']
+    invalid: ['25/1', '25a', '25b', '38']
   Honvéd utca:
     # 22: max páros a 20, utána van egy telek aminek innen nincs bejárata
     invalid: ['22']
