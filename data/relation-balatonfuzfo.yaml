@@ -42,7 +42,7 @@ filters:
   Fűzfő tér:
     # 13: max házszám a 8.
     interpolation: all
-    invalid: ['13']
+    invalid: ['13d']
   Gagarin utca:
     # 14: Irinyi János utca 11 régi címe, de még kint van a 14-es szám a C lépcsőháznál
     # 18: 16 után 20 jön, valószínű az Irinyi János utca 13 régi címe
@@ -105,6 +105,9 @@ filters:
   Munkácsy Mihály utca:
     interpolation: all
     invalid: ['7']
+  Munkás tér:
+    # 1/6: nincs
+    invalid: ['1/6']
   Papkeszi utca:
     # 1: nincs
     invalid: ['1']
@@ -125,12 +128,13 @@ filters:
     # 91: utolsó ház a 87.
     invalid: ['91']
   Sorház utca:
-    # 6: nincs, házszámok 1 és 2.
-    invalid: ['6']
+    # 2/7, 6: nincs, házszámok 1 és 2.
+    invalid: ['2/7', '6']
   Szállás utca:
     # 2: nincs, első épület a 4.
+    # 4/x: csak sima 4 van.
     # 10: nincs, utolsó épület a 8.
-    invalid: ['2', '10']
+    invalid: ['2', '4/2', '4/4', '4/6', '10']
   Vadkörte utca:
     # 4: nincs, a 2-es ház használja a 4-es telket is. kiírva nincs se 2, se 4.
     invalid: ['4']
@@ -145,7 +149,7 @@ filters:
     invalid: ['30']
   Vízmű utca:
     # 2: nincs, helyén a Lidl parkoló van
-    invalid: ['2']
+    invalid: ['2', '2/3', '2/4']
   Zombor utca:
     # 43: 
     invalid: ['43']
