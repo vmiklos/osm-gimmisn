@@ -22,6 +22,9 @@ filters:
   Felsőmáli út:
     # 25: nincs kiírva
     invalid: ['25']
+  Fogoly köz:
+    # nincsenek kiírva házszámok az utcában
+    invalid: ['2']
   Fő utca:
     # 20: nincs, 18 után 22
     # 47: nincs, utolsó ház a 41.
@@ -51,6 +54,9 @@ filters:
   Hunyadi János utca:
     # 19: max páratlan a 11
     invalid: ['19']
+  Józsika köz:
+    # nincsenek kint a házszámok, magánút
+    invalid: ['18']
   Loki út:
     # 47/a = Szilvás köz 8
     # 48 = 32 van kírva
@@ -76,6 +82,9 @@ filters:
   Nyírfa köz:
     # 4, 6: nincs kiírva
     invalid: ['6']
+  Nyúl sétány:
+    # 8: nincs kiírva
+    invalid: ['8']
   Petőfi köz:
     # 2: nincs, illetve a földhivatalban Patak utca 14-re mutat, ami egész máshol van
     invalid: ['2']
