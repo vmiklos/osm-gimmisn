@@ -21,8 +21,9 @@ RUN make -C /opt/osm-gimmisn
 FROM fedora:41
 
 RUN dnf install -y \
-    git \
-    libicu
+    git-core \
+    libicu \
+    && dnf clean all
 
 WORKDIR /opt
 
