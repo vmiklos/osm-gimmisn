@@ -1,5 +1,5 @@
 [wsgi]
-reference_housenumbers = 'workdir/refs/hazszamok_20241028.tsv workdir/refs/hazszamok_kieg_20241028.tsv'
-reference_street = 'workdir/refs/utcak_20241028.tsv'
-reference_citycounts = 'workdir/refs/varosok_count_20241027.tsv'
-reference_zipcounts = 'workdir/refs/irsz_count_20241027.tsv'
+reference_housenumbers = 'workdir/refs/hazszamok_20241028.tsv workdir/refs/hazszamok_kieg_20241216.tsv'
+reference_street = 'workdir/refs/utcak_20241216.tsv'
+reference_citycounts = 'workdir/refs/varosok_count_20241216.tsv'
+reference_zipcounts = 'workdir/refs/irsz_count_20241216.tsv'
