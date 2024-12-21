@@ -59,27 +59,27 @@ street-filters:
   - Tisza szél
   - Vajhát tanya
 refstreets:
-  'Ady Endre utca': 'Ady Endre út'  # van Szikáncs Ady is
-  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
-  'Bánfi utca': 'Bánffy utca'
-  'Bárdi utca': 'Bárd utca'
-  'Báthory utca': 'Báthori utca'
-  'Béla cigány utca': 'Bélacigány utca'
-  'Berzsenyi Dániel utca': 'Berzsenyi utca'
-  'Bezerédy utca': 'Bezerédi utca'
-  'Egressy Béni utca': 'Egressy utca'
-  'Kazinczy Ferenc utca': 'Kazinczy utca'
-  'Kiss Ernő utca': 'Kis Ernő utca'
-  'Kocka utca': 'Koczka utca'
-  'Makói út': 'Makói országút'
-  'Nyizsnay Gusztáv utca': 'Nyizsnyai Gusztáv utca'
-  'Ötvenhat mártír utca': 'Ötvenhatmártír utca'
-  'Rárósi út': 'Rárósi utca'
-  'Sarkalyi utca': 'Sarkaji utca'
-  'Serház tér': 'Serháztér utca'
-  'Szalai utca': 'Szalay utca'
-  'Szentkirály utca': 'Szentkirályi utca'
-  'Téglagyári utca': 'Téglagyár utca'
+  'Ady Endre utca': 'Ady Endre út'  # van Szikáncs Ady is - https://www.openstreetmap.org/note/4558752
+  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'  # táblán Bajcsy-Zsilinszky Endre utca
+  'Bánfi utca': 'Bánffy utca'  # https://www.openstreetmap.org/note/4558754
+  'Bárdi utca': 'Bárd utca'  # https://www.openstreetmap.org/note/4558737
+  'Báthory utca': 'Báthori utca'  # táblán Báthory utca
+  'Béla cigány utca': 'Bélacigány utca'  # táblán Béla cigány utca
+  'Berzsenyi Dániel utca': 'Berzsenyi utca'  # https://www.openstreetmap.org/note/4558755
+  'Bezerédy utca': 'Bezerédi utca'  # https://www.openstreetmap.org/note/4558738
+  'Egressy Béni utca': 'Egressy utca'  # https://www.openstreetmap.org/note/4558762
+  'Kazinczy Ferenc utca': 'Kazinczy utca'  # https://www.openstreetmap.org/note/4558764
+  'Kiss Ernő utca': 'Kis Ernő utca'  # táblán Kiss Ernő utca
+  'Kocka utca': 'Koczka utca'  # https://www.openstreetmap.org/note/4558742
+  'Makói út': 'Makói országút'  # https://www.openstreetmap.org/note/4558730
+  'Nyizsnay Gusztáv utca': 'Nyizsnyai Gusztáv utca'  # https://www.openstreetmap.org/note/4558746
+  'Ötvenhat mártír utca': 'Ötvenhatmártír utca'  # táblán Ötvenhat mártír utca
+  'Rárósi út': 'Rárósi utca'  # https://www.openstreetmap.org/note/4558766
+  'Sarkalyi utca': 'Sarkaji utca'  # https://www.openstreetmap.org/note/4558735
+  'Serház tér': 'Serháztér utca' # https://www.openstreetmap.org/note/4558768
+  'Szalai utca': 'Szalay utca'  # https://www.openstreetmap.org/note/4558747
+  'Szentkirály utca': 'Szentkirályi utca'  # ócska táblán Szentkirály utca
+  'Téglagyári utca': 'Téglagyár utca'  # https://www.openstreetmap.org/note/4558749
   'Tóth-malom utca': 'Tóth malom utca'
   # Batida
   'Gagarin utca': 'Batida Gagarin utca'
