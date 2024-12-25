@@ -75,7 +75,7 @@ refstreets:
   # kérdéses
   # 'Fő utca': 'Börgöndi Fő utca' - nem mappelhető 2 Fő utca van - https://www.openstreetmap.org/note/4343362
   'Béla út': 'Béla utca'          # https://www.openstreetmap.org/note/4343406
-  'Bulcsú utca': 'Bulcsu utca'    # https://www.openstreetmap.org/note/4343407
+  'Bulcsú utca': 'Bulcsu utca'    # https://www.openstreetmap.org/note/4343407 - az utca egyik végén Bulcsú, másik végén Bulcsu
   'Új Csóri út': 'Csóri Új út'    # https://www.openstreetmap.org/note/4343412
   'Dévény utca': 'Dévényi utca'   # https://www.openstreetmap.org/note/4343413
   'Erdő sor': 'Erdősor'           # https://www.openstreetmap.org/note/4343414
