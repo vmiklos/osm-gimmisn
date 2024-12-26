@@ -14,22 +14,21 @@ refstreets:
   'Bányabekötő utca': 'Bánya bekötőút'
   'Báthory utca': 'Báthori utca'
   'Csokonai utca': 'Csokonai Vitéz M. utca'
-  'Dankó Pista utca': 'Dankó utca'
   'Hordó köz': 'Hordó utca'
   'Jókai Mór utca': 'Jókai utca'
-  'Keszi Balázs utca': 'Keszy Balázs utca'
-  'Kis köz': 'Kis köz utca'
   'Kismező utca': 'Kismező út'
   'Kossuth Lajos utca': 'Kossuth utca'
   'Mandulás lakótelep utca': 'Mandulás lakótelep'
   'Róbert Károly utca': 'Róbert Károly út'
   'Szélhelyi utca': 'Szélhelyi út'
-  'Vörösmarty Mihály utca': 'Vörösmarty utca'
   'Waldstein János utca': 'Waldstein János út'
   'Újlaky utca': 'Újlaky út'
   # ellenőrzött
   'Széphegyi utca': 'Széphegyi út'  # táblán Széphegyi u. - https://www.openstreetmap.org/note/4563494
   'Hétvezér utca': 'Hétvezér útja'  # táblán Hétvezér utca
+  'Keszi Balázs utca': 'Keszy Balázs utca' # táblán Keszi Balázs utca
+  'Kis köz': 'Kis köz utca'  # táblán Kis köz
+  'Dankó Pista utca': 'Dankó utca'  # táblán Dankó P. utca
   # Aradi vértanuk útja - https://www.openstreetmap.org/note/4563438
   # Baglyasi út - https://www.openstreetmap.org/note/4563436
   # Bercsényi utca - https://www.openstreetmap.org/note/4563446
@@ -37,6 +36,7 @@ refstreets:
   # Kálvária út - táblák: hagyomások Kálvária út, oszlopos Kálvária utca - https://www.openstreetmap.org/note/4563449
   # Szent István út - https://www.openstreetmap.org/note/4560479
   # Vásárhelyi András út - https://www.openstreetmap.org/note/4563491
+  # Vörösmarty utca - https://www.openstreetmap.org/note/4563403
 source: survey
 housenumber-letters: true
 inactive: true
