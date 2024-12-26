@@ -964,6 +964,10 @@ tihany:
     osmrelation: 1078511
     refcounty: "19"
     refsettlement: "190"
+varpalota:
+    osmrelation: 1078609
+    refcounty: "19"
+    refsettlement: "201"
 veszprem:
     osmrelation: 1078442
     refcounty: "19"
