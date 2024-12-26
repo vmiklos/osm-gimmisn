@@ -1,36 +1,42 @@
 missing-streets: 'yes'
 #osm-street-filters:
-#street-filters:
+street-filters:
   # nem igazi utcák
+  - Vasútállomás
+  # településrész/tanya
+  - Bánta puszta
+  - Baglyasi szőlőhegy
 refstreets:
   # kérdéses
-  'Aradi vértanúk utca': 'Aradi vértanúk útja'
   'Badacsonyszőlő': 'Badacsony szőlő'
-  'Baglyasi utca': 'Baglyasi út'
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Bartók Béla utca': 'Bartók Béla út'
-  'Bercsényi Miklós utca': 'Bercsényi utca'
   'Bányabekötő utca': 'Bánya bekötőút'
   'Báthory utca': 'Báthori utca'
   'Csokonai utca': 'Csokonai Vitéz M. utca'
   'Dankó Pista utca': 'Dankó utca'
   'Hordó köz': 'Hordó utca'
-  'Inotai utca': 'Inotai út'
   'Jókai Mór utca': 'Jókai utca'
   'Keszi Balázs utca': 'Keszy Balázs utca'
   'Kis köz': 'Kis köz utca'
   'Kismező utca': 'Kismező út'
   'Kossuth Lajos utca': 'Kossuth utca'
-  'Kálvária utca': 'Kálvária út'
   'Mandulás lakótelep utca': 'Mandulás lakótelep'
   'Róbert Károly utca': 'Róbert Károly út'
-  'Szent István útja': 'Szent István út'
   'Szélhelyi utca': 'Szélhelyi út'
-  'Széphegyi utca': 'Széphegyi út'
-  'Vásárhelyi András utca': 'Vásárhelyi András út'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
   'Waldstein János utca': 'Waldstein János út'
   'Újlaky utca': 'Újlaky út'
+  # ellenőrzött
+  'Széphegyi utca': 'Széphegyi út'  # táblán Széphegyi u. - https://www.openstreetmap.org/note/4563494
+  'Hétvezér utca': 'Hétvezér útja'  # táblán Hétvezér utca
+  # Aradi vértanuk útja - https://www.openstreetmap.org/note/4563438
+  # Baglyasi út - https://www.openstreetmap.org/note/4563436
+  # Bercsényi utca - https://www.openstreetmap.org/note/4563446
+  # Inotai út - https://www.openstreetmap.org/note/4563435
+  # Kálvária út - táblák: hagyomások Kálvária út, oszlopos Kálvária utca - https://www.openstreetmap.org/note/4563449
+  # Szent István út - https://www.openstreetmap.org/note/4560479
+  # Vásárhelyi András út - https://www.openstreetmap.org/note/4563491
 source: survey
 housenumber-letters: true
 inactive: true
