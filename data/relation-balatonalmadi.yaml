@@ -2,6 +2,8 @@ missing-streets: 'yes'
 filters:
   Ady Endre utca:
     # Ezek nincsenek
+    # 31-33 helyett csak 31 szerepel a kapun
+    # 39-41 helyett a ház oldalán egy halvány 37-es házszám szerepel
     invalid: ['17', '33', '39']
   Álmos utca:
     # 2-4: a tüzép csak Álmos utca 2 néven fut
@@ -42,11 +44,13 @@ filters:
     invalid: ['17', '34']
   Balatonfűzfői út:
     # 5-9: csak 9 van kiírva
+    # 59: 59 A. lh helyett 59/a formátumban vannak kiírva a címek, így sima 59 nincs.
     # 62: az apartman 62/a-val hivatkozik házrészre, de kiírva nincs, a másik oldalon 62/b van kiírva
+    # 94/a, 94/b: mindkét házrészen 94 van kiírva
     # 140 nincs
     # 158: autószerviz és a Kürt utca közt nincs ház
     # 226: szervizút végén 228, mellette 224
-    invalid: ['5', '7', '62', '140', '158', '226']
+    invalid: ['5', '7', '59', '62', '94a', '94b', '140', '158', '226']
   Ballada köz:
     # 8-10: már majdnem kész, nincs kint házszám. 2024-04. RESURVEY 2025
     # 16: egy üres telek szépen gondozva
@@ -60,18 +64,20 @@ filters:
     # 26 = Kálvin utca 1. Egyis sincs kiírva. RESURVEY 2024-07
     invalid: ['26']
   Bartók Béla út:
-    # 2024-04. RESURVEY 2025-04
+    # 2024-12. RESURVEY 2025-06
+    # 30 helyén 34
+    # 34 helyén 38
+    # 40 nincs kiírva
+    # 42 nem olvasható a tábla
+    # 44-46 helyén 48a, 48b
+    # 48-50 helyén 50, 50
     # 59 helyén 57/b van kírva, a házon és a kukán is
     # 69 helyén 61 van kiírva
     # 71 nincs kiírva és ház sincs
-    # 32-48 között régi hászámok: utána nincs kírva 48-ig semmi.
-    # 30 helyén 34, 34 helyén 38
-    # 36-42 között ellenőrizendő ki vannak-e írva a számok
-    # 44-46 helyén 48a, 48b
-    # 48-50 helyén 50, 50
+    # 65: 65/a, b, c
     # 130: üres telek
     # 158: mintha hátul lenne egy viskó, kiírva nincs semmi
-    invalid: ['30', '44', '46', '48', '59', '71', '130', '158']
+    invalid: ['30', '44', '46', '48', '59', '65', '71', '130', '158']
   Báthory utca:
     show-refstreet: false
   Batthyány utca:
@@ -175,8 +181,8 @@ filters:
     # invalid: ['4a']
   Fürj köz:
     # 3-5: csak 3 van kiírva
-    # 14: A Vadász utca felöli utcacsonk magáról a Vadász köz 14-et állítja
-    invalid: ['5', '14']
+    # 14: A Vadász utca felöli utcacsonk magáról a Vadász köz 14-et állítja (már nincs kiírva)
+    invalid: ['5']
   Galamb utca:
     # 18-20: csak 20 van kiírva
     invalid: ['18']
@@ -312,6 +318,8 @@ filters:
     show-refstreet: false
   Madách Imre utca:
     show-refstreet: false
+    # 17/a: 17/b van kiírva
+    invalid: ['17a']
   Magyar utca:
     # az utcát átszámozták, most vegyesen vannak kint a házszámok és mellesleg az utcának sok mellékága van
     # 30: KCR új, még nincs épület, 10592/6. RESURVEY 2025
@@ -323,13 +331,14 @@ filters:
     # 36: nincs kiírva
     # 40-44: 44 volt régen kiírva, most kikerül 40 44 a postaládára
     # 71: 39 az utolsó páratlan
-    invalid: ['25a', '36']
+    invalid: ['36']
   Martinovics utca:
     # 14: 2 db 16 van táblázva
     invalid: ['14']
   Maros utca:
     # 3: nincs ilyen, csak 3/a. földhivatal szerint is csak 3/a van.
     # 15-17: csak 17 van kiírva
+    # 18: nincs kiírva, nem rég épült. RESURVEY 2025.04
     invalid: ['3', '15']
   # Mátyás király utca:
     # 69: még épül. RESURVEY 2025
@@ -470,6 +479,14 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '26'}
+  Vajda János utca:
+    # 1a: Az 1-es van kiírva elméletileg ez 2 telek lenne, 1 és 1/a ennek nem látom nyomát
+    # 3 nincs kiírva
+    # 6 nincs kiírva
+    # 8/b: 8/2 van kiírva
+    # 8/c: rendezési terv szerint 8/3, semmi sincs kiírva
+    # 10/a: nincs kiírva
+    invalid: ['1a', '8b', '8c']
   Városház tér:
     # 2: Földhivatal szerint a vasútállomás Városház tér 2-3, MÁV szerint csak 3
     # 7: coop volt. a helyén nyíló DM már az 5-ös házszámot használja, ami ugyanaz mint az étterem (1 telken van).
