@@ -13,10 +13,15 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '28'}
-  Bekenye köz:
+  Berkenye köz:
     # 1: sorház 1/a-1/f
     # házak 1-4 között, 5 és 11 már nincs
     invalid: ['1', '5', '11']
+  Boglárka utca:
+    # 1: nincs, 1/1 és 1/2 2 új építésű lakóház a sorházak előtt még, majd 1/a-1/f-ig egy sorház
+    # 1-7-ig, 2-10-ig sorházak, egyedi számok nincsenek, 2/a formában vannak fent pontként, ezért 7 és 2/10 nincs, 8/a-f felbontva.
+    # 9-15 és 12-24-ig egyedi házakra van bontva, nincsenek betűk.
+    invalid: ['1', '2', '7', '8a-f']
   Céhház utca:
     # 35, 37: utolsó házszám 33, utána a Dózsa György Általános Iskola tömbje
     invalid: ['35', '37']
@@ -25,13 +30,17 @@ filters:
     invalid: ['78']
   Erzsébet liget:
     # max páratlan 17
-    invalid: ['21', '23', '25']
+    invalid: ['21', '25']
   Gelencsér utca:
     # 9 nincs: max házszám a 7
     invalid: ['9']
   Hársfa utca:
     # 1-55, 2-48
     invalid: ['85']
+  Hérics utca:
+    # 1-11-ig sorházak, egyedi számok nincsenek 1/a formában vannak fent pontként.
+    # 12-27-ig egyedi házakra van bontva, nincsenek betűk.
+    invalid: ['1a-f', '4a-f', '3a-f', '5a-h', '10']
   Kankalin utca:
     # 1: sorház: 1/a-1/f, 1/3 nincs
     # 2: sorház: 2/a-2/e, sima 2 nincs
@@ -56,14 +65,25 @@ filters:
   Pajta utca:
     # 26, 34: utolsó páros a 24.
     invalid: ['26', '34']
+  Sáfrány utca:
+    # 1-11-ig sorházak, egyedi számok nincsenek, 2/a formában vannak fent pontként, ezért ezek nincsenek: 3,4,6,7,11
+    # 6/6, 11/1: 6/f és 11/a formában szerepel
+    # 8/a-f, 9/a-f. 10/a-h: felbontva
+    # 12-30-ig egyedi házakra van bontva, nincsenek betűk.
+    # 32: 32/a és 32/b egy ugyanolyan ház mind a 12-30, de itt 2 lakás van.
+    invalid: ['3', '4', '6', '6/6', '7', '8a-f', '9a-f', '10a-h', '11', '11/1']
   Sigray Jakab utca:
     # 17: nincs, max páratlan házszám a 15.
     # 34: nincs, max páros házszám a 28.
-    invalid: ['17', '34']
+    invalid: ['17']
   Szajkó utca:
     # 1 = Csereredi út 31.
     # 3,5 = 5 és 5/b van a két épületeten
     invalid: ['1', '3']
+  Tátorján utca:
+    # 1-5-ig sorházak, egyedi számok nincsenek 2/a formában vannak fent pontként, ezért 2/5, 2/6 nincs.
+    # 6-17-ig egyedi házakra van bontva, nincsenek betűk.
+    invalid: ['2/5', '2/6', '2a-f']
   Vár utca:
     # 24: utolsó páros a 20.
     invalid: ['24']
