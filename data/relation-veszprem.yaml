@@ -35,6 +35,14 @@ filters:
   Liliom utca:
     # 49: a számozás káoszos, de a maximum 12
     invalid: ['49']
+  Lóczy Lajos utca:
+    # 6g: sorház: 6/a-6/f
+    # 13: sorház: 13/a-13/f egyesével, egyben nincs
+    # 17: sorház: 17/a-17/f
+    # 19: sorház: 19/a-19/f egyesével, egyben nincs
+    # 33: sorház: ajtók vannak 1-6-ig a többi házzal ellentétben nincsenek betűjelek a sorház ajtajain
+    # 35: sorház: ajtók nem látszanak, kapun 35 szerepel
+    invalid: ['6g', '13a-f','17', '19a-f', '33/5', '33/6', '33a', '33b', '33c', '33d', '33e', '35/1', '35/2', '35/3', '35/4', '35/5', '35/6']
   Pajta utca:
     # 26, 34: utolsó páros a 24.
     invalid: ['26', '34']
