@@ -13,6 +13,10 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '28'}
+  Bekenye köz:
+    # 1: sorház 1/a-1/f
+    # házak 1-4 között, 5 és 11 már nincs
+    invalid: ['1', '5', '11']
   Céhház utca:
     # 35, 37: utolsó házszám 33, utána a Dózsa György Általános Iskola tömbje
     invalid: ['35', '37']
@@ -28,6 +32,11 @@ filters:
   Hársfa utca:
     # 1-55, 2-48
     invalid: ['85']
+  Kankalin utca:
+    # 1: sorház: 1/a-1/f, 1/3 nincs
+    # 2: sorház: 2/a-2/e, sima 2 nincs
+    # 4: sorház: 4/a-e, egyben nincs
+    invalid: ['1/3', '2', '4a-e']
   Kórház utca:
     # páros oldal nincs, páratlanon az egyetlen házszám a kórház
     ranges:
