@@ -64,6 +64,7 @@ street-filters:
 osm-street-filters:
   # nem igazi utcák
   - Somoskői kőszállító vasút
+  - Salgó úti felüljáró
   # parkok/sétányok
   - Dolinka Pihenőpark és játszótér
   - Madárpark
