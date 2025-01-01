@@ -1,8 +1,30 @@
 missing-streets: 'yes'
 filters:
+  Ady Endre utca:
+    # 2, 2b: nincs, lebontva, első ház a 4.
+    # 7: 7/b és 7/c van táblázva az üzletházon
+    # 11/4, 11/d: csak sima 11 van
+    # 13/a: csak sima 13 van
+    # 26/3, 26/a-d: kapun csak 26 van, a többi ha van is, magánterületen.
+    # 44/d: nincs, csak sima 44
+    # 50/b: nincs, csak sima 50.
+    # 51/a, 51/c: csak sima 51.
+    # 52/1: nincs, csak sima 52.
+    # 53/a, 53/d: nincs, csak sima 53.
+    # 54/a-d: felbontva
+    # 56/c: nincs, csak sima 56.
+    # 57/e: nincs, csak sima 57.
+    # 58/b: nincs, csak sima 58.
+    # 60/a, 60/b, 62/b: ikerház 60 és 62-es számmal, betűjelek nincsenek.
+    invalid: ['2', '2b', '7', '11/4', '11d', '13a', '26/3','26a', '26b', '26c', '26d', '44d', '50b', '51a', '51c', '52/1', '53a', '53d', '54a-d', '55b', '55c', '55e', '56c', '57e', '58b', '60a', '60b', '62b']
   Akácfa utca:
     # 1-43, 2-50
     invalid: ['73']
+  Arany János utca:
+    # 16a: nincs, csak sima 16 van.
+    # 41a: semmi sincs táblázva.
+    # 49/a, 49/b: nincsenek
+    invalid: ['16a', '41a', '49a', '49b']
   Árpád utca:
     # 10: nincs, valószínű a Pajta utca 27 másik fele volt
     # 17: 15 után 19
@@ -13,6 +35,10 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '28'}
+  Bartók Béla utca:
+    # 6/1: nincs, csak sima 6.
+    # 12/a: nincs, csak sima 12.
+    invalid: ['6/1', '12a']
   Berkenye köz:
     # 1: sorház 1/a-1/f
     # házak 1-4 között, 5 és 11 már nincs
@@ -27,7 +53,9 @@ filters:
     invalid: ['35', '37']
   Eötvös Károly utca:
     # 1-23, 2-28
-    invalid: ['78']
+    # 8b: nincs, csak 8/a és 8/a
+    # 18/i: nincs csak 18/1
+    invalid: ['8b', '18i', '78']
   Erzsébet liget:
     # max páratlan 17
     invalid: ['21', '25']
@@ -62,16 +90,24 @@ filters:
     # 33: sorház: ajtók vannak 1-6-ig a többi házzal ellentétben nincsenek betűjelek a sorház ajtajain
     # 35: sorház: ajtók nem látszanak, kapun 35 szerepel
     invalid: ['6g', '13a-f', '17', '19a-f', '31a-d', '33/5', '33/6', '33a', '33b', '33c', '33d', '33e', '35/1', '35/2', '35/3', '35/4', '35/5', '35/6']
+  # Őrház utca:
+    # 9: 9/a, 9/b - Haszkovó utca túloldalán - "NAPFÉNY PRESSZÓ"
+    # invalid: ['9']
   Pajta utca:
     # 26, 34: utolsó páros a 24.
     invalid: ['26', '34']
+  Rozmaring utca:
+    # 28a: nincs, 28 és 28/1 van.
+    # 34a: nincs, csak sima 34.
+    # 14/2, 14/a-14/d: csak sima 14 van
+    invalid: ['14/2', '14a', '14b', '14c', '14d', '28a', '34a']
   Sáfrány utca:
-    # 1-11-ig sorházak, egyedi számok nincsenek, 2/a formában vannak fent pontként, ezért ezek nincsenek: 3,4,6,7,11
+    # 1-11-ig sorházak, egyedi számok nincsenek, 2/a formában vannak fent pontként, ezért ezek nincsenek: 3,4,6,7,8,11
     # 6/6, 11/1: 6/f és 11/a formában szerepel
     # 8/a-f, 9/a-f. 10/a-h: felbontva
     # 12-30-ig egyedi házakra van bontva, nincsenek betűk.
     # 32: 32/a és 32/b egy ugyanolyan ház mind a 12-30, de itt 2 lakás van.
-    invalid: ['3', '4', '6', '6/6', '7', '8a-f', '9a-f', '10a-h', '11', '11/1']
+    invalid: ['3', '4', '6', '6/6', '7', '8', '8a-f', '9a-f', '10a-h', '11', '11/1']
   Sigray Jakab utca:
     # 17: nincs, max páratlan házszám a 15.
     # 34: nincs, max páros házszám a 28.
@@ -80,6 +116,9 @@ filters:
     # 1 = Csereredi út 31.
     # 3,5 = 5 és 5/b van a két épületeten
     invalid: ['1', '3']
+  Széchenyi István utca:
+    # 23: nincs, páratlan 1-9
+    invalid: ['23']
   Tátorján utca:
     # 1-5-ig sorházak, egyedi számok nincsenek 2/a formában vannak fent pontként, ezért 2/5, 2/6 nincs.
     # 6-17-ig egyedi házakra van bontva, nincsenek betűk.
