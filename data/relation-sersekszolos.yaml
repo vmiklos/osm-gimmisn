@@ -1,2 +1,4 @@
 missing-streets: 'yes'
+osm-street-filters:
+  - Külterület
 inactive: true
