@@ -57,6 +57,8 @@ refstreets:
   'Tetétlen utca': 'Tetétlen dűlő'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
   'Závodszy Géza utca': 'Závodszky Géza utca'
+  # írásmód
+  'Dr. Cseresnyés Ernő utca': 'dr. Cseresnyés Ernő utca'
 source: survey
 housenumber-letters: false
 inactive: false
