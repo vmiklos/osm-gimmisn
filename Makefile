@@ -47,6 +47,7 @@ RS_OBJECTS = \
 	src/parse_access_log/tests.rs \
 	src/ranges.rs \
 	src/ranges/tests.rs \
+	src/serde.rs \
 	src/sql.rs \
 	src/stats.rs \
 	src/stats/tests.rs \
@@ -107,7 +108,7 @@ target/${TARGET_PATH}/osm-gimmisn: $(RS_OBJECTS) Cargo.toml Makefile
 
 # Without coverage: cargo test --lib
 check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo data/yamls.cache
-	cargo llvm-cov --lib -q --ignore-filename-regex system.rs --show-missing-lines --fail-under-lines 100 ${CARGO_OPTIONS} -- --test-threads=1
+	cargo llvm-cov --lib -q --ignore-filename-regex '(serde|system).rs' --show-missing-lines --fail-under-lines 100 ${CARGO_OPTIONS} -- --test-threads=1
 
 src/browser/config.ts: workdir/wsgi.ini Makefile
 	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell (grep uri_prefix workdir/wsgi.ini || echo "/osm") |sed 's/uri_prefix = //') > $@
