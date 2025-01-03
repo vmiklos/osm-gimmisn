@@ -22,6 +22,7 @@ pub mod missing_housenumbers;
 mod overpass_query;
 pub mod parse_access_log;
 mod ranges;
+mod serde;
 mod sql;
 mod stats;
 pub mod sync_ref;

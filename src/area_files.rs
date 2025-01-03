@@ -20,68 +20,6 @@ use log::info;
 #[cfg(test)]
 use std::println as info;
 
-/// OverpassTags contains various tags about one Overpass element.
-#[derive(serde::Deserialize)]
-struct OverpassTags {
-    name: Option<String>,
-    highway: Option<String>,
-    service: Option<String>,
-    surface: Option<String>,
-    leisure: Option<String>,
-
-    // region: housenumbers
-    #[serde(rename(deserialize = "addr:street"))]
-    street: Option<String>,
-    #[serde(rename(deserialize = "addr:housenumber"))]
-    housenumber: Option<String>,
-    #[serde(rename(deserialize = "addr:postcode"))]
-    postcode: Option<String>,
-    #[serde(rename(deserialize = "addr:place"))]
-    place: Option<String>,
-    #[serde(rename(deserialize = "addr:housename"))]
-    housename: Option<String>,
-    #[serde(rename(deserialize = "addr:conscriptionnumber"))]
-    conscriptionnumber: Option<String>,
-    #[serde(rename(deserialize = "addr:flats"))]
-    flats: Option<String>,
-    #[serde(rename(deserialize = "addr:floor"))]
-    floor: Option<String>,
-    #[serde(rename(deserialize = "addr:door"))]
-    door: Option<String>,
-    #[serde(rename(deserialize = "addr:unit"))]
-    unit: Option<String>,
-    #[serde(rename(deserialize = "addr:city"))]
-    city: Option<String>,
-    // endregion housenumbers
-    fixme: Option<String>,
-}
-
-/// OverpassElement represents one result from Overpass.
-#[derive(serde::Deserialize)]
-struct OverpassElement {
-    id: u64,
-    #[serde(rename(deserialize = "type"))]
-    osm_type: String,
-    pub user: Option<String>,
-    pub timestamp: Option<String>,
-    tags: OverpassTags,
-}
-
-#[derive(serde::Deserialize)]
-struct OverpassTimes {
-    #[serde(with = "time::serde::rfc3339")]
-    timestamp_osm_base: time::OffsetDateTime,
-    #[serde(with = "time::serde::rfc3339")]
-    timestamp_areas_base: time::OffsetDateTime,
-}
-
-/// OverpassResult is the result from Overpass.
-#[derive(serde::Deserialize)]
-struct OverpassResult {
-    osm3s: OverpassTimes,
-    elements: Vec<OverpassElement>,
-}
-
 /// One row in the `osm_streets` SQL table for a relation. Keep this in sync with data/streets-template.overpassql.
 pub struct OsmStreet {
     /// Object ID.
@@ -166,7 +104,7 @@ impl RelationFiles {
         ctx: &context::Context,
         result: &str,
     ) -> anyhow::Result<()> {
-        let overpass: OverpassResult = match serde_json::from_str(result) {
+        let overpass: crate::serde::OverpassResult = match serde_json::from_str(result) {
             Ok(value) => value,
             // Not a JSON, ignore.
             Err(_) => {
@@ -227,7 +165,7 @@ impl RelationFiles {
         ctx: &context::Context,
         result: &str,
     ) -> anyhow::Result<()> {
-        let overpass: OverpassResult = match serde_json::from_str(result) {
+        let overpass: crate::serde::OverpassResult = match serde_json::from_str(result) {
             Ok(value) => value,
             // Not a JSON, ignore.
             Err(_) => {
@@ -290,7 +228,7 @@ impl RelationFiles {
 }
 
 pub fn write_whole_country(ctx: &context::Context, result: &str) -> anyhow::Result<()> {
-    let overpass: OverpassResult = match serde_json::from_str(result) {
+    let overpass: crate::serde::OverpassResult = match serde_json::from_str(result) {
         Ok(value) => value,
         // Not a JSON, ignore.
         Err(_) => {
