@@ -93,6 +93,10 @@ filters:
   # Őrház utca:
     # 9: 9/a, 9/b - Haszkovó utca túloldalán - "NAPFÉNY PRESSZÓ"
     # invalid: ['9']
+  Madách Imre utca:
+    # 32, 34: nincs, épületek lebontva
+    # 38/a, 38/b: csak sima 38 van.
+    invalid: ['32', '34', '38a', '38b']
   Pajta utca:
     # 26, 34: utolsó páros a 24.
     invalid: ['26', '34']
@@ -119,6 +123,11 @@ filters:
   Széchenyi István utca:
     # 23: nincs, páratlan 1-9
     invalid: ['23']
+  Szigethy József utca:
+    # 8/2: csak sima 8 van
+    # 13a: a házon semmi sincs kiírva
+    # 22: 22/1 és 22/2 van táblázva
+    invalid: ['8/2', '13a', '22']
   Tátorján utca:
     # 1-5-ig sorházak, egyedi számok nincsenek 2/a formában vannak fent pontként, ezért 2/5, 2/6 nincs.
     # 6-17-ig egyedi házakra van bontva, nincsenek betűk.
