@@ -3,6 +3,8 @@ filters:
   Budai út:
     # 968: a páros oldalon a 440 az utolsó házszám.
     invalid: ['968']
+  Kápolna tér:
+    interpolation: 'all'
 osm-street-filters:
   # Nem igazi utcák
   - Alakulótér
