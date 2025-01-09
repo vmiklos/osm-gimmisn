@@ -1,5 +1,11 @@
 missing-streets: 'yes'
 filters:
+  Béla utca:
+    interpolation: 'all'
+    # 63: a 61 az utolsó házszám.
+    # 83: a 61 az utolsó házszám.
+    # 107: a 61 az utolsó házszám.
+    invalid: ['63', '83', '107']
   Beregszászi utca:
     # 1/A: nincs ilyen, csak sima 1 van.
     # 1/B: nincs ilyen, csak sima 1 van.
