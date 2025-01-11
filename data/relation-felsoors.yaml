@@ -2,10 +2,31 @@ missing-streets: 'yes'
 filters:
   Almádi út:
     # hrsz: 58/9, 60/1
-    invalid: ['58', '60']
+    invalid: ['58/9', '60/1']
+  Bicske utca:
+    # 50/108: hrsz 050/108
+    invalid: ['50']
+  Eperfa sor:
+    # 1: 1/1 és 1/2
+    # 77 = hrsz 077
+    invalid: ['1']
+  Fő utca:
+    # 6/b: nincs, csak
+    # 8/b: 6/a van kiírva
+    invalid: ['6b', '8b']
+  Főszőlőki utca:
+    # 50/54: hrsz 050/54
+    invalid: ['50']
   Hosszú utca:
     # 50/34: hrsz 050/34 - https://www.openstreetmap.org/node/11076865831
     invalid: ['50']
+  Kishegyi utca:
+    # 75/37: hrsz 075/37
+    invalid: ['75']
+  Petőfi Sándor utca:
+    # 9: 7 van kiírva. 5,7,11 van, hivatalosan pedig a 5,9,11
+    # 22/a: csak sima 22 van kiírva.
+    invalid: ['9', '22a']
 refstreets:
   # kérdéses
   'Dália utca': 'Dália köz'
