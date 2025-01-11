@@ -29,6 +29,12 @@ filters:
     # 19: a páratlan oldalon a 11 az utolsó házszám.
     # 67: a páratlan oldalon a 11 az utolsó házszám.
     invalid: ['5a', '19', '67']
+  Malackai utca:
+    # 3: sima 3 nincs, csak 3/1, 3/2.
+    # 5: sima 5 nincs, csak 5/1, 5/2.
+    # 2/B: nincs ilyen, csak 2/A, 2.
+    # 32/2: a páros oldalon a 22 az utolsó házszám.
+    invalid: ['3', '5', '2b', '32/2']
   Mester utca:
     interpolation: 'all'
   Munkás utca:
@@ -40,8 +46,14 @@ filters:
   Szigligeti utca:
     # 1/A: nincs ilyen, csak 1/1, 1/2, 1 van.
     invalid: ['1a']
+  Szilágyi utca:
+    # 810: a páros oldalon a 16 az utolsó házszám.
+    invalid: ['810']
   Szövetség utca:
     interpolation: 'all'
+  Tas utca:
+    # 348/B: a páros oldalon a 28 az utolsó házszám.
+    invalid: ['348b']
   Vajda sor:
     interpolation: 'all'
 osm-street-filters:
