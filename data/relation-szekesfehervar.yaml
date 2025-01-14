@@ -27,6 +27,24 @@ filters:
     # 3: sima 3 nincs, csak 3/1, 3/2.
     # 14: sima 14 nincs, csak 14/1, 14/2.
     invalid: ['3', '14']
+  Fiskális út:
+    # Átszámozták az utcát, a régi házszámok 2-vel nagyobbak voltak. A sok nem létező alátöréses házszám is onnan maradhatott.
+    # 12/A: nincs ilyen, csak sima 12 van.
+    # 44/A: nincs ilyen, csak sima 44 van.
+    # 50/A: nincs ilyen, csak sima 50 van.
+    # 52/A: nincs ilyen, csak sima 52 van.
+    # 54/A: nincs ilyen, csak sima 54 van.
+    # 56/A: nincs ilyen, csak sima 56 van.
+    # 58/A: nincs ilyen, csak sima 58 van.
+    # 60: sima 60 nincs, csak 60/A, 60/B.
+    # 60/C: nincs ilyen, csak 60/A, 60/B.
+    # 66/C: nincs ilyen, csak sima 66 van.
+    # 88/A: nincs ilyen, csak sima 88 van.
+    # 88/B: nincs ilyen, csak sima 88 van.
+    # 88/F: nincs ilyen, csak sima 88 van.
+    # 90/A: nincs ilyen, csak sima 90 van.
+    # 178: a páros oldalon a 176 az utolsó házszám. A 178 régi házszám, át van húzva a tábla.
+    invalid: ['12a', '44a', '50a', '52a', '54a', '56a', '58a', '60', '60c', '66c', '88a', '88b', '88f', '90a', '178']
   Hajnal utca:
     interpolation: 'all'
   Kadocsa utca:
