@@ -62,12 +62,12 @@ fn get_frequent_relations(
     let log_stream = std::io::BufReader::new(std::fs::File::open(log_file)?);
     // Example line:
     // a.b.c.d - - [01/Jul/2020:00:08:01 +0200] "GET /osm/street-housenumbers/budapest_12/update-result HTTP/1.1" 200 1747 "-" "Mozilla/5.0 ..."
+    let regex = regex::Regex::new(".*\"GET ([^ ]+) .*")?;
     for line in log_stream.lines() {
         let line = line?;
         if is_search_bot(&line) {
             continue;
         }
-        let regex = regex::Regex::new(".*\"GET ([^ ]+) .*")?;
         let mut captures_iter = regex.captures_iter(&line);
         let group = captures_iter.next();
         if group.is_none() {
@@ -125,8 +125,9 @@ fn get_relation_create_dates(
     ])?;
     let mut timestamp = 0_i64;
 
+    let author_regex = regex::Regex::new("author-time ([0-9]+)")?;
+    let regex = regex::Regex::new("\t([^ :]+):")?;
     for line in process_stdout.lines() {
-        let regex = regex::Regex::new("\t([^ :]+):")?;
         let mut captures_iter = regex.captures_iter(line);
         let group = captures_iter.next();
         if let Some(matches) = group {
@@ -138,7 +139,6 @@ fn get_relation_create_dates(
             continue;
         }
 
-        let author_regex = regex::Regex::new("author-time ([0-9]+)")?;
         let mut captures_iter = author_regex.captures_iter(line);
         let group = captures_iter.next();
         if let Some(matches) = group {

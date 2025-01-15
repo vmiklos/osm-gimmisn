@@ -30,9 +30,9 @@ pub fn overpass_query_need_sleep(ctx: &context::Context) -> i32 {
     };
     let mut sleep = 0;
     let mut available = false;
+    let re = regex::Regex::new(r".*in (-?\d+) seconds.*").unwrap();
     for line in status.lines() {
         if line.starts_with("Slot available after:") {
-            let re = regex::Regex::new(r".*in (-?\d+) seconds.*").unwrap();
             for cap in re.captures_iter(line) {
                 // This should neve fail since the regex only allows numbers.
                 sleep = cap[1].parse::<i32>().expect("parse() to i32 failed");
