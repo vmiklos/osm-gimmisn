@@ -84,6 +84,12 @@ filters:
     interpolation: 'all'
   Orsovai utca:
     interpolation: 'all'
+  Püspök kertváros:
+    interpolation: 'all'
+    # 1/3: nincs ilyen, csak sima 1 van, ez abban lesz a 3-as lakás.
+    # 2/A: nincs ilyen, csak sima 2 van.
+    # 46: nincs ilyen, a 30 az utolsó házszám.
+    invalid: ['1/3', '2a', '46']
   Rózsahegyi utca:
     # 131: a páratlan oldalon az 53 az utolsó házszám.
     invalid: ['131']
