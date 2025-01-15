@@ -71,6 +71,10 @@ filters:
     invalid: ['3', '5', '2b', '32/2']
   Mester utca:
     interpolation: 'all'
+  Mészöly Géza utca:
+    # 187: a páratan oldalon a 7 az utolsó házszám.
+    # 60: a páros oldalon a 18 az utolsó házszám.
+    invalid: ['187', '60']
   Munkás utca:
     interpolation: 'all'
   Murányi utca:
@@ -80,6 +84,9 @@ filters:
     interpolation: 'all'
   Orsovai utca:
     interpolation: 'all'
+  Rózsahegyi utca:
+    # 131: a páratlan oldalon az 53 az utolsó házszám.
+    invalid: ['131']
   Szigligeti utca:
     # 1/A: nincs ilyen, csak 1/1, 1/2, 1 van.
     invalid: ['1a']
