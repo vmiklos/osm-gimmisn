@@ -80,6 +80,10 @@ filters:
   Murányi utca:
     # 330: a páros oldalon a 46 az utolsó házszám.
     invalid: ['330']
+  Nagyszombati utca:
+    # 133: sima 133 nincs, csak 133/1, 133/2.
+    # 265: sima 265 nincs, csak 265/1, 265/2.
+    invalid: ['133', '265']
   Orgona utca:
     interpolation: 'all'
   Orsovai utca:
