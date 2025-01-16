@@ -24,9 +24,11 @@ filters:
     # 77 = hrsz 077
     invalid: ['1']
   Fő utca:
-    # 6/b: nincs, csak
+    #  6/b: nincs, csak
     # 8/b: 6/a van kiírva
-    invalid: ['6b', '8b']
+    # 67/B: 67 és 67/a van kiírva
+    # 75/B: 75 és 75/a van kiírva
+    invalid: ['6b', '8b', '67b', '75b']
   Főszőlőki utca:
     # 50/54: hrsz 050/54, a Főszőlőki utca mellett van - https://www.openstreetmap.org/way/1192516322
     invalid: ['50']
@@ -54,6 +56,10 @@ filters:
     # 30/B: 30 van kiírva
     # 32: nem létező házszám
     invalid: ['20', '22', '24', '30b', '32']
+  Táncsics Mihály utca:
+    # 1: nincs kiírva, földhivatal szerint 1/1 és 1/2 van.
+    # 3/a, 3/b: 3 és 3/b van
+    invalid: ['1', '3a']
 refstreets:
   # kérdéses
   'Dália utca': 'Dália köz'
