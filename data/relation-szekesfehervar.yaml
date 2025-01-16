@@ -96,7 +96,8 @@ filters:
     invalid: ['1/3', '2a', '46']
   Rózsahegyi utca:
     # 131: a páratlan oldalon az 53 az utolsó házszám.
-    invalid: ['131']
+    # 14: sima 14 nincs, csak 14/A, 14/B, 14/C, 14/D.
+    invalid: ['131', '14']
   Szigligeti utca:
     # 1/A: nincs ilyen, csak 1/1, 1/2, 1 van.
     invalid: ['1a']
