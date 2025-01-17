@@ -109,6 +109,11 @@ filters:
   Tas utca:
     # 348/B: a páros oldalon a 28 az utolsó házszám.
     invalid: ['348b']
+  Tompa Mihály utca:
+    # 38: sima 38 nincs, csak 38/A, 38/B.
+    # 62: sima 62 nincs, csak 62/A, 62/2.
+    # 64: sima 64 nincs, csak 64/1, 64/2.
+    invalid: ['38', '62', '64']
   Vajda sor:
     interpolation: 'all'
 osm-street-filters:
@@ -198,7 +203,7 @@ refstreets:
   'Erdő sor': 'Erdősor'                  # táblán Erdő sor - https://www.openstreetmap.org/note/4343414
   'Gellért újsor': 'Gellért új sor'      # táblán Gellért újsor, másik helyen Gellért újsor + Kelemen Béla köz
   'Gólya dűlő': 'Gólya I. dűlő'          # táblán Gólya dűlő
-  'Havranek köz': 'Havranek József köz ' # táblán Havranek köz
+  'Havranek köz': 'Havranek József köz ' # táblán Havranek köz - https://www.openstreetmap.org/note/4577925
   'Hosszúsétatér utca': 'Hosszúsétatér'  # táblán Hosszúsétatér u.
   'Körösmezei utca': 'Kőrösmezei utca'   # táblán Körösmezei utca - https://www.openstreetmap.org/note/4343434
   'Körmöci utca': 'Körmőci utca'         # táblán Körmöci utca - https://www.openstreetmap.org/note/4343436
