@@ -45,6 +45,8 @@ filters:
     # 90/A: nincs ilyen, csak sima 90 van.
     # 178: a páros oldalon a 176 az utolsó házszám. A 178 régi házszám, át van húzva a tábla.
     invalid: ['12a', '44a', '50a', '52a', '54a', '56a', '58a', '60', '60c', '66c', '88a', '88b', '88f', '90a', '178']
+  Fórum tér:
+    interpolation: 'all'
   Hajnal utca:
     interpolation: 'all'
   Kadocsa utca:
@@ -75,6 +77,9 @@ filters:
     # 187: a páratan oldalon a 7 az utolsó házszám.
     # 60: a páros oldalon a 18 az utolsó házszám.
     invalid: ['187', '60']
+  Móri út:
+    # 354: a páros oldalon a 154 az utolsó házszám.
+    invalid: ['354']
   Munkás utca:
     interpolation: 'all'
   Murányi utca:
@@ -98,6 +103,9 @@ filters:
     # 131: a páratlan oldalon az 53 az utolsó házszám.
     # 14: sima 14 nincs, csak 14/A, 14/B, 14/C, 14/D.
     invalid: ['131', '14']
+  Sajó utca:
+    # 225: a páratlan oldalon a 195 az utolsó házszám.
+    invalid: ['225']
   Szigligeti utca:
     # 1/A: nincs ilyen, csak 1/1, 1/2, 1 van.
     invalid: ['1a']
