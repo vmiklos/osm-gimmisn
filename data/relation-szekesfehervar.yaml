@@ -169,7 +169,7 @@ osm-street-filters:
 street-filters:
   # lakótelep
   - Börgönd lakótelep  # Börgönd - https://www.openstreetmap.org/node/312963221
-  - Fáy András lakótelep  # https://www.openstreetmap.org/node/985383543
+  # - Fáy András lakótelep  # https://www.openstreetmap.org/node/985383543
   - Kisfalud Ujtelep  # Kisfalud - https://www.openstreetmap.org/node/156999322
   # nem igazi utcák
   - Aszalvölgyi vízmű
@@ -199,7 +199,7 @@ street-filters:
 refstreets:
   # kérdéses
   # 'Fő utca': 'Börgöndi Fő utca' - nem mappelhető 2 Fő utca van - https://www.openstreetmap.org/note/4343362
-  'Bulcsú utca': 'Bulcsu utca'    # https://www.openstreetmap.org/note/4343407 - az utca egyik végén Bulcsú, másik végén Bulcsu
+  'Fáy András utca': 'Fáy András lakótelep'  # https://www.openstreetmap.org/note/4592292
   'Karinthy Frigyes tér': 'Karinthy tér'   # https://www.openstreetmap.org/note/4343415
   'Kereszttöltés utca': 'Kereszttöltés út' # https://www.openstreetmap.org/note/4343417
   'Kistelekitanya': 'Kisteleki tanya'   # https://www.openstreetmap.org/note/4343428
@@ -207,6 +207,7 @@ refstreets:
   'Murvás út': 'Murvás utca'       # https://www.openstreetmap.org/note/4343378
   'Vargacsatorna part': 'Vargacsatornapart'  # https://www.openstreetmap.org/note/4343438
   # ellenőrzött
+  'Bulcsú utca': 'Bulcsu utca'           # az utca egyik végén Bulcsú, másik végén Bulcsu - https://www.openstreetmap.org/note/4343407
   'Csóri Régi utca': 'Régi Csóri út'     # új táblákon Csóri Régi utca, régi táblán Régi Csóri út
   'Erdő sor': 'Erdősor'                  # táblán Erdő sor - https://www.openstreetmap.org/note/4343414
   'Gellért újsor': 'Gellért új sor'      # táblán Gellért újsor, másik helyen Gellért újsor + Kelemen Béla köz
