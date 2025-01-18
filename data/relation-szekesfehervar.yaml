@@ -89,6 +89,9 @@ filters:
     # 133: sima 133 nincs, csak 133/1, 133/2.
     # 265: sima 265 nincs, csak 265/1, 265/2.
     invalid: ['133', '265']
+  Nemes utca:
+    # 33-35: nincs ilyen, csak 33/1, 33/2, 35.
+    invalid: ['33']
   Orgona utca:
     interpolation: 'all'
   Orsovai utca:
@@ -199,7 +202,6 @@ street-filters:
 refstreets:
   # kérdéses
   # 'Fő utca': 'Börgöndi Fő utca' - nem mappelhető 2 Fő utca van - https://www.openstreetmap.org/note/4343362
-  'Fáy András utca': 'Fáy András lakótelep'  # https://www.openstreetmap.org/note/4592292
   'Karinthy Frigyes tér': 'Karinthy tér'   # https://www.openstreetmap.org/note/4343415
   'Kereszttöltés utca': 'Kereszttöltés út' # https://www.openstreetmap.org/note/4343417
   'Kistelekitanya': 'Kisteleki tanya'   # https://www.openstreetmap.org/note/4343428
@@ -218,17 +220,18 @@ refstreets:
   'Körmöci utca': 'Körmőci utca'         # táblán Körmöci utca - https://www.openstreetmap.org/note/4343436
   'Tas utca': 'Tass utca'                # nincs tábla - https://www.openstreetmap.org/note/4343464
   'Újlaki utca': 'Ujlaki utca'           # táblán Újlaki utca - https://www.openstreetmap.org/note/4343469
-  # Béla utca          - van pár nem hivatalos Béla út tábla is - https://www.openstreetmap.org/note/4343406
-  # Csiki utca         - https://www.openstreetmap.org/note/4343409
-  # Csóri Új út        - https://www.openstreetmap.org/note/4343412
-  # Dévényi utca       - https://www.openstreetmap.org/note/4343413
-  # Királyerdői utca   - https://www.openstreetmap.org/note/4343421
-  # Kölcsey utca       - https://www.openstreetmap.org/note/4352873
-  # Madách tér         - https://www.openstreetmap.org/note/4343441
-  # Pestispincék utca  - https://www.openstreetmap.org/note/4343442
-  # Radnóti Miklós tér - https://www.openstreetmap.org/note/4343445
-  # Szöllősi utca      - https://www.openstreetmap.org/note/4343458
-  # Zágoni utca        - https://www.openstreetmap.org/note/4343475
+  # Béla utca            - van pár nem hivatalos Béla út tábla is - https://www.openstreetmap.org/note/4343406
+  # Csiki utca           - https://www.openstreetmap.org/note/4343409
+  # Csóri Új út          - https://www.openstreetmap.org/note/4343412
+  # Dévényi utca         - https://www.openstreetmap.org/note/4343413
+  # Fáy András lakótelep - https://www.openstreetmap.org/note/4592292
+  # Királyerdői utca     - https://www.openstreetmap.org/note/4343421
+  # Kölcsey utca         - https://www.openstreetmap.org/note/4352873
+  # Madách tér           - https://www.openstreetmap.org/note/4343441
+  # Pestispincék utca    - https://www.openstreetmap.org/note/4343442
+  # Radnóti Miklós tér   - https://www.openstreetmap.org/note/4343445
+  # Szöllősi utca        - https://www.openstreetmap.org/note/4343458
+  # Zágoni utca          - https://www.openstreetmap.org/note/4343475
 source: survey
 housenumber-letters: true
 inactive: true
