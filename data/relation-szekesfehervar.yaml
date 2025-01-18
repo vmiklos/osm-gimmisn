@@ -18,8 +18,9 @@ filters:
     # 33/A: áthúzott táblán lévő régi házszám, az új cím Lublói utca 1.
     invalid: ['1a', '1b', '3', '9a', '9b', '9c', '9d', '13', '33a']
   Budai út:
+    # 159/A: nincs ilyen, csak sima 159 a Köfém lakótelepen (157/A-C, 161, 163, 165. 159 a sorrend).
     # 968: a páros oldalon a 440 az utolsó házszám.
-    invalid: ['968']
+    invalid: ['159a', '968']
   Csokonai utca:
     # 25: a páratlan oldalon a 21 az utolsó házszám.
     invalid: ['25']
@@ -27,6 +28,20 @@ filters:
     # 3: sima 3 nincs, csak 3/1, 3/2.
     # 14: sima 14 nincs, csak 14/1, 14/2.
     invalid: ['3', '14']
+  Fáy András lakótelep:
+    interpolation: 'all'
+    # 1: sima 1 nincs, csak 1/A, 1/B (lépcsőház).
+    # 1/2: nincs ilyen, csak 1/B (lépcsőház).
+    # 2: sima 2 nincs, csak 2/A, 2/B (lépcsőház).
+    # 2/1: nincs ilyen, csak 2/A (lépcsőház).
+    # 2/2: nincs ilyen, csak 2/B (lépcsőház).
+    # 4: sima 4 nincs, csak 4/A, 4/B (lépcsőház).
+    # 6: sima 6 nincs, csak 6/A, 6/B (lépcsőház).
+    # 8: sima 8 nincs, csak 8/A, 8/B (lépcsőház).
+    # 10: sima 10 nincs, csak 10/A, 10/B, 10/C, 10/D (lépcsőház).
+    # 10/E: nincs ilyen, csak 10/A, 10/B, 10/C, 10/D (lépcsőház).
+    # 13: sima 13 nincs, csak 13/A, 13/B (lépcsőház).
+    invalid: ['1', '1/2', '2', '2/1', '2/2', '4', '6', '8', '10', '10e', '13']
   Fiskális út:
     # Átszámozták az utcát, a régi házszámok 2-vel nagyobbak voltak. A sok nem létező alátöréses házszám is onnan maradhatott.
     # 12/A: nincs ilyen, csak sima 12 van.
@@ -59,6 +74,26 @@ filters:
     # 19: a páratlan oldalon a 11 az utolsó házszám.
     # 67: a páratlan oldalon a 11 az utolsó házszám.
     invalid: ['5a', '19', '67']
+  Köfém lakótelep:
+    interpolation: 'all'
+    # 2/2: nincs ilyen, csak sima 2 van.
+    # 2/A: nincs ilyen, csak sima 2 van.
+    # 3/B: nincs ilyen, csak sima 3 van.
+    # 4/A: nincs ilyen, csak sima 4 van.
+    # 5/1: nincs ilyen, csak sima 5 van.
+    # 5/B: nincs ilyen, csak sima 5 van.
+    # 6/B: nincs ilyen, csak sima 6 van.
+    # 7/B: nincs ilyen, csak sima 7 van.
+    # 8/C: nincs ilyen, csak sima 8 van.
+    # 9/C: nincs ilyen, csak sima 9 van.
+    # 10/C: nincs ilyen, csak sima 10 van.
+    # 11/A: nincs ilyen, csak sima 11 van.
+    # 14/A: nincs ilyen, csak sima 14 van.
+    # 17/A: nincs ilyen, csak sima 17 van.
+    # 19/A: nincs ilyen, csak sima 19 van.
+    # 31/5: nincs ilyen, csak sima 31 van.
+    # 159: ez Budai út 159.
+    invalid: ['2/2', '2a', '3b', '4a', '5/1', '5b', '6b', '7b', '8c', '9c', '10c', '11a', '14a', '17a', '19a', '31/5', '159']
   Lévai utca:
     # 1: sima 1 nincs, csak 1/A, 1/B.
     # 147: a páratlan oldalon a 27 az utolsó házszám.
@@ -96,6 +131,11 @@ filters:
     interpolation: 'all'
   Orsovai utca:
     interpolation: 'all'
+  Puskás Tivadar utca:
+    # 777/2: a páratlan oldalon a 15 az utolsó házszám.
+    # 22: a páros oldalon a 8 az utolsó házszám.
+    # 28: a páros oldalon a 8 az utolsó házszám.
+    invalid: ['777/2', '22', '28']
   Püspök kertváros:
     interpolation: 'all'
     # 1/3: nincs ilyen, csak sima 1 van, ez abban lesz a 3-as lakás.
@@ -129,6 +169,16 @@ filters:
     invalid: ['38', '62', '64']
   Vajda sor:
     interpolation: 'all'
+  Zombori út:
+    # 13: sima 13 nincs, csak 13/A, 13/B, 13/3, 13/4.
+    # 17/A: nincs ilyen, csak sima 17 van.
+    # 37/2: a páratlan oldalon a 21 az utolsó házszám.
+    # 47/C: a páratlan oldalon a 21 az utolsó házszám.
+    # 51: a páratlan oldalon a 21 az utolsó házszám.
+    # 61: a páratlan oldalon a 21 az utolsó házszám.
+    # 28: a páros oldalon a 20 az utolsó házszám.
+    # 36: a páros oldalon a 20 az utolsó házszám.
+    invalid: ['13', '17a', '37/2', '47c', '51', '61', '28', '36']
 osm-street-filters:
   # Nem igazi utcák
   - Alakulótér
