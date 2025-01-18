@@ -1,8 +1,24 @@
 missing-streets: 'yes'
-#street-filters:
-  # tanyák
-# osm-street-filters:
+street-filters:
+  # place
+  - Halastópuszta  # https://www.openstreetmap.org/node/1133619046
+  - Halyagoshegy
+  - Kamocsa
+  - Mogyoróshegy
+  - Paptelep  # https://www.openstreetmap.org/node/1133622095
+  - Szentkút
+  - Téglagyár  # közeli megálló - https://www.openstreetmap.org/node/3852738261
+  # nem igazi utcák
+  - Vasúti őrház
+osm-street-filters:
   # parkok/sétányok
+  - Petőfi liget
+  - Déli Városkapu park
+  - Hadipark
+  - Halas lépcső
+  # nem igazi utcák
+  - 0358 út
+  
 refstreets:
   'Bolyai János utca': 'Bólyai János utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
