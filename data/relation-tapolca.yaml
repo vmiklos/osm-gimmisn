@@ -1,0 +1,14 @@
+missing-streets: 'yes'
+#street-filters:
+  # tanyák
+# osm-street-filters:
+  # parkok/sétányok
+refstreets:
+  'Bolyai János utca': 'Bólyai János utca'
+  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
+  'Eötvös Loránd utca': 'Eötvös Lóránd utca'
+  'Királykúti utca': 'Királykuti utca'
+  'Szent György utca': 'Szentgyörgy utca'
+source: survey
+housenumber-letters: true
+inactive: true
