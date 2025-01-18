@@ -201,7 +201,7 @@ street-filters:
   # régi név
   - Sóstói lakótelep  # Rádió utca
   # hivatalos név
-  - Széna utca   # a földhivatal szerint a 8867 hrsz. a	Széna utca, de a helyszínen Széna tér van kitáblázva, lásd: https://www.openstreetmap.org/note/4577939
+  - Széna utca  # a földhivatal szerint a 8867 hrsz. a Széna utca, de a helyszínen Széna tér van kitáblázva, lásd: https://www.openstreetmap.org/note/4577939
 refstreets:
   # kérdéses
   # 'Fő utca': 'Börgöndi Fő utca' - nem mappelhető 2 Fő utca van - https://www.openstreetmap.org/note/4343362
