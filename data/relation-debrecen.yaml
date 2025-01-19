@@ -37,7 +37,7 @@ street-filters:
   - Apafa tanya
   - Babéros tanya
   - Bánki-Fülöp tanya
-  - Bellegelői -Guszti tanya
+  - Bellegelői-Guszti tanya
   - Bellegelői-Pipacs tanya
   - Bellon tanya
   - Betyár tanya
@@ -118,7 +118,6 @@ street-filters:
   - Tulipán tanya
   - Varga tanya
   - Véghseő birtok tanya
-  - Veress tanya
   - Zagyva tanya
 osm-street-filters:
   # nem igazi utcák
