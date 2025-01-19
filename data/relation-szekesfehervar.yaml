@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Almássy telep:
+    interpolation: 'all'
   Béla utca:
     interpolation: 'all'
     # 63: a 61 az utolsó házszám.
@@ -17,6 +19,8 @@ filters:
     # 13: ez és a Budai út 238. közös telken van, házszám a Budai útról van csak.
     # 33/A: áthúzott táblán lévő régi házszám, az új cím Lublói utca 1.
     invalid: ['1a', '1b', '3', '9a', '9b', '9c', '9d', '13', '33a']
+  Berkes lakótelep:
+    interpolation: 'all'
   Budai út:
     # 159/A: nincs ilyen, csak sima 159 a Köfém lakótelepen (157/A-C, 161, 163, 165. 159 a sorrend).
     # 968: a páros oldalon a 440 az utolsó házszám.
@@ -41,7 +45,9 @@ filters:
     # 10: sima 10 nincs, csak 10/A, 10/B, 10/C, 10/D (lépcsőház).
     # 10/E: nincs ilyen, csak 10/A, 10/B, 10/C, 10/D (lépcsőház).
     # 13: sima 13 nincs, csak 13/A, 13/B (lépcsőház).
-    invalid: ['1', '1/2', '2', '2/1', '2/2', '4', '6', '8', '10', '10e', '13']
+    # 15: a lakótelepen a 14/A, 14/B az utolsó házszám.
+    # 17: a lakótelepen a 14/A, 14/B az utolsó házszám.
+    invalid: ['1', '1/2', '2', '2/1', '2/2', '4', '6', '8', '10', '10e', '13', '15', '17']
   Fiskális út:
     # Átszámozták az utcát, a régi házszámok 2-vel nagyobbak voltak. A sok nem létező alátöréses házszám is onnan maradhatott.
     # 12/A: nincs ilyen, csak sima 12 van.
@@ -64,6 +70,8 @@ filters:
     interpolation: 'all'
   Hajnal utca:
     interpolation: 'all'
+  Horvát István lakótelep:
+    interpolation: 'all'
   Kadocsa utca:
     # 84: ez és a Lehel utca 36. ugyanaz a telek, házszám a Lehel utcáról van csak.
     invalid: ['84']
@@ -74,6 +82,9 @@ filters:
     # 19: a páratlan oldalon a 11 az utolsó házszám.
     # 67: a páratlan oldalon a 11 az utolsó házszám.
     invalid: ['5a', '19', '67']
+  Kisteleki utca:
+    # 999: a páratlan oldalon a 117 az utolsó házszám.
+    invalid: ['999']
   Köfém lakótelep:
     interpolation: 'all'
     # 2/2: nincs ilyen, csak sima 2 van.
@@ -92,14 +103,24 @@ filters:
     # 17/A: nincs ilyen, csak sima 17 van.
     # 19/A: nincs ilyen, csak sima 19 van.
     # 31/5: nincs ilyen, csak sima 31 van.
+    # 43: a lakótelepen 42 az utolsó házszám.
+    # 45: a lakótelepen 42 az utolsó házszám.
+    # 59: a lakótelepen 42 az utolsó házszám.
+    # 73: a lakótelepen 42 az utolsó házszám.
+    # 98:  a lakótelepen 42 az utolsó házszám.
     # 159: ez Budai út 159.
-    invalid: ['2/2', '2a', '3b', '4a', '5/1', '5b', '6b', '7b', '8c', '9c', '10c', '11a', '14a', '17a', '19a', '31/5', '159']
+    # 208: a lakótelepen 42 az utolsó házszám, ez Budai úti cím lehet.
+    # 212: a lakótelepen 42 az utolsó házszám, ez Budai úti cím lehet.
+    # 350: a lakótelepen 42 az utolsó házszám, ez Budai úti cím lehet.
+    invalid: ['2/2', '2a', '3b', '4a', '5/1', '5b', '6b', '7b', '8c', '9c', '10c', '11a', '14a', '17a', '19a', '31/5', '43', '45', '59', '73', '98', '159', '208', '212', '350']
   Lévai utca:
     # 1: sima 1 nincs, csak 1/A, 1/B.
     # 147: a páratlan oldalon a 27 az utolsó házszám.
     # 10: sima 10 nincs, csak 10/1, 10/2.
     # 406: a páros oldalon a 36 az utolsó házszám.
     invalid: ['1', '147', '10', '406']
+  Ligetsor:
+    interpolation: 'all'
   Malackai utca:
     # 3: sima 3 nincs, csak 3/1, 3/2.
     # 5: sima 5 nincs, csak 5/1, 5/2.
@@ -149,6 +170,12 @@ filters:
   Sajó utca:
     # 225: a páratlan oldalon a 195 az utolsó házszám.
     invalid: ['225']
+  Szedreskerti lakónegyed:
+    interpolation: 'all'
+    # 53: a lakónegyedben az 50 az utolsó házszám.
+    # 55: a lakónegyedben az 50 az utolsó házszám.
+    # 57: a lakónegyedben az 50 az utolsó házszám.
+    invalid: ['53', '55', '57']
   Széna tér:
     interpolation: 'all'
   Szigligeti utca:
@@ -167,8 +194,30 @@ filters:
     # 62: sima 62 nincs, csak 62/A, 62/2.
     # 64: sima 64 nincs, csak 64/1, 64/2.
     invalid: ['38', '62', '64']
+  Tóvárosi lakónegyed:
+    interpolation: 'all'
   Vajda sor:
     interpolation: 'all'
+  Ybl Miklós lakótelep:
+    interpolation: 'all'
+    # 2/A: nincs ilyen, csak sima 2 van, ez az Ybl Miklós utca lehet.
+    # 2/B: nincs ilyen, csak sima 2 van, ez az Ybl Miklós utca lehet.
+    # 2/C: nincs ilyen, csak sima 2 van, ez az Ybl Miklós utca lehet.
+    # 2/D: nincs ilyen, csak sima 2 van, ez az Ybl Miklós utca lehet.
+    # 4/C: nincs ilyen, csak sima 4 van.
+    # 8: a lakótelepen a 7 az utolsó házszám, ez az Ybl Miklós utca lehet.
+    # 9: a lakótelepen a 7 az utolsó házszám, ez az Ybl Miklós utca lehet.
+    # 9/3: a lakótelepen a 7 az utolsó házszám, ez az Ybl Miklós utca lehet.
+    # 10: a lakótelepen a 7 az utolsó házszám, ez az Ybl Miklós utca lehet.
+    # 14: a lakótelepen a 7 az utolsó házszám, ez az Ybl Miklós utca lehet.
+    # 37: a lakótelepen a 7 az utolsó házszám, ez az Ybl Miklós utca helyrajzi száma.
+    invalid: ['2a', '2b', '2c', '2d', '4c', '8', '9', '9/3', '10', '14', '37']
+  Ybl Miklós utca:
+    # 2: sima 2 nincs, csak 2/A, 2/B, 2/C, 2/D (lépcsőház).
+    # 4/B: nincs ilyen, csak sima 4 van.
+    # 4/C: nincs ilyen, csak sima 4 van.
+    # 20/A: a páros oldalon a 14 az utolsó házszám.
+    invalid: ['2', '4b', '4c', '20a']
   Zombori út:
     # 13: sima 13 nincs, csak 13/A, 13/B, 13/3, 13/4.
     # 17/A: nincs ilyen, csak sima 17 van.
