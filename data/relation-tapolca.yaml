@@ -1,6 +1,7 @@
 missing-streets: 'yes'
 street-filters:
   # place
+  - Bácshegy
   - Halastópuszta  # https://www.openstreetmap.org/node/1133619046
   - Halyagoshegy
   - Kamocsa
@@ -18,7 +19,6 @@ osm-street-filters:
   - Halas lépcső
   # nem igazi utcák
   - 0358 út
-  
 refstreets:
   'Bolyai János utca': 'Bólyai János utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
