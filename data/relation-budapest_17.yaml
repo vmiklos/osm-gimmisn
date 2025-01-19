@@ -64,5 +64,7 @@ osm-street-filters:
   - Merzse tanösvény
   # átlógó, Ecser
   - Vida dűlő
+  # átlógó 16. kerület
+  - Forrásmajori dűlőút
 source: survey
 inactive: true
