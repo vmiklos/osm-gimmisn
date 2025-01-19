@@ -110,6 +110,14 @@ pub fn our_application_json(
         == format!("{prefix}/lints/whole-country/invalid-addr-cities/update-result.json")
     {
         output = webframe::handle_invalid_addr_cities_update_json(ctx)?;
+    } else if request_uri == format!("{prefix}/api/relations.json") {
+        let conn = ctx.get_database_connection()?;
+        let mut stmt = conn.prepare("select json from stats_jsons where category = 'relations'")?;
+        let mut rows = stmt.query([])?;
+        output = match rows.next()? {
+            Some(row) => row.get(0)?,
+            None => String::from("[]"),
+        };
     } else {
         // Assume /additional-housenumbers/<relation>/view-result.json.
         output = additional_housenumbers_view_result_json(relations, request_uri)?;

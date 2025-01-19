@@ -313,3 +313,34 @@ fn test_additional_housenumbers_view_result_json() {
     let additional_housenumbers: util::NumberedStreets = serde_json::from_value(result).unwrap();
     assert_eq!(additional_housenumbers.len(), 0);
 }
+
+/// Tests the /api part of our_application_json(), the relations + some case.
+#[test]
+fn test_our_application_json_api_relations_some() {
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into stats_jsons (category, json) values ('relations', '[1, 2]');",
+        )
+        .unwrap();
+    }
+
+    let result = test_wsgi.get_json_for_path("/api/relations.json");
+
+    let relations: Vec<u64> = serde_json::from_value(result).unwrap();
+    assert_eq!(relations.len(), 2);
+    assert_eq!(relations[0], 1);
+    assert_eq!(relations[1], 2);
+}
+
+/// Tests the /api part of our_application_json(), the relations + none case.
+#[test]
+fn test_our_application_json_api_relations_none() {
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+
+    let result = test_wsgi.get_json_for_path("/api/relations.json");
+
+    let relations: Vec<u64> = serde_json::from_value(result).unwrap();
+    assert_eq!(relations.len(), 0);
+}
