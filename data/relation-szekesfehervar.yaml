@@ -86,6 +86,18 @@ filters:
     invalid: ['84']
   Kápolna tér:
     interpolation: 'all'
+  Királykút lakónegyed:
+    interpolation: 'all'
+    # 15/E: nincs ilyen, csak sima 15 van.
+    # 17/E: nincs ilyen, csak sima 17 van.
+    # 20/3: nincs ilyen, csak sima 20 van.
+    # 24: a lakónegyedben a 22 az utolsó házszám.
+    # 24/B: a lakónegyedben a 22 az utolsó házszám.
+    # 28/A: a lakónegyedben a 22 az utolsó házszám.
+    # 41: a lakónegyedben a 22 az utolsó házszám.
+    # 51: a lakónegyedben a 22 az utolsó házszám.
+    # 101: a lakónegyedben a 22 az utolsó házszám.
+    invalid: ['15e', '17e', '20/3', '24', '24b', '28a', '41', '51', '101']
   Kisfaludy utca:
     # 5/A: nincs ilyen, csak sima 5 van.
     # 19: a páratlan oldalon a 11 az utolsó házszám.
