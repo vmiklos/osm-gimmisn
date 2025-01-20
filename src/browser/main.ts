@@ -101,7 +101,7 @@ async function onGpsClick()
     }
 
     // Now fetch the list of relations we recognize.
-    url = config.uriPrefix + "/static/relations.json";
+    url = config.uriPrefix + "/api/relations.json";
     request = new Request(url);
     createLoader(gps, getOsmString("str-relations-wait"));
     let knownRelations: Array<number> = null;
