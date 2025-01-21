@@ -42,7 +42,6 @@ fn test_main() {
         .write_all(refsettlements_names_content.as_bytes())
         .unwrap();
     let cache_value = context::tests::TestFileSystem::make_file();
-    let stats_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -52,7 +51,6 @@ fn test_main() {
                 &refsettlements_names_value,
             ),
             ("data/yamls.cache", &cache_value),
-            ("workdir/stats/relations.json", &stats_value),
         ],
     );
     file_system.set_files(&files);
@@ -68,19 +66,6 @@ fn test_main() {
         let mut guard = cache_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
-
-    let mut guard = stats_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
-    guard.seek(SeekFrom::Start(0)).unwrap();
-    let read = guard.deref_mut();
-    let relation_ids: serde_json::Value = serde_json::from_reader(read).unwrap();
-    let relation_ids: Vec<_> = relation_ids
-        .as_array()
-        .unwrap()
-        .iter()
-        .map(|i| i.as_u64().unwrap())
-        .collect();
-    assert_eq!(relation_ids, [2713748]);
 }
 
 /// Tests main() failure.
@@ -94,14 +79,8 @@ fn test_main_error() {
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
     let mut file_system = context::tests::TestFileSystem::new();
     let cache_value = context::tests::TestFileSystem::make_file();
-    let stats_value = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            ("data/yamls.cache", &cache_value),
-            ("workdir/stats/relations.json", &stats_value),
-        ],
-    );
+    let files =
+        context::tests::TestFileSystem::make_files(&ctx, &[("data/yamls.cache", &cache_value)]);
     file_system.set_files(&files);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);

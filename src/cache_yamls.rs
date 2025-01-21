@@ -51,7 +51,6 @@ pub fn our_main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
         serde_json::to_writer(write, &cache)?;
     }
 
-    let workdir = ctx.get_abspath(&argv[2]);
     let yaml_path = format!("{datadir}/relations.yaml");
     let mut relation_ids: Vec<u64> = Vec::new();
     let data = ctx.get_file_system().read_to_string(&yaml_path)?;
@@ -62,16 +61,7 @@ pub fn our_main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
     }
     relation_ids.sort_unstable();
     relation_ids.dedup();
-    let statsdir = format!("{workdir}/stats");
-    std::fs::create_dir_all(&statsdir)?;
     {
-        let write_stream = ctx
-            .get_file_system()
-            .open_write(&format!("{statsdir}/relations.json"))?;
-        let mut guard = write_stream.borrow_mut();
-        let write = guard.deref_mut();
-        serde_json::to_writer(write, &relation_ids)?;
-
         let conn = ctx.get_database_connection()?;
         let sql = r#"insert into stats_jsons (category, json) values ('relations', ?1)
                      on conflict(category) do update set json = excluded.json"#;
