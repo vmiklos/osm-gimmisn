@@ -1,6 +1,6 @@
 missing-streets: 'yes'
 filters:
-  Almássy telep:
+  Almássy lakótelep:
     interpolation: 'all'
   Béla utca:
     interpolation: 'all'
@@ -80,6 +80,8 @@ filters:
   Hajnal utca:
     interpolation: 'all'
   Horvát István lakótelep:
+    interpolation: 'all'
+  Illyés Gyula tér:
     interpolation: 'all'
   Kadocsa utca:
     # 84: ez és a Lehel utca 36. ugyanaz a telek, házszám a Lehel utcáról van csak.
@@ -332,6 +334,7 @@ refstreets:
   'Murvás út': 'Murvás utca'       # https://www.openstreetmap.org/note/4343378
   'Vargacsatorna part': 'Vargacsatornapart'  # https://www.openstreetmap.org/note/4343438
   # ellenőrzött
+  'Almássy lakótelep': 'Almássy telep'   # földhivatalnál vegyesen, minden házon és régi táblán Almássy telep, a két autós bejáratnál 1-1 új utcanévtáblán Almássy ltp. - https://www.openstreetmap.org/note/4593724
   'Bulcsú utca': 'Bulcsu utca'           # az utca egyik végén Bulcsú, másik végén Bulcsu - https://www.openstreetmap.org/note/4343407
   'Csóri Régi utca': 'Régi Csóri út'     # új táblákon Csóri Régi utca, régi táblán Régi Csóri út
   'Erdő sor': 'Erdősor'                  # táblán Erdő sor - https://www.openstreetmap.org/note/4343414
