@@ -71,6 +71,11 @@ filters:
     invalid: ['12a', '44a', '50a', '52a', '54a', '56a', '58a', '60', '60c', '66c', '88a', '88b', '88f', '90a', '178']
   Fórum tér:
     interpolation: 'all'
+  Fürdő sor:
+    interpolation: 'all'
+    # 6: sima 6 nincs, csak 6/1, 6/2.
+    # 10: sima 10 nincs, csak 10/A, 10/B, 10/C, 10/D, 10/E, 10/F, 10/G, 10/H.
+    invalid: ['6', '10']
   Gödör utca:
     # 15: sima 15 nincs, csak 15/A, 15/B.
     # 19: sima 19 nincs, csak 19/A, 19/B.
