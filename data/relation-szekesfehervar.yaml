@@ -24,6 +24,11 @@ filters:
     invalid: ['1s']
   Berkes lakótelep:
     interpolation: 'all'
+    # 6/A: nincs ilyen, csak sima 6 van.
+    # 11/C: nincs ilyen, csak sima 11 van.
+    # 612: a lakótelepen a 104 az utolsó házszám.
+    # 619: a lakótelepen a 104 az utolsó házszám.
+    invalid: ['6a', '11c', '612', '619']
   Budai út:
     # 159/A: nincs ilyen, csak sima 159 a Köfém lakótelepen (157/A-C, 161, 163, 165. 159 a sorrend).
     # 968: a páros oldalon a 440 az utolsó házszám.
@@ -113,6 +118,10 @@ filters:
   Kisteleki utca:
     # 999: a páratlan oldalon a 117 az utolsó házszám.
     invalid: ['999']
+  Koronázó tér:
+    interpolation: 'all'
+    # 399: a téren a 6 az utolsó házszám.
+    invalid: ['399']
   Köfém lakótelep:
     interpolation: 'all'
     # 2/2: nincs ilyen, csak sima 2 van.
@@ -224,7 +233,13 @@ filters:
     invalid: ['38', '62', '64']
   Tóvárosi lakónegyed:
     interpolation: 'all'
+    # 17/A: nincs ilyen, csak sima 17 van.
+    # 19/A: nincs ilyen, csak sima 19 van.
+    # 19/C: nincs ilyen, csak sima 19 van.
+    invalid: ['17a', '19a', '19c']
   Vajda sor:
+    interpolation: 'all'
+  Wass Albert köz:
     interpolation: 'all'
   Ybl Miklós lakótelep:
     interpolation: 'all'
@@ -356,6 +371,7 @@ refstreets:
   # Csóri Új út          - https://www.openstreetmap.org/note/4343412
   # Dévényi utca         - https://www.openstreetmap.org/note/4343413
   # Fáy András lakótelep - https://www.openstreetmap.org/note/4592292
+  # Goldziher Ignác köz  - https://www.openstreetmap.org/note/4592968
   # Királyerdői utca     - https://www.openstreetmap.org/note/4343421
   # Kölcsey utca         - https://www.openstreetmap.org/note/4352873
   # Madách tér           - https://www.openstreetmap.org/note/4343441
