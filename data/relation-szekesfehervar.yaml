@@ -2,12 +2,23 @@ missing-streets: 'yes'
 filters:
   Almássy lakótelep:
     interpolation: 'all'
+  Attila utca:
+    # 76: sima 76 nincs, csak 76/1, 76/2.
+    invalid: ['76']
+  Bánáti utca:
+    # 14: sima 14 nincs, csak 14/1, 14/2, 14/3, 14/4.
+    # 14/A: nincs ilyen, csak 14/1 van.
+    invalid: ['14', '14a']
   Béla utca:
     interpolation: 'all'
     # 63: a 61 az utolsó házszám.
     # 83: a 61 az utolsó házszám.
     # 107: a 61 az utolsó házszám.
     invalid: ['63', '83', '107']
+  Belgrádi utca:
+    # 22: sima 22 nincs, csak 22/1, 22/2.
+    # 24: sima 24 nincs, csak 24/1, 24/2.
+    invalid: ['22', '24']
   Beregszászi utca:
     # 1/A: nincs ilyen, csak sima 1 van.
     # 1/B: nincs ilyen, csak sima 1 van.
@@ -22,6 +33,9 @@ filters:
   Berényi út:
     # 1/S: nincs ilyen, csak 1, 1/E, 1/F.
     invalid: ['1s']
+  Bereznai utca:
+    # 43/A: a páratlan oldalon a 23 az utolsó házszám, ez Donát utca 43/B lehet.
+    invalid: ['43a']
   Berkes lakótelep:
     interpolation: 'all'
     # 6/A: nincs ilyen, csak sima 6 van.
@@ -118,6 +132,9 @@ filters:
   Kisteleki utca:
     # 999: a páratlan oldalon a 117 az utolsó házszám.
     invalid: ['999']
+  Kórogyi utca:
+    # 2: sima 2 nincs, csak 2/1, 2/2.
+    invalid: ['2']
   Koronázó tér:
     interpolation: 'all'
     # 399: a téren a 6 az utolsó házszám.
@@ -261,6 +278,9 @@ filters:
     # 4/C: nincs ilyen, csak sima 4 van.
     # 20/A: a páros oldalon a 14 az utolsó házszám.
     invalid: ['2', '4b', '4c', '20a']
+  Zára utca:
+    # 2: ez és a Zombori utca 13. ugyanaz a telek, házszámok csak a Zombori utcáról vannak.
+    invalid: ['2']
   Zombori út:
     # 13: sima 13 nincs, csak 13/A, 13/B, 13/3, 13/4.
     # 17/A: nincs ilyen, csak sima 17 van.
