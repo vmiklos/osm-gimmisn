@@ -103,6 +103,12 @@ filters:
     invalid: ['15', '19', '21', '18']
   Hajnal utca:
     interpolation: 'all'
+  Hargitai utca:
+    interpolation: 'all'
+    # 2: sima 2 nincs, csak 2/A, 2/B.
+    # 3: sima 3 nincs, csak 3/A, 3/B.
+    # 4: sima 4 nincs, csak 4/A, 4/B.
+    invalid: ['2', '3', '4']
   Horvát István lakótelep:
     interpolation: 'all'
   Illyés Gyula tér:
@@ -112,6 +118,16 @@ filters:
     invalid: ['84']
   Kápolna tér:
     interpolation: 'all'
+  Kassai köz:
+    interpolation: 'all'
+    # 53: a 10 az utolsó házszám.
+    invalid: ['53']
+  Kassai utca:
+    # 21/A: nincs ilyen, csak sima 21 van.
+    # 27/A: nincs ilyen, csak sima 27 van.
+    # 29/2: nincs ilyen, csak 29 földszint 2 van.
+    # 37/B: nincs ilyen, csak 37, 37/A van.
+    invalid: ['21a', '27a', '29/2', '37b']
   Királykút lakónegyed:
     interpolation: 'all'
     # 15/E: nincs ilyen, csak sima 15 van.
@@ -217,6 +233,30 @@ filters:
     # 2/A: nincs ilyen, csak sima 2 van.
     # 46: nincs ilyen, a 30 az utolsó házszám.
     invalid: ['1/3', '2a', '46']
+  Rádió utca:
+    # 1: sima 1 nincs, csak 1/A, 1/B.
+    # 5: sima 5 nincs, csak 5/A, 5/B.
+    # 7: sima 7 nincs, csak 7/A, 7/B, 7/C, 7/D.
+    # 9: sima 9 nincs, csak 9/A, 9/B, 9/C, 9/D.
+    # 11: sima 11 nincs, csak 11/A, 11/B, 11/C, 11/D.
+    # 13: sima 13 nincs, csak 13/A, 13/B, 13/C, 13/D.
+    # 15: sima 15 nincs, csak 15/A, 15/B.
+    # 17: sima 17 nincs, csak 17/A, 17/B.
+    # 19: sima 19 nincs, csak 19/A, 19/B.
+    # 21: sima 21 nincs, csak 21/A, 21/B.
+    # 29: a páratlan oldalon a 21/A, 21/B az utolsó házszám.
+    # 29/A: a páratlan oldalon a 21/A, 21/B az utolsó házszám.
+    # 2: sima 2 nincs, csak 2/A, 2/B.
+    # 8: sima 8 nincs, csak 8/A, 8/B, 8/C, 8/D, 8/E, 8/F.
+    # 12: sima 12 nincs, csak 12/A, 12/B.
+    # 14: sima 14 nincs, csak 14/A, 14/B.
+    # 16: sima 16 nincs, csak 16/A, 16/B.
+    # 18: sima 18 nincs, csak 18/A, 18/B.
+    # 20: sima 20 nincs, csak 20/A, 20/B.
+    invalid: ['1', '5', '7', '9', '11', '13', '15', '17', '19', '21', '29', '29a', '2', '8', '12', '14', '16', '18', '20']
+  Rimaszombati utca:
+    # 52/A: a páros oldalon a 18 az utolsó házszám.
+    invalid: ['52a']
   Rózsahegyi utca:
     # 131: a páratlan oldalon az 53 az utolsó házszám.
     # 14: sima 14 nincs, csak 14/A, 14/B, 14/C, 14/D.
@@ -243,6 +283,8 @@ filters:
   Tas utca:
     # 348/B: a páros oldalon a 28 az utolsó házszám.
     invalid: ['348b']
+  Técsői utca:
+    interpolation: 'all'
   Tompa Mihály utca:
     # 38: sima 38 nincs, csak 38/A, 38/B.
     # 62: sima 62 nincs, csak 62/A, 62/2.
@@ -254,8 +296,17 @@ filters:
     # 19/A: nincs ilyen, csak sima 19 van.
     # 19/C: nincs ilyen, csak sima 19 van.
     invalid: ['17a', '19a', '19c']
+  Turóci utca:
+    # 28/B: nincs ilyen, csak 28/A, 28.
+    invalid: ['28b']
   Vajda sor:
     interpolation: 'all'
+  Verbói utca:
+    # 165: a páratlan oldalon a 17 az utolsó házszám.
+    invalid: ['165']
+  Verebélyi utca:
+    # 32: a páros oldalon a 18 az utolsó házszám.
+    invalid: ['32']
   Wass Albert köz:
     interpolation: 'all'
   Ybl Miklós lakótelep:
