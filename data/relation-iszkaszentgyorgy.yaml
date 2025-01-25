@@ -1,4 +1,11 @@
 missing-streets: 'yes'
+osm-street-filters:
+  # területhatár
+  - Csóri Új út
+  - Hernád utca
+street-filters:
+  # nem igazi utcák
+  - Városkapu Üzletközpont egyéb
 refstreets:
   # kérdéses
   'Iszkai utca': 'Iszkai út'
