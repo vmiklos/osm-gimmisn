@@ -3,6 +3,8 @@ osm-street-filters:
   # területhatár
   - Csóri Új út
   - Hernád utca
+  - Iszkaszentgyörgyi út
+  - Lovarda dűlő
 street-filters:
   # nem igazi utcák
   - Városkapu Üzletközpont egyéb
