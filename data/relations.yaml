@@ -386,6 +386,10 @@ gardony-kozpont:
     osmrelation: 6804399  # 2483 Gárdony
     refcounty: "07"
     refsettlement: "033"
+iszkaszentgyorgy:
+    osmrelation: 1361447
+    refcounty: "07"
+    refsettlement: "037"
 kapolnasnyek:
     osmrelation: 1370243
     refcounty: "07"

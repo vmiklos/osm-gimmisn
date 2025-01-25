@@ -1,0 +1,9 @@
+missing-streets: 'yes'
+refstreets:
+  # kérdéses
+  'Iszkai utca': 'Iszkai út'
+  'Kossuth Lajos tér': 'Kossuth tér'
+  'Kölcsey Ferenc utca': 'Kölcsey utca'
+source: survey
+housenumber-letters: true
+inactive: true
