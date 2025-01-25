@@ -262,8 +262,9 @@ filters:
     # 14: sima 14 nincs, csak 14/A, 14/B, 14/C, 14/D.
     invalid: ['131', '14']
   Sajó utca:
+    # 39: sima 39 nincs, csak 39/A, 39/B, 39/C.
     # 225: a páratlan oldalon a 195 az utolsó házszám.
-    invalid: ['225']
+    invalid: ['39', '225']
   Szedreskerti lakónegyed:
     interpolation: 'all'
     # 53: a lakónegyedben az 50 az utolsó házszám.
@@ -345,9 +346,10 @@ filters:
 osm-street-filters:
   # Nem igazi utcák
   - Alakulótér
-  - Nyugati elkerülőút
   - Déli elkerülőút
   - Déli összekötő út
+  - Nyugati elkerülőút
+  - Török udvar
   # parkok, sétányok
   - Alsóvárosi pihenőpark
   - Barátság liget
@@ -370,20 +372,6 @@ osm-street-filters:
   - Stadion sétány
   - Várfal park
   - Videoton ipari park park
-  # dűlő
-  - 7. dűlő
-  - Csali dűlő
-  - Gólya dűlő
-  - Hajnal dűlő
-  - Holló dűlő
-  - Illatos dűlő
-  - Négyes dűlő
-  - Pacsirta dűlő
-  - Pótkerék dűlő
-  - Rezeda dűlő
-  - Sárkánykúti dűlő
-  - Vasutas dűlő
-  - Veréb dűlő
 street-filters:
   # lakótelep
   - Börgönd lakótelep  # Börgönd - https://www.openstreetmap.org/node/312963221
@@ -452,4 +440,4 @@ refstreets:
   # Zágoni utca          - https://www.openstreetmap.org/note/4343475
 source: survey
 housenumber-letters: true
-inactive: true
+inactive: false
