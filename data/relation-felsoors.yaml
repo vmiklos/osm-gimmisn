@@ -6,10 +6,10 @@ filters:
     # 9/b: üres telek a 9 mögött
     invalid: ['7a', '9a', '9b']
   Almádi út:
-    # hrsz: 058/2 - https://www.openstreetmap.org/way/411802956
-    # hrsz  058/9 - https://www.openstreetmap.org/way/1192753242
-    # 060/1 - helyén Almádi út 12 van kiírva
-    invalid: ['58/2', '58/9', '60/1']
+    # hrsz 058/2 - itt csak hrsz van kiírva
+    # hrsz 058/9 - ez ki van írva
+    # hrsz 060/1 - helyén Almádi út 12 van kiírva
+    invalid: ['58/2', '60/1']
   Bicske utca:
     # 50/108: hrsz 050/108 - https://www.openstreetmap.org/way/191210963
     invalid: ['50']
