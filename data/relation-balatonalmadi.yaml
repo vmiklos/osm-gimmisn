@@ -61,8 +61,11 @@ filters:
     # 14-16: semmi sincs kiírva, terven 16 van
     invalid: ['11', '13', '14']
   Baross Gábor út:
+    # 2/*: csak sima 2, nincsenek se alátörések, se épületek kiírva
+    # 13/3: ez ajtó
     # 26 = Kálvin utca 1. Egyis sincs kiírva. RESURVEY 2024-07
-    invalid: ['26']
+    # 48/1, 48/3: ezek ajtók
+    invalid: ['2b', '2c', '2d', '2f', '13/3', '26', '48/1', '48/3']
   Bartók Béla út:
     # 2024-12. RESURVEY 2025-06
     # 30 helyén 34
@@ -129,7 +132,8 @@ filters:
   Dózsa György utca:
     show-refstreet: false
     # 13-15: csak 13 van kiírva
-    invalid: ['15']
+    # 18/a: 18/b van kiírva
+    invalid: ['15', '18a']
   Dr. Óvári Ferenc utca:
     # 10-12: csak 12 van kiírva
     # 18: 16 után 20
@@ -158,18 +162,19 @@ filters:
     # 26-32: 26 és 28 van kiírva
     invalid: ['23', '30', '32']
   Fadrusz János utca:
+    # 32: csak 32/a van kiírva, az iker másik felén nincs szám
     # 17 = Felsőörsi út 2/a
-    invalid: ['17']
+    invalid: ['17', '32']
     show-refstreet: false
   Fagyöngy utca:
     # 3-5: csak 3 van kiírva
     invalid: ['5']
   Felsőörsi út:
     # 9 = Rózsa utca 8
-    # 10 . Székely Bertalan utca sarka, épp építik. RESURVEY 2025
+    # 10 = Székely Bertalan utca sarka, épp építik. RESURVEY 2025
+    # 23/b: 25 van kiírva, 25 helyén pedig az öreghegyi út 2. RESURVEY 2025
     # 34-36: csak 34 vagy kiírva
-    # 48 = 46-ra van számozva, ez az utolsó ház Balatonalmádiban
-    invalid: ['9', '10', '36', '48']
+    invalid: ['9', '10', '36', '23b']
   Fény utca:
     # 3-13: 3, 5, 11 van kiírva, utána van még egy ház
     invalid: ['7', '9', '13']
@@ -255,7 +260,7 @@ filters:
     # 27 nincs
     # 39 = Bajcsy-Zsilinszky út 14 - Hotel Bál Resort
     # 87-89: csak 87 van kiírva
-    invalid: ['6', '8', '16', '39', '89']
+    invalid: ['6', '8', '16', '39', '63b', '89']
   Juhász Gyula köz:
     # 4 = Kiírás szerint a Villa Succa címe 5
     invalid: ['4']
@@ -334,7 +339,8 @@ filters:
     invalid: ['36']
   Martinovics utca:
     # 14: 2 db 16 van táblázva
-    invalid: ['14']
+    # 28: 28/a van kiírva
+    invalid: ['14', '28']
   Maros utca:
     # 3: nincs ilyen, csak 3/a. földhivatal szerint is csak 3/a van.
     # 15-17: csak 17 van kiírva
@@ -348,6 +354,10 @@ filters:
   Moha utca:
     # 1: nincs kint házszám 2024-02. RESURVEY 2025
     invalid: ['1']
+  Munkácsy Mihály utca:
+    # 9/a: 9/b van kiírva
+    # 9/b: 9 van kiírva
+    invalid: ['9a']
   Neptun utca:
     # páros oldalon a vasút megy
     # 1-3: a vitorlás klub csak az 1-et használja, kiírva nincs semmi
@@ -365,7 +375,9 @@ filters:
     invalid: ['7']
   Paál László utca:
     # 15: ugyanaz a telek mint a 13, kukán szerepelt a 13.
-    invalid: ['15']
+    # 23-25: 23 van kiírva az épület mindkét felére
+    # 24: 24/a és 24/b van kiírva
+    invalid: ['15', '24', '23-25']
   Pacsirta köz:
     # 20-22: csak 22 van kiírva
     invalid: ['20']
@@ -417,8 +429,10 @@ filters:
     # 49-51: csak 49 van kiírva
     invalid: ['51']
   Szabadság-kilátó út:
+    # 21/b: 21 van kiírva
     # 28: 24 van kiírva; 24 után nyeles telek szám nélkül és 32
-    invalid: ['28']
+    # 64/a: nincs
+    invalid: ['21b', '28', '64a']
     show-refstreet: false
   Szabolcs utca:
     # Páratlan újraszámozva 11-35 -> 1-9 alátörésekkel, KCR szerint ezek lépcsőházak de nem így van kiírva
@@ -433,9 +447,13 @@ filters:
   Szegfű utca:
     # 11-13: csak 11 van kiírva
     invalid: ['13']
+  Székely Bertalan utca:
+    # 19/a: a hátsó házhoz nincs a kapun semmi
+    # 19/b: az első ház, itt 19 van a falon
+    invalid: ['19a', '19b']
   Szent István sétány:
     # 4-6: Wesselényi Strand: csak a 6 van használatban
-    invalid: ['4']
+    invalid: ['4', '6c']
   Szinyei Merse Pál utca:
     # 12-14: csak 12 van kiírva
     invalid: ['14']
@@ -537,7 +555,7 @@ filters:
     invalid: ['8', '26']
   Ybl Miklós utca:
     # 2-4: 2/a, 2/b van kiírva
-    invalid: ['4']
+    invalid: ['2-4']
   Zerge lépcső:
     # 2: 4 van táblázva
     invalid: ['2']
