@@ -195,7 +195,7 @@ filters:
     # A páros oldalon 190 az utolsó házszám, majd négy utcával keletre, a Bébic utca és a Virág utca között van a 228 (12495/19 hrsz.).
     # 568/93: ez helyrajzi szám, nem házszám.
     # 588/90: ez helyrajzi szám, nem házszám.
-    invalid: ['568/93', '588/90']
+    invalid: ['568', '588']
   Lévai utca:
     # 1: sima 1 nincs, csak 1/A, 1/B.
     # 147: a páratlan oldalon a 27 az utolsó házszám.
