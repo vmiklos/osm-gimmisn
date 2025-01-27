@@ -21,7 +21,8 @@ street-filters:
   - Duna sétány
   # egyéb
   - Eperjes köz  # = Rózsás utca
-  - Kraszna köz  # Időközben magántulajdonba került Hrsz: 182098/118
+  - Kraszna köz  # Időközben magántulajdonba került Hrsz: 182098/118 - 018/2017. (I. 19.) Ök. sz. határozat
+  - Barca köz    # Időközben magántulajdonba kerül, le van záva Hrsz: 182098/124 - 179/2022. (VII. 14.) Ök. sz. határozat, elvi hozzájárulás az eladáshoz
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás, ref hibás
