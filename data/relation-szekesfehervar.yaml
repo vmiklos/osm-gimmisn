@@ -1,5 +1,10 @@
 missing-streets: 'yes'
 filters:
+  Agyag utca:
+    # 40: sima 40 nincs, csak 40/A, 40/B.
+    invalid: ['40']
+  Alkony utca:
+    interpolation: 'all'
   Almássy lakótelep:
     interpolation: 'all'
   Attila utca:
@@ -47,6 +52,9 @@ filters:
     # 159/A: nincs ilyen, csak sima 159 a Köfém lakótelepen (157/A-C, 161, 163, 165. 159 a sorrend).
     # 968: a páros oldalon a 440 az utolsó házszám.
     invalid: ['159a', '968']
+  Csetneki utca:
+    # 11: sima 11 nincs, csak 11/A, 11/B, 11/C, 11/D.
+    invalid: ['11']
   Csokonai utca:
     # 25: a páratlan oldalon a 21 az utolsó házszám.
     invalid: ['25']
@@ -183,6 +191,11 @@ filters:
     # 212: a lakótelepen 42 az utolsó házszám, ez Budai úti cím lehet.
     # 350: a lakótelepen 42 az utolsó házszám, ez Budai úti cím lehet.
     invalid: ['2/2', '2a', '3b', '4a', '5/1', '5b', '6b', '7b', '8c', '9c', '10c', '11a', '14a', '17a', '19a', '31/5', '43', '45', '59', '73', '98', '159', '208', '212', '350']
+  Kőrösi utca:
+    # A páros oldalon 190 az utolsó házszám, majd négy utcával keletre, a Bébic utca és a Virág utca között van a 228 (12495/19 hrsz.).
+    # 568/93: ez helyrajzi szám, nem házszám.
+    # 588/90: ez helyrajzi szám, nem házszám.
+    invalid: ['568/93', '588/90']
   Lévai utca:
     # 1: sima 1 nincs, csak 1/A, 1/B.
     # 147: a páratlan oldalon a 27 az utolsó házszám.
