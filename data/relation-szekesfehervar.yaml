@@ -103,6 +103,9 @@ filters:
     # 6: sima 6 nincs, csak 6/1, 6/2.
     # 10: sima 10 nincs, csak 10/A, 10/B, 10/C, 10/D, 10/E, 10/F, 10/G, 10/H.
     invalid: ['6', '10']
+  Gábor Áron utca:
+    # 40: a páros oldalon a 12 az utolsó házszám.
+    invalid: ['40']
   Gödör utca:
     # 15: sima 15 nincs, csak 15/A, 15/B.
     # 19: sima 19 nincs, csak 19/A, 19/B.
@@ -136,6 +139,9 @@ filters:
     # 29/2: nincs ilyen, csak 29 földszint 2 van.
     # 37/B: nincs ilyen, csak 37, 37/A van.
     invalid: ['21a', '27a', '29/2', '37b']
+  Kertalja utca:
+    # 13: sima 13 nincs, csak 13/1, 13/2.
+    invalid: ['13']
   Királykút lakónegyed:
     interpolation: 'all'
     # 15/E: nincs ilyen, csak sima 15 van.
@@ -156,6 +162,10 @@ filters:
   Kisteleki utca:
     # 999: a páratlan oldalon a 117 az utolsó házszám.
     invalid: ['999']
+  Koppány utca:
+    # 99: a páratlan oldalon a 23 az utolsó házszám.
+    # 6: sima 6 nincs, csak 6/A, 6/B, 6/C.
+    invalid: ['99', '6']
   Kórogyi utca:
     # 2: sima 2 nincs, csak 2/1, 2/2.
     invalid: ['2']
@@ -196,6 +206,10 @@ filters:
     # 568/93: ez helyrajzi szám, nem házszám.
     # 588/90: ez helyrajzi szám, nem házszám.
     invalid: ['568', '588']
+  Kund utca:
+    # 8: ez és a Tompa Mihály utca 36. ugyanaz a telek, házszám csak a Tompa Mihály utcáról van.
+    # 18: a páros oldalon a 6 az utolsó házszám.
+    invalid: ['8', '18']
   Lévai utca:
     # 1: sima 1 nincs, csak 1/A, 1/B.
     # 147: a páratlan oldalon a 27 az utolsó házszám.
