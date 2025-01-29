@@ -55,6 +55,11 @@ filters:
   Csetneki utca:
     # 11: sima 11 nincs, csak 11/A, 11/B, 11/C, 11/D.
     invalid: ['11']
+  Csitáry G. Emil utca:
+    # 2/1: nincs ilyen, csak sima 2 van.
+    # 2/D: nincs ilyen, csak sima 2 van.
+    # 12: sima 12 nincs, csak 12/A, 12/B.
+    invalid: ['2/1', '2/D', '12']
   Csokonai utca:
     # 25: a páratlan oldalon a 21 az utolsó házszám.
     invalid: ['25']
@@ -142,6 +147,15 @@ filters:
   Kertalja utca:
     # 13: sima 13 nincs, csak 13/1, 13/2.
     invalid: ['13']
+  Keszegfalvi köz:
+    # 1: sima 1 nincs, csak 1/A, 1/B.
+    # 11/B: nincs ilyen, csak sima 11 van.
+    # 11/C: nincs ilyen, csak sima 11 van.
+    # 11/D: nincs ilyen, csak sima 11 van.
+    # 11/G: nincs ilyen, csak sima 11 van.
+    # 13: sima 13 nincs, csak 13/A, 13/B, 13/C, 13/D.
+    # 130: a páros oldalon nincsenek épületek.
+    invalid: ['1', '11b', '11c', '11d', '11g', '13', '130']
   Királykút lakónegyed:
     interpolation: 'all'
     # 15/E: nincs ilyen, csak sima 15 van.
@@ -238,6 +252,10 @@ filters:
   Murányi utca:
     # 330: a páros oldalon a 46 az utolsó házszám.
     invalid: ['330']
+  Nagy Lajos király utca:
+    # 39: sima 39 nincs, csak 39/1, 39/2.
+    # 4: sima 4 nincs, csak 4/A, 4/B.
+    invalid: ['39', '4']
   Nagyszombati utca:
     # 133: sima 133 nincs, csak 133/1, 133/2.
     # 265: sima 265 nincs, csak 265/1, 265/2.
@@ -357,6 +375,9 @@ filters:
     # 4/C: nincs ilyen, csak sima 4 van.
     # 20/A: a páros oldalon a 14 az utolsó házszám.
     invalid: ['2', '4b', '4c', '20a']
+  Zámoly utca:
+    # 45: sima 45 nincs, csak 45/1, 45/B.
+    invalid: ['45']
   Zára utca:
     # 2: ez és a Zombori utca 13. ugyanaz a telek, házszámok csak a Zombori utcáról vannak.
     invalid: ['2']
@@ -377,6 +398,7 @@ osm-street-filters:
   - Déli összekötő út
   - Nyugati elkerülőút
   - Török udvar
+  - Vásártér
   # parkok, sétányok
   - Alsóvárosi pihenőpark
   - Barátság liget
@@ -400,6 +422,8 @@ osm-street-filters:
   - Várfal park
   - Videoton ipari park park
 street-filters:
+  # ipari parkok
+  - Sóstó ipari park  # Sóstó Ipari Park - https://www.openstreetmap.org/relation/17486258
   # lakótelep
   - Börgönd lakótelep  # Börgönd - https://www.openstreetmap.org/node/312963221
   - Kisfalud Ujtelep  # Kisfalud - https://www.openstreetmap.org/node/156999322
@@ -427,6 +451,7 @@ street-filters:
   - Kőrakás
   - Zsíros tanya
   # régi név
+  - Csóri út  # Csóri Új út és Csóri Régi utca
   - Sóstói lakótelep  # Rádió utca
   # hivatalos név
   - Széna utca  # a földhivatal szerint a 8867 hrsz. a Széna utca, de a helyszínen Széna tér van kitáblázva, lásd: https://www.openstreetmap.org/note/4577939
@@ -438,7 +463,8 @@ refstreets:
   'Kistelekitanya': 'Kisteleki tanya'   # https://www.openstreetmap.org/note/4343428
   'Ligetsor': 'Liget sor'          # https://www.openstreetmap.org/note/4343438
   'Murvás út': 'Murvás utca'       # https://www.openstreetmap.org/note/4343378
-  'Vargacsatorna part': 'Vargacsatornapart'  # https://www.openstreetmap.org/note/4343438
+  'Tigris dűlő': 'Veresvíz utca'
+  'Vargacsatorna part': 'Vargacsatornapart'  # https://www.openstreetmap.org/note/4343472
   # ellenőrzött
   'Almássy lakótelep': 'Almássy telep'   # földhivatalnál vegyesen, minden házon és régi táblán Almássy telep, a két autós bejáratnál 1-1 új utcanévtáblán Almássy ltp. - https://www.openstreetmap.org/note/4593724
   'Bulcsú utca': 'Bulcsu utca'           # az utca egyik végén Bulcsú, másik végén Bulcsu - https://www.openstreetmap.org/note/4343407
