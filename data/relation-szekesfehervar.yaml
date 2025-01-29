@@ -59,7 +59,7 @@ filters:
     # 2/1: nincs ilyen, csak sima 2 van.
     # 2/D: nincs ilyen, csak sima 2 van.
     # 12: sima 12 nincs, csak 12/A, 12/B.
-    invalid: ['2/1', '2/D', '12']
+    invalid: ['2/1', '2d', '12']
   Csokonai utca:
     # 25: a páratlan oldalon a 21 az utolsó házszám.
     invalid: ['25']
