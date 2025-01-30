@@ -3,6 +3,9 @@ filters:
   Agyag utca:
     # 40: sima 40 nincs, csak 40/A, 40/B.
     invalid: ['40']
+  Akácfa utca:
+    # 38: a páros oldalon a 14 az utolsó házszám.
+    invalid: ['38']
   Alkony utca:
     interpolation: 'all'
   Almássy lakótelep:
@@ -125,6 +128,8 @@ filters:
     # 3: sima 3 nincs, csak 3/A, 3/B.
     # 4: sima 4 nincs, csak 4/A, 4/B.
     invalid: ['2', '3', '4']
+  Homoksor:
+    interpolation: 'all'
   Horvát István lakótelep:
     interpolation: 'all'
   Illyés Gyula tér:
@@ -345,6 +350,14 @@ filters:
   Turóci utca:
     # 28/B: nincs ilyen, csak 28/A, 28.
     invalid: ['28b']
+  Udvarhelyi köz:
+    interpolation: 'all'
+    # 12: a 10 az utolsó házszám, ez az Udvarhelyi utca 12.
+    # 24: a 10 az utolsó házszám, ez Udvarhelyi utcai cím lehet.
+    # 31: a 10 az utolsó házszám, ez Udvarhelyi utcai cím lehet.
+    # 31/A: a 10 az utolsó házszám, ez Udvarhelyi utcai cím lehet.
+    # 37: a 10 az utolsó házszám, ez Udvarhelyi utcai cím lehet.
+    invalid: ['12', '24', '31', '31a', '37']
   Vajda sor:
     interpolation: 'all'
   Verbói utca:
@@ -476,6 +489,7 @@ refstreets:
   'Hosszúsétatér utca': 'Hosszúsétatér'  # táblán Hosszúsétatér u.
   'Körösmezei utca': 'Kőrösmezei utca'   # táblán Körösmezei utca - https://www.openstreetmap.org/note/4343434
   'Körmöci utca': 'Körmőci utca'         # táblán Körmöci utca - https://www.openstreetmap.org/note/4343436
+  'Pénzverővölgy': 'Pénzverő völgy'      # Deponia Nonprofit Kft. székhelye - https://deponia.hu/
   'Tas utca': 'Tass utca'                # nincs tábla - https://www.openstreetmap.org/note/4343464
   'Újlaki utca': 'Ujlaki utca'           # táblán Újlaki utca - https://www.openstreetmap.org/note/4343469
   # Béla utca            - van pár nem hivatalos Béla út tábla is - https://www.openstreetmap.org/note/4343406
