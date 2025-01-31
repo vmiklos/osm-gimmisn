@@ -128,8 +128,15 @@ filters:
     # 3: sima 3 nincs, csak 3/A, 3/B.
     # 4: sima 4 nincs, csak 4/A, 4/B.
     invalid: ['2', '3', '4']
+  Hátszegi utca:
+    # 11: a páratlan oldalon a 9 az utolsó házszám.
+    invalid: ['11']
   Homoksor:
     interpolation: 'all'
+    # 35/A: nincs ilyen, csak sima 35 van.
+    # 41: ez a Lippai utca, a 40 után a 42 következik.
+    # 68: a 64 az utolsó házszám.
+    invalid: ['35a', '41', '68']
   Horvát István lakótelep:
     interpolation: 'all'
   Illyés Gyula tér:
@@ -407,6 +414,8 @@ filters:
 osm-street-filters:
   # Nem igazi utcák
   - Alakulótér
+  - András-lépcső
+  - Árpád-lépcső
   - Déli elkerülőút
   - Déli összekötő út
   - Nyugati elkerülőút
