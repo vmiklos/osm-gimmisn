@@ -244,6 +244,17 @@ filters:
     invalid: ['1', '147', '10', '406']
   Ligetsor:
     interpolation: 'all'
+  Lippai köz:
+    # 15/C: nincs ilyen, csak sima 15 van, ez Lippai utcai cím lehet.
+    invalid: ['15c']
+  Lippai utca:
+    # 9: nincs ilyen, a 7 után a 11 következik, amely dupla teleknek tűnik.
+    # 15: sima 15 nincs, csak 15/A, 15/B, 15/C, 15/D.
+    # 22: a páros oldalon a 8 az utolsó házszám, ez Lippai közi cím lehet.
+    # 22/A: a páros oldalon a 8 az utolsó házszám, ez Lippai közi cím lehet.
+    # 26: a páros oldalon a 8 az utolsó házszám, ez Lippai közi cím lehet.
+    # 28: a páros oldalon a 8 az utolsó házszám, ez Lippai közi cím lehet.
+    invalid: ['9', '15', '22', '22a', '26', '28']
   Malackai utca:
     # 3: sima 3 nincs, csak 3/1, 3/2.
     # 5: sima 5 nincs, csak 5/1, 5/2.
@@ -365,6 +376,10 @@ filters:
     # 31/A: a 10 az utolsó házszám, ez Udvarhelyi utcai cím lehet.
     # 37: a 10 az utolsó házszám, ez Udvarhelyi utcai cím lehet.
     invalid: ['12', '24', '31', '31a', '37']
+  Udvarhelyi utca:
+    # 67: a páratlan oldalon az 55 az utolsó házszám.
+    # 28: nincs ilyen, a 26 után a 30 következik.
+    invalid: ['67', '28']
   Vajda sor:
     interpolation: 'all'
   Verbói utca:
