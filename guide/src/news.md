@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## 25.2
 
 - Resolves: gh#4088 missing-housenumbers output is now deterministic for the `housenumber-letters:
   true` case when `1/a`, `1/b`, etc is simplified to only one of the matches
