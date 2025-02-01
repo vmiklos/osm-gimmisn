@@ -201,6 +201,12 @@ filters:
   Házmán utca:
     # 1: ez a Budagyöngye, de az a Szilágyi Erzsébet fasor 121.
     invalid: ['1']
+  Hankóczy Jenő utca:
+    # 3: 3/a, 3/b van
+    # 13: 13/a, 13/b, 13/c van
+    # 27: 27/a, 27/b van
+    # 16/a, 16/b: 16 van
+    invalid: ['3', '13', '27', '16a', '16b']
   Júlia utca:
     # 2: 2/a, 2/b, 2/c
     invalid: ['2']
