@@ -283,6 +283,8 @@ filters:
     # 133: sima 133 nincs, csak 133/1, 133/2.
     # 265: sima 265 nincs, csak 265/1, 265/2.
     invalid: ['133', '265']
+  Nyárfa utca:
+    interpolation: 'all'
   Nemes utca:
     # 33-35: nincs ilyen, csak 33/1, 33/2, 35.
     invalid: ['33']
@@ -365,6 +367,8 @@ filters:
     # 19/A: nincs ilyen, csak sima 19 van.
     # 19/C: nincs ilyen, csak sima 19 van.
     invalid: ['17a', '19a', '19c']
+  Tölgyfa utca:
+    interpolation: 'all'
   Turóci utca:
     # 28/B: nincs ilyen, csak 28/A, 28.
     invalid: ['28b']
@@ -494,12 +498,10 @@ street-filters:
   - Széna utca  # a földhivatal szerint a 8867 hrsz. a Széna utca, de a helyszínen Széna tér van kitáblázva, lásd: https://www.openstreetmap.org/note/4577939
 refstreets:
   # kérdéses
-  # 'Fő utca': 'Börgöndi Fő utca' - nem mappelhető 2 Fő utca van - https://www.openstreetmap.org/note/4343362
   'Karinthy Frigyes tér': 'Karinthy tér'   # https://www.openstreetmap.org/note/4343415
   'Kereszttöltés utca': 'Kereszttöltés út' # https://www.openstreetmap.org/note/4343417
   'Kistelekitanya': 'Kisteleki tanya'   # https://www.openstreetmap.org/note/4343428
   'Ligetsor': 'Liget sor'          # https://www.openstreetmap.org/note/4343438
-  'Murvás út': 'Murvás utca'       # https://www.openstreetmap.org/note/4343378
   'Tigris dűlő': 'Veresvíz utca'
   'Vargacsatorna part': 'Vargacsatornapart'  # https://www.openstreetmap.org/note/4343472
   # ellenőrzött
@@ -517,6 +519,7 @@ refstreets:
   'Tas utca': 'Tass utca'                # nincs tábla - https://www.openstreetmap.org/note/4343464
   'Újlaki utca': 'Ujlaki utca'           # táblán Újlaki utca - https://www.openstreetmap.org/note/4343469
   # Béla utca            - van pár nem hivatalos Béla út tábla is - https://www.openstreetmap.org/note/4343406
+  # Börgöndi Fő utca     - néhány régebbi táblán Fő utca, az összes újon Börgöndi Fő utca - https://www.openstreetmap.org/note/4343362
   # Csiki utca           - https://www.openstreetmap.org/note/4343409
   # Csóri Új út          - https://www.openstreetmap.org/note/4343412
   # Dévényi utca         - https://www.openstreetmap.org/note/4343413
@@ -525,6 +528,7 @@ refstreets:
   # Királyerdői utca     - https://www.openstreetmap.org/note/4343421
   # Kölcsey utca         - https://www.openstreetmap.org/note/4352873
   # Madách tér           - https://www.openstreetmap.org/note/4343441
+  # Murvás utca          - https://www.openstreetmap.org/note/4343378
   # Pestispincék utca    - https://www.openstreetmap.org/note/4343442
   # Radnóti Miklós tér   - https://www.openstreetmap.org/note/4343445
   # Szöllősi utca        - https://www.openstreetmap.org/note/4343458
