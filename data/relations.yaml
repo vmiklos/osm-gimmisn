@@ -14,6 +14,7 @@ budapest_03:
     refcounty: "01"
     refsettlement: "003"
     inactive: true
+    alias: ['aquincum', 'kaszasdulo', 'obuda']
 budapest_04:
     osmrelation: 367963
     refcounty: "01"
@@ -178,19 +179,7 @@ zoldmal:
     osmrelation: 3174399
     refcounty: "01"
     refsettlement: "002"
-# 03
-aquincum:
-    osmrelation: 6484084
-    refcounty: "01"
-    refsettlement: "003"
-kaszasdulo:
-    osmrelation: 6484394
-    refcounty: "01"
-    refsettlement: "003"
-obuda:
-    osmrelation: 3228284
-    refcounty: "01"
-    refsettlement: "003"
+# budapest 03 - kerület szinten elég
 # budapest 04 - kérésre összevonva
 # budapest 05 - már egyben van, mert kész van
 # budapest 08 - kerulet szinten eleg, nem kotelezo tovabb bontani, ezek csak belvárosi térképezéshez
