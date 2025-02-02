@@ -156,6 +156,13 @@ filters:
     # 29/2: nincs ilyen, csak 29 földszint 2 van.
     # 37/B: nincs ilyen, csak 37, 37/A van.
     invalid: ['21a', '27a', '29/2', '37b']
+  Katica utca:
+    # 7: a páratlan oldal fel van parcellázva, de még nincsenek épületek.
+    # 9: a páratlan oldal fel van parcellázva, de még nincsenek épületek.
+    # 15: a páratlan oldal fel van parcellázva, de még nincsenek épületek.
+    # 19: a páratlan oldal fel van parcellázva, de még nincsenek épületek.
+    # 21: a páratlan oldal fel van parcellázva, de még nincsenek épületek.
+    invalid: ['7', '9', '15', '19', '21']
   Kertalja utca:
     # 13: sima 13 nincs, csak 13/1, 13/2.
     invalid: ['13']
@@ -501,9 +508,7 @@ refstreets:
   'Karinthy Frigyes tér': 'Karinthy tér'   # https://www.openstreetmap.org/note/4343415
   'Kereszttöltés utca': 'Kereszttöltés út' # https://www.openstreetmap.org/note/4343417
   'Kistelekitanya': 'Kisteleki tanya'   # https://www.openstreetmap.org/note/4343428
-  'Ligetsor': 'Liget sor'          # https://www.openstreetmap.org/note/4343438
   'Tigris dűlő': 'Veresvíz utca'
-  'Vargacsatorna part': 'Vargacsatornapart'  # https://www.openstreetmap.org/note/4343472
   # ellenőrzött
   'Almássy lakótelep': 'Almássy telep'   # földhivatalnál vegyesen, minden házon és régi táblán Almássy telep, a két autós bejáratnál 1-1 új utcanévtáblán Almássy ltp. - https://www.openstreetmap.org/note/4593724
   'Bulcsú utca': 'Bulcsu utca'           # az utca egyik végén Bulcsú, másik végén Bulcsu - https://www.openstreetmap.org/note/4343407
@@ -515,6 +520,7 @@ refstreets:
   'Hosszúsétatér utca': 'Hosszúsétatér'  # táblán Hosszúsétatér u.
   'Körösmezei utca': 'Kőrösmezei utca'   # táblán Körösmezei utca - https://www.openstreetmap.org/note/4343434
   'Körmöci utca': 'Körmőci utca'         # táblán Körmöci utca - https://www.openstreetmap.org/note/4343436
+  'Ligetsor': 'Liget sor'                # táblán Ligetsor - https://www.openstreetmap.org/note/4343438
   'Pénzverővölgy': 'Pénzverő völgy'      # Deponia Nonprofit Kft. székhelye - https://deponia.hu/
   'Tas utca': 'Tass utca'                # nincs tábla - https://www.openstreetmap.org/note/4343464
   'Újlaki utca': 'Ujlaki utca'           # táblán Újlaki utca - https://www.openstreetmap.org/note/4343469
@@ -532,6 +538,7 @@ refstreets:
   # Pestispincék utca    - https://www.openstreetmap.org/note/4343442
   # Radnóti Miklós tér   - https://www.openstreetmap.org/note/4343445
   # Szöllősi utca        - https://www.openstreetmap.org/note/4343458
+  # Vargacsatornapart    - https://www.openstreetmap.org/note/4343472
   # Zágoni utca          - https://www.openstreetmap.org/note/4343475
 source: survey
 housenumber-letters: true
