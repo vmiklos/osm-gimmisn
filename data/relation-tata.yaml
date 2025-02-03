@@ -1,0 +1,51 @@
+missing-streets: 'yes'
+refstreets:
+  #  'Petőfi Sándor utca': 'A-Petőfi Sándor utca'  # nem mappelhető a Tata-Agostyán Petőfi Sándor utca, mert osm-en ugyanaz a neve mint a Tatán.
+  'Ágnes utca': 'Ágnes út'
+  'Akácos utca': 'Akácos út'
+  'Aradi vértanúk útja': 'Aradi vértanuk útja'
+  'Barcsay Jenő utca': 'Barcsay Jenő út'
+  'Barina utca': 'Barina út'
+  'Cser utca': 'Cser út'
+  'Dadi utca': 'Dadi út'
+  'Eötvös József utca': 'Eötvös utca'
+  'Erzsébet utca': 'Erzsébet út'
+  'Fácánoskert': 'Fácános kert'
+  'Fáklya utca': 'Faklya utca'
+  'Faller Jenő utca': 'Faller Jenő út'
+  'Fenyves utca': 'Fenyves út'
+  'Gyertyános utca': 'Gyertyános út'
+  'Hedvig utca': 'Hedvig út'
+  'Hollósi utca': 'Hollósi Sándor utca'
+  'Ida utca': 'Ida út'
+  'Ilona utca': 'Ilona út'
+  'Irén utca': 'Irén út'
+  'Judit utca': 'Judit út'
+  'Keszthelyi út': 'Keszthelyi utca'
+  'Klára utca': 'Klára út'
+  'Környei út': 'Környei utca'
+  'Margit utca': 'Margit út'
+  # 'Mária utca': 'Mária puszta'
+  'Nyúl utca': 'Nyúl út'
+  'Őz utca': 'Őz út'
+  'Szarvas utca': 'Szarvas út'
+  'Széles csapás': 'Széles csapás út'
+  'Szőlősor dűlő': 'Szőlősor utca'
+  'Taliga utca': 'Taliga út'
+  'Zrínyi Miklós utca': 'Zrínyi utca'
+  'Zsellér dűlő': 'Zsellér utca'
+street-filters:
+  # nem igazi utcák
+  - Vasútállomás I.
+  # tanyák
+  - Diós puszta
+  - Fényes fasor tanya
+  - Naszályi út tanya
+  - Remeteség puszta
+  # településrész
+# osm-street-filters:
+  # parkok/sétányok
+  # tanyák/dűlők
+source: survey
+housenumber-letters: true
+inactive: false
