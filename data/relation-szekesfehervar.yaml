@@ -342,6 +342,8 @@ filters:
     # 39: sima 39 nincs, csak 39/A, 39/B, 39/C.
     # 225: a páratlan oldalon a 195 az utolsó házszám.
     invalid: ['39', '225']
+  Szedres dűlő:
+    interpolation: 'all'
   Szedreskerti lakónegyed:
     interpolation: 'all'
     # 53: a lakónegyedben az 50 az utolsó házszám.
@@ -393,6 +395,12 @@ filters:
     invalid: ['67', '28']
   Vajda sor:
     interpolation: 'all'
+  Várkörút:
+    # 41: a páratlan oldalon a 33-35 az utolsó házszám.
+    # 83: a páratlan oldalon a 33-35 az utolsó házszám.
+    # 226/28: ez helyrajzi szám, nem házszám.
+    # 332: a páros oldalon az 56 az utolsó házszám.
+    invalid: ['41', '83', '226', '332']
   Verbói utca:
     # 165: a páratlan oldalon a 17 az utolsó házszám.
     invalid: ['165']
@@ -506,7 +514,6 @@ street-filters:
 refstreets:
   # kérdéses
   'Karinthy Frigyes tér': 'Karinthy tér'   # https://www.openstreetmap.org/note/4343415
-  'Kereszttöltés utca': 'Kereszttöltés út' # https://www.openstreetmap.org/note/4343417
   'Kistelekitanya': 'Kisteleki tanya'   # https://www.openstreetmap.org/note/4343428
   'Tigris dűlő': 'Veresvíz utca'
   # ellenőrzött
@@ -531,6 +538,7 @@ refstreets:
   # Dévényi utca         - https://www.openstreetmap.org/note/4343413
   # Fáy András lakótelep - https://www.openstreetmap.org/note/4592292
   # Goldziher Ignác köz  - https://www.openstreetmap.org/note/4592968
+  # Kereszttöltés utca   - https://www.openstreetmap.org/note/4343417
   # Királyerdői utca     - https://www.openstreetmap.org/note/4343421
   # Kölcsey utca         - https://www.openstreetmap.org/note/4352873
   # Madách tér           - https://www.openstreetmap.org/note/4343441
