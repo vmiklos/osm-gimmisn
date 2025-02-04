@@ -344,8 +344,16 @@ filters:
     # 39: sima 39 nincs, csak 39/A, 39/B, 39/C.
     # 225: a páratlan oldalon a 195 az utolsó házszám.
     invalid: ['39', '225']
+  Szeder köz:
+    # 107: a páratlan oldalon a 3 az utolsó házszám, ez Szeder utcai cím lehet.
+    # 10/P: nincs ilyen, a páros oldalon csak a 2 van.
+    # 12: a páros oldalon a 2 az egyetlen házszám, ez Szeder utcai cím lehet.
+    # 38: a páros oldalon a 2 az egyetlen házszám, ez Szeder utcai cím lehet.
+    invalid: ['107', '10p', '12', '38']
   Szedres dűlő:
     interpolation: 'all'
+    # 27: a 27, 28, 29 egybenyitott telek, de csak a 28 van kitáblázva.
+    invalid: ['27']
   Szedreskerti lakónegyed:
     interpolation: 'all'
     # 53: a lakónegyedben az 50 az utolsó házszám.
