@@ -55,6 +55,11 @@ filters:
     # 159/A: nincs ilyen, csak sima 159 a Köfém lakótelepen (157/A-C, 161, 163, 165. 159 a sorrend).
     # 968: a páros oldalon a 440 az utolsó házszám.
     invalid: ['159a', '968']
+  Csalai Fő utca:
+    # 35/2: nincs ilyen, csak sima 35 van.
+    # 38: ez a Török Ignác utca 1. régi házszáma.
+    # 274: a páros oldalon a 34 az utolsó házszám.
+    invalid: ['35/2', '38', '274']
   Csetneki utca:
     # 11: sima 11 nincs, csak 11/A, 11/B, 11/C, 11/D.
     invalid: ['11']
@@ -197,6 +202,9 @@ filters:
   Kisteleki utca:
     # 999: a páratlan oldalon a 117 az utolsó házszám.
     invalid: ['999']
+  Klapka utca:
+    # 3: sima 3 nincs, csak 3/A, 3/B.
+    invalid: ['3']
   Koppány utca:
     # 99: a páratlan oldalon a 23 az utolsó házszám.
     # 6: sima 6 nincs, csak 6/A, 6/B, 6/C.
@@ -415,6 +423,9 @@ filters:
     # 67: a páratlan oldalon az 55 az utolsó házszám.
     # 28: nincs ilyen, a 26 után a 30 következik.
     invalid: ['67', '28']
+  Új utca:
+    # 14: a páros oldalon a 6 az utolsó házszám.
+    invalid: ['14']
   Vajda sor:
     interpolation: 'all'
   Várkörút:
