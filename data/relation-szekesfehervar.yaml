@@ -122,6 +122,13 @@ filters:
   Gábor Áron utca:
     # 40: a páros oldalon a 12 az utolsó házszám.
     invalid: ['40']
+  Gerle utca:
+    interpolation: 'all'
+    # 1/A: nincs ilyen, csak sima 1 van.
+    # 16: a 8 az utolsó házszám.
+    # 21: a 8 az utolsó házszám.
+    # 47: a 8 az utolsó házszám.
+    invalid: ['1a', '16', '21', '47']
   Gödör utca:
     # 15: sima 15 nincs, csak 15/A, 15/B.
     # 19: sima 19 nincs, csak 19/A, 19/B.
@@ -312,6 +319,10 @@ filters:
     interpolation: 'all'
   Orsovai utca:
     interpolation: 'all'
+  Pacsirta utca:
+    # 17/A: nincs ilyen, csak sima 17 van.
+    # 45: a páratlan oldalon a 17 az utolsó házszám.
+    invalid: ['17a', '45']
   Puskás Tivadar utca:
     # 777/2: a páratlan oldalon a 15 az utolsó házszám.
     # 22: a páros oldalon a 8 az utolsó házszám.
@@ -344,6 +355,12 @@ filters:
     # 18: sima 18 nincs, csak 18/A, 18/B.
     # 20: sima 20 nincs, csak 20/A, 20/B.
     invalid: ['1', '5', '7', '9', '11', '13', '15', '17', '19', '21', '29', '29a', '2', '8', '12', '14', '16', '18', '20']
+  Rigó utca:
+    # 91: a páratlan oldalon a 71 az utolsó házszám.
+    # 559: a páratlan oldalon a 71 az utolsó házszám.
+    # 589: a páratlan oldalon a 71 az utolsó házszám.
+    # 574: a páros oldalon a 42 az utolsó házszám.
+    invalid: ['91', '559', '589', '574']
   Rimaszombati utca:
     # 52/A: a páros oldalon a 18 az utolsó házszám.
     invalid: ['52a']
