@@ -17,6 +17,10 @@ filters:
     # 14: sima 14 nincs, csak 14/1, 14/2, 14/3, 14/4.
     # 14/A: nincs ilyen, csak 14/1 van.
     invalid: ['14', '14a']
+  Barack utca:
+    interpolation: 'all'
+    # 3: sima 3 nincs, csak 3/A, 3/B.
+    invalid: ['3']
   Béla utca:
     interpolation: 'all'
     # 63: a 61 az utolsó házszám.
@@ -372,6 +376,12 @@ filters:
     # 39: sima 39 nincs, csak 39/A, 39/B, 39/C.
     # 225: a páratlan oldalon a 195 az utolsó házszám.
     invalid: ['39', '225']
+  Szamos utca:
+    # 100: sima 100 nincs, csak 100/A, 100/B.
+    # 100/1: 100/A van kitáblázva.
+    # 100/2: 100/B van kitáblázva.
+    # 102/A: nincs ilyen, csak 102, 102/B.
+    invalid: ['100', '100/1', '100/2', '102a']
   Szeder köz:
     # 107: a páratlan oldalon a 3 az utolsó házszám, ez Szeder utcai cím lehet.
     # 10/P: nincs ilyen, a páros oldalon csak a 2 van.
