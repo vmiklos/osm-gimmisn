@@ -337,7 +337,19 @@ pub fn init(conn: &mut rusqlite::Connection) -> anyhow::Result<()> {
         )?;
     }
 
-    tx.execute("pragma user_version = 19", [])?;
+    if user_version < 20 {
+        // Tracks all sellements in a country.
+        tx.execute(
+            "create table stats_settlements (
+                    osm_id text not null,
+                    osm_type text not null,
+                    name text not null
+                );",
+            [],
+        )?;
+    }
+
+    tx.execute("pragma user_version = 20", [])?;
     tx.commit()?;
     Ok(())
 }
