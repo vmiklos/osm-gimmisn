@@ -35,6 +35,8 @@ refstreets:
   'Zrínyi Miklós utca': 'Zrínyi utca'
   'Zsellér dűlő': 'Zsellér utca'
 street-filters:
+  # nem mappelhető
+  - A-Petőfi Sándor utca  # https://www.openstreetmap.org/way/121389854
   # nem igazi utcák
   - Vasútállomás I.
   # tanyák
