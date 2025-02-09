@@ -375,6 +375,27 @@ fn update_stats_refcount(ctx: &context::Context) -> anyhow::Result<()> {
     Ok(())
 }
 
+fn overpass_query_with_retry(ctx: &context::Context, query: &str) -> anyhow::Result<String> {
+    let mut retry = 0;
+    while should_retry(retry) {
+        if retry > 0 {
+            info!("overpass_query_with_retry: try #{retry}");
+        }
+        retry += 1;
+        overpass_sleep(ctx);
+        let response = match overpass_query::overpass_query(ctx, query) {
+            Ok(value) => value,
+            Err(err) => {
+                info!("overpass_query_with_retry: http error: {err}");
+                continue;
+            }
+        };
+
+        return Ok(response);
+    }
+    Ok("".to_string())
+}
+
 /// Performs the update of the whole_country table.
 pub fn update_stats_overpass(ctx: &context::Context) -> anyhow::Result<()> {
     let query = ctx
@@ -392,24 +413,10 @@ pub fn update_stats_overpass(ctx: &context::Context) -> anyhow::Result<()> {
         lines.push(line.to_string());
     }
     let json_query = lines.join("\n");
-    info!("update_stats_overpass: json, talking to overpass");
-    let mut retry = 0;
-    while should_retry(retry) {
-        if retry > 0 {
-            info!("update_stats_overpass: try #{retry}");
-        }
-        retry += 1;
-        overpass_sleep(ctx);
-        let response = match overpass_query::overpass_query(ctx, &json_query) {
-            Ok(value) => value,
-            Err(err) => {
-                info!("update_stats_overpass: http error: {err}");
-                continue;
-            }
-        };
-
+    info!("update_stats_overpass: talking to overpass");
+    let response = overpass_query_with_retry(ctx, &json_query)?;
+    if !response.is_empty() {
         area_files::write_whole_country(ctx, &response)?;
-        break;
     }
     Ok(())
 }
