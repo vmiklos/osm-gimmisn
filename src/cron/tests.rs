@@ -700,6 +700,16 @@ fn test_update_stats() {
             /*data_path=*/ "",
             /*result_path=*/ "src/fixtures/network/overpass-stats.json",
         ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-settlement-stats.json",
+        ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
@@ -711,6 +721,7 @@ fn test_update_stats() {
         .borrow_mut()
         .write_all("first line\nsecond line\n".as_bytes())
         .unwrap();
+    let settlements_overpass_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -718,6 +729,10 @@ fn test_update_stats() {
             (
                 "data/street-housenumbers-hungary.overpassql",
                 &overpass_template,
+            ),
+            (
+                "data/housenumberless-settlements-hungary.overpassql",
+                &settlements_overpass_template,
             ),
         ],
     );
@@ -737,6 +752,14 @@ fn test_update_stats() {
         )
         .unwrap();
     assert!(!last_modified.is_empty());
+    let last_modified: String = conn
+        .query_row(
+            "select last_modified from mtimes where page = ?1",
+            ["stats-settlements/osm-base"],
+            |row| row.get(0),
+        )
+        .unwrap();
+    assert!(!last_modified.is_empty());
 
     let mut stmt = conn
         .prepare("select count from counts where category = 'ref'")
@@ -746,6 +769,23 @@ fn test_update_stats() {
     let count: String = count.get(0).unwrap();
     let num_ref: i64 = count.parse().unwrap();
     assert_eq!(num_ref, 300);
+}
+
+/// Tests update_settlement_stats_overpass(), the case when the table is non-empty already.
+#[test]
+fn test_update_settlement_stats_overpass() {
+    let ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into stats_settlements (osm_id, osm_type, name) values (1, 'node', 'mysettlement');",
+        )
+        .unwrap();
+    }
+
+    update_settlement_stats_overpass(&ctx).unwrap();
+
+    // No error: no network traffic as the table was non-empty already.
 }
 
 /// Tests update_stats(): the case when we keep getting HTTP errors.
@@ -768,6 +808,7 @@ fn test_update_stats_http_error() {
         .unwrap();
     let stats_json = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
+    let settlements_overpass_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -775,6 +816,10 @@ fn test_update_stats_http_error() {
             (
                 "data/street-housenumbers-hungary.overpassql",
                 &overpass_template,
+            ),
+            (
+                "data/housenumberless-settlements-hungary.overpassql",
+                &settlements_overpass_template,
             ),
         ],
     );
@@ -973,6 +1018,16 @@ fn test_our_main_stats() {
             /*data_path=*/ "",
             /*result_path=*/ "src/fixtures/network/overpass-stats.csv",
         ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-settlement-stats.json",
+        ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
@@ -980,6 +1035,7 @@ fn test_our_main_stats() {
     let mut file_system = context::tests::TestFileSystem::new();
     let stats_value = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();
+    let settlements_overpass_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -987,6 +1043,10 @@ fn test_our_main_stats() {
             (
                 "data/street-housenumbers-hungary.overpassql",
                 &overpass_template,
+            ),
+            (
+                "data/housenumberless-settlements-hungary.overpassql",
+                &settlements_overpass_template,
             ),
         ],
     );

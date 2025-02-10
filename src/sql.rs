@@ -349,7 +349,16 @@ pub fn init(conn: &mut rusqlite::Connection) -> anyhow::Result<()> {
         )?;
     }
 
-    tx.execute("pragma user_version = 20", [])?;
+    if user_version < 21 {
+        // Speeds up access on whole_country.city.
+        tx.execute(
+            "create index idx_whole_country_cities
+                 on whole_country(city);",
+            [],
+        )?;
+    }
+
+    tx.execute("pragma user_version = 21", [])?;
     tx.commit()?;
     Ok(())
 }
