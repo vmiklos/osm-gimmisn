@@ -421,6 +421,32 @@ pub fn update_stats_overpass(ctx: &context::Context) -> anyhow::Result<()> {
     Ok(())
 }
 
+/// Performs the update of the stats_settlements table.
+pub fn update_settlement_stats_overpass(ctx: &context::Context) -> anyhow::Result<()> {
+    // This changes so infrequently, that just update is when the table is empty, for now: doing it
+    // daily is a waste.
+    {
+        let conn = ctx.get_database_connection()?;
+        let mut stmt = conn.prepare("select count(*) from stats_settlements")?;
+        let mut rows = stmt.query([])?;
+        let row = rows.next()?.context("no row")?;
+        let count: i64 = row.get(0).unwrap();
+        if count > 0 {
+            return Ok(());
+        }
+    }
+
+    let query = ctx
+        .get_file_system()
+        .read_to_string(&ctx.get_abspath("data/housenumberless-settlements-hungary.overpassql"))?;
+    info!("update_settlement_stats_overpass: talking to overpass");
+    let response = overpass_query_with_retry(ctx, &query)?;
+    if !response.is_empty() {
+        area_files::write_settlements_whole_country(ctx, &response)?;
+    }
+    Ok(())
+}
+
 /// Performs the update of country-level stats.
 fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     // Fetch house numbers for the whole country.
@@ -432,6 +458,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
 
     if overpass {
         update_stats_overpass(ctx)?;
+        update_settlement_stats_overpass(ctx)?;
     }
 
     info!("update_stats: updating count");

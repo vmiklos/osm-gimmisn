@@ -277,5 +277,39 @@ pub fn write_whole_country(ctx: &context::Context, result: &str) -> anyhow::Resu
     Ok(())
 }
 
+pub fn write_settlements_whole_country(ctx: &context::Context, result: &str) -> anyhow::Result<()> {
+    let overpass: crate::serde::OverpassResult = serde_json::from_str(result)?;
+
+    let mut conn = ctx.get_database_connection()?;
+    let tx = conn.transaction()?;
+    tx.execute("delete from stats_settlements", [])?;
+    for element in overpass.elements {
+        let osm_type = element.osm_type.to_string();
+        let osm_id = element.id.to_string();
+        let name = element.tags.name.unwrap_or("".into());
+        tx.execute(
+            "insert into stats_settlements (osm_id, osm_type, name) values (?1, ?2, ?3)",
+            [osm_id, osm_type, name],
+        )?;
+    }
+
+    let osm_time = overpass.osm3s.timestamp_osm_base.unix_timestamp_nanos();
+    tx.execute(
+        r#"insert into mtimes (page, last_modified) values ('stats-settlements/osm-base', ?1)
+                 on conflict(page) do update set last_modified = excluded.last_modified"#,
+        [osm_time.to_string()],
+    )?;
+
+    let areas_time = overpass.osm3s.timestamp_areas_base.unix_timestamp_nanos();
+    tx.execute(
+        r#"insert into mtimes (page, last_modified) values ('stats-settlements/areas-base', ?1)
+                 on conflict(page) do update set last_modified = excluded.last_modified"#,
+        [areas_time.to_string()],
+    )?;
+    tx.commit()?;
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests;
