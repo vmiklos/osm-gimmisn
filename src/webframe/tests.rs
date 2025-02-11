@@ -397,3 +397,27 @@ fn test_handle_error_json() {
     let value: HashMap<String, String> = serde_json::from_str(&output).unwrap();
     assert_eq!(value["error"], "myerror");
 }
+
+/// Tests handle_stats_housenumberless(): if the output contains #2, but not #1.
+#[test]
+fn test_handle_stats_cityprogress() {
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into stats_settlements (osm_id, osm_type, name) values ('1', 'node', 'mysettlement1');
+             insert into stats_settlements (osm_id, osm_type, name) values ('2', 'node', 'mysettlement2');
+             insert into whole_country (postcode, city, street, housenumber, user, osm_id, osm_type, timestamp, place, unit, name, fixme) values ('7677', 'mysettlement1', 'Dollár utca', '1', 'mgpx', '42', 'way', '2020-05-10T22:02:25Z', '', '', '', '');",
+        )
+        .unwrap();
+    }
+
+    let root =
+        test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/housenumberless-settlements");
+
+    let results = wsgi::tests::TestWsgi::find_all(&root, "body/pre");
+    assert_eq!(results.len(), 1);
+    let result = &results[0];
+    assert!(!result.contains("node(1)"));
+    assert!(result.contains("node(2)"));
+}

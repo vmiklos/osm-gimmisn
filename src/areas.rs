@@ -1902,6 +1902,26 @@ way{color:blue; width:4;}
     query
 }
 
+/// Creates an overpass query that shows all settlements without any house numbers.
+pub fn make_turbo_query_for_housenumberless(ctx: &context::Context) -> anyhow::Result<String> {
+    let mut query = r#"[out:json][timeout:425];
+(
+"#
+    .to_string();
+    let conn = ctx.get_database_connection()?;
+    let mut stmt = conn.prepare("select osm_type, osm_id from stats_settlements where not exists ( select 1 from whole_country where whole_country.city = stats_settlements.name );")?;
+    let mut rows = stmt.query([])?;
+    while let Some(row) = rows.next()? {
+        let osm_type: String = row.get(0).unwrap();
+        let osm_id: String = row.get(1).unwrap();
+        query += &format!("{}({});\n", osm_type, osm_id);
+    }
+    query += r#");
+out body;
+"#;
+    Ok(query)
+}
+
 /// Creates an overpass query that shows all streets from a list.
 pub fn make_turbo_query_for_street_objs(
     relation: &Relation<'_>,

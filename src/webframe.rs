@@ -617,6 +617,30 @@ Only cities with house numbers in OSM are considered."#,
     Ok(doc)
 }
 
+/// Expected request_uri: e.g. /osm/housenumber-stats/whole-country/housenumberless-settlements.
+fn handle_stats_housenumberless(
+    ctx: &context::Context,
+    relations: &mut areas::Relations<'_>,
+) -> anyhow::Result<yattag::Doc> {
+    let doc = yattag::Doc::new();
+    doc.append_value(
+        get_toolbar(
+            ctx,
+            Some(relations),
+            /*function=*/ "",
+            /*relation_name=*/ "",
+            /*relation_osmid=*/ 0,
+        )?
+        .get_value(),
+    );
+
+    let query = areas::make_turbo_query_for_housenumberless(ctx)?;
+    let pre = doc.tag("pre", &[]);
+    pre.text(&query);
+
+    doc.append_value(get_footer(/*last_updated=*/ "").get_value());
+    Ok(doc)
+}
 /// Expected request_uri: e.g. /osm/housenumber-stats/whole-country/zipprogress.
 fn handle_stats_zipprogress(
     ctx: &context::Context,
@@ -907,6 +931,11 @@ pub fn handle_stats(
     if request_uri.ends_with("/zipprogress") {
         return handle_stats_zipprogress(ctx, relations)
             .context("handle_stats_zipprogress() failed");
+    }
+
+    if request_uri.ends_with("/housenumberless-settlements") {
+        return handle_stats_housenumberless(ctx, relations)
+            .context("handle_stats_housenumberless() failed");
     }
 
     let doc = yattag::Doc::new();
