@@ -10,11 +10,26 @@ filters:
     interpolation: 'all'
   Almássy lakótelep:
     interpolation: 'all'
+  Alvinci köz:
+    # 29: a páratlan oldalon a 21 az utolsó házszám.
+    # 44: a páros oldalon a 24 az utolsó házszám.
+    invalid: ['29', '44']
   Alvinci utca:
     interpolation: 'all'
+  Aradi utca:
+    # 13/A: nincs ilyen, csak sima 13 van.
+    # 29/A: nincs ilyen, csak sima 29 van.
+    # 2/9: nincs ilyen, csak sima 2 van.
+    # 16: a 8 és a 26 között vízelvezető árok van, nincsenek épületek.
+    # 40: sima 40 nincs, csak 40/A, 40/B.
+    invalid: ['13a', '29a', '2/9', '16', '40']
   Attila utca:
     # 76: sima 76 nincs, csak 76/1, 76/2.
     invalid: ['76']
+  Balatoni út:
+    # 147: a páratlan oldalon a 143 az utolsó házszám.
+    # 193: a páratlan oldalon a 143 az utolsó házszám.
+    invalid: ['147', '193']
   Bánáti utca:
     # 14: sima 14 nincs, csak 14/1, 14/2, 14/3, 14/4.
     # 14/A: nincs ilyen, csak 14/1 van.
@@ -60,6 +75,11 @@ filters:
   Borszéki utca:
     # 18: sima 18 nincs, csak 18/A, 18/B.
     invalid: ['18']
+  Brassói utca:
+    # 9: sima 9 nincs, csak 9/A, 9/B, 9/C, 9/D.
+    # 13: nincs ilyen, a 9/D után a 15 következik.
+    # 117: nincs ilyen, a 115/A után a 119 következik.
+    invalid: ['9', '13', '117']
   Budai út:
     # 159/A: nincs ilyen, csak sima 159 a Köfém lakótelepen (157/A-C, 161, 163, 165. 159 a sorrend).
     # 968: a páros oldalon a 440 az utolsó házszám.
@@ -443,6 +463,9 @@ filters:
     # 55: a lakónegyedben az 50 az utolsó házszám.
     # 57: a lakónegyedben az 50 az utolsó házszám.
     invalid: ['53', '55', '57']
+  Székely utca:
+    # 195: a páratlan oldalon a 43 az utolsó házszám, majd az erdő után van még egy épület.
+    invalid: ['195']
   Széna tér:
     interpolation: 'all'
   Szent Gellért köz:
@@ -528,6 +551,9 @@ filters:
   Verebélyi utca:
     # 32: a páros oldalon a 18 az utolsó házszám.
     invalid: ['32']
+  Vörösmarty tér:
+    # 40/A: a páros oldalon a 12 az utolsó házszám.
+    invalid: ['40a']
   Wass Albert köz:
     interpolation: 'all'
   Ybl Miklós lakótelep:
