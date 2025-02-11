@@ -1,23 +1,24 @@
 missing-streets: 'yes'
 refstreets:
   'Almáskert köz': 'Almáskerti köz'
-  'Baskír utca': 'Baskir utca'
   'Bercsényi utca': 'Bercsényi Miklós utca'
   'Biczó kert': 'Biczó István kert'
   # 'Boroszlán utca': 'Borostyán utca'
   # 'Cser utca': 'Cserfa utca'
-  'Derekas István köz': 'Derekassy István köz'
   'Dózsa György út': 'Dózsa György utca'
   'Kellermann Márton utca': 'Kellerman Márton utca'
   'Kádár dűlő': 'Kádárdűlő'
   'Lóskúti utca': 'Lóskúti út'
-  'Madách tér': 'Madách Imre tér'
   # 'Maros utca': 'Mars utca'
-  'Olimpiai fasor': 'Olimpia fasor'
   'Sinai Miklós utca': 'Sinay Miklós utca'
   'Szentgyörgyi erdősor': 'Szentgyörgyierdő sor'
-  'Thuróczy Gyula utca': 'Thuróczi Gyula utca'
   'Vértesi utca': 'Vértesi út'
+  # ellenőrzött
+  'Thúróczy Gyula utca': 'Thuróczi Gyula utca'  # hosszú ú-val van és y-nal van táblázva
+  # Baskir utca - rövid i-vel van táblázva 
+  # Derekassy István köz - így szerepel a tábnán
+  # Madách Imre tér - teljes névvel táblázva
+  # Olimpia fasor - tábla szerint a végén nincs i
 street-filters:
   # nem igazi utcák
   - Apafa vasútállomás
