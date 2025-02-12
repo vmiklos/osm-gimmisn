@@ -1043,6 +1043,10 @@ pub fn handle_stats(
         (tr("Per-city coverage"), "cityprogress"),
         (tr("Per-ZIP coverage"), "zipprogress"),
         (
+            tr("Overpass turbo query for housenumberless settlements"),
+            "housenumberless-settlements",
+        ),
+        (
             tr("Invalid addr:city values history"),
             "stats-invalid-addr-cities",
         ),
@@ -1075,6 +1079,19 @@ pub fn handle_stats(
                 a.text(title);
                 continue;
             }
+            if identifier == "housenumberless-settlements" {
+                let a = li.tag(
+                    "a",
+                    &[(
+                        "href",
+                        &format!(
+                            "{prefix}/housenumber-stats/whole-country/housenumberless-settlements"
+                        ),
+                    )],
+                );
+                a.text(title);
+                continue;
+            }
             let a = li.tag("a", &[("href", &format!("#_{identifier}"))]);
             a.text(title);
         }
@@ -1082,7 +1099,10 @@ pub fn handle_stats(
 
     for (title, identifier) in title_ids {
         let identifier = identifier.to_string();
-        if identifier == "cityprogress" || identifier == "zipprogress" {
+        if identifier == "cityprogress"
+            || identifier == "zipprogress"
+            || identifier == "housenumberless-settlements"
+        {
             continue;
         }
         {
