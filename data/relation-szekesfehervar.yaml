@@ -450,7 +450,7 @@ filters:
     # 95/II: arab számmal, 95/2-ként van megadva.
     # 97/I: arab számmal, 97/1-ként van megadva.
     # 97/IV: arab számmal, 97/4-ként van megadva.
-    invalid: ['57', '85', '85d', '95i', '95ii', '97i', '97iv']
+    invalid: ['57', '85', '85d', '95', '95i', '97', '97i']
   Szamos utca:
     # 100: sima 100 nincs, csak 100/A, 100/B.
     # 100/1: 100/A van kitáblázva.
