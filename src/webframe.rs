@@ -635,10 +635,17 @@ fn handle_stats_housenumberless(
     );
 
     let query = areas::make_turbo_query_for_housenumberless(ctx)?;
-    let pre = doc.tag("pre", &[]);
-    pre.text(&query);
+    {
+        let pre = doc.tag("pre", &[]);
+        pre.text(&query);
+    }
 
-    doc.append_value(get_footer(/*last_updated=*/ "").get_value());
+    let format = tr("{0} (osm), {1} (areas)");
+    let osm = format_timestamp(&stats::get_sql_mtime(ctx, "whole-country/osm-base")?)?;
+    let areas = format_timestamp(&stats::get_sql_mtime(ctx, "whole-country/areas-base")?)?;
+    let last_updated = format.replace("{0}", &osm).replace("{1}", &areas);
+
+    doc.append_value(get_footer(&last_updated).get_value());
     Ok(doc)
 }
 /// Expected request_uri: e.g. /osm/housenumber-stats/whole-country/zipprogress.
