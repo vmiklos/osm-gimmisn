@@ -39,6 +39,9 @@ filters:
     interpolation: 'all'
     # 3: sima 3 nincs, csak 3/A, 3/B.
     invalid: ['3']
+  Bébic utca:
+    # 57: nicns ilyen, a házszámok sorrendje 45, 47, 53, 49, 59, 61.
+    invalid: ['57']
   Béla utca:
     interpolation: 'all'
     # 63: a 61 az utolsó házszám.
@@ -96,6 +99,8 @@ filters:
     # 159/A: nincs ilyen, csak sima 159 a Köfém lakótelepen (157/A-C, 161, 163, 165. 159 a sorrend).
     # 968: a páros oldalon a 440 az utolsó házszám.
     invalid: ['159a', '968']
+  Cento utca:
+    interpolation: 'all'
   Csalai Fő utca:
     # 35/2: nincs ilyen, csak sima 35 van.
     # 38: ez a Török Ignác utca 1. régi házszáma.
@@ -169,6 +174,9 @@ filters:
   Gábor Áron utca:
     # 40: a páros oldalon a 12 az utolsó házszám.
     invalid: ['40']
+  Garam utca:
+    # 32: a páros oldalon a 24 az utolsó házszám.
+    invalid: ['32']
   Gerle utca:
     interpolation: 'all'
     # 1/A: nincs ilyen, csak sima 1 van.
@@ -393,6 +401,9 @@ filters:
     interpolation: 'all'
   Orsovai utca:
     interpolation: 'all'
+    # 21: sima 21 nincs, csak 21/1, 21/2, 21/3, 21/4, 21/5.
+    # 24: sima 24 nincs, csak 24/A, 24/B, 24/C, 24/D.
+    invalid: ['21', '24']
   Őrhalom utca:
     # 26: 26-30 nincs, a 24 után egy utca van, majd egy gázátadó állomás, utána pedig a 32.
     # 30: 26-30 nincs, a 24 után egy utca van, majd egy gázátadó állomás, utána pedig a 32.
@@ -401,6 +412,9 @@ filters:
     # 17/A: nincs ilyen, csak sima 17 van.
     # 45: a páratlan oldalon a 17 az utolsó házszám.
     invalid: ['17a', '45']
+  Poprádi utca:
+    # 60: sima 60 nincs, csak 60/1, 60/2.
+    invalid: ['60']
   Puskás Tivadar utca:
     # 777/2: a páratlan oldalon a 15 az utolsó házszám.
     # 22: a páros oldalon a 8 az utolsó házszám.
@@ -696,12 +710,14 @@ refstreets:
   'Tigris dűlő': 'Veresvíz utca'
   # ellenőrzött
   'Almássy lakótelep': 'Almássy telep'   # földhivatalnál vegyesen, minden házon és régi táblán Almássy telep, a két autós bejáratnál 1-1 új utcanévtáblán Almássy ltp. - https://www.openstreetmap.org/note/4593724
+  'Aranka utca': 'Izabella utca'         # átnevezett utca - https://www.openstreetmap.org/note/4594180
   'Bulcsú utca': 'Bulcsu utca'           # az utca egyik végén Bulcsú, másik végén Bulcsu - https://www.openstreetmap.org/note/4343407
   'Csóri Régi utca': 'Régi Csóri út'     # új táblákon Csóri Régi utca, régi táblán Régi Csóri út
   'Erdő sor': 'Erdősor'                  # táblán Erdő sor - https://www.openstreetmap.org/note/4343414
   'Gellért újsor': 'Gellért új sor'      # táblán Gellért újsor, másik helyen Gellért újsor + Kelemen Béla köz
   'Gólya dűlő': 'Gólya I. dűlő'          # táblán Gólya dűlő
   'Havranek köz': 'Havranek József köz'  # táblán Havranek köz - https://www.openstreetmap.org/note/4577925
+  'Homoród utca': 'Magyar utca'          # átnevezett utca - https://www.openstreetmap.org/note/4601206
   'Hosszúsétatér utca': 'Hosszúsétatér'  # táblán Hosszúsétatér u.
   'Körösmezei utca': 'Kőrösmezei utca'   # táblán Körösmezei utca - https://www.openstreetmap.org/note/4343434
   'Körmöci utca': 'Körmőci utca'         # táblán Körmöci utca - https://www.openstreetmap.org/note/4343436
