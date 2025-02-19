@@ -10,6 +10,11 @@ filters:
     # hrsz 058/9 - ez ki van írva
     # hrsz 060/1 - helyén Almádi út 12 van kiírva
     invalid: ['58/2', '60/1']
+  Batthyány tér:
+    # 1: nincs
+    # 2/I: 2-nek van táblázva
+    # 5/2: Postaládán Szilvás utca 5, ami nem igaz, mert az lejebb van
+    invalid: ['1', '5/2', '2i']
   Bicske utca:
     # 50/108: hrsz 050/108 - https://www.openstreetmap.org/way/191210963
     invalid: ['50']
@@ -62,10 +67,11 @@ filters:
     invalid: ['1', '3a']
 refstreets:
   # kérdéses
-  'Dália utca': 'Dália köz'
   'Dr. Szőllőssy Árpád utca': 'Dr.Szőllőssy Árpád utca'
   # ellenőrzött
   # Malomvölgy utca - helyben Malomvölgy utca, a Fő utca sarkánál lévő előjelzőn Malomvölgyi utca
+  # Felső-öreghegy-dűlő írásmód bizonyosan hibás
+  'Mályva utca': 'Mályva köz'  # mindkét tábla kint van, a Mályva köz kézzel festett, a Mályva utca tűnik hivatalosabbnak
   'Szőlősor': 'Szőlősor utca'
   'Szegedy Róza utca': 'Szegedi Róza utca'  # táblán Szegedy Róza utca (2021-09-25)
   'Pocca utca': 'Pocca út'  # táblán: Pocca utca, helyi téképen Pocca út (2023-07)
