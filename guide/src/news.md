@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+
+- Resolves: gh#4372 visualisation of settlements without any house number
+
 ## 25.2
 
 - Resolves: gh#4088 missing-housenumbers output is now deterministic for the `housenumber-letters:
