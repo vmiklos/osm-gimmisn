@@ -28,6 +28,10 @@ filters:
     # 1: 1/1 és 1/2
     # 77 = hrsz 077
     invalid: ['1']
+  Fenyves utca:
+    # 21/B: csak 21/A van kiírva
+    # 23/B: 23 és 23/A postaláda van
+    invalid: ['21b', '23b']
   Fő utca:
     #  6/b: nincs, csak
     # 8/b: 6/a van kiírva
@@ -37,6 +41,9 @@ filters:
   Főszőlőki utca:
     # 50/54: hrsz 050/54, a Főszőlőki utca mellett van - https://www.openstreetmap.org/way/1192516322
     invalid: ['50']
+  Hamuház utca:
+    # 9/A: valószínű a 9 mögött, nincs kiírva semmi se elől se hátul
+    invalid: ['9a']
   Hosszú utca:
     # 50/34: hrsz 050/34 - https://www.openstreetmap.org/node/11076865831
     invalid: ['50']
