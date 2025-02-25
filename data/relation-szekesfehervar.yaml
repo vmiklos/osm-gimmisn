@@ -717,7 +717,6 @@ refstreets:
   'Gellért újsor': 'Gellért új sor'      # táblán Gellért újsor, másik helyen Gellért újsor + Kelemen Béla köz
   'Gólya dűlő': 'Gólya I. dűlő'          # táblán Gólya dűlő
   'Havranek köz': 'Havranek József köz'  # táblán Havranek köz - https://www.openstreetmap.org/note/4577925
-  'Homoród utca': 'Magyar utca'          # átnevezett utca - https://www.openstreetmap.org/note/4601206
   'Hosszúsétatér utca': 'Hosszúsétatér'  # táblán Hosszúsétatér u.
   'Körösmezei utca': 'Kőrösmezei utca'   # táblán Körösmezei utca - https://www.openstreetmap.org/note/4343434
   'Körmöci utca': 'Körmőci utca'         # táblán Körmöci utca - https://www.openstreetmap.org/note/4343436
@@ -732,6 +731,7 @@ refstreets:
   # Dévényi utca         - https://www.openstreetmap.org/note/4343413
   # Fáy András lakótelep - https://www.openstreetmap.org/note/4592292
   # Goldziher Ignác köz  - https://www.openstreetmap.org/note/4592968
+  # Homoród utca         - https://www.openstreetmap.org/note/4601206 - régi név: Magyar utca
   # Kereszttöltés út     - https://www.openstreetmap.org/note/4343417
   # Királyerdői utca     - https://www.openstreetmap.org/note/4343421
   # Kölcsey utca         - https://www.openstreetmap.org/note/4352873
