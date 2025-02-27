@@ -42,6 +42,15 @@ filters:
     interpolation: 'all'
     # 3: sima 3 nincs, csak 3/A, 3/B.
     invalid: ['3']
+  Bástya utca:
+    # 39/A: a páratlan oldalon a 13 az utolsó házszám.
+    # 47: a páratlan oldalon a 13 az utolsó házszám.
+    # 631/A: a páratlan oldalon a 13 az utolsó házszám.
+    # 8: ez és a Basa utca 4. ugyanaz az épület, házszám a Basa utcáról van csak.
+    # 610: a páros oldalon a 10 az utolsó házszám.
+    # 620: a páros oldalon a 10 az utolsó házszám.
+    # 634: a páros oldalon a 10 az utolsó házszám.
+    invalid: ['39a', '47', '631a', '8', '610', '620', '634']
   Bébic utca:
     # 57: nicns ilyen, a házszámok sorrendje 45, 47, 53, 49, 59, 61.
     invalid: ['57']
@@ -122,6 +131,12 @@ filters:
   Csokonai utca:
     # 25: a páratlan oldalon a 21 az utolsó házszám.
     invalid: ['25']
+  Deák Ferenc utca:
+    # 29/I: ez a 29/1.
+    # 41: sima 41 nincs, csak 41/A, 41/B lépcsőház.
+    # 41/1: nincs ilyen, csak 41/A van.
+    # 41/2: nincs ilyen, csak 41/B van.
+    invalid: ['29i', '41', '41/1', '41/2']
   Dési utca:
     interpolation: 'all'
     # Nem találtam logikát a számozásban, azért állítottam be az interpolation szűrőt.
@@ -226,6 +241,14 @@ filters:
     invalid: ['35a', '41', '68']
   Horvát István lakótelep:
     interpolation: 'all'
+  Horvát István utca:
+    # 19/I: ez a 19/1.
+    # 21/I: ez a 21/1.
+    # 21/II: ez a 21/2.
+    # 23/4: nincs ilyen lépcsőház, csak 23, 23/1, 23/2, 23/3.
+    # 23/I: ez a 23/1.
+    # 23/III: ez a 23/3.
+    invalid: ['19i', '21i', '23/4', '23/i']
   III. Béla király tér:
     interpolation: 'all'
   Illyés Gyula tér:
@@ -414,6 +437,10 @@ filters:
     # 64/C: háromlakásos társasház, de csak sima 64 van kitáblázva.
     # 82/3: nincs ilyen, csak sima 82 van.
     invalid: ['12/1', '12/2', '12/3', '12/4', '12/5', '12/6', '12/7', '12/8', '12/9', '16a', '16b', '16c', '32', '54c', '64a', '64b', '64c', '82/3']
+  Oravicai utca:
+    # 4/A: nincs ilyen, csak sima 4 van.
+    # 32: sima 32 nincs, csak 32/1, 32/2.
+    invalid: ['4a', '32']
   Orgona utca:
     interpolation: 'all'
   Orsovai utca:
@@ -598,6 +625,9 @@ filters:
     invalid: ['17', '27a', '95']
   Vajda sor:
     interpolation: 'all'
+  Várkapu utca:
+    # 66: a páros oldalon a 8-10 az utolsó házszám.
+    invalid: ['66']
   Várkörút:
     # 41: a páratlan oldalon a 33-35 az utolsó házszám.
     # 83: a páratlan oldalon a 33-35 az utolsó házszám.
