@@ -248,7 +248,7 @@ filters:
     # 23/4: nincs ilyen lépcsőház, csak 23, 23/1, 23/2, 23/3.
     # 23/I: ez a 23/1.
     # 23/III: ez a 23/3.
-    invalid: ['19i', '21i', '23/4', '23/i']
+    invalid: ['19i', '21i', '23/4', '23i']
   III. Béla király tér:
     interpolation: 'all'
   Illyés Gyula tér:
