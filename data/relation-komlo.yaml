@@ -24,6 +24,8 @@ osm-street-filters:
   - Arborétum
   - Bányászpark
   - KRESZ park
+  # sétány
+  - Kolossváry sétány
 refstreets:
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Béketelep I. sor': 'Béketelep I sor'
