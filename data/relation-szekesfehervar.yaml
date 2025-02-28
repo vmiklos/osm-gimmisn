@@ -42,6 +42,14 @@ filters:
     interpolation: 'all'
     # 3: sima 3 nincs, csak 3/A, 3/B.
     invalid: ['3']
+  Basa utca:
+    # 3: a páratlan oldalon csak az 1-es szám van.
+    # 3/A: a páratlan oldalon csak az 1-es szám van.
+    # 9: a páratlan oldalon csak az 1-es szám van.
+    # 15: a páratlan oldalon csak az 1-es szám van.
+    # 19: a páratlan oldalon csak az 1-es szám van.
+    # 6: a páros oldalon a 4 az utolsó házszám.
+    invalid: ['3', '3a', '9', '15', '19', '6']
   Bástya utca:
     # 39/A: a páratlan oldalon a 13 az utolsó házszám.
     # 47: a páratlan oldalon a 13 az utolsó házszám.
@@ -587,6 +595,10 @@ filters:
     interpolation: 'all'
   Temesi utca:
     interpolation: 'all'
+  Titeli utca:
+    # 37/2: négylakásos társasház, de csak sima 37 van kitáblázva.
+    # 37/3: négylakásos társasház, de csak sima 37 van kitáblázva.
+    invalid: ['37/2', '37/3']
   Tompa Mihály utca:
     # 38: sima 38 nincs, csak 38/A, 38/B.
     # 62: sima 62 nincs, csak 62/A, 62/2.
