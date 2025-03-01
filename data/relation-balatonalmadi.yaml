@@ -62,10 +62,11 @@ filters:
     invalid: ['11', '13', '14']
   Baross Gábor út:
     # 2/*: csak sima 2, nincsenek se alátörések, se épületek kiírva
+    # 5/a: nincs, 5-7 volt az OTP régen
     # 13/3: ez ajtó
     # 26 = Kálvin utca 1. Egyis sincs kiírva. RESURVEY 2024-07
     # 48/1, 48/3: ezek ajtók
-    invalid: ['2b', '2c', '2d', '2f', '13/3', '26', '48/1', '48/3']
+    invalid: ['2b', '2c', '2d', '2f', '5a', '13/3', '26', '48/1', '48/3']
   Bartók Béla út:
     # 2024-12. RESURVEY 2025-06
     # 30 helyén 34
@@ -85,9 +86,10 @@ filters:
     show-refstreet: false
   Batthyány utca:
     # 1-3: csak 1 van
+    # 11/a: nincs kiírva ilyen, csak 11
     # 28: 26/b után 32 - Tinódi utca 6 lett belőle (KCR)
     # 30-32: csak 32 van kiírva
-    invalid: ['3', '30']
+    invalid: ['3', '11a', '30']
   Béke utca:
     # 11, 13: A 9-es ház kertje
     invalid: ['11', '13']
@@ -113,8 +115,9 @@ filters:
     # 14 = Paál László utca 34: ÉTDR. valamit már túrnak. 2024-04. RESURVEY 2025
     invalid: ['13', '14']
   Budai Nagy Antal utca:
+    # 1: 1/a van kiírva, van még egy ház a telken, azon nincs kiírva semmi
     # 28-32: nincs kiírva. kuka szerda. RESURVEY 2025
-    invalid: ['28', '30', '32']
+    invalid: ['1', '28', '30', '32']
   Csaba köz:
     invalid: ['1']
   Csalogány utca:
@@ -134,6 +137,9 @@ filters:
     # 13-15: csak 13 van kiírva
     # 18/a: 18/b van kiírva
     invalid: ['15', '18a']
+  Dr. Lenkei Vilmos utca:
+    # 1: 1/a és 1/b van
+    invalid: ['1']
   Dr. Óvári Ferenc utca:
     # 10-12: csak 12 van kiírva
     # 18: 16 után 20
@@ -242,6 +248,11 @@ filters:
   Hörpintő utca:
     # 15-17: csak 17 van kiírva
     invalid: ['15']
+  Hunyadi utca:
+    # 19/a: 21 van kiírva
+    # 44a, 44b: mindkét részre 44 van kiírva
+    # 48a, 48b: csak 1 ház van, ott 48 van kiírva, y másik ága ellenőrizendő
+    invalid: ['9', '19a', '44a', '44b', '48b']
   István utca:
     # 3-5: csak 3 van kiírva
     invalid: ['5']
@@ -252,6 +263,9 @@ filters:
     # 23: 21-27 között 1 vagy 2 üres telek
     # 40: 44 van kiírva. RESUREY 2025
     invalid: ['23', '40']
+  Jókai Mór utca:
+    # 2a: nincs, MBH bank a Baross Gábor utca 11-re van számozva
+    invalid: ['2a']
   József Attila út:
     # 6: régi 2, az van kiírva
     # 8: MÁV üzemi épület? nincs kiírva semmi
@@ -396,7 +410,8 @@ filters:
     invalid: ['14c']
   Pinkóczi út:
     # 11 nincs, csak egy lekopott szám
-    invalid: ['11']
+    # 34: üres telek a 32 mögött
+    invalid: ['11', '31a', '31b', '34']
   Posta utca:
     # 2: nincs, Sirály apartmanház egy része, nincs külön címe
     invalid: ['2']
