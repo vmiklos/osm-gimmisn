@@ -81,7 +81,7 @@ filters:
     # 65: 65/a, b, c
     # 130: üres telek
     # 158: mintha hátul lenne egy viskó, kiírva nincs semmi
-    invalid: ['30', '44', '46', '48', '59', '65', '71', '130', '158']
+    invalid: ['30', '44', '46', '48', '59', '71', '130', '158']
   Báthory utca:
     show-refstreet: false
   Batthyány utca:
@@ -249,10 +249,14 @@ filters:
     # 15-17: csak 17 van kiírva
     invalid: ['15']
   Hunyadi utca:
+    # 9b: 9 van kiírva
+    # 11: A Törökverő köz 2 másik fele, nincs nyoma innen házszámnak
+    # 14a, 14b: 14 van kiírva
     # 19/a: 21 van kiírva
+    # 32/b: nincs
     # 44a, 44b: mindkét részre 44 van kiírva
-    # 48a, 48b: csak 1 ház van, ott 48 van kiírva, y másik ága ellenőrizendő
-    invalid: ['9', '19a', '44a', '44b', '48b']
+    # 48a, 48b: a főúton csak 1 ház van, ott 48 van kiírva, az y másik ágán 3D vertical házán nincs szám, honlap szerint Dugonics utca 20/a mint a mellette lévő
+    invalid: ['9b', '11', '14a', '14b', '19a', '32b', '44a', '44b', '48a', '48b']
   István utca:
     # 3-5: csak 3 van kiírva
     invalid: ['5']
@@ -274,7 +278,7 @@ filters:
     # 27 nincs
     # 39 = Bajcsy-Zsilinszky út 14 - Hotel Bál Resort
     # 87-89: csak 87 van kiírva
-    invalid: ['6', '8', '16', '39', '63b', '89']
+    invalid: ['6', '8', '16', '39', '89']
   Juhász Gyula köz:
     # 4 = Kiírás szerint a Villa Succa címe 5
     invalid: ['4']
