@@ -12,7 +12,7 @@ filters:
     invalid: ['810']
   Pásztorvölgy utca:
     invalid: ['401', '401/6']
-  II. Rákóczi Ferenc út:
+  II. Rákóczi Ferenc utca:
     invalid: ['631']
   Remenyik Zsigmond utca:
     # max házszám 18 körül
