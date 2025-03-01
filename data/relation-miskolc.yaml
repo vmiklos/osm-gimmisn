@@ -14,8 +14,10 @@ osm-street-filters:
   - Egri Országút
   - Vízitelepek
   # parkok, sétányok amire nincs számozva semmi
+  - Csengey-kert
   - Déryné-kert
   - Ferenczi Pihenő
+  - Grentner kert
   - Kálvária
   - Keresztút
   - Kis erdő
@@ -27,6 +29,7 @@ osm-street-filters:
   # turistaút
   - Aranylépcső
   - Mária sétány
+  - Vadász-völgy
   # dűlők
   - Deszkásoldal dűlő
   - Fazekas dűlő
