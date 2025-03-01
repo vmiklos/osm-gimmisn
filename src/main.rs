@@ -12,8 +12,8 @@
 
 use std::collections::HashMap;
 use std::io::Write;
-use std::sync::mpsc;
 use std::sync::Mutex;
+use std::sync::mpsc;
 
 type Handler = fn(&[String], &mut dyn Write, &osm_gimmisn::context::Context) -> i32;
 

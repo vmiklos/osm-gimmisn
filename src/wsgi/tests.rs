@@ -2547,7 +2547,10 @@ fn test_handle_main_filters_refcounty_filter() {
 
     let ret = handle_main_filters_refcounty(&ctx, &relations, "01", "01").unwrap();
 
-    assert_eq!(ret.get_value(), "<a href=\"/osm/filter-for/refcounty/01/whole-county\">Budapest</a> (<a href=\"/osm/filter-for/refcounty/01/refsettlement/011\">Ujbuda</a>)");
+    assert_eq!(
+        ret.get_value(),
+        "<a href=\"/osm/filter-for/refcounty/01/whole-county\">Budapest</a> (<a href=\"/osm/filter-for/refcounty/01/refsettlement/011\">Ujbuda</a>)"
+    );
 }
 
 /// Tests handle_main_filters_refcounty(), the case when refcounty_id is non-empty, but the county

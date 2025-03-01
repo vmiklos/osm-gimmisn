@@ -11,9 +11,9 @@
 //! Trait implementations using the real file system, network, time, etc.
 
 use super::*;
-use isahc::config::Configurable as _;
 use isahc::ReadResponseExt as _;
 use isahc::RequestExt as _;
+use isahc::config::Configurable as _;
 use lazy_static::lazy_static;
 
 lazy_static! {

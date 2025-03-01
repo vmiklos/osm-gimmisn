@@ -1017,7 +1017,7 @@ impl<'a> Relation<'a> {
     fn get_street_valid(&self) -> HashMap<String, Vec<String>> {
         let mut valid_dict: HashMap<String, Vec<String>> = HashMap::new();
 
-        if let Some(ref filters) = self.config.get_filters() {
+        if let Some(filters) = self.config.get_filters() {
             for (street, street_filter) in filters {
                 if let Some(ref valid) = street_filter.valid {
                     valid_dict.insert(street.clone(), valid.to_vec());
@@ -1669,7 +1669,7 @@ pub fn normalizer_contains(
     // number not in the ranges: raise a lint in case the problem is actionable (has street name,
     // has an actual number).
     if !ret && !street_name.is_empty() && number != 0 {
-        if let Some(ref mut lints) = lints {
+        if let Some(lints) = lints {
             let relation_name = relation_name.to_string();
             let street_name = street_name.to_string();
             let source = RelationLintSource::Range;
