@@ -135,7 +135,10 @@ impl RelationFiles {
                 [relation, osm_id, name, highway, service, surface, leisure, osm_type],
             );
             if ret.is_err() {
-                info!("write_osm_json_streets: ignoring duplicated street: relation is '{}', id is '{}'", self.name, element.id);
+                info!(
+                    "write_osm_json_streets: ignoring duplicated street: relation is '{}', id is '{}'",
+                    self.name, element.id
+                );
             }
         }
 
@@ -202,7 +205,10 @@ impl RelationFiles {
                 [relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type],
             );
             if ret.is_err() {
-                info!("write_osm_json_housenumbers: ignoring duplicated housenumber: relation is '{}', id is '{}'", self.name, element.id);
+                info!(
+                    "write_osm_json_housenumbers: ignoring duplicated housenumber: relation is '{}', id is '{}'",
+                    self.name, element.id
+                );
             }
         }
 
