@@ -29,6 +29,9 @@ osm-street-filters:
   # turistaút
   - Aranylépcső
   - Mária sétány
+  # völgy
+  - Köpüs-völgy
+  - Pecér völgy
   - Vadász-völgy
   # dűlők
   - Deszkásoldal dűlő
