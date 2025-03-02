@@ -18,6 +18,9 @@ filters:
   Aranyeső utca:
     # 11-13: csak 11 van
     invalid: ['13']
+  Árpád köz:
+    # 2: 2/1, 2/2, 2/3 külön épületek
+    invalid: ['2']
   Árpád utca:
     # 2: 2 helyett 2/a és 2/b van kiírva
     # 25: 25-27, de csak 27 van kiírva
@@ -66,7 +69,8 @@ filters:
     # 13/3: ez ajtó
     # 26 = Kálvin utca 1. Egyis sincs kiírva. RESURVEY 2024-07
     # 48/1, 48/3: ezek ajtók
-    invalid: ['2b', '2c', '2d', '2f', '5a', '13/3', '26', '48/1', '48/3']
+    # 63a: nincs. A Nagyi Kamrája mielőtt bezárt a 63, a másik épületrésze a 65 címet viselte.
+    invalid: ['2b', '2c', '2d', '2f', '5a', '13/3', '26', '48/1', '48/3', '63a']
   Bartók Béla út:
     # 2024-12. RESURVEY 2025-06
     # 30 helyén 34
@@ -206,6 +210,9 @@ filters:
   Gólya utca:
     # 7-9-11-13: Egzotikus kert, 11-re számozva
     invalid: ['7', '9']
+  Györgyi Dénes utca:
+    # 10/a (kicsit lekopva) és 10/b van kiírva
+    invalid: ['10']
   Győri utca:
     # 21-23: Vízmeder utca 22 címet használja
     invalid: ['21', '23']
@@ -326,6 +333,10 @@ filters:
     # 8: ÉTDR. nincs nyoma építkezésnek
     # 2023-01. RESURVEY 2025-01
     invalid: ['8']
+  Lehel utca:
+    # 9: 9/1 és 9/b van kiírva
+    # 42/a
+    invalid: ['9', '42b']
   Lóczy Lajos tér:
     interpolation: all
     ranges:
@@ -446,8 +457,9 @@ filters:
     # 2: 1 van táblázva a helyén
     invalid: ['2']
   Szabadság út:
+    # 5: 5/a és 5/b van kiírva
     # 49-51: csak 49 van kiírva
-    invalid: ['51']
+    invalid: ['5', '51']
   Szabadság-kilátó út:
     # 21/b: 21 van kiírva
     # 28: 24 van kiírva; 24 után nyeles telek szám nélkül és 32
@@ -571,8 +583,9 @@ filters:
   Vörösmarty utca:
     # utcatáblák: 1 db ff Vörösmarty utca, 1 db ff Vörösmarty Mihály utca, 1 db kék-sárga Vörösmarty utca
     # 6 után 10 jön
+    # 20: 2 különálló épület közte garázzsal, 20/1 és 20/2 van kiírva
     # 26-28: csak 28 van kiírva
-    invalid: ['8', '26']
+    invalid: ['8', '20', '26']
   Ybl Miklós utca:
     # 2-4: 2/a, 2/b van kiírva
     invalid: ['2-4']
