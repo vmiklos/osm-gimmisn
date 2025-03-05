@@ -388,6 +388,9 @@ filters:
   Mátyás király utca:
     # 16/a: 16/b van kiírva = HÉSZ
     invalid: ['16a']
+  Meredek utca:
+    # 3/a: csak 3 van kiírva
+    invalid: ['3a']
   Mesgye utca:
     # 29: üres telkek, hrsz ismerelen, valószínű telekosztás volt. RESURVEY 2026
     invalid: ['29']
