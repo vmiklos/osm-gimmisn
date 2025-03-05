@@ -158,6 +158,9 @@ filters:
   Duna utca:
     # 2 = Balatonfűzfői utca 200
     invalid: ['2']
+  Előd utca:
+    # 26: 26/a és 26/b van
+    invalid: ['26']
   Erkel Ferenc utca:
     invalid: ['44', '96']
     show-refstreet: false
@@ -188,12 +191,11 @@ filters:
   Fény utca:
     # 3-13: 3, 5, 11 van kiírva, utána van még egy ház
     invalid: ['7', '9', '13']
-  # Forrás utca:
-    # 2024-11. RESURVEY 2025
+  Forrás utca:
+    # 4/a: nem a zsákutcás részen, 6 van kiírva
     # 6-22 egy zsákutcás osztatlan telek tele sok apró üdülőházzal
-    # 6: nem a zsákutcás részen, hivatalosan 4/a
     # 10: ez az egyetlen normális ház, a többin nincs házszám
-    # invalid: ['4a']
+    invalid: ['4a']
   Fürj köz:
     # 3-5: csak 3 van kiírva
     # 14: A Vadász utca felöli utcacsonk magáról a Vadász köz 14-et állítja (már nincs kiírva)
@@ -202,8 +204,11 @@ filters:
     # 18-20: csak 20 van kiírva
     invalid: ['18']
   Gerle utca:
-    # 3: 1 után 5. Hivatalosan az 1-es számot viselő telek a 3-as.
-    invalid: ['3']
+    # 1/a: nincs épület, 4019/2 hrsz telek FH szerint 1, SZT szerint 1/a
+    # 3:   1 után 5.     4019/3 hrsz telek FH szerint 3, SZT szerint 1.
+    # 5/a: csak egy garázsszerű épület, házszám nincs
+    # 7/a: csak 7 van kiírva, ettől dupla 7-es van
+    invalid: ['1a', '3', '5a', '7a']
   Gesztenye utca:
     # 2: nincs kiírva semmi: 2024-05. RESURVEY 2025-05
     invalid: ['2']
@@ -232,6 +237,9 @@ filters:
   Hársas utca:
     # terv és a valóság nincs összhangban
     invalid: ['49']
+  Héja utca:
+    # 2b: SZT szerint 2, ez szerepel a kukán.
+    invalid: ['2b']
   Hétvezér utca:
     # 1 = Bajcsy-Zsilinszky út 32
     invalid: ['1']
@@ -281,12 +289,13 @@ filters:
   József Attila út:
     # 6: régi 2, az van kiírva
     # 8: MÁV üzemi épület? nincs kiírva semmi
+    # 15/a, 15/b: 15/A nincs kint ilyen, 15/B van a József Attila út felől, nem használt kapu
     # 16 üres telek
     # 25 üres telek
     # 27 nincs
     # 39 = Bajcsy-Zsilinszky út 14 - Hotel Bál Resort
     # 87-89: csak 87 van kiírva
-    invalid: ['6', '8', '16', '39', '89']
+    invalid: ['6', '8', '15a', '16', '39', '89']
   Juhász Gyula köz:
     # 4 = Kiírás szerint a Villa Succa címe 5
     invalid: ['4']
@@ -376,8 +385,9 @@ filters:
     # 15-17: csak 17 van kiírva
     # 18: nincs kiírva, nem rég épült. RESURVEY 2025.04
     invalid: ['3', '15']
-  # Mátyás király utca:
-    # 69: még épül. RESURVEY 2025
+  Mátyás király utca:
+    # 16/a: 16/b van kiírva = HÉSZ
+    invalid: ['16a']
   Mesgye utca:
     # 29: üres telkek, hrsz ismerelen, valószínű telekosztás volt. RESURVEY 2026
     invalid: ['29']
@@ -435,12 +445,15 @@ filters:
     show-refstreet: false
   Rákóczi Ferenc utca:
     # 1 = 3-5-tel azonos telek, de a számozás csak 3 és 5
+    # 22: 22/a és 22/b van
+    # 35g: 35 g épület, ref hibás
     # max 41
     # 43 Balkom már Szabolcs utca 4, a hulladékudvar címe maradt
-    invalid: ['1']
+    invalid: ['1', '22', '35g']
   Rekettye utca:
     # 9: nincs. 7/b és 13/a között épül vmi. RESURVEY 2025
-    invalid: ['9']
+    # 13: 13/a van kiírva
+    invalid: ['9', '13']
   Remetevölgyi út:
     # 31- nincsenek kiírva számok
     invalid: ['33', '35']
@@ -495,9 +508,10 @@ filters:
     # 54 = Iskola utca 41.
     invalid: ['10', '38', '54']
   Szömörce utca:
+    # 16/a: 16 van kiírva, egy telket alkot a FT szerinti 16-os házszámú telekkel
     # 30: az első leágazó, nincs kiírva, néni szerint az új privát, bár a kapu nyitva
     # 62, 64 nincs kiírva, terv alapján felvéve
-    invalid: ['30']
+    invalid: ['16a', '30']
   Szúnyog utca:
     # 1-9 nincsenek házak csak fák, nádas
     invalid: ['9']
@@ -506,7 +520,8 @@ filters:
     invalid: ['40']
   Tas utca:
     # 16-18: csak 18 van kiírva
-    invalid: ['16']
+    # 19/a: 19 van kiírva
+    invalid: ['16', '19a']
   Tóállás utca:
     # 35: elvileg a 33-35 egy telek, 33 van kiírva
     # 37 nincs kiírva, terv alapjűn számozva
@@ -516,7 +531,9 @@ filters:
     invalid: ['34']
   Töltés utca:
     # 5-9: 7 és 9 van kiírva
-    invalid: ['5','15']
+    # 12/c: egy romos épület, alig látszik az utcáról, bejárat is benőve
+    # 18: A ház egyik felén Töltés utca 18/a, a másikon Szőlő utca 1. szerepel.
+    invalid: ['5', '12c', '15', '18']
   Töhötöm utca:
     # 10-12: csak 10 van kiírva
     invalid: ['12']
@@ -563,7 +580,8 @@ filters:
     invalid: ['26']
   Vízmeder utca:
     # 3: Feszty Árpád/Vízmeder sarok: nincs kint a házszám. kuka kedd. 2024-04. RESURVEY 2024-07.
-    invalid: ['3']
+    # 7/a: 7 van kiírva
+    invalid: ['3', '7a']
   Vödörvölgyi út:
     # páratlan oldal Szentkirályszabadja
     ranges:
