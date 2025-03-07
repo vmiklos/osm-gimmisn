@@ -92,6 +92,6 @@ things which are not part of CI:
 
 - Run `npm outdated` from time to time and make sure JS dependencies are reasonably up to date.
 
-- Update `.github/workflows/tests.yml` based on `rustc --version`.
+- Update `.github/workflows/tests.yml` based on `github-outdated`.
 
 - Update `tools/container/Containerfile` to track the latest stable base image.
