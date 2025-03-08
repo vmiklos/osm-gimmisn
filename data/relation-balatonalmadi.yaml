@@ -26,6 +26,9 @@ filters:
     # 25: 25-27, de csak 27 van kiírva
     # 19/b: 19 van kiírva
     invalid: ['2', '19b', '25']
+  Asztalos Sándor utca:
+    # 25: 25/a és 25/b van kiírva, ahogy a szabályozási terven is szerepel, földhivatalnál viszont 25 van
+    invalid: ['25']
   Attila utca:
     # 5-7: csak 7 volt a postaládába dobott levélen
     invalid: ['5']
@@ -136,6 +139,10 @@ filters:
   Deák Ferenc utca:
     # 4-6: Csak 4/a van kiírva
     invalid: ['4-6']
+  Dési Huber István:
+    # táblán Dési Hubert utca, ez annyira egyértelműen hibás, hogy nem írtam át
+    # 3: 3/a, 3/b
+    invalid: ['3']
   Dózsa György utca:
     show-refstreet: false
     # 13-15: csak 13 van kiírva
@@ -174,6 +181,9 @@ filters:
     # 21-23: csak 21 van kiírva
     # 26-32: 26 és 28 van kiírva
     invalid: ['23', '30', '32']
+  Ezerjó utca:
+    # 8/a: 8/A helyett 8/B van kiírva
+    invalid: ['8a']
   Fadrusz János utca:
     # 32: csak 32/a van kiírva, az iker másik felén nincs szám
     # 17 = Felsőörsi út 2/a
@@ -200,6 +210,9 @@ filters:
     # 3-5: csak 3 van kiírva
     # 14: A Vadász utca felöli utcacsonk magáról a Vadász köz 14-et állítja (már nincs kiírva)
     invalid: ['5']
+  Galagonya utca:
+    # 15 a telek, 2 házzal fh szerint 15/a, 15/b: semmi sincs kint
+    invalid: ['15b']
   Galamb utca:
     # 18-20: csak 20 van kiírva
     invalid: ['18']
@@ -251,15 +264,17 @@ filters:
     # 6-8: csak 6
     invalid: ['3', '8']
   Hordó utca:
-    # 12: 10/a, 10/b, 14
-    invalid: ['12']
+    # 10: 10/a van kint, de nó szerint valójában 10, de ha leszedi a /a-t lejön a vakolat
+    # 12: 10/b van kiírva
+    invalid: ['10', '12']
   Hóvirág utca:
+    # 25: 25/a és 25/b van kiírva
     # 27-29: csak 27 van kiírva
     # 31-33: csak 31 van kiírva
     # 44-46: van egy épület, de 44 nincs kiírva
     # 63-65: csak 63 van kiírva
     # 68: Halacs-Erdőalja utca részen lenne, de ott nincs kiírva
-    invalid: ['29', '33', '44', '65', '68']
+    invalid: ['24', '25', '29', '33', '44', '65', '68']
   Hörpintő utca:
     # 15-17: csak 17 van kiírva
     invalid: ['15']
@@ -299,6 +314,9 @@ filters:
   Juhász Gyula köz:
     # 4 = Kiírás szerint a Villa Succa címe 5
     invalid: ['4']
+  Kakukk köz:
+    # 6: ikerház 6/a és 6/b van a házon
+    invalid: ['6']
   Káplár utca:
     # 11: csak 7 és 9 van táblázva
     invalid: ['11']
@@ -565,7 +583,10 @@ filters:
     # páros oldalon nincsenek számok, más ucákra vannak számozva
   Venyige utca:
     # 1-3: csak 3 van kiírva
-    invalid: ['1']
+    # 11: 11/a és 11/b
+    # 17a: csak 17 van kiírva, így dupla
+    # 34: 34/a van a ház egyik felén, a másikon semmi
+    invalid: ['1', '11', '17a', '34']
   Verseny utca:
     # 1: nincs, 3=Ciszterci, más épület nincs
     invalid: ['1']
@@ -641,7 +662,6 @@ street-filters:
   - Templom tér  # A Vörösberényi templomnál kellene lennie, de ott igazából nincs tér, csak egy park, nyoma nincs a feliratnak
   # nincs az osm-en ------------------------------
   # Berkenye köz - Borostyán közzel szemben
-  # Dési Huber István utca - Káptalan utca és Szinyei Merse Pál utca között
   - Gyümölcs utca  # nincs kiépítve: 47.0153711, 17.9925941
   # megszünt - tervben más utcákra van már számozva
   - Gyöngyvirág utca
