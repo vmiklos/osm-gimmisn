@@ -27,8 +27,9 @@ filters:
     # 19/b: 19 van kiírva
     invalid: ['2', '19b', '25']
   Asztalos Sándor utca:
+    # 7/a, 7/b: 1 ház van, ott 7 van kiírva
     # 25: 25/a és 25/b van kiírva, ahogy a szabályozási terven is szerepel, földhivatalnál viszont 25 van
-    invalid: ['25']
+    invalid: ['7a', '7b', '25']
   Attila utca:
     # 5-7: csak 7 volt a postaládába dobott levélen
     invalid: ['5']
@@ -139,7 +140,7 @@ filters:
   Deák Ferenc utca:
     # 4-6: Csak 4/a van kiírva
     invalid: ['4-6']
-  Dési Huber István:
+  Dési Huber István utca:
     # táblán Dési Hubert utca, ez annyira egyértelműen hibás, hogy nem írtam át
     # 3: 3/a, 3/b
     invalid: ['3']
@@ -168,6 +169,9 @@ filters:
   Előd utca:
     # 26: 26/a és 26/b van
     invalid: ['26']
+  Endre utca:
+    # 2: 2 ház van, 2/1 és 2/2 
+    invalid: ['2']
   Erkel Ferenc utca:
     invalid: ['44', '96']
     show-refstreet: false
@@ -212,7 +216,8 @@ filters:
     invalid: ['5']
   Galagonya utca:
     # 15 a telek, 2 házzal fh szerint 15/a, 15/b: semmi sincs kint
-    invalid: ['15b']
+    # 42: 42/a és 42/b van kiírva
+    invalid: ['15b', '42']
   Galamb utca:
     # 18-20: csak 20 van kiírva
     invalid: ['18']
@@ -321,7 +326,8 @@ filters:
     # 11: csak 7 és 9 van táblázva
     invalid: ['11']
   Kert utca:
-    invalid: ['21', '23']
+    # 11/a: 11 van kiírva
+    invalid: ['11', '21', '23']
   Kilátóhegyi utca:
     # 2: 10 van kiírva # 2024-04. RESURVEY 2025
     # 5 nincs kiírva semmi
