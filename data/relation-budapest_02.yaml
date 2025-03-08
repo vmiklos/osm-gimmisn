@@ -7,8 +7,11 @@ filters:
       - {start: '3', end: '9'}
       - {start: '2', end: '8'}
   Ady Endre utca:
+    # 9: 9/a és 9/b helyette
     # 13: 11 után 15 jön
-    invalid: ['13']
+    # 14a: 14 helyette
+    # 19c: 19 helyette
+    invalid: ['9', '13', '14a', '19c']
   Ali utca:
     # 9: 9/a, 9/b, 9/c
     # 15-17: csak 17 van kiírva
