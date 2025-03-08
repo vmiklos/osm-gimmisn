@@ -279,7 +279,7 @@ filters:
     # 44-46: van egy épület, de 44 nincs kiírva
     # 63-65: csak 63 van kiírva
     # 68: Halacs-Erdőalja utca részen lenne, de ott nincs kiírva
-    invalid: ['24', '25', '29', '33', '44', '65', '68']
+    invalid: ['25', '29', '33', '44', '65', '68']
   Hörpintő utca:
     # 15-17: csak 17 van kiírva
     invalid: ['15']
@@ -327,7 +327,7 @@ filters:
     invalid: ['11']
   Kert utca:
     # 11/a: 11 van kiírva
-    invalid: ['11', '21', '23']
+    invalid: ['11a', '21', '23']
   Kilátóhegyi utca:
     # 2: 10 van kiírva # 2024-04. RESURVEY 2025
     # 5 nincs kiírva semmi
