@@ -242,8 +242,9 @@ filters:
   # Hadak útja:
     # 1 = park, 3 = építkezés, 5 = nincs
   Hajnal utca:
+    # 6: 6/a-t leszedték, de 6/b még kint van
     # 8-10: új ház 2 telken, még a régi 8-as házszám van kint.
-    invalid: ['10']
+    invalid: ['6', '10']
   Harangvirág utca:
     # 4-6: az utcában semmi sincs táblázva, még utcatálba sincs. RESURVEY 2025
     invalid: ['4', '6']
@@ -354,7 +355,8 @@ filters:
     invalid: ['9', '11']
   Kövesalja utca:
     # 8 helyén 4 van kiírva
-    invalid: ['8']
+    # 10-16: 10/a .. 16/d
+    invalid: ['8', '10', '12', '14', '16']
   Kőbánya utca:
     # 6 = Mókus lépcső 9
     invalid: ['6']
@@ -379,11 +381,15 @@ filters:
     # 3-5-7 nincs kiírva, tervről került fel
     # 9-11: nincs kiírva csak a 11
     invalid: ['9']
-  # Lozsántai út: 
-  # RESURVEY 2024-07. 
-  # 11 és 13 ki van írva, utána a másik szakaszon 17-19, 13 és 17-19 közt 2 ház van. Most jelölve van 15-re valami, de ott nincs kiírva semmi.
+  Lozsántai út:
+    # 6a: 6, 1. ajtó lett helyete
+    # RESURVEY 2024-07. 
+    # 11 és 13 ki van írva, utána a másik szakaszon 17-19, 13 és 17-19 közt 2 ház van. Most jelölve van 15-re valami, de ott nincs kiírva semmi.
+    invalid: ['6a']
   Madách Imre tér:
     show-refstreet: false
+    # 5: 5/2 és 5/B van kiírva
+    invalid: ['5a']
   Madách Imre utca:
     show-refstreet: false
     # 17/a: 17/b van kiírva
@@ -488,6 +494,7 @@ filters:
     # 2 = Noszlopy G. utca 17.
     invalid: ['2']
   Rozmaring utca:
+    # 13: 13/b van kint, épp emelet ráépítés zajlik. RESURVEY 2025-07
     # 35-37: csak 35 van kiírva
     invalid: ['37']
   Sirály utca:
