@@ -14,26 +14,26 @@ refstreets:
   'Bányabekötő utca': 'Bánya bekötőút'
   'Báthory utca': 'Báthori utca'
   'Csokonai utca': 'Csokonai Vitéz M. utca'
-  'Hordó köz': 'Hordó utca'
   'Jókai Mór utca': 'Jókai utca'
-  'Kismező utca': 'Kismező út'
-  'Kossuth Lajos utca': 'Kossuth utca'
-  'Mandulás lakótelep utca': 'Mandulás lakótelep'
   'Róbert Károly utca': 'Róbert Károly út'
   'Szélhelyi utca': 'Szélhelyi út'
   'Waldstein János utca': 'Waldstein János út'
-  'Újlaky utca': 'Újlaky út'
   # ellenőrzött
-  'Széphegyi utca': 'Széphegyi út'  # táblán Széphegyi u. - https://www.openstreetmap.org/note/4563494
-  'Hétvezér utca': 'Hétvezér útja'  # táblán Hétvezér utca
-  'Keszi Balázs utca': 'Keszy Balázs utca' # táblán Keszi Balázs utca
-  'Kis köz': 'Kis köz utca'  # táblán Kis köz
   'Dankó Pista utca': 'Dankó utca'  # táblán Dankó P. utca
+  'Hétvezér utca': 'Hétvezér útja'  # táblán Hétvezér utca
+  'Hordó köz': 'Hordó utca'  # táblán Hordó köz
+  'Keszi Balázs utca': 'Keszy Balázs utca' # táblán Keszi Balázs utca
+  'Kismező utca': 'Kismező út'  # táblán Kismező utca
+  'Kis köz': 'Kis köz utca'  # táblán Kis köz
+  'Széphegyi utca': 'Széphegyi út'  # táblán Széphegyi u. - https://www.openstreetmap.org/note/4563494
+  'Újlaky utca': 'Újlaky út' # táblákon van Újlaki út, Újlaky út, Újlaky utca
   # Aradi vértanuk útja - https://www.openstreetmap.org/note/4563438
   # Baglyasi út - https://www.openstreetmap.org/note/4563436
   # Bercsényi utca - https://www.openstreetmap.org/note/4563446
   # Inotai út - https://www.openstreetmap.org/note/4563435
   # Kálvária út - táblák: hagyomások Kálvária út, oszlopos Kálvária utca - https://www.openstreetmap.org/note/4563449
+  # Kossuth utca - táblán Kossuth utca és Kossuth Lajos utca is, előbbiből több
+  # Mandulás lakótelep  - Kis köznél van tábla, ott Mandulás ltp. a felirat
   # Szent István út - https://www.openstreetmap.org/note/4560479
   # Vásárhelyi András út - https://www.openstreetmap.org/note/4563491
   # Vörösmarty utca - https://www.openstreetmap.org/note/4563403
