@@ -326,6 +326,9 @@ filters:
   Káplár utca:
     # 11: csak 7 és 9 van táblázva
     invalid: ['11']
+  Káptalan utca:
+    # 11-13: 11/a és 13 van kiírva
+    invalid: ['11']
   Kert utca:
     # 11/a: 11 van kiírva
     invalid: ['11a', '21', '23']
@@ -348,6 +351,16 @@ filters:
   Kiss Ernő utca:
     # 3 helyén 6 van kiírva, ami mellesleg a 8 mellett van
     invalid: ['3']
+  Kócsag utca:
+    # el vannak csúszva a számok a helyszínen 38-52 között a tervhez képest
+    # 48-52: 50-52 van kiírva
+    # 46: 48/a van kiírva
+    # 44: 46 van kiírva
+    # 42: 44 van kiírva
+    # 40: 42 van kiírva
+    # 38: 40/a és 40/b van kiírva, 38 a 36-os házon van
+    # 26: 26/a van kiírva
+    invalid: ['26', '48']
   Kölcsey Ferenc utca:
     show-refstreet: false
   Könyök utca:
@@ -400,7 +413,6 @@ filters:
     invalid: ['25', '30', '45', '55', '73', '75']
   Malomvölgyi utca:
     # 25: domboldal, nem látszik épkézláb bejárat lentről
-    # 25/a: Sátorhegyi 16 felőle kellene legyen a bejárat
     # 32: tulaj megkérdezve, ok
     # 36: nincs kiírva
     # 40-44: 44 volt régen kiírva, most kikerül 40 44 a postaládára
@@ -460,7 +472,9 @@ filters:
     invalid: ['9', '10']
   Panoráma sétány:
     # 19-20: csak 20 van kiírva
-    invalid: ['19']
+    # 16/a: 15 van kiírva, így dupla
+    # 16/b: 16 van kiírva
+    invalid: ['16a', '16b', '19']
   Petőfi Sándor utca:
     invalid: ['17']
   Pince utca:
@@ -646,6 +660,10 @@ filters:
     invalid: ['2-4']
   Zerge lépcső:
     # 2: 4 van táblázva
+    invalid: ['2']
+  Zuzmó utca:
+    # 2: 2/a van kiírva
+    # 2/A nincs kint házszám
     invalid: ['2']
 osm-street-filters:
   # Területhatár
