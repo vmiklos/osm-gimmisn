@@ -295,7 +295,9 @@ filters:
     invalid: ['9b', '11', '14a', '14b', '19a', '32b', '44a', '44b', '48a', '48b']
   István utca:
     # 3-5: csak 3 van kiírva
-    invalid: ['5']
+    # 15/a: 15 van kiírva
+    # 18: 18/a, 18/b van kiírva
+    invalid: ['5', '15a', '18']
   Ipoly utca:
     # 13: valószínű az Ipoly köz végén lévő ház, nincs kiírva. 2024-02. RESURVEY 2025
     invalid: ['13']
@@ -376,7 +378,8 @@ filters:
   Laposa Dániel utca:
     # 3: nincs, 1 után 5
     # 4 és 6: Ungár József utca 4, 6
-    invalid: ['3']
+    # 30/*: 28, 30 és 30/c van a postaládán, a házakon semmi
+    invalid: ['3', '9a', '10', '30a']
   Legenda köz:
     # 8: ÉTDR. nincs nyoma építkezésnek
     # 2023-01. RESURVEY 2025-01
@@ -402,7 +405,7 @@ filters:
   Madách Imre tér:
     show-refstreet: false
     # 5: 5/2 és 5/B van kiírva
-    invalid: ['5a']
+    invalid: ['5']
   Madách Imre utca:
     show-refstreet: false
     # 17/a: 17/b van kiírva
@@ -511,6 +514,9 @@ filters:
     # 13: 13/b van kint, épp emelet ráépítés zajlik. RESURVEY 2025-07
     # 35-37: csak 35 van kiírva
     invalid: ['37']
+  Sátorhegyi út:
+    # 36/b: nincs kiírva, kérdéses hogy egyáltalán ház van-e
+    invalid: ['36b']
   Sirály utca:
     # strandok a páros oldal, páratlanon a Vasút van
     invalid: ['1']
@@ -528,9 +534,10 @@ filters:
     invalid: ['21b', '28', '64a']
     show-refstreet: false
   Szabolcs utca:
-    # Páratlan újraszámozva 11-35 -> 1-9 alátörésekkel, KCR szerint ezek lépcsőházak de nem így van kiírva
+    # Páratlan újraszámozva 11-35 -> 1-9 alátörésekkel, KCR szerint ezek lépcsőházak de nem így van kiírva, pl 1/a
     # 28, 30 nincs, Rákóczi 28, 30 van a Szabolcs utca másik oldalán
     # páros oldalon az Aldi tömb 2, Balkom 4
+    invalid: ['1', '9']
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '6'}
@@ -599,9 +606,8 @@ filters:
     # 3 nincs kiírva
     # 6 nincs kiírva
     # 8/b: 8/2 van kiírva
-    # 8/c: rendezési terv szerint 8/3, semmi sincs kiírva
     # 10/a: nincs kiírva
-    invalid: ['1a', '8b', '8c']
+    invalid: ['1a', '8b']
   Városház tér:
     # 2: Földhivatal szerint a vasútállomás Városház tér 2-3, MÁV szerint csak 3
     # 7: coop volt. a helyén nyíló DM már az 5-ös házszámot használja, ami ugyanaz mint az étterem (1 telken van).
@@ -623,9 +629,10 @@ filters:
     # 46-48: csak 48 van kiírva
     # 83 templom kellene leyen, de más források szerint a kolostor, de ott 85 van kiírva
     # 89: Máltai alapszabályában 89, a facebook oldalukon 87-es házszám van
+    # 91: nincs kint házszám
     # 101: 99 után 103
     # 102-104  nincs kiírva RESURVEY 2025
-    invalid: ['1', '5', '7', '46', '83', '101', '102', '104']
+    invalid: ['1', '5', '7', '44', '46', '83', '91', '101', '102', '104']
   Vidovszky Béla utca:
     # 26: Tisza utca 12-14 van kiírva
     invalid: ['26']
