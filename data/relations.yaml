@@ -811,6 +811,10 @@ balatonvilagos:
     osmrelation: 1458087
     refcounty: "15"
     refsettlement: "246"
+barcs:
+    osmrelation: 1368014
+    refcounty: "15"
+    refsettlement: "020"
 kaposvar:
     osmrelation: 1368050
     refcounty: "15"
