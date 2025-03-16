@@ -1,0 +1,35 @@
+missing-streets: 'yes'
+osm-street-filters:
+  # parkok
+  - Millenáris park
+  - Szabadidőközpont
+street-filters:
+  # nem igazi utcák
+  - MÁV 11-es őrház
+  - MÁV 36-os őrház
+  - Máv pályaudvar
+  # településrész/tanya/egyéb külterület
+  - Aranyospuszta puszta  # https://www.openstreetmap.org/node/954268380
+  - Horvát-hegy           # https://www.openstreetmap.org/node/1111124227
+  - Középrigóc            # https://www.openstreetmap.org/node/954268428
+  - Parkerdő              # https://www.openstreetmap.org/way/25046656
+  - Viktorpuszta          # https://www.openstreetmap.org/node/954268436
+  - Zátonytelep           # https://www.openstreetmap.org/node/954268348
+refstreets:
+  # kérdéses
+  'Belcsapuszta': 'Belcsapuszta utca'
+  'Bem utca': 'Bem József utca'
+  'Báthory utca': 'Báthori István utca'
+  'Dráva part': 'Drávapart'
+  'Herman Ottó utca': 'Hermann Ottó utca'
+  'Hunyadi utca': 'Hunyadi János utca'
+  'Ifjúság utca': 'Ifjúság útja'
+  'Jókai utca': 'Jókai Mór utca'
+  'Kinizsi Pál utca': 'Kinizsi utca'
+  'Sétatér': 'Sétatér tér'
+  'Szent Klára utca': 'Klára utca'
+  'Tekeresi utca': 'Tekeres utca'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+source: survey
+housenumber-letters: true
+inactive: true
