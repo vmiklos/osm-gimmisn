@@ -19,6 +19,8 @@ osm-street-filters:
   - Mandula utca
   - Sadove út
   - Régi utca
+  # Pomáz közös
+  - Ország út / Országút utca
 refstreets:
   'Batsányi utca': 'Batsányi János utca'
   'Batthyány Lajos utca': 'Batthyány utca'
