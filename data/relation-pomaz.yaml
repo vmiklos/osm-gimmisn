@@ -26,8 +26,8 @@ street-filters:
   - Kiskovácsi  # Pankos tetőként van fent
   #- Liszenkó  # Podmanyczkymajorként, házszámként Liszenkó telep
   - Vróc
-  # Budakalász
-  - Ország út  # Pomáz Országút utca
+  # Budakalász közös
+  - Ország út / Országút utca
   # tervezett utcák
   - Bánóczi Fülöp János utca
   - Barakk utca
