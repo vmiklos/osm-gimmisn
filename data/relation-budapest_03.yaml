@@ -15,7 +15,11 @@ filters:
   Attila utca:
     invalid:
       - '47'  # a Földhivatal szerint csak 47-51. létezik
-      - ['57', '61', '61-63', '63', '65-77']  # a Csillag Center van ezen a részen – addr:interpolation hozzáadva
+      - '57'  # a Csillag Center van…
+      - '61'
+      - '61-63'
+      - '63'
+      - '65-77'  # …ezen a részen – addr:interpolation hozzáadva
   Bem utca:
     ranges:
       - {start: '1', end: '21'}
