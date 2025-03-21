@@ -460,7 +460,9 @@ fn missing_streets_view_result(
 
     let doc = yattag::Doc::new();
     let prefix = ctx.get_ini().get_uri_prefix();
-    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation.get_name())).unwrap() {
+    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation.get_name()))
+        .context("has_sql_mtime() failed")?
+    {
         doc.append_value(webframe::handle_no_osm_streets(&prefix, relation_name).get_value());
         return Ok(doc);
     }
@@ -654,22 +656,23 @@ fn missing_streets_view_txt(
     let relation_name = tokens.next_back().context("no relation_name")?;
     let relation = relations.get_relation(relation_name)?;
 
-    let output: String =
-        if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation.get_name())).unwrap() {
-            tr("No existing streets")
-        } else {
-            let (mut todo_streets, _) = relation.get_missing_streets()?;
-            todo_streets.sort_by_key(|i| util::get_sort_key(i));
-            let mut lines: Vec<String> = Vec::new();
-            for street in todo_streets {
-                if chkl {
-                    lines.push(format!("[ ] {street}\n"));
-                } else {
-                    lines.push(format!("{street}\n"));
-                }
+    let output: String = if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation.get_name()))
+        .context("has_sql_mtime() failed")?
+    {
+        tr("No existing streets")
+    } else {
+        let (mut todo_streets, _) = relation.get_missing_streets()?;
+        todo_streets.sort_by_key(|i| util::get_sort_key(i));
+        let mut lines: Vec<String> = Vec::new();
+        for street in todo_streets {
+            if chkl {
+                lines.push(format!("[ ] {street}\n"));
+            } else {
+                lines.push(format!("{street}\n"));
             }
-            lines.join("")
-        };
+        }
+        lines.join("")
+    };
     Ok((output, relation_name.into()))
 }
 
