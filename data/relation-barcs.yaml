@@ -19,7 +19,6 @@ refstreets:
   # kérdéses
   'Belcsapuszta': 'Belcsapuszta utca'
   'Bem utca': 'Bem József utca'
-  'Báthory utca': 'Báthori István utca'
   'Dráva part': 'Drávapart'
   'Herman Ottó utca': 'Hermann Ottó utca'
   'Hunyadi utca': 'Hunyadi János utca'
@@ -30,6 +29,8 @@ refstreets:
   'Szent Klára utca': 'Klára utca'
   'Tekeresi utca': 'Tekeres utca'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
+  # ellenőrzött
+  'Báthory utca': 'Báthori István utca'  # https://www.openstreetmap.org/note/4667125
 source: survey
 housenumber-letters: true
 inactive: true
