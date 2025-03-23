@@ -18,8 +18,9 @@ refstreets:
   'Szúnyog utca': 'Szúnyog út'
   'Városgazda sor': 'Városgazda utca'
   'Vásárhelyi Pál utca': 'Vásárhelyi Pál út'
-  'Vértói út': 'Vér-tói út'
   'Zsámbokréti sor': 'Zsámbok-réti sor'
+  # ellenőrzött
+  'Vértói út': 'Vér-tói út'  # https://www.openstreetmap.org/note/4669111
 street-filters:
   # létező
   - Borostyán liget  # https://www.openstreetmap.org/way/858118378
