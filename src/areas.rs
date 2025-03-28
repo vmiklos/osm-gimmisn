@@ -762,8 +762,15 @@ impl<'a> Relation<'a> {
             let mut house_numbers: Vec<util::HouseNumber> = Vec::new();
             let ref_street_name = self.config.get_ref_street_from_osm_street(osm_street_name);
             let mut street_invalid: Vec<String> = Vec::new();
+            let mut invalid_ranges: Vec<String> = Vec::new();
             if let Some(value) = streets_invalid.get(osm_street_name) {
                 street_invalid.clone_from(value);
+                // Find 'invalid' items which are ranges.
+                invalid_ranges = street_invalid
+                    .iter()
+                    .filter(|i| i.contains('-'))
+                    .map(|i| i.replace("/", "").to_lowercase())
+                    .collect();
 
                 // Simplify invalid items by default, so the 42a markup can be used, no matter what
                 // is the value of housenumber-letters.
@@ -772,13 +779,6 @@ impl<'a> Relation<'a> {
 
             let mut used_invalids: Vec<String> = Vec::new();
             if let Some(value) = lines.get(&ref_street_name) {
-                // Find 'invalid' items which are ranges.
-                let invalid_ranges: Vec<String> = street_invalid
-                    .iter()
-                    .filter(|i| i.contains('-'))
-                    .map(|i| i.replace("/", "").to_lowercase())
-                    .collect();
-
                 // Filter out ref items which match such invalid items.
                 let hns: Vec<_> = value
                     .iter()

@@ -3599,3 +3599,53 @@ fn test_relation_get_osm_housenumber_split() {
     assert_eq!(housenumbers[0].get_number(), "12/A");
     assert_eq!(housenumbers[1].get_number(), "12/B");
 }
+
+/// Tests Relation::get_missing_housenumbers(), the case when 'invalid' contains hyphens, the case
+/// when housenumber-letters is (implicitly) no.
+#[test]
+fn test_relation_get_missing_housenumbers_invalid_hyphens_hnl_no() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "myrelation": {
+                "refcounty": "0",
+                "refsettlement": "0",
+            },
+        },
+        "relation-myrelation.yaml": {
+            "filters": {
+                "mystreet": {
+                    "invalid": ["65-77"],
+                }
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '65-77', '');
+            insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'mystreet', '1', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('myrelation', '1', 'mystreet', '', '', '', '', '');",
+        )
+        .unwrap();
+    }
+    let mut relations = Relations::new(&ctx).unwrap();
+    let relation_name = "myrelation";
+    let mut relation = relations.get_relation(relation_name).unwrap();
+
+    let missing_housenumbers = relation.get_missing_housenumbers().unwrap();
+
+    let ongoing_streets = numbered_streets_to_array(&missing_housenumbers.ongoing_streets);
+    // This was [("mystreet", ["1", "67", "69", "71", "73", "75", "77"])].
+    assert_eq!(
+        ongoing_streets,
+        [("mystreet".to_string(), vec!["1".to_string()])]
+    );
+}
