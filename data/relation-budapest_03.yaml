@@ -92,6 +92,12 @@ filters:
     # nincsenek házszámok, csak 20 a művház
     # páratlan oldal Aquincum múzeum
     invalid: ['3', '10']
+  Szentendrei út:
+    invalid:
+      - '218-220'  # 222-vel kezdődik az útszakasz – a Földhivatal szerint egyik szám sem létezik
+      - '237'  # a Földhivatal és a cég weboldala szerint…
+      - '237-243'  # …valójában csak 243
+      - '285'  # nincs kitáblázva – a Földhivatal szerint sem létezik
   Szérűskert utca:
     show-refstreet: false
   Torma Károly utca:
