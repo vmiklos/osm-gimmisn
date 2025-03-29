@@ -10,25 +10,26 @@ refstreets:
   # kérdéses
   'Badacsonyszőlő': 'Badacsony szőlő'
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
-  'Bartók Béla utca': 'Bartók Béla út'
   'Bányabekötő utca': 'Bánya bekötőút'
   'Báthory utca': 'Báthori utca'
-  'Csokonai utca': 'Csokonai Vitéz M. utca'
   'Jókai Mór utca': 'Jókai utca'
   'Róbert Károly utca': 'Róbert Károly út'
-  'Szélhelyi utca': 'Szélhelyi út'
   'Waldstein János utca': 'Waldstein János út'
+  # rövidítés
+  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca' # - https://www.openstreetmap.org/note/4563443
   # ellenőrzött
-  'Dankó Pista utca': 'Dankó utca'  # táblán Dankó P. utca
+  'Dankó Pista utca': 'Dankó utca'  # táblán Dankó P. utca - https://www.openstreetmap.org/note/4563441
   'Hétvezér utca': 'Hétvezér útja'  # táblán Hétvezér utca
   'Hordó köz': 'Hordó utca'  # táblán Hordó köz
   'Keszi Balázs utca': 'Keszy Balázs utca' # táblán Keszi Balázs utca
   'Kismező utca': 'Kismező út'  # táblán Kismező utca
   'Kis köz': 'Kis köz utca'  # táblán Kis köz
+  'Szélhelyi utca': 'Szélhelyi út'  # táblán Szélhelyi u. és Szélhelyi utca - https://www.openstreetmap.org/note/4563492
   'Széphegyi utca': 'Széphegyi út'  # táblán Széphegyi u. - https://www.openstreetmap.org/note/4563494
   'Újlaky utca': 'Újlaky út' # táblákon van Újlaki út, Újlaky út, Újlaky utca
   # Aradi vértanuk útja - https://www.openstreetmap.org/note/4563438
   # Baglyasi út - https://www.openstreetmap.org/note/4563436
+  # Bartók Béla út - Bartók Béla út és Bartók Béla u. is van - https://www.openstreetmap.org/note/4563434
   # Bercsényi utca - https://www.openstreetmap.org/note/4563446
   # Inotai út - https://www.openstreetmap.org/note/4563435
   # Kálvária út - táblák: hagyomások Kálvária út, oszlopos Kálvária utca - https://www.openstreetmap.org/note/4563449
