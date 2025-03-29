@@ -42,7 +42,7 @@ filters:
     # 29 = Alsó-Törökvész út 2
     invalid: ['6a', '10c']  
     ranges:
-      - {start: '1', end: '27'}
+      - {start: '1', end: '29'}
       - {start: '2', end: '20'}
   Gül Baba utca:
     # 18-20-22 helyén a türbe alatt üres telek
