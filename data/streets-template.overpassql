@@ -1,7 +1,7 @@
 [out:csv(::id, name, highway, service, surface, leisure, ::type)]  [timeout:425];
 area(@AREA@)->.searchArea;
 // all but service, footway, path + avoid bridges and special highways
-way(area.searchArea)[highway][name][!"bridge"]["highway"!~"platform|bus_stop|footway|steps|raceway|service|pedestrian|proposed|abandoned|rest_area|path|corridor"];
+way(area.searchArea)[highway][name][!"bridge"]["highway"!~"platform|bus_stop|footway|steps|raceway|service|pedestrian|proposed|abandoned|rest_area|path|corridor|via_ferrata"];
 out;
 // service roads with names, avoid parking ways, drive-through
 way(area.searchArea)[highway=service][name][!"bridge"][service!~"parking_aisle|drive-through|slipway"];
