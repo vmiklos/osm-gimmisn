@@ -79,6 +79,12 @@ filters:
     ranges:
       - {start: '46', end: '50'}
       - {start: '58', end: '66'}
+  Hankóczy Jenő utca:
+    # 3: 3/a, 3/b van
+    # 13: 13/a, 13/b, 13/c van
+    # 27: 27/a, 27/b van
+    # 16/a, 16/b: 16 van
+    invalid: ['3', '13', '27', '16a', '16b']
   Herman Ottó út:
     ranges:
       - {start: '1', end: '99'}

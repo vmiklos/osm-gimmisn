@@ -5,8 +5,12 @@ filters:
     ranges:
       - {start: '2', end: '18'}
   Ady Endre utca:
+    # 9: 9/a és 9/b helyette
     # 13: 11 után 15 jön
-    invalid: ['13']
+    # 13: 11 után 15 jön
+    # 14a: 14 helyette
+    # 19c: 19 helyette
+    invalid: ['9', '13', '14a', '19c']
     ranges:
       - {start: '3', end: '99'}
       - {start: '2', end: '98'}
@@ -32,8 +36,11 @@ filters:
       - {start: '3', end: '13'}
       - {start: '2', end: '14'}
   Eszter utca:
+    # 6a: 6 és 6b van kitáblázva
+    # 10c: 10a és 10b van kitáblázva
     # 22 = Vérhalom utca 44
     # 29 = Alsó-Törökvész út 2
+    invalid: ['6a', '10c']  
     ranges:
       - {start: '1', end: '27'}
       - {start: '2', end: '20'}
