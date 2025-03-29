@@ -103,6 +103,10 @@ filters:
   Dénes utca:
     # páratlan oldalon nincs kiírva házszám, máshonnan számozódik
     invalid: ['1']
+  Eszter utca:
+    # 6a: 6 és 6b van kitáblázva
+    # 10c: 10a és 10b van kitáblázva
+    invalid: ['6a', '10c']
   Ezredes utca:
     # 5a = 5-7 C épület A lépcsőház
     # 5b = 5-7 C épület B lépcsőház
