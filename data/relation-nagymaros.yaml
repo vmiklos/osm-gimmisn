@@ -82,9 +82,9 @@ filters:
     # 288/5: ez helyrajzi szám, nem házszám.
     # 300/1: ez helyrajzi szám, nem házszám.
     invalid: ['217/1', '235/2', '261/3', '287', '293/3', '299', '220/1', '254', '288/1', '288/5', '300/1']
-  Törökmező turistaház:
-    # 248/3: ez helyrajzi szám, nem házszám.
-    invalid: ['248/3']
+  # Törökmező turistaház:
+  # 248/3: ez helyrajzi szám, nem házszám.
+  # invalid: ['248/3']
   Zöldfa utca:
     # 146: ez helyrajzi szám, nem házszám.
     invalid: ['146']
