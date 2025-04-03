@@ -1,11 +1,11 @@
 missing-streets: 'yes'
 refstreets:
-  'Ady Endre út': 'Ady Endre utca'
   'Kurázs-dűlő': 'Kurázs dűlő'
   'Munkácsy Mihály utca': 'Munkácsy utca'
-  'Rákóczi utca': 'Rákóczi Ferenc utca'
   'Szabadság út': 'Szabadság utca'
    # ellenőrzött
   'Petőfi Sándor utca': 'Petőfi utca'  # táblán Petőfi Sándor utca
+   # Ady Endre utca - https://www.openstreetmap.org/note/2693675
+   # Rákóczi Ferenc utca - https://www.openstreetmap.org/note/2693673
 source: survey
 inactive: false
