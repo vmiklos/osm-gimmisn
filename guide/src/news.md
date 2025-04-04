@@ -3,6 +3,8 @@
 ## master
 
 - Resolves: gh#4372 visualisation of settlements without any house number
+- Resolves: gh#4506 relation filters: `invalid` items containing hyphens can be combined with
+  housenumber-letters=false
 
 ## 25.2
 
