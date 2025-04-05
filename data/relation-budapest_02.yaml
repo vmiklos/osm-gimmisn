@@ -259,6 +259,9 @@ filters:
     # 21 van, nem 21b
     # Mammut 2-6-ig, Fény utcai piac 12-től
     invalid: ['19a', '21b', '10']
+  Mandula utca:
+    # 26: 26/abc helyette
+    invalid: ['26']
   Marczibányi tér:
     # 3b: 3 van kitáblázva
     # 5b: 5 van kitáblázva
