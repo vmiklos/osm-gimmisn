@@ -374,7 +374,8 @@ filters:
     invalid: ['8', '10', '12', '14', '16']
   Kőbánya utca:
     # 6 = Mókus lépcső 9
-    invalid: ['6']
+    # 9: 9/a és 9/b van kiírva
+    invalid: ['6', '9']
   Laposa Dániel utca:
     # 3: nincs, 1 után 5
     # 4 és 6: Ungár József utca 4, 6
@@ -446,6 +447,9 @@ filters:
     # 9/a: 9/b van kiírva
     # 9/b: 9 van kiírva
     invalid: ['9a']
+  Napsugár utca:
+    # 3: 3/a és 3/b van kiírva. FH szerint a és b épület.
+    invalid: ['3']
   Neptun utca:
     # páros oldalon a vasút megy
     # 1-3: a vitorlás klub csak az 1-et használja, kiírva nincs semmi
@@ -513,7 +517,7 @@ filters:
   Rozmaring utca:
     # 13: 13/b van kint, épp emelet ráépítés zajlik. RESURVEY 2025-07
     # 35-37: csak 35 van kiírva
-    invalid: ['37']
+    invalid: ['13', '37']
   Sátorhegyi út:
     # 36/b: nincs kiírva, kérdéses hogy egyáltalán ház van-e
     invalid: ['36b']
