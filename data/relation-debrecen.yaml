@@ -14,6 +14,7 @@ refstreets:
   'Szentgyörgyi erdősor': 'Szentgyörgyierdő sor'
   'Vértesi utca': 'Vértesi út'
   # ellenőrzött
+  'Ifjuság utca': 'Ifjúság utca'  # Ifjuság utca rövid u-val szerepel az utcanévtáblán
   'Thúróczy Gyula utca': 'Thuróczi Gyula utca'  # hosszú ú-val van és y-nal van táblázva
   # Baskir utca - rövid i-vel van táblázva 
   # Derekassy István köz - így szerepel a tábnán
