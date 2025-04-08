@@ -197,7 +197,7 @@ filters:
     # 3-5: csak 3 van kiírva
     invalid: ['5']
   Felsőörsi út:
-    # 9 = Rózsa utca 8
+    # 9 = Rózsa utca 8, KCR szerint 2025.03.27 hivatalosan is.
     # 10 = Székely Bertalan utca sarka, épp építik. RESURVEY 2025
     # 23/b: 25 van kiírva, 25 helyén pedig az öreghegyi út 2. RESURVEY 2025
     # 34-36: csak 34 vagy kiírva
@@ -539,9 +539,10 @@ filters:
     show-refstreet: false
   Szabolcs utca:
     # Páratlan újraszámozva 11-35 -> 1-9 alátörésekkel, KCR szerint ezek lépcsőházak de nem így van kiírva, pl 1/a
+    # 13: új 13 - nincs kint szám
     # 28, 30 nincs, Rákóczi 28, 30 van a Szabolcs utca másik oldalán
     # páros oldalon az Aldi tömb 2, Balkom 4
-    invalid: ['1', '9']
+    invalid: ['1', '9', '13']
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '6'}
