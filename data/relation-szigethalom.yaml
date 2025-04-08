@@ -12,6 +12,8 @@ street-filters:
 osm-street-filters:
   # Nem igazi utcák
   - Emese Park - Középkori Múzeumfalu
+  # park
+  - Hétboldogasszony emlékpark
   # átlógó/területhatár
   - Külső Mű út / Mű út  # a szigetszentmiklósi oldalon Mű út, a szigethalmi oldalon Külső Mű út
 refstreets:
