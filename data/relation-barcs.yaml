@@ -21,16 +21,14 @@ refstreets:
   'Bem utca': 'Bem József utca'
   'Dráva part': 'Drávapart'
   'Herman Ottó utca': 'Hermann Ottó utca'
-  'Hunyadi utca': 'Hunyadi János utca'
-  'Ifjúság utca': 'Ifjúság útja'
-  'Jókai utca': 'Jókai Mór utca'
   'Kinizsi Pál utca': 'Kinizsi utca'
   'Sétatér': 'Sétatér tér'
   'Szent Klára utca': 'Klára utca'
-  'Tekeresi utca': 'Tekeres utca'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
   # ellenőrzött
   'Báthory utca': 'Báthori István utca'  # https://www.openstreetmap.org/note/4667125
+  'Jókai utca': 'Jókai Mór utca'  # https://www.openstreetmap.org/note/4667132
+  'Ifjúság utca': 'Ifjúság útja'  # https://www.openstreetmap.org/note/4667131
 source: survey
 housenumber-letters: true
 inactive: true
