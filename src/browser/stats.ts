@@ -37,8 +37,17 @@ Chart.register(
     ChartDataLabels
 );
 
-function getString(key: string) {
-    return document.getElementById(key).getAttribute("data-value");
+function getString(key: string): string {
+    const element = document.getElementById(key);
+    if (!element) {
+        return '';
+    }
+    const value = element.getAttribute("data-value");
+    if (!value) {
+        return '';
+    }
+
+    return value;
 }
 
 // StatsProgress is the "progress" / "capital-progress" key of workdir/stats/stats.json.
@@ -91,6 +100,9 @@ function addCharts(stats: Stats) {
     };
     const dailyCanvas = <HTMLCanvasElement>document.getElementById("daily");
     const dailyCtx = dailyCanvas.getContext("2d");
+    if (!dailyCtx) {
+        return;
+    }
     new Chart(dailyCtx, {
         type: "bar",
         data: dailyData,
@@ -138,6 +150,9 @@ function addCharts(stats: Stats) {
     };
     const monthlyCanvas = <HTMLCanvasElement>document.getElementById("monthly");
     const monthlyCtx = monthlyCanvas.getContext("2d");
+    if (!monthlyCtx) {
+        return;
+    }
     new Chart(monthlyCtx, {
         type: "bar",
         data: monthlyData,
@@ -186,6 +201,9 @@ function addCharts(stats: Stats) {
     };
     const monthlyTotalCanvas = <HTMLCanvasElement>document.getElementById("monthlytotal");
     const monthlyTotalCtx = monthlyTotalCanvas.getContext("2d");
+    if (!monthlyTotalCtx) {
+        return;
+    }
     new Chart(monthlyTotalCtx, {
         type: "line",
         data: monthlytotalData,
@@ -234,6 +252,9 @@ function addCharts(stats: Stats) {
 
     const dailyTotalCanvas = <HTMLCanvasElement>document.getElementById("dailytotal");
     const dailyTotalCtx = dailyTotalCanvas.getContext("2d");
+    if (!dailyTotalCtx) {
+        return;
+    }
     new Chart(dailyTotalCtx, {
         type: "line",
         data: dailytotalData,
@@ -280,6 +301,9 @@ function addCharts(stats: Stats) {
     };
     const topUsersCanvas = <HTMLCanvasElement>document.getElementById("topusers");
     const topUsersCtx = topUsersCanvas.getContext("2d");
+    if (!topUsersCtx) {
+        return;
+    }
     new Chart(topUsersCtx, {
         type: "bar",
         data: topusersData,
@@ -334,6 +358,9 @@ function addCharts(stats: Stats) {
     };
     const topCitiesCanvas = <HTMLCanvasElement>document.getElementById("topcities");
     const topCitiesCtx = topCitiesCanvas.getContext("2d");
+    if (!topCitiesCtx) {
+        return;
+    }
     new Chart(topCitiesCtx, {
         type: "bar",
         data: topcitiesData,
@@ -382,6 +409,9 @@ function addCharts(stats: Stats) {
     };
     const userTotalCanvas = <HTMLCanvasElement>document.getElementById("usertotal");
     const userTotalCtx = userTotalCanvas.getContext("2d");
+    if (!userTotalCtx) {
+        return;
+    }
     new Chart(userTotalCtx, {
         type: "bar",
         data: usertotalData,
@@ -435,6 +465,9 @@ function addCharts(stats: Stats) {
     };
     const progressCanvas = <HTMLCanvasElement>document.getElementById("progress");
     const progressCtx = progressCanvas.getContext("2d");
+    if (!progressCtx) {
+        return;
+    }
     new Chart(progressCtx, {
         type: "bar",
         data: progressData,
@@ -487,6 +520,9 @@ function addCharts(stats: Stats) {
     };
     const capitalProgressCanvas = <HTMLCanvasElement>document.getElementById("capital-progress");
     const capitalProgressCtx = capitalProgressCanvas.getContext("2d");
+    if (!capitalProgressCtx) {
+        return;
+    }
     new Chart(capitalProgressCtx, {
         type: "bar",
         data: capitalProgressData,
@@ -535,6 +571,9 @@ function addCharts(stats: Stats) {
     };
     const invalidAddrCitiesCanvas = <HTMLCanvasElement>document.getElementById("stats-invalid-addr-cities");
     const invalidAddrCitiesCtx = invalidAddrCitiesCanvas.getContext("2d");
+    if (!invalidAddrCitiesCtx) {
+        return;
+    }
     new Chart(invalidAddrCitiesCtx, {
         type: "bar",
         data: invalidAddrCitiesData,
@@ -586,6 +625,6 @@ async function initStats(): Promise<void>
     return;
 }
 
-export { initStats };
+export { initStats, getString };
 
 // vim: shiftwidth=4 softtabstop=4 expandtab:
