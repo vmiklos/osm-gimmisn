@@ -8,10 +8,6 @@ import * as config from './config';
 import 'sorttable'; // only for its side-effects
 import * as stats from './stats';
 
-function getOsmString(key: string) {
-    return document.getElementById(key).getAttribute("data-value");
-}
-
 /**
  * Creates a loading indicator element.
  */
@@ -44,10 +40,13 @@ interface OverpassResult {
 async function onGpsClick()
 {
     const gps = document.querySelector("#filter-based-on-position");
+    if (!gps) {
+        return;
+    }
     gps.removeChild(gps.childNodes[0]);
 
     // Get the coordinates.
-    createLoader(gps, getOsmString("str-gps-wait"));
+    createLoader(gps, stats.getString("str-gps-wait"));
     let latitude = 0;
     let longitude = 0;
     try
@@ -60,7 +59,7 @@ async function onGpsClick()
     }
     catch (reason)
     {
-        gps.textContent = getOsmString("str-gps-error") + reason;
+        gps.textContent = stats.getString("str-gps-error") + reason;
         return;
     }
 
@@ -69,11 +68,11 @@ async function onGpsClick()
     query += "is_in(" + latitude + "," + longitude + ");\n";
     query += "(._;>;);";
     query += "out meta;";
-    createLoader(gps, getOsmString("str-overpass-wait"));
+    createLoader(gps, stats.getString("str-overpass-wait"));
     const protocol = location.protocol != "http:" ? "https:" : "http:";
     let url = protocol + "//overpass-api.de/api/interpreter";
     let request = new Request(url, {method : "POST", body : query});
-    let overpassJson: OverpassResult = null;
+    let overpassJson: OverpassResult;
     try
     {
         const response = await window.fetch(request);
@@ -81,7 +80,7 @@ async function onGpsClick()
     }
     catch (reason)
     {
-        gps.textContent = getOsmString("str-overpass-error") + reason;
+        gps.textContent = stats.getString("str-overpass-error") + reason;
         return;
     }
 
@@ -103,8 +102,8 @@ async function onGpsClick()
     // Now fetch the list of relations we recognize.
     url = config.uriPrefix + "/api/relations.json";
     request = new Request(url);
-    createLoader(gps, getOsmString("str-relations-wait"));
-    let knownRelations: Array<number> = null;
+    createLoader(gps, stats.getString("str-relations-wait"));
+    let knownRelations: Array<number>;
     try
     {
         const response = await window.fetch(request);
@@ -112,7 +111,7 @@ async function onGpsClick()
     }
     catch (reason)
     {
-        gps.textContent = getOsmString("str-relations-error") + reason;
+        gps.textContent = stats.getString("str-relations-error") + reason;
         return;
     }
 
@@ -130,7 +129,7 @@ async function onGpsClick()
     }
 
     // Redirect.
-    createLoader(gps, getOsmString("str-redirect-wait"));
+    createLoader(gps, stats.getString("str-redirect-wait"));
     url = config.uriPrefix + "/filter-for/relations/" + knownRelationIds.join(",");
     window.location.href = url;
 }
@@ -159,7 +158,7 @@ async function initRedirects()
     if (noOsmStreets)
     {
         noOsmStreets.removeChild(noOsmStreets.childNodes[0]);
-        createLoader(noOsmStreets, getOsmString("str-overpass-wait"));
+        createLoader(noOsmStreets, stats.getString("str-overpass-wait"));
         const relationName = tokens[tokens.length - 2];
         const link = config.uriPrefix + "/streets/" + relationName + "/update-result.json";
         const request = new Request(link);
@@ -175,7 +174,7 @@ async function initRedirects()
         }
         catch (reason)
         {
-            noOsmStreets.textContent += " " + getOsmString("str-overpass-error") + reason;
+            noOsmStreets.textContent += " " + stats.getString("str-overpass-error") + reason;
         }
         return;
     }
@@ -184,7 +183,7 @@ async function initRedirects()
     if (noOsmHousenumbers)
     {
         noOsmHousenumbers.removeChild(noOsmHousenumbers.childNodes[0]);
-        createLoader(noOsmHousenumbers, getOsmString("str-overpass-wait"));
+        createLoader(noOsmHousenumbers, stats.getString("str-overpass-wait"));
         const relationName = tokens[tokens.length - 2];
         const link = config.uriPrefix + "/street-housenumbers/" + relationName + "/update-result.json";
         const request = new Request(link);
@@ -200,7 +199,7 @@ async function initRedirects()
         }
         catch (reason)
         {
-            noOsmHousenumbers.textContent += " " + getOsmString("str-overpass-error") + reason;
+            noOsmHousenumbers.textContent += " " + stats.getString("str-overpass-error") + reason;
         }
         return;
     }
@@ -214,8 +213,11 @@ async function onUpdateOsmStreets()
     const tokens = window.location.pathname.split('/');
 
     const streets = document.querySelector("#trigger-streets-update");
+    if (!streets) {
+        return;
+    }
     streets.removeChild(streets.childNodes[0]);
-    createLoader(streets, getOsmString("str-toolbar-overpass-wait"));
+    createLoader(streets, stats.getString("str-toolbar-overpass-wait"));
     const relationName = tokens[tokens.length - 2];
     let link = config.uriPrefix + "/streets/" + relationName + "/update-result.json";
     let request = new Request(link);
@@ -240,7 +242,7 @@ async function onUpdateOsmStreets()
     }
     catch (reason)
     {
-        streets.textContent += " " + getOsmString("str-toolbar-overpass-error") + reason;
+        streets.textContent += " " + stats.getString("str-toolbar-overpass-error") + reason;
     }
 }
 
@@ -252,7 +254,10 @@ async function onUpdateOsmHousenumbers()
     const tokens = window.location.pathname.split('/');
 
     const housenumbers = document.querySelector("#trigger-street-housenumbers-update");
-    createLoader(housenumbers, getOsmString("str-toolbar-overpass-wait"));
+    if (!housenumbers) {
+        return;
+    }
+    createLoader(housenumbers, stats.getString("str-toolbar-overpass-wait"));
     const relationName = tokens[tokens.length - 2];
     const link = config.uriPrefix + "/street-housenumbers/" + relationName + "/update-result.json";
     const request = new Request(link);
@@ -268,7 +273,7 @@ async function onUpdateOsmHousenumbers()
     }
     catch (reason)
     {
-        housenumbers.textContent += " " + getOsmString("str-toolbar-overpass-error") + reason;
+        housenumbers.textContent += " " + stats.getString("str-toolbar-overpass-error") + reason;
     }
 }
 
@@ -278,8 +283,11 @@ async function onUpdateOsmHousenumbers()
 async function onUpdateInvalidAddrCities()
 {
     const invalidAddrCities = document.querySelector("#trigger-invalid-addr-cities-update");
+    if (!invalidAddrCities) {
+        return;
+    }
     invalidAddrCities.removeChild(invalidAddrCities.childNodes[0]);
-    createLoader(invalidAddrCities, getOsmString("str-toolbar-overpass-wait"));
+    createLoader(invalidAddrCities, stats.getString("str-toolbar-overpass-wait"));
     const link = config.uriPrefix + "/lints/whole-country/invalid-addr-cities/update-result.json";
     const request = new Request(link);
     try
@@ -294,7 +302,7 @@ async function onUpdateInvalidAddrCities()
     }
     catch (reason)
     {
-        invalidAddrCities.textContent += " " + getOsmString("str-toolbar-overpass-error") + reason;
+        invalidAddrCities.textContent += " " + stats.getString("str-toolbar-overpass-error") + reason;
     }
 }
 
