@@ -164,10 +164,11 @@ filters:
     # 2 = Fehérvári út 118/b
     # 3: még épül. RESURVEY 2024
     # 5a = 5. A lépcsőház
+    # 5c = 5. C lépcsőház
     # 12-16 = Főtáv, Kalotaszeg utca 9.
     # 32-36 = Főtáv, Kalotaszeg utca 31.
     # 38: nincs
-    invalid: ['3', '5a', '12', '14', '16']
+    invalid: ['3', '5a', '5c', '12', '14', '16']
   # Bártfai utca:
   Bartók Béla út:
     # 15e: 15a-15c, 15b-15d hátsó épületnek nem ismert a házszáma, nincs kiírva semmi
@@ -326,8 +327,7 @@ filters:
     # 113: 113/a, 113/b, 113/c
     # 119: 119/a, 119/b
     # 147: 147/a, 147/b
-    # 154: 154/a, 154/b
-    invalid: ['1b', '21', '40b', '45', '52', '54a', '54b', '95', '107a', '113', '119', '147', '154']
+    invalid: ['1b', '21', '40b', '45', '52', '54a', '54b', '95', '107a', '113', '119', '147']
   Breznó köz:
     ranges:
       - {start: '1', end: '13'}
@@ -602,8 +602,7 @@ filters:
       - {start: '40', end: '44'}
   Ercsi út:
     # 17-21: Fraknó utca 13-15 - Mogyoróskert Bőlcsőde
-    # 34: nincs, 32 után 40/c
-    invalid: ['17-21', '34']
+    invalid: ['17-21']
   Érdi út:
     # 6: 6/a, 6/b
     # 10: 10/a, 10/b
@@ -731,7 +730,8 @@ filters:
     # 5 = Forrás utca 8-10
     # 9: idősek otthona telke, az csak 7-et használja
     # 19: 
-    invalid: ['19', '20']
+    # 34: nincs, 32 után 40/c
+    invalid: ['19', '20', '34']
   Frankhegy utca:
     interpolation: all
   Fülőke utca:
@@ -1455,12 +1455,10 @@ filters:
     # ranges: 33-39, 10-14, 28-42
     # 36, 38: nincs
     invalid: ['36', '38']
-  Mezőkövesd út:
+  # Mezőkövesd út:
+    # 1-7, 2-16
     # 3a,b,c,d: ezek lépcsőházak, bejárat magánterületről, csak 1 főkapu van 3-as számmal
     # MOL kút házszáma a Hunyadi János úton kérdéses
-    ranges:
-      - {start: '1', end: '7'}
-      - {start: '4', end: '16'}
   Mezőtúr utca:
     # 2 = Solt utca 19.
     invalid: ['2']
@@ -1493,7 +1491,7 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
   Móricz Zsigmond körtér:
-    invalid: ['16a', '16m']
+    invalid: ['16m']
     interpolation: 'all'
     ranges:
       - {start: '1', end: '18'}
@@ -1585,7 +1583,7 @@ filters:
     # 27: nincs: 25 után 31
     # 29-31: 31 lett belőle
     # 36-40: a, b, c, d épületek, a kapun 40, a portás szerint viszont 36-40. Ezen kívül van még egy 40/a bejárat is a fitnessnél
-    invalid: ['27', '29', '5a']
+    invalid: ['27', '29']
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '54'}
@@ -1601,7 +1599,7 @@ filters:
   Németvölgyi út:
     # 132a: 132 és 132/b
     # 136b: Csak sima 136 van: Jardinette
-    invalid: ['132a', '136b']
+    invalid: ['136b']
     ranges:
       - {start: '132', end: '150'}
   Neszmélyi köz:
@@ -1923,7 +1921,6 @@ filters:
   Repülőtéri út:
     # össze vissza vannak a számok, úgy tűnik csak 1, 2 és 6 van
     # 6/a: 6 A épület
-    invalid: ['6a']
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '6'}
@@ -2116,10 +2113,7 @@ filters:
   Szabolcska Mihály utca:
     # 4: nincs, 2/b után 6-8 jön
     invalid: ['4']
-  Szádelő köz:
-    ranges:
-      - {start: '1', end: '9'}
-      - {start: '4', end: '16'}
+  # Szádelő köz:
   Szádelő utca:
     ranges:
       - {start: '11', end: '19'}
