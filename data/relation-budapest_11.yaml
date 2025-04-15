@@ -936,7 +936,8 @@ filters:
   Hunyadi János út:
     # 6-10: Pappas Autó csak 6 van kiírva
     # 19 Savoya, 23 OBI, 162 volt házgyár
-    invalid: ['8', '10', '13', '17']
+    # 56: nincs, hibás adat valójában Hunyadi Mátyás út 56.
+    invalid: ['8', '10', '13', '17', '56']
   Hunyadi Mátyás út:
     # 12a,12b: 12, 12ab
     # 14a: 14, 14/b
@@ -1095,11 +1096,12 @@ filters:
   Karancs utca:
     # 4a, 4b: csak sima 4
     invalid: ['4a', '4b']
-  # Karcag utca:
+  Karcag utca:
     # 53 = Vegyész utca 13
     # 2-52: csak 1 épület van a 28-as
     # 54-62: 1 épület a két bejárat 54,62
     # 64-70: 1 épület a két bejárat 64,70
+    invalid: ['54-62', '64-70']
   Kardhegy utca:
     # 18a, 18b: semmi sincs kiírva de nincs 2 ház
     invalid: ['18a', '18b']
