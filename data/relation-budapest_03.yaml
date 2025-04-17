@@ -84,6 +84,9 @@ filters:
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
+  Rókahegyi út:
+    invalid:
+      - '6'  # nem létezik
   Seregély köz:
     # 2-4: nincs kiírva, Seregély utca 4 felől megnézebdő
     # 15: nincs, utolsó ház a 13.
