@@ -1,4 +1,4 @@
-FROM fedora:41 AS builder
+FROM fedora:42 AS builder
 
 RUN dnf install -y \
     cargo \
@@ -18,7 +18,7 @@ RUN git -C /opt clone https://github.com/vmiklos/osm-gimmisn
 
 RUN make -C /opt/osm-gimmisn
 
-FROM fedora:41
+FROM fedora:42
 
 RUN dnf install -y \
     git-core \
@@ -31,7 +31,7 @@ RUN git clone https://github.com/vmiklos/osm-gimmisn
 
 WORKDIR /opt/osm-gimmisn
 
-RUN mkdir -p target/release/ target/browser/
+RUN mkdir -p target/release/ target/browser/ workdir/
 
 COPY --from=builder /opt/osm-gimmisn/target/release/osm-gimmisn target/release/osm-gimmisn
 COPY --from=builder /opt/osm-gimmisn/target/browser/bundle.js target/browser/bundle.js
