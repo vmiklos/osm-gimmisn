@@ -11,6 +11,7 @@ filters:
   Arany János utca:
     # 6: nincs kiírva
     # 6/a: nincs ház
+    # 9/2: csak 9 van kiírva
     # 15: üres telek. RESURVEY 2025.
     invalid: ['6a', '9/2', '15']
   Árnyas utca:
@@ -21,7 +22,7 @@ filters:
     invalid: ['2a', '99']
   Bartók Béla utca:
     interpolation: all
-    invalid: ['3a']
+    invalid: ['3b']
   Béke utca:
     # 28/a helyén 28 van kiírva, így most 2 házon is 28 van.
     invalid: ['28a']
@@ -52,10 +53,12 @@ filters:
   Király utca:
     interpolation: all
   Kossuth Lajos utca:
+    # 1: nincs kiírva
     # 25/1, 25/a: nincs kiírva
     # 53/x: bemenni nem tanácsos a házakhoz, meszebről nem látszik
     # 59/a: nincs kiírva
-    invalid: ['25/1', '25/2', '53/2', '53/6', '53/7', '59a']
+    # 62a: csak 62 van
+    invalid: ['1', '25/1', '25/2', '53/2', '53/6', '53/7', '59a', '62a']
   Kötéssűrű utca:
     invalid: ['1']
   Köztársaság utca:
