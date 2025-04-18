@@ -15,16 +15,16 @@ filters:
   Vasút utca:
     interpolation: all
 refstreets:
-  'Petőfi utca': 'Petőfi Sándor utca'
-  'Szérűskert utca': 'Szérüskert utca'  # táblán mindkettő
   # ellenőrizve
   'Arany János út': 'Arany János utca' # táblán Arany János út 2024.10
   'Bodonkuti utca': 'Bodonkúti utca'  # táblán rövid u 2024.08
   'Kossuth utca': 'Kossuth Lajos utca'  # táblán Kossuth utca 2023.09
   'Lápotai út': 'Lápotai utca'  # táblán Lápotai út 2024.08
   'Paloznaki utca': 'Paloznaki út'  # táblán Paloznaki utca 2023.09
+  'Petőfi utca': 'Petőfi Sándor utca'  # táblán mindkettő
   # 'Sóstódombi út': 'Sóstódombi utca'  # egyik oldalon a táblán Sóstódombi út 2024.08
   # 'Timár József utca': 'Tímár József utca' # tábla egyik felén rövid i, másik felén hosszú í 2024.08
+  # 'Szérűskert utca': 'Szérüskert utca'  # táblán mindkettő
   # helyesírás
   'Ördöngös utca': 'Ördöngős utca'  #rövid ő-vel van kiírva
 source: survey
