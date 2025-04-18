@@ -519,8 +519,9 @@ filters:
     # 35-37: csak 35 van kiírva
     invalid: ['13', '37']
   Sátorhegyi út:
+    # 33: csak 33/b van kint
     # 36/b: nincs kiírva, kérdéses hogy egyáltalán ház van-e
-    invalid: ['36b']
+    invalid: ['33', '36b']
   Sirály utca:
     # strandok a páros oldal, páratlanon a Vasút van
     invalid: ['1']
