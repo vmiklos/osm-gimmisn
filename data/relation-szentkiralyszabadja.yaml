@@ -1,9 +1,10 @@
 missing-streets: 'yes'
 filters:
   Ady Endre utca:
-    # 17-21: HÉSZ: 1 ház 4 telek, kiírva nincs semmi. RESURVEY 2025
+    # 9/1: 9/a van kint
+    # 17-21: HÉSZ: 1 ház 4 telek, kiírva nincs semmi, csak hátum a 23, bemenni nem lehet. RESURVEY 2026
     # 16, 18 nincs kiírva, utolsó 14 amin szám van.
-    invalid: ['16', '18']
+    invalid: ['9/1', '16', '18', '21a']
   Alsódomb utca:
     # üres telkek. RESURVEY 2025.
     invalid: ['14', '16', '17', '18', '19', '20']
@@ -13,12 +14,16 @@ filters:
   Árnyas utca:
     interpolation: all
   Balatoni út:
+    # 2/a: nincs, elvileg a kívül lenne a főút mellett
     # 99: kiírva max 19, posta 21
-    invalid: ['99']
+    invalid: ['2a', '99']
   Bartók Béla utca:
     interpolation: all
   Gárdonyi utca:
     interpolation: all
+  Hétvezér utca:
+    # 2/1: üres telek
+    invalid: ['2/1']
   Horváth utca:
    interpolation: all
   Hunyadi utca:
@@ -26,6 +31,8 @@ filters:
   István király tér:
     interpolation: all
     show-refstreet: false
+    # 2/a: csak 2 van kiírva
+    invalid: ['2a']
   József Attila utca:
     # 3: a bódéhalmaz vagy a Béke utca 23 felől, semmi sincs kiírva. RESURVEY 2024
     # 4: 2 és az iskola között egy lebontott ház, helyén birkál legelnek. A telek végében még 1 ház, de annak bejárata a Tóth Árpád utca felől
@@ -36,6 +43,11 @@ filters:
     invalid: ['15', '17']
   Király utca:
     interpolation: all
+  Kossuth Lajos utca:
+    # 25/1, 25/a: nincs kiírva
+    # 53/x: bemenni nem tanácsos a házakhoz, meszebről nem látszik
+    # 59/a: nincs kiírva
+    invalid: ['25/1', '25/2', '53/2', '53/6', '53/7', '59a']
   Kötéssűrű utca:
     invalid: ['1']
   Köztársaság utca:
@@ -49,9 +61,15 @@ filters:
     # 15: üres telek
     # 6-12: páros oldal nincs beépítve
     invalid: ['1', '6', '8', '10', '12', '15']
+  Nefelejcs utca:
+    # 8a: nincs kiírva se 8 se 8/a
+    invalid: ['8a']
   Petőfi Sándor utca:
-    # 28, 32: nincsenek beépítve a telkek. utolsó kiírt házszám a 26. RESUREY 2024
-    invalid: ['28', '32']
+    # 1: nincs kiiírva semmi se 1 se 1/b
+    # 18: 18/a és 18/b
+    # 26/a: nincs
+    # 32: nincs kiírva
+    invalid: ['1', '18', '26a', '32']
   Rákóczi utca:
     # 65: 63 után 67, 65 helyén az Erkel Ferenc utca
     invalid: ['65']
@@ -74,11 +92,10 @@ filters:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
   Zrínyi utca:
-    # 24: nincs ilyen kiírva és a földhivatal szerint sincs. RESURVEY 2024.
     # 110/7: hrsz, valóságban 7-es szám
     show-refstreet: false
     interpolation: all
-    invalid: ['24', '110']
+    invalid: ['110/7']
 refstreets:
   # helyesírás
   'Zrínyi utca': 'Zrinyi utca'
