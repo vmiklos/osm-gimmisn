@@ -395,6 +395,10 @@ polgardi:
     osmrelation: 1458115
     refcounty: "07"
     refsettlement: "073"
+pusztaszabolcs:
+    osmrelation: 1418515
+    refcounty: "07"
+    refsettlement: "074"
 szabadbattyan:
     osmrelation: 1361452
     refcounty: "07"
