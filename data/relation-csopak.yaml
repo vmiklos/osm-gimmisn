@@ -27,6 +27,8 @@ refstreets:
   # 'Szérűskert utca': 'Szérüskert utca'  # táblán mindkettő
   # helyesírás
   'Ördöngös utca': 'Ördöngős utca'  #rövid ő-vel van kiírva
+osm-street-filters:
+  - Milleneumi park
 source: survey
 housenumber-letters: true
 inactive: true
