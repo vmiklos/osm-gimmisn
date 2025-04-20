@@ -74,7 +74,8 @@ filters:
   Ifjúság utca:
     # 11/a, 11/b: semmi sincs a házon
     # 13: a ház egyik felén 13/a van kiírva
-    invalid: ['11a', '11b', '13']
+    # 21: 21/a és 21/b van kiírva
+    invalid: ['11a', '11b', '13', '21']
   Katona József utca:
     # 4/b: 4/I van kiírva a kis háznál, a nagy házon semmi
     invalid: ['4b']
@@ -207,6 +208,11 @@ filters:
   Tulipán köz:
     # 11: nincs ilyen táblázva, 9 az utolsó, de van még ott egy telek
     invalid: ['11']
+  Vasút utca:
+    # 5/1: nincs kiírva semmi
+    # 11: nincs, 7 után 14
+    invalid: ['5/1', '11']
+    interpolation: all
   Vízöntő utca:
     # 11 = Hotel Mayer vendégháza, nincs külön száma erről az utcáról
     invalid: ['11']
