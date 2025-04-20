@@ -2,23 +2,48 @@ missing-streets: 'yes'
 filters:
   Ady Endre utca:
     # 7: Alkotás köz felől, vmi épül. RESURVEY 2024
-    invalid: ['7', '22']
+    # 9: 9/I van kiírva
+    invalid: ['7', '9', '22']
   Almádi utca:
     # nincs táblázva az Almádi utca és házszámai sem
     invalid: ['4']
+  Alkotmány utca:
+    # 8 + 8/a: ezen a házon semmi sincs kiírva
+    # 8/b: ezen a házon 8/a van kiírva
+    invalid: ['8b']
+  Arany János utca:
+    # 3: egyik ház 3, másik iker 3 és 3/I
+    invalid: ['3a']
   Babits Mihály köz:
     # 3: valami épül. RESURVEY 2024
     invalid: ['3']
+  Bagolyvár utca:
+    # 6/a: 6 van kiírva
+    invalid: ['6a']
   Bajcsy-Zsilinszky utca:
     # 5: Földhivatal szerint Sarló utca 8, régebben volt egy ház de a 3-as ház megette a területet
     invalid: ['5']
+  Bartók Béla utca:
+    # 3: 3/a és 3/b van kiírva
+    invalid: ['3']
+  Béke utca:
+    # 3, 3a: 3 és 3/b van kiírva
+    invalid: ['3a']
+  Csokonai Vitéz Mihály utca:
+    # 19/b: 19 van kiírva
+    invalid: ['19b']
+  Dózsa György utca:
+    # 1b: 1 és 1/a van táblázva
+    invalid: ['1b']
   Endrődi Sándor utca:
     # 8 = Alkotás köz 2.
+    # 29, 31, 35, 37, 41, 43: nincsenek alátörések kiírva, kivéve 37/I
     # 20: Jókai Mór utca 2/1 a címe a templomnak
-    invalid: ['8','20']
+    invalid: ['8','20', '29/2', '29/3', '29/4', '31/2', '33/3', '35d', '37/1', '37/2', '37/3', '37/4', '37/5', '37v', '41/1', '41/3', '41a', '43/1', '43/2', '43/3', '43c', '43i']
   Erkel Ferenc utca:
+    # 54/b: csak 54 van kiírva
     # 59: csak páros oldal van, páratlan oldalon szántóföld és Lovashoz tartozik
-    invalid: ['59']
+    invalid: ['54b', '59']
   Felsőmáli út:
     # 25: nincs kiírva
     invalid: ['25']
@@ -26,24 +51,42 @@ filters:
     # nincsenek kiírva házszámok az utcában
     invalid: ['2']
   Fő utca:
+    # 10/1: nincs semmilyen szám
     # 20: nincs, 18 után 22
+    # 31/b: az első házon semmi, a hátsó kapun 31.
+    # 38/I: csak 38 van kiírva
     # 47: nincs, utolsó ház a 41.
-    invalid: ['20', '47']
+    invalid: ['10/1', '20', '31b', '38i', '47']
   Füredi utca:
+    # 1/I: Bakter Bisztó 1, nincs az épületen szám
     # 2, 6: nincs, legkisebb házszám a 10
-    invalid: ['2', '6']
+    # 10/a, 10/b: 10 A és B épület
+    # 19, 21: nincs nyoma
+    # 28/*: csak 1 kapun van szám, ott 28 van kint
+    # 60/b: nincs
+    invalid: ['1i', '2', '5', '6', '10a', '10b', '19', '21', '28/1', '28a', '28b', '28c', '60b', '64a', '64b', '64c', '64d']
   Gárdonyi Géza utca:
     # 34: utolsó kiírt páros 14 és egy sarki ház van amint nincs szám
     invalid: ['34']
+  Gyöngyvirág utca:
+    # 13/a, 13/b: 1 ház azon 13 van.
+    invalid: ['13a', '13b']
+  Ifjúság utca:
+    # 11/a, 11/b: semmi sincs a házon
+    # 13: a ház egyik felén 13/a van kiírva
+    invalid: ['11a', '11b', '13']
+  Katona József utca:
+    # 4/b: 4/I van kiírva a kis háznál, a nagy házon semmi
+    invalid: ['4b']
   Kisloki utca:
     # 14: 6 és 16 között nincs kiírva semmi. RESURVEY 2024
     invalid: ['14']
   Kossuth Lajos utca:
-    # 10: nincs
     # 16: 12 (nincs kiírva) után 20 jön (kiírva)
+    # 21/I: 21/1-nek jelölve
     # 26: utolsó páros a 20.
     # 29: nincs, utolsó épület a 27.
-    invalid: ['10', '16', '26', '29']
+    invalid: ['16', '21i', '26', '29']
   Hegyalja utca:
     # az utca elején teljes káosz a páros oldalon
     # 25/1, 25/a, 25/b: csak 25 van kiírva, a következő házon nincs szám
@@ -58,28 +101,39 @@ filters:
   Józsika köz:
     # nincsenek kint a házszámok, magánút
     invalid: ['18']
+  Kisfaludy Sándor utca:
+    # 2: nincs kiírva semmi a 2 ikerházon, csak 1 kft. neve
+    invalid: ['2']
   Loki út:
     # 47/a = Szilvás köz 8
     # 48 = 32 van kírva
-    invalid: ['47', '48']
+    invalid: ['47a', '48']
   Madách Imre utca:
     # 72: max páros a 26
     invalid: ['72']
+  Málnás utca:
+    # 6/a, 6/b: 6 van kiírva
+    invalid: ['6a', '6b']
+  Margaréta köz:
+    # 2/a: 2 és 2/b van kiírva
+    invalid: ['2a']
   Mátyás király utca:
     # 10: helyén 8 van kiírva. tulaj nem tudta megerősíteni, hogy 10 lenne a házszáma
     invalid: ['10']
-  # Mandula utca:
-    # RESURVEY 2025
-    # invalid: ['2']
   May János utca:
-    # 2x2 új ház, nincs kiírva semmi, a hrsz-eket újra szervezték. RESURVEY 2025.
-    invalid: ['48a']
+    # 16/a: 16 van kiírva
+    # 39/a: 39 van kiírva
+    # 48/a, 48/b: csak 48 van kiírva
+    invalid: ['2a', '16a', '39a', '48a', '48b']
   Merse út:
     # 5: nincs kiírva, földhivatal nem tartja nyilván
     invalid: ['5']
   Mihálkovics sétány:
     # 19, 28: nincsenek kiírva, de vannak még építkezések és nem kiírt házak a Patak utcánál is. RESURVEY 2024
     invalid: ['19', '28']
+  Mikszáth Kálmán utca:
+    # 2: nincs semmi kiírva
+    invalid: ['2']
   Napsugár út:
     # 28-30: csak 28 van kiírva
     invalid: ['30']
@@ -89,6 +143,9 @@ filters:
   Nyúl sétány:
     # 8: nincs kiírva
     invalid: ['8']
+  Óvoda köz:
+    # 4/1, 4/d: épületen csak 4 van kiírva
+    invalid: ['4/1', '4d']
   Petőfi köz:
     # 2: nincs, illetve a földhivatalban Patak utca 14-re mutat, ami egész máshol van
     invalid: ['2']
@@ -100,12 +157,23 @@ filters:
     # 6: helyén 4 van kiírva
     invalid: ['6']
   Sebők Soma köz:
+    # 2/1, 2/I: nincs kiírva csak 2/2 és 2/3
     # 10: max páros a 8
     # 19: max páratlan a 11
-    invalid: ['10', '19']
+    invalid: ['2/1', '2i', '10', '19']
+  Sirály park:
+    # nincsenek kint számok
+    invalid: ['3c', '3e']
   Siska köz:
     # 1: nincs kiírva
     invalid: ['1']
+  Strand sétány:
+    # 22 kivételével amit a kemping, a büféken nincsenek kint számok
+    interpolation: all
+    invalid: ['1', '1a', '4a', '4b', '10a', '16a', '20b']
+  Suhatag utca:
+    # 17: ikerház de csak 17/B van kiírva
+    invalid: ['17']
   Szabadság tér:
     # 5: A helyén 3 van a ház kukáján, és az ÉTDR-ben is.
     # 24: Földhivatal szerint a Hegyalja utca mellett van ez, ami 2 utcára van innen.
@@ -115,12 +183,24 @@ filters:
     # 15: nincs, 13/a után 17
     invalid: ['15']
   Szent István utca:
-    # 1: nincs, a Hotelhez tartozik a telek
+    # 1, 1a: nincs, a Hotelhez tartozik a telek
     # 25: nincs, 23 után 27.
-    invalid: ['1', '25']
+    # 60/1: csak 60 van kiírva
+    # 65/I: csak 65 van kiírva
+    # 69: 2 kapu van, az egyiken 69/a van kiírva, a másikon nincs szám
+    invalid: ['1', '1a', '25', '60/1', '65i', '69']
   Szépkilátó köz:
     # 21: nincs páratlan oldalon házszám, egyébként is rövid az utca
     invalid: ['21']
+  Szőlősor utca:
+    # 3/I: 3 van kiírva
+    # 5/a: 5 van kiírva
+    # 9/1, 9/2: semmi sincs kiírva a házon
+    invalid: ['3i', '5a', '9/1', '9/2']
+  Telekfői út:
+    # 29: hrsz.
+    # 30: nincs
+    invalid: ['29', '30']
   Templom utca:
     # 42: max házszám 14
     invalid: ['42']
@@ -133,14 +213,21 @@ filters:
     show-refstreet: false
   Vöröskő utca:
     # Régi név: Úttörő utca
+    # 22/a: 22 van kiírva
+    # 28/a, 28/b: 28 van kiírva
     # 36,38,42: 32 az utolsó páros, a többi szám átkerült a Templom utcára
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '32'}
+    invalid: ['22a', '28a', '28b']
   Vörösmarty Mihály utca:
     # páros nincs kiírva, döntően Füredi útra számozva
     ranges:
       - {start: '1', end: '25'}
+  Zrínyi Ilona utca:
+    # 3: 3/a és 3/b van kiírva
+    # 6, 6/a: csak 6/b van a ház egyik felén
+    invalid: ['3', '6', '6a']
 refstreets:
   # helyesírás
   'Búzavirág köz': 'Buzavirág köz'
