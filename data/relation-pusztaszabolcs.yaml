@@ -1,0 +1,11 @@
+missing-streets: 'yes'
+filters: {}
+refstreets:
+  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky E. utca'
+  'Dózsa György utca': 'Dózsa György út'
+  'Szabolcsi utca': 'Szabolcsi út'
+  'Vágóhíd utca': 'Vágóhíd út'
+osm-street-filters:
+  - Millenniumi park
+source: survey
+inactive: true
