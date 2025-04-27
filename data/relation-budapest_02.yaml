@@ -180,7 +180,14 @@ filters:
       - {start: '2', end: '12'}
   Gábor Áron utca:
     # 1a = Szilágyi Erzsébet fasor 109.
-    invalid: ['1a']
+    # 5: 5a helyette
+    # 47c: 47 helyette
+    # 57: 57a helyette
+    # 18: 18ab helyette
+    # 42ab: 42 helyette
+    # 44b: 44 helyette
+    # 68: 68b helyette
+    invalid: ['1a', '5', '47c', '57', '18', '42a', '42b', '44b', '68']
   Gárdonyi Géza út:
     # 1-11: Móricz Zsigmond Gimnázium, számozás nem innen van.
     # 2 = Törökvész út 46/d
