@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Ady Endre utca:
+    # 9/a: csak 9
+    invalid: ['9a']
   Akácos utca:
     # 21: üres telek
     # 25: nincs kiírva, fh szerint nem stimmel a 27 telke
@@ -9,7 +12,8 @@ filters:
   Aradi utca:
     # 4: nincs
     # 28: utolsó házszám a 26
-    invalid: ['4', '28']
+    # 13/a: 13 és 13/b
+    invalid: ['4', '13a', '28']
   Árpád köz:
     # 18: max páros a 4.
     invalid: ['18']
@@ -18,9 +22,19 @@ filters:
     invalid: ['9']
   Balaton körút:
     # 1: nincs, 3-tól indul a páratlan
+    # 15b: csak 15
+    # 49a: 49 és 49/b van kiírva
+    # 51a: csak 51
+    # 52b: csak 52
+    # 56a: csak 56
+    # 69a: nincs, csak 69
     # 71, 81: nincs, másik utcáról
     # 111: nincs.
-    invalid: ['1', '71', '81', '111']
+    # 117/b: csak 117
+    invalid: ['1', '15b', '49a', '51a', '52b', '56a', '69a', '71', '81', '111', '117b']
+  Bartók Béla utca:
+    # 3a: csak 3
+    invalid: ['3a']
   Bercsényi utca:
     ranges:
       - {start: '1', end: '51'}
@@ -33,9 +47,11 @@ filters:
     show-refstreet: false
     invalid: ['24', '47']
   Felsővillasor:
+    # 8/a: nincs, csak a 6-os telken egy 8-as szám egy kisebb épületen
+    # 13/b: csak 13.
     # 30 = Fürdő köz 1.
     # 50: utolsó ház 48.
-    invalid: ['30', '50']
+    invalid: ['8a', '13b', '30', '37b', '50']
   Fürj utca:
     # 7: páratlan oldalon mező van
     invalid: ['7']
@@ -46,13 +62,15 @@ filters:
   Gagarin utca:
     # 14: Irinyi János utca 11 régi címe, de még kint van a 14-es szám a C lépcsőháznál
     # 18: 16 után 20 jön, valószínű az Irinyi János utca 13 régi címe
-    invalid: ['18']
+    invalid: ['18', '18a']
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '26'}
   Gyári utca:
     # 2: nincs kiírva. RESURVEY 2025.
+    # 7/1: még 6 van kiírva. RESURVEY 2026.
     # 16-28 között nincsenek házak
+    # 23: 23/1, 23/2, 23/3
     invalid: ['2', '16', '18', '20', '22', '24', '26'] 
   Harmat utca:
     # 9: nincs, max házszám az 5 a páratlan oldalon
@@ -73,7 +91,7 @@ filters:
     invalid: ['12', '19']
   Irinyi János utca:
     # 14, 28: max páros házszám a 10.
-    invalid: ['14', '28']
+    invalid: ['14', '14a', '28']
   Jankovich Ferenc utca:
     ranges:
       - {start: '1', end: '19'}
@@ -83,8 +101,9 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '22'}
   József Attila utca:
+    # 8a: csak 8
     # 12-13: csak 12 van kiírva
-    invalid: ['13']
+    invalid: ['8a', '13']
   Kilátó köz:
     # max páratlan 7
     invalid: ['9', '19']
@@ -92,6 +111,16 @@ filters:
     # 15: nincs. sorban: 11 ki van írva, de szeirntem iker, utána a most 13-nak jelöltön nincs szám, majd Diófa utca 1, utca túloldalán 17.
     # 123: a Kilátó utca egyik szakaszának helyrajzi száma, a max kiírt 107 de még vannak házak, melyeken nincs szám.
     invalid: ['15', '123']
+  Kossuth Lajos utca:
+    # 1a: csak 1
+    # 9b: 
+    invalid: ['1a', '9b']
+  Kölcsey Ferenc utca:
+    # 1, 1a: 3 bódé és egy bezárt közért, csak 1/c és 1/d hivatkozás
+    invalid: ['1', '1a']
+  Lotz Károly utca:
+    # 22a: 22 és 22/b
+    invalid: ['22a']
   Mámatető utca:
     # 18, 20: üres telkek
     # 29: Az utca végén épül egy társasház, a többi telek a Hóvirág utcáról számozva.
@@ -135,12 +164,18 @@ filters:
     # 4/x: csak sima 4 van.
     # 10: nincs, utolsó épület a 8.
     invalid: ['2', '4/2', '4/4', '4/6', '10']
+  Tölgyfa utca:
+    # 9/c, 9/d: 9 van kiírva
+    invalid: ['9c', '9d']
   Vadkörte utca:
     # 4: nincs, a 2-es ház használja a 4-es telket is. kiírva nincs se 2, se 4.
     invalid: ['4']
   Vadszeder utca:
     # 8: üres telek, 7-nél illetve 12-nél indulnak a házak
     invalid: ['8']
+  Vasút köz:
+    # 1a: csak 1
+    invalid: ['1a']
   Viola utca:
     # 18: max hászám a 16, de még van két ház. RESURVEY 2025-09
     invalid: ['18']
@@ -151,8 +186,10 @@ filters:
     # 2: nincs, helyén a Lidl parkoló van
     invalid: ['2', '2/3', '2/4']
   Zombor utca:
-    # 43: 
-    invalid: ['43']
+    # 8/b: 6-8 ikerház van
+    # 18/c: csak 18 van
+    # 43: nincs
+    invalid: ['8b', '18c', '43']
 refstreets:
   # ellenőrzött
   'Alsóerdősor': 'Alsóerdősor utca'  # táblán csak Alsóerdősor
