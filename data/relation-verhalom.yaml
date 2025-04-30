@@ -44,6 +44,9 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
   Gábor Áron utca:
+    # 57: 57a helyette
+    # 68: 68b helyette
+    invalid: ['57', '68']
     ranges:
       - {start: '51', end: '99'}
       - {start: '56', end: '98'}

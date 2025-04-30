@@ -66,6 +66,11 @@ filters:
       - {start: '33', end: '99'}
       - {start: '26', end: '98'}
   Gábor Áron utca:
+    # 47c: 47 helyette
+    # 18: 18ab helyette
+    # 42ab: 42 helyette
+    # 44b: 44 helyette
+    invalid: ['47c', '18', '42a', '42b', '44b']
     ranges:
       - {start: '13', end: '49'}
       - {start: '18', end: '54'}
