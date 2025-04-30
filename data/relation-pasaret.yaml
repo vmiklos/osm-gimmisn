@@ -18,7 +18,8 @@ filters:
       - {start: '10', end: '38'}
   Gábor Áron utca:
     # 1a = Szilágyi Erzsébet fasor 109.
-    invalid: ['1a']
+    # 5: 5a helyette
+    invalid: ['1a', '5']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '16'}
