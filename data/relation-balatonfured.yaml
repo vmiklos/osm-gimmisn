@@ -1,4 +1,8 @@
 missing-streets: 'yes'
+filters:
+  Tagore sétány:
+    # hrsz
+    invalid: ['333/3', '387/2', '378', '378/2']
 refstreets:
   'Füredi utca': 'Füredi út'
   'Györgyhegyi utca': 'György-hegyi utca'
@@ -29,6 +33,7 @@ osm-street-filters:
   - Füred Arács egyesülésének emlékparkja
   - Kósa Pál park
   - Kovászna park
+  - Mélygarázs park
   - Móló sétány
   - Nagy Imre park
   - Piac park
