@@ -75,11 +75,11 @@ filters:
       - {start: '1', end: '29'}
       - {start: '2', end: '26'}
   Gyári utca:
-    # 2: nincs kiírva. RESURVEY 2025.
+    # 2: nincs kiírva. RESURVEY 2026.
     # 7/1: még 6 van kiírva. RESURVEY 2026.
     # 16-28 között nincsenek házak
     # 23: 23/1, 23/2, 23/3
-    invalid: ['2', '16', '18', '20', '22', '24', '26'] 
+    invalid: ['2', '7/1', '16', '18', '20', '22', '23', '24', '26'] 
   Harmat utca:
     # 9: nincs, max házszám az 5 a páratlan oldalon
     invalid: ['9']
