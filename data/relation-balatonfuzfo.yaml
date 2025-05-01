@@ -42,10 +42,15 @@ filters:
   Berzsenyi Dániel utca:
     interpolation: all
   Bugyogóforrás utca:
+    # 2/a: Az egész épületegyüttes 2-es számon fut
+    # 9/7: csak 9 van kiírva
+    # 14/2: 14 van kiírva, ez ajtó
     # 24: max páros a 22.
+    # 25/a: csak 25 van kiírva
+    # 37/3: csak 37 van, valószínű ajtó
     # 47: max páratlan a 39.
     show-refstreet: false
-    invalid: ['24', '47']
+    invalid: ['2a', '9/7', '14/2', '24', '25a', '37/3', '47']
   Felsővillasor:
     # 8/a: nincs, csak a 6-os telken egy 8-as szám egy kisebb épületen
     # 13/b: csak 13.
@@ -56,13 +61,16 @@ filters:
     # 7: páratlan oldalon mező van
     invalid: ['7']
   Fűzfő tér:
+    # 4/x: csak 4 van kiírva, ezek ajtók
     # 13: max házszám a 8.
     interpolation: all
-    invalid: ['13d']
-  Gagarin utca:
-    # 14: Irinyi János utca 11 régi címe, de még kint van a 14-es szám a C lépcsőháznál
+    invalid: ['4/2', '4/6', '13d']
+  Gagarin utca: 
+    # 5/a, 5/b: A és B lépcsőház, nincs kiírva
+    # 14: Irinyi János utca 11 régi címe, de még kint van a 14-es szám a 11/C lépcsőháznál
+    # 14/a: valószínű Irinyi János 11/a régi címe
     # 18: 16 után 20 jön, valószínű az Irinyi János utca 13 régi címe
-    invalid: ['18', '18a']
+    invalid: ['5a', '5b', '14a', '18', '18a']
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '26'}
@@ -162,8 +170,9 @@ filters:
   Szállás utca:
     # 2: nincs, első épület a 4.
     # 4/x: csak sima 4 van.
+    # 5/7: csak sima 5 és 7 van.
     # 10: nincs, utolsó épület a 8.
-    invalid: ['2', '4/2', '4/4', '4/6', '10']
+    invalid: ['2', '4/2', '4/4', '4/6', '5/7', '10']
   Tölgyfa utca:
     # 9/c, 9/d: 9 van kiírva
     invalid: ['9c', '9d']
@@ -172,7 +181,8 @@ filters:
     invalid: ['4']
   Vadszeder utca:
     # 8: üres telek, 7-nél illetve 12-nél indulnak a házak
-    invalid: ['8']
+    # 24: 24/a és 24/b
+    invalid: ['8', '24']
   Vasút köz:
     # 1a: csak 1
     invalid: ['1a']
