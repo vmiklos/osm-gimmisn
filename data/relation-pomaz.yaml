@@ -14,6 +14,8 @@ osm-street-filters:
   # turistautak
   - Görbe hajtás
   - Meteor létra
+  # Budakalász közös
+  - Ország út / Országút utca
 street-filters:
   # Településrészként fent vannak
   # - Dolina  # Dolinapuszta
@@ -26,8 +28,6 @@ street-filters:
   - Kiskovácsi  # Pankos tetőként van fent
   #- Liszenkó  # Podmanyczkymajorként, házszámként Liszenkó telep
   - Vróc
-  # Budakalász közös
-  - Ország út / Országút utca
   # tervezett utcák
   - Bánóczi Fülöp János utca
   - Barakk utca
