@@ -29,9 +29,10 @@ filters:
     # 77 = hrsz 077
     invalid: ['1']
   Fenyves utca:
+    # 12: 10 van kiírva, a 10 és 12 nekem egy teleknek tűnik, a ház hátul van a 12-esen
     # 21/B: csak 21/A van kiírva
     # 23/B: 23 és 23/A postaláda van
-    invalid: ['21b', '23b']
+    invalid: ['12', '21b', '23b']
   Fő utca:
     # 6/b: nincs
     # 8/b: 6/a van kiírva
@@ -77,6 +78,9 @@ filters:
     # 9: 7 van kiírva. 5,7,11 van, hivatalosan pedig a 5,9,11
     # 22/a, 22/b: csak sima 22 van kiírva.
     invalid: ['9', '22a', '22b']
+  Pipacs utca:
+    # 14: nincsenek kint házszámok, csak hrsz.
+    invalid: ['14']
   Rózsa utca:
     # 18-32 között nem stimmelnek a számok a földhivatallal, így 18 után 26 jön és 1 háznak nincs száma:
     # 20: üres telek
