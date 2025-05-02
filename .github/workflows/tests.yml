@@ -27,7 +27,7 @@ jobs:
             target/
           key: ${{ runner.os }}-cargo-1.86.0-${{ hashFiles('**/Cargo.toml') }}
       - name: Setup Node
-        uses: actions/setup-node@v4.3.0
+        uses: actions/setup-node@v4.4.0
         with:
           node-version: 22
       - name: Run make check
