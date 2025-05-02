@@ -5,13 +5,16 @@ filters:
     # 4: nincs épület
     # 4: nincs épület
     invalid: ['1', '4', '54']
+  Ifjúsági sétány:
+    interpolation: all
   Kiskert utca:
     # 248/9: hrsz
     invalid: ['248/9']
   Örkény István sétány:
     interpolation: all
-  Ifjúsági sétány:
-    interpolation: all
+  Petőfi utca:
+    # 7: 7/a van a kapun, 7 a kukán
+    invalid: ['7']
   Vasút utca:
     interpolation: all
 refstreets:
