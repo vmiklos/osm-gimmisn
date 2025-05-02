@@ -33,17 +33,22 @@ filters:
     # 23/B: 23 és 23/A postaláda van
     invalid: ['21b', '23b']
   Fő utca:
-    #  6/b: nincs, csak
+    # 6/b: nincs
     # 8/b: 6/a van kiírva
+    # 28/a: 28 és 28/2
+    # 51/a: nincs, csak 51
     # 67/B: 67 és 67/a van kiírva
     # 75/B: 75 és 75/a van kiírva
-    invalid: ['6b', '8b', '67b', '75b']
+    invalid: ['6b', '8b', '28a', '28b', '51a', '67b', '75b']
   Főszőlőki utca:
     # 50/54: hrsz 050/54, a Főszőlőki utca mellett van - https://www.openstreetmap.org/way/1192516322
     invalid: ['50']
   Hamuház utca:
-    # 9/A: valószínű a 9 mögött, nincs kiírva semmi se elől se hátul
-    invalid: ['9a']
+    # 9/A, 9/B: nincs kiírva semmi se elől se hátul
+    invalid: ['9a', '9b']
+  Hóvirág utca:
+    # 9: 7 mellett 11, előttük csak egy üres telek
+    invalid: ['9']
   Hosszú utca:
     # 50/34: hrsz 050/34 - https://www.openstreetmap.org/node/11076865831
     invalid: ['50']
@@ -53,10 +58,25 @@ filters:
   Kishegyi utca:
     # 75/37: hrsz 075/37
     invalid: ['75']
+  Körmendy prépost utca:
+    # 3/a: csak sima 3 van kiírva, 3/b ok.
+    # 14: 14/AB van az első ház falán, ennek megfelelően 14/a és 14/b-nek van jelölve a 2 ház
+    invalid: ['3a', '14', '17b']
+  Malomvölgy utca:
+    # 5/a, 5/b: csak 5 van
+    invalid: ['5a', '5b']
+  Miske utca:
+    # 1a: 1 és 1/b
+    # 12/a, 12/b: 2 ház van de csak 12 van kiírva. RESURVEY 2026
+    # 15a: 15 és 15/b
+    invalid: ['1a', '12a', '12b', '15a', '15b']
+  Öreghegy dűlő:
+    # 8, 10: nincs nyoma a 12 mellett, nem tudni hol kellene legyen
+    invalid: ['8', '10']
   Petőfi Sándor utca:
     # 9: 7 van kiírva. 5,7,11 van, hivatalosan pedig a 5,9,11
-    # 22/a: csak sima 22 van kiírva.
-    invalid: ['9', '22a']
+    # 22/a, 22/b: csak sima 22 van kiírva.
+    invalid: ['9', '22a', '22b']
   Rózsa utca:
     # 18-32 között nem stimmelnek a számok a földhivatallal, így 18 után 26 jön és 1 háznak nincs száma:
     # 20: üres telek
@@ -68,6 +88,21 @@ filters:
     # 30/B: 30 van kiírva
     # 32: nem létező házszám
     invalid: ['20', '22', '24', '30b', '32']
+  Sáfrány utca:
+    # 40/12: hrsz 040/12, nincs semmi kiírva
+    invalid: ['40']
+  Szabadság tér:
+    # 8: 8/I van kint
+    # 10, 12: ha volt is, ez a szakasz már Gáty Ferenc tér lett
+    invalid: ['8', '10', '12']
+  Szegedy Róza utca:
+    # 5: 5/a van kiírva
+    invalid: ['5']
+  Szilas utca:
+    # 7/a, 7/b: 7 és 7/1 van
+    # 12: nincs, max páros a 4.
+    # 31/17: hrsz, de az Szilas köz
+    invalid: ['7a', '7b', '12', '31']
   Táncsics Mihály utca:
     # 1: nincs kiírva, földhivatal szerint 1/1 és 1/2 van.
     # 3/a, 3/b: 3 és 3/b van
