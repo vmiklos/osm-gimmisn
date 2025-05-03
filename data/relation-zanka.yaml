@@ -29,3 +29,4 @@ refstreets:
   'Tagyonhegydűlő': 'Tagyonhegy dűlő'
 source: survey
 inactive: true
+housenumber-letters: true
