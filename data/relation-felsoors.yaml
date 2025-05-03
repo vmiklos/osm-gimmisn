@@ -24,6 +24,9 @@ filters:
   Csöpp utca:
     # 4/1, 4/2: nincs kiírva, a 4-es mögött van még 1 ház
     invalid: ['4/1', '4/2']
+  Eper utca:
+    # 5: nincs kiírva, 2. házban lakó szerint neki nincs házszáma, az utca elején van 1 db 1-es
+    invalid: ['5']
   Eperfa sor:
     # 1: 1/1 és 1/2
     # 77 = hrsz 077
@@ -70,7 +73,7 @@ filters:
     # 1a: 1 és 1/b
     # 12/a, 12/b: 2 ház van de csak 12 van kiírva. RESURVEY 2026
     # 15a: 15 és 15/b
-    invalid: ['1a', '12a', '12b', '15a', '15b']
+    invalid: ['1a', '12a', '12b', '15a']
   Öreghegy dűlő:
     # 8, 10: nincs nyoma a 12 mellett, nem tudni hol kellene legyen
     invalid: ['8', '10']
@@ -91,7 +94,7 @@ filters:
     # 30: üres telek
     # 30/B: 30 van kiírva
     # 32: nem létező házszám
-    invalid: ['20', '22', '24', '30b', '32']
+    invalid: ['22', '24', '30b', '32']
   Sáfrány utca:
     # 40/12: hrsz 040/12, nincs semmi kiírva
     invalid: ['40']
