@@ -371,6 +371,7 @@ osm-street-filters:
   # Kerülethatáron lévő utca
   - Citadella sétány
   # parkok, sétányok, lépcsők, udvarok
+  - Citadella lejtő
   - Déli kertek
   - Ellyps sétány
   - Eszperantó park
@@ -390,6 +391,7 @@ osm-street-filters:
   - Plébániakert
   - Savoyai terasz
   - Stöckl-lépcső
+  - Szabadság sétány
   - Vérmező
 source: survey
 inactive: false
