@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Rákóczi út:
+    # 66 után 70/B jön, majd 70/A
+    invalid: ['68']
   # Hrsz van nem hsz.
   Lapiföldek dűlő:
     ranges: []
