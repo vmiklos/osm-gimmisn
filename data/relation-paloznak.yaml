@@ -41,7 +41,8 @@ filters:
   Királydombi utca:
     # 13: helyette 8 van kiírva. RESURVEY 2025-10
     invalid: ['13']
-  Kishegyi út:
+  Kishegyi utca:
+    # 2 Kishegyi utca van, az egyik Csopakról lóg át, de van számozva ház a Paloznaki oldalon a 34-es
     # 5 felett semmi sincs kiírva
     # 100+: hrsz.
     show-refstreet: false
@@ -114,7 +115,7 @@ street-filters:
 refstreets:
   # ellenőrzött
   'Diófa köz': 'Diófa utca'         # táblán Diófa köz
-  'Kishegyi út': 'Kishegyi utca'    # táblák vegyesen Kishegyi út és utca
+  # 'Kishegyi út': 'Kishegyi utca'    # táblák vegyesen Kishegyi út és utca
   'Kossuth Lajos utca': 'Kossuth utca'    # táblán Kossuth Lajos utca
   'Mandula út': 'Mandula utca'      # táblán Mandula út
   'Nagyhegyi út': 'Nagyhegyi utca'  # táblán Nagyhegyi út illetve elgépelve: Nagyhegyei utca
