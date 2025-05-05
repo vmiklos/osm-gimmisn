@@ -33,6 +33,8 @@ osm-street-filters:
   - Gesztenye utca
   # park
   - Juta-dombi tüzérek tere
+  # nem igazi utca
+  - Erdei bringapálya
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Közöslegelő dűlő': 'Közös legelő dűlő'
