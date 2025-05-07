@@ -16,6 +16,9 @@ filters:
     # 26, 28: nincs, utolsó házszám a 24 a honvéd üdülő
     # 37: Csopajó, a govcenteren kívűl semmi nem ismeri ezt a házszámot.
     invalid: ['1a', '26', '28', '37']
+  Hóvirág utca:
+    # 16 = Örkény István sétány 18, egyik sincs kiírva
+    invalid: ['16']
   Ifjúsági sétány:
     interpolation: all
   Kishegyi utca:
@@ -30,17 +33,31 @@ filters:
   Kiskert utca:
     # 248/9: hrsz
     invalid: ['248/9']
+  Kőkorsó utca:
+    # 24: 24/A és 24/B
+    # 32/A: 32 és 32/B
+    invalid: ['24', '32a']
   Örkény István sétány:
     interpolation: all
   Petőfi utca:
     # 7: 7/a van a kapun, 7 a kukán
     invalid: ['7']
+  Sóstódombi utca:
+    # 2, 4, 4a: nincsenek kint számok
+    # 6: 6/a van kint
+    invalid: ['2', '4', '4a', '6']
   Sóstói körút:
+    # 9: 9/A és 9/B
     # 13: üres telek
-    invalid: ['13']
+    invalid: ['9', '13']
   Szent Donát utca:
     # 12-14: csak 14 van kiírva
     invalid: ['12']
+  Szépkilátó utca:
+    # 2: nincs
+    # 4/b: csak 4 van kiírva
+    # 24: 24/a és 24/b
+    invalid: ['2', '4b', '17', '24']
   Vasút utca:
     interpolation: all
 refstreets:
