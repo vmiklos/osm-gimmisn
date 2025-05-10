@@ -80,6 +80,7 @@ refstreets:
 street-filters:
   # nincs
   - Avar utca
+  - Kerepesi-határ út  # Határ útra vannak táblázva, számozva a házak
 osm-street-filters:
   # nem igazi utcák
   - Laki sarok
