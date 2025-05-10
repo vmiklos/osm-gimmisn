@@ -20,8 +20,12 @@ osm-street-filters:
   - Búcsú tér
   - Iskola előtti park és parkoló
   - Templomkert
+  # Csomád
+  - Meggyes utca
+  - Verebeshegy utca
   # Erdőkertes
   - Juhar utca
+  - Kazinczy utca
   - Mély utca
   - Veresegyházi utca
   # Őrbottyán
