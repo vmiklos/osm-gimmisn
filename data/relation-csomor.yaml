@@ -17,9 +17,6 @@ filters:
     invalid: ['83']
   Hegyalja utca:
     show-refstreet: false
-  Kerepesi-határ út:
-    # 53/14: hrsz
-    invalid: ['53']
   Levendula utca:
     # 100+ az hrsz
     invalid: ['106']
