@@ -9,7 +9,6 @@ filters:
   Falukertje utca:
     # 1: helyén 2 van kiírva
     # 4: nincs épület
-    # 4: nincs épület
     invalid: ['1', '4']
   Forrás utca:
     # 1a: nincs kiírva
@@ -21,6 +20,11 @@ filters:
     invalid: ['16']
   Ifjúsági sétány:
     interpolation: all
+    invalid: ['10']
+  Kerekedi utca:
+    # 7/A, 7/B: Az egyik házon nincs szám, a másik épül a kerítésen 7 van. RESURVEY 2026.
+    # 11: 13 van kiírva
+    invalid: ['7a', '7b', '11']
   Kishegyi utca:
     # 3/B: 3 és 3/A van kiírva
     # 4: valószínű a temető, kiírva nincs, hivatkozás nincs rá.
@@ -39,6 +43,8 @@ filters:
     invalid: ['24', '32a']
   Örkény István sétány:
     interpolation: all
+    # 12/c: csak 12 van
+    invalid: ['2', '12c']
   Petőfi utca:
     # 7: 7/a van a kapun, 7 a kukán
     invalid: ['7']
@@ -50,6 +56,13 @@ filters:
     # 9: 9/A és 9/B
     # 13: üres telek
     invalid: ['9', '13']
+  Sport utca:
+    # 15: nincs, a telek egy parkoló és kerékpáros pihenőhely
+    # 20: 20/a, 20/b
+    # 24/a: 24 és 24/b
+    # 26: 26/a és 26/b
+    # 28: 28/a ás 28/b
+    invalid: ['15', '20', '24a', '26', '28']
   Szent Donát utca:
     # 12-14: csak 14 van kiírva
     invalid: ['12']
