@@ -65,6 +65,9 @@ filters:
     interpolation: all
   Kossuth Lajos üdülőpart:
     interpolation: all
+  Kurszán utca:
+    invalid:
+      - '6'  # a Földhivatal szerint sem létezik
   Ladik utca:
     # semmi nincs ki, az utca negy része le van zárva, magánterület, bevásárlóközpontot terveztek ide
     # a HÉV-vel párhuzamos részen se szám se utcanév
