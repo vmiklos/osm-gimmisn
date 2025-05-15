@@ -440,11 +440,10 @@ pub struct ZipCount {
 
 /// Creates a new typed CSV reader.
 pub fn make_csv_reader(read: &mut dyn Read) -> csv::Reader<&mut dyn Read> {
-    let reader = csv::ReaderBuilder::new()
+    csv::ReaderBuilder::new()
         .delimiter(b'\t')
         .double_quote(true)
-        .from_reader(read);
-    reader
+        .from_reader(read)
 }
 
 /// Splits house_number into a numerical and a remainder part.
