@@ -66,6 +66,18 @@ filters:
       - {start: '1', end: '13'}
       - {start: '171', end: '203'}
       - {start: '2', end: '126'}
+    invalid:
+      - '191-199' # 191-193 helyette
+      - '60' # 60a, 60b helyette
+      - '66' # 66a, 66b helyette
+      - '82-84' # 82, 84b helyette
+      - '86' # 86a, 86b helyette
+      - '94' # 94a, 94b helyette
+      - '112a' # 112 helyette
+      - '112b'
+      - '114a' # 114 helyette
+      - '114b'
+      - '114m'
   Radna utca:
     ranges:
       - {start: '1', end: '7'}

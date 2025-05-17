@@ -129,6 +129,16 @@ filters:
   Pasaréti út:
     ranges:
       - {start: '15', end: '169'}
+    invalid:
+      - '23' # 23a, 23b helyette
+      - '25a' # 25 helyette
+      - '25b'
+      - '61' # 61a, 61b helyette
+      - '73b' # 71-73 helyette
+      - '75a' # 75 helyette
+      - '103b' # 103 helyette
+      - '105b' # 105 helyette
+      - '163b' # 163 helyette
   Radna utca:
     ranges:
       - {start: '2', end: '98'}
