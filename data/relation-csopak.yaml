@@ -44,7 +44,7 @@ filters:
   Örkény István sétány:
     interpolation: all
     # 12/c: csak 12 van
-    invalid: ['2', '12c']
+    invalid: ['12c']
   Petőfi utca:
     # 7: 7/a van a kapun, 7 a kukán
     invalid: ['7']
