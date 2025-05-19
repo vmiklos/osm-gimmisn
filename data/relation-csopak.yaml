@@ -6,6 +6,10 @@ filters:
     # 13 helyén 11/A
     # 17: üres telek
     invalid: ['5', '6', '13', '17']
+  Balaton utca:
+    # 1/a: helyén 1/b, 1/b helyén pedig 1 van kiírva
+    # 36-38: csak 38 van kiírva
+    invalid: ['1a', '36']
   Falukertje utca:
     # 1: helyén 2 van kiírva
     # 4: nincs épület
@@ -41,6 +45,11 @@ filters:
     # 24: 24/A és 24/B
     # 32/A: 32 és 32/B
     invalid: ['24', '32a']
+  Mandulavirág utca:
+    # 2/a: 2, 2-4, 4
+    # 42: nincs, 44 van kiírva
+    # 45: üres telek
+    invalid: ['2a', '42', '45']
   Örkény István sétány:
     interpolation: all
     # 12/c: csak 12 van
