@@ -110,12 +110,10 @@ refstreets:
   # helyesírás ----------------------------------------------------------------
   'Görgey Artúr utca': 'Görgey Artur utca'  # Vác excel: Görgey Artúr utca
   # kérdéses ------------------------------------------------------------------
-  'Alsó-Nyulas': 'Alsó-nyulas utca'  # https://www.openstreetmap.org/note/3643283 - Vác excel: Alsó-Nyulas utca
   'Báthori utca': 'Báthori Miklós utca'  # utcatáblán Báthori utca (2023.06), az Excelben Báthori Miklós utca - https://www.openstreetmap.org/note/3673572
   'Belgakert út': 'Belgakert utca'  # https://www.openstreetmap.org/note/3643293
   'Csurgóbánya utca': 'Csurgó bánya utca'  # https://www.openstreetmap.org/note/3673562
   'Deres utca': 'Deres út'  # nincs tábla
-  #'Felsőnyulas utca': 'Felső-nyulas utca'  # https://www.openstreetmap.org/note/3643314
   'Homokdűlő út': 'Homok dűlő'  # Homok utca: https://www.openstreetmap.org/note/3485459, Homokdűlő út: https://www.openstreetmap.org/note/4683670
   'Kálvária': 'Kálvária dűlő'  # https://www.openstreetmap.org/note/3673566
   'Kaszálórét': 'Kaszálórét utca'  # https://www.openstreetmap.org/note/3673568
@@ -142,6 +140,8 @@ refstreets:
   'Vörösmarty tér': 'Vörösmarty Mihály tér' # utcatáblán Vörösmarty tér (2023.04), az Excelben Vörösmarty Mihály tér -  https://www.openstreetmap.org/note/3673558
   'Wolkóber utca': 'Wolkóber János utca'  # utcatáblán Wolkóber utca (2023.04), az Excelben Wolkóber János utca -  https://www.openstreetmap.org/note/3673559
   # -- felmért -------------------------------------------------------------------
+  'Alsó-Nyulas utca': 'Alsó-nyulas utca'  # https://www.openstreetmap.org/note/3643283 - Vác excel: Alsó-Nyulas utca
+  #'Felsőnyulas utca': 'Felső-nyulas utca'  # https://www.openstreetmap.org/note/3643314
   'Bocskai utca': 'Bocskai István utca'  # utcatáblán Bocskai utca (2023.06), az Excelben Bocskai István utca - https://www.openstreetmap.org/note/3673573
   'Csávolszky utca': 'Csávolszky József utca'  # utcatáblán Csávolszky utca (2023.06), az Excelben Csávolszky József utca - https://www.openstreetmap.org/note/3673487
   # 'Damjanich tér': 'Damjanich János tér'  # utcatáblák vegyesen (Damjanich János tér, Damjanich tér - 2023.06), az Excelben Damjanich János tér - https://www.openstreetmap.org/note/3673491
