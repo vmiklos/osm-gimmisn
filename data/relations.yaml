@@ -69,7 +69,7 @@ budapest_14:
     osmrelation: 1606043
     refcounty: "01"
     refsettlement: "014"
-    alias: ['istvanmezo', 'kiszuglo', 'nagyzuglo', 'rakosfalva', 'torokor', 'varosliget']
+    alias: ['alsorakos', 'herminamezo', 'istvanmezo', 'kiszuglo', 'nagyzuglo', 'rakosfalva', 'torokor', 'varosliget']
 budapest_15:
     osmrelation: 1606009
     refcounty: "01"
@@ -194,17 +194,7 @@ vizafogo:
     osmrelation: 3217068
     refcounty: "01"
     refsettlement: "013"
-# budapest 14 - kérésre összevonva, de kettő maradt még külön is
-herminamezo:
-    osmrelation: 3233776
-    refcounty: "01"
-    refsettlement: "014"
-    missing-streets: 'no'
-alsorakos:
-    osmrelation: 3232934
-    refcounty: "01"
-    refsettlement: "014"
-    missing-streets: 'no'
+# budapest 14 - kérésre összevonva
 # budapest 15
 rakospalota:
     osmrelation: 3237867
