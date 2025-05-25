@@ -167,7 +167,7 @@ filters:
   Róna utca:
     # 197-219, 192-212, 192-216/D: Nincsenek.
     # 205/A: Nincsen, csak a 205-ös telken levő A és B épület.
-    invalid: ['197-219', '205a', '192-212', '192-216', '192', '216d']
+    invalid: ['197-219', '205a', '192-212', '192-216d']
   Szatmár utca:
     # 17/A: Kiírva csak sima 17, az utcatáblán is. KÉSZ szerint van /a és /b (ez utóbbi a Lőcsei út 90.).
     # 61: Egy épület, egy házszám (a KÉSZ szerint is), csak a két bejárat közül az egyikhez van kirakva egy B betű.
