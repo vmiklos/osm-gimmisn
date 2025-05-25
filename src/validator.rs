@@ -91,8 +91,7 @@ fn validate_filter_invalid_valid(
     let is_number = regex::Regex::new(r"^[0-9]+$")?;
     let is_number_and_letter = regex::Regex::new(r"^[0-9]+[a-z]$")?;
     let is_number_per_letter = regex::Regex::new(r"^[0-9]+/[0-9]$")?;
-    let is_range = regex::Regex::new(r"^[0-9]+-[0-9]+$")?;
-    let is_letter_range = regex::Regex::new(r"^[0-9]+[a-z]-[a-z]$")?;
+    let is_range = regex::Regex::new(r"^[0-9]+[a-z]?-[0-9]*[a-z]?$")?;
     for (index, invalid_data) in invalid.iter().enumerate() {
         if is_number.is_match(invalid_data) {
             continue;
@@ -104,11 +103,8 @@ fn validate_filter_invalid_valid(
             continue;
         }
 
-        // 40-60 or 50a-b: OK, but won't be parsed.
+        // 40-60 or 50a-b or 70-80a: OK, but won't be parsed.
         if is_range.is_match(invalid_data) {
-            continue;
-        }
-        if is_letter_range.is_match(invalid_data) {
             continue;
         }
         errors.push(format!(

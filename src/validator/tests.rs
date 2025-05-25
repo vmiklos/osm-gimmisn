@@ -243,6 +243,16 @@ fn test_validate_filter_invalid_valid4() {
     assert_success(content);
 }
 
+/// Tests validate_filter_invalid_valid(): 70-80a is a valid filter item.
+#[test]
+fn test_validate_filter_invalid_valid5() {
+    let content = r#"filters:
+  'mystreet':
+    invalid: ['70-80a']
+"#;
+    assert_success(content);
+}
+
 /// Tests the relation path: bad source type.
 #[test]
 fn test_relation_source_bad_type() {
