@@ -35,9 +35,10 @@ filters:
       - {start: '1', end: '43'}
       - {start: '2', end: '40'}
   Állvány utca:
+    # 4: 4/1, 4/2
     # 6a: 6
     # 8a, 8b: 8
-    invalid: ['6a', '8a']
+    invalid: ['4', '6a', '8a']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
@@ -718,10 +719,10 @@ filters:
     ranges: []
   Fonyód utca:
     # 4: 4/b
-    # 6/c: 6/a, 6/b
+    # 6, 6/c: 6/a, 6/b
     # 9-13, 13/a: nincsenek: panelek illetve az óvoda oldala
     # 15 = Sáfrány utca 63.
-    invalid: ['4', '6c', '9', '11', '13', '13a', '15']
+    invalid: ['4', '6', '6c', '9', '11', '13', '13a', '15']
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '14'}
@@ -1954,9 +1955,10 @@ filters:
     # 44 = Mélykút utca 1
     # 58a = csak sima 58 van
     # 72: 72/a, 72/b
+    # 76a, 76b: 76/a és 76/ab van kiírva
     # 80: 80/1, 80/2
     # 120 = Bazsalikom utca 2
-    invalid: ['2', '10a', '24', '44', '58a', '72', '80', '88b', '120']
+    invalid: ['2', '10a', '24', '44', '58a', '72', '76b', '80', '88b', '120']
     ranges:
       - {start: '2', end: '130'}
   Rodostó utca:
