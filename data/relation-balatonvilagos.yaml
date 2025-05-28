@@ -45,6 +45,8 @@ refstreets:
 street-filters:
   # nem igazi utcák
   - Vasútállomás
+osm-street-filters:
+  - Emlékpark
 source: survey
 housenumber-letters: true
 inactive: true
