@@ -217,6 +217,10 @@ csepel-belvaros:
 # budapest 22 - kérésre összevonva
 # ------------------------------
 # 02 - Baranya
+bikal:
+    osmrelation: 575389
+    refcounty: "02"
+    refsettlement: "028"
 komlo:
     osmrelation: 575200
     refcounty: "02"
