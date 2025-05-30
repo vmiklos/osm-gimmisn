@@ -1320,3 +1320,37 @@ fn test_write_zip_count_path() {
     assert_eq!(count, "2");
     assert!(rows.next().unwrap().is_none());
 }
+
+#[test]
+fn test_clean_osm_data() {
+    let ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('myrelation', '1', 'mystreet', '', '', '', '', '');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('myrelation', '2', 'mystreet', '1', '', '', '', '', '', '', '', '', '', 'node');",
+        )
+        .unwrap();
+    }
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+
+    clean_osm_data(&ctx, &mut relations).unwrap();
+
+    let conn = ctx.get_database_connection().unwrap();
+    {
+        let mut stmt = conn.prepare("select count(*) from osm_streets").unwrap();
+        let mut rows = stmt.query([]).unwrap();
+        let row = rows.next().unwrap().unwrap();
+        let count: i64 = row.get(0).unwrap();
+        assert_eq!(count, 0);
+    }
+    {
+        let mut stmt = conn
+            .prepare("select count(*) from osm_housenumbers")
+            .unwrap();
+        let mut rows = stmt.query([]).unwrap();
+        let row = rows.next().unwrap().unwrap();
+        let count: i64 = row.get(0).unwrap();
+        assert_eq!(count, 0);
+    }
+}

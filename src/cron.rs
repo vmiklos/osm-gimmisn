@@ -478,6 +478,59 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     Ok(())
 }
 
+fn clean_osm_data(
+    ctx: &context::Context,
+    relations: &mut areas::Relations<'_>,
+) -> anyhow::Result<()> {
+    let relation_names = relations.get_names();
+    let mut conn = ctx.get_database_connection()?;
+    let mut street_removes: Vec<String> = Vec::new();
+    {
+        let mut stmt = conn.prepare("select relation from osm_streets group by relation")?;
+        let mut rows = stmt.query([])?;
+        while let Some(row) = rows.next()? {
+            let relation_name: String = row.get(0).unwrap();
+            if !relation_names.contains(&relation_name) {
+                street_removes.push(relation_name);
+            }
+        }
+    }
+    let mut housenumber_removes: Vec<String> = Vec::new();
+    {
+        let mut stmt = conn.prepare("select relation from osm_housenumbers group by relation")?;
+        let mut rows = stmt.query([])?;
+        while let Some(row) = rows.next()? {
+            let relation_name: String = row.get(0).unwrap();
+            if !relation_names.contains(&relation_name) {
+                housenumber_removes.push(relation_name);
+            }
+        }
+    }
+
+    let tx = conn.transaction()?;
+    for relation_name in &street_removes {
+        info!("clean_osm_data: deleting {relation_name} from osm_streets");
+        tx.execute(
+            "delete from osm_streets where relation = ?1",
+            [relation_name],
+        )?;
+    }
+    for relation_name in &housenumber_removes {
+        info!("clean_osm_data: deleting {relation_name} from osm_housenumbers");
+        tx.execute(
+            "delete from osm_housenumbers where relation = ?1",
+            [relation_name],
+        )?;
+    }
+    tx.commit()?;
+
+    if !street_removes.is_empty() || !housenumber_removes.is_empty() {
+        conn.execute("vacuum", [])?;
+    }
+
+    Ok(())
+}
+
 /// Performs the actual nightly task.
 fn our_main_inner(
     ctx: &context::Context,
@@ -490,6 +543,7 @@ fn our_main_inner(
         update_stats(ctx, overpass).context("update_stats failed")?;
     }
     if mode == "all" || mode == "relations" {
+        clean_osm_data(ctx, relations)?;
         update_osm_streets(ctx, relations, update)?;
         update_osm_housenumbers(ctx, relations, update)?;
         update_missing_streets(relations, update)?;
