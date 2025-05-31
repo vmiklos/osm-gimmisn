@@ -1,0 +1,12 @@
+missing-streets: yes
+filters:
+  Dózsa György utca:
+    interpolation: all
+  Petőfi utca:
+    interpolation: all
+street-filters:
+  # tanya
+  - Kovácsovics tanya
+source: survey
+housenumber-letters: true
+inactive: true
