@@ -119,6 +119,7 @@ street-filters:
   - Helyi kikötő út
 osm-street-filters:
   # Nem valós utcák
+  - Boráros tér H
   - Drive-through
   - Gubacsi hídfő
   - Mélygarázs
