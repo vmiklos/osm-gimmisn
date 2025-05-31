@@ -33,5 +33,13 @@ refstreets:
   'Szabadság domb': 'Szabadságdomb utca'
   'Szent-Györgyi Albert út': 'Szentgyörgyi Albert út'
   'Zsámbékos dűlő': 'Zsámbékos völgy'
+osm-street-filters:
+  # régi vasút
+  - Héregi szárnyvonal
+  - Süttői Állami Erdei Vasút
+  # park
+  - Pusztamaróti emlékpark
+  # átlógó Lábatlan
+  - Rákóczi Ferenc út
 source: survey by turboscsiga
 inactive: true
