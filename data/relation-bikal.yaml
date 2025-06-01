@@ -2,8 +2,21 @@ missing-streets: yes
 filters:
   Dózsa György utca:
     interpolation: all
+  Hunyadi János utca:
+    # 5a: 5 és 5/1
+    # 24: nincs kiírva, fh. szerint létező telken ház nincs
+    invalid: ['5a', '24']
+  Ifjúság utca:
+    # 186/A: nincs, max házszám 41 és 44.
+    invalid: ['186a']
   Petőfi utca:
+    # 5: nincs semmi, csak a hotel  szennyvíztisztítója
+    # 9, 10: üres telkek
     interpolation: all
+    invalid: ['5', '9', '10']
+  Zrínyi Miklós utca:
+    # 27: max páratlan a 25
+    invalid: ['27']
 street-filters:
   # tanya
   - Kovácsovics tanya
