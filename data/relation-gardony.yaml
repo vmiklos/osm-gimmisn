@@ -70,6 +70,7 @@ refstreets:
   # 'Petőfi Sándor utca': Dinnyés-Petőfi utca  # Agárd: Petőfi Sándor utca
   # 'Rózsa utca': 'Dinnyés-Rózsa utca'  # Gárdony: Rózsa utca
 osm-street-filters:
+  - Biblia pihenőpark
   - Pálmajorpuszta  # Pálmajor puszta, nem mappelhető
   - Meggyfa sor / Meggyfasor utca  # településhatár, az utca 2 oldalán eltérő név, OSM-ben a házszámok Meggyfa soron vannak, ezért ezt el kell nyomni
 source: survey
