@@ -2,6 +2,8 @@ missing-streets: 'yes'
 osm-street-filters:
   # park, sétány
   - Duna sétány
+  # nem igazi utca
+  - Mosoni-Duna duzzasztó
 street-filters:
   # tanyák
   - Biotechnikai Állomás major
