@@ -968,6 +968,7 @@ fn test_our_main() {
         /*mode=*/ &"relations".to_string(),
         /*update=*/ true,
         /*overpass=*/ true,
+        /*limited=*/ false,
     )
     .unwrap();
 
@@ -1000,6 +1001,40 @@ fn test_our_main() {
             )
             .unwrap();
         assert_eq!(count, "3".to_string());
+    }
+}
+
+/// Tests our_main(), the limited = true case.
+#[test]
+fn test_our_main_limited() {
+    let ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('myrelation', '1', 'mystreet', '', '', '', '', '');",
+        )
+        .unwrap();
+    }
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+
+    our_main_inner(
+        &ctx,
+        &mut relations,
+        /*mode=*/ &"relations".to_string(),
+        /*update=*/ true,
+        /*overpass=*/ true,
+        /*limited=*/ true,
+    )
+    .unwrap();
+
+    // limited=true means no cleanup.
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        let mut stmt = conn.prepare("select count(*) from osm_streets").unwrap();
+        let mut rows = stmt.query([]).unwrap();
+        let row = rows.next().unwrap().unwrap();
+        let count: i64 = row.get(0).unwrap();
+        assert_eq!(count, 1);
     }
 }
 
@@ -1061,6 +1096,7 @@ fn test_our_main_stats() {
         /*mode=*/ &"stats".to_string(),
         /*update=*/ false,
         /*overpass=*/ true,
+        /*limited=*/ false,
     )
     .unwrap();
 
