@@ -538,12 +538,15 @@ fn our_main_inner(
     mode: &String,
     update: bool,
     overpass: bool,
+    limited: bool,
 ) -> anyhow::Result<()> {
     if mode == "all" || mode == "stats" {
         update_stats(ctx, overpass).context("update_stats failed")?;
     }
     if mode == "all" || mode == "relations" {
-        clean_osm_data(ctx, relations)?;
+        if !limited {
+            clean_osm_data(ctx, relations)?;
+        }
         update_osm_streets(ctx, relations, update)?;
         update_osm_housenumbers(ctx, relations, update)?;
         update_missing_streets(relations, update)?;
@@ -623,12 +626,14 @@ pub fn our_main(
     relations.limit_to_refarea(&refarea)?;
     let update = !args.get_one::<bool>("no-update").unwrap();
     let overpass = !args.get_one::<bool>("no-overpass").unwrap();
+    let limited = refcounty.is_some() || refsettlement.is_some() || refarea.is_some();
     our_main_inner(
         ctx,
         &mut relations,
         args.get_one("mode").unwrap(),
         update,
         overpass,
+        limited,
     )
     .context("our_main_inner failed")?;
     let duration = ctx.get_time().now() - start;
