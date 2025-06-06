@@ -26,6 +26,7 @@ pub struct TestWsgi {
     absolute_path: bool,
     expected_status: u16,
     content_type: String,
+    user_agent: String,
 }
 
 impl TestWsgi {
@@ -38,6 +39,7 @@ impl TestWsgi {
         let absolute_path = false;
         let expected_status = 200_u16;
         let content_type = "text/html; charset=utf-8".into();
+        let user_agent = "".into();
         TestWsgi {
             gzip_compress,
             ctx,
@@ -46,6 +48,7 @@ impl TestWsgi {
             absolute_path,
             expected_status,
             content_type,
+            user_agent,
         }
     }
 
@@ -82,6 +85,10 @@ impl TestWsgi {
         if self.gzip_compress {
             self.headers
                 .push(("Accept-Encoding".into(), "gzip, deflate".into()));
+        }
+        if !self.user_agent.is_empty() {
+            self.headers
+                .push(("User-Agent".into(), self.user_agent.to_string()));
         }
         let request =
             rouille::Request::fake_http("GET", abspath, self.headers.clone(), self.bytes.clone());
@@ -2255,6 +2262,30 @@ fn test_compress() {
 
     let results = TestWsgi::find_all(&root, "body/table");
     assert_eq!(results.len(), 1);
+}
+
+/// Tests not well-behaving user agent performing a costy update.
+#[test]
+fn test_user_agent() {
+    let mut test_wsgi = TestWsgi::new();
+    test_wsgi.user_agent = "Scrapy/".to_string();
+    test_wsgi.expected_status = 404;
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "myrelation": {
+                "osmrelation": 42,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.ctx.set_file_system(&file_system);
+
+    test_wsgi.get_dom_for_path("/streets/myrelation/update-result");
 }
 
 /// Test get_housenr_additional_count().

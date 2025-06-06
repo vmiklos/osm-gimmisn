@@ -1625,6 +1625,18 @@ fn our_application(
 
     let request_uri = webframe::get_request_uri(request, ctx, &mut relations)
         .context("get_request_uri() failed")?;
+
+    let mut reject = false;
+    if request_uri.ends_with("/update-result") {
+        if let Some(user_agent) = request.header("User-Agent") {
+            if user_agent.starts_with("Scrapy/") || user_agent.starts_with("ClaudeBot/") {
+                // User-agent is known to not respect robots.txt and the endpoint is expensive to
+                // serve: just reject it.
+                reject = true;
+            }
+        }
+    }
+
     let mut ext: String = "".into();
     let tokens: Vec<_> = request_uri.split('.').collect();
     if let Some((last, _elements)) = tokens.split_last() {
@@ -1641,7 +1653,7 @@ fn our_application(
     }
 
     let prefix = ctx.get_ini().get_uri_prefix();
-    if !(request_uri == "/" || request_uri.starts_with(&prefix)) {
+    if !(request_uri == "/" || request_uri.starts_with(&prefix)) || reject {
         let doc = webframe::handle_404();
         return Ok(webframe::make_response(
             404_u16,
