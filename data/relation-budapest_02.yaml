@@ -88,6 +88,17 @@ filters:
       - {start: '3', end: '13'}
       - {start: '2', end: '14'}
   # Búzavirág utca:
+  Csalán út:
+    invalid:
+      - '17' # 17a, 17b helyette
+      - '33a' # csak 33b van
+      - '39a' # 39a/X helyette
+      - '39b' # 39a/b helyette
+      - '43' # 43a, 43b helyette
+      - '4c' # csak 4a, 4b van
+      - '8' # 8a helyette
+      - '18' # 18a, 18b helyette
+      - '22' # 22a helyette
   Csalit utca:
     ranges:
       - {start: '1', end: '9'}
