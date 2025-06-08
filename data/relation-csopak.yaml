@@ -47,9 +47,15 @@ filters:
     # 248/9: hrsz
     invalid: ['248/9']
   Kossuth utca:
+    # 22: 22/a van kiírva
+    # 41/A: 41 van kiírva, 41 a templomrom lenne, ott nincs szám
+    # 43/A, 43/B: csak sima 43 van kiírva
+    # 81/A, 81/B: csak sima 81 van kiírva
+    # 73/a:  csak 73 van kiírva
+    # 116/c: nincs
     # 118/b: nincs, 118 és 118/a van
     # 122/b: Suzuki Perger egy részlege, nincs kiírva és nem ezt a címet használja
-    invalid: ['118b', '122b']
+    invalid: ['22', '41a', '43a', '43b', '73a', '81a', '81b', '116c', '118b', '122b']
   Kőkorsó utca:
     # 24: 24/A és 24/B
     # 32/A: 32 és 32/B
