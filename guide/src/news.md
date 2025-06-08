@@ -7,6 +7,7 @@
   housenumber-letters=false
 - Resolves: gh#4586 relation filters: `invalid` items containing hyphens now also accept the 42-43a
   form
+- Resolves: gh#4594 cron can now delete SQL caches of relations removed from Git
 
 ## 25.2
 
