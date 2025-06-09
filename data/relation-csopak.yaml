@@ -124,8 +124,9 @@ filters:
     invalid: ['2', '4b', '17', '24']
   Szőlőskert utca:
     # 1: 1/a, 1/b
-    # 13: csak szőlő van rajta, ház nincs vagy a föld alatt
-    invalid: ['1', '13']
+    # 9: 9/a, 9/b
+    # 11: csak szőlő van rajta, ház nincs vagy a föld alatt
+    invalid: ['1', '9', '11']
   Vasút utca:
     interpolation: all
 refstreets:
