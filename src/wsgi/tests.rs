@@ -258,6 +258,7 @@ fn test_handle_streets_view_query_well_formed() {
 #[test]
 fn test_handle_streets_update_result_well_formed() {
     let mut test_wsgi = TestWsgi::new();
+    test_wsgi.user_agent = "Firefox/".to_string();
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/interpreter",
         /*data_path=*/ "",

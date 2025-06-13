@@ -1628,11 +1628,15 @@ fn our_application(
 
     let mut reject = false;
     if request_uri.ends_with("/update-result") {
+        let scrapers = ["Scrapy/", "ClaudeBot/", "netEstate NE Crawler"];
         if let Some(user_agent) = request.header("User-Agent") {
-            if user_agent.starts_with("Scrapy/") || user_agent.starts_with("ClaudeBot/") {
-                // User-agent is known to not respect robots.txt and the endpoint is expensive to
-                // serve: just reject it.
-                reject = true;
+            for scraper in scrapers {
+                if user_agent.starts_with(scraper) {
+                    // User-agent is known to not respect robots.txt and the endpoint is expensive to
+                    // serve: just reject it.
+                    reject = true;
+                    break;
+                }
             }
         }
     }
