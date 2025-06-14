@@ -109,8 +109,8 @@ filters:
     # 198-202 házszámok nincsenek a Shell kút környékén, 198/4 a 41-es villamos mellett
     # ref-ben levo hrsz-ek kiszurese
     # 36,38,141,151: nincsenek ilyen számok, alig van pár épület aminenk van száma, ráadásul a 44 és a 143 ugyanazon az oldalon van
-    # 144/4, 160/33: hrsz
-    invalid: ['2', '36', '38', '151', '160', '198']
+    # 144/4, 160/33, 168/2: hrsz
+    invalid: ['2', '36', '38', '151', '160', '168/2', '198']
     ranges:
       - {start: '2', end: '198'}
       - {start: '141', end: '151'}
@@ -529,9 +529,10 @@ filters:
     # 60: 60/a, 60/b
     invalid: ['48b', '60']
   Dobogó út:
-    invalid: ['714/2', '720', '722', '723']
+    invalid: ['2a', '2b', '8', '714/2', '720', '722', '723']
     # páratlan oldal Őrmezőn van beépítve, min házszám 51
     # páros oldal Péterhegyi részen van beépítve, max hászám 38
+    # 2a, 2b, 8: nincs
   Dombóvári út:
     # 3-5: Kollégium, csak a 3-as számot használja
     # 6-8: irodaház
