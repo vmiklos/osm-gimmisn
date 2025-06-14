@@ -395,6 +395,9 @@ filters:
     # 5: 5/a, 5/b
     # 9-29: Óvoda a 9-es számot használja
     invalid: ['1', '5', '9-29']
+  Cickafark utca:
+    # 5, 7: nincs, üres telek, lebontott házakkal
+    invalid: ['5', '7']
   Cirmos utca:
     # 1-3, 4-6: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
     invalid: ['1b']
@@ -1945,6 +1948,9 @@ filters:
     ranges:
       - {start: '1', end: '75'}
       - {start: '2', end: '22'}
+  Rétkerülő utca:
+    # 10: nincs beépítve
+    invalid: ['10']
   Rimaszombati út:
     # 1: nincs
     # 3b: 3A3 van a Május utca felőli kapun, más nincs
