@@ -1948,7 +1948,7 @@ filters:
     ranges:
       - {start: '1', end: '75'}
       - {start: '2', end: '22'}
-  Rétkerülő utca:
+  Rétkerülő út:
     # 10: nincs beépítve
     invalid: ['10']
   Rimaszombati út:
