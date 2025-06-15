@@ -132,6 +132,15 @@ filters:
     ranges:
       - {start: '1', end: '91'}
       - {start: '2', end: '60'}
+  Orsó utca:
+    invalid:
+      - '29' # 29a, 29b helyette
+      - '31a' # 31 helyette
+      - '41a' # 41 helyette
+      - '45' # 45a, 45b, 45c helyette
+      - '57' # 55 után 59
+      - '61b' # 61a után 61c
+      - '32' # 32a helyette
   Pasaréti tér:
     ranges: []
   Pasaréti út:
