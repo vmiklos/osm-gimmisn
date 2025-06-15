@@ -319,6 +319,15 @@ filters:
   Nagybányai lépcső:
     # nincs házszám
     invalid: ['62a', '65']
+  Orsó utca:
+    invalid:
+      - '29' # 29a, 29b helyette
+      - '31a' # 31 helyette
+      - '41a' # 41 helyette
+      - '45' # 45a, 45b, 45c helyette
+      - '57' # 55 után 59
+      - '61b' # 61a után 61c
+      - '32' # 32a helyette
   Őzgida utca:
     # 20/c: régi házszám, új: 16-20 B épület C. lépcsőház
     invalid: ['20c']
