@@ -154,7 +154,7 @@ refstreets:
   'Eszterházy utca': 'Eszterházy Károly utca'  # utcatáblán Eszterházy utca (2023.06), az Excelben Eszterházy Károly utca - https://www.openstreetmap.org/note/3673521
   'Farkasfalvi utca': 'Farkasfalvy Imre utca' # utcatáblán Farkasfalvi utca,  (2023.06), az Excelben Farkasfalvy Imre utca - https://www.openstreetmap.org/note/3673497
   'Galcsek utca': 'Galcsek György utca'  # a régi és az új táblán is Galcsek utca (2023.06), az Excelben Galcsek György utca - https://www.openstreetmap.org/note/3673520
-  # 'Határ utca': 'Határ út'  # nincs utcatábla, az Excelben Határ út - https://www.openstreetmap.org/note/3673564
+  # 'Határ utca': 'Határ út'  # tábán Határ út, az Excelben Határ út - https://www.openstreetmap.org/note/3673564
   # 'Horgásztó utca': 'Horgásztói utca'  # van Horgásztó út és Horgásztói utca is kitáblázva (2023.06), az Excelben is Horgásztói utca.
   # 'Hunyadi utca': 'Hunyadi János utca'  #  utcatábla vegyesen (Hunyadi János utca, Hunyadi János út - 2023.06), az Exceben Hunyadi János utca - https://www.openstreetmap.org/note/3673523
   'Jávorszky sétány': 'Dr. Jávorszky Ödön sétány'  # utcatáblán Jávorszky sétány (2023.06), az Excelben a Dr. Jávorszky Ödön sétány - https://www.openstreetmap.org/note/3715869
