@@ -12,6 +12,11 @@ filters:
     show-refstreet: false
   Október 23. tér:
     show-refstreet: false
+  Part utca:
+    invalid:
+      - '1' # páratlan oldal kezdete 3
+      - '25' # 23 után 27
+      - '10' # 8 után 12
 osm-street-filters:
   # nem igazi utcák
   - BUS
