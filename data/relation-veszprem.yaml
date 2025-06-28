@@ -51,6 +51,14 @@ filters:
   Céhház utca:
     # 35, 37: utolsó házszám 33, utána a Dózsa György Általános Iskola tömbje
     invalid: ['35', '37']
+  Csizmadia utca:
+    # 1/x: többségében betűk, nem ajtó számok vannak
+    # 2/x: nem látszanak alátörések
+    # 3/x: többségében betűk, nem ajtó számok vannak
+    # 5/x: többségében betűk, nem ajtó számok vannak
+    # 6/x: nem látszanak alátörések
+    # 7/x: többségében betűk, nem ajtó számok vannak
+    invalid: ['1/3', '1/4', '1/6', '3/3', '5/6', '2a', '2b', '2c', '2d', '2e', '2f', '6a', '6b', '6c', '6d', '6e', '6f']
   Eötvös Károly utca:
     # 1-23, 2-28
     # 8b: nincs, csak 8/a és 8/a
@@ -93,10 +101,17 @@ filters:
   # Őrház utca:
     # 9: 9/a, 9/b - Haszkovó utca túloldalán - "NAPFÉNY PRESSZÓ"
     # invalid: ['9']
+  Lövőház utca:
+    # 35/x: nincsenek alábontva, csak 35.
+    invalid: ['35a', '35b', '35c', '35d']
   Madách Imre utca:
     # 32, 34: nincs, épületek lebontva
     # 38/a, 38/b: csak sima 38 van.
     invalid: ['32', '34', '38a', '38b']
+  Nyerges utca:
+    # 1/1: nincs, csak sima 1, valószínű ajtó
+    # 8/X: nincs alábontva, csak 8 van kint
+    invalid: ['1/1', '8a', '8b', '8c', '8d']
   Pajta utca:
     # 26, 34: utolsó páros a 24.
     invalid: ['26', '34']
@@ -112,6 +127,8 @@ filters:
     # 12-30-ig egyedi házakra van bontva, nincsenek betűk.
     # 32: 32/a és 32/b egy ugyanolyan ház mind a 12-30, de itt 2 lakás van.
     invalid: ['3', '4', '6', '6/6', '7', '8', '8a-f', '9a-f', '10a-h', '11', '11/1']
+  Sarok utca:
+    interpolation: 'all'
   Sigray Jakab utca:
     # 17: nincs, max páratlan házszám a 15.
     # 34: nincs, max páros házszám a 28.
@@ -128,6 +145,10 @@ filters:
     # 13a: a házon semmi sincs kiírva
     # 22: 22/1 és 22/2 van táblázva
     invalid: ['8/2', '13a', '22']
+  Szűcs utca:
+    # 3a: nincs, csak sima 3.
+    # 4a: nincs, csak sima 4.
+    invalid: ['3a', '4a']
   Tátorján utca:
     # 1-5-ig sorházak, egyedi számok nincsenek 2/a formában vannak fent pontként, ezért 2/5, 2/6 nincs.
     # 6-17-ig egyedi házakra van bontva, nincsenek betűk.
@@ -135,6 +156,13 @@ filters:
   Vár utca:
     # 24: utolsó páros a 20.
     invalid: ['24']
+  Varga utca:
+    # 5/c: csak 1-3 van
+    # 2/x: többségében betűk, nem ajtó számok vannak
+    # 4/x: zárt rész, nem felmérhetők az ajtók
+    # 6/x: alsó oldalon nem nagyon vannak betűk, csak ajtó számok, de nem 6/x formában
+    # 8/x: többségében betűk, nem ajtó számok vannak, 8/10 -> 8 szűrése
+    invalid: ['5c', '2/5', '2/7', '2/9', '4/5', '4/7', '4a', '4b', '4c', '4d', '4e', '4f', '4g', '4h', '4i', '4j', '6/6', '6/7', '6/8', '6a', '6b', '6c', '6d', '6e', '6f', '6g', '6h', '6i', '6j', '8']
 refstreets:
   # kérdéses
   'Alsóújsor utca': 'Alsó-újsor'  # https://www.openstreetmap.org/note/4274953
