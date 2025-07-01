@@ -1,11 +1,24 @@
 missing-streets: 'yes'
 filters:
+  Béla utca:
+    # 1/1: régi házszám, átszámozták, most Béla utca 64.
+    # 1/2: régi házszám, átszámozták, most Béla utca 66.
+    # 47: sima 47 nincs, csak 47/1, 47/2.
+    # 2/7: régi házszám, átszámozták, most Béla utca 77.
+    invalid: ['1/1', '1/2', '47', '2/7']
   Dózsa György út:
-    # 3/j: régi házszám, átszámozták, most Dózsa György út 29.
-    # 3/k: régi házszám, átszámozták, most Dózsa György út 31.
-    # 17: sima 17 nincs, scak 17/1, 17/2.
+    # 1: sima 1 nincs, csak 1/A, 1/B.
+    # 1/J: nincs ilyen, csak 1/A, 1/B.
+    # 3/J: régi házszám, átszámozták, most Dózsa György út 29.
+    # 3/K: régi házszám, átszámozták, most Dózsa György út 31.
+    # 15: sima 15 nincs, csak 15/1, 15/2.
+    # 17: sima 17 nincs, csak 17/1, 17/2.
+    # 19: sima 19 nincs, csak 19/1, 19/2.
+    # 21: sima 21 nincs, csak 21/1, 21/2.
+    # 23: sima 23 nincs, csak 23/1, 23/2.
+    # 25: sima 25 nincs, csak 25/1, 25/2.
     # 27: sima 27 nincs, csak 27/1, 27/2.
-    invalid: ['3j', '3k', '17', '27']
+    invalid: ['1', '1j', '3j', '3k', '15', '17', '19', '21', '23', '25', '27']
 refstreets:
   # ellenőrzött
   'Jókai Mór utca': 'Jókai utca'  # táblán Jókai Mór utca (2024-06-22)
