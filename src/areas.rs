@@ -799,14 +799,8 @@ impl<'a> Relation<'a> {
                     .collect();
 
                 for house_number in hns {
-                    let normalized = normalize(
-                        self,
-                        house_number,
-                        osm_street_name,
-                        &street_ranges,
-                        &mut None,
-                        None,
-                    )?;
+                    let normalized =
+                        simple_normalize(self, house_number, osm_street_name, &street_ranges)?;
                     house_numbers.append(
                         &mut normalized
                             .iter()
@@ -1769,6 +1763,22 @@ fn normalize_expand(
     }
 
     ret_numbers
+}
+
+fn simple_normalize(
+    relation: &Relation<'_>,
+    house_numbers: &str,
+    street_name: &str,
+    normalizers: &HashMap<String, ranges::Ranges>,
+) -> anyhow::Result<Vec<util::HouseNumber>> {
+    normalize(
+        relation,
+        house_numbers,
+        street_name,
+        normalizers,
+        &mut None,
+        None,
+    )
 }
 
 /// Strips down string input to bare minimum that can be interpreted as an
