@@ -622,17 +622,14 @@ impl<'a> Relation<'a> {
                     }
                 }
                 for house_number in row.housenumber.split(&[';', ',']) {
+                    let mut lints = Some(&mut lints);
+                    let row = Some(&row);
+                    let mut normalized =
+                        normalize(self, house_number, street, &street_ranges, &mut lints, row)?;
                     house_numbers
                         .entry(street.to_string())
                         .or_default()
-                        .append(&mut normalize(
-                            self,
-                            house_number,
-                            street,
-                            &street_ranges,
-                            &mut Some(&mut lints),
-                            Some(&row),
-                        )?)
+                        .append(&mut normalized)
                 }
             }
             self.lints.append(&mut lints);
