@@ -1171,12 +1171,8 @@ impl<'a> Relation<'a> {
         let (table, todo_count) = self.numbered_streets_to_table(&ongoing_streets);
 
         // Remember the count, so the index page can show it fast.
-        stats::set_sql_count(
-            self.ctx,
-            "additional_housenumbers_counts",
-            &self.name,
-            todo_count,
-        )?;
+        let table_name = "additional_housenumbers_counts";
+        stats::set_sql_count(self.ctx, table_name, &self.name, todo_count)?;
 
         Ok((ongoing_streets.len(), todo_count, table))
     }
