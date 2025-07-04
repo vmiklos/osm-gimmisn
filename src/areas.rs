@@ -994,12 +994,9 @@ impl<'a> Relation<'a> {
         let additional_streets = self.get_additional_streets(/*sorted_result=*/ true)?;
 
         // Remember the count, so the index page can show it fast.
-        stats::set_sql_count(
-            self.ctx,
-            "additional_streets_counts",
-            &self.name,
-            additional_streets.len(),
-        )?;
+        let table = "additional_streets_counts";
+        let count = additional_streets.len();
+        stats::set_sql_count(self.ctx, table, &self.name, count)?;
 
         Ok(additional_streets)
     }
