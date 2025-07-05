@@ -70,6 +70,10 @@ filters:
   Gelencsér utca:
     # 9 nincs: max házszám a 7
     invalid: ['9']
+  Győri utca:
+    # 34/I: 34/1-nek számozva
+    # 40/1, 40a: 40, 40/2 és 40/3 van.
+    invalid: ['34i', '40/1', '40a']
   Hársfa utca:
     # 1-55, 2-48
     invalid: ['85']
@@ -153,6 +157,9 @@ filters:
     # 1-5-ig sorházak, egyedi számok nincsenek 2/a formában vannak fent pontként, ezért 2/5, 2/6 nincs.
     # 6-17-ig egyedi házakra van bontva, nincsenek betűk.
     invalid: ['2/5', '2/6', '2a-f']
+  Tószeg utca:
+    # 18: nincs kírva, csak 18/2, bármelyik ipari épület lehet
+    invalid: ['18']
   Vár utca:
     # 24: utolsó páros a 20.
     invalid: ['24']
