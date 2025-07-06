@@ -71,31 +71,23 @@ fn is_missing_housenumbers_json_cached(relation: &mut areas::Relation<'_>) -> an
 
 /// Gets the cached json of the missing housenumbers for a relation.
 pub fn get_missing_housenumbers_json(relation: &mut areas::Relation<'_>) -> anyhow::Result<String> {
+    let table = "missing_housenumbers_cache";
     let output: String;
     if is_missing_housenumbers_json_cached(relation)
         .context("is_missing_housenumbers_json_cached() failed")?
     {
-        output = stats::get_sql_json(
-            relation.get_ctx(),
-            "missing_housenumbers_cache",
-            &relation.get_name(),
-        )?;
+        let ctx = relation.get_ctx();
+        output = stats::get_sql_json(ctx, table, &relation.get_name())?;
         return Ok(output);
     }
 
     let missing_housenumbers = relation.get_missing_housenumbers()?;
     output = serde_json::to_string(&missing_housenumbers)?;
 
-    stats::set_sql_json(
-        relation.get_ctx(),
-        "missing_housenumbers_cache",
-        &relation.get_name(),
-        &output,
-    )?;
-    stats::set_sql_mtime(
-        relation.get_ctx(),
-        &format!("missing-housenumbers-cache/{}", &relation.get_name()),
-    )?;
+    let ctx = relation.get_ctx();
+    stats::set_sql_json(ctx, table, &relation.get_name(), &output)?;
+    let table = format!("missing-housenumbers-cache/{}", &relation.get_name());
+    stats::set_sql_mtime(ctx, &table)?;
 
     relation.write_lints()?;
 
@@ -125,29 +117,20 @@ fn is_additional_housenumbers_json_cached(
 pub fn get_additional_housenumbers_json(
     relation: &mut areas::Relation<'_>,
 ) -> anyhow::Result<String> {
+    let table = "additional_housenumbers_cache";
     let output: String;
     if is_additional_housenumbers_json_cached(relation)? {
-        output = stats::get_sql_json(
-            relation.get_ctx(),
-            "additional_housenumbers_cache",
-            &relation.get_name(),
-        )?;
+        let ctx = relation.get_ctx();
+        output = stats::get_sql_json(ctx, table, &relation.get_name())?;
         return Ok(output);
     }
 
     let additional_housenumbers = relation.get_additional_housenumbers()?;
     output = serde_json::to_string(&additional_housenumbers)?;
 
-    stats::set_sql_json(
-        relation.get_ctx(),
-        "additional_housenumbers_cache",
-        &relation.get_name(),
-        &output,
-    )?;
-    stats::set_sql_mtime(
-        relation.get_ctx(),
-        &format!("additional-housenumbers-cache/{}", &relation.get_name()),
-    )?;
+    stats::set_sql_json(relation.get_ctx(), table, &relation.get_name(), &output)?;
+    let table = format!("additional-housenumbers-cache/{}", &relation.get_name());
+    stats::set_sql_mtime(relation.get_ctx(), &table)?;
     Ok(output)
 }
 
