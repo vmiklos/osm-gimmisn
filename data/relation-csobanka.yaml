@@ -4,6 +4,7 @@ osm-street-filters:
   # Parkok, sétautak amire nincs számozva semmi
   - Cseresznyés kert
   - Hét vezér millenniumi emlékpark
+  - Margitliget ősfenyves és park
   # Területhatáron lévő utca
 refstreets:
   'Kelta árok utca': 'Kelta-árok utca'  # utcatáblán kötőjel nélkül szerepel
