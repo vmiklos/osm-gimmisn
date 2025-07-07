@@ -264,11 +264,8 @@ impl Context {
         let unit = Rc::new(StdUnit {});
         let file_system: Rc<dyn FileSystem> = Rc::new(StdFileSystem {});
         let database: Rc<dyn Database> = Rc::new(StdDatabase {});
-        let ini = Rc::new(RefCell::new(Ini::new(
-            &file_system,
-            &format!("{root}/workdir/wsgi.ini"),
-            &root,
-        )?));
+        let path = format!("{root}/workdir/wsgi.ini");
+        let ini = Rc::new(RefCell::new(Ini::new(&file_system, &path, &root)?));
         let connection = OnceCell::new();
         let shutdown = Rc::new(RefCell::new(false));
         Ok(Context {
@@ -360,11 +357,10 @@ impl Context {
 
     /// Gets the database connection.
     pub fn get_database_connection(&self) -> anyhow::Result<RefMut<'_, rusqlite::Connection>> {
-        let connection: &Rc<RefCell<rusqlite::Connection>> = self.connection.get_or_try_init(
-            || -> anyhow::Result<Rc<RefCell<rusqlite::Connection>>> {
-                Ok(Rc::new(RefCell::new(self.database.create()?)))
-            },
-        )?;
+        let f = || -> anyhow::Result<Rc<RefCell<rusqlite::Connection>>> {
+            Ok(Rc::new(RefCell::new(self.database.create()?)))
+        };
+        let connection: &Rc<RefCell<rusqlite::Connection>> = self.connection.get_or_try_init(f)?;
         Ok(connection.borrow_mut())
     }
 
