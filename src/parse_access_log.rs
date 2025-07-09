@@ -218,23 +218,19 @@ pub fn our_main(
         if actual != expected {
             if actual {
                 if !is_relation_recently_added(ctx, &relation_create_dates, &relation_name) {
-                    stdout.write_all(
-                        format!("data/relation-{relation_name}.yaml: set inactive: true\n")
-                            .as_bytes(),
-                    )?;
+                    let buf = format!("data/relation-{relation_name}.yaml: set inactive: true\n");
+                    stdout.write_all(buf.as_bytes())?;
                     removals += 1;
                 }
             } else {
-                stdout.write_all(
-                    format!("data/relation-{relation_name}.yaml: set inactive: false\n").as_bytes(),
-                )?;
+                let buf = format!("data/relation-{relation_name}.yaml: set inactive: false\n");
+                stdout.write_all(buf.as_bytes())?;
                 additions += 1;
             }
         }
     }
-    stdout.write_all(
-        format!("Suggested {removals} removals and {additions} additions.\n").as_bytes(),
-    )?;
+    let buf = format!("Suggested {removals} removals and {additions} additions.\n");
+    stdout.write_all(buf.as_bytes())?;
 
     ctx.get_unit().make_error()
 }
