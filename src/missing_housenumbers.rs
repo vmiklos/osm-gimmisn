@@ -32,14 +32,12 @@ pub fn our_main(
         let range_list = util::get_housenumber_ranges(&result.house_numbers);
         let mut range_strings: Vec<&String> = range_list.iter().map(|i| i.get_number()).collect();
         range_strings.sort_by_key(|i| util::split_house_number(i));
-        stream.write_all(
-            format!(
-                "{}\t{}\n",
-                result.street.get_osm_name(),
-                range_strings.len()
-            )
-            .as_bytes(),
-        )?;
+        let buf = format!(
+            "{}\t{}\n",
+            result.street.get_osm_name(),
+            range_strings.len()
+        );
+        stream.write_all(buf.as_bytes())?;
         // only_in_reference items.
         stream.write_all(format!("{range_strings:?}\n").as_bytes())?;
     }
