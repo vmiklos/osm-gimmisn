@@ -202,9 +202,8 @@ pub fn our_main(
     ctx.get_file_system()
         .write_from_string(&config.join("\n"), &config_file)?;
     let max = files.values().max().context("empty files")?;
-    stream.write_all(
-        format!("Now you can run:\ngit commit -m 'Update reference to {max}' data/\n").as_bytes(),
-    )?;
+    let buf = format!("Now you can run:\ngit commit -m 'Update reference to {max}' data/\n");
+    stream.write_all(buf.as_bytes())?;
     Ok(())
 }
 
