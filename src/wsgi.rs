@@ -32,14 +32,10 @@ fn get_streets_last_modified(
     relation: &areas::Relation<'_>,
 ) -> anyhow::Result<String> {
     let format = tr("{0} (osm), {1} (areas)");
-    let osm = webframe::format_timestamp(&stats::get_sql_mtime(
-        ctx,
-        &format!("streets/{}/osm-base", relation.get_name()),
-    )?)?;
-    let areas = webframe::format_timestamp(&stats::get_sql_mtime(
-        ctx,
-        &format!("streets/{}/areas-base", relation.get_name()),
-    )?)?;
+    let mut page = format!("streets/{}/osm-base", relation.get_name());
+    let osm = webframe::format_timestamp(&stats::get_sql_mtime(ctx, &page)?)?;
+    page = format!("streets/{}/areas-base", relation.get_name());
+    let areas = webframe::format_timestamp(&stats::get_sql_mtime(ctx, &page)?)?;
     Ok(format.replace("{0}", &osm).replace("{1}", &areas))
 }
 
@@ -49,14 +45,10 @@ fn get_housenumbers_last_modified(
     relation: &areas::Relation<'_>,
 ) -> anyhow::Result<String> {
     let format = tr("{0} (osm), {1} (areas)");
-    let osm = webframe::format_timestamp(&stats::get_sql_mtime(
-        ctx,
-        &format!("housenumbers/{}/osm-base", relation.get_name()),
-    )?)?;
-    let areas = webframe::format_timestamp(&stats::get_sql_mtime(
-        ctx,
-        &format!("housenumbers/{}/areas-base", relation.get_name()),
-    )?)?;
+    let mut page = format!("housenumbers/{}/osm-base", relation.get_name());
+    let osm = webframe::format_timestamp(&stats::get_sql_mtime(ctx, &page)?)?;
+    page = format!("housenumbers/{}/areas-base", relation.get_name());
+    let areas = webframe::format_timestamp(&stats::get_sql_mtime(ctx, &page)?)?;
     Ok(format.replace("{0}", &osm).replace("{1}", &areas))
 }
 
@@ -145,16 +137,9 @@ fn handle_street_housenumbers(
     let osmrelation = relation.get_config().get_osmrelation();
 
     let doc = yattag::Doc::new();
-    doc.append_value(
-        webframe::get_toolbar(
-            ctx,
-            Some(relations),
-            "street-housenumbers",
-            relation_name,
-            osmrelation,
-        )?
-        .get_value(),
-    );
+    let func = "street-housenumbers";
+    let toolbar = webframe::get_toolbar(ctx, Some(relations), func, relation_name, osmrelation)?;
+    doc.append_value(toolbar.get_value());
 
     let prefix = ctx.get_ini().get_uri_prefix();
     if action == "view-query" {
@@ -689,16 +674,9 @@ fn handle_missing_housenumbers(
     let mut relation = relations.get_relation(relation_name)?;
     let osmrelation = relation.get_config().get_osmrelation();
     let doc = yattag::Doc::new();
-    doc.append_value(
-        webframe::get_toolbar(
-            ctx,
-            Some(relations),
-            "missing-housenumbers",
-            relation_name,
-            osmrelation,
-        )?
-        .get_value(),
-    );
+    let func = "missing-housenumbers";
+    let toolbar = webframe::get_toolbar(ctx, Some(relations), func, relation_name, osmrelation)?;
+    doc.append_value(toolbar.get_value());
 
     if action == "view-turbo" {
         doc.append_value(missing_housenumbers_view_turbo(relations, request_uri)?.get_value());
@@ -797,16 +775,9 @@ fn handle_missing_streets(
     let osmrelation = relation.get_config().get_osmrelation();
 
     let doc = yattag::Doc::new();
-    doc.append_value(
-        webframe::get_toolbar(
-            ctx,
-            Some(relations),
-            "missing-streets",
-            relation_name,
-            osmrelation,
-        )?
-        .get_value(),
-    );
+    let func = "missing-streets";
+    let toolbar = webframe::get_toolbar(ctx, Some(relations), func, relation_name, osmrelation)?;
+    doc.append_value(toolbar.get_value());
 
     if action == "view-turbo" {
         doc.append_value(missing_streets_view_turbo(relations, request_uri)?.get_value());
@@ -851,16 +822,9 @@ fn handle_additional_streets(
     let osmrelation = relation.get_config().get_osmrelation();
 
     let doc = yattag::Doc::new();
-    doc.append_value(
-        webframe::get_toolbar(
-            ctx,
-            Some(relations),
-            "additional-streets",
-            relation_name,
-            osmrelation,
-        )?
-        .get_value(),
-    );
+    let func = "additional-streets";
+    let toolbar = webframe::get_toolbar(ctx, Some(relations), func, relation_name, osmrelation)?;
+    doc.append_value(toolbar.get_value());
 
     if action == "view-turbo" {
         doc.append_value(
@@ -892,16 +856,9 @@ fn handle_additional_housenumbers(
     let osmrelation = relation.get_config().get_osmrelation();
 
     let doc = yattag::Doc::new();
-    doc.append_value(
-        webframe::get_toolbar(
-            ctx,
-            Some(relations),
-            "additional-housenumbers",
-            relation_name,
-            osmrelation,
-        )?
-        .get_value(),
-    );
+    let func = "additional-housenumbers";
+    let toolbar = webframe::get_toolbar(ctx, Some(relations), func, relation_name, osmrelation)?;
+    doc.append_value(toolbar.get_value());
 
     // assume action is view-result
     doc.append_value(
@@ -1255,12 +1212,8 @@ fn handle_main_filters(
     refcounties.sort();
     refcounties.dedup();
     for refcounty in refcounties {
-        items.push(handle_main_filters_refcounty(
-            ctx,
-            relations,
-            refcounty_id,
-            &refcounty,
-        )?);
+        let item = handle_main_filters_refcounty(ctx, relations, refcounty_id, &refcounty)?;
+        items.push(item);
     }
     doc = yattag::Doc::new();
     {
@@ -1369,16 +1322,11 @@ fn handle_main(
     let (filter_for, refcounty) = setup_main_filter_for(request_uri)?;
 
     let doc = yattag::Doc::new();
-    doc.append_value(
-        webframe::get_toolbar(
-            ctx,
-            Some(relations),
-            /*function=*/ "",
-            /*relation_name=*/ "",
-            /*relation_osmid=*/ 0,
-        )?
-        .get_value(),
-    );
+    let func = "";
+    let relation_name = "";
+    let relation_osmid = 0;
+    let toolbar = webframe::get_toolbar(ctx, Some(relations), func, relation_name, relation_osmid)?;
+    doc.append_value(toolbar.get_value());
 
     doc.append_value(handle_main_filters(ctx, relations, &refcounty)?.get_value());
     let mut table = vec![vec![
