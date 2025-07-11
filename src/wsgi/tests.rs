@@ -57,15 +57,21 @@ impl TestWsgi {
         &mut self.ctx
     }
 
-    /// Finds all matching subelements, by tag name or path.
-    pub fn find_all(package: &sxd_document::Package, path: &str) -> Vec<String> {
+    fn find_all_values(package: &sxd_document::Package, path: &str) -> Vec<String> {
         let document = package.as_document();
-        let value = sxd_xpath::evaluate_xpath(&document, &format!("/html/{path}")).unwrap();
+        let value = sxd_xpath::evaluate_xpath(&document, path).unwrap();
         let mut ret: Vec<String> = Vec::new();
         if let sxd_xpath::Value::Nodeset(nodeset) = value {
             ret = nodeset.iter().map(|i| i.string_value()).collect();
+        } else {
+            ret.push(value.string());
         };
         ret
+    }
+
+    /// Finds all matching subelements, by tag name or path.
+    pub fn find_all(package: &sxd_document::Package, path: &str) -> Vec<String> {
+        TestWsgi::find_all_values(package, &format!("/html/{path}"))
     }
 
     /// Sets the expected value of the Content-type header.
@@ -187,6 +193,17 @@ impl TestWsgi {
         assert_eq!(css.is_empty(), false);
         css
     }
+}
+
+/// Self-test, mostly because sxd_xpath::Value type doesn't have as_nodeset() directly.
+#[test]
+fn test_self_find_all() {
+    let root = sxd_document::parser::parse(r#"<root><item>42</item></root>"#).unwrap();
+
+    let ret = TestWsgi::find_all_values(&root, "count(/root/item)");
+
+    assert_eq!(ret.len(), 1);
+    assert_eq!(ret[0], "1");
 }
 
 /// Tests handle_streets(): if the output is well-formed.
