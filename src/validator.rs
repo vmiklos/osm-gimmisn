@@ -71,12 +71,8 @@ fn validate_ranges(
     filter_data: &areas::RelationFiltersDict,
 ) -> anyhow::Result<()> {
     for (index, range_data) in ranges.iter().enumerate() {
-        validate_range(
-            errors,
-            &format!("{parent}[{index}]"),
-            range_data,
-            filter_data,
-        )?;
+        let parent = format!("{parent}[{index}]");
+        validate_range(errors, &parent, range_data, filter_data)?;
     }
 
     Ok(())
@@ -239,11 +235,8 @@ fn validate_relation(
         validate_refstreets(errors, &format!("{}{}", context, "refstreets"), refstreets)?;
     }
     if let Some(ref street_filters) = relation.street_filters {
-        validate_street_filters(
-            errors,
-            &format!("{}{}", context, "street-filters"),
-            street_filters,
-        )?;
+        let parent = format!("{}{}", context, "street-filters");
+        validate_street_filters(errors, &parent, street_filters)?;
     }
     if let Some(ref source) = relation.source {
         if source.parse::<i64>().is_ok() {
