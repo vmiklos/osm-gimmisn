@@ -331,13 +331,8 @@ pub fn get_toolbar(
     items.push(doc);
 
     if !relation_name.is_empty() {
-        items = fill_missing_header_items(
-            ctx,
-            &streets,
-            additional_housenumbers,
-            relation_name,
-            &items,
-        )?;
+        let ahn = additional_housenumbers;
+        items = fill_missing_header_items(ctx, &streets, ahn, relation_name, &items)?;
     }
 
     items = fill_header_function(ctx, function, relation_name, &items)?;
@@ -453,10 +448,8 @@ pub fn handle_static(
     }
     if request_uri.ends_with(".json") {
         let content_type = "application/json; charset=utf-8";
-        let (content, extra_headers) = get_content_with_meta(
-            ctx,
-            &format!("{}/stats/{}", ctx.get_ini().get_workdir(), path),
-        )?;
+        let path = format!("{}/stats/{}", ctx.get_ini().get_workdir(), path);
+        let (content, extra_headers) = get_content_with_meta(ctx, &path)?;
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".ico") {
@@ -533,16 +526,11 @@ fn handle_stats_cityprogress(
     relations: &mut areas::Relations<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
-    doc.append_value(
-        get_toolbar(
-            ctx,
-            Some(relations),
-            /*function=*/ "",
-            /*relation_name=*/ "",
-            /*relation_osmid=*/ 0,
-        )?
-        .get_value(),
-    );
+    let function = "";
+    let r_name = "";
+    let r_osmid = 0;
+    let toolbar = get_toolbar(ctx, Some(relations), function, r_name, r_osmid)?;
+    doc.append_value(toolbar.get_value());
 
     let mut ref_citycounts: HashMap<String, u64> = HashMap::new();
     let csv_stream: Rc<RefCell<dyn Read>> = ctx
@@ -623,16 +611,11 @@ fn handle_stats_housenumberless(
     relations: &mut areas::Relations<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
-    doc.append_value(
-        get_toolbar(
-            ctx,
-            Some(relations),
-            /*function=*/ "",
-            /*relation_name=*/ "",
-            /*relation_osmid=*/ 0,
-        )?
-        .get_value(),
-    );
+    let function = "";
+    let r_name = "";
+    let r_osmid = 0;
+    let toolbar = get_toolbar(ctx, Some(relations), function, r_name, r_osmid)?;
+    doc.append_value(toolbar.get_value());
 
     let query = areas::make_turbo_query_for_housenumberless(ctx)?;
     {
@@ -654,16 +637,11 @@ fn handle_stats_zipprogress(
     relations: &mut areas::Relations<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
-    doc.append_value(
-        get_toolbar(
-            ctx,
-            Some(relations),
-            /*function=*/ "",
-            /*relation_name=*/ "",
-            /*relation_osmid=*/ 0,
-        )?
-        .get_value(),
-    );
+    let function = "";
+    let r_name = "";
+    let r_osmid = 0;
+    let toolbar = get_toolbar(ctx, Some(relations), function, r_name, r_osmid)?;
+    doc.append_value(toolbar.get_value());
     let mut ref_zipcounts: HashMap<String, u64> = HashMap::new();
     let csv_stream: Rc<RefCell<dyn Read>> = ctx
         .get_file_system()
@@ -753,16 +731,11 @@ fn handle_invalid_addr_cities(
     relations: &mut areas::Relations<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
-    doc.append_value(
-        get_toolbar(
-            ctx,
-            Some(relations),
-            /*function=*/ "invalid-addr-cities",
-            /*relation_name=*/ "",
-            /*relation_osmid=*/ 0,
-        )?
-        .get_value(),
-    );
+    let function = "invalid-addr-cities";
+    let r_name = "";
+    let r_osmid = 0;
+    let toolbar = get_toolbar(ctx, Some(relations), function, r_name, r_osmid)?;
+    doc.append_value(toolbar.get_value());
 
     let mut table: Vec<Vec<yattag::Doc>> = Vec::new();
     let mut count = 0;
@@ -851,16 +824,11 @@ fn handle_invalid_addr_cities_update_html(
     handle_invalid_addr_cities_update(ctx)?;
 
     let doc = yattag::Doc::new();
-    doc.append_value(
-        get_toolbar(
-            ctx,
-            Some(relations),
-            /*function=*/ "",
-            /*relation_name=*/ "",
-            /*relation_osmid=*/ 0,
-        )?
-        .get_value(),
-    );
+    let function = "";
+    let r_name = "";
+    let r_osmid = 0;
+    let toolbar = get_toolbar(ctx, Some(relations), function, r_name, r_osmid)?;
+    doc.append_value(toolbar.get_value());
 
     doc.text(&tr("Update successful: "));
     let prefix = ctx.get_ini().get_uri_prefix();
@@ -877,16 +845,11 @@ fn handle_invalid_refstreets(
     relations: &mut areas::Relations<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
-    doc.append_value(
-        get_toolbar(
-            ctx,
-            Some(relations),
-            /*function=*/ "",
-            /*relation_name=*/ "",
-            /*relation_osmid=*/ 0,
-        )?
-        .get_value(),
-    );
+    let function = "";
+    let r_name = "";
+    let r_osmid = 0;
+    let toolbar = get_toolbar(ctx, Some(relations), function, r_name, r_osmid)?;
+    doc.append_value(toolbar.get_value());
 
     let prefix = ctx.get_ini().get_uri_prefix();
     for relation in relations.get_relations()? {
@@ -948,16 +911,11 @@ pub fn handle_stats(
     }
 
     let doc = yattag::Doc::new();
-    doc.append_value(
-        get_toolbar(
-            ctx,
-            Some(relations),
-            /*function=*/ "",
-            /*relation_name=*/ "",
-            /*relation_osmid=*/ 0,
-        )?
-        .get_value(),
-    );
+    let function = "";
+    let r_name = "";
+    let r_osmid = 0;
+    let toolbar = get_toolbar(ctx, Some(relations), function, r_name, r_osmid)?;
+    doc.append_value(toolbar.get_value());
 
     let prefix = ctx.get_ini().get_uri_prefix();
 
@@ -1161,16 +1119,11 @@ pub fn handle_lints(
     }
 
     let doc = yattag::Doc::new();
-    doc.append_value(
-        get_toolbar(
-            ctx,
-            Some(relations),
-            /*function=*/ "",
-            /*relation_name=*/ "",
-            /*relation_osmid=*/ 0,
-        )?
-        .get_value(),
-    );
+    let function = "";
+    let r_name = "";
+    let r_osmid = 0;
+    let toolbar = get_toolbar(ctx, Some(relations), function, r_name, r_osmid)?;
+    doc.append_value(toolbar.get_value());
 
     let prefix = ctx.get_ini().get_uri_prefix();
 
