@@ -43,6 +43,7 @@ osm-street-filters:
    - Lengyel Testvérvárosi Park
    # Nem igazi utcák
    - Kálvária
+   - Rendezvénytér
 refstreets:
   # helyesírás / rövidítés
   'Nyírfa utca': 'Nyirfa utca'
