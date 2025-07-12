@@ -474,6 +474,10 @@ filters:
     # 3: a 3-5. közötti szakasz a Nagy Imre tér.
     # 15: sima 15 nincs, csak 15/a, 15/b.
     invalid: ['3', '15']
+  Vöröstorony lejtő:
+    invalid:
+      - '13' # 13a, 13b helyette
+      - '16' # 16a, 16b helyette
   Zivatar utca:
     # 2-6 = Ady Endre utca 3, Szent Angéla
     ranges:
