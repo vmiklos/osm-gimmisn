@@ -1245,7 +1245,7 @@ impl<'a> Relation<'a> {
                 return Ok(Vec::new());
             }
         };
-        let keys: Vec<String> = filters.iter().map(|(key, _value)| key.clone()).collect();
+        let keys: Vec<String> = filters.keys().cloned().collect();
         let osm_streets: Vec<String> = self
             .get_osm_streets(/*sorted_result=*/ true)?
             .iter()
@@ -1620,7 +1620,7 @@ impl<'a> Relations<'a> {
                 return Vec::new();
             }
         };
-        let mut ret: Vec<String> = refcounty.iter().map(|(key, _value)| key.clone()).collect();
+        let mut ret: Vec<String> = refcounty.keys().cloned().collect();
         ret.sort();
         ret
     }
@@ -1914,7 +1914,7 @@ pub fn make_turbo_query_for_housenumberless(ctx: &context::Context) -> anyhow::R
     while let Some(row) = rows.next()? {
         let osm_type: String = row.get(0).unwrap();
         let osm_id: String = row.get(1).unwrap();
-        query += &format!("{}({});\n", osm_type, osm_id);
+        query += &format!("{osm_type}({osm_id});\n");
     }
     query += r#");
 out body;

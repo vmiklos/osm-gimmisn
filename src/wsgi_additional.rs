@@ -145,7 +145,7 @@ pub fn additional_streets_view_txt(
         .get_relation(relation_name)
         .context("get_relation() failed")?;
 
-    let output: String = if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
+    let output: String = if !stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
         tr("No existing streets")
     } else {
         let mut streets = relation.get_additional_streets(/*sorted_result=*/ true)?;
@@ -176,7 +176,7 @@ pub fn additional_streets_view_result(
 
     let doc = yattag::Doc::new();
     let prefix = ctx.get_ini().get_uri_prefix();
-    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
+    if !stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
         doc.append_value(webframe::handle_no_osm_streets(&prefix, relation_name).get_value());
     } else {
         // Get "only in OSM" streets.
@@ -283,9 +283,9 @@ pub fn additional_housenumbers_view_result(
 
     let doc: yattag::Doc;
     let prefix = ctx.get_ini().get_uri_prefix();
-    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
+    if !stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
         doc = webframe::handle_no_osm_streets(&prefix, relation_name);
-    } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
+    } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{relation_name}"))? {
         doc = webframe::handle_no_osm_housenumbers(&prefix, relation_name);
     } else {
         doc = additional_housenumbers_view_result_html(&mut relation)?;

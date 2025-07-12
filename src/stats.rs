@@ -496,9 +496,8 @@ pub fn set_sql_count(
     let conn = ctx.get_database_connection()?;
     conn.execute(
         &format!(
-            r#"insert into {} (relation, count) values (?1, ?2)
-             on conflict(relation) do update set count = excluded.count"#,
-            table
+            r#"insert into {table} (relation, count) values (?1, ?2)
+             on conflict(relation) do update set count = excluded.count"#
         ),
         [relation, &count.to_string()],
     )?;
@@ -511,7 +510,7 @@ pub fn get_sql_count(
     relation: &str,
 ) -> anyhow::Result<String> {
     let conn = ctx.get_database_connection()?;
-    let mut stmt = conn.prepare(&format!("select count from {} where relation = ?1", table))?;
+    let mut stmt = conn.prepare(&format!("select count from {table} where relation = ?1"))?;
     let mut rows = stmt.query([relation])?;
     let row = rows.next()?.context("no count")?;
     let count: String = row.get(0)?;
@@ -520,7 +519,7 @@ pub fn get_sql_count(
 
 pub fn has_sql_count(ctx: &context::Context, table: &str, relation: &str) -> anyhow::Result<bool> {
     let conn = ctx.get_database_connection()?;
-    let mut stmt = conn.prepare(&format!("select count from {} where relation = ?1", table))?;
+    let mut stmt = conn.prepare(&format!("select count from {table} where relation = ?1"))?;
     let mut rows = stmt.query([relation])?;
     Ok(rows.next()?.is_some())
 }
@@ -534,9 +533,8 @@ pub fn set_sql_json(
     let conn = ctx.get_database_connection()?;
     conn.execute(
         &format!(
-            r#"insert into {} (relation, json) values (?1, ?2)
+            r#"insert into {table} (relation, json) values (?1, ?2)
              on conflict(relation) do update set json = excluded.json"#,
-            table
         ),
         [relation, json],
     )?;
@@ -545,7 +543,7 @@ pub fn set_sql_json(
 
 pub fn get_sql_json(ctx: &context::Context, table: &str, relation: &str) -> anyhow::Result<String> {
     let conn = ctx.get_database_connection()?;
-    let mut stmt = conn.prepare(&format!("select json from {} where relation = ?1", table))?;
+    let mut stmt = conn.prepare(&format!("select json from {table} where relation = ?1"))?;
     let mut rows = stmt.query([relation])?;
     let row = rows.next()?.context("no json")?;
     let json: String = row.get(0)?;

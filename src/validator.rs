@@ -173,10 +173,7 @@ fn validate_refstreets(
             errors.push(format!("expected value != key for '{context}{key}'"));
         }
     }
-    let mut reverse: Vec<_> = refstreets
-        .iter()
-        .map(|(_key, value)| value.as_str())
-        .collect();
+    let mut reverse: Vec<_> = refstreets.values().map(|value| value.as_str()).collect();
     reverse.sort_unstable();
     reverse.dedup();
     if refstreets.keys().len() != reverse.len() {
