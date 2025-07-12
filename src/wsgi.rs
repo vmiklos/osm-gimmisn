@@ -164,7 +164,7 @@ fn handle_street_housenumbers(
         }
     } else {
         // assume view-result
-        if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
+        if !stats::has_sql_mtime(ctx, &format!("housenumbers/{relation_name}"))? {
             let div = doc.tag("div", &[("id", "no-osm-housenumbers")]);
             div.text(&tr("No existing house numbers"));
         } else {
@@ -286,7 +286,7 @@ fn missing_housenumbers_view_lints(
             }
             if id != "0" {
                 let cell = yattag::Doc::new();
-                let href = format!("https://www.openstreetmap.org/{}/{}", object_type, id,);
+                let href = format!("https://www.openstreetmap.org/{object_type}/{id}");
                 {
                     let a = cell.tag("a", &[("href", &href), ("target", "_blank")]);
                     a.text(&id.to_string());
@@ -421,9 +421,9 @@ fn missing_housenumbers_view_res(
     let doc: yattag::Doc;
     let mut relation = relations.get_relation(relation_name)?;
     let prefix = ctx.get_ini().get_uri_prefix();
-    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
+    if !stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
         doc = webframe::handle_no_osm_streets(&prefix, relation_name);
-    } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
+    } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{relation_name}"))? {
         doc = webframe::handle_no_osm_housenumbers(&prefix, relation_name);
     } else {
         let ret = missing_housenumbers_view_res_html(ctx, &mut relation);
@@ -527,11 +527,11 @@ fn missing_housenumbers_view_txt(
     let relation_name = tokens.next_back().context("no relation_name")?;
     let mut relation = relations.get_relation(relation_name)?;
 
-    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
+    if !stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
         return Ok(tr("No existing streets"));
     }
 
-    if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
+    if !stats::has_sql_mtime(ctx, &format!("housenumbers/{relation_name}"))? {
         return Ok(tr("No existing house numbers"));
     }
 
@@ -583,9 +583,9 @@ fn missing_housenumbers_view_chkl(
     let mut relation = relations.get_relation(relation_name)?;
 
     let output: String;
-    if !stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
+    if !stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
         output = tr("No existing streets");
-    } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
+    } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{relation_name}"))? {
         output = tr("No existing house numbers");
     } else {
         let ongoing_streets = relation.get_missing_housenumbers()?.ongoing_streets;

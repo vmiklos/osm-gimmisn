@@ -56,7 +56,7 @@ fn update_osm_streets(
     let active_names = relations.get_active_names();
     for relation_name in active_names.context("get_active_names() failed")? {
         let relation = relations.get_relation(&relation_name)?;
-        if !update && stats::has_sql_mtime(ctx, &format!("streets/{}", relation_name))? {
+        if !update && stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
             continue;
         }
         info!("update_osm_streets, json: start: {relation_name}");
@@ -95,7 +95,7 @@ fn update_osm_housenumbers(
 ) -> anyhow::Result<()> {
     for relation_name in relations.get_active_names()? {
         let relation = relations.get_relation(&relation_name)?;
-        if !update && stats::has_sql_mtime(ctx, &format!("housenumbers/{}", relation_name))? {
+        if !update && stats::has_sql_mtime(ctx, &format!("housenumbers/{relation_name}"))? {
             continue;
         }
         info!("update_osm_housenumbers, json: start: {relation_name}");
