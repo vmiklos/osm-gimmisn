@@ -188,6 +188,7 @@ refstreets:
   'Pöltenberg utca': 'Pöltenberg Ernő utca'  # https://www.openstreetmap.org/note/4274985
   'Seregély utca': 'Seregély út'  # https://www.openstreetmap.org/note/4274993 - utcatáblán Seregély utca, házak egy részén Seregély út
   'Szigethy József utca': 'Szigeti József utca'  # https://www.openstreetmap.org/note/4274998
+  'Major': 'Kádárta major'
   # Bányai Júlia utca   # https://www.openstreetmap.org/note/4274954
   # Diósy Márton utca   # https://www.openstreetmap.org/note/4274962
   # Csererdei út'       # https://www.openstreetmap.org/note/4274955
@@ -209,7 +210,6 @@ street-filters:
   - Eplény vasútállomás
   # terület/tanya
   - Csatár-hegy
-  - Kádárta major
   - Külterület
   - Laci-major
   # Bakony Művek, nincs táblázva semmi, nem eldönthető
