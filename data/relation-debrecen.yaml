@@ -9,7 +9,7 @@ refstreets:
   'Kellermann Márton utca': 'Kellerman Márton utca'
   'Kádár dűlő': 'Kádárdűlő'
   'Lóskúti utca': 'Lóskúti út'
-  # 'Maróthy György utca': 'Maróthi György utca'
+  'Maróthy György utca': 'Maróthi György utca'
   'Sinai Miklós utca': 'Sinay Miklós utca'
   'Szentgyörgyi erdősor': 'Szentgyörgyierdő sor'
   'Vértesi utca': 'Vértesi út'
@@ -133,6 +133,7 @@ osm-street-filters:
   - Haláp kert
   - Józsa Grund Sportpark
   - Kutya park
+  - Szabó Magda sétány
   # tanyák/dűlők
   - Bohátka tanya
   - Csendes dűlő
