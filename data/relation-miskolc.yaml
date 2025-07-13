@@ -218,7 +218,7 @@ refstreets:
   'Augusztus 20. utca': 'Augusztus 20 utca'
   'Bolyai János utca': 'Bólyai János utca'
   'József Attila út': 'József Attila utca'
-  'Prohászka Ottokár utca': 'Máv telep'
+  # 'Prohászka Ottokár utca': 'Máv telep' -- nem 1:1
   'Sajószigeti út': 'Sajószigeti utca'
   'Szondi György utca': 'Szondy György utca'
   'Víkendtelep utca': 'Vikend telep'
@@ -227,7 +227,7 @@ refstreets:
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Guttenberg utca': 'Gutenberg utca'
   'Körös utca': 'Kőrös utca'
-  'Szénffy Gusztáv utca': 'Szénfy Gusztáv utca'
+  # 'Szénffy Gusztáv utca': 'Szénfy Gusztáv utca' -- táblán Szénffy Gusztáv utca, ez így hibás
   'Szrog Sámuel utca': 'Szrogh Sámuel utca'
   # 3529
   'Bezerédj István utca': 'Bezerédi István utca'
