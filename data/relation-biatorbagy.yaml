@@ -32,6 +32,8 @@ osm-street-filters:
   - M0 tervezett folytatás
   - Kresz park
   - Százlépcső
+  # park
+  - Biatorbágy zöld szíve
 refstreets:
   'Angeli András utca': 'Angeli András út'
   'Budaörsi út': 'Budaörsi utca'  # Outlet - összes blokkon Budaörsi út
