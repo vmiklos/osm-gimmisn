@@ -206,7 +206,7 @@ refstreets:
   'Bugyogóforrás utca': 'Bugyogó forrás utca'  # egyben és kötőjellel vannak a táblák, külön írva nincs
   'Vitorlaház utca': 'Vitorlaház'  # nincs kiírva, a vitorlás klub és a kikötő utcaként hivatkozik rá
   # Cserje köz - Cserje utca  # hivatalosnak kinéző táblán Cserje köz, házakon és a kézzel írt táblán Cserje utca, földhivatalnál 0 találat.
-  'Uszodai út': 'Uszodai utca'  # nincs kint tábla
+  'Uszoda út': 'Uszodai utca'  # nincs kint tábla, önkormányzat válasza alapján ez a hivatalos név, táblát pótolják 2025-07
 street-filters:
   - Máma utca  # hibás -> Mámatető utca
   - Máma puszta  # nincs ilyen
