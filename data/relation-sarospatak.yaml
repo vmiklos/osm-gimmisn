@@ -1,0 +1,32 @@
+missing-streets: 'yes'
+refstreets:
+  'Bocskai utca': 'Bocskay utca'
+  'Herczeg Ferenc utca': 'Herceg utca'
+  'Kútpadka dűlő': 'Kutpadka dűlő'
+  'Lorántffy Zsuzsanna utca': 'Lórántffy Zsuzsanna utca'
+  'Toldi Miklós utca': 'Toldi Miklós út'
+street-filters:
+  # nem igazi utcák
+  - 184. sz. MÁV őrház
+  - 185. sz. MÁV őrház
+  - 188. sz. MÁV őrház
+  # tanyák
+  - Apróhomok tanya
+  - Egerdi tanya
+  - Páterhomok tanya
+  - Rózsás tanya
+  - Újtanya
+  - Várhomok tanya
+  # településrész
+osm-street-filters:
+  # parkok/sétányok
+  - Iskolakert
+  - Várkert
+  # tanyák/dűlők
+  - Malomkőgyár tanya
+  # nem igazi utcák
+  - Hegyközi Kisvasút
+  - Sólya forduló 
+source: survey
+housenumber-letters: true
+inactive: false
