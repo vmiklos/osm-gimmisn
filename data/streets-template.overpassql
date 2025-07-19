@@ -13,7 +13,7 @@ out;
 way(area.searchArea)["highway"~"footway|pedestrian"][name][layer~"-"][name!~"aluljáró|passzázs|alagút"][name~"utca|köz| út|sétány|tér|lépcső|fasor"][!"bridge"]["indoor"!="yes"]["public_transport"!="platform"];
 out;
 // path with valid street name, try to exclude hiking path with comments in name tag
-way(area.searchArea)["highway"="path"][name][name~"utca| út|köz|árok|lépcső|gát|part|tér|tere|sétány|park|dűlő|sor|kert"][name!~"garázssor"](area.searchArea);
+way(area.searchArea)["highway"="path"][name][name~"utca| út|körút|köz|árok|lépcső|gát|part|tér|tere|sétány|park|dűlő|sor|kert"][name!~"garázssor"](area.searchArea);
 out;
 // include parking aisle with valid street name
 way(area.searchArea)["highway"="service"][service="parking_aisle"][name][name~"utca|köz|sétány|tér|tere"](area.searchArea);
