@@ -544,8 +544,9 @@ osm-street-filters:
   - Templomkert
   - Tükörben az élővilág
   - Werner Alajos emlékpark
-  # Kerülethatáron lévő utca
+  # Kerülethatáron lévő vagy átlógó utca
   - Mély utca
+  - Sándy Gyula köz
   # Hivatalosan nincs, de van utcatábla
   - Derschner köz  # valószínű a tulaj csináltatta
   - Gyurkovics Mária lépcső
