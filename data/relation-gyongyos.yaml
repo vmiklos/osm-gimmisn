@@ -1,5 +1,10 @@
 missing-streets: 'yes'
 filters: {}
+street-filters:
+  # proposed
+  - Richter Gedeon utca  # https://www.openstreetmap.org/way/1416082120
+  - Jégmadár utca  # https://www.openstreetmap.org/way/1416082122
+  - Szárcsa köz  # https://www.openstreetmap.org/way/1416082119
 osm-street-filters:
   # Nem valós utcák
   - Rollerpálya
