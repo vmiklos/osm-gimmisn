@@ -29,7 +29,7 @@ refstreets:
   # 'Rákóczi utca': 'Rákóczi út'  # régebben Rákóczi út volt kiírva, most Rákóczi utca, helyenként Rákóczi Ferenc utca, de van még Rákóczi út tábla is
   'Fűzkúti út': 'Fűzkuti utca'  # ez van kiírva
   # dűlő
-  'Tagyonhegydűlő': 'Tagyonhegy dűlő'
+  # 'Tagyonhegydűlő': 'Tagyonhegy dűlő'
 source: survey
 inactive: true
 housenumber-letters: true
