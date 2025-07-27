@@ -640,6 +640,10 @@ godollo:
     osmrelation: 1392595
     refcounty: "14"
     refsettlement: "047"
+kiskunlachaza:
+    osmrelation: 222346
+    refcounty: "14"
+    refsettlement: "065"
 kismaros:
     osmrelation: 1440601
     refcounty: "14"
