@@ -9,13 +9,13 @@ refstreets:
   'Laborfalvy Róza köz': 'Laborfalvi Róza köz'
   'Laki dűlő': 'Laki dűlő út'
   'Lapostelki utca': 'Lapostelek dűlő'
-  'Péterhegyi utca': 'Péterhegyi út'
   'Régi temető utca': 'Régitemető utca'
   'Segesdy utca': 'Segesdi utca'
   'Vázsonyi utca': 'Vázsonyi út'
   'Wesselényi Miklós utca': 'Wesselényi utca'
   # ellenőrzött
   'Palotaalja utca': 'Palota alja utca'
+  'Péterhegyi utca': 'Péterhegyi út'  # táblák vegyesen
 street-filters:
   # dűlők
   - Kéki dűlő
