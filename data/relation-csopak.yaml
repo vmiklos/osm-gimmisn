@@ -32,6 +32,13 @@ filters:
     # 25: 25/a, 25/b
     # 67/a: 67 és 69
     invalid: ['4b', '25', '67a']
+  Füredi út:
+    # 2/b: csak sima 2 van
+    # 20: körforgalom mellett üres telek
+    # 36: üres telek
+    # 54: ikerház: 54/a, 54/b, de az 54/a házrészen nincs kiírva
+    # 149/a-b-c: kapun filctollal Füredi út 149.
+    invalid: ['2b', '20', '36', '54', '149a', '149b', '149c']
   Hóvirág utca:
     # 16 = Örkény István sétány 18, egyik sincs kiírva
     invalid: ['16']
@@ -78,6 +85,9 @@ filters:
     # 42: nincs, 44 van kiírva
     # 45: üres telek
     invalid: ['2a', '42', '45']
+  # Öreghegyi út:
+    # 17/a, 17/b: csak 17
+    # invalid: ['17a', '17b']
   Örkény István sétány:
     interpolation: all
     # 12/c: csak 12 van
@@ -129,6 +139,10 @@ filters:
     invalid: ['1', '9', '11']
   Vasút utca:
     interpolation: all
+  Veszprémi út:
+    # 18/c: 18/a, 18/b
+    # 32/a, 32/b: csak sima 32
+    invalid: ['18c', '32a', '32b']
 refstreets:
   # ellenőrizve
   'Arany János út': 'Arany János utca' # táblán Arany János út 2024.10
