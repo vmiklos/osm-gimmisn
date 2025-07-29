@@ -1,0 +1,17 @@
+missing-streets: 'yes'
+refstreets:
+  'Alsó Duna sor': 'Alsó-Dunasor'
+  'dr. Limbek Ferenc utca': 'Dr. Limbek Ferenc utca'
+  'Egytagos Öregállás dűlő': 'Egytagos öregállás dűlő'
+  'Kígyó út': 'Kígyó utca'
+  'Kossuth Lajos utca': 'Kossuth Lajos út'
+  'Kossuth Lajos tér': 'Kossuth tér'
+  'MÁV-telep': 'Máv telep'
+  'Parkerdő utca': 'Parkerdei út'
+  'Ráckevei út': 'Ráckevei utca'
+  'Vásártérdűlő': 'Vásártér dűlő'
+  'Völgyi utca': 'Völgyi út'
+#osm-street-filters:
+source: survey
+housenumber-letters: true
+inactive: false
