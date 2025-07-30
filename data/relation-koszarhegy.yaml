@@ -2,6 +2,14 @@ missing-streets: 'yes'
 filters:
   Deák Ferenc utca:
     interpolation: all
+  Fő út:
+    # 147: a páratlan oldalon a 145 az utolsó házszám.
+    # 149: a páratlan oldalon a 145 az utolsó házszám.
+    # 153: a páratlan oldalon a 145 az utolsó házszám.
+    # 169: a páratlan oldalon a 145 az utolsó házszám.
+    # 171: a páratlan oldalon a 145 az utolsó házszám.
+    # 14: nincs ilyen, a 12 után a 16 következik.
+    invalid: ['147', '149', '153', '169', '171', '14']
   Petőfi utca:
     # 864: ez hrsz.
     invalid: ['864']
