@@ -1,6 +1,6 @@
 [package]
 name = "osm-gimmisn"
-version = "25.2.0"
+version = "25.8.0"
 edition = "2024"
 license = "MIT"
 

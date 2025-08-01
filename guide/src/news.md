@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## 25.8
 
 - Resolves: gh#4372 visualisation of settlements without any house number
 - Resolves: gh#4506 relation filters: `invalid` items containing hyphens can be combined with
