@@ -226,6 +226,27 @@ fn test_handle_invalid_addr_cities() {
     assert_eq!(results.len(), 2);
 }
 
+/// Tests handle_invalid_addr_cities_turbo().
+#[test]
+fn test_handle_invalid_addr_cities_turbo() {
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into stats_invalid_addr_cities (osm_id, osm_type, postcode, city, street, housenumber, user) values ('42', 'type', '1111', 'mycity', 'mystreet', 'myhousenumber', 'myuser');
+             insert into mtimes (page, last_modified) values ('whole-country/osm-base', '0');
+             insert into mtimes (page, last_modified) values ('whole-country/areas-base', '0');",
+        )
+        .unwrap();
+    }
+
+    let root = test_wsgi.get_dom_for_path("/lints/whole-country/invalid-addr-cities-turbo");
+
+    let results = wsgi::tests::TestWsgi::find_all(&root, "body/pre");
+    // overpass query in a <pre>.
+    assert_eq!(results.len(), 1);
+}
+
 /// Tests handle_invalid_refstreets(), the case when a relation has no errors.
 #[test]
 fn test_handle_invalid_refstreets_no_errors() {

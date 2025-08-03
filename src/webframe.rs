@@ -802,6 +802,39 @@ fn handle_invalid_addr_cities(
     Ok(doc)
 }
 
+/// Expected request uri: /housenumber-stats/whole-country/invalid-addr-cities-turbo.
+fn handle_invalid_addr_cities_turbo(
+    ctx: &context::Context,
+    relations: &mut areas::Relations<'_>,
+) -> anyhow::Result<yattag::Doc> {
+    let doc = yattag::Doc::new();
+    let function = "invalid-addr-cities-turbo";
+    let r_name = "";
+    let r_osmid = 0;
+    let toolbar = get_toolbar(ctx, Some(relations), function, r_name, r_osmid)?;
+    doc.append_value(toolbar.get_value());
+
+    let mut query = r#"[out:json][timeout:425];
+(
+"#
+    .to_string();
+    {
+        let conn = ctx.get_database_connection()?;
+        let mut stmt = conn.prepare("select osm_id, osm_type from stats_invalid_addr_cities")?;
+        let mut invalids = stmt.query([])?;
+        while let Some(invalid) = invalids.next()? {
+            let osm_id: String = invalid.get(0).unwrap();
+            let osm_type: String = invalid.get(1).unwrap();
+            query += &format!("{osm_type}({osm_id});\n");
+        }
+    }
+    query += r#");
+out body;"#;
+    let pre = doc.tag("pre", &[]);
+    pre.text(&query);
+    Ok(doc)
+}
+
 fn handle_invalid_addr_cities_update(ctx: &context::Context) -> anyhow::Result<()> {
     cron::update_stats_overpass(ctx).context("update_stats_overpass failed")?;
     stats::update_invalid_addr_cities(ctx).context("update_invalid_addr_cities failed")?;
@@ -1112,6 +1145,10 @@ pub fn handle_lints(
 
     if request_uri.ends_with("/invalid-addr-cities") {
         return handle_invalid_addr_cities(ctx, relations);
+    }
+
+    if request_uri.ends_with("/invalid-addr-cities-turbo") {
+        return handle_invalid_addr_cities_turbo(ctx, relations);
     }
 
     if request_uri.ends_with("/invalid-addr-cities/update-result") {
