@@ -796,6 +796,18 @@ fn handle_invalid_addr_cities(
             &tr("The addr:city key of the below {0} objects probably has an invalid value.")
                 .replace("{0}", &count.to_string()),
         );
+        doc.stag("br");
+        {
+            let prefix = ctx.get_ini().get_uri_prefix();
+            let a = doc.tag(
+                "a",
+                &[(
+                    "href",
+                    &format!("{prefix}/lints/whole-country/invalid-addr-cities-turbo"),
+                )],
+            );
+            a.text(&tr("Overpass turbo query for the below objects"));
+        }
     }
     doc.append_value(util::html_table_from_list(&table).get_value());
     doc.append_value(get_footer(&get_whole_county_last_modified(ctx)?).get_value());
@@ -830,8 +842,11 @@ fn handle_invalid_addr_cities_turbo(
     }
     query += r#");
 out body;"#;
-    let pre = doc.tag("pre", &[]);
-    pre.text(&query);
+    {
+        let pre = doc.tag("pre", &[]);
+        pre.text(&query);
+    }
+    doc.append_value(get_footer(&get_whole_county_last_modified(ctx)?).get_value());
     Ok(doc)
 }
 
