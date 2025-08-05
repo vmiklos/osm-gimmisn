@@ -1394,6 +1394,10 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> an
             ("content", "width=device-width, initial-scale=1"),
         ],
     );
+    head.stag(
+        "meta",
+        &[("name", "color-scheme"), ("content", "light dark")],
+    );
     {
         let title_tag = head.tag("title", &[]);
         title_tag.text(&format!("{}{}", tr("Where to map?"), title))
