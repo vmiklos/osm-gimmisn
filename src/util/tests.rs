@@ -71,7 +71,7 @@ fn test_format_even_odd_only_even() {
 #[test]
 fn test_format_even_odd_html() {
     let doc = format_even_odd_html(&hnr_list(vec!["2*", "4"]));
-    let expected = r#"<span style="color: blue;">2</span>, 4"#;
+    let expected = r#"<span style="color: light-dark(blue, turquoise);">2</span>, 4"#;
     assert_eq!(doc.get_value(), expected)
 }
 
@@ -84,7 +84,7 @@ fn test_format_even_odd_html_comment() {
     ];
     let doc = format_even_odd_html(&house_numbers);
     let expected =
-        r#"<span style="color: blue;"><abbr title="foo" tabindex="0">2</abbr></span>, 4"#;
+        r#"<span style="color: light-dark(blue, turquoise)"><abbr title="foo" tabindex="0">2</abbr></span>, 4"#;
     assert_eq!(doc.get_value(), expected);
 }
 
