@@ -2458,7 +2458,7 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
             [
                 "Vöröskúti határsor",
                 "4",
-                "2, 12, 34, <span style=\"color: blue;\">36</span>"
+                "2, 12, 34, <span style=\"color: light-dark(blue, turquoise);\">36</span>"
             ]
         ]
     );
