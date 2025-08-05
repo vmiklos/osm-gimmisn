@@ -83,7 +83,7 @@ fn test_format_even_odd_html_comment() {
         HouseNumberRange::new("4", ""),
     ];
     let doc = format_even_odd_html(&house_numbers);
-    let expected = r#"<span style="color: light-dark(blue, turquoise)"><abbr title="foo" tabindex="0">2</abbr></span>, 4"#;
+    let expected = r#"<span style="color: light-dark(blue, turquoise);"><abbr title="foo" tabindex="0">2</abbr></span>, 4"#;
     assert_eq!(doc.get_value(), expected);
 }
 
