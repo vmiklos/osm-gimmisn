@@ -552,7 +552,7 @@ pub fn color_house_number(house_number: &HouseNumberRange) -> yattag::Doc {
     chars.next_back();
     let number = chars.as_str();
     let title = house_number.get_comment().replace("&#013;", "\n");
-    let span = doc.tag("span", &[("style", "color: blue;")]);
+    let span = doc.tag("span", &[("style", "light-dark(blue, turquoise);")]);
     if !title.is_empty() {
         {
             let abbr = doc.tag("abbr", &[("title", title.as_str()), ("tabindex", "0")]);
