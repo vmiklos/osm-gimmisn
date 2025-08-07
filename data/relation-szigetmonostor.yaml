@@ -222,6 +222,9 @@ filters:
   Galagonya tér:
     # 1-13, 2-10
     invalid: ['12', '14', '845/4']
+  Harangvirág utca:
+    # 3-
+    invalid: ['1']
 source: survey
 street-filters:
   - Nagydunasétány utca
