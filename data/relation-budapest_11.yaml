@@ -61,13 +61,9 @@ filters:
   Andor utca:
     # 21: 21a,21b,21c,21d van
     # 27-31 egyben
+    # 24/c: 24-28/b és c
     # 60 után 76: Solt 44 társasház egyik bejárata
-    invalid: ['21', '58']
-    ranges:
-      - {start: '1', end: '31'}
-      - {start: '47', end: '49'}
-      - {start: '2', end: '60'}
-      - {start: '76', end: '76'}
+    invalid: ['21', '24c', '58']
   Antónia utca:
     ranges:
       # not sure about the 5, definitely <7
@@ -349,10 +345,11 @@ filters:
     # 97-103: 95 után 105 jön, máshonnan számozódik (ujbuda szerint 97-103, régen volt egy cetli, amint 103-107 volt, de már nincs), közben az iskola címe 101-103 lett
     # 107: I,II,II épület, illetve 107-109 a-b épület
     # 115-181: Újbuda Center, Hengermalomra számozva
+    # 181: Merkapt weboldalán 181 van, de helyben 183 van a kiskereskedések elérhetőségeinél
     # 185-189: Elit park, Barázda utca 5-re számozva
     # 209a: 209. A épület
     # 215: páratlan: utolso ismert páratlan a 215, de meg vannak telkek
-    invalid: ['10', '25', '26', '32b', '34c', '52a', '54a', '54b', '57', '59-63', '76', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117', '185-189', '209a']
+    invalid: ['10', '25', '26', '32b', '34c', '52a', '54a', '54b', '57', '59-63', '76', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117', '181', '185-189', '209a']
   Budaörsi út:
     # páratlan ---------------------------------------------------------------
     # ezek vannak: 23/a, 25/a, 25/b, 27, 29, 31/a, 31, 31/b, 33/a, 33/b, 33/c
@@ -1478,11 +1475,12 @@ filters:
   Mikes Kelemen utca:
     # 10-12: bódés terület, 8 van kiírva egy rozoga táblán
     # 39/a: csak sima 39 és 39/b van
+    # 48: 48/a, 48/b
     # 58/b: 58 és 58/a van kiírva
     # 65/a: recheck 65 két részből áll, az egyik felére 65/b van kiírva (g* szerint 65/a), a másikra semmi, meghagytam a sima 65-öt.
     # 67-69: csak 67 van kiírva
     # max: 62, 77
-    invalid: ['10', '12', '39a', '58b', '65a', '69']
+    invalid: ['10', '12', '39a', '48', '58b', '65a', '69']
   Minerva utca:
     # 2: 2/a vízművek
     # 3/a, 3/b: 3/a-b ez 3-nak képződik le.
