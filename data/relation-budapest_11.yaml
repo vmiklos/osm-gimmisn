@@ -1106,7 +1106,7 @@ filters:
     # 2-52: csak 1 épület van a 28-as
     # 54-62: 1 épület a két bejárat 54,62
     # 64-70: 1 épület a két bejárat 64,70
-    invalid: ['54-62', '64-70']
+    invalid: ['26', '52', '54-62', '64-70']
   Kardhegy utca:
     # 18a, 18b: semmi sincs kiírva de nincs 2 ház
     invalid: ['18a', '18b']
@@ -1477,12 +1477,12 @@ filters:
       - {start: '16', end: '18'}
   Mikes Kelemen utca:
     # 10-12: bódés terület, 8 van kiírva egy rozoga táblán
-    # 39a: csak sima 39 és 39/b van
-    # 65a: recheck 65 két részből áll, az egyik felére 65/b van kiírva (g* szerint 65/a), a másikra semmi, meghagytam a sima 65-öt.
-    invalid: ['10', '12', '39a', '65a']
-    ranges:
-      - {start: '1', end: '77'}
-      - {start: '2', end: '62'}
+    # 39/a: csak sima 39 és 39/b van
+    # 58/b: 58 és 58/a van kiírva
+    # 65/a: recheck 65 két részből áll, az egyik felére 65/b van kiírva (g* szerint 65/a), a másikra semmi, meghagytam a sima 65-öt.
+    # 67-69: csak 67 van kiírva
+    # max: 62, 77
+    invalid: ['10', '12', '39a', '58b', '65a', '69']
   Minerva utca:
     # 2: 2/a vízművek
     # 3/a, 3/b: 3/a-b ez 3-nak képződik le.
@@ -1713,7 +1713,8 @@ filters:
     invalid: ['13']
   Őrmezei út:
     # 4: páros oldalon csak a keserűvíz telep van, 2-es számmal van bejárat.
-    invalid: ['4']
+    # 49/a: 49 van kiírva
+    invalid: ['4', '49a']
   Őrség utca:
     # 4: 4/a, 4/b
     # 6: 6/a, 6/b
@@ -2176,7 +2177,8 @@ filters:
     # páros nincs számozva, csak egy fals cím ESTILO bútoház, de a lehetoseget meghagyjuk
     # 13-19: másik utcákról számozva
     # 21-27, 29-33, 35-39, 41-45: társasházak - a lépcsőházakon nincs betűjel, egyedi számok vannak
-    invalid: ['7']
+    # 59: nincs, valószínű a Kondorosi út 3 van a helyén
+    invalid: ['7', '59']
   Szerenád utca:
     # 6a: 6. A. lépcsőház
     invalid: ['6a']
