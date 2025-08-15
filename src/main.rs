@@ -23,12 +23,11 @@ static STOPPABLE: Mutex<Option<mpsc::Sender<()>>> = Mutex::new(None);
 fn rouille_app(request: &rouille::Request) -> rouille::Response {
     let ctx = osm_gimmisn::context::Context::new("").unwrap();
     let res = osm_gimmisn::wsgi::application(request, &ctx);
-    if ctx.get_shutdown() {
-        if let Ok(mut stoppable_holder) = STOPPABLE.lock() {
-            if let Some(stoppable) = stoppable_holder.as_mut() {
-                stoppable.send(()).expect("send() failed");
-            }
-        }
+    if ctx.get_shutdown()
+        && let Ok(mut stoppable_holder) = STOPPABLE.lock()
+        && let Some(stoppable) = stoppable_holder.as_mut()
+    {
+        stoppable.send(()).expect("send() failed");
     }
     res
 }

@@ -235,10 +235,10 @@ fn validate_relation(
         let parent = format!("{}{}", context, "street-filters");
         validate_street_filters(errors, &parent, street_filters)?;
     }
-    if let Some(ref source) = relation.source {
-        if source.parse::<i64>().is_ok() {
-            errors.push(format!("expected value type for '{context}source' is str"));
-        }
+    if let Some(ref source) = relation.source
+        && source.parse::<i64>().is_ok()
+    {
+        errors.push(format!("expected value type for '{context}source' is str"));
     }
     if let Some(ref aliases) = relation.alias {
         for (index, alias) in aliases.iter().enumerate() {

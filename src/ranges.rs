@@ -28,10 +28,10 @@ impl Range {
     }
 
     fn contains(&self, item: i64) -> bool {
-        if let Some(is_odd) = self.is_odd {
-            if is_odd != (item % 2 == 1) {
-                return false;
-            }
+        if let Some(is_odd) = self.is_odd
+            && is_odd != (item % 2 == 1)
+        {
+            return false;
         }
 
         if self.start <= item && item <= self.end {

@@ -230,12 +230,11 @@ impl RelationConfig {
     /// Determines in a relation's street is interpolation=all or not.
     pub fn get_street_is_even_odd(&self, street: &str) -> bool {
         let mut interpolation_all = false;
-        if let Some(filter_for_street) = self.get_filter_street(street) {
-            if let Some(ref interpolation) = filter_for_street.interpolation {
-                if interpolation == "all" {
-                    interpolation_all = true;
-                }
-            }
+        if let Some(filter_for_street) = self.get_filter_street(street)
+            && let Some(ref interpolation) = filter_for_street.interpolation
+            && interpolation == "all"
+        {
+            interpolation_all = true;
         }
         !interpolation_all
     }
@@ -243,10 +242,10 @@ impl RelationConfig {
     /// Decides is a ref street should be shown for an OSM street.
     pub fn should_show_ref_street(&self, osm_street_name: &str) -> bool {
         let mut show_ref_street = true;
-        if let Some(filter_for_street) = self.get_filter_street(osm_street_name) {
-            if let Some(value) = filter_for_street.show_refstreet {
-                show_ref_street = value;
-            }
+        if let Some(filter_for_street) = self.get_filter_street(osm_street_name)
+            && let Some(value) = filter_for_street.show_refstreet
+        {
+            show_ref_street = value;
         }
 
         show_ref_street
@@ -616,10 +615,10 @@ impl<'a> Relation<'a> {
             let mut lints: Vec<RelationLint> = Vec::new();
             for row in osm_housenumbers {
                 let mut street = &row.street;
-                if street.is_empty() {
-                    if let Some(ref value) = row.place {
-                        street = value;
-                    }
+                if street.is_empty()
+                    && let Some(ref value) = row.place
+                {
+                    street = value;
                 }
                 for house_number in row.housenumber.split(&[';', ',']) {
                     let mut lints = Some(&mut lints);
@@ -1652,32 +1651,34 @@ pub fn normalizer_contains(
     let ret = normalizer.contains(number);
     // number not in the ranges: raise a lint in case the problem is actionable (has street name,
     // has an actual number).
-    if !ret && !street_name.is_empty() && number != 0 {
-        if let Some(lints) = lints {
-            let relation_name = relation_name.to_string();
-            let street_name = street_name.to_string();
-            let source = RelationLintSource::Range;
-            let housenumber = number.to_string();
-            let reason = RelationLintReason::CreatedInOsm;
-            let id: u64 = match osm_housenumber {
-                Some(value) => value.id,
-                None => 0,
-            };
-            let object_type = match osm_housenumber {
-                Some(value) => value.object_type.to_string(),
-                None => "".to_string(),
-            };
-            let lint = RelationLint {
-                relation_name,
-                street_name,
-                source,
-                housenumber,
-                reason,
-                id,
-                object_type,
-            };
-            lints.push(lint);
-        }
+    if !ret
+        && !street_name.is_empty()
+        && number != 0
+        && let Some(lints) = lints
+    {
+        let relation_name = relation_name.to_string();
+        let street_name = street_name.to_string();
+        let source = RelationLintSource::Range;
+        let housenumber = number.to_string();
+        let reason = RelationLintReason::CreatedInOsm;
+        let id: u64 = match osm_housenumber {
+            Some(value) => value.id,
+            None => 0,
+        };
+        let object_type = match osm_housenumber {
+            Some(value) => value.object_type.to_string(),
+            None => "".to_string(),
+        };
+        let lint = RelationLint {
+            relation_name,
+            street_name,
+            source,
+            housenumber,
+            reason,
+            id,
+            object_type,
+        };
+        lints.push(lint);
     }
     ret
 }

@@ -1014,10 +1014,10 @@ pub fn get_street_from_housenumber(housenumbers: &[OsmHouseNumber]) -> anyhow::R
 
         let mut street_name = &row.street;
 
-        if street_name.is_empty() {
-            if let Some(ref value) = row.place {
-                street_name = value;
-            }
+        if street_name.is_empty()
+            && let Some(ref value) = row.place
+        {
+            street_name = value;
         }
 
         if street_name.is_empty() {

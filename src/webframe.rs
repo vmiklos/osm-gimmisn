@@ -315,12 +315,12 @@ pub fn get_toolbar(
 
     let mut streets: String = "".into();
     let mut additional_housenumbers = false;
-    if let Some(relations) = relations {
-        if !relation_name.is_empty() {
-            let relation = relations.get_relation(relation_name)?;
-            streets = relation.get_config().should_check_missing_streets();
-            additional_housenumbers = relation.get_config().should_check_additional_housenumbers();
-        }
+    if let Some(relations) = relations
+        && !relation_name.is_empty()
+    {
+        let relation = relations.get_relation(relation_name)?;
+        streets = relation.get_config().should_check_missing_streets();
+        additional_housenumbers = relation.get_config().should_check_additional_housenumbers();
     }
 
     let doc = yattag::Doc::new();
