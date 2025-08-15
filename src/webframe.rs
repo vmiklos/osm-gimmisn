@@ -841,6 +841,7 @@ fn handle_invalid_addr_cities_turbo(
         }
     }
     query += r#");
+(._;>;);
 out body;"#;
     {
         let pre = doc.tag("pre", &[]);
