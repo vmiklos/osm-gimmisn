@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+
+- Resolves: gh#4671 dark mode support (Máté Gyöngyösi)
+
 ## 25.8
 
 - Resolves: gh#4372 visualisation of settlements without any house number
