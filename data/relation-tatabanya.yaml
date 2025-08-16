@@ -1,7 +1,7 @@
 missing-streets: 'yes'
 refstreets:
   'Április utca': 'Április út'
-  'Aradi vértanúk tere': 'Aradi vértanuk tere'
+  # 'Aradi vértanúk tere': 'Aradi vértanuk tere'
   'Bogáncs utca': 'Bogáncs út'
   'Bulcsú utca': 'Bulcsu utca'
   'Búzavirág út': 'Búzavirág utca'
