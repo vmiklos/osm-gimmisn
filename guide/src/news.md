@@ -3,6 +3,8 @@
 ## master
 
 - Resolves: gh#4671 dark mode support (Máté Gyöngyösi)
+- Resolves: gh#4500 new `/lints/whole-country/invalid-addr-cities-turbo` endpoint to query the
+  objects of the invalid addr:city values in overpass turbo
 
 ## 25.8
 
