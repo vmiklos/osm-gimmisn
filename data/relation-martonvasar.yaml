@@ -9,7 +9,7 @@ street-filters:
 refstreets:
   'Bocskai utca': 'Bocskay utca'  # A név eredeti formája Bocskay utca, a lakcímnyilvántartásban is így szerepel. Az utcatáblán Bocskai utca van (2023.04).
   # 'Dréher utca': 'Dreher utca'  # A déli oldalon 3 új tábla, Dreher utca, az északi oldalon 3 régi tábla, Dréher utca.
-  'Kassák köz': 'Kassák Lajos köz'  # https://www.openstreetmap.org/note/3740135
+  # 'Kassák köz': 'Kassák Lajos köz'  # https://www.openstreetmap.org/note/3740135
 source: survey
 housenumber-letters: true
 inactive: true
