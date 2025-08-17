@@ -81,6 +81,10 @@ filters:
     interpolation: all
   Papírgyár utca:
     interpolation: all
+    invalid:
+      - '1'  # Határ út 1.
+      - '2'  # Határ út 2.
+      - '59'  # 58-59.
   Reményi Ede utca:
     # 5 nincs kiírva, de 3 után 23 jön
     invalid: ['5']
@@ -90,6 +94,10 @@ filters:
   Rókahegyi út:
     invalid:
       - '6'  # nem létezik
+  Róza köz:
+    invalid:
+      - '1/A'  # a Földhivatal szerint sem létezik
+      - '3/A'  # valójában csak 3. van, illetve azon belül A (és B) épület
   Seregély köz:
     # 2-4: nincs kiírva, Seregély utca 4 felől megnézebdő
     # 15: nincs, utolsó ház a 13.
@@ -112,6 +120,11 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '14'}
+  Valéria utca:
+    invalid:
+      - '1-3'  # a Földhivatal szerint sem létezik
+      - '4-6'  # Valéria utca 4. és Fürdő utca 6.
+      - '15'  # a Földhivatal szerint sem létezik
   Vasút sor:
     interpolation: all
 street-filters:
