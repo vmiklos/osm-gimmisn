@@ -96,8 +96,8 @@ filters:
       - '6'  # nem létezik
   Róza köz:
     invalid:
-      - '1/A'  # a Földhivatal szerint sem létezik
-      - '3/A'  # valójában csak 3. van, illetve azon belül A (és B) épület
+      - '1a'  # a Földhivatal szerint sem létezik
+      - '3a'  # valójában csak 3. van, illetve azon belül A (és B) épület
   Seregély köz:
     # 2-4: nincs kiírva, Seregély utca 4 felől megnézebdő
     # 15: nincs, utolsó ház a 13.
