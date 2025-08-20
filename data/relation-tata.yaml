@@ -45,8 +45,15 @@ street-filters:
   - Naszályi út tanya
   - Remeteség puszta
   # településrész
-# osm-street-filters:
+osm-street-filters:
   # parkok/sétányok
+  - Cseke-liget
+  - Eszterházy sétány
+  - Kastélypark
+  # tanösvény
+  - Fényes-forrás tanösvény
+  - Kismosó tanösvény
+  - Réti tavak tanösvény
   # tanyák/dűlők
 source: survey
 housenumber-letters: true
