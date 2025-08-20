@@ -10,6 +10,14 @@ filters:
     # 1/a: helyén 1/b, 1/b helyén pedig 1 van kiírva
     # 36-38: csak 38 van kiírva
     invalid: ['1a', '36']
+  Bencze László utca:
+    # 1/b: csak 1/a-t láttam a házon
+    # 6/a, 6/b: csak sima 6 van
+    invalid: ['1b', '6a', '6b']
+  Bene dűlő:
+    # Füredi út felől 12 az utolsó házszám
+    # 8 után 4, majd 10. 6 nincs kiírva.
+    invalid: ['6']
   Berekháti utca:
     # 3: üres telek
     # 13: 13/a, 13/b
@@ -36,9 +44,10 @@ filters:
     # 2/b: csak sima 2 van
     # 20: körforgalom mellett üres telek
     # 36: üres telek
+    # 92: nincs kiírva, 90 és 94 között több üres telek, vagy nem az úthoz közel van a ház
     # 54: ikerház: 54/a, 54/b, de az 54/a házrészen nincs kiírva
     # 149/a-b-c: kapun filctollal Füredi út 149.
-    invalid: ['2b', '20', '36', '54', '149a', '149b', '149c']
+    invalid: ['2b', '20', '36', '54', '92', '149a', '149b', '149c']
   Hóvirág utca:
     # 16 = Örkény István sétány 18, egyik sincs kiírva
     invalid: ['16']
@@ -49,6 +58,10 @@ filters:
     # 7/A, 7/B: Az egyik házon nincs szám, a másik épül a kerítésen 7 van. RESURVEY 2026.
     # 11: 13 van kiírva
     invalid: ['7a', '7b', '11']
+  Kisfaludy utca:
+    # 3: 3/a, 3/b, 3/c, 3/d, 3/e
+    # 18, 20: Malom telkei, de a malom csak a 16-os házszámot használja, ez van a kapun
+    invalid: ['3', '18', '20']
   Kishegyi utca:
     # 3/B: 3 és 3/A van kiírva
     # 4: valószínű a temető, kiírva nincs, hivatkozás nincs rá.
@@ -88,6 +101,20 @@ filters:
   # Öreghegyi út:
     # 17/a, 17/b: csak 17
     # invalid: ['17a', '17b']
+  Nagykuti utca:
+    # 22-26 között nincs kint szám, fh szerinti 24-es telken 20 van kiírva, de itt több ház is van - RESURVEY 2026
+    # 30: nincs - van egy épülő ház a legvégé - RESURVEY 2026
+    invalid: ['22', '24', '30']
+  Óbor utca:
+    # 3-5: 7 van kiírva
+    # 15: hosszú telek, ezen az oldalon nincs ház, számozva a Szőlőskert utca felől
+    # 21: fh szerint nincs, helyszínen nincs kiírva
+    # 22: 22/a, 22/b van
+    # 27/a, 27/b: ikerház de nincs kiírva házszám
+    invalid: ['3-5', '15', '21', '22', '27a', '27b']
+  Ördöngös utca:
+    # 7, 9: nincs kiírva, földhivatal szerint a számok össze vissza
+    invalid: ['7', '9']
   Örkény István sétány:
     interpolation: all
     # 12/c: csak 12 van
@@ -101,7 +128,8 @@ filters:
   Rizling utca:
     # 15, 15/a: fh. szerint 1 telek de nincs kint házszám, 15-re jelölve
     # 17: 17/a van kiírva
-    invalid: ['15a', '17']
+    # 33: 39 van kiírva
+    invalid: ['15a', '17', '33']
   Rózsa utca:
     # 3/a, 3/b: 3 és 3/a
     invalid: ['3b']
@@ -136,13 +164,20 @@ filters:
     # 1: 1/a, 1/b
     # 9: 9/a, 9/b
     # 11: csak szőlő van rajta, ház nincs vagy a föld alatt
-    invalid: ['1', '9', '11']
+    # 17-19: csak 19 van kiírva
+    invalid: ['1', '9', '11', '17']
   Vasút utca:
+    # 13: 13/a, 13/b, 13/c
+    # 14: 14/a, 14/b, 14/c
+    # 32: nincs
+    # 33/a: csak 33 van, de mögötte vmi eladó és van egy murvás út. RESURVEY 2026
+    invalid: ['13', '14', '15', '32', '33a']
     interpolation: all
   Veszprémi út:
     # 18/c: 18/a, 18/b
+    # 23/a, 23/b: csak sima 23
     # 32/a, 32/b: csak sima 32
-    invalid: ['18c', '32a', '32b']
+    invalid: ['18c', '23a', '23b', '32a', '32b']
 refstreets:
   # ellenőrizve
   'Arany János út': 'Arany János utca' # táblán Arany János út 2024.10
