@@ -3,6 +3,7 @@
         "target": "es5",
 	"sourceMap": true,
 	"strict": true,
+	"erasableSyntaxOnly": true,
         "lib": [
             "dom",
             "es2016"
