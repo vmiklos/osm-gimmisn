@@ -98,7 +98,7 @@ function addCharts(stats: Stats) {
             trendlineLinear: trendlineOptions,
         }]
     };
-    const dailyCanvas = <HTMLCanvasElement>document.getElementById("daily");
+    const dailyCanvas = document.getElementById("daily") as HTMLCanvasElement;
     const dailyCtx = dailyCanvas.getContext("2d");
     if (!dailyCtx) {
         return;
@@ -148,7 +148,7 @@ function addCharts(stats: Stats) {
             trendlineLinear: trendlineOptions,
         }]
     };
-    const monthlyCanvas = <HTMLCanvasElement>document.getElementById("monthly");
+    const monthlyCanvas = document.getElementById("monthly") as HTMLCanvasElement;
     const monthlyCtx = monthlyCanvas.getContext("2d");
     if (!monthlyCtx) {
         return;
@@ -199,7 +199,7 @@ function addCharts(stats: Stats) {
             trendlineLinear: trendlineOptions,
         }]
     };
-    const monthlyTotalCanvas = <HTMLCanvasElement>document.getElementById("monthlytotal");
+    const monthlyTotalCanvas = document.getElementById("monthlytotal") as HTMLCanvasElement;
     const monthlyTotalCtx = monthlyTotalCanvas.getContext("2d");
     if (!monthlyTotalCtx) {
         return;
@@ -250,7 +250,7 @@ function addCharts(stats: Stats) {
         }]
     };
 
-    const dailyTotalCanvas = <HTMLCanvasElement>document.getElementById("dailytotal");
+    const dailyTotalCanvas = document.getElementById("dailytotal") as HTMLCanvasElement;
     const dailyTotalCtx = dailyTotalCanvas.getContext("2d");
     if (!dailyTotalCtx) {
         return;
@@ -299,7 +299,7 @@ function addCharts(stats: Stats) {
         }]
 
     };
-    const topUsersCanvas = <HTMLCanvasElement>document.getElementById("topusers");
+    const topUsersCanvas = document.getElementById("topusers") as HTMLCanvasElement;
     const topUsersCtx = topUsersCanvas.getContext("2d");
     if (!topUsersCtx) {
         return;
@@ -356,7 +356,7 @@ function addCharts(stats: Stats) {
         }]
 
     };
-    const topCitiesCanvas = <HTMLCanvasElement>document.getElementById("topcities");
+    const topCitiesCanvas = document.getElementById("topcities") as HTMLCanvasElement;
     const topCitiesCtx = topCitiesCanvas.getContext("2d");
     if (!topCitiesCtx) {
         return;
@@ -407,7 +407,7 @@ function addCharts(stats: Stats) {
         }]
 
     };
-    const userTotalCanvas = <HTMLCanvasElement>document.getElementById("usertotal");
+    const userTotalCanvas = document.getElementById("usertotal") as HTMLCanvasElement;
     const userTotalCtx = userTotalCanvas.getContext("2d");
     if (!userTotalCtx) {
         return;
@@ -463,7 +463,7 @@ function addCharts(stats: Stats) {
         }]
 
     };
-    const progressCanvas = <HTMLCanvasElement>document.getElementById("progress");
+    const progressCanvas = document.getElementById("progress") as HTMLCanvasElement;
     const progressCtx = progressCanvas.getContext("2d");
     if (!progressCtx) {
         return;
@@ -518,7 +518,7 @@ function addCharts(stats: Stats) {
         }]
 
     };
-    const capitalProgressCanvas = <HTMLCanvasElement>document.getElementById("capital-progress");
+    const capitalProgressCanvas = document.getElementById("capital-progress") as HTMLCanvasElement;
     const capitalProgressCtx = capitalProgressCanvas.getContext("2d");
     if (!capitalProgressCtx) {
         return;
@@ -569,7 +569,7 @@ function addCharts(stats: Stats) {
             trendlineLinear: trendlineOptions,
         }]
     };
-    const invalidAddrCitiesCanvas = <HTMLCanvasElement>document.getElementById("stats-invalid-addr-cities");
+    const invalidAddrCitiesCanvas = document.getElementById("stats-invalid-addr-cities") as HTMLCanvasElement;
     const invalidAddrCitiesCtx = invalidAddrCitiesCanvas.getContext("2d");
     if (!invalidAddrCitiesCtx) {
         return;
@@ -620,7 +620,7 @@ async function initStats(): Promise<void>
 
     const statsJSON = config.uriPrefix + "/static/stats.json";
     const response = await window.fetch(statsJSON);
-    const stats = await<Promise<Stats>> response.json();
+    const stats = await response.json();
     addCharts(stats);
     return;
 }

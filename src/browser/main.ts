@@ -142,7 +142,7 @@ async function initGps()
         return;
     }
 
-    const gpsLink = <HTMLElement>gps.childNodes[0];
+    const gpsLink = gps.childNodes[0] as HTMLElement;
     gpsLink.onclick = onGpsClick;
 }
 
@@ -314,7 +314,7 @@ async function initTriggerUpdate()
     const streetHousenumbers = document.querySelector("#trigger-street-housenumbers-update");
     if (streetHousenumbers)
     {
-        const streetHousenumbersLink = <HTMLLinkElement>streetHousenumbers.childNodes[0];
+        const streetHousenumbersLink = streetHousenumbers.childNodes[0] as HTMLLinkElement;
         streetHousenumbersLink.onclick = onUpdateOsmHousenumbers;
         streetHousenumbersLink.href = "#";
     }
@@ -322,7 +322,7 @@ async function initTriggerUpdate()
     const streets = document.querySelector("#trigger-streets-update");
     if (streets)
     {
-        const streetsLink = <HTMLLinkElement>streets.childNodes[0];
+        const streetsLink = streets.childNodes[0] as HTMLLinkElement;
         streetsLink.onclick = onUpdateOsmStreets;
         streetsLink.href = "#";
     }
@@ -330,7 +330,7 @@ async function initTriggerUpdate()
     const invalidAddrCities = document.querySelector("#trigger-invalid-addr-cities-update");
     if (invalidAddrCities)
     {
-        const link = <HTMLLinkElement>invalidAddrCities.childNodes[0];
+        const link = invalidAddrCities.childNodes[0] as HTMLLinkElement;
         link.onclick = onUpdateInvalidAddrCities;
         link.href = "#";
     }
