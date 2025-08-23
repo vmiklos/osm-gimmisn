@@ -314,7 +314,7 @@ async function initTriggerUpdate()
     const streetHousenumbers = document.querySelector("#trigger-street-housenumbers-update");
     if (streetHousenumbers)
     {
-        const streetHousenumbersLink = streetHousenumbers.childNodes[0] as HTMLLinkElement;
+        const streetHousenumbersLink = streetHousenumbers.childNodes[0] as HTMLAnchorElement;
         streetHousenumbersLink.onclick = onUpdateOsmHousenumbers;
         streetHousenumbersLink.href = "#";
     }
@@ -322,7 +322,7 @@ async function initTriggerUpdate()
     const streets = document.querySelector("#trigger-streets-update");
     if (streets)
     {
-        const streetsLink = streets.childNodes[0] as HTMLLinkElement;
+        const streetsLink = streets.childNodes[0] as HTMLAnchorElement;
         streetsLink.onclick = onUpdateOsmStreets;
         streetsLink.href = "#";
     }
@@ -330,7 +330,7 @@ async function initTriggerUpdate()
     const invalidAddrCities = document.querySelector("#trigger-invalid-addr-cities-update");
     if (invalidAddrCities)
     {
-        const link = invalidAddrCities.childNodes[0] as HTMLLinkElement;
+        const link = invalidAddrCities.childNodes[0] as HTMLAnchorElement;
         link.onclick = onUpdateInvalidAddrCities;
         link.href = "#";
     }
