@@ -1,8 +1,18 @@
 missing-streets: 'yes'
 filters:
+  Dobó István utca:
+    # 3/b: csak sima 3.
+    # 7/1: csak sima 7.
+    # 8/a: csak sima 8.
+    invalid: ['3b', '7/1', '8a']
   Endrődi Sándor utca:
     # 9/a: nincs
     invalid: ['9a']
+  Horváth Mihály utca:
+    # 2/a: nincs. 2-4 ikerház.
+    # 23: A Castriscum tér része, nincs itt ház
+    # 38: nincs, üres telek
+    invalid: ['2a', '23', '38']
   Tagore sétány:
     # hrsz
     invalid: ['333/3', '387/2', '378', '378/2']
