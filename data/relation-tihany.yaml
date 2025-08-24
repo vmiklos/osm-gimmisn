@@ -1,4 +1,19 @@
 missing-streets: 'yes'
+filters:
+  Cinke utca:
+    interpolation: all
+  Fenyő utca:
+    # 1: Mályva utca 17/B van kiírva
+    invalid: ['1']
+    interpolation: all
+  Sajkodi sor:
+    interpolation: all
+  Seregély utca:
+    # 16/a: 16 van kiírva
+    invalid: ['16a']
+  Somfa utca:
+    # 2: nincs. páros oldal a Seregély utca felől számozódik
+    invalid: ['2']
 street-filters:
   # tanyák
   - Domokos tanya
@@ -18,5 +33,5 @@ refstreets:
   'Kiskopaszhegy utca': 'Kiskopaszhegyi út'
   'Középsőóvári utca': 'Középső Óvár utca'
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true
