@@ -35,6 +35,9 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '28'}
+  Baláca sor:
+    # 18: 17 van kint itt is, így dupla. 2 irányból épülek a házak: egyik irány számozás kettesével 23-21-19-17, a másikból viszont egyesével számozták 15,16,17
+    invalid: ['18']
   Bartók Béla utca:
     # 6/1: nincs, csak sima 6.
     # 12/a: nincs, csak sima 12.
@@ -81,6 +84,10 @@ filters:
     # 1-11-ig sorházak, egyedi számok nincsenek 1/a formában vannak fent pontként.
     # 12-27-ig egyedi házakra van bontva, nincsenek betűk.
     invalid: ['1a-f', '4a-f', '3a-f', '5a-h', '10']
+  Hidegkút utca:
+    # 1: nincs, 2x van 5-ös szám
+    # 18, 20: nincs ilyen kiírva
+    invalid: ['1', '18', '20']
   Kankalin utca:
     # 1: sorház: 1/a-1/f, 1/3 nincs
     # 2: sorház: 2/a-2/e, sima 2 nincs
@@ -93,6 +100,11 @@ filters:
   Liliom utca:
     # 49: a számozás káoszos, de a maximum 12
     invalid: ['49']
+  Lánci utca:
+    # házszámok U alakban
+    # 11/a, 11/b: ikerház nincs kint házszám. # RESURVEY 2026
+    interpolation: all
+    invalid: ['11a', '11b']
   Lóczy Lajos utca:
     # 6g: sorház: 6/a-6/f
     # 13: sorház: 13/a-13/f egyesével, egyben nincs
@@ -137,6 +149,11 @@ filters:
     # 17: nincs, max páratlan házszám a 15.
     # 34: nincs, max páros házszám a 28.
     invalid: ['17']
+  Sorház utca:
+    # 1/A-D: 1/a .. 1/d
+    # 2/A-F: 2/a .. 2/f
+    # 3:     3/a .. 2/h
+    invalid: ['1', '2', '3']
   Szajkó utca:
     # 1 = Csereredi út 31.
     # 3,5 = 5 és 5/b van a két épületeten
@@ -170,6 +187,11 @@ filters:
     # 6/x: alsó oldalon nem nagyon vannak betűk, csak ajtó számok, de nem 6/x formában
     # 8/x: többségében betűk, nem ajtó számok vannak, 8/10 -> 8 szűrése
     invalid: ['5c', '2/5', '2/7', '2/9', '4/5', '4/7', '4a', '4b', '4c', '4d', '4e', '4f', '4g', '4h', '4i', '4j', '6/6', '6/7', '6/8', '6a', '6b', '6c', '6d', '6e', '6f', '6g', '6h', '6i', '6j', '8']
+  Vasút utca:
+    # 28/1: kiírva nincs semmi, az interneten 28/2-t használja a Bölcsődéhez
+    # 31/2: nincs kiírva, se ez se 31
+    # 34/1: nincs
+    invalid: ['28/1', '31/2', '34/1']
 refstreets:
   # kérdéses
   'Alsóújsor utca': 'Alsó-újsor'  # https://www.openstreetmap.org/note/4274953
