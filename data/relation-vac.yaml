@@ -116,11 +116,9 @@ refstreets:
   'Belgakert út': 'Belgakert utca'  # https://www.openstreetmap.org/note/3643293
   'Csurgóbánya utca': 'Csurgó bánya utca'  # https://www.openstreetmap.org/note/3673562
   'Deres utca': 'Deres út'  # nincs tábla
-  'Homokdűlő út': 'Homok dűlő'  # Homok utca: https://www.openstreetmap.org/note/3485459, Homokdűlő út: https://www.openstreetmap.org/note/4683670
+  # 'Homok utca': 'Homok dűlő'  # Homok utca: https://www.openstreetmap.org/note/3485459, Homokdűlő út: https://www.openstreetmap.org/note/4683670
   'Kálvária': 'Kálvária dűlő'  # https://www.openstreetmap.org/note/3673566
   'Kaszálórét': 'Kaszálórét utca'  # https://www.openstreetmap.org/note/3673568
-  'Szederfa sor': 'Szederfasor'  # https://www.openstreetmap.org/note/3643320
-  'Ulrich köz': 'Ulrich Károly köz'  # https://www.openstreetmap.org/note/3673556
   # önkormányzati excel ellenőrizendő -----------------------------------------
   'Batthyány Lajos tér': 'Batthyányi Lajos tér'  # https://www.openstreetmap.org/note/3716178
   'Mogyoróspele utca': 'Mogyorós pele utca'  # https://www.openstreetmap.org/note/3716180
@@ -183,10 +181,12 @@ refstreets:
   # 'Radnóti Miklós utca': 'Radnóti Miklós út'  # utcatábák vegyesen (Radnóti Miklós út, de van Radnóti utca - 2023.04) - https://www.openstreetmap.org/note/3673518
   'Rákóczi tér': 'II. Rákóczi Ferenc tér'  # utcatáblán Rákóczi tér. az Excelben II. Rákóczi Ferenc tér - https://www.openstreetmap.org/note/3721378
   'Széchenyi utca': 'Széchenyi István utca'  # utcatáblán Széchenyi utca, az Excelben Széchenyi István utca - https://www.openstreetmap.org/note/3673525
+  # 'Szederfa sor': 'Szederfasor'  #  Szederfasor (egyben) van a hivatalosnak kinéző utcanévtáblákon (2025.08) . A házszámtáblák vegyes írásmódúak, kötőjeles is van köztük. - https://www.openstreetmap.org/note/3643320
   'Szilassy utca': 'Szilassy Vince utca'  # utcatáblán Szilassy utca (2023.06), az Excelben Szilassy Vince utca  - https://www.openstreetmap.org/note/3673526
   'Takács Ádám út': 'Takács Ádám köz'  # utcatáblán Takács Ádám út (2023.06), az Excelben Takács Ádám köz
   'Tó utca': 'Tó út'  # utcatáblán Tó utca (2023.06), az Excelben Tó utca - https://www.openstreetmap.org/note/3643333
   'Törökhegyi utca': 'Törökhegyi út'  # A régi utcatáblán Törökhegyi út az egyik sarkon, az új utcatáblán Törökhegyi utca a másik sarkon (2023.05), miközben a földhivatal szerint Török-hegyi utca, az Excelben Törökhegyi út - https://www.openstreetmap.org/note/3643334
+  'Ulrich köz': 'Ulrich Károly köz'  # Ulrich köz szerepel az utca elején és az egyetlen házszámtáblán is (2025.08) - https://www.openstreetmap.org/note/3673556
   # 'Vizimalom utca': 'Vízimalom utca'  # csak egy nem hivatalos utcatábla van kitéve rövid I-vel. Az épületeken lévő házszámtáblán már hosszú Í-vel van írva (2023.06)
   # 'Zrínyi utca': 'Zrínyi Miklós utca'  # utcatáblákon vegyesen (Zrínyi utca, Zrínyi Miklós utca, Zrínyi Miklós út - 2023.06), az Excelben Zrínyi Miklós út - https://www.openstreetmap.org/note/3673561
   # -- egyéb ---------------------------------------------------------------------
