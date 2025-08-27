@@ -14,8 +14,11 @@ filters:
     # 38: nincs, üres telek
     invalid: ['2a', '23', '38']
   Tagore sétány:
-    # hrsz
+    # 3xx/y: hrsz
     invalid: ['333/3', '387/2', '378', '378/2']
+  Zákonyi Ferenc utca:
+    # 95/8: hrsz
+    invalid: ['95/8']
 refstreets:
   'Füredi utca': 'Füredi út'
   'Györgyhegyi utca': 'György-hegyi utca'
