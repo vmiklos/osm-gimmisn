@@ -24,7 +24,7 @@ refstreets:
   'Kerekerdő utca': 'Kerek erdő utca'  # tábla Kerekerdő utca (2023.06) - https://www.openstreetmap.org/note/3691526
   'Nagy László esperes tér': 'Nagy László tér'  # tábla  Nagy László esperes tér (2023.07) - https://www.openstreetmap.org/note/3675171
   # 'Latabár tér': 'Latabár Kálmán tér'  # nincs utcatábla (2023.06). SZT és földhivatal szerint is Latabár Kálmán tér - https://www.openstreetmap.org/note/3675160
-  'Nemeskéri köz': 'Nemeskéri-Kiss Miklós köz'  # tábla Nemeskéri köz (2023.05)
+  'Nemeskéri köz': 'Nemeskéri-Kiss Miklós köz'  # tábla Nemeskéri köz (2025.08)
   'Új élet utca': 'Újélet utca'  # tábla Új élet utca (2023.06) - https://www.openstreetmap.org/note/3675257
   # ellenőrzött - táblán nagybetűs (2023.06) - https://www.openstreetmap.org/note/3675139
   'I. Körforgalmi út': 'I. körforgalmi út'
