@@ -124,6 +124,10 @@ filters:
     # 32, 34: nincs, épületek lebontva
     # 38/a, 38/b: csak sima 38 van.
     invalid: ['32', '34', '38a', '38b']
+  Malomkert utca:
+    # 1: nincs, van 1/1, 1/2, 1/b
+    # 1/a: nincs, 1/b van kiírva
+    invalid: ['1', '1a']
   Nyerges utca:
     # 1/1: nincs, csak sima 1, valószínű ajtó
     # 8/X: nincs alábontva, csak 8 van kint
@@ -192,6 +196,9 @@ filters:
     # 31/2: nincs kiírva, se ez se 31
     # 34/1: nincs
     invalid: ['28/1', '31/2', '34/1']
+  Zsilip utca:
+    # 6/a, 6/b: csak sima 6
+    invalid: ['6a', '6b']
 refstreets:
   # kérdéses
   'Alsóújsor utca': 'Alsó-újsor'  # https://www.openstreetmap.org/note/4274953
