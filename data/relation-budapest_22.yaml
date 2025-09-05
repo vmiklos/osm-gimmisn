@@ -1,10 +1,23 @@
 missing-streets: 'yes'
 filters:
   Ady Endre út:
+    # 33: saroktelek, Orsovai utca 2 van kiírva.
     # 38: a páros oldalon a 24 az utolsó házszám, utána már csak a villamossín van.
+    # 65: saroktelek, Cserjés utca 2-re van számozva a ház.
+    # 67/c: nincs, 4 részből álló sorház, 67 és 67/1 van kiírva a 2 szélén.
+    # 71/1: nincs, 71 és 71/a van.
+    # 77/b: nincs, csak sima 77 van.
+    # 105: saroktelek, Magyar utca 2 és 4 van a ház részeken.
+    # 117/a, b, c: nincsenek kiírva, csak sima 117 van.
     # 124: a páros oldalon a 24 az utolsó házszám, utána már csak a villamossín van.
     # 126/c: a páros oldalon a 24 az utolsó házszám, utána már csak a villamossín van.
-    invalid: ['38', '124', '126c']
+    # 129/a, b, c: nincsenek kiírva, csak sima 129 van a kerítésen.
+    # 139: nincs, 139/1 és 139/2 van kiírva.
+    # 141: nincs, 141/a és 141/b van.
+    # 147-149: 145-147 van kiírva.
+    # 153/b: nincs, csak sima 163 van.
+    # 155/a, b, c: nincsenek, csak sima 155 van.
+    invalid: ['38', '33', '65', '71/1', '77b', '105', '117a', '117b', '117c', '124', '126c', '129a', '129b', '129c', '139', '141', '147-149', '155a', '155b', '155c', '153b']
   Agyagfalva utca:
     # 1: ez és az Aradi utca 16. közös telken van, házszám az Aradi utcáról van csak.
     # 3: sima 3 nincs, csak 3/a, 3/2.
@@ -912,6 +925,10 @@ filters:
     # 30: a páros oldalon a 28 az utolsó házszám.
     # 32: a páros oldalon a 28 az utolsó házszám.
     invalid: ['3', '23', '25', '10', '30', '32']
+  Orsovai utca:
+    # 5: nincs. 5/a van kiírva, a fh. szerinti 5-ön pedig 7.
+    # 8/b: nincs, csak sima 8 van kiírva.
+    invalid: ['5', '8b']
   Őszapó utca:
     # 7: sima 7 nincs, csak 7/a, 7/b.
     # 11: sima 11 nincs, csak 11/a, 11/b.
