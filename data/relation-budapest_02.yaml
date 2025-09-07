@@ -114,6 +114,18 @@ filters:
   Dénes utca:
     # páratlan oldalon nincs kiírva házszám, máshonnan számozódik
     invalid: ['1']
+  Endrődi Sándor utca:
+    invalid:
+      - '3b' # 3 és 3a
+      - '15' # 15a, 15b és 15c
+      - '73' # 73a és 73b
+      - '75' # 75a és 75b
+      - '14b' # 14b1 és 14b2
+      - '20a' # 20 és 20b
+      - '48b' # 48
+      - '56' # 56a és 56b
+      - '70' # 70a és 70b
+      - '74' # 74a és 74b
   Erőd utca:
     # 2b, 2c: 2 van kitáblázva
     # 3-5: 5 van kitáblázva

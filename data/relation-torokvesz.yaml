@@ -55,8 +55,15 @@ filters:
   Endrődi köz:
     ranges: []
   Endrődi Sándor utca:
-    # 34: 32 van kiírva, földhivatal szerint 32 és 34, valamint Ábrányi Emil utca 11 ugyanaz
-    invalid: ['34']
+    invalid:
+      - '73' # 73a és 73b
+      - '75' # 75a és 75b
+      - '14b' # 14b1 és 14b2
+      - '20a' # 20 és 20b
+      - '48b' # 48
+      - '56' # 56a és 56b
+      - '70' # 70a és 70b
+      - '74' # 74a és 74b
     ranges:
       - {start: '61', end: '99'}
       - {start: '2', end: '98'}
