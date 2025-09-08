@@ -4,6 +4,12 @@ filters:
     # 26/a: nincs ilyen, csak 26, 26/b.
     # 30: sima 30 nincs, csak 30/a, 30/b, 30/c.
     invalid: ['26a', '30']
+  Petőfi Sándor utca:
+    # 16/i: nincs ilyen, csak 16 és 16/a van.
+    invalid: ['16i']
+  Széchenyi utca:
+    # 95: egybenyitva a 93-mal, de csak 93 van kitáblázva.
+    invalid: ['95']
 refstreets:
   # nincs tábla
   'Sándorkai utca': 'Sándorkai út'
