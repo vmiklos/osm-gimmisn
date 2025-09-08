@@ -85,6 +85,12 @@ filters:
       - '1'  # Határ út 1.
       - '2'  # Határ út 2.
       - '59'  # 58-59.
+  Rákóczi utca:
+    invalid:
+      - '20'  # a Földhivatal szerint sem létezik
+      - '21'  # Lehel utca 26.
+      - '22'  # a Földhivatal szerint sem létezik
+      - '25'  # Attila utca 14/a
   Reményi Ede utca:
     # 5 nincs kiírva, de 3 után 23 jön
     invalid: ['5']
