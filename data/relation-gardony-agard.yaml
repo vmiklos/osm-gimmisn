@@ -5,11 +5,16 @@ filters:
     # páros Agárd
     ranges:
       - {start: '2', end: '98'}
+  Chernel István utca:
+    interpolation: 'all'
   Jókai Mór utca:
     ranges:
       - {start: '19', end: '99'}
   Szabadság út:
     ranges: []
+  Vasút utca:
+    interpolation: 'all'
+    show-refstreet: false
 refstreets:
   'Akácfa utca': 'Akácfa út'
   'Kígyó utca': 'Kigyó utca'  # helyesírás
