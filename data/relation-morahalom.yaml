@@ -7,8 +7,5 @@ osm-street-filters:
 street-filters:
   # Tanyák
   - V. körzet tanya
-refstreets:
-  'Balogh Páter utca': 'Balogh páter utca'
-  'Dobó utca': 'Dobó István utca'
 source: survey
 inactive: true
