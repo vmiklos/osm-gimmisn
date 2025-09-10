@@ -9,7 +9,8 @@ filters:
     # 169: a páratlan oldalon a 145 az utolsó házszám.
     # 171: a páratlan oldalon a 145 az utolsó házszám.
     # 14: nincs ilyen, a 12 után a 16 következik.
-    invalid: ['147', '149', '153', '169', '171', '14']
+    # 20: a 18 dupla telek, 20 nincs kitáblázva, a 18 után a 22 következik.
+    invalid: ['147', '149', '153', '169', '171', '14', '20']
   Petőfi utca:
     # 864: ez hrsz.
     invalid: ['864']
