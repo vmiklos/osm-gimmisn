@@ -1,4 +1,7 @@
 missing-streets: 'yes'
+filters:
+  Csikvár tér:
+    interpolation: 'all'
 refstreets:
   # ellenőrzött
   'Jókai Mór köz': 'Jókai köz'  # Jókai Mór köz: nincs kint utcanévtábla, de a Földhivatalnál teljes névvel van. Az épületek viszont csak vezetéknévvel vannak a Földhivatalnál.
@@ -24,5 +27,5 @@ osm-street-filters:
   - Cifrakert
   - Szabadbattyán vára
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true
