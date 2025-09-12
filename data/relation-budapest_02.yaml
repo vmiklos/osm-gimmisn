@@ -490,6 +490,16 @@ filters:
     invalid:
       - '13' # 13a, 13b helyette
       - '16' # 16a, 16b helyette
+  Vöröstorony utca:
+    invalid:
+      - '11' # 11a, 11b helyette
+      - '21a' # 21 helyette
+      - '21b' # 21 helyette
+      - '23' # 23a helyette
+      - '33' # 33a, 33b helyette
+      - '12a' # 10-16/x helyette
+      - '16c' # 10-16/x helyette
+      - '16e' # 10-16/x helyette
   Zivatar utca:
     # 2-6 = Ady Endre utca 3, Szent Angéla
     ranges:
