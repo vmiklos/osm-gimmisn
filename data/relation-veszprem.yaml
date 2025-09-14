@@ -201,18 +201,17 @@ filters:
     invalid: ['6a', '6b']
 refstreets:
   # kérdéses
-  'Alsóújsor utca': 'Alsó-újsor'  # https://www.openstreetmap.org/note/4274953
   'Dallos köz': 'Dalos köz'  # https://www.openstreetmap.org/note/4362579
-  'Felsőújsor utca': 'Felső-újsor'  # https://www.openstreetmap.org/note/4274958
-  'Füzesi utca': 'Füzesi út'  # https://www.openstreetmap.org/note/4274960
   'Hegybíró utca': 'Hegybíró út'  # https://www.openstreetmap.org/note/4362580
-  'Kastélykert utca': 'Kastélykert'  # https://www.openstreetmap.org/note/3052512
   'Kavics utca': 'Kavicsos utca'  # https://www.openstreetmap.org/note/4362581
   'Kerekes utca': 'Kerekeskút utca'  # https://www.openstreetmap.org/note/4362584
   'Lilaakác utca': 'Lila akác utca'  # https://www.openstreetmap.org/note/4274951
   'Répavölgyi utca': 'Répavölgy utca'  # https://www.openstreetmap.org/note/4274987
-  'Vízi utca': 'Vizi utca'  # https://www.openstreetmap.org/note/4275013
   # ellenőrizve
+  'Alsóújsor': 'Alsó-újsor'  # https://www.openstreetmap.org/note/4274953
+  'Felsőújsor': 'Felső-újsor'  # https://www.openstreetmap.org/note/4274958
+  'Füzesi utca': 'Füzesi út'  # https://www.openstreetmap.org/note/4274960
+  'Kastélykert utca': 'Kastélykert'  # https://www.openstreetmap.org/note/3052512
   'Lővey Klára utca': 'Lövey Klára utca'  # https://www.openstreetmap.org/note/4274982
   'Pöltenberg utca': 'Pöltenberg Ernő utca'  # https://www.openstreetmap.org/note/4274985
   'Seregély utca': 'Seregély út'  # https://www.openstreetmap.org/note/4274993 - utcatáblán Seregély utca, házak egy részén Seregély út
@@ -233,6 +232,8 @@ refstreets:
   # Thököly Imre utca   # https://www.openstreetmap.org/note/4275001
   # Vámosi utca         # https://www.openstreetmap.org/note/4275002
   # Vértanú utca        # https://www.openstreetmap.org/note/4275004
+  # Vizi utca           # https://www.openstreetmap.org/note/4275013
+
   # 'Gépraktár utca': 'Gépraktár út'  # https://www.openstreetmap.org/note/3808728 - nincs tábla
 street-filters:
   # nem igazi utcák
