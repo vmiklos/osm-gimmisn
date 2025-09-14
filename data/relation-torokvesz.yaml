@@ -133,9 +133,22 @@ filters:
   Nagybányai lépcső:
     ranges: []
   Nagybányai út:
-    # 2 = Csalán út 15
-    # 56-58: csak sima 56 van
-    invalid: ['2', '58']
+    invalid:
+      - '7' # 7a, 7b
+      - '11a' # 11, 11b
+      - '41' # 41abc
+      - '43' # 43abcd
+      - '53' # 53ab
+      - '59b' # csak 59a
+      - '61a' # 61
+      - '73' # 73ab
+      - '85a' # 85
+      - '2' # Csalán út 15
+      - '4' # 4ab
+      - '12' # 12ab
+      - '42' # 42ab
+      - '46' # 46ab
+      - '58' # 56-58: csak sima 56 van
     ranges:
       - {start: '1', end: '91'}
       - {start: '2', end: '60'}
