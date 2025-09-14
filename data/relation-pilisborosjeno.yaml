@@ -14,7 +14,7 @@ refstreets:
   'Kőfuvaros utca': 'Kőfuvaros út'
   'Kövesbérci utca': 'Kövesbérci út'
   'Lucerna utca': 'Lucerna köz'
-  'Szilva utca': 'Szilva köz'
+  # 'Szilva utca': 'Szilva köz'
   # 'Szőlő út': 'Szőlő utca'
   # 'Téglagyári út': 'Téglagyár'
   'Templom út': 'Templom utca'
