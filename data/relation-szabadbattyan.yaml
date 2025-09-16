@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Árpád utca:
+    # 34: egybenyitott telek a 32-vel, de csak a 32 van kitáblázva.
+    invalid: ['34']
   Csikvár tér:
     interpolation: 'all'
 refstreets:
