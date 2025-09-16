@@ -27,6 +27,10 @@ filters:
       - {start: '2', end: '98'}
   Meggyfasor utca:
     interpolation: 'all'
+  Nefelejcs utca:
+    interpolation: 'all'
+  Rózsa utca:
+    interpolation: 'all'
   Szőnyi István tér:
     interpolation: 'all'
 refstreets:
