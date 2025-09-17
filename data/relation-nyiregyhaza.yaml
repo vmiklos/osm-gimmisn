@@ -43,7 +43,7 @@ refstreets:
   'Színes utca': 'Szines utca'
   'Szűrszabó utca': 'Szürszabó utca'
   'Timár utca': 'Tímár utca'
-  'Vietorisz József utca': 'Vietórisz József utca'
+  # 'Vietorisz József utca': 'Vietórisz József utca'
   'Westsik Vilmos út': 'Westsik Vilmos utca'
 street-filters:
   # nem igazi utcák
