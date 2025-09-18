@@ -9,11 +9,13 @@ filters:
     ranges: []
   Benczúr Gyula tér:
     interpolation: 'all'
-  Bikavölgyi utca:
-    # 168/42: ez helyrajzi szám, nem házszám.
-    invalid: ['168']
   Csók István tér:
     interpolation: 'all'
+  Deák Ferenc utca:
+    # 5: sima 5 nincs, csak 5/1, 5/2.
+    # 4-6: csak 4 van kitáblázva.
+    # 22: sima 22 nincs, csak 22/A, 22/B.
+    invalid: ['5', '6', '22']
   Derkovits Gyula tér:
     interpolation: 'all'
   Egry József tér:
