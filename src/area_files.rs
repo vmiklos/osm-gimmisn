@@ -77,7 +77,7 @@ impl RelationFiles {
         let mut ret: Vec<util::OsmHouseNumber> = Vec::new();
         let conn = ctx.get_database_connection()?;
         let mut stmt =
-            conn.prepare("select osm_id, housenumber, conscriptionnumber, street, place, osm_type from osm_housenumbers where relation = ?1")?;
+            conn.prepare("select osm_id, housenumber, conscriptionnumber, street, place, osm_type, unit from osm_housenumbers where relation = ?1")?;
         let mut rows = stmt.query([&self.name])?;
         while let Some(row) = rows.next()? {
             let id: String = row.get(0).unwrap();
@@ -86,6 +86,7 @@ impl RelationFiles {
             let street: String = row.get(3).unwrap();
             let place: String = row.get(4).unwrap();
             let object_type: String = row.get(5).unwrap();
+            let unit: String = row.get(6).unwrap();
             ret.push(util::OsmHouseNumber::new(
                 id.parse()?,
                 &housenumber,
@@ -93,6 +94,7 @@ impl RelationFiles {
                 &street,
                 &Some(place),
                 &object_type,
+                &unit,
             ));
         }
         Ok(ret)

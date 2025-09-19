@@ -974,6 +974,8 @@ pub struct OsmHouseNumber {
     pub place: Option<String>,
     /// Object type.
     pub object_type: String,
+    /// House number suffix.
+    pub unit: String,
 }
 
 impl OsmHouseNumber {
@@ -985,12 +987,14 @@ impl OsmHouseNumber {
         street: &str,
         place: &Option<String>,
         object_type: &str,
+        unit: &str,
     ) -> Self {
         let housenumber = housenumber.to_string();
         let conscriptionnumber = conscriptionnumber.to_string();
         let street = street.to_string();
         let place = place.clone();
         let object_type = object_type.to_string();
+        let unit = unit.to_string();
         OsmHouseNumber {
             id,
             housenumber,
@@ -998,6 +1002,7 @@ impl OsmHouseNumber {
             street,
             place,
             object_type,
+            unit,
         }
     }
 }
