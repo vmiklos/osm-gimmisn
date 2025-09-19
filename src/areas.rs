@@ -1787,6 +1787,18 @@ fn normalize<'a>(
 ) -> anyhow::Result<Vec<util::HouseNumber>> {
     let mut comment: String = "".into();
     let mut house_numbers: String = house_numbers.into();
+
+    if let Some(housenumber) = osm_housenumber
+        && !housenumber.unit.is_empty()
+    {
+        // If addr:unit is available then assume that housenumber is addr:housenumber + / +
+        // addr:unit.
+        let mut it = housenumber.unit.split(" ");
+        if let Some(token) = it.next() {
+            house_numbers += &("/".to_string() + token);
+        }
+    }
+
     if house_numbers.contains('\t') {
         let tokens = house_numbers;
         let mut iter = tokens.split('\t');

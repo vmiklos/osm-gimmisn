@@ -597,6 +597,7 @@ fn test_get_street_from_housenumber_addr_place() {
     let street = "";
     let place = &Some("Tolvajos tanya".to_string());
     let object_type = "node";
+    let unit = "";
     let housenumber = OsmHouseNumber::new(
         id,
         housenumber,
@@ -604,6 +605,7 @@ fn test_get_street_from_housenumber_addr_place() {
         street,
         place,
         object_type,
+        unit,
     );
 
     let actual = get_street_from_housenumber(&[housenumber]).unwrap();
