@@ -94,7 +94,7 @@ refstreets:
   'Rita út': 'Rita utca'             # https://www.openstreetmap.org/note/2796488
   'Szabadkai út': 'Szabadkai utca'   # https://www.openstreetmap.org/note/2796288
   'Széchenyi út': 'Széchenyi utca'   # https://www.openstreetmap.org/note/2796291
-  'Sándorhegytanya': 'Sándorhegy tanya'
+  # 'Sándorhegytanya': 'Sándorhegy tanya'
   'Szőlő út': 'Szőlő utca'           # https://www.openstreetmap.org/note/4207687
   'Víz utca': 'Vízi utca'            # https://www.openstreetmap.org/note/2796279
   'Új élet utca': 'Újélet utca'      # https://www.openstreetmap.org/note/2796492
