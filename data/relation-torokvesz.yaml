@@ -30,10 +30,12 @@ filters:
       - {start: '2', end: '4'}
   Bimbó út:
     # 104: 102 után 106
+    # 131: 131 A, B, C épületek
+    # 168: 168 A, B épületek
     # 183 = Rügy utca 10
     # 191 = Balogh Ádám utca 18/a
     # 208: 206/a, 206, 210
-    invalid: ['104', '183', '191', '208']
+    invalid: ['104', '131', '168', '183', '191', '208']
     ranges:
       - {start: '102', end: '234'}
       - {start: '103', end: '207'}
@@ -99,6 +101,9 @@ filters:
     ranges:
       - {start: '46', end: '50'}
       - {start: '58', end: '66'}
+  Guyon Richárd utca:
+    # 5: 5 A és B épület
+    invalid: ['5']
   Hankóczy Jenő utca:
     # 3: 3/a, 3/b van
     # 13: 13/a, 13/b, 13/c van

@@ -75,10 +75,12 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
   Bimbó út:
+    # 131: 131 A, B, C épületek
+    # 168: 168 A, B épületek
     # 183 = Rügy utca 10
     # 191 = Balogh Ádám utca 18/a
     # 208: 206/a, 206, 210
-    invalid: ['183', '191', '208']
+    invalid: ['131', '168', '183', '191', '208']
   Bolyai utca:
     ranges:
       - {start: '1', end: '15'}
@@ -124,6 +126,7 @@ filters:
     invalid:
       - '3b' # 3 és 3a
       - '15' # 15a, 15b és 15c
+      - '21' # 21 A ás B épület
       - '73' # 73a és 73b
       - '75' # 75a és 75b
       - '14b' # 14b1 és 14b2
@@ -237,6 +240,9 @@ filters:
     # 2 = Szilágyi Erzsébet fasor 79.
     # 4 = 4/a, 4/b
     invalid: ['2', '4']
+  Guyon Richárd utca:
+    # 5: 5 A és B épület
+    invalid: ['5']
   Gül Baba utca:
     # 18-20-22 helyén a türbe alatt üres telek
     invalid: ['22']
