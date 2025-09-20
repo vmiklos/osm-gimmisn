@@ -28,6 +28,9 @@ filters:
   Endrődi Sándor utca:
     ranges:
       - {start: '9', end: '59'}
+    invalid:
+      - '15' # 15a, 15b és 15c
+      - '21' # 21 A ás B épület
   Ferenchegyi út:
     # 4: 2-16 MNB komplexum oldala, 18/a az első ház a páros oldalon
     ranges:

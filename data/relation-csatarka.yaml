@@ -34,8 +34,10 @@ filters:
       - {start: '1', end: '63'}
       - {start: '2', end: '114'}
   Zöldkert út:
+    # 10: 10 C és D épület
     ranges:
       - {start: '6', end: '98'}
+    invalid: ['10']
   Zöldkő utca:
     ranges:
       - {start: '21', end: '99'}
