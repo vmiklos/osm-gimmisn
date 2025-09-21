@@ -1790,9 +1790,10 @@ fn normalize<'a>(
 
     if let Some(housenumber) = osm_housenumber
         && !housenumber.unit.is_empty()
+        && !house_numbers.contains("/")
     {
         // If addr:unit is available then assume that housenumber is addr:housenumber + / +
-        // addr:unit.
+        // addr:unit, unless addr:housenumber contains a slash already.
         let mut it = housenumber.unit.split(" ");
         if let Some(token) = it.next() {
             house_numbers += &("/".to_string() + token);

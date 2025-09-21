@@ -3625,6 +3625,7 @@ fn test_relation_get_osm_housenumber_unit() {
             "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('myrelation', '1', 'mystreet', '', '', '', '', '');
              insert into mtimes (page, last_modified) values ('streets/myrelation', '0');
              insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('myrelation', '1', 'mystreet', '42', '', '', '', '', '', '', '', 'B junk', '', 'node');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('myrelation', '2', 'mystreet', '42/A', '', '', '', '', '', '', '', 'C', '', 'node');
              insert into mtimes (page, last_modified) values ('housenumbers/myrelation', '0');"
         ).unwrap();
     }
@@ -3635,8 +3636,9 @@ fn test_relation_get_osm_housenumber_unit() {
     let housenumbers = relation.get_osm_housenumbers("mystreet").unwrap();
 
     // Then make sure addr:unit is not ignored:
-    assert_eq!(housenumbers.len(), 1);
-    assert_eq!(housenumbers[0].get_number(), "42/B");
+    assert_eq!(housenumbers.len(), 2);
+    assert_eq!(housenumbers[0].get_number(), "42/A");
+    assert_eq!(housenumbers[1].get_number(), "42/B");
 }
 
 /// Tests Relation::get_missing_housenumbers(), the case when 'invalid' contains hyphens, the case
