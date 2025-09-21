@@ -14,6 +14,12 @@ filters:
     invalid: ['14b', '54a', '58']
     ranges:
       - {start: '2', end: '60'}
+  Balogh Ádám utca:
+    invalid:
+      - '27a' # 27 helyette
+      - '8a' # 8 helyette
+      - '32a' # 32 helyette
+      - '44a' # 44, 44b helyette
   Balogvár utca:
     # 7a után 9
     # 4 helyett 4a és 4b
