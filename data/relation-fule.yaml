@@ -12,8 +12,9 @@ filters:
     invalid: ['2']
   Széchenyi utca:
     # 95: egybenyitva a 93-mal, de csak 93 van kitáblázva.
+    # 60/b: nincs ilyen, csak sima 60 van a tulajdonos szerint.
     # 106: egybenyitva a 104-gyel, de csak 104 van kitáblázva.
-    invalid: ['95', '106']
+    invalid: ['95', '60b', '106']
 refstreets:
   # nincs tábla
   'Sándorkai utca': 'Sándorkai út'
