@@ -75,6 +75,8 @@ pub struct RelationDict {
     pub refstreets: Option<HashMap<String, String>>,
     pub street_filters: Option<Vec<String>>,
     pub source: Option<String>,
+    /// Parse addr:unit as a potential suffix for addr:housenumber.
+    addr_unit: Option<bool>,
 }
 
 impl Default for RelationDict {
@@ -92,6 +94,7 @@ impl Default for RelationDict {
         let refstreets = None;
         let street_filters = None;
         let source = None;
+        let addr_unit = None;
         RelationDict {
             additional_housenumbers,
             alias,
@@ -106,6 +109,7 @@ impl Default for RelationDict {
             refstreets,
             street_filters,
             source,
+            addr_unit,
         }
     }
 }
@@ -190,6 +194,11 @@ impl RelationConfig {
             &self.dict.housenumber_letters,
         )
         .unwrap_or(false)
+    }
+
+    /// Do we care about addr:unit when parsing addr:housenumber?
+    fn should_check_addr_unit(&self) -> bool {
+        RelationConfig::get_property(&self.parent.addr_unit, &self.dict.addr_unit).unwrap_or(false)
     }
 
     /// Do we care if 42 is in OSM when it's not in the ref?
@@ -1788,7 +1797,8 @@ fn normalize<'a>(
     let mut comment: String = "".into();
     let mut house_numbers: String = house_numbers.into();
 
-    if let Some(housenumber) = osm_housenumber
+    if relation.get_config().should_check_addr_unit()
+        && let Some(housenumber) = osm_housenumber
         && !housenumber.unit.is_empty()
         && !house_numbers.contains("/")
     {

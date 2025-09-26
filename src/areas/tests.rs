@@ -3610,6 +3610,7 @@ fn test_relation_get_osm_housenumber_unit() {
         },
         "relation-myrelation.yaml": {
             "housenumber-letters": true,
+            "addr-unit": true,
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
