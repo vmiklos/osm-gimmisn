@@ -81,6 +81,9 @@ filters:
   Ifjúsági sétány:
     interpolation: all
     invalid: ['10']
+  II. Rákóczi Ferenc utca:
+    # 181/2: hrsz
+    invalid: ['181/2']
   Kerekedi utca:
     # 7/A, 7/B: Az egyik házon nincs szám, a másik épül a kerítésen 7 van. RESURVEY 2026.
     # 11: 13 van kiírva
@@ -105,8 +108,9 @@ filters:
     # 22, 22a, 22b: nincs kiírva se alúlról, se fentről
     invalid: ['3b', '4', '5', '12-14', '13', '20', '22', '22a', '22b']
   Kiskert utca:
+    # 1/a: 1 van kiírva
     # 248/9: hrsz
-    invalid: ['248/9']
+    invalid: ['1a', '248/9']
   Kossuth utca:
     # 8/b: 8 van kiírva
     # 22: 22/a van kiírva
@@ -207,7 +211,7 @@ filters:
     # 14/a: 14 és 14/b van kiírva
     # 26: ikerház nincs kiírva semmi
     # 48-50: 45 van kiírva
-    invalid: ['8', '14a', '48-50']
+    invalid: ['8', '26', '14a', '48-50']
   Szőlőskert utca:
     # 1: 1/a, 1/b
     # 9: 9/a, 9/b
