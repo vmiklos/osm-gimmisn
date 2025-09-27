@@ -26,15 +26,31 @@ filters:
     # 55-57: csak 57 van kiírva
     # 62/a,b,c: csak 62 van kiírva
     invalid: ['3', '13', '41', '41b', '47a', '55', '62a', '62b', '62c']
+  Boróka utca:
+    # 1,3: nincs kiírva, fh alapján van felvéve
+    # 5: helyén 7 van kiírva, és el van minden csúszva a fh-hoz képest
+    invalid: ['5']
+  Csákányhegyi utca:
+    # 7, 13, 15: nincs
+    # 70: csak 70/b van kiírva
+    invalid: ['7', '13', '15', '70']
   Falukertje utca:
     # 1: helyén 2 van kiírva
     # 4: nincs épület
     invalid: ['1', '4']
+  Fenyves utca:
+    # 9/a: nincs, csak sima 9
+    # 10/a, 10/b: csak sima 10 van
+    # 16: 18 van kiírva
+    invalid: ['9a', '10a', '10b', '16']
   Forrás utca:
     # 1a: nincs kiírva
     # 26, 28: nincs, utolsó házszám a 24 a honvéd üdülő
     # 37: Csopajó, a govcenteren kívűl semmi nem ismeri ezt a házszámot.
     invalid: ['1a', '26', '28', '37']
+  Fülemüle utca:
+    # 3: nincs beépítve
+    invalid: ['3']
   Fürdő utca:
     # 4/b: csak 4
     # 25: 25/a, 25/b
@@ -49,6 +65,16 @@ filters:
     # 54: ikerház: 54/a, 54/b, de az 54/a házrészen nincs kiírva
     # 149/a-b-c: kapun filctollal Füredi út 149.
     invalid: ['2b', '20', '36', '42', '46', '54', '92', '149a', '149b', '149c']
+  Hegyalja utca:
+    # 32: csak 32/A van kiírva a ház egyik felén
+    invalid: ['32']
+  Homokbánya utca:
+    # 4: vízmű, nincs házszám kiírva
+    # 6: 6 és 6/a nincs kiírva, 6/b igen
+    # 8-10: csak 10 van kiírva
+    # 9: nincs beépítve
+    # 39: nincs
+    invalid: ['4', '6', '8', '9', '39']
   Hóvirág utca:
     # 16 = Örkény István sétány 18, egyik sincs kiírva
     invalid: ['16']
@@ -59,6 +85,12 @@ filters:
     # 7/A, 7/B: Az egyik házon nincs szám, a másik épül a kerítésen 7 van. RESURVEY 2026.
     # 11: 13 van kiírva
     invalid: ['7a', '7b', '11']
+  Kertmög utca:
+    # se házszám, se utcatábla
+    invalid: ['2', '4']
+  Kilátó utca:
+    # 12: Király utca 5
+    invalid: ['12']
   Kisfaludy utca:
     # 3: 3/a, 3/b, 3/c, 3/d, 3/e
     # 18, 20: Malom telkei, de a malom csak a 16-os házszámot használja, ez van a kapun
@@ -70,8 +102,8 @@ filters:
     # 13: Ranolder kastély, kiírva nincs semmi, Csopak weboldal szerint 15, erre van most címezve
     # 12-14: 12/A, 12/B, 14/A, 14/B
     # 20: 1405/2 van kiírva
-    # 22, 22a, 22b: nincs kiírva alúlról, fentről meg kell nézni
-    invalid: ['3b', '4', '5', '12-14', '13', '20']
+    # 22, 22a, 22b: nincs kiírva se alúlról, se fentről
+    invalid: ['3b', '4', '5', '12-14', '13', '20', '22', '22a', '22b']
   Kiskert utca:
     # 248/9: hrsz
     invalid: ['248/9']
@@ -94,14 +126,15 @@ filters:
     # 7: 7/a, 7/b, 7/c, 7/d
     # 9: 9/a, 9/b, 9/c, 9/d
     invalid: ['7', '9']
+  Levendula utca:
+    # 2-3: csak 3 van kiírva
+    invalid: ['2']
+    interpolation: all
   Mandulavirág utca:
     # 2/a: 2, 2-4, 4
     # 42: nincs, 44 van kiírva
     # 45: üres telek
     invalid: ['2a', '42', '45']
-  # Öreghegyi út:
-    # 17/a, 17/b: csak 17
-    # invalid: ['17a', '17b']
   Nagykuti utca:
     # 22-26 között nincs kint szám, fh szerinti 24-es telken 20 van kiírva, de itt több ház is van - RESURVEY 2026
     # 30: nincs - van egy épülő ház a legvégé - RESURVEY 2026
@@ -117,10 +150,18 @@ filters:
     # 7, 9: nincs kiírva, földhivatal szerint a számok össze vissza
     # 8: utolsó ház a 6
     invalid: ['7', '8', '9']
+  Öreghegyi út:
+    # 17/a, 17/b: csak 17, check
+    # 44-46: csak 44 van kiírva
+    invalid: ['46']
   Örkény István sétány:
     interpolation: all
     # 12/c: csak 12 van
     invalid: ['12c']
+  Paloznaki utca:
+    # 8/a: 8 van kiírva
+    # 18: nincs, szőlő
+    invalid: ['8a', '18']
   Patak utca:
     # 22: 22/a, 22/b
     invalid: ['22']
