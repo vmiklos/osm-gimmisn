@@ -40,3 +40,4 @@ osm-street-filters:
 source: survey
 housenumber-letters: true
 inactive: true
+addr-unit: true
