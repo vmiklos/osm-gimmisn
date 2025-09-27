@@ -150,7 +150,7 @@ filters:
     # 7, 9: nincs kiírva, földhivatal szerint a számok össze vissza
     # 8: utolsó ház a 6
     invalid: ['7', '8', '9']
-  Öreghegyi út:
+  Öreghegyi utca:
     # 17/a, 17/b: csak 17, check
     # 44-46: csak 44 van kiírva
     invalid: ['46']
