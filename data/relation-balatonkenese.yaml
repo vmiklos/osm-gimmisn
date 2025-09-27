@@ -3,6 +3,14 @@ filters:
   Balaton köz:
     # max házszám 3 ill. 10. ezek a számok a Balatoni út számai
     invalid: ['7', '18', '20', '21', '31', '39', '41', '42', '47', '60', '65', '67', '71', '73', '77', '81', '83', '89', '101', '103', '105', '113', '137', '169', '171', '221' ,'227' ,'235','269', '814']
+  Csónakos utca:
+    # 1/1-16 ezek lakás számok, kivülről nem látszik semmi, csak a kaputelefonon szerepelnek
+    invalid: ['1/1', '1/2', '1/3', '1/4', '1/5', '1/6', '1/7', '1/8', '1/9']
+  Kikötő utca:
+    # 8: nincs kiírva
+    # 12: helyén 16 van kiírva, illetve 16 van az épülő ház kerítésén is
+    # 40/b: nincs kiírva
+    invalid: ['8', '12', '40b']
   Schédl Lajos utca:
     # 51, 57: nincs kiírva, nem azonosítható
     invalid: ['51','57']
@@ -27,6 +35,8 @@ street-filters:
   - Mária utca  # telkek vannak a helyén meg egy bozótos terület
   - Zsuzsanna utca  # telkek vannak a helyén meg egy bozótos terület
 osm-street-filters:
+  # nem hivatalos tábla
+  - Kenese völgye út
   # nem igazi utcák
   - Régi játszótér
   # parkok
