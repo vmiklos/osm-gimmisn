@@ -191,7 +191,7 @@ filters:
     # 54a: 54 és 54b helyette
     # 64: 64/b helyette
     # 84: /a és/b helyette
-    invalid: ['45', '47', '53', '69a', '75', '6a', '10a', '10b', '50', '54a', '64', '84']
+    invalid: ['45', '47', '53', '69a', '75', '6a', '10a', '50', '54a', '64', '84']
   Fő utca:
     # 1-45: I. kerület, 47+ II. kerület
     # 2-60: I. kerület, 62+ II. kerület
