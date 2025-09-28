@@ -9,8 +9,9 @@ filters:
   Kikötő utca:
     # 8: nincs kiírva
     # 12: helyén 16 van kiírva, illetve 16 van az épülő ház kerítésén is
+    # 14: nincs ilyen kiírva
     # 40/b: nincs kiírva
-    invalid: ['8', '12', '40b']
+    invalid: ['8', '12', '14', '40b']
   Schédl Lajos utca:
     # 51, 57: nincs kiírva, nem azonosítható
     invalid: ['51','57']
