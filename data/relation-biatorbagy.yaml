@@ -34,6 +34,8 @@ osm-street-filters:
   - Százlépcső
   # park
   - Biatorbágy zöld szíve
+  # megszűnt
+  - Nyír utca
 refstreets:
   'Angeli András utca': 'Angeli András út'
   'Budaörsi út': 'Budaörsi utca'  # Outlet - összes blokkon Budaörsi út
