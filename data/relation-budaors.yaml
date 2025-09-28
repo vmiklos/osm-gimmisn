@@ -818,6 +818,7 @@ street-filters:
   # Hegyközi utca  # egy benőtt ösvény a Cserebogár utcából
   # Sáfrány utca  # Ringló utcáról nyíló ösvény - törölve
   # Szeder utca  # Lezárt magánút Naphegy utcáról - törölve
+  - Turistaház utca  # magánút, lakó szerint sosem volt, de régebben volt tábla
 refstreets:
   # OSM Name 1: Ref Name 1
   # 'Aszú utca': 'Aszu utca'  # Szállások: utcatábla Aszú utca, ref dupla, Aszu utca törölve
