@@ -1,7 +1,89 @@
 missing-streets: 'yes'
 filters:
+  Almássy László utca:
+    # gyüjtő házszám, egyedileg jelölve
+    invalid: ['7a-c','10a-b']
+  Ariadné utca:
+    # gyüjtő házszám, egyedileg jelölve
+    invalid: ['4a-b', '8a-b']
+  Bertalan Árpád utca:
+    # 4, 17, 19, 27: addr:unit meg van adva
+    invalid: ['4', '17', '19', '27']
+  Bogáncs utca:
+    # gyüjtő házszám, egyedileg jelölve
+    invalid: ['1a-i', '3a-f', '5a-f', '4a-c', '8a-d']
+  Brenner János utca:
+    # 2: addr:unit meg van adva
+    invalid: ['2']
+  Ciklámen körút:
+    # 6, 65: addr:unit meg van adva
+    invalid: ['6', '65']
+  Csók István utca:
+    # 10: 10 A .. D épületek
+    invalid: ['10']
+  Eper utca:
+    # gyüjtő házszám, egyedileg jelölve
+    invalid: ['4a-c', '16a-b', '18a-b']
+  Erdei iskola utca:
+    # 16a-b: 16a és 16b szerepel
+    # 34, 36, 38, 40: addr:unit meg van adva
+    invalid: ['16a-b', '34', '36', '38', '40']
   Erdősi Sylvester János utca:
     show-refstreet: false
+  Falunagy utca:
+    # gyüjtő házszám, egyedileg jelölve
+    invalid: ['14a-b', '16a-b', '18a-b']
+  Fenyő utca:
+    invalid: ['32a-b']
+  Garamvölgyi Tivadar utca:
+    # 22: addr:unit meg van adva
+    invalid: ['22']
+  Göncöl utca:
+    # 4, 6, 8: addr:unit meg van adva
+    invalid: ['4', '6', '8']
+  Határőr utca:
+    # gyüjtő házszám, egyedileg jelölve
+    invalid: ['8a-b']
+  Jázmin utca:
+    # 1-17, 22, 26: addr:unit meg van adva
+    invalid: ['1', '3', '5', '7', '9', '13', '15', '17', '22', '26']
+  Káptalan utca:
+    # gyüjtő házszám, egyedileg jelölve
+    invalid: ['17a-b']
+  Kétrózsa köz:
+    # 5: 5 A .. E épületek
+    invalid: ['5']
+  Németh Pál utca:
+    # 36: addr:unit meg van adva
+    invalid: ['36']
+  Országh László utca:
+    # 1-29: addr:unit meg van adva
+    invalid: ['1', '3', '5', '7', '9', '11', '13', '15', '17', '19', '21', '23', '25', '27', '29']
+  Orion utca:
+    # 3: addr:unit meg van adva
+    invalid: ['3']
+  Rauscher Miksa utca:
+    # gyüjtő házszám, egyedileg jelölve
+    invalid: ['28a-b', '34a-b']
+  Reismann János utca:
+    # gyüjtő házszám, egyedileg jelölve
+    invalid: ['3a-b', '5a-b']
+  Silvana utca:
+    # gyüjtő házszám, egyedileg jelölve
+    invalid: ['12a-c']
+  Skorpió utca:
+    # 2: addr:unit meg van adva
+    invalid: ['2']
+  Szent II. János Pál pápa körút:
+    # 4, 9-15, 18: addr:unit meg van adva
+    # 20a-b, 22a-b, 26a-b, 28a-b: gyüjtő házszám, egyedileg jelölve
+    invalid: ['4', '9', '11', '13', '15', '18', '20a-b', '22a-b', '26a-b', '28a-b']
+  Viola utca:
+    # 11: addr:unit meg van adva
+    invalid: ['11']
+  Werner Alajos utca:
+    # gyüjtő házszám, egyedileg jelölve
+    invalid: ['4a-e', '6a-d', '8a-d', '10a-d']
 refstreets:
   'Bolyai János utca': 'Bólyai János utca'
   'Diána utca': 'Diana utca'
