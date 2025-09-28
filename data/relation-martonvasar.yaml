@@ -1,4 +1,8 @@
 missing-streets: 'yes'
+filters:
+  Beethoven tér:
+    # 1: Iskola régi címe, Szent László út 2-t használja
+    invalid: ['1']
 osm-street-filters:
   # Nem igazi utcák
   - Kastélypark
