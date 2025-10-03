@@ -5,6 +5,8 @@ filters:
     invalid: ['34']
   Csikvár tér:
     interpolation: 'all'
+  Erzsébet tér:
+    interpolation: 'all'
 refstreets:
   # ellenőrzött
   'Jókai Mór köz': 'Jókai köz'  # Jókai Mór köz: nincs kint utcanévtábla, de a Földhivatalnál teljes névvel van. Az épületek viszont csak vezetéknévvel vannak a Földhivatalnál.
