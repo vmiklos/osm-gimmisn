@@ -119,6 +119,10 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '8'}
+  Csévi utca:
+    invalid:
+      - '17a' # 17 és 17b helyette
+      - '21a' # 21 helyette
   Dénes utca:
     # páratlan oldalon nincs kiírva házszám, máshonnan számozódik
     invalid: ['1']

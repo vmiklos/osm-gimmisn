@@ -60,6 +60,10 @@ filters:
       - '43' # 43a, 43b helyette
       - '4c' # csak 4a, 4b van
       - '8' # 8a helyette
+  Csévi utca:
+    invalid:
+      - '17a' # 17 és 17b helyette
+      - '21a' # 21 helyette
   Endrődi köz:
     ranges: []
   Endrődi Sándor utca:
