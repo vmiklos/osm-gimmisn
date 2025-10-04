@@ -222,6 +222,8 @@ osm-street-filters:
   - Perényi lejtő
   - Szőlőkert köz  # valószínű magánút
   - Orgona utca  # nincs külön hrsz.
+  # két oldalon más név
+  - Szentendrei út/Vasút sor
   # Hivatalosan nincs, de régi térképen szerepel -----------------
   # - Gázos utca
   # - Hősök tere  # megszűnt, de BKV megálló is van
