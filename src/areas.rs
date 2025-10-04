@@ -1800,6 +1800,7 @@ fn normalize<'a>(
     if relation.get_config().should_check_addr_unit()
         && let Some(housenumber) = osm_housenumber
         && !housenumber.unit.is_empty()
+        && !housenumber.unit.contains("-")
         && !house_numbers.contains("/")
     {
         // If addr:unit is available then assume that housenumber is addr:housenumber + / +
