@@ -95,7 +95,10 @@ filters:
     ranges:
       - {start: '3', end: '13'}
       - {start: '2', end: '14'}
-  # Búzavirág utca:
+  Budakeszi út:
+    # 37/a: régi házszám, áthúzva van kitáblázva, az új házszám 33, 35 (nem kötőjellel, mindkét szám kint van).
+    # 37/b: régi házszám, már csak sima 37 van.
+    invalid: ['37a', '37b']
   Csalán út:
     invalid:
       - '17' # 17a, 17b helyette
