@@ -173,7 +173,6 @@ filters:
   Bérkocsi utca:
     # 25: sima 25 nincs, csak 25/a, 25/b.
     # 37/a: nincs ilyen, csak sima 37 van.
-    # 43/a: ez és a Hajnal utca 6. közös telken van, házszám a Hajnal utcáról van csak.
     # 51: ez és a Nyár utca 4/a közös telken van, házszám a Nyár utcáról van csak.
     # 55/a: nincs ilyen, csak sima 55 van.
     # 36/h: nincs ilyen, csak sima 36 van.
@@ -181,7 +180,7 @@ filters:
     # 46/a: ez egy ikerház, de csak 46 van kitáblázva.
     # 58: sima 58 nincs, csak 58/a, 58/b.
     # 66/a: nincs ilyen, csak 66, 66/b.
-    invalid: ['25', '37a', '43a', '51', '55a', '36h', '40a', '46a', '58', '66a']
+    invalid: ['25', '37a', '51', '55a', '36h', '40a', '46a', '58', '66a']
   Bimbó utca:
     # 31: a páratlan oldalon a 9 az utolsó házszám.
     # 151: a páratlan oldalon a 9 az utolsó házszám.
@@ -432,6 +431,7 @@ filters:
     # 68/b: nincs ilyen, csak 68/1, 68/2.
     # 80/a: nincs ilyen, csak 80 és 80/b.
     # 90/b: nincs ilyen, csak 90 és 90/d, a többi köztes ház a Jobbágy útról van számozva.
+    # 92: nincs, csak 92/b.
     # 92/a: üres telek, nincs kiírva.
     # 94, 94/b: nincsenk, csak 92/a van.
     # 96: nincs ilyen, csak 96/b van.
@@ -440,7 +440,7 @@ filters:
     # 118: nincs, 116 van kiírva
     # 118/a, 118/b: nincsenek.
     # 120/b: nincs ilyen, csak 120 van.
-    invalid: ['35a', '47/3', '79', '8', '18b', '28', '34', '40', '42', '44', '46', '48', '54', '68', '68b', '80a', '92a', '94', '94b', '96b', '100', '108', '118', '118a', '118b', '120b']
+    invalid: ['35a', '47/3', '79', '8', '18b', '28', '34', '40', '42', '44', '46', '48', '54', '68', '68b', '80a', '90b', '92', '92a', '94', '94b', '96', '100', '108', '118', '118a', '118b', '120b']
   Hordós utca:
     # 5: sima 5 nincs, csak 5/a, 5/b.
     # 93: a páratlan oldalon a 19 az utolsó házszám.
@@ -1311,11 +1311,12 @@ filters:
     # 12: sima 12 nincs, csak 12/a, 12/b.
     invalid: ['12']
   Vöröskúti határsor:
-    # Az utca elejét átnevezték Pedellus utcára, ezért csak 22-től indulnak a házszámok.
+    # Az utca eleje a Balatoni út szervizútja, a lenti részen csak 22-től indulnak a házszámok.
     # A 34 nem létezik, talán közös telken van a 35-tel?
     interpolation: 'all'
     invalid: ['34']
     ranges:
+      - {start: '11', end: '13'}
       - {start: '22', end: '35'}
   XI. utca:
     # 3: sima 3 nincs, csak 3/a, 3/b.
