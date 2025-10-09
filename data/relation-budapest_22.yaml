@@ -1316,7 +1316,7 @@ filters:
     interpolation: 'all'
     invalid: ['34']
     ranges:
-      - {start: '11', end: '13'}
+      - {start: '13', end: '15'}
       - {start: '22', end: '35'}
   XI. utca:
     # 3: sima 3 nincs, csak 3/a, 3/b.
