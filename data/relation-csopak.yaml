@@ -35,9 +35,9 @@ filters:
     # 5: helyén 7 van kiírva, és el van minden csúszva a fh-hoz képest
     invalid: ['5']
   Csákányhegyi utca:
-    # 7, 13, 15: nincs
+    # 7, 13: nincs
     # 70: csak 70/b van kiírva
-    invalid: ['7', '13', '15', '70']
+    invalid: ['7', '13', '70']
   Dr. Ferenczy Sándor utca:
     # 1: Jásdi pince, a borterasz az Arany János utca 2 címet használja, erről az utcáról semmi nincs kiírva
     invalid: ['1']
@@ -80,8 +80,8 @@ filters:
     # 54: ikerház: 54/a, 54/b, de az 54/a házrészen nincs kiírva
     # 99: nincs, az ikerházra 101 van kiírva
     # 103/b: nincs épület
-    # 149/a-b-c: kapun filctollal Füredi út 149.
-    invalid: ['2b', '20', '30a', '31a', '31b','36', '42', '46', '54', '92', '99', '103b', '149a', '149b', '149c']
+    # 149/a-b-c: kapun filctollal Füredi út 149, illetve 149/a kint van
+    invalid: ['2b', '20', '30a', '31a', '31b','36', '42', '46', '54', '92', '99', '103b', '149b', '149c']
   Hársfa utca:
     # 17: 17/a, 17/b
     # 45: utolsó páratlan a 43, a következő ház már a Rozmaring utca 21 számot viseli
@@ -98,7 +98,7 @@ filters:
     # 33: 35, 39: szőlőültetvény, nincsenek kint számok
     # 38: nincs kiírva
     # 50-52: sok bódé van, nincs kiírva semmi
-    invalid: ['4', '6', '8', '9', '33', '35', '38', '39', '50-52']
+    invalid: ['6', '8', '9', '33', '35', '38', '39', '50-52']
   Hóvirág utca:
     # 16 = Örkény István sétány 18, egyik sincs kiírva
     invalid: ['16']
@@ -164,9 +164,9 @@ filters:
     # 45: üres telek
     invalid: ['2a', '42', '45']
   Nádaskuti utca:
-    # 4: nincs
+    # 6: nincs
     # 11-13: nincs
-    invalid: ['4', '11-13']
+    invalid: ['6', '11-13']
   Nagykuti utca:
     # 2: nincs, 2 db 4-es van.
     # 22-26 között nincs kint szám, fh szerinti 24-es telken 20 van kiírva, de itt több ház is van - RESURVEY 2026
@@ -207,6 +207,9 @@ filters:
   Petőfi utca:
     # 7: 7/a van a kapun, 7 a kukán
     invalid: ['7']
+  Rigó utca:
+    # 1: nincs, csak páros oldalon vannak házak
+    invalid: ['1']
   Rizling utca:
     # 15, 15/a: fh. szerint 1 telek de nincs kint házszám, 15-re jelölve
     # 17: 17/a van kiírva
@@ -254,6 +257,9 @@ filters:
     # 11: csak szőlő van rajta, ház nincs vagy a föld alatt
     # 17-19: csak 19 van kiírva
     invalid: ['1', '9', '11', '17']
+  Tüskésalja utca:
+    # 17 kivételével egy házszám sincs kint
+    interpolation: all
   Vasút utca:
     # 13: 13/a, 13/b, 13/c
     # 14: 14/a, 14/b, 14/c
@@ -280,6 +286,9 @@ refstreets:
   # 'Szérűskert utca': 'Szérüskert utca'  # táblán mindkettő
   # helyesírás
   'Ördöngös utca': 'Ördöngős utca'  #rövid ő-vel van kiírva
+street-filters:
+  # helyszínen nincs nyoma, ez a egy mező földutakkal
+  - Haraszti-dűlő utca
 osm-street-filters:
   - Milleneumi park
 source: survey
