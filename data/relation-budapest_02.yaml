@@ -313,6 +313,10 @@ filters:
     # 21 van, nem 21b
     # Mammut 2-6-ig, Fény utcai piac 12-től
     invalid: ['19a', '21b', '10']
+  Lupény utca:
+    invalid:
+      - '3' # 3a, 3b helyette
+      - '16' # 2-14
   Mandula utca:
     # 26: 26/abc helyette
     invalid: ['26']
