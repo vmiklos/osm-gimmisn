@@ -1,0 +1,16 @@
+missing-streets: 'yes'
+#osm-street-filters:
+  # Nem igazi utca
+  # Parkok, sétautak amire nincs számozva semmi
+  # Terület
+  # Területhatáron lévő utca/átlógó
+#street-filters:
+  # Tanyák
+  # Településrész
+refstreets:
+  'Hegyalja utca': 'Hegyalja út'
+  'Régitemplom utca': 'Régi templom utca'
+  'Szőlőhegyi út': 'Szölőhegyi út'
+source: survey
+inactive: false
+housenumber-letters: true

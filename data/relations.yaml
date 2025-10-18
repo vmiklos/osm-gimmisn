@@ -784,6 +784,10 @@ zebegeny:
     osmrelation: 1370260
     refcounty: "14"
     refsettlement: "182"
+zsambek:
+    osmrelation: 215934
+    refcounty: "14"
+    refsettlement: "183"
 # 15 - Somogy megye
 balatonboglar:
     osmrelation: 1367832
