@@ -689,9 +689,9 @@ filters:
     # 24, 26: 22 után 28
     # 96: max páros 40
     invalid: ['24',]
-  Turistaház utca:
+  #Turistaház utca:
     # nincsenek kiírva házszámok
-    ranges: []
+    #ranges: []
   Tüske utca:
     invalid: ['6']
     # a páratlan oldalon: 9, 19, 8
