@@ -30,6 +30,9 @@ filters:
   Battai út:
     ranges:
       - {start: '2', end: '12'}
+  Batyu utca:
+    invalid:
+      - '9b' # 9 helyette
   Bimbó köz:
     ranges:
       - {start: '1', end: '3'}
