@@ -1,12 +1,13 @@
 missing-streets: 'yes'
-#osm-street-filters:
-  # Nem igazi utca
+osm-street-filters:
   # Parkok, sétautak amire nincs számozva semmi
-  # Terület
-  # Területhatáron lévő utca/átlógó
-#street-filters:
-  # Tanyák
-  # Településrész
+  - Szent Erzsébet lépcső
+  - Trianoni emlékpark
+  - Zárdakert
+street-filters:
+  # Küterület
+  - Külterület ipartelep
+  - Külterület major
 refstreets:
   'Hegyalja utca': 'Hegyalja út'
   'Régitemplom utca': 'Régi templom utca'
