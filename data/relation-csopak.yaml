@@ -34,6 +34,10 @@ filters:
     # 1,3: nincs kiírva, fh alapján van felvéve
     # 5: helyén 7 van kiírva, és el van minden csúszva a fh-hoz képest
     invalid: ['5']
+  Budai utca:
+    # 1/A-D: csak 1 van kiírva
+    # 17: nincs épület, de van még 1 ház ami elvileg 19, nincs táblázva
+    invalid: ['1a', '1b', '1c', '1d', '17']
   Csákányhegyi utca:
     # 7, 13: nincs
     # 70: csak 70/b van kiírva
@@ -82,6 +86,8 @@ filters:
     # 103/b: nincs épület
     # 149/a-b-c: kapun filctollal Füredi út 149, illetve 149/a kint van
     invalid: ['2b', '20', '30a', '31a', '31b','36', '42', '46', '54', '92', '99', '103b', '149b', '149c']
+  Gyöngyvirág utca:
+    invalid: ['13b']
   Hársfa utca:
     # 17: 17/a, 17/b
     # 45: utolsó páratlan a 43, a következő ház már a Rozmaring utca 21 számot viseli
@@ -158,11 +164,19 @@ filters:
     # 2-3: csak 3 van kiírva
     invalid: ['2']
     interpolation: all
+  Lóczy Lajos utca:
+    # 5: nincs
+    # 8: Füredi út 78
+    invalid: ['5', '8']
   Mandulavirág utca:
     # 2/a: 2, 2-4, 4
     # 42: nincs, 44 van kiírva
     # 45: üres telek
     invalid: ['2a', '42', '45']
+  Mű út:  
+    # 4, 6, 10: nincsenek épületek
+    # 195/3: hrsz
+    invalid: ['4', '6', '10', '195/3']
   Nádaskuti utca:
     # 6: nincs
     # 11-13: nincs
@@ -179,6 +193,9 @@ filters:
     # 22: 22/a, 22/b van
     # 27/a, 27/b: ikerház de nincs kiírva házszám
     invalid: ['3-5', '15', '21', '22']
+  Orgona utca:
+    # 3: nincs kiírva semmi, az egyetlen ház 1 és 5 között a fh szerint 3/a
+    invalid: ['3']
   Ördöngös utca:
     # 7, 9: nincs kiírva, földhivatal szerint a számok össze vissza
     # 8: utolsó ház a 6
@@ -220,9 +237,10 @@ filters:
     # 10/a-d: bár ez egy 4 lakásos sorház, csak 10 van kiírva
     invalid: ['3b', '10a', '10b', '10c', '10d']
   Sirály utca:
+    # 9/a: 9 van kiírva
     # 17/a: 17 és 17/b van kiírva
     # 19: 19/a van kiírva
-    invalid: ['17a', '19']
+    invalid: ['9a', '17a', '19']
   Sóstódombi utca:
     # 2, 4, 4a: nincsenek kint számok
     # 6: 6/a van kint
@@ -238,6 +256,9 @@ filters:
     # 26: 26/a és 26/b
     # 28: 28/a ás 28/b
     invalid: ['15', '20', '24a', '26', '28']
+  Szeder utca:
+    # 8: nincs, talán épül vmi
+    invalid: ['8']
   Szent Donát utca:
     # 12-14: csak 14 van kiírva
     invalid: ['12']
