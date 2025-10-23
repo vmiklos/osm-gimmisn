@@ -92,6 +92,8 @@ filters:
     # 17: 17/a, 17/b
     # 45: utolsó páratlan a 43, a következő ház már a Rozmaring utca 21 számot viseli
     invalid: ['17', '45']
+  Határ utca:
+    interpolation: all
   Hegyalja utca:
     # 32: csak 32/A van kiírva a ház egyik felén
     invalid: ['32']
@@ -278,6 +280,10 @@ filters:
     # 11: csak szőlő van rajta, ház nincs vagy a föld alatt
     # 17-19: csak 19 van kiírva
     invalid: ['1', '9', '11', '17']
+  Tímár József utca:
+    # 8-10: helyén az egyik házon 12 van táblázva
+    # 14: nincs épület
+    invalid: ['8-10', '14']
   Tüskésalja utca:
     # 17 kivételével egy házszám sincs kint
     interpolation: all
