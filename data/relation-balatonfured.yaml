@@ -1,5 +1,10 @@
 missing-streets: 'yes'
 filters:
+  Balaton utca:
+    # 28/a: nincs csak 28.
+    # 29: 29/a és 29/b van, hivatalosan a 29/b helyén lenne és az a és b közti üres telek lenne a 29/b.
+    # 40/a: nincs, csak sima 40.
+    invalid: ['28a', '29', '40a']
   Dobó István utca:
     # 3/b: csak sima 3.
     # 7/1: csak sima 7.

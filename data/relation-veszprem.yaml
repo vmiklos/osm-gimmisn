@@ -79,7 +79,11 @@ filters:
     invalid: ['34i', '40/1', '40a']
   Hársfa utca:
     # 1-55, 2-48
-    invalid: ['85']
+    # 41/a: 41 és 41/b az ikerház 2 felén
+    invalid: ['41a', '85']
+  Haszkovó utca:
+    # 18/1: 18/A .. 18/L lépcsőházak
+    invalid: ['18/1']
   Hérics utca:
     # 1-11-ig sorházak, egyedi számok nincsenek 1/a formában vannak fent pontként.
     # 12-27-ig egyedi házakra van bontva, nincsenek betűk.
@@ -88,6 +92,29 @@ filters:
     # 1: nincs, 2x van 5-ös szám
     # 18, 20: nincs ilyen kiírva
     invalid: ['1', '18', '20']
+  Jutasi út:
+    # 4/d: nincs, 4 a autóbusz állomás címe
+    # 5/b, 5/g: nincs, csak sima 5 van
+    # 6-8, 8a, 8b, 8c, 8d: 4 épület + egy üzletsor, csak 8 van kiírva
+    # 13/e: nincs, csak sima 13 van
+    # 14: nincs
+    # 18/x: nincs, csak sima 18 van.
+    # 22/a: nincs, az épülete 22 szerepel
+    # 25/b, 25/2: nincs, csak 25 van, egy A betűvel, a többi iskola épület máshova van számozva
+    # 26/1, 26a, 26i: 24-26 van, Máltai Szeretetszolgálat Befogadás Háza
+    # 27/a: nincs, csak sima 27 van
+    # 33/a-d: nincsenek, csak sima 33 van
+    # 59/x: lépcsőházak kivéve az 59/K-t, az egy üzlet bejárat talán
+    # 61: 61/A..C épületeknek van táblázva
+    # 63: 63/A..C épületeknek van táblázva
+    # 67: A, B, C jelek vannak alépcsőházakon, nem alátörés
+    # 69: 69/A..C van a lépcsőházakon, ez van táblázva
+    # 71: 71/A..C van a lépcsőházakon, ez van táblázva
+    # 73: 72/A..C van a lépcsőházakon, ez van táblázva
+    # 93/a: nincs nyoma a katonaságnál semmilyen házszám nincs kint
+    # 97/a: 97 van kiírva
+    # 36, 44, 56, 78a, 88a: max páros a 34, a vasútállomás
+    invalid: ['4d', '5b', '5g', '6-8', '8a', '8b', '8c', '8d', '13e', '14', '18/1', '18a', '18b', '18c', '22a', '25/2', '25b', '27a', '30/4', '30b', '33a', '33b', '33c', '33d', '36', '44', '56', '59/1', '59/2', '59/6', '59a', '59d', '59g', '61', '63', '65', '67', '71', '73', '78a', '88a', '93a', '97a']
   Kankalin utca:
     # 1: sorház: 1/a-1/f, 1/3 nincs
     # 2: sorház: 2/a-2/e, sima 2 nincs
@@ -114,9 +141,11 @@ filters:
     # 33: sorház: ajtók vannak 1-6-ig a többi házzal ellentétben nincsenek betűjelek a sorház ajtajain
     # 35: sorház: ajtók nem látszanak, kapun 35 szerepel
     invalid: ['6g', '13a-f', '17', '19a-f', '31a-d', '33/5', '33/6', '33a', '33b', '33c', '33d', '33e', '35/1', '35/2', '35/3', '35/4', '35/5', '35/6']
-  # Őrház utca:
+  Őrház utca:
     # 9: 9/a, 9/b - Haszkovó utca túloldalán - "NAPFÉNY PRESSZÓ"
-    # invalid: ['9']
+    # 38, 38/2: 38/a van
+    # 40/b: 40 van
+    invalid: ['38', '38/2', '40b']
   Lövőház utca:
     # 35/x: nincsenek alábontva, csak 35.
     invalid: ['35a', '35b', '35c', '35d']
@@ -135,6 +164,9 @@ filters:
   Pajta utca:
     # 26, 34: utolsó páros a 24.
     invalid: ['26', '34']
+  Pipacs utca:
+    # 22: kiírva nincs, valamit építkeznek. RESURVEY 2026
+    invalid: ['22']
   Rozmaring utca:
     # 28a: nincs, 28 és 28/1 van.
     # 34a: nincs, csak sima 34.
