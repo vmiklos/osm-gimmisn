@@ -114,7 +114,6 @@ refstreets:
   # kérdéses ------------------------------------------------------------------
   'Báthori utca': 'Báthori Miklós utca'  # utcatáblán Báthori utca (2023.06), az Excelben Báthori Miklós utca - https://www.openstreetmap.org/note/3673572
   'Belgakert út': 'Belgakert utca'  # https://www.openstreetmap.org/note/3643293
-  'Csurgóbánya utca': 'Csurgó bánya utca'  # https://www.openstreetmap.org/note/3673562
   'Deres utca': 'Deres út'  # nincs tábla
   # 'Homok utca': 'Homok dűlő'  # Homok utca: https://www.openstreetmap.org/note/3485459, Homokdűlő út: https://www.openstreetmap.org/note/4683670
   'Kálvária': 'Kálvária dűlő'  # https://www.openstreetmap.org/note/3673566
@@ -144,6 +143,7 @@ refstreets:
   #'Felsőnyulas utca': 'Felső-nyulas utca'  # https://www.openstreetmap.org/note/3643314
   'Bocskai utca': 'Bocskai István utca'  # utcatáblán Bocskai utca (2023.06), az Excelben Bocskai István utca - https://www.openstreetmap.org/note/3673573
   'Csávolszky utca': 'Csávolszky József utca'  # utcatáblán Csávolszky utca (2023.06), az Excelben Csávolszky József utca - https://www.openstreetmap.org/note/3673487
+  'Csurgóbánya utca': 'Csurgó bánya utca'  # Táblán Csurgóbánya utca (2025.10) - https://www.openstreetmap.org/note/3673562 
   # 'Damjanich tér': 'Damjanich János tér'  # utcatáblák vegyesen (Damjanich János tér, Damjanich tér - 2023.06), az Excelben Damjanich János tér - https://www.openstreetmap.org/note/3673491
   # 'Damjanich utca': 'Damjanich János utca'  # Az utca egyik végén csak vezetéknévvel, a másik végén teljes névvel van kitáblázva. (2023.06)
   'Dombay utca': 'Dombay Sándor utca'  # utcatáblán Dombay utca (2023.06), az Excelben Dombay Sándor utca - https://www.openstreetmap.org/note/3673494
