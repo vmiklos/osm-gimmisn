@@ -32,6 +32,10 @@ filters:
   Csokonai Vitéz Mihály utca:
     # 19/b: 19 van kiírva
     invalid: ['19b']
+  Diófa utca:
+    # 2: vízmű van rajta
+    # 23: 48-nak számozva
+    invalid: ['2', '23']
   Dózsa György utca:
     # 1b: 1 és 1/a van táblázva
     invalid: ['1b']
@@ -79,9 +83,6 @@ filters:
   Katona József utca:
     # 4/b: 4/I van kiírva a kis háznál, a nagy házon semmi
     invalid: ['4b']
-  Kisloki utca:
-    # 14: 6 és 16 között nincs kiírva semmi. RESURVEY 2024
-    invalid: ['14']
   Kossuth Lajos utca:
     # 16: 12 (nincs kiírva) után 20 jön (kiírva)
     # 21/I: 21/1-nek jelölve
@@ -115,6 +116,9 @@ filters:
   Málnás utca:
     # 6/a, 6/b: 6 van kiírva
     invalid: ['6a', '6b']
+  Mandula út:
+    # 2: kikerült a tábla, 2/a van az új házon
+    invalid: ['2']
   Margaréta köz:
     # 2/a: 2 és 2/b van kiírva
     invalid: ['2a']
@@ -148,9 +152,15 @@ filters:
   Óvoda köz:
     # 4/1, 4/d: épületen csak 4 van kiírva
     invalid: ['4/1', '4d']
+  Pacsirta utca:
+    # 2: nincs
+    invalid: ['2']
   Petőfi köz:
     # 2: nincs, illetve a földhivatalban Patak utca 14-re mutat, ami egész máshol van
     invalid: ['2']
+  Pincesor utca:
+    # 1: nincs
+    invalid: ['1']
   Római út:
     # Hrsz 1066-os telek földhivatal szerint a 61-85 közötti házszámok. RESURVEY 2025-09
     # A telken 4 ház van, az egyiken 1066/6 van kiírva, a többin semmi.
@@ -194,6 +204,9 @@ filters:
   Szépkilátó köz:
     # 21: nincs páratlan oldalon házszám, egyébként is rövid az utca
     invalid: ['21']
+  Szépkilátó utca:
+    # 37: nincs táblázva, nincs fh adat
+    invalid: ['37']
   Szőlősor utca:
     # 3/I: 3 van kiírva
     # 5/a: 5 van kiírva
