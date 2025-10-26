@@ -25,7 +25,6 @@ filters:
     # 95/8: hrsz
     invalid: ['95/8']
 refstreets:
-  'Füredi utca': 'Füredi út'
   'Györgyhegyi utca': 'György-hegyi utca'
   'Laki dűlő': 'Laki dűlő út'
   'Lapostelki utca': 'Lapostelek dűlő'
@@ -34,6 +33,7 @@ refstreets:
   'Vázsonyi utca': 'Vázsonyi út'
   'Wesselényi Miklós utca': 'Wesselényi utca'
   # ellenőrzött
+  'Füredi utca': 'Füredi út'
   'Laborfalvy Róza köz': 'Laborfalvi Róza köz'
   'Palotaalja utca': 'Palota alja utca'
   'Péterhegyi utca': 'Péterhegyi út'  # táblák vegyesen
