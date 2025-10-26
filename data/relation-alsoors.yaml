@@ -45,9 +45,10 @@ filters:
   Endrődi Sándor utca:
     # 8 = Alkotás köz 2.
     # 12/a: ezen is 12 van kint, így dupla.
-    # 29, 31, 35, 37, 41, 43: nincsenek alátörések kiírva, kivéve 37/I
     # 20: Jókai Mór utca 2/1 a címe a templomnak
-    invalid: ['12a', '8','20', '29/2', '29/3', '29/4', '31/2', '33/3', '35d', '37/2', '37/3', '37/4', '37/5', '37v', '41/1', '41/3', '41a', '43/1', '43/2', '43/3', '43c', '43i']
+    # 24: 24/A és 24/B-vel hivatkozak a boltok
+    # 29, 31, 35, 37, 41, 43: nincsenek alátörések kiírva, kivéve 37/I
+    invalid: ['12a', '8','20', '24', '29/2', '29/3', '29/4', '31/2', '33/3', '35d', '37/2', '37/3', '37/4', '37/5', '37v', '41/1', '41/3', '41a', '43/1', '43/2', '43/3', '43c', '43i']
   Erkel Ferenc utca:
     # 54/b: csak 54 van kiírva
     # 59: csak páros oldal van, páratlan oldalon szántóföld és Lovashoz tartozik
