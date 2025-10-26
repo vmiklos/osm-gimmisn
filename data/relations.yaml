@@ -337,6 +337,10 @@ szeged:
     refcounty: "06"
     refsettlement: "051"    
 # 07 - Fejér megye
+bakonykuti:
+    osmrelation: 1361437
+    refcounty: "07"
+    refsettlement: "007"
 baracska:
     osmrelation: 1370245
     refcounty: "07"
