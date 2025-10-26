@@ -4,6 +4,9 @@ filters:
     # 7: Alkotás köz felől, vmi épül. RESURVEY 2024
     # 9: 9/I van kiírva
     invalid: ['7', '9', '22']
+  Akácfa utca:
+    # 14a: társasház/üdülő csak 14 van kiírva
+    invalid: ['14a']
   Almádi utca:
     # nincs táblázva az Almádi utca és házszámai sem
     invalid: ['4']
@@ -41,13 +44,19 @@ filters:
     invalid: ['1b']
   Endrődi Sándor utca:
     # 8 = Alkotás köz 2.
+    # 12/a: ezen is 12 van kint, így dupla.
     # 29, 31, 35, 37, 41, 43: nincsenek alátörések kiírva, kivéve 37/I
     # 20: Jókai Mór utca 2/1 a címe a templomnak
-    invalid: ['8','20', '29/2', '29/3', '29/4', '31/2', '33/3', '35d', '37/2', '37/3', '37/4', '37/5', '37v', '41/1', '41/3', '41a', '43/1', '43/2', '43/3', '43c', '43i']
+    invalid: ['12a', '8','20', '29/2', '29/3', '29/4', '31/2', '33/3', '35d', '37/2', '37/3', '37/4', '37/5', '37v', '41/1', '41/3', '41a', '43/1', '43/2', '43/3', '43c', '43i']
   Erkel Ferenc utca:
     # 54/b: csak 54 van kiírva
     # 59: csak páros oldal van, páratlan oldalon szántóföld és Lovashoz tartozik
     invalid: ['54b', '59']
+  Fábián József utca:
+    # 8/a, 8/b: csak sima 8 van
+    # 17/a, 17/b: csak sima 17 van
+    # 13: 13/a, 13/b van kiírva
+    invalid: ['8a', '8b', '13', '17a', '17b']
   Felsőmáli út:
     # 25: nincs kiírva
     invalid: ['25']
@@ -109,7 +118,8 @@ filters:
   Loki út:
     # 47/a = Szilvás köz 8
     # 48 = 32 van kírva
-    invalid: ['47a', '48']
+    # 53/b: csak 53 van kiírva
+    invalid: ['47a', '48', '53b']
   Madách Imre utca:
     # 72: max páros a 26
     invalid: ['72']
@@ -162,9 +172,10 @@ filters:
     # 1: nincs
     invalid: ['1']
   Római út:
-    # Hrsz 1066-os telek földhivatal szerint a 61-85 közötti házszámok. RESURVEY 2025-09
+    # Hrsz 1066-os telek földhivatal szerint a 61-85 közötti házszámok. RESURVEY 2026
     # A telken 4 ház van, az egyiken 1066/6 van kiírva, a többin semmi.
-    invalid: ['61', '63', '65', '67', '71', '73', '75', '77', '79', '81', '83', '85', '120']
+    # 13: megszűnt, a telken 1 ház van, ott Búzavirág köz 2 van a kerítésen.
+    invalid: ['13', '61', '63', '65', '67', '71', '73', '75', '77', '79', '81', '83', '85', '120']
   Sarló utca:
     # 6: helyén 4 van kiírva
     invalid: ['6']
@@ -207,6 +218,9 @@ filters:
   Szépkilátó utca:
     # 37: nincs táblázva, nincs fh adat
     invalid: ['37']
+  Szilvás köz:
+    # 8, 10: bár 2 épület van, nincsenek kint betűk
+    invalid: ['8a', '8b', '10a', '10b']
   Szőlősor utca:
     # 3/I: 3 van kiírva
     # 5/a: 5 van kiírva
