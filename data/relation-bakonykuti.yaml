@@ -1,0 +1,7 @@
+missing-streets: 'yes'
+refstreets:
+  'Jókai Mór utca': 'Jókai út'
+  'Petőfi Sándor utca': 'Petőfi utca'
+source: survey
+inactive: false
+housenumber-letters: true
