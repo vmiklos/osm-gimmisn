@@ -1,4 +1,4 @@
-FROM fedora:42 AS builder
+FROM fedora:43 AS builder
 
 RUN dnf install -y \
     cargo \
@@ -18,7 +18,7 @@ RUN git -C /opt clone https://github.com/vmiklos/osm-gimmisn
 
 RUN make -C /opt/osm-gimmisn
 
-FROM fedora:42
+FROM fedora:43
 
 RUN dnf install -y \
     git-core \
