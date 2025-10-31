@@ -114,7 +114,7 @@ filters:
     # 93/a: nincs nyoma a katonaságnál semmilyen házszám nincs kint
     # 97/a: 97 van kiírva
     # 36, 44, 56, 78a, 88a: max páros a 34, a vasútállomás
-    invalid: ['4d', '5b', '5g', '6-8', '8a', '8b', '8c', '8d', '13e', '14', '18/1', '18a', '18b', '18c', '22a', '25/2', '25b', '27a', '30/4', '30b', '33a', '33b', '33c', '33d', '36', '44', '56', '59/1', '59/2', '59/6', '59a', '59d', '59g', '61', '63', '65', '67', '71', '73', '78a', '88a', '93a', '97a']
+    invalid: ['4d', '5b', '5g', '6', '8a', '8b', '8c', '8d', '13e', '14', '18/1', '18a', '18b', '18c', '22a', '25/2', '25b', '26/1', '26a', '26i', '27a', '30/4', '30b', '33a', '33b', '33c', '33d', '36', '44', '56', '59/1', '59/2', '59/6', '59a', '59d', '59g', '61', '63', '65', '67', '71', '73', '78a', '88a', '93a', '97a']
   Kankalin utca:
     # 1: sorház: 1/a-1/f, 1/3 nincs
     # 2: sorház: 2/a-2/e, sima 2 nincs
@@ -157,6 +157,9 @@ filters:
     # 1: nincs, van 1/1, 1/2, 1/b
     # 1/a: nincs, 1/b van kiírva
     invalid: ['1', '1a']
+  Munkácsy Mihály utca:
+    # 1/e-1/h: lépcsőházak
+    invalid: ['1e', '1f', '1g', '1h']
   Nyerges utca:
     # 1/1: nincs, csak sima 1, valószínű ajtó
     # 8/X: nincs alábontva, csak 8 van kint
