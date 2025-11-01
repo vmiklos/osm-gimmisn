@@ -23,6 +23,8 @@ street-filters:
   - Palánk
   - Strázsahegy  # Strázsa-hegy
   - Szőlőhegy
+  # csak hrsz
+  - Kerékhegy
 osm-street-filters:
   # nem igazi utcák
   - Attila Birtok bejárati út
