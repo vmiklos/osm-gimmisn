@@ -419,9 +419,10 @@ filters:
     # 25: domboldal, nem látszik épkézláb bejárat lentről
     # 32: tulaj megkérdezve, ok
     # 36: nincs kiírva
-    # 40-44: 44 volt régen kiírva, most kikerül 40 44 a postaládára
+    # 40-44: 44 volt régen kiírva, aztán kikerül 40 44 a postaládára, most meg 40 van új táblán
+    # 42: nincs
     # 71: 39 az utolsó páratlan
-    invalid: ['36']
+    invalid: ['36', '42']
   Martinovics utca:
     # 14: 2 db 16 van táblázva
     # 28: 28/a van kiírva
