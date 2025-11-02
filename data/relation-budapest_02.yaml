@@ -495,6 +495,10 @@ filters:
     # 16a: 16 van kitáblázva
     # 18: 18a van kitáblázva
     invalid: ['7', '39', '16a', '18']
+  Utas utca:
+    invalid:
+      - '10c' # 10a, 10b helyette
+      - '22' # 22a, 22b helyette
   Ürömi köz:
     ranges:
       - {start: '1', end: '3'}

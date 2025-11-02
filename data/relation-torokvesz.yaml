@@ -212,6 +212,10 @@ filters:
     invalid: ['7']
     ranges:
       - {start: '5', end: '23'}
+  Utas utca:
+    invalid:
+      - '10c' # 10a, 10b helyette
+      - '22' # 22a, 22b helyette
   Vöröstorony lejtő:
     invalid:
       - '13' # 13a, 13b helyette
