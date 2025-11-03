@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Arácsi út:
+    # 6/a-d: régi házszámok vagy ajtó, csak a 6/a van kint
+    invalid: ['6b', '6c', '6d']
   Balaton utca:
     # 28/a: nincs csak 28.
     # 29: 29/a és 29/b van, hivatalosan a 29/b helyén lenne és az a és b közti üres telek lenne a 29/b.
@@ -18,9 +21,15 @@ filters:
     # 23: A Castriscum tér része, nincs itt ház
     # 38: nincs, üres telek
     invalid: ['2a', '23', '38']
+  Lóczy Lajos utca:
+    # 94: helyén 80 van kiírva
+    invalid: ['94']
   Tagore sétány:
     # 3xx/y: hrsz
     invalid: ['333/3', '387/2', '378', '378/2']
+  Vajda János utca:
+    # 3/b: nincs, csak sima 3.
+    invalid: ['3b']
   Zákonyi Ferenc utca:
     # 95/8: hrsz
     invalid: ['95/8']
