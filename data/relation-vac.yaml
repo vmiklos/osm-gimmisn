@@ -124,7 +124,6 @@ refstreets:
   # 'Pasa utca': 'Pasa út'  # https://www.openstreetmap.org/note/3715870
   # 'Gérbics utca': 'Zsellér utca'  # https://www.openstreetmap.org/note/3718949
   # ref és önkormányzati excel eltérések (ref:excel) - ellenőrizendő ----------
-  # Alsó-nyulas utca: Alsó-Nyulas utca  # https://www.openstreetmap.org/note/3643283
   # Görgey Artur utca: Görgey Artúr utca
   # Gyöngyház lepke utca: Gyöngyházlepke utca  # https://www.openstreetmap.org/note/3716210
   # Oberlander tér: Oberländer Endre tér
