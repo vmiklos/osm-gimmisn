@@ -91,7 +91,7 @@ refstreets:
   'Írottkő utca': 'Irottkő utca'
   'Rumi Külső út': 'Rumi külső út'
   'Tinódi Lantos Sebestyén utca': 'Tinódi Sebestyén utca'
-  'Dr. Tóth Géza tér': 'Tóth Géza tér'
+  # 'Dr. Tóth Géza tér': 'Tóth Géza tér'
   # rövidítés
   'Erdősi Sylvester János utca': 'Erdősi Sylvester Ján utca'
 street-filters:
