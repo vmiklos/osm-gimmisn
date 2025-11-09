@@ -271,6 +271,9 @@ filters:
     # 27: 27/a, 27/b van
     # 16/a, 16/b: 16 van
     invalid: ['3', '13', '27', '16a', '16b']
+  Herman Ottó út:
+    invalid:
+      - '19-21' # 19a, 19b, 21 helyette
   Júlia utca:
     # 2: 2/a, 2/b, 2/c
     invalid: ['2']

@@ -124,6 +124,8 @@ filters:
     # 16/a, 16/b: 16 van
     invalid: ['3', '13', '27', '16a', '16b']
   Herman Ottó út:
+    invalid:
+      - '19-21' # 19a, 19b, 21 helyette
     ranges:
       - {start: '1', end: '99'}
       - {start: '6', end: '98'}
