@@ -126,6 +126,7 @@ filters:
   Herman Ottó út:
     invalid:
       - '19-21' # 19a, 19b, 21 helyette
+      - '19-21d'
     ranges:
       - {start: '1', end: '99'}
       - {start: '6', end: '98'}

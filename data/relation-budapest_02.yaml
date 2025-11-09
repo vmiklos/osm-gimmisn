@@ -274,6 +274,7 @@ filters:
   Herman Ottó út:
     invalid:
       - '19-21' # 19a, 19b, 21 helyette
+      - '19-21d'
   Júlia utca:
     # 2: 2/a, 2/b, 2/c
     invalid: ['2']
