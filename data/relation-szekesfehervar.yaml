@@ -713,10 +713,15 @@ osm-street-filters:
   - Vásártér
   # parkok, sétányok
   - Alsóvárosi pihenőpark
+  - Andrásgyepi park
+  - Aranybulla park
+  - Aszalvölgyi sétálópark
   - Barátság liget
+  - Bory Jenő pihenősziget
   - Csikvári sétány
   - Gyergyó emlékpark
   - Halesz park
+  - Háromágú emlékpark
   - Hübner park
   - János vitéz park
   - Királyok parkja
@@ -731,6 +736,8 @@ osm-street-filters:
   - Rácbánya
   - Rózsaliget
   - Stadion sétány
+  - Szent Donát kápolna játszótér
+  - Túrózsáki szabadidőpark
   - Várfal park
   - Videoton ipari park park
 street-filters:
