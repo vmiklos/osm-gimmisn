@@ -18,6 +18,7 @@ refstreets:
   # 'Szomorodni utca': 'Szamorodni utca'  # táblán Szamorodni utca (2023-05-23)
   # 'Tétényi út': 'Tétényi utca'  # Új táblák vannak, mindegyiken utca van (2023-05-20)
   # 'Tokaj utca': 'Tokaji utca'  #  táblán Tokaji utca (2023-05-23)
+  'Bem tér': 'Bem József tér'  # tábllán: Bem tér (2025-11)
   'Kálvin tér': 'Calvin tér'  # táblán: Kálvin tér (2023-07-24)
   'Loránd utca': 'Lóránd utca'  # az utcanévtáblákon rövid O-val van, a házszámtáblákon hosszú Ó-val. OSM-en hagytam röviden. (2024-06-22)
   'Vízöntő utca': 'Vízöntő út'  # Ipari park: táblán Vízöntő utca (2023-02-18)
