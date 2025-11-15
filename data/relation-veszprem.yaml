@@ -20,6 +20,10 @@ filters:
   Akácfa utca:
     # 1-43, 2-50
     invalid: ['73']
+  Alsóharaszt utca:
+    # 1/a: nincs, csak sima 1
+    # 10/b: nincs, csak sima 10
+    invalid: ['1a', '10b']
   Arany János utca:
     # 16a: nincs, csak sima 16 van.
     # 41a: semmi sincs táblázva.
@@ -77,10 +81,18 @@ filters:
     # 34/I: 34/1-nek számozva
     # 40/1, 40a: 40, 40/2 és 40/3 van.
     invalid: ['34i', '40/1', '40a']
+  Hajmáskéri út:
+    # 1/a: nincs, csak sima 1.
+    # 13/2: nincs, csak sima 13.
+    invalid: ['1a', '13/2']
   Hársfa utca:
     # 1-55, 2-48
     # 41/a: 41 és 41/b az ikerház 2 felén
     invalid: ['41a', '85']
+  Hamuház utca:
+    # 2-14 része most Prépost utca, viszont házszámokat tekintve a 2-nél Hamuház utca, a 12-nél Prépost utca szerepel a táblán
+    # 4, 14 = Prépost utca 4, 14
+    invalid: ['4', '14']
   Haszkovó utca:
     # 18/1: 18/A .. 18/L lépcsőházak
     invalid: ['18/1']
@@ -160,6 +172,11 @@ filters:
   Munkácsy Mihály utca:
     # 1/e-1/h: lépcsőházak
     invalid: ['1e', '1f', '1g', '1h']
+  Német utca:
+    # 33, 35, 37: 31 után 39 van kiírva
+    # 41: nincs kint szám, de FH szerint ez a 35, viszont előtte 39 van kiírva ami FH szerint 33.
+    # 42: 40 után 44 és 44/1
+    invalid: ['33', '35', '37', '41', '42']
   Nyerges utca:
     # 1/1: nincs, csak sima 1, valószínű ajtó
     # 8/X: nincs alábontva, csak 8 van kint
@@ -170,6 +187,9 @@ filters:
   Pipacs utca:
     # 22: kiírva nincs, valamit építkeznek. RESURVEY 2026
     invalid: ['22']
+  Prépost utca:
+    # 1 lebontva, nincs kiírva semmi
+    invalid: ['1']
   Rozmaring utca:
     # 28a: nincs, 28 és 28/1 van.
     # 34a: nincs, csak sima 34.
