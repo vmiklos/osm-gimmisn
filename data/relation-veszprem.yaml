@@ -262,7 +262,6 @@ refstreets:
   'Kavics utca': 'Kavicsos utca'  # https://www.openstreetmap.org/note/4362581
   'Kerekes utca': 'Kerekeskút utca'  # https://www.openstreetmap.org/note/4362584
   'Lilaakác utca': 'Lila akác utca'  # https://www.openstreetmap.org/note/4274951
-  'Répavölgyi utca': 'Répavölgy utca'  # https://www.openstreetmap.org/note/4274987
   # ellenőrizve
   'Alsóújsor': 'Alsó-újsor'  # https://www.openstreetmap.org/note/4274953
   'Felsőújsor': 'Felső-újsor'  # https://www.openstreetmap.org/note/4274958
@@ -281,7 +280,8 @@ refstreets:
   # Kiss János utca     # https://www.openstreetmap.org/note/4274979
   # Kinizsi Pál utca    # https://www.openstreetmap.org/note/4274978
   # Óvári Ferenc út     # https://www.openstreetmap.org/note/4274983
-  # Sarkantyú utca'     # https://www.openstreetmap.org/note/4274989
+  # Répavölgy utca      # https://www.openstreetmap.org/note/4274987
+  # Sarkantyú utca      # https://www.openstreetmap.org/note/4274989
   # Sigray Jakab utca'  # https://www.openstreetmap.org/note/4274996 - új tábla Sigray Jakab utca, régi Sigray utca
   # Szendrey Júlia utca # https://www.openstreetmap.org/note/4274997 - táblán Szendrey J. utca
   # Sziklai János utca  # https://www.openstreetmap.org/note/4274999
@@ -289,7 +289,6 @@ refstreets:
   # Vámosi utca         # https://www.openstreetmap.org/note/4275002
   # Vértanú utca        # https://www.openstreetmap.org/note/4275004
   # Vizi utca           # https://www.openstreetmap.org/note/4275013
-
   # 'Gépraktár utca': 'Gépraktár út'  # https://www.openstreetmap.org/note/3808728 - nincs tábla
 street-filters:
   # nem igazi utcák
