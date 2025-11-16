@@ -81,7 +81,7 @@ filters:
     # 34/I: 34/1-nek számozva
     # 40/1, 40a: 40, 40/2 és 40/3 van.
     invalid: ['34i', '40/1', '40a']
-  Hajmáskéri út:
+  Hajmáskéri utca:
     # 1/a: nincs, csak sima 1.
     # 13/2: nincs, csak sima 13.
     invalid: ['1a', '13/2']
@@ -173,10 +173,11 @@ filters:
     # 1/e-1/h: lépcsőházak
     invalid: ['1e', '1f', '1g', '1h']
   Német utca:
+    # 29/a, 29/b: csak sima 29 van.
     # 33, 35, 37: 31 után 39 van kiírva
     # 41: nincs kint szám, de FH szerint ez a 35, viszont előtte 39 van kiírva ami FH szerint 33.
     # 42: 40 után 44 és 44/1
-    invalid: ['33', '35', '37', '41', '42']
+    invalid: ['29a', '29b', '33', '35', '37', '41', '42']
   Nyerges utca:
     # 1/1: nincs, csak sima 1, valószínű ajtó
     # 8/X: nincs alábontva, csak 8 van kint
