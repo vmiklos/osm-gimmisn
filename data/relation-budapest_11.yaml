@@ -169,10 +169,11 @@ filters:
   # Bártfai utca:
   Bartók Béla út:
     # 15e: 15a-15c, 15b-15d hátsó épületnek nem ismert a házszáma, nincs kiírva semmi
+    # 49/I: 49 I. épület
     # 84: Maga a Kosztolányi Dezső tér
     # 138-154: Griff, a 152/* számot használja
     # 152a: 152, 152/a, 152/b, 152/i, 152/h
-    invalid: ['15e', '129', '52a', '52b', '84', '114a', '152f']
+    invalid: ['15e', '129', '49i', '52a', '52b', '84', '114a', '152f']
     ranges:
       - {start: '1', end: '149'}
       - {start: '2', end: '160'}
@@ -901,10 +902,10 @@ filters:
     invalid: ['3']
   Hegytető utca:
     # 7: 7/a, 7/b
-    # 11a: csak 11
+    # 11/a, 11/b: csak 11, mindkét házrészen
     # 15: másik utcáról számozva
     # 20a: 20-nak van jelölve, nincs kiírva semmi, 20/b van kint a másik felén
-    invalid: ['7', '11a', '15b', '20a']
+    invalid: ['7', '11a', '11b', '15b', '20a']
   Hengermalom út:
     # Új Buda Center 19-21; köv. házszám a 43
     invalid: ['20', '24']
@@ -1588,7 +1589,7 @@ filters:
     # 27: nincs: 25 után 31
     # 29-31: 31 lett belőle
     # 36-40: a, b, c, d épületek, a kapun 40, a portás szerint viszont 36-40. Ezen kívül van még egy 40/a bejárat is a fitnessnél
-    invalid: ['27', '29']
+    invalid: ['27', '29', '40d']
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '54'}
