@@ -31,6 +31,8 @@ way(area.searchArea)["place"="square"]["leisure"!="park"]["highway"!="pedestrian
 out;
 relation(area.searchArea)["leisure"="square"][name];
 out;
+relation(area.searchArea)["highway"="pedestrian"][name][layer!~"-"];
+out;
 // area boundary streets
 rel(@RELATION@)->.searchRelation;
 way(r.searchRelation)[highway][name][!"bridge"];
