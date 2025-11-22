@@ -71,9 +71,18 @@ filters:
     # 8b: nincs, csak 8/a és 8/a
     # 18/i: nincs csak 18/1
     invalid: ['8b', '18i', '78']
+  Eresztvényi utca:
+    # 6/a: üres, 4 után 12 jön.
+    # 48: max páros a 44.
+    invalid: ['6a', '48']
   Erzsébet liget:
     # max páratlan 17
     invalid: ['21', '25']
+  Felsőújsor:
+    # 26/A, 26/B: ikerház, de csak sima 26 van.
+    # 29: nincs, 29/A és 29/B van.
+    # 30/1: nincs, helyén 32 van.
+    invalid: ['26a', '26b', '29', '30/1']
   Gelencsér utca:
     # 9 nincs: max házszám a 7
     invalid: ['9']
@@ -188,6 +197,9 @@ filters:
   Pipacs utca:
     # 22: kiírva nincs, valamit építkeznek. RESURVEY 2026
     invalid: ['22']
+  Posta utca:
+    # 45/1: nincs
+    invalid: ['45/1']
   Prépost utca:
     # 1 lebontva, nincs kiírva semmi
     invalid: ['1']
