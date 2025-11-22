@@ -4,9 +4,6 @@ filters:
   Ady Endre utca:
     ranges:
       - {start: '1', end: '1'}
-  Alvinci út:
-    # átlógó
-    ranges: []
   Bem József tér:
     interpolation: 'all'
     ranges:
