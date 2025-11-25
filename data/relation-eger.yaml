@@ -139,7 +139,7 @@ refstreets:
   # 'II. Rákóczi Ferenc út': 'II. Rákóczi Ferenc utca'  # táblán mindkettő
   # 'Maczki Valér utca': 'Macki Valér utca'  # Note 2803212 - ref 2024-ben már Maczki Valér utca, táblán Maczki Valér utca, régi táblén Maczky Valér utca
   'Nagylapos utca': 'Nagylaposi út'  # Note 2803222
-  'Rottenstein Károly köz': 'Rottenstein Károly utca'  # Note 2803227
+  # 'Rottenstein Károly köz': 'Rottenstein Károly utca'  # Note 2803227
   'Rózsa völgy': 'Rózsavölgy utca'  # Note 2803213
   # 'Tibrik dűlő': 'Tibrikdűlő utca'  # Note 2803220
   # 'Törvényház út': 'Törvényház utca'  # Note 2803216
