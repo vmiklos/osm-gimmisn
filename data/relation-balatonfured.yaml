@@ -21,9 +21,20 @@ filters:
     # 23: A Castriscum tér része, nincs itt ház
     # 38: nincs, üres telek
     invalid: ['2a', '23', '38']
+  Kistói utca:
+    # Kistói Üdülőszövetkezet házszáma az 1, minden más házszám megszűnt. Forrás az üdülőszövetkezet elnöke.
+    # 3a-9: Galagonya utcától felfelé a 3 után 11 következik
+    invalid: ['3a', '5', '5a', '7', '7b', '9']
   Lóczy Lajos utca:
+    # 14/a: csak 14 van kiírva
+    # 46/a: nincs kiírva
+    # 52: nincs nyoma, van 50 a Spar, aztán 54
     # 94: helyén 80 van kiírva
-    invalid: ['94']
+    invalid: ['14a', '46a', '52', '94']
+  Rozmaring köz:
+    # 7 nincs: 3 után 9/1
+    # 17: 17/a, 17/b
+    invalid: ['7', '17']
   Tagore sétány:
     # 3xx/y: hrsz
     invalid: ['333/3', '387/2', '378', '378/2']
