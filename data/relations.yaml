@@ -563,6 +563,10 @@ uny:
     refcounty: "12"
     refsettlement: "070"
 # 13 - Nógrád megye
+alsopeteny:
+    osmrelation: 1373920
+    refcounty: "13"
+    refsettlement: "001"
 balassagyarmat:
     osmrelation: 1370323
     refcounty: "13"
