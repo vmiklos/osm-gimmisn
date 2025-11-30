@@ -1,5 +1,10 @@
 missing-streets: 'yes'
 filters:
+  Alteleki út:
+    # 9: 9/A, 9/B
+    # 15: nincs beépítve
+    # 54-62: az utca végét újraszámozták: 60 helyén 92, 62 helyén 94 van kiírva
+    invalid: ['9', '15', '54', '60', '62']
   Balaton köz:
     # max házszám 3 ill. 10. ezek a számok a Balatoni út számai
     invalid: ['7', '18', '20', '21', '31', '39', '41', '42', '47', '60', '65', '67', '71', '73', '77', '81', '83', '89', '101', '103', '105', '113', '137', '169', '171', '221' ,'227' ,'235','269', '814']
@@ -12,9 +17,27 @@ filters:
     # 14: nincs ilyen kiírva
     # 40/b: nincs kiírva
     invalid: ['8', '12', '14', '40b']
+  Margaréta utca:
+    # 6: helyén 4 van kiírva
+    invalid: ['3', '11', '6']
+  Parti sétány:
+    # 11/a-b: 11/A és 11/B külön pontként
+    invalid: ['11a-b']
   Schédl Lajos utca:
     # 51, 57: nincs kiírva, nem azonosítható
     invalid: ['51','57']
+  Szilvafa utca:
+    # 40: max páros a 36
+    invalid: ['40']
+  Tulipán utca:
+    # 10: helyén 17 van kiírva
+    invalid: ['10']
+  Vak Bottyán utca:
+    # 662: nincs
+    invalid: ['662']
+  Viola utca:
+    # 9: 9/A és 9/B van kiírva
+    invalid: ['9']
 refstreets:
    # helyesírás
   'Bolyai János utca': 'Bólyai János utca'  # nincs tábla
