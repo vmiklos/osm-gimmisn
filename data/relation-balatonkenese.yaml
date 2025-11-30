@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Alkotmány utca:
+    invalid: ['2a', '2b']
   Alteleki út:
     # 9: 9/A, 9/B
     # 15: nincs beépítve
@@ -11,6 +13,14 @@ filters:
   Csónakos utca:
     # 1/1-16 ezek lakás számok, kivülről nem látszik semmi, csak a kaputelefonon szerepelnek
     invalid: ['1/1', '1/2', '1/3', '1/4', '1/5', '1/6', '1/7', '1/8', '1/9']
+  Juhász Gyula utca:
+    # 4: nincs ilyen kiírva
+    # 6: földhivatali helyén semmi sincs kiírva, a szám a 8-as teleknél van kiírva
+    # 8, 8a: helyén 6 van kiírva
+    invalid: ['4', '8', '8a']
+  Kazinczy Ferenc utca:
+    # 24: nincs, max páros a 22.
+    invalid: ['24']
   Kikötő utca:
     # 8: nincs kiírva
     # 12: helyén 16 van kiírva, illetve 16 van az épülő ház kerítésén is
@@ -22,7 +32,18 @@ filters:
     invalid: ['3', '11', '6']
   Parti sétány:
     # 11/a-b: 11/A és 11/B külön pontként
-    invalid: ['11a-b']
+    # 24: nincs
+    # 50/b: nincs, csak sima 50
+    # 63/a: nincs kiírva, csak 63
+    invalid: ['24', '50b', '63a', '11a-b']
+  Rege utca:
+    # 6: nincs kiírva, nem megállapítható melyik ház, Juhász Gyula 16 telkén lényegében 3 ház van, Rege utca felől nincs bejárat
+    # 17: Parti sétány 164 van kiírva
+    invalid: ['6', '17']
+  Strand tér:
+    # nincsenek kint a pavilon számok, csak a 2, 12, 13.
+    interpolation: all
+    invalid: ['1', '3', '4', '6', '7', '7a', '7b', '8', '8a', '8b', '10', '11', '12a', '12b', '14', '15', '16', '17', '18']
   Schédl Lajos utca:
     # 51, 57: nincs kiírva, nem azonosítható
     invalid: ['51','57']
