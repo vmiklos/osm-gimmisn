@@ -1,0 +1,15 @@
+missing-streets: 'yes'
+refstreets:
+  'Arany János utca': 'Arany János út'
+  'Jókai utca': 'Jókai Mór utca'
+street-filters:
+  # tanyák
+  - Mikhel tanya
+# osm-street-filters:
+  # átlógó / területhatár
+  # nem igazi utcák
+  # parkok
+source: survey
+housenumber-letters: true
+inactive: false
+addr-unit: true
