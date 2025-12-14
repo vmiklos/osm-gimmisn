@@ -62,8 +62,8 @@ filters:
     # 21: 21a,21b,21c,21d van
     # 27-31 egyben
     # 24/c: 24-28/b és c
-    # 60 után 76: Solt 44 társasház egyik bejárata
-    invalid: ['21', '24c', '58']
+    # 54 után 76: Solt 44 társasház egyik bejárata, a köztes részen építkezés folyik még nincs házszám
+    invalid: ['21', '24c', '58', '60', '62', '64', '66', '68-78']
   Antónia utca:
     ranges:
       # not sure about the 5, definitely <7
@@ -826,7 +826,7 @@ filters:
     # 8-28: 6 után 30, közte csak a Teleki Blanka Általános Iskola
     # 29: nincs
     # 45-nél nincs kiírva semmi
-    invalid: ['3', '8-28', '13', '15', '45a', '45b', '63b']
+    invalid: ['3', '8-28', '13', '15', '45a', '45b']
     ranges:
       - {start: '1', end: '19'}
       - {start: '31', end: '65'}
@@ -1049,14 +1049,10 @@ filters:
     ranges:
       - {start: '2', end: '44'}
   Kánai út:
-    # páros számok 4- egyelőre a tó van üres telkek, de még nem kezdődött az építkezés 2022-05
-    # páratlan nagyobb számokat most kezdik beépíteni 2022-05
+    # páros számok 4-től indulnak
     # 2a: talán a focipálya, kiírva nincs, 1 sportegyesületi hivatkozás van rá
     # 3: 3/a, 3/b
     invalid: ['2a']
-    ranges:
-      - {start: '3', end: '9'}
-      - {start: '2', end: '2'}
   Kanizsai utca:
     # 2a: 2-10 A épület, az épületen 2-es szám
     invalid: ['1a', '2a']
@@ -1225,7 +1221,7 @@ filters:
       - {start: '1', end: '5'}
       - {start: '10', end: '12'}
   Kismákfa utca:
-    invalid: ['6b', '8a', '8b', '10a']
+    invalid: ['6b', '8a', '8b']
   # Kocsis utca:
     # 3-7: Kocsis szállón csak 5-ös szám van, 7 helyén Zámori utca 19, bár csak filctollal van kiírva a kapucsengőre.
     # 11 = Fejér Lipót utca 60.
@@ -1390,7 +1386,8 @@ filters:
     ranges:
       - {start: '6', end: '12'}
   Major utca:
-    invalid: ['65']
+    # 23-25: csak 23 van kiírva, a 25-ös házrész Bornemissza utca 22-24-re van számozva
+    invalid: ['25', '65']
   Május utca:
     ranges:
       - {start: '1', end: '3'}
@@ -2084,8 +2081,8 @@ filters:
   Sopron út:
     # 21/a*: Avanti: 21 A épület
     # 52: Óvoda oldala, melynek címe: Lecke utca 15-19
-    # 58-64: 60 Aldi és 64 iroda épület van.
-    invalid: ['21a', '52', '58', '62']
+    # 56-64: 60 Aldi, 62 és 64 iroda épület van.
+    invalid: ['21a', '52', '56', '58']
   Söjtör utca:
     # 1-es címen ikerház van, csak 1-es van kiírva
     invalid: ['1b']
