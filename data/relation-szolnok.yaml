@@ -50,6 +50,7 @@ street-filters:
   - Újszanda tanya
 osm-street-filters:
   # nem igazi utcák
+  - Ormos Imre parki futókör
   - Tiszaligeti-futókör 
   - Tisza-híd
   # parkok, sétányok
@@ -59,8 +60,9 @@ osm-street-filters:
   - Gróf Széchenyi István park
   - Nemes Gerzson sétány
   - Ormos Imre park
-  - Sanmenxia kínai-magyar barátságpark
+  - Rózsapark
   - Tiszaligeti körgát
+  - Végzős Diákok Parkja
   - Zagyva-parti sétány
 source: survey
 housenumber-letters: true
