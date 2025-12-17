@@ -29,6 +29,7 @@ osm-street-filters:
   - Vilmos-tanya  # https://www.openstreetmap.org/note/3344606
   # átlógó utcák
   - Aligai út  # valójában a Lego kiállítás Balatonvilágos-ra számozza magát
+  - Erdősor utca  # Balatonvilágos
   - Sirály utca
 source: survey
 housenumber-letters: false
