@@ -47,6 +47,9 @@ street-filters:
   - Vasútállomás
 osm-street-filters:
   - Emlékpark
+  # átlógó
+  - Cseresznye utca
+  - Fenyő utca
 source: survey
 housenumber-letters: true
 inactive: true
