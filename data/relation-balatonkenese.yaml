@@ -4,15 +4,22 @@ filters:
     invalid: ['2a', '2b']
   Alteleki út:
     # 9: 9/A, 9/B
+    # 11/B: csak sima 11 van
     # 15: nincs beépítve
-    # 54-62: az utca végét újraszámozták: 60 helyén 92, 62 helyén 94 van kiírva
-    invalid: ['9', '15', '54', '60', '62']
+    # 54-62: az utca végét újraszámozták: 60 kint van, de a 92 még látszik, 62 helyén 94 van kiírva
+    invalid: ['9', '11b', '15', '54']
   Balaton köz:
     # max házszám 3 ill. 10. ezek a számok a Balatoni út számai
     invalid: ['7', '18', '20', '21', '31', '39', '41', '42', '47', '60', '65', '67', '71', '73', '77', '81', '83', '89', '89a', '101', '103', '105', '113', '137', '169', '171', '221' ,'227' ,'235','269', '814']
+  Csók István utca:
+    # 6/a-b-c-d: nincs kiírva semmi, de csak 1 épület van
+    invalid: ['6a', '6b', '6c', '6d']
   Csónakos utca:
     # 1/1-16 ezek lakás számok, kivülről nem látszik semmi, csak a kaputelefonon szerepelnek
     invalid: ['1/1', '1/2', '1/3', '1/4', '1/5', '1/6', '1/7', '1/8', '1/9']
+  Fűzfa utca:
+    # 2/a: hivatalosan az Alteleki út 11 mögött lenne, a Sport utca folytatásában lévő gyalogúton, ott nincs kiírva
+    invalid: ['2a']
   Juhász Gyula utca:
     # 4: nincs ilyen kiírva
     # 6: földhivatali helyén semmi sincs kiírva, a szám a 8-as teleknél van kiírva
@@ -27,9 +34,16 @@ filters:
     # 14: nincs ilyen kiírva
     # 40/b: nincs kiírva
     invalid: ['8', '12', '14', '40b']
+  Liliom utca:
+    # az utca felénél megfordul a páros-páratlan
+    # 1: Alteleki út 62 van táblázva
+    invalid: ['1']
   Margaréta utca:
     # 6: helyén 4 van kiírva
     invalid: ['6', '11']
+  Nyárfa sor:
+    # 22-24: csak 22 van kiírva, bár a kerítés más a 2 oldalon, de nem egyértelmű, hogy ikerház-e
+    invalid: ['24']
   Parti sétány:
     # 11/a-b: 11/A és 11/B külön pontként
     # 24: nincs
@@ -50,6 +64,10 @@ filters:
   Szilvafa utca:
     # 40: max páros a 36
     invalid: ['40']
+  Szivárvány utca:
+    # 14-16: csak 14 van kiírva, nem iker
+    # 29: nincs, 27 az utolsó. A következő ház már a Parti sétány 128 melléképülete.
+    invalid: ['16', '29']
   Tulipán utca:
     # 10: helyén 17 van kiírva
     invalid: ['10']
@@ -57,8 +75,13 @@ filters:
     # 662: nincs
     invalid: ['662']
   Viola utca:
+    # utcát átszámozták: 2-es házon a régi 4-es is kint van, a lakó szerint 2 az érvényes és a 8, 10-en rosszak a számok
+    # 6: 10 van kiírva
     # 9: 9/A és 9/B van kiírva
-    invalid: ['9']
+    invalid: ['6', '9']
+  Zápor utca:
+    # 7: üres telek, mellette 7/A van kiírva
+    invalid: ['7']
 refstreets:
    # helyesírás
   'Bolyai János utca': 'Bólyai János utca'  # nincs tábla
