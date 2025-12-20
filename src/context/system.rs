@@ -95,21 +95,29 @@ pub struct StdNetwork {}
 impl Network for StdNetwork {
     fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
         if !data.is_empty() {
-            let mut buf = isahc::Request::post(url)
+            let mut response = isahc::Request::post(url)
                 .redirect_policy(isahc::config::RedirectPolicy::Limit(1))
                 .timeout(Duration::from_secs(425))
                 .body(data)?
                 .send()?;
-            let ret = buf.text()?;
+            let status = response.status();
+            if !status.is_success() {
+                return Err(anyhow::anyhow!("status is not success: {status}"));
+            }
+            let ret = response.text()?;
             return Ok(ret);
         }
 
-        let mut buf = isahc::Request::get(url)
+        let mut response = isahc::Request::get(url)
             .redirect_policy(isahc::config::RedirectPolicy::Limit(1))
             .timeout(Duration::from_secs(425))
             .body(())?
             .send()?;
-        let ret = buf.text()?;
+        let status = response.status();
+        if !status.is_success() {
+            return Err(anyhow::anyhow!("status is not success: {status}"));
+        }
+        let ret = response.text()?;
         Ok(ret)
     }
 }
