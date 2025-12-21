@@ -6,6 +6,7 @@
 - Resolves: gh#4500 new `/lints/whole-country/invalid-addr-cities-turbo` endpoint to query the
   objects of the invalid addr:city values in overpass turbo
 - Resolves: gh#4710 handle the `addr:unit=*` key when parsing OSM housenumbers
+- Resolves: gh#4811 cron: consider non-success HTTP error codes a failure and retry
 
 ## 25.8
 
