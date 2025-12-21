@@ -34,6 +34,9 @@ filters:
     # 14: nincs ilyen kiírva
     # 40/b: nincs kiírva
     invalid: ['8', '12', '14', '40b']
+  Kosztolányi Dezső utca:
+    # 8-10: csak 10 van kiírva, nem ikerház
+    invalid: ['8']
   Liliom utca:
     # az utca felénél megfordul a páros-páratlan
     # 1: Alteleki út 62 van táblázva
@@ -72,8 +75,11 @@ filters:
     # 10: helyén 17 van kiírva
     invalid: ['10']
   Vak Bottyán utca:
+    # 7a, 12/1: ez a Strand tér pavilonsor
+    # 21: üres telek
+    # 51: nincs, 49 után 53
     # 662: nincs
-    invalid: ['662']
+    invalid: ['7a', '12/1', '21', '51', '662']
   Viola utca:
     # utcát átszámozták: 2-es házon a régi 4-es is kint van, a lakó szerint 2 az érvényes és a 8, 10-en rosszak a számok
     # 6: 10 van kiírva
@@ -87,8 +93,9 @@ refstreets:
   'Bolyai János utca': 'Bólyai János utca'  # nincs tábla
   'Kun utca': 'Kún utca'  # tábla Kun utca
   'Rozgonyi Cecília utca': 'Rozgonyi Cecilia utca'
-  # tábla = osm
-  'Maja utca': 'Maya utca'
+  # osm = utcatábla
+  'Testvérvárosok útja': 'Testvérvárosok utcája'
+  'Szilvamag utca': 'Szilvamag magánút'
 street-filters:
   # terület
   - Öreghegy
