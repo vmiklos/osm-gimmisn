@@ -94,8 +94,9 @@ refstreets:
   'Kun utca': 'Kún utca'  # tábla Kun utca
   'Rozgonyi Cecília utca': 'Rozgonyi Cecilia utca'
   # osm = utcatábla
-  'Testvérvárosok útja': 'Testvérvárosok utcája'
+  'Nagykuti utca': 'Nagykúti utca'
   'Szilvamag utca': 'Szilvamag magánút'
+  'Testvérvárosok útja': 'Testvérvárosok utcája'
 street-filters:
   # terület
   - Öreghegy
