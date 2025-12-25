@@ -80,6 +80,9 @@ filters:
   Erzsébet liget:
     # max páratlan 17
     invalid: ['21', '25']
+  Faiskola utca:
+    # 41/2: csak 41
+    invalid: ['41/2']
   Felsőújsor:
     # 26/A, 26/B: ikerház, de csak sima 26 van.
     # 29: nincs, 29/A és 29/B van.
@@ -156,6 +159,11 @@ filters:
     # 2: sorház: 2/a-2/e, sima 2 nincs
     # 4: sorház: 4/a-e, egyben nincs
     invalid: ['1/3', '2', '4a-e']
+  Kastélykert utca:
+    # 2/a, 2/b: 2 van kiírva
+    # 3, 5, 13: egyetlen házszám a páratlan oldalon az 1
+    # 6: 6/a van kiírva, a 6/b le van kopva, de most ez van jelölve fh szerint
+    invalid: ['2a', '2b', '3', '3/1', '5', '6', '13']
   Kincsási utca:
     # 15: 15/A, 15/B
     invalid: ['15']
@@ -232,7 +240,10 @@ filters:
   Pogánytelki utca:
     # 1: csak 1/A van kint, a másik házon semmi
     # 3: 3/A és 3/B van kiírva
-    invalid: ['1', '3']
+    # 10: 10/a, 10/b
+    # 17: 17/a
+    # 19: 19/a, 19/b
+    invalid: ['1', '3', '10', '17', '19']
   Posta utca:
     # 45/1: nincs
     invalid: ['25b', '45/1']
@@ -288,6 +299,9 @@ filters:
     # 1-5-ig sorházak, egyedi számok nincsenek 2/a formában vannak fent pontként, ezért 2/5, 2/6 nincs.
     # 6-17-ig egyedi házakra van bontva, nincsenek betűk.
     invalid: ['2/5', '2/6', '2a-f']
+  Torzsa utca:
+    # 19: csak páratlan oldalon egyetlen szám az 1, a többi része a 82-et út felé esik, nincs épület
+    invalid: ['19']
   Tószeg utca:
     # 18: nincs kírva, csak 18/2, bármelyik ipari épület lehet
     invalid: ['18']
