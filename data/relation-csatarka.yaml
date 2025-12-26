@@ -14,7 +14,19 @@ filters:
     ranges:
       - {start: '13', end: '99'}
       - {start: '14', end: '98'}
+  Ruthén út:
+    # 2/c: nincs, 2 és 2/b van
+    # 8: 8/a és 8/b van kiírva
+    # 14: 14/a van kiírva
+    # 28/b: ikerház, de csak 28 szerepel
+    # 35: üres telek, építkezés nyomati vannak. RESURVEY 2026
+    # 40/a*: csak 40 van kiírva
+    # 59/a, 59/b: kapun csak 59 van kiírva
+    invalid: ['2c', '8', '14', '28b', '35', '40a', '40b', '40c', '59a', '59b']
   Szalamandra út:
+    # 1 = Vereceke út 63
+    # 3 = Vereceke út 59-61
+    invalid: ['1', '3']
     ranges:
       - {start: '1', end: '13'}
   Törökvész út:

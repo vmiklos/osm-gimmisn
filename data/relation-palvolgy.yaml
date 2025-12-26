@@ -16,6 +16,12 @@ filters:
       - {start: '1', end: '31'}
       - {start: '2', end: '50'}
   Szalamandra út:
+    # 12: 12/a, 12/b
+    # 14: 14/a, 14/b
+    # 16: 16/a, 16/b
+    # 28: 28/a, 28/b
+    # 36: 36/a, 36/b
+    invalid: ['12', '14', '16', '28', '36']
     ranges:
       - {start: '15', end: '99'}
       - {start: '2', end: '98'}
@@ -23,6 +29,10 @@ filters:
     # több terület: szepvolgy/palvolgy/ujlak/zoldmal
     ranges:
       - {start: '148', end: '210'}
+  Turista út:
+    # utca vége átszámozve
+    # 48: új házszám, a régi 44/c van még kiírva, RESURVEY 2026-12
+    invalid: ['48']
   Verecke lépcső:
     # felmérendő
     ranges:

@@ -448,6 +448,15 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '14'}
+  Ruthén út:
+    # 2/c: nincs, 2 és 2/b van
+    # 8: 8/a és 8/b van kiírva
+    # 14: 14/a van kiírva
+    # 28/b: ikerház, de csak 28 szerepel
+    # 35: üres telek, építkezés nyomati vannak. RESURVEY 2026-12
+    # 40/a*: csak 40 van kiírva
+    # 59/a, 59/b: kapun csak 59 van kiírva
+    invalid: ['2c', '8', '14', '28b', '35', '40a', '40b', '40c', '59a', '59b']
   Rómer Flóris utca:
     # 59 = Levél utca 2
     # 61: sportpálya
@@ -469,6 +478,15 @@ filters:
     invalid: ['5a', '43', '45', '123', '127']
     ranges:
       - {start: '1', end: '131'}
+  Szalamandra út:
+    # 1 = Vereceke út 63
+    # 3 = Vereceke út 59-61
+    # 12: 12/a, 12/b
+    # 14: 14/a, 14/b
+    # 16: 16/a, 16/b
+    # 28: 28/a, 28/b
+    # 36: 36/a, 36/b
+    invalid: ['1', '3', '12', '14', '16', '28', '36']
   Széna tér:
     # 1-3,6-7 vizivaros, 4-5 orszagut
     # 1-2,6-7 I. kerület, 3 II. kerület
@@ -493,6 +511,10 @@ filters:
     # 94: nincs, csak 94/a, 94/b.
     # 103 után 111 jön, nincs köztes épület
     invalid: ['94']
+  Turista út:
+    # utca vége átszámozve
+    # 48: új házszám, a régi 44/c van még kiírva, RESURVEY 2026-12
+    invalid: ['48']
   Trombitás út:
     # 7: nincs kitáblázva
     # 39: 39/1, 39/2 helyette
