@@ -15,14 +15,14 @@ filters:
       - {start: '13', end: '99'}
       - {start: '14', end: '98'}
   Ruthén út:
-    # 2/c: nincs, 2 és 2/b van
     # 8: 8/a és 8/b van kiírva
     # 14: 14/a van kiírva
+    # 21/a: 21 és 21/b van kiírva
     # 28/b: ikerház, de csak 28 szerepel
-    # 35: üres telek, építkezés nyomati vannak. RESURVEY 2026
-    # 40/a*: csak 40 van kiírva
-    # 59/a, 59/b: kapun csak 59 van kiírva
-    invalid: ['2c', '8', '14', '28b', '35', '40a', '40b', '40c', '59a', '59b']
+    # 34: nincs.32 után 34-38, a teleknek valószíná a Verecke lépcső felé van bejárata
+    # 35: üres telek, építkezés nyomati vannak. RESURVEY 2026-12
+    # 59/a: csak 59 és 59/b van kiírva
+    invalid: ['8', '14', '21a', '28b', '34', '35', '59a']
   Szalamandra út:
     # 1 = Vereceke út 63
     # 3 = Vereceke út 59-61
@@ -41,10 +41,19 @@ filters:
       - {start: '2', end: '24'}
       - {start: '28', end: '98'}
   Verecke út:
-    # felmérendő
     ranges:
       - {start: '1', end: '63'}
       - {start: '2', end: '114'}
+    # 15-129/b, 2-146
+    # 18b: nincs, van 18, illetve ugyanazon a házon 20, 22
+    # 24-26: régi házszám van kint 20/a és 20/b
+    # 48-50: Ruthén út 2/b van kiírva
+    # 41 = Zöldkert út 16
+    # 66: nincs, 44-46 után 72 a következő, a köztes telkek Ruthén útra vannak számozva
+    # 92-96: nincs, üres telek
+    # 102/b: 102 és 102/a
+    # 114b: csak 114
+    invalid: ['18b', '24-26', '41', '48-50', '92-96', '102b', '114b']
   Zöldkert út:
     # 10: 10 C és D épület
     ranges:
