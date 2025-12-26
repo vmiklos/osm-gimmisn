@@ -35,11 +35,14 @@ filters:
       - {start: '95', end: '103'}
       - {start: '111', end: '147'}
   Verecke lépcső:
-    # felmérendő
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '24'}
-      - {start: '28', end: '98'}
+      - {start: '36', end: '36'}
+    # 15-17: csak 15 van kiírva
+    # 19-21: csak 19 van kiírva, illetve 19/a és 19/b
+    # 24: nincs 22 után 36
+    invalid: ['17', '21', '24']
   Verecke út:
     ranges:
       - {start: '1', end: '63'}
@@ -53,7 +56,7 @@ filters:
     # 92-96: nincs, üres telek
     # 102/b: 102 és 102/a
     # 114b: csak 114
-    invalid: ['18b', '24-26', '41', '48-50', '92-96', '102b', '114b']
+    invalid: ['18b', '24-26', '41', '48-50', '66', '92-96', '102b', '114b']
   Zöldkert út:
     # 10: 10 C és D épület
     ranges:
