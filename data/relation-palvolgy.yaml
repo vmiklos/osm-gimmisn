@@ -47,8 +47,9 @@ filters:
     # 118a: nincs, régi házszám
     # 120: most épül ilyen számmal ház fent, de egyébként 120/a..d számmal vannak kiírva házak
     # 130: nincs kiírva semmi
+    # 138/b: nincs, át lett számozva, 138/a-b -> 138/a, 138/c-d -> 138/b. A régi helyen 136/a fsz 2 van kiírva, az új helyen 138/c-d
     # 146: 140 van kiírva, a 140 helyén pedig semmi
-    invalid: ['85', '93', '118a', '130', '146']
+    invalid: ['85', '93', '118a', '130', '138b', '146']
   Zöldkert út:
     ranges:
       - {start: '5', end: '99'}
