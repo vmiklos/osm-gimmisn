@@ -36,12 +36,9 @@ filters:
   Verecke lépcső:
     ranges:
       - {start: '27', end: '99'}
-      - {start: '26', end: '26'}
-    # 15-17: csak 15 van kiírva
-    # 19-21: csak 19 van kiírva, illetve 19/a és 19/b
-    # 24: nincs 22 után 36
+      - {start: '26', end: '34'}
     # 29: nincs 27 után 35
-    invalid: ['17', '19-21', '24', '29']
+    invalid: ['29']
   Verecke út:
     ranges:
       - {start: '65', end: '199'}
@@ -61,3 +58,5 @@ filters:
       - {start: '2', end: '18'}
 source: survey
 inactive: true
+housenumber-letters: true
+addr-unit: true
