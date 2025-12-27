@@ -8,6 +8,9 @@ filters:
     # 15: nincs beépítve
     # 54-62: az utca végét újraszámozták: 60 kint van, de a 92 még látszik, 62 helyén 94 van kiírva
     invalid: ['9', '11b', '15', '54']
+  Bajcsy-Zsilinszky utca:
+    # 1: nincs
+    invalid: ['1', '3a']
   Balaton köz:
     # max házszám 3 ill. 10. ezek a számok a Balatoni út számai
     invalid: ['7', '18', '20', '21', '31', '39', '41', '42', '47', '60', '65', '67', '71', '73', '77', '81', '83', '89', '89a', '101', '103', '105', '113', '137', '169', '171', '221' ,'227' ,'235','269', '814']
@@ -17,6 +20,19 @@ filters:
   Csónakos utca:
     # 1/1-16 ezek lakás számok, kivülről nem látszik semmi, csak a kaputelefonon szerepelnek
     invalid: ['1/1', '1/2', '1/3', '1/4', '1/5', '1/6', '1/7', '1/8', '1/9']
+  Fő utca:
+    # 3-5: csak 3 van kiírva
+    # 17-19: 17 kint van Fő utca felől, de 17-19 nincs, a Nefelejcs utca felől meg kell nézni
+    # 20/a: nincs, csak 20 kiírva, de a telken 2 ház van
+    # 50, 50/a: lebontva, nem tudni melyik volt
+    # 52: csak 52/a van kiírva, de van 1 ház szám nélkül
+    # 84/a: nincs, 82 és 84 között van egy üres telek, de nincs kiírva semmi
+    # 89: 89/a, 89/b
+    # 102: üres telek
+    # 105: nincs
+    # 115, 119: nincsenek kiírva
+    # 122, 124, 126: nincsenek, max házszám 110
+    invalid: ['5', '20a', '50', '50a', '52', '84a', '89', '102', '105', '122', '124', '126']
   Fűzfa utca:
     # 2/a: hivatalosan az Alteleki út 11 mögött lenne, a Sport utca folytatásában lévő gyalogúton, ott nincs kiírva
     invalid: ['2a']
@@ -34,6 +50,10 @@ filters:
     # 14: nincs ilyen kiírva
     # 40/b: nincs kiírva
     invalid: ['8', '12', '14', '40b']
+  Kossuth Lajos utca:
+    # 35/a: nincs, csak 35
+    # 38: 38/a, 38/b
+    invalid: ['35a', '38']
   Kosztolányi Dezső utca:
     # 8-10: csak 10 van kiírva, nem ikerház
     invalid: ['8']
