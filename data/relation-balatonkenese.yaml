@@ -8,6 +8,9 @@ filters:
     # 15: nincs beépítve
     # 54-62: az utca végét újraszámozták: 60 kint van, de a 92 még látszik, 62 helyén 94 van kiírva
     invalid: ['9', '11b', '15', '54']
+  Árvácska utca:
+    # 9: Még Móricz Zsigmond utca 25-re számozva
+    invalid: ['9']
   Bajcsy-Zsilinszky utca:
     # 1: nincs
     invalid: ['1', '3a']
@@ -64,6 +67,9 @@ filters:
   Margaréta utca:
     # 6: helyén 4 van kiírva
     invalid: ['6', '11']
+  Móricz Zsigmond utca:
+    # 23: Árvácska utca 7-re átszámozva
+    invalid: ['23', '23/1']
   Nyárfa sor:
     # 22-24: csak 22 van kiírva, bár a kerítés más a 2 oldalon, de nem egyértelmű, hogy ikerház-e
     invalid: ['24']
