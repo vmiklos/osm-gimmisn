@@ -91,6 +91,9 @@ filters:
     # 14-16: csak 14 van kiírva, nem iker
     # 29: nincs, 27 az utolsó. A következő ház már a Parti sétány 128 melléképülete.
     invalid: ['16', '29']
+  Törökverő utca:
+    # 8: nincs, az utában 1 ház van, az 1-es
+    invalid: ['8']
   Tulipán utca:
     # 10: helyén 17 van kiírva
     invalid: ['10']
