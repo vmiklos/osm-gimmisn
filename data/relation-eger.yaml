@@ -134,11 +134,11 @@ refstreets:
   # 'Bem tábornok utca': 'Bem tábornok tér'  # Note 2803168 - táblák vegyesen
   # 'Deméndi utca': 'Deméndi út'  # Note 2803218
   'Disznófő-sor': 'Disznófősor'  # Note 2803215
-  # 'Egri út': 'Egri utca'  # Note 2803225 - táblák vegyesen
+  # 'Egri út': 'Egri utca'  # Note 2803225 - 3 esetben "Egri u.", egy helyen "Egri út" van a táblán.
   # 'Hevesi Sándor utca': 'Hevesy Sándor utca' # Táblán Hevesy Sándor utca - Note 2803219
   # 'II. Rákóczi Ferenc út': 'II. Rákóczi Ferenc utca'  # táblán mindkettő
   # 'Maczki Valér utca': 'Macki Valér utca'  # Note 2803212 - ref 2024-ben már Maczki Valér utca, táblán Maczki Valér utca, régi táblén Maczky Valér utca
-  'Nagylapos utca': 'Nagylaposi út'  # Note 2803222
+  # 'Nagylapos utca': 'Nagylaposi út'  # Note 2803222
   # 'Rottenstein Károly köz': 'Rottenstein Károly utca'  # Note 2803227
   'Rózsa völgy': 'Rózsavölgy utca'  # Note 2803213
   # 'Tibrik dűlő': 'Tibrikdűlő utca'  # Note 2803220
