@@ -17,6 +17,9 @@ filters:
   Balaton köz:
     # max házszám 3 ill. 10. ezek a számok a Balatoni út számai
     invalid: ['7', '18', '20', '21', '31', '39', '41', '42', '47', '60', '65', '67', '71', '73', '77', '81', '83', '89', '89a', '101', '103', '105', '113', '137', '169', '171', '221' ,'227' ,'235','269', '814']
+  Bartók Béla utca:
+    # 7 = József Attila utca 33
+    invalid: ['7']
   Csók István utca:
     # 6/a-b-c-d: nincs kiírva semmi, de csak 1 épület van
     invalid: ['6a', '6b', '6c', '6d']
@@ -83,6 +86,9 @@ filters:
     # 6: nincs kiírva, nem megállapítható melyik ház, Juhász Gyula 16 telkén lényegében 3 ház van, Rege utca felől nincs bejárat
     # 17: Parti sétány 164 van kiírva
     invalid: ['6', '17']
+  Révész utca:
+    # 7: sorház 7/1 .. 7/7
+    invalid: ['1']
   Strand tér:
     # nincsenek kint a pavilon számok, csak a 2, 12, 13.
     interpolation: all
@@ -103,6 +109,12 @@ filters:
   Tulipán utca:
     # 10: helyén 17 van kiírva
     invalid: ['10']
+  Urbánus utca:
+    # Sorházak
+    # 1: 1/1 .. 1/4
+    # 2: 2/1 .. 2/6
+    # 3: 3/1 .. 3/5
+    invalid: ['1', '2', '3']
   Vak Bottyán utca:
     # 7a, 12/1: ez a Strand tér pavilonsor
     # 21: üres telek
