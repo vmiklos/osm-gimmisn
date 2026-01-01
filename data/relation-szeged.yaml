@@ -31,6 +31,7 @@ street-filters:
   - Bodorka köz  # https://www.openstreetmap.org/way/1322957236
   - Csizmadia köz  # https://www.openstreetmap.org/way/682388772
   - Fegyverkovács utca  # https://www.openstreetmap.org/way/682388770
+  - Kócsag utca # https://www.openstreetmap.org/way/1458828101
   - Lakatos utca  # https://www.openstreetmap.org/way/682388775
   - Lőtér park  # https://www.openstreetmap.org/way/1322961933
   - Ötvös köz  # https://www.openstreetmap.org/way/682388768
@@ -48,6 +49,7 @@ street-filters:
   - Biacsi tanya
   - Bodó tanya
   - Csíkos-ér háti tanya
+  - Csipi tanya
   - Domonkos tanya
   - Dósa tanya
   - Dózsa tanya
@@ -96,6 +98,7 @@ street-filters:
   - Pál tanya
   - Papdi tanya
   - Paprika tanya
+  - Petőfi tanya
   - Péter tanya
   - Révész 1 tanya
   - Révész tanya
@@ -136,11 +139,16 @@ street-filters:
   - Vajner tanya
   - Vecsernyés tanya
   - Vetyeháti gátőrház tanya
+  # feketeföldek
+  - Alsóvárosi feketeföldek
+  - Felsővárosi fföldek
+  - Rókusi feketeföldek
   # településrész
 osm-street-filters:
   # nem igazi utcák
   - Belvárosi híd
   - ELI bekötőút
+  - Egyesített Szociális Intézmény, idősek otthona
   - Hild kapu
   - Vasúti rakodó
   # parkok/sétányok
