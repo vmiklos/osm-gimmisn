@@ -303,6 +303,7 @@ impl Network for TestNetwork {
             }
 
             if route.result_path.is_empty() {
+                locked_routes.remove(index);
                 return Err(anyhow::anyhow!("empty result_path for url '{}'", url));
             }
             ret = std::fs::read_to_string(&route.result_path)?;
