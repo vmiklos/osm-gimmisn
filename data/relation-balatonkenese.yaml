@@ -20,12 +20,18 @@ filters:
   Bartók Béla utca:
     # 7 = József Attila utca 33
     invalid: ['7']
+  Béke utca:
+    # 3: nincs kiírva és nem egyértelmű melyik lenne az. RESURVEY 2026 kuka kedd
+    # 25: nincs, max házszám a 11
+    invalid: ['3', '25']
   Csók István utca:
     # 6/a-b-c-d: nincs kiírva semmi, de csak 1 épület van
     invalid: ['6a', '6b', '6c', '6d']
   Csónakos utca:
     # 1/1-16 ezek lakás számok, kivülről nem látszik semmi, csak a kaputelefonon szerepelnek
     invalid: ['1/1', '1/2', '1/3', '1/4', '1/5', '1/6', '1/7', '1/8', '1/9']
+  Dózsa György utca:
+    interpolation: all
   Fő utca:
     # 3-5: csak 3 van kiírva
     # 17-19: 17 kint van Fő utca felől, de 17-19 nincs, a Nefelejcs utca felől meg kell nézni
@@ -72,7 +78,8 @@ filters:
     invalid: ['6', '11']
   Móricz Zsigmond utca:
     # 23: Árvácska utca 7-re átszámozva
-    invalid: ['23', '23/1']
+    # 26: nincs, utolsó ismert a 18, utolsó kiírva a 14
+    invalid: ['23', '23/1', '26']
   Nyárfa sor:
     # 22-24: csak 22 van kiírva, bár a kerítés más a 2 oldalon, de nem egyértelmű, hogy ikerház-e
     invalid: ['24']
@@ -89,6 +96,10 @@ filters:
   Révész utca:
     # 7: sorház 7/1 .. 7/7
     invalid: ['1']
+  Rigóvölgy út:
+    # 17: nincs, 15 után 19
+    # 18: nincs, csak 18/B van
+    invalid: ['17', '18']
   Strand tér:
     # nincsenek kint a pavilon számok, csak a 2, 12, 13.
     interpolation: all
@@ -154,8 +165,8 @@ street-filters:
 osm-street-filters:
   # nem hivatalos tábla
   - Kenese völgye út
-  # nem igazi utcák
-  - Régi játszótér
+  # nincs nyoma hivatalosan, csak az épületen kiírva cetlin Dózsa György tér 1
+  - Dózsa György tér
   # parkok
   - Hősők kertje
   - Liget
