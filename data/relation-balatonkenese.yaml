@@ -28,6 +28,14 @@ filters:
     # 3: nincs kiírva és nem egyértelmű melyik lenne az. RESURVEY 2026 kuka kedd
     # 25: nincs, max házszám a 11
     invalid: ['3', '25']
+  Benczúr Gyula utca:
+    # A páratlan oldalon 17-től minden el van csúszva egyel a fh-hoz képest, mert a valóságban az üres teleknek a 17 és 19 között nincs száma
+    # páros oldalon 8-20 között káosz
+    # 16: helyén 12 van kiírva: 10-8-14-12
+    # 18/c: nincs, csak sima 18 van
+    # 29/A-B: valóságban 27 és 27/A szerepel rajta, a mellette lévő nagy házon pedig nincs szám
+    # 35: utolsó ház a 33
+    invalid: ['18c', '27b', '29', '35']
   Bocskai István utca:
     # 3: sorház 3/A, 3/B, 3/C, 3/D
     # 11/A: nincs, kiírva semmi, fh szerint 11
