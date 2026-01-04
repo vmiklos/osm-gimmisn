@@ -71,17 +71,28 @@ async function onGpsClick()
     createLoader(gps, stats.getString("str-overpass-wait"));
     const protocol = location.protocol != "http:" ? "https:" : "http:";
     let url = protocol + "//overpass-api.de/api/interpreter";
-    let request = new Request(url, {method : "POST", body : query});
     let overpassJson: OverpassResult;
-    try
+    let retry = 0;
+    while (true)
     {
-        const response = await window.fetch(request);
-        overpassJson = await response.json();
-    }
-    catch (reason)
-    {
-        gps.textContent = stats.getString("str-overpass-error") + reason;
-        return;
+        try
+        {
+            const request = new Request(url, {method : "POST", body : query});
+            const response = await window.fetch(request);
+            overpassJson = await response.json();
+        }
+        catch (reason)
+        {
+            const err = stats.getString("str-overpass-error") + reason;
+            if (retry < 20) {
+                retry += 1;
+                console.warn("onGpsClick: " + err);
+                continue;
+            }
+            gps.textContent = err;
+            return;
+        }
+        break;
     }
 
     // Build a list of relations.
@@ -101,7 +112,7 @@ async function onGpsClick()
 
     // Now fetch the list of relations we recognize.
     url = config.uriPrefix + "/api/relations.json";
-    request = new Request(url);
+    const request = new Request(url);
     createLoader(gps, stats.getString("str-relations-wait"));
     let knownRelations: Array<number>;
     try
