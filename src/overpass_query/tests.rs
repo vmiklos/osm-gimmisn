@@ -82,3 +82,56 @@ fn test_overpass_query() {
 
     assert_eq!(buf.starts_with("@id"), true);
 }
+
+/// Tests overpass_sleep(): the case when no sleep is needed.
+#[test]
+fn test_overpass_sleep_no_sleep() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let routes = vec![context::tests::URLRoute::new(
+        /*url=*/ "https://overpass-api.de/api/status",
+        /*data_path=*/ "",
+        /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+    )];
+    let network = context::tests::TestNetwork::new(&routes);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    ctx.set_network(network_rc);
+
+    overpass_sleep(&ctx);
+
+    let time = ctx
+        .get_time()
+        .as_any()
+        .downcast_ref::<context::tests::TestTime>()
+        .unwrap();
+    assert_eq!(time.get_sleep(), 0);
+}
+
+/// Tests overpass_sleep(): the case when sleep is needed.
+#[test]
+fn test_overpass_sleep_need_sleep() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let routes = vec![
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-wait.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+    ];
+    let network = context::tests::TestNetwork::new(&routes);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    ctx.set_network(network_rc);
+
+    overpass_sleep(&ctx);
+
+    let time = ctx
+        .get_time()
+        .as_any()
+        .downcast_ref::<context::tests::TestTime>()
+        .unwrap();
+    assert_eq!(time.get_sleep(), 12);
+}

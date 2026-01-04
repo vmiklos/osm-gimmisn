@@ -185,11 +185,18 @@ fn test_json_housenumbers_update_result() {
 #[test]
 fn test_json_housenumbers_update_result_error() {
     let mut test_wsgi = wsgi::tests::TestWsgi::new();
-    let routes = vec![context::tests::URLRoute::new(
-        /*url=*/ "https://overpass-api.de/api/interpreter",
-        /*data_path=*/ "",
-        /*result_path=*/ "",
-    )];
+    let routes = vec![
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "",
+        ),
+    ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     test_wsgi.get_ctx().set_network(network_rc);
