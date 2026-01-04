@@ -17,59 +17,6 @@ use std::io::Seek;
 use std::io::SeekFrom;
 use std::rc::Rc;
 
-/// Tests overpass_sleep(): the case when no sleep is needed.
-#[test]
-fn test_overpass_sleep_no_sleep() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let routes = vec![context::tests::URLRoute::new(
-        /*url=*/ "https://overpass-api.de/api/status",
-        /*data_path=*/ "",
-        /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-    )];
-    let network = context::tests::TestNetwork::new(&routes);
-    let network_rc: Rc<dyn context::Network> = Rc::new(network);
-    ctx.set_network(network_rc);
-
-    overpass_sleep(&ctx);
-
-    let time = ctx
-        .get_time()
-        .as_any()
-        .downcast_ref::<context::tests::TestTime>()
-        .unwrap();
-    assert_eq!(time.get_sleep(), 0);
-}
-
-/// Tests overpass_sleep(): the case when sleep is needed.
-#[test]
-fn test_overpass_sleep_need_sleep() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let routes = vec![
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/status",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-status-wait.txt",
-        ),
-        context::tests::URLRoute::new(
-            /*url=*/ "https://overpass-api.de/api/status",
-            /*data_path=*/ "",
-            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-        ),
-    ];
-    let network = context::tests::TestNetwork::new(&routes);
-    let network_rc: Rc<dyn context::Network> = Rc::new(network);
-    ctx.set_network(network_rc);
-
-    overpass_sleep(&ctx);
-
-    let time = ctx
-        .get_time()
-        .as_any()
-        .downcast_ref::<context::tests::TestTime>()
-        .unwrap();
-    assert_eq!(time.get_sleep(), 12);
-}
-
 /// Tests update_missing_housenumbers().
 #[test]
 fn test_update_missing_housenumbers() {
@@ -788,15 +735,54 @@ fn test_update_settlement_stats_overpass() {
     // No error: no network traffic as the table was non-empty already.
 }
 
-/// Tests update_stats(): the case when we keep getting HTTP errors.
+/// Tests update_stats(): the case when we get a HTTP error.
 #[test]
-fn test_update_stats_http_error() {
+fn test_update_stats_http_error_then_ok() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let routes = vec![context::tests::URLRoute::new(
-        /*url=*/ "https://overpass-api.de/api/status",
-        /*data_path=*/ "",
-        /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
-    )];
+    let routes = vec![
+        // First request: status API is OK, then the actual request first fails, then succeeds.
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-stats.json",
+        ),
+        // Second request: status API is OK, then the actual request first fails, then succeeds.
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
+        ),
+        context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "src/fixtures/network/overpass-stats.json",
+        ),
+    ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_rc: Rc<dyn context::Network> = Rc::new(network);
     ctx.set_network(network_rc);

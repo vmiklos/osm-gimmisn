@@ -54,24 +54,17 @@ fn street_housenumbers_update_result_json(
     let relation = relations.get_relation(relation_name)?;
     let mut ret: HashMap<String, String> = HashMap::new();
     let query = relation.get_osm_housenumbers_json_query()?;
-    let mut retry = 0;
-    while retry < 20 {
-        retry += 1;
-
-        match overpass_query::overpass_query(ctx, &query) {
-            Ok(buf) => {
-                relation
-                    .get_files()
-                    .write_osm_json_housenumbers(ctx, &buf)?;
-                ret.insert("error".into(), "".into());
-                break;
-            }
-            Err(err) => {
-                ret.insert("error".into(), err.to_string());
-                ctx.get_time().sleep(1);
-            }
-        };
-    }
+    match overpass_query::overpass_query_with_retry(ctx, &query) {
+        Ok(buf) => {
+            relation
+                .get_files()
+                .write_osm_json_housenumbers(ctx, &buf)?;
+            ret.insert("error".into(), "".into());
+        }
+        Err(err) => {
+            ret.insert("error".into(), err.to_string());
+        }
+    };
     Ok(serde_json::to_string(&ret)?)
 }
 

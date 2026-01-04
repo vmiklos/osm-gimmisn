@@ -30,23 +30,6 @@ use log::{error, info, warn};
 #[cfg(test)]
 use std::{println as info, println as warn, println as error};
 
-/// Sleeps to respect overpass rate limit.
-fn overpass_sleep(ctx: &context::Context) {
-    loop {
-        let sleep = overpass_query::overpass_query_need_sleep(ctx);
-        if sleep == 0 {
-            break;
-        }
-        info!("overpass_sleep: waiting for {sleep} seconds");
-        ctx.get_time().sleep(sleep as u64);
-    }
-}
-
-/// Decides if we should retry a query or not.
-fn should_retry(retry: i32) -> bool {
-    retry < 20
-}
-
 /// Update the OSM street list of all relations.
 fn update_osm_streets(
     ctx: &context::Context,
@@ -61,12 +44,12 @@ fn update_osm_streets(
         }
         info!("update_osm_streets, json: start: {relation_name}");
         let mut retry = 0;
-        while should_retry(retry) {
+        while overpass_query::should_retry(retry) {
             if retry > 0 {
                 info!("update_osm_streets, json: try #{retry}");
             }
             retry += 1;
-            overpass_sleep(ctx);
+            overpass_query::overpass_sleep(ctx);
             let query = relation.get_osm_streets_json_query()?;
             let buf = match overpass_query::overpass_query(ctx, &query) {
                 Ok(value) => value,
@@ -100,12 +83,12 @@ fn update_osm_housenumbers(
         }
         info!("update_osm_housenumbers, json: start: {relation_name}");
         let mut retry = 0;
-        while should_retry(retry) {
+        while overpass_query::should_retry(retry) {
             if retry > 0 {
                 info!("update_osm_housenumbers, json: try #{retry}");
             }
             retry += 1;
-            overpass_sleep(ctx);
+            overpass_query::overpass_sleep(ctx);
             let query = relation.get_osm_housenumbers_json_query()?;
             let buf = match overpass_query::overpass_query(ctx, &query) {
                 Ok(value) => value,
@@ -375,27 +358,6 @@ fn update_stats_refcount(ctx: &context::Context) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn overpass_query_with_retry(ctx: &context::Context, query: &str) -> anyhow::Result<String> {
-    let mut retry = 0;
-    while should_retry(retry) {
-        if retry > 0 {
-            info!("overpass_query_with_retry: try #{retry}");
-        }
-        retry += 1;
-        overpass_sleep(ctx);
-        let response = match overpass_query::overpass_query(ctx, query) {
-            Ok(value) => value,
-            Err(err) => {
-                info!("overpass_query_with_retry: http error: {err}");
-                continue;
-            }
-        };
-
-        return Ok(response);
-    }
-    Ok("".to_string())
-}
-
 /// Performs the update of the whole_country table.
 pub fn update_stats_overpass(ctx: &context::Context) -> anyhow::Result<()> {
     let query = ctx
@@ -414,10 +376,8 @@ pub fn update_stats_overpass(ctx: &context::Context) -> anyhow::Result<()> {
     }
     let json_query = lines.join("\n");
     info!("update_stats_overpass: talking to overpass");
-    let response = overpass_query_with_retry(ctx, &json_query)?;
-    if !response.is_empty() {
-        area_files::write_whole_country(ctx, &response)?;
-    }
+    let response = overpass_query::overpass_query_with_retry(ctx, &json_query)?;
+    area_files::write_whole_country(ctx, &response)?;
     Ok(())
 }
 
@@ -440,10 +400,8 @@ pub fn update_settlement_stats_overpass(ctx: &context::Context) -> anyhow::Resul
         .get_file_system()
         .read_to_string(&ctx.get_abspath("data/housenumberless-settlements-hungary.overpassql"))?;
     info!("update_settlement_stats_overpass: talking to overpass");
-    let response = overpass_query_with_retry(ctx, &query)?;
-    if !response.is_empty() {
-        area_files::write_settlements_whole_country(ctx, &response)?;
-    }
+    let response = overpass_query::overpass_query_with_retry(ctx, &query)?;
+    area_files::write_settlements_whole_country(ctx, &response)?;
     Ok(())
 }
 
