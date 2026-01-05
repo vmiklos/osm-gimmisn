@@ -35,7 +35,7 @@ filters:
     # 18/c: nincs, csak sima 18 van
     # 29/A-B: valóságban 27 és 27/A szerepel rajta, a mellette lévő nagy házon pedig nincs szám
     # 35: utolsó ház a 33
-    invalid: ['18c', '27b', '29', '35']
+    invalid: ['16', '18c', '27b', '29', '35']
   Bocskai István utca:
     # 3: sorház 3/A, 3/B, 3/C, 3/D
     # 11/A: nincs, kiírva semmi, fh szerint 11
@@ -75,6 +75,8 @@ filters:
     # 6: földhivatali helyén semmi sincs kiírva, a szám a 8-as teleknél van kiírva
     # 8, 8a: helyén 6 van kiírva
     invalid: ['4', '8', '8a']
+  Katona József köz:
+    interpolation: all
   Kazinczy Ferenc utca:
     # 24: nincs, max páros a 22.
     invalid: ['24']
@@ -123,8 +125,9 @@ filters:
     # 21/*: csak 21 van kiírva
     invalid: ['1', '5', '8', '10', '13', '17', '17a', '18', '20', '21/1', '21/2', '21/4']
   Nagy László utca:
-    # 15: sorház: 15/1 .. 15/7
-    invalid: ['15']
+    # Az utcában 1 db sorház van
+    # 1, 7, 15: sorház: 15/1 .. 15/7
+    invalid: ['1', '2', '7', '15']
   Nyárfa sor:
     # 22-24: csak 22 van kiírva, bár a kerítés más a 2 oldalon, de nem egyértelmű, hogy ikerház-e
     invalid: ['24']
@@ -165,8 +168,9 @@ filters:
     # 21-23: erre a házra is 19 van kiírva
     invalid: ['5', '19a', '21-23']
   Szegfű utca:
+    # Az utcában 1 db sorház van
     # 14: sorház 14/1 .. 14/7
-    invalid: ['14']
+    invalid: ['1', '2', '2/4', '14', '14a', '15']
   Szilvafa utca:
     # 40: max páros a 36
     invalid: ['40']
@@ -189,6 +193,11 @@ filters:
     # 2: 2/1 .. 2/6
     # 3: 3/1 .. 3/5
     invalid: ['1', '2', '3']
+  Útalja utca:
+    # 36: nincs, páros oldalon max ismert a 30
+    # 43: ide is 41 van kiírva, mint a szomszédos házra
+    # 914/5: hrsz, 30-as szám van kiírva rá
+    invalid: ['36', '43', '914/5']
   Vak Bottyán utca:
     # 7a, 12/1: ez a Strand tér pavilonsor
     # 21: üres telek
