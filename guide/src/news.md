@@ -7,6 +7,8 @@
   objects of the invalid addr:city values in overpass turbo
 - Resolves: gh#4710 handle the `addr:unit=*` key when parsing OSM housenumbers
 - Resolves: gh#4811 cron: consider non-success HTTP error codes a failure and retry
+- Resolves: gh#4831 automatic retry of the 'Update from OSM' button on the missing housenumbers
+  page on the web UI on failure
 
 ## 25.8
 
