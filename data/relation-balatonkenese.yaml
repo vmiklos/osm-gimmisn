@@ -67,10 +67,11 @@ filters:
     # 31: üres, 1394 hrsz.
     # 32: itt 1400/1 hrsz van kiírva
     # 34: nincs kiírva
+    # 35: nincs
     # 36, 36/3: itt 1404 hrsz. van kiírva
     # 40, 42, 44: szervizúton, felmérendő
     # 45: nincs
-    invalid: ['11b', '13', '18', '19', '20', '21', '22', '29', '30', '31', '32', '34', 35, '36', '36/3', '45']
+    invalid: ['11b', '13', '18', '19', '20', '21', '22', '29', '30', '31', '32', '34', '35', '36', '36/3', '45']
   Fő utca:
     # 2: üres, park
     # 3-5: csak 3 van kiírva
