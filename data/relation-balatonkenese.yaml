@@ -47,14 +47,32 @@ filters:
     invalid: ['6a', '6b', '6c', '6d']
   Csokonai Vitéz Mihály utca:
     # 4, 5, 10, 11, 11b, 25, 26, 26b, 27: sorházak 25/2 típusú címzéssel
-    # 8a: nincs, a lakótelep 8-as sorháza  Mikes Kelemen utcaára van számozva
+    # 8a: nincs, a lakótelep 8-as sorháza a Mikes Kelemen utcára van számozva
     invalid: ['4', '5', '8a', '10', '11', '11b', '25', '25b', '26', '26b', '27']
   Csónakos utca:
     # 1/1-16 ezek lakás számok, kivülről nem látszik semmi, csak a kaputelefonon szerepelnek
     invalid: ['1/1', '1/2', '1/3', '1/4', '1/5', '1/6', '1/7', '1/8', '1/9']
   Dózsa György utca:
     interpolation: all
+    # 11/b: 38/A .. 38/D van kiírva
+    # 13: innen nincs házszám a másik utcáról egy 25-ös van, valójában Árvácska utca 9
+    # 18 = Rigóvölgyi utca 2
+    # 19: üres
+    # 20: üres, de valószínű Rigövölgyi utca inkább a házszám
+    # 21: nincs
+    # 22 = Rigóvölgyi utca 4/b
+    # 24, 26: nincs kiírva, nta szerint
+    # 29: üres, 1393 hrsz.
+    # 30: nincs kiírva
+    # 31: üres, 1394 hrsz.
+    # 32: itt 1400/1 hrsz van kiírva
+    # 34: nincs kiírva
+    # 36, 36/3: itt 1404 hrsz. van kiírva
+    # 40, 42, 44: szervizúton, felmérendő
+    # 45: nincs
+    invalid: ['11b', '13', '18', '19', '20', '21', '22', '29', '30', '31', '32', '34', 35, '36', '36/3', '45']
   Fő utca:
+    # 2: üres, park
     # 3-5: csak 3 van kiírva
     # 17-19: 17 kint van Fő utca felől, de 17-19 nincs, a Nefelejcs utca felől meg kell nézni
     # 20/a: nincs, csak 20 kiírva, de a telken 2 ház van
@@ -66,7 +84,8 @@ filters:
     # 105: nincs
     # 115, 119: nincsenek kiírva
     # 122, 124, 126: nincsenek, max házszám 110
-    invalid: ['5', '20a', '50', '50a', '52', '84a', '89', '102', '105', '122', '124', '126']
+    # 123/a: nincs kiírva
+    invalid: ['2', '5', '20a', '50', '50a', '52', '84a', '89', '102', '105', '115', '119', '122', '123a', '124', '126']
   Fűzfa utca:
     # 2/a: hivatalosan az Alteleki út 11 mögött lenne, a Sport utca folytatásában lévő gyalogúton, ott nincs kiírva
     invalid: ['2a']
@@ -75,6 +94,10 @@ filters:
     # 6: földhivatali helyén semmi sincs kiírva, a szám a 8-as teleknél van kiírva
     # 8, 8a: helyén 6 van kiírva
     invalid: ['4', '8', '8a']
+  Katona József utca:
+    # 4: 8 van kiírva, ezzel dupla
+    # 28: 14 van kiírva
+    invalid: ['4', '28']
   Katona József köz:
     interpolation: all
   Kazinczy Ferenc utca:
@@ -128,6 +151,10 @@ filters:
     # Az utcában 1 db sorház van
     # 1, 7, 15: sorház: 15/1 .. 15/7
     invalid: ['1', '2', '7', '15']
+  Németh László utca:
+    # 2, 4: nincsenek, az első ismert páros házszám a 12
+    # 15: üres telek, nincs kiírva
+    invalid: ['2', '4', '16']
   Nyárfa sor:
     # 22-24: csak 22 van kiírva, bár a kerítés más a 2 oldalon, de nem egyértelmű, hogy ikerház-e
     invalid: ['24']
@@ -137,6 +164,12 @@ filters:
     # 50/b: nincs, csak sima 50
     # 63/a: nincs kiírva, csak 63
     invalid: ['24', '50b', '63a', '11a-b']
+  Patkó utca:
+    # 1: sorház: 1/A, 1/B, 1/C
+    # 2: sorház: 2/A, 2/B, 2/C, 2/D
+    # 7, 7/6: sorház: 7/A, 7/B, 7/C
+    # 21b: nincs
+    invalid: ['1', '2', '7', '7/6', '21b']
   Petőfi Sándor utca:
     # 1/a: csak sima 1 van
     # 23/b: nincs, csak 23 van kiírva, 23/a mögötte fh. szerint
@@ -155,6 +188,14 @@ filters:
     # 17: nincs, 15 után 19
     # 18: nincs, csak 18/B van
     invalid: ['17', '18']
+  Rózsa utca:
+    # 22: nincs
+    # 28/*, 29/*: sorházak, de csak 28 és 29 és 29/2 van kiírva
+    # 30: 30/A van kiírva, de ikerház, újra felmérendő
+    invalid: ['22', '28/1', '28/2', '28/3', '29/3']
+  Simándy József utca:
+    # 15/1: nincs, a sorház 15-17-19
+    invalid: ['15/1']
   Strand tér:
     # nincsenek kint a pavilon számok, csak a 2, 12, 13.
     interpolation: all
@@ -171,6 +212,10 @@ filters:
     # Az utcában 1 db sorház van
     # 14: sorház 14/1 .. 14/7
     invalid: ['1', '2', '2/4', '14', '14a', '15']
+  Szilágyi Erzsébet utca:
+    # 14: max páros hászám a 8, de ez duplikáció
+    # 19: max páratlan házszám a 17
+    invalid: ['14','19']
   Szilvafa utca:
     # 40: max páros a 36
     invalid: ['40']
@@ -192,7 +237,8 @@ filters:
     # 1: 1/1 .. 1/4
     # 2: 2/1 .. 2/6
     # 3: 3/1 .. 3/5
-    invalid: ['1', '2', '3']
+    # 10: nincs, a lakótelep 10-es sorháza a Csokonai Vitéz Mihály utcára van számozva
+    invalid: ['1', '2', '3', '10']
   Útalja utca:
     # 36: nincs, páros oldalon max ismert a 30
     # 43: ide is 41 van kiírva, mint a szomszédos házra
