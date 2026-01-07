@@ -1,8 +1,22 @@
 missing-streets: 'yes'
 filters:
+  Almavirág tér:
+    interpolation: all
+  Györffy István tér:
+    interpolation: all
+  Hunyadi tér:
+    interpolation: all
+  Kós Károly tér:
+    interpolation: all
   Kossuth tér:
     interpolation: all
+  Ötvenhatosok tere:
+    interpolation: all
+  Szondi tér:
+    interpolation: all
   Templom tér:
+    interpolation: all
+  Városház tér:
     interpolation: all
 street-filters:
   # nem igazi utcák / csak hrsz.
