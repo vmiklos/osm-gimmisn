@@ -9,6 +9,7 @@
 - Resolves: gh#4811 cron: consider non-success HTTP error codes a failure and retry
 - Resolves: gh#4831 automatic retry of the 'Update from OSM' button on the missing housenumbers
   page on the web UI on failure
+- Resolves: gh#4834 automatic retry of the overpass query in `Filters: Based on position`
 
 ## 25.8
 
