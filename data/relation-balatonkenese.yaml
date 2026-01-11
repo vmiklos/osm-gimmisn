@@ -37,6 +37,13 @@ filters:
     # 29/A-B: valóságban 27 és 27/A szerepel rajta, a mellette lévő nagy házon pedig nincs szám
     # 35: utolsó ház a 33
     invalid: ['16', '18c', '27b', '29', '35']
+  Berzsenyi Dániel utca:
+    # a vége újraszámozva
+    # 24: helyette 18 van kiírva
+    invalid: ['24']
+  Bocskai köz:
+    # 2: Bocskai István utca 15/c van kiírva
+    invalid: ['2']
   Bocskai István utca:
     # 3: sorház 3/A, 3/B, 3/C, 3/D
     # 11/A: nincs, kiírva semmi, fh szerint 11
@@ -153,10 +160,14 @@ filters:
     # Az utcában 1 db sorház van
     # 1, 7, 15: sorház: 15/1 .. 15/7
     invalid: ['1', '2', '7', '15']
+  Nagykúti utca:
+    # 2/a: valószínű a 2-es ház hátsó fele, nincs kiírva csak 2
+    # 3: nincs, 1 után 5
+    invalid: ['2a', '3']
   Németh László utca:
     # 2, 4: nincsenek, az első ismert páros házszám a 12
     # 15: üres telek, nincs kiírva
-    invalid: ['2', '4', '16']
+    invalid: ['2', '4', '15']
   Nyárfa sor:
     # 22-24: csak 22 van kiírva, bár a kerítés más a 2 oldalon, de nem egyértelmű, hogy ikerház-e
     invalid: ['24']
@@ -205,6 +216,9 @@ filters:
   Schédl Lajos utca:
     # 51, 57: nincs kiírva, nem azonosítható
     invalid: ['51','57']
+  Soós-hegy utca:
+    # 415/1 .. 556/2 hrsz
+    invalid: ['415/1', '431', '448/8', '526/2', '556/2']
   Széchenyi utca:
     # 5: nincs, de még lehet, mert a Kenese Garden egyik része még építés alatt. RESURVEY 2027
     # 19/a: nincs, cserébe van 2 db 19-es
