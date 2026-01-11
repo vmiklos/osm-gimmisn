@@ -11,6 +11,8 @@ filters:
   Kossuth tér:
     interpolation: all
   Ötvenhatosok tere:
+    # 48: nincs: 1-18 házszámok vannak
+    invalid: ['48']
     interpolation: all
   Szondi tér:
     interpolation: all
