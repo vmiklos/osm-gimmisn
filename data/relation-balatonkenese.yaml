@@ -173,7 +173,7 @@ filters:
     # Az utcában 1 db sorház van
     # 1, 7, 15: sorház: 15/1 .. 15/7
     invalid: ['1', '2', '7', '15']
-  Nagykúti utca:
+  Nagykuti utca:
     # 2/a: valószínű a 2-es ház hátsó fele, nincs kiírva csak 2
     # 3: nincs, 1 után 5
     invalid: ['2a', '3']
@@ -181,12 +181,13 @@ filters:
     # 2/a: ezen is 2 van kiírva, így dupla
     # 4/a: nincs, helyén 6 van kiírva: Katica Szállás
     # 8/a, 8/b: még épül, most egy régi 8-as szám van kint. RESURVEY 2027
+    # 13: ikerház, semmi sincs kiírva, valószínű 13/a és 13/b
     # 16: üres telek a 20 mögött, nincs kiírva semmi
     # 19/a: 19 van kiírva, van 19/b is
     # 22: 2 házszám van kint 14 és 24, mindegyik rossz
     # 31/b: nincs, csak 31
     # 46: helyén 35 van kiírva
-    invalid: ['2a', '4a', '8a', '8b', '16', '19a', '22', '31b', '46']
+    invalid: ['2a', '4a', '8a', '8b', '13', '16', '19a', '22', '31b', '46']
   Németh László utca:
     # 2, 4: nincsenek, az első ismert páros házszám a 12
     # 15: üres telek, nincs kiírva
@@ -240,8 +241,9 @@ filters:
     interpolation: all
     invalid: ['1', '3', '4', '6', '7', '7a', '7b', '8', '8a', '8b', '10', '11', '12a', '12b', '14', '15', '16', '17', '18']
   Schédl Lajos utca:
+    # 24/a: nincs, csak 24
     # 51, 57: nincs kiírva, nem azonosítható
-    invalid: ['51','57']
+    invalid: ['24a', '51','57']
   Soós-hegy utca:
     # 415/1 .. 556/2 hrsz
     invalid: ['415/1', '431', '448/8', '526/2', '556/2']
