@@ -8,12 +8,21 @@ filters:
     # 15: nincs beépítve
     # 54-62: az utca végét újraszámozták: 60 kint van, de a 92 még látszik, 62 helyén 94 van kiírva
     invalid: ['9', '11b', '15', '54']
+  Arany János utca:
+    # 3: 2 házon is rajta van, a fh szerint az egyik az 5
+    # 5/a: nincs kiírva csak 5 a nyeles telek végén lévő kapun, a másik ikerfelen semmi nincs
+    # 14/b: 14 van kiírva a kapun, hátul vannak még házak, más felirat nincs
+    invalid: ['5a', '14b']
   Árvácska utca:
     # 9: Még Móricz Zsigmond utca 25-re számozva
     invalid: ['9']
   Bajcsy-Zsilinszky utca:
     # 1: nincs
     invalid: ['1', '3a']
+  Bakó József utca:
+    # 4/b: nincs, csak sima 4
+    # 6/a: elsőre nincs kiírva, meg kell nézni a lépcső felől a hátsó iker házat
+    invalid: ['4b']
   Balaton köz:
     # max házszám 3 ill. 10. ezek a számok a Balatoni út számai
     invalid: ['7', '18', '20', '21', '31', '39', '41', '42', '47', '60', '65', '67', '71', '73', '77', '81', '83', '89', '89a', '101', '103', '105', '113', '137', '169', '171', '221' ,'227' ,'235','269', '814']
@@ -30,9 +39,9 @@ filters:
     # 25: nincs, max házszám a 11
     invalid: ['3', '25']
   Benczúr Gyula utca:
-    # A páratlan oldalon 17-től minden el van csúszva egyel a fh-hoz képest, mert a valóságban az üres teleknek a 17 és 19 között nincs száma
+    # A páratlan oldalon 17-től minden el van csúszva egyel a fh-hoz képest, mert a valóságban az üres teleknek a 17 és 19 között nincs száma. Szomszéd szerint most jó.
     # páros oldalon 8-20 között káosz
-    # 16: helyén 12 van kiírva: 10-8-14-12
+    # 16: helyén 12 van kiírva: 10-8-14-12. A szomszéd szerint a 8-as próbálkozott a valós 12-es számmal, de a 16-os tulaja leszedette, hogy ne legyen dupla
     # 18/c: nincs, csak sima 18 van
     # 29/A-B: valóságban 27 és 27/A szerepel rajta, a mellette lévő nagy házon pedig nincs szám
     # 35: utolsó ház a 33
@@ -48,8 +57,9 @@ filters:
     # 3: sorház 3/A, 3/B, 3/C, 3/D
     # 11/A: nincs, kiírva semmi, fh szerint 11
     # 23: nincs, utolsó ismert a 21
+    # 36: Bocskai felől üres, a telek másik része kerítéssel leválaszva Panoráma utca 5-nek van számozva, rajta egy lakókocsi
     # 70: nincs ház, nincs kiírva
-    invalid: ['3', '11a', '23', '70']
+    invalid: ['3', '11a', '23', '36', '70']
   Csók István utca:
     # 6/a-b-c-d: nincs kiírva semmi, de csak 1 épület van
     invalid: ['6a', '6b', '6c', '6d']
@@ -83,7 +93,7 @@ filters:
   Fő utca:
     # 2: üres, park
     # 3-5: csak 3 van kiírva
-    # 17-19: 17 kint van Fő utca felől, de 17-19 nincs, a Nefelejcs utca felől meg kell nézni
+    # 17-19: 17 kint van Fő utca felől, de 17-19 nincs, a Nefelejcs utca nincs kint semmi
     # 20/a: nincs, csak 20 kiírva, de a telken 2 ház van
     # 50, 50/a: lebontva, nem tudni melyik volt
     # 52: csak 52/a van kiírva, de van 1 ház szám nélkül
@@ -94,7 +104,7 @@ filters:
     # 115, 119: nincsenek kiírva
     # 122, 124, 126: nincsenek, max házszám 110
     # 123/a: nincs kiírva
-    invalid: ['2', '5', '20a', '50', '50a', '52', '84a', '89', '102', '105', '115', '119', '122', '123a', '124', '126']
+    invalid: ['2', '5', '19', '20a', '50', '50a', '52', '84a', '89', '102', '105', '115', '119', '122', '123a', '124', '126']
   Fűzfa utca:
     # 2/a: hivatalosan az Alteleki út 11 mögött lenne, a Sport utca folytatásában lévő gyalogúton, ott nincs kiírva
     invalid: ['2a']
@@ -105,8 +115,10 @@ filters:
     invalid: ['4', '8', '8a']
   Katona József utca:
     # 4: 8 van kiírva, ezzel dupla
+    # 23/a: innne nincs kiírva, valószínű a Hegyalja utca felől lenne szám, de ott sincs nyoma
+    # 23/b: innen nincs kiírva, Hegyalja utca 28 a száma
     # 28: 14 van kiírva
-    invalid: ['4', '28']
+    invalid: ['4', '23a', '23b', '28']
   Katona József köz:
     interpolation: all
   Kazinczy Ferenc utca:
@@ -130,8 +142,9 @@ filters:
     invalid: ['8']
   Ladik utca:
     interpolation: all
+    # 1/x, 2/x, 3/x: társasház alátörés nélküli számokkal, csak a 3/1 van kint a házakon 1, 2 ,3
     # 10: nincs, max házszám a 4
-    invalid: ['10']
+    invalid: ['1/1', '1/5', '1/6', '1/7', '1/8', '2/2', '2/3', '2/4', '3/3', '3/4', '10']
   Liliom utca:
     # az utca felénél megfordul a páros-páratlan
     # 1: Alteleki út 62 van táblázva
@@ -164,6 +177,16 @@ filters:
     # 2/a: valószínű a 2-es ház hátsó fele, nincs kiírva csak 2
     # 3: nincs, 1 után 5
     invalid: ['2a', '3']
+  Nefelejcs utca:
+    # 2/a: ezen is 2 van kiírva, így dupla
+    # 4/a: nincs, helyén 6 van kiírva: Katica Szállás
+    # 8/a, 8/b: még épül, most egy régi 8-as szám van kint. RESURVEY 2027
+    # 16: üres telek a 20 mögött, nincs kiírva semmi
+    # 19/a: 19 van kiírva, van 19/b is
+    # 22: 2 házszám van kint 14 és 24, mindegyik rossz
+    # 31/b: nincs, csak 31
+    # 46: helyén 35 van kiírva
+    invalid: ['2a', '4a', '8a', '8b', '16', '19a', '22', '31b', '46']
   Németh László utca:
     # 2, 4: nincsenek, az első ismert páros házszám a 12
     # 15: üres telek, nincs kiírva
@@ -171,6 +194,10 @@ filters:
   Nyárfa sor:
     # 22-24: csak 22 van kiírva, bár a kerítés más a 2 oldalon, de nem egyértelmű, hogy ikerház-e
     invalid: ['24']
+  Panoráma utca:
+    # 2: a kapun ez van, a kuka címkén Bocskay utca 34 (régi utcanével) 
+    # 9: nincs kiírva csak a hrsz: 6061/1
+    invalid: ['9']
   Parti sétány:
     # 11/a-b: 11/A és 11/B külön pontként
     # 24: nincs
@@ -195,17 +222,16 @@ filters:
   Révész utca:
     # 1: csak 1/B van kiírva, a másik házon nincs cím. RESURVEY 2026 kuka kedd
     # 7: sorház 7/1 .. 7/7
-    # 23-24: újra felmérendő, de egyik se sorház
-    invalid: ['1', '7']
+    # 23-24: több emeletes társasház több lakással 23/x, 24/x nincs jelölve
+    invalid: ['1', '7', '23/1', '23/3', '23/4', '23/5', '23/6', '23/7', '23a', '24/1', '24/3', '24/4']
   Rigóvölgyi utca:
     # 17: nincs, 15 után 19
     # 18: nincs, csak 18/B van
     invalid: ['17', '18']
   Rózsa utca:
     # 22: nincs
-    # 28/*, 29/*: sorházak, de csak 28 és 29 és 29/2 van kiírva
-    # 30: 30/A van kiírva, de ikerház, újra felmérendő
-    invalid: ['22', '28/1', '28/2', '28/3', '29/3']
+    # 28/*, 29/*: sorházak, de csak 28, 28/1, 29 és 29/2 van kiírva
+    invalid: ['22', '28/2', '28/3', '29/3']
   Simándy József utca:
     # 15/1: nincs, a sorház 15-17-19
     invalid: ['15/1']
@@ -239,6 +265,9 @@ filters:
     # 14-16: csak 14 van kiírva, nem iker
     # 29: nincs, 27 az utolsó. A következő ház már a Parti sétány 128 melléképülete.
     invalid: ['16', '29']
+  Táncsics Mihály utca:
+    # 6: 6 A-B
+    invalid: ['6']
   Törökverő utca:
     # 8: nincs, az utában 1 ház van, az 1-es
     invalid: ['8']
