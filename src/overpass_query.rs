@@ -61,7 +61,7 @@ pub fn overpass_query_need_sleep(ctx: &context::Context) -> i32 {
 }
 
 /// Sleeps to respect overpass rate limit.
-pub fn overpass_sleep(ctx: &context::Context) {
+fn overpass_sleep(ctx: &context::Context) {
     loop {
         let sleep = overpass_query_need_sleep(ctx);
         if sleep == 0 {
@@ -73,7 +73,7 @@ pub fn overpass_sleep(ctx: &context::Context) {
 }
 
 /// Decides if we should retry a query or not.
-pub fn should_retry(retry: i32) -> bool {
+fn should_retry(retry: i32) -> bool {
     retry < 20
 }
 
