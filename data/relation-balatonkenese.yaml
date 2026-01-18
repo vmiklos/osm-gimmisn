@@ -60,6 +60,9 @@ filters:
     # 36: Bocskai felől üres, a telek másik része kerítéssel leválaszva Panoráma utca 5-nek van számozva, rajta egy lakókocsi
     # 70: nincs ház, nincs kiírva
     invalid: ['3', '11a', '23', '36', '70']
+  Cicadűlő utca:
+    # 1: egy lekopott házszám van kint, de semmiképp sem 1, inkább 2
+    invalid: ['1']
   Csók István utca:
     # 6/a-b-c-d: nincs kiírva semmi, de csak 1 épület van
     invalid: ['6a', '6b', '6c', '6d']
@@ -121,6 +124,12 @@ filters:
     invalid: ['4', '23a', '23b', '28']
   Katona József köz:
     interpolation: all
+  Kapuvári Imre utca:
+    # 1/a: nincs, csak 1.
+    # 10/a: nincs, csak 10 van kiírva, a hátsó rész nem azonosítható.
+    # 12/b: nincs, csak 12, hivatalosan van még egy telek mögötte, helyszínen ennek nincs nyoma.
+    # 19/a: nincs, csak 19.
+    invalid: ['1a', '10a', '12b', '19a']
   Kazinczy Ferenc utca:
     # 24: nincs, max páros a 22.
     invalid: ['24']
@@ -248,10 +257,13 @@ filters:
     # 415/1 .. 556/2 hrsz
     invalid: ['415/1', '431', '448/8', '526/2', '556/2']
   Széchenyi utca:
+    # 2/B = Fő utca 1, de erre az épületfélre is Széchenyi utca 2 van táblázva
     # 5: nincs, de még lehet, mert a Kenese Garden egyik része még építés alatt. RESURVEY 2027
     # 19/a: nincs, cserébe van 2 db 19-es
     # 21-23: erre a házra is 19 van kiírva
-    invalid: ['5', '19a', '21-23']
+    # 34/b: csak 34 van kiírva.
+    # 50: csak 50/a van kiírva, a másik ház Útalja utca 28-ra számozva
+    invalid: ['2b', '5', '19a', '23', '34b', '50']
   Szegfű utca:
     # Az utcában 1 db sorház van
     # 14: sorház 14/1 .. 14/7
@@ -269,7 +281,12 @@ filters:
     invalid: ['16', '29']
   Táncsics Mihály utca:
     # 6: 6 A-B
-    invalid: ['6']
+    # 11/a: nincs, csak 11
+    # 14/a: csak 14 van kiírva, bár hátul is van egy ház
+    # 16/b: nincs, csak sima 16
+    # 20/a: nincs, csak sima 20
+    # 30: 30/a,b és 30/c,d van kiírva
+    invalid: ['6', '11a', '14a', '16b', '20a', '30']
   Törökverő utca:
     # 8: nincs, az utában 1 ház van, az 1-es
     invalid: ['8']
@@ -287,10 +304,12 @@ filters:
     # 10: nincs, a lakótelep 10-es sorháza a Csokonai Vitéz Mihály utcára van számozva
     invalid: ['1', '2', '3', '10']
   Útalja utca:
+    # 7: nem azonosítható, kiírva nincs sehova. RESURVEY 2027
+    # 8: nem azonosítható, kiírvav nincs, 6 és 10 között 2 ház legalább van ami innen számozódna. RESURVEY 2027
     # 36: nincs, páros oldalon max ismert a 30
     # 43: ide is 41 van kiírva, mint a szomszédos házra
     # 914/5: hrsz, 30-as szám van kiírva rá
-    invalid: ['36', '43', '914/5']
+    invalid: ['7', '8', '36', '43', '914/5']
   Vak Bottyán utca:
     # 7a, 12/1: ez a Strand tér pavilonsor
     # 21: üres telek
