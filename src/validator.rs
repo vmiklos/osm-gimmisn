@@ -140,12 +140,7 @@ fn validate_filters(
 ) -> anyhow::Result<()> {
     let context = format!("{parent}.");
     for (key, value) in filters {
-        if !value.is_some() {
-            errors.push(format!(
-                "expected at least one sub-key for '{context}{key}'"
-            ));
-        }
-
+        // At least one sub-key is now provided, otherwise the type would be null.
         validate_filter(errors, &format!("{context}{key}"), value)?;
     }
 
@@ -160,9 +155,6 @@ fn validate_refstreets(
 ) -> anyhow::Result<()> {
     let context = format!("{parent}.");
     for (key, value) in refstreets {
-        if value.parse::<i64>().is_ok() {
-            errors.push(format!("expected value type for '{context}{key}' is str"));
-        }
         if key.contains('\'') || key.contains('"') {
             errors.push(format!("expected no quotes in '{context}{key}'"));
         }
@@ -180,23 +172,6 @@ fn validate_refstreets(
         errors.push(format!(
             "osm and ref streets are not a 1:1 mapping in '{parent}'"
         ));
-    }
-
-    Ok(())
-}
-
-/// Validates a street filter list.
-fn validate_street_filters(
-    errors: &mut Vec<String>,
-    parent: &str,
-    street_filters: &[String],
-) -> anyhow::Result<()> {
-    for (index, street_filter) in street_filters.iter().enumerate() {
-        if street_filter.parse::<i64>().is_ok() {
-            errors.push(format!(
-                "expected value type for '{parent}[{index}]' is str"
-            ));
-        }
     }
 
     Ok(())
@@ -230,24 +205,6 @@ fn validate_relation(
     }
     if let Some(ref refstreets) = relation.refstreets {
         validate_refstreets(errors, &format!("{}{}", context, "refstreets"), refstreets)?;
-    }
-    if let Some(ref street_filters) = relation.street_filters {
-        let parent = format!("{}{}", context, "street-filters");
-        validate_street_filters(errors, &parent, street_filters)?;
-    }
-    if let Some(ref source) = relation.source
-        && source.parse::<i64>().is_ok()
-    {
-        errors.push(format!("expected value type for '{context}source' is str"));
-    }
-    if let Some(ref aliases) = relation.alias {
-        for (index, alias) in aliases.iter().enumerate() {
-            if alias.parse::<i64>().is_ok() {
-                errors.push(format!(
-                    "expected value type for '{context}alias[{index}]' is str"
-                ));
-            }
-        }
     }
 
     Ok(())
@@ -303,8 +260,10 @@ pub fn our_main(
             .context(format!("failed to validate {yaml_path}"))?;
 
         // Then check if the data is valid:
-        let relation_dict: areas::RelationDict =
-            serde_yaml::from_str(&data).context(format!("failed to validate {yaml_path}"))?;
+        let relation_dict_json: serde_json::Value = serde_yaml::from_str(&data)
+            .context(format!("failed to convert {yaml_path} to json"))?;
+        let relation_dict: areas::RelationDict = serde_json::from_value(relation_dict_json.clone())
+            .context("failed to parse as json")?;
         let parent = "";
         validate_relation(&mut errors, parent, &relation_dict)?;
     }

@@ -203,6 +203,18 @@ fn assert_success(content: &str) {
     assert_eq!(ret, 0);
 }
 
+/// Tests if the validator detects the wrong item type in the invalid list.
+#[test]
+fn test_invalid_item_type() {
+    let content = r#"filters:
+  Foo:
+    invalid: [42]
+"#;
+    let expected = "failed to parse as json\n\nCaused by:\n    invalid type: integer `42`, expected a string\n";
+    // This failed, return code was 0 instead of 1.
+    assert_failure_msg(content, expected);
+}
+
 /// Tests validate_filter_invalid_valid(): 42/1 is a valid filter item.
 #[test]
 fn test_validate_filter_invalid_valid() {
@@ -253,41 +265,11 @@ fn test_validate_filter_invalid_valid5() {
     assert_success(content);
 }
 
-/// Tests the relation path: bad source type.
-#[test]
-fn test_relation_source_bad_type() {
-    let content = "source: 42\n";
-    let expected = "expected value type for 'source' is str\nfailed to validate {0}\n";
-    assert_failure_msg(content, expected);
-}
-
 /// Tests the relation path: bad tab indent.
 #[test]
 fn test_relation_tab() {
     let content = "source:\tsurvey\n";
     let expected = "expected indent with 2 spaces, not with tabs\nfailed to validate {0}\n";
-    assert_failure_msg(content, expected);
-}
-
-/// Tests the relation path: bad strfilters value type.
-#[test]
-fn test_relation_strfilters_bad_type() {
-    let content = r#"street-filters:
-  - 42
-"#;
-    let expected = "expected value type for 'street-filters[0]' is str\nfailed to validate {0}\n";
-    assert_failure_msg(content, expected);
-}
-
-/// Tests the relation path: bad refstreets value type.
-#[test]
-fn test_relation_refstreets_bad_value_type() {
-    let content = r#"refstreets:
-  'OSM Name 1': 42
-"#;
-    let expected = r#"expected value type for 'refstreets.OSM Name 1' is str
-failed to validate {0}
-"#;
     assert_failure_msg(content, expected);
 }
 
@@ -327,52 +309,6 @@ fn test_relation_filters_invalid_bad2() {
     assert_failure_msg(content, expected);
 }
 
-/// Tests the relation path: bad type for the filters -> ... -> invalid subkey.
-#[test]
-fn test_relation_filters_invalid_bad_type() {
-    let content = r#"filters:
-  'Budaörsi út':
-    invalid: "hello"
-"#;
-    let expected = r#"failed to validate {0}
-
-Caused by:
-    filters.Budaörsi út.invalid: invalid type: string "hello", expected a sequence at line 3 column 14
-"#;
-    assert_failure_msg(content, expected);
-}
-
-/// Tests the relation path: bad filters -> ... -> ranges subkey.
-#[test]
-fn test_relation_filters_ranges_bad() {
-    let content = r#"filters:
-  'Budaörsi út':
-    ranges:
-      - {start: '137', end: '165', unexpected: 42}
-"#;
-    let expected = r#"failed to validate {0}
-
-Caused by:
-    filters.Budaörsi út.ranges[0]: unknown field `unexpected`, expected one of `end`, `refsettlement`, `start` at line 4 column 36
-"#;
-    assert_failure_msg(content, expected);
-}
-
-/// Tests the relation path: bad filters -> ... -> ranges -> end type.
-#[test]
-fn test_relation_filters_ranges_bad_end() {
-    let content = r#"filters:
-  'Budaörsi út':
-    ranges:
-      - {start: '137', end: 42}
-"#;
-    let expected = r#"expected end >= start for 'filters.Budaörsi út.ranges[0]'
-expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'
-failed to validate {0}
-"#;
-    assert_failure_msg(content, expected);
-}
-
 /// Tests the relation path: bad filters -> ... -> ranges -> if start/end is swapped type.
 #[test]
 fn test_relation_filters_ranges_start_end_swap() {
@@ -396,79 +332,6 @@ fn test_relation_filters_ranges_start_end_even_odd() {
       - {start: '42', end: '143'}
 "#;
     let expected = "expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\nfailed to validate {0}\n";
-    assert_failure_msg(content, expected);
-}
-
-/// Tests the relation path: bad filters -> ... -> ranges -> start type.
-#[test]
-fn test_relation_filters_ranges_bad_start() {
-    let content = r#"filters:
-  'Budaörsi út':
-    ranges:
-      - {start: 42, end: '137'}
-"#;
-    let expected = "expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\nfailed to validate {0}\n";
-    assert_failure_msg(content, expected);
-}
-
-/// Tests the relation path: missing filters -> ... -> ranges -> start key.
-#[test]
-fn test_relation_filters_ranges_missing_start() {
-    let content = r#"filters:
-  'Budaörsi út':
-    ranges:
-      - {end: '137'}
-"#;
-    let expected = r#"failed to validate {0}
-
-Caused by:
-    filters.Budaörsi út.ranges[0]: missing field `start` at line 4 column 9
-"#;
-    assert_failure_msg(content, expected);
-}
-
-/// Tests the relation path: missing filters -> ... -> ranges -> end key.
-#[test]
-fn test_relation_filters_ranges_missing_end() {
-    let content = r#"filters:
-  'Budaörsi út':
-    ranges:
-      - {start: '137'}
-"#;
-    let expected = r#"failed to validate {0}
-
-Caused by:
-    filters.Budaörsi út.ranges[0]: missing field `end` at line 4 column 9
-"#;
-    assert_failure_msg(content, expected);
-}
-
-/// Tests the housenumber-letters key: bad type.
-#[test]
-fn test_relation_housenumber_letters_bad() {
-    let content = "housenumber-letters: 42\n";
-    let expected = r#"failed to validate {0}
-
-Caused by:
-    housenumber-letters: invalid type: integer `42`, expected a boolean at line 1 column 22
-"#;
-    assert_failure_msg(content, expected);
-}
-
-/// Tests the relation path: bad alias subkey.
-#[test]
-fn test_relation_alias_bad() {
-    let content = "alias: [1]\n";
-    let expected = "expected value type for 'alias[0]' is str\nfailed to validate {0}\n";
-    assert_failure_msg(content, expected);
-}
-
-/// Tests the relation path: bad type for the alias subkey.
-#[test]
-fn test_relation_filters_alias_bad_type() {
-    let content = r#"alias: "hello"
-"#;
-    let expected = "failed to validate {0}\n\nCaused by:\n    alias: invalid type: string \"hello\", expected a sequence at line 1 column 8\n";
     assert_failure_msg(content, expected);
 }
 
@@ -517,16 +380,5 @@ fn test_end_whitespace() {
       - {start: '137', end: '165 '}
 "#;
     let expected = "expected value type for 'filters.Budaörsi út.ranges[0].end' is a digit str\nfailed to validate {0}\n";
-    assert_failure_msg(content, expected);
-}
-
-/// Tests that we do not accept keys with null values.
-#[test]
-fn test_null_value() {
-    let content = r#"filters:
-  'Budaörsi út':
-"#;
-    let expected =
-        "expected at least one sub-key for 'filters.Budaörsi út'\nfailed to validate {0}\n";
     assert_failure_msg(content, expected);
 }

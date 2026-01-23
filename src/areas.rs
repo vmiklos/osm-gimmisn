@@ -45,18 +45,6 @@ pub struct RelationFiltersDict {
     show_refstreet: Option<bool>,
 }
 
-impl RelationFiltersDict {
-    /// Determines if at least one Option is Some.
-    pub fn is_some(&self) -> bool {
-        self.interpolation.is_some()
-            || self.invalid.is_some()
-            || self.ranges.is_some()
-            || self.valid.is_some()
-            || self.refsettlement.is_some()
-            || self.show_refstreet.is_some()
-    }
-}
-
 /// A relation from data/relation-<name>.yaml.
 #[derive(Clone, serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
