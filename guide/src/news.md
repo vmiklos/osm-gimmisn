@@ -10,6 +10,8 @@
 - Resolves: gh#4831 automatic retry of the 'Update from OSM' button on the missing housenumbers
   page on the web UI on failure
 - Resolves: gh#4834 automatic retry of the overpass query in `Filters: Based on position`
+- Resolves: gh#4846 validator now detects when numbers are used when number-like strings are
+  expected
 
 ## 25.8
 
