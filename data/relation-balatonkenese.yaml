@@ -60,6 +60,10 @@ filters:
     # 36: Bocskai felől üres, a telek másik része kerítéssel leválaszva Panoráma utca 5-nek van számozva, rajta egy lakókocsi
     # 70: nincs ház, nincs kiírva
     invalid: ['3', '11a', '23', '36', '70']
+  Búsuló Juhász utca:
+    # 7: 5 az utolsó ami ki van írva, utána bódék, régebben a saron kézzel írt 9-es
+    # 12: régebben a Part utca 8/a helyén volt ez kiírva
+    invalid: ['7', '12']
   Cicadűlő utca:
     # 1: egy lekopott házszám van kint, de semmiképp sem 1, inkább 2
     invalid: ['1']
@@ -73,6 +77,12 @@ filters:
   Csónakos utca:
     # 1/1-16 ezek lakás számok, kivülről nem látszik semmi, csak a kaputelefonon szerepelnek
     invalid: ['1/1', '1/2', '1/3', '1/4', '1/5', '1/6', '1/7', '1/8', '1/9']
+  Dobó Katalin utca:
+    # 2/a: csak 2 van kiírva
+    # 7/b: 7 és 7/a van kiírva
+    # 11/a: csak 11 van kiírva
+    # 16: nincs kiírva, nem egyértelmű, hogy a 14 és 18 közötti ház lenne az, mert egy telken van a 14-gyel. RESURVEY 2026 kuka kedd
+    invalid: ['2a', '7b', '11a', '16']
   Dózsa György utca:
     interpolation: all
     # 11/b: 38/A .. 38/D van kiírva
@@ -93,6 +103,10 @@ filters:
     # 40, 42, 44: szervizúton, felmérendő
     # 45: nincs
     invalid: ['11b', '13', '18', '19', '20', '21', '22', '29', '30', '31', '32', '34', '35', '36', '36/3', '45']
+  Fecske köz:
+    # 3/b: nincs, csak 3
+    # 17: üres telek
+    invalid: ['3b', '17']
   Fő utca:
     # 2: üres, park
     # 3-5: csak 3 van kiírva
@@ -204,6 +218,11 @@ filters:
   Nyárfa sor:
     # 22-24: csak 22 van kiírva, bár a kerítés más a 2 oldalon, de nem egyértelmű, hogy ikerház-e
     invalid: ['24']
+  Óvoda utca:
+    # 2/a: csak sima 2 
+    # 27: nincs kiírva
+    # 681: hrsz.
+    invalid: ['2a', '2', '681']
   Panoráma utca:
     # 2: a kapun ez van, a kuka címkén Bocskay utca 34 (régi utcanével) 
     # 9: nincs kiírva csak a hrsz: 6061/1
@@ -256,6 +275,9 @@ filters:
   Soós-hegy utca:
     # 415/1 .. 556/2 hrsz
     invalid: ['415/1', '431', '448/8', '526/2', '556/2']
+  Soós Lajos utca:
+    # 16: 14 van kiírva, 16 nincs.
+    invalid: ['16']
   Széchenyi utca:
     # 2/B = Fő utca 1, de erre az épületfélre is Széchenyi utca 2 van táblázva
     # 5: nincs, de még lehet, mert a Kenese Garden egyik része még építés alatt. RESURVEY 2027
