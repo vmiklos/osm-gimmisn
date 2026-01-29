@@ -233,6 +233,9 @@ filters:
     # 50/b: nincs, csak sima 50
     # 63/a: nincs kiírva, csak 63
     invalid: ['24', '50b', '63a', '11a-b']
+  Partfő utca:
+    # 35, 119:nincs, max páratlan a 15/A-B
+    invalid: ['35', '119']
   Patkó utca:
     # 1: sorház: 1/A, 1/B, 1/C
     # 2: sorház: 2/A, 2/B, 2/C, 2/D
@@ -244,6 +247,8 @@ filters:
     # 23/b: nincs, csak 23 van kiírva, 23/a mögötte fh. szerint
     # 26: max páros a 20
     invalid: ['1a', '23b', '26']
+  Pince köz:
+    invalid: ['8a', '8b']
   Rege utca:
     # 6: nincs kiírva, nem megállapítható melyik ház, Juhász Gyula 16 telkén lényegében 3 ház van, Rege utca felől nincs bejárat
     # 17: Parti sétány 164 van kiírva
