@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## 26.2
 
 - Resolves: gh#4671 dark mode support (Máté Gyöngyösi)
 - Resolves: gh#4500 new `/lints/whole-country/invalid-addr-cities-turbo` endpoint to query the

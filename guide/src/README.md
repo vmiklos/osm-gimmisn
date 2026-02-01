@@ -3,7 +3,7 @@
 osm-gimmisn is a web-based tool to find objects missing from the OpenStreetMap database. As a start,
 it finds missing streets and house numbers based on a reference list.
 
-The latest version is v25.8, released on 2025-08-01. See the [release notes](news.md).
+The latest version is v26.2, released on 2026-02-01. See the [release notes](news.md).
 
 It works by fetching the street and house number list for a relation (area), then suggesting what
 possibly missing objects are a good idea to survey.
