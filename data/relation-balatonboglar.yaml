@@ -43,7 +43,7 @@ refstreets:
   # Római utca - utcaként szerepel a táblán, nem út. De csak Balatonlelle határáig, mert a balatonlellei oldalon lévő táblán Római út van.
   'Szent István király tér': 'Szent István tér'  # táblán: Szent Isván Király tér
   'Szondy György utca': 'Szondy utca'  # táblán Szondy György utca
-  # 'Táncsics Mihály utca' # teljes névvel van kitáblázva egy régi táblán.
+  'Táncsics Mihály utca': 'Táncsics utca'  # teljes névvel van kitáblázva egy régi táblán.
   'Zrínyi Miklós utca': 'Zrínyi utca'  # van csak vezetéknév és teljes névvel is tábla. Maradjon teljes névvel.
 source: survey
 housenumber-letters: true

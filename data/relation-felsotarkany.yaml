@@ -3,8 +3,7 @@ filters: {}
 osm-street-filters:
   # via ferrata
   - Menekülő útvonal
-street-filters:
-  - Víztelep
+#street-filters:
 refstreets:
   'Munkás út': 'Munkás utca'
   'Tagosdűlő utca': 'Tagos-dűlő utca'

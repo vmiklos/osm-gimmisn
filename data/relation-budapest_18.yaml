@@ -45,9 +45,7 @@ street-filters:
   - Kiss Ernő köz  # https://www.openstreetmap.org/way/1174147832
   # egyéb
   - Gödör tér  # Ez egy játszótér igazából
-  - Újtemető út  # Átnevezték, de a XIX. kerülethez tartozik tejes egészében
   # megszűnt
-  - Bajza utca  # Beépítették, a Vaslemez utcából nyílt Hengermű sor felé a kocsibehajtó magasságában. 1986-os Budapest térképen még van, 1988-ason már nincs.
   - Szabó Dezső tér  # régi definició: Hámán Katalin 35. és Szent László 39-nél
   # semmilyen forrásban sem találtam
   - Soroksári összekötő út
@@ -62,7 +60,6 @@ refstreets:
   'Áchim András utca': 'Achim András utca'
   # 'Besence utca': 'Besence út'
   'Ferihegyi repülőtérre vezető út': 'Ferihegyi reptérre vezető út'
-  'Ipacsfa utca': 'Ipacsfa út'
   'Királyhágó út': 'Királyhágó utca'
   'Körös utca': 'Kőrös utca'
   # 'Zádor utca': 'Zádor út'

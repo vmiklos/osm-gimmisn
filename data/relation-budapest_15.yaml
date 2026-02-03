@@ -201,13 +201,10 @@ filters:
       - {start: '2', end: '20'}
 street-filters:
   # nem igazi utcák / csak hrsz.
-  - Őrházak
-  - Rákospalota-Újpest v.áll.
   - Újmajor
   # egyéb
   - Nádastó  # utca vagy park, önmagában nincs
   - Vácduka utca  # hivatalosan ugyan létezik, de valóságban nem, valószínű Vácduka térnek hívják az utcát is
-  - Mozdony utca  # Mozdonyvezető utca van a helyén
   # Szabályozási Tervben szerepelnek, de a terepen még egyben művelt szántóföld az egész.
   - Barack utca
   # - Erdő menti út  # Az SZT-n "Erdőmenti" szerepel.

@@ -8,7 +8,6 @@ street-filters:
   - Színesfém utca  # Szinesfém utcára vannak a hászámok felvéve
   - Szállító utca  # Szállitó utcára vannak a hászámok felvéve
   # megszűnt
-  - Magyar utca  # Teller Ede útra lettek átszámozva a házak
   - Varjú köz  # Varjú utca/Szent István között volt, Toboz utcával kb. szemben
 osm-street-filters:
   # Barkács utca - https://www.openstreetmap.org/note/2969962

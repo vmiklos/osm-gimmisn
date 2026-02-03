@@ -15,6 +15,7 @@ refstreets:
   'Faller Jenő utca': 'Faller Jenő út'
   'Fenyves utca': 'Fenyves út'
   'Gyertyános utca': 'Gyertyános út'
+  'Hamari Dániel utca': 'Hamary Dániel utca'  # https://www.openstreetmap.org/note/5142646
   'Hedvig utca': 'Hedvig út'
   'Hollósi utca': 'Hollósi Sándor utca'
   'Ida utca': 'Ida út'
@@ -25,7 +26,6 @@ refstreets:
   'Klára utca': 'Klára út'
   'Környei út': 'Környei utca'
   'Margit utca': 'Margit út'
-  # 'Mária utca': 'Mária puszta'
   'Nyúl utca': 'Nyúl út'
   'Őz utca': 'Őz út'
   'Szarvas utca': 'Szarvas út'
@@ -41,9 +41,7 @@ street-filters:
   - Vasútállomás I.
   # tanyák
   - Diós puszta
-  - Fényes fasor tanya
   - Naszályi út tanya
-  - Remeteség puszta
   # településrész
 osm-street-filters:
   # parkok/sétányok

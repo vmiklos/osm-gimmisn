@@ -31,8 +31,6 @@ refstreets:
   'Tópart utca': 'Tópart út'
   '16-os honvéd utca': '16-os Honvéd utca'
 street-filters:
-  # nem igazi utcák
-  - 24. MÁV őrház
   # place
   - Homoki szőlő  # Homokiszőlő https://www.openstreetmap.org/node/7340848754
   - O.F.B.földek  # OFB-földek https://www.openstreetmap.org/node/7340848752

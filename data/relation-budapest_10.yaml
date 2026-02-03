@@ -24,7 +24,6 @@ refstreets:
   # helyesírás, rövidítés: ref hibás
   'Hizlaló tér': 'Hízlaló tér'
   # utcajegyzék = OSM: ref hibás
-  'Ceglédi út': 'Ceglédi utca'
   'Ferihegyi repülőtérre vezető út': 'Ferihegyi reptérre vezető út'
 osm-street-filters:
   # Nem valós utcák

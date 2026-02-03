@@ -10,8 +10,6 @@ filters:
     interpolation: all
 street-filters:
   # nem igazi utcák / csak hrsz.
-  - Máv őrház
-  - Máv vasútállomás
   # megszűnt
   - Forrásföldi utca  # https://www.openstreetmap.org/way/8075296
   # nincs kiépítve - Diák park van a helyén

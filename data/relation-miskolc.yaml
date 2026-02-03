@@ -49,29 +49,19 @@ osm-street-filters:
   - Pünkösd dűlő
 street-filters:
   - Kisavas sor  # Kisavas, Első sor stb..
-  - Termál barlangfürdő  # Van rendes címe
   - Tiszai pályaudvar  # Van rendes címe
   # - Sporttelep utca  # átnevezve: Vanger Vilmos utca
   # - Vendég utca  # átnevezve: Vanger Vilmos utca
   # dupla
-  - Bábonyibérc telep  # Bábonyibérc Új telep
-  - Erdőalja telep  # Csavar utca
   # Felsőavas Teleki sor  # Teleki sor
   - Lyukóvölgy Kishajtás  # Kishajtás dűlő
-  - Nádastó utca  # Nádastó dűlő
-  - Középső sor  # Nagyavas-közép sor
-  - Felső sor  # Nagy-avas felsősor
-  - Nagyavasi sor  # Nagyavas-alsó sor stb.
   - Nagy Csermőke dűlő  # Nagycsermőke dűlő
   - Nagykőkötő  # Nagy-kőkötő utca
   - Ruzsinszőlő utca  # Ruzsinszőlő dűlő
-  - Tetemvár sor  # Tetemvár Alsó sor stb..
   - Varga oldal  # Vargaloldal
   # nem valós utcák
   - MÁV 77-es őrház
   - MÁV vasgyári 6-os őrház
-  - Rendező pályaudvar
-  - Garadna erdészház
   # csak hrsz / nincs hsz. / dűlők
   - Ágazat
   - Bábonyibérc dűlő
@@ -87,9 +77,7 @@ street-filters:
   - Garóca dűlő
   - Herceg Hajtás dűlő
   - Hidegoldal dűlő
-  - Jenke tanya
   - Kakas-hegy
-  - Kankós dűlő
   - Kerekhegy
   - Kis-ágazat dűlő
   - Kisszilvás völgy
@@ -97,9 +85,7 @@ street-filters:
   - Lapocka dűlő
   - Margitta dűlő
   - Nagyszilvás völgy
-  - Nagy magas hegy
   - Őzugró dűlő
-  - Szabadka dűlő
   - Szarkahegy dűlő
   - Szentbenedekhegyi dűlő
   - Szentlélek
@@ -108,8 +94,6 @@ street-filters:
   - Ághegy
   - Bodótető
   - Csanyik völgy  # Csanyikvölgy
-  - Császárhegy
-  - Csermőke
   - Csorba telep  # Csorbatelep
   - Jávorkút
   - Mechatronikai park
@@ -138,24 +122,18 @@ street-filters:
   # - Csernaj - Kodály Zoltán utca folytatása
   # - Erenyő völgy
   # - Fürészmalom
-  # - Garadna
-  # - Garadnavölgy
+  # - Garadna völgy
   # - József Attila telep
   # - Kakas-hegy
   # - Kiserenyő
   # - Kutyorvölgy
-  # - Lyukóoldal
   # - Lyukóvölgy Bánya oldal
   # - Lyukóvölgy Gulyakút
-  # - Lyukóvölgy Kitérő
-  # - Lyukóvölgy Kutyor egyéb
   # - Nagypást tanya
-  # - Pap tanya
   # - Rendező pályaudvar
   # - Rózsás dűlő
   # - Szilvásvölgy
   # - Táncihegy
-  # - Vadászlak
 refstreets:
   # 3508
   'Áchim utca': 'Áchim András utca'
@@ -248,7 +226,6 @@ refstreets:
   # 3531
   'Danlos': 'Danlos dűlő'
   'Lövei sor': 'Lővei sor'
-  'Hideg sor': 'Felsőavas Hidegsor'
   # 3532
   'Kislyukó dűlő': 'Kislyukó dűlőút'
   'Kutyor völgy': 'Kutyorvölgy'
@@ -262,6 +239,7 @@ refstreets:
   'Báthory sor': 'Báthori sor'
   'Komlóstető utca': 'Komlós tető'
   'Láditelepi út': 'Ládi telep'
+  'Nádastó dűlő': 'Nádastó utca'
   'Vasgyári Újtelep utca': 'Vasgyári újtelep'
   'Vörös Bérc utca': 'Vörös bérc utca'
   # 3534
