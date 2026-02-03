@@ -2,24 +2,17 @@ missing-streets: 'yes'
 filters:
   Aladár utca:
     # 9: sima 9 nincs, csak 9/a, 9/b.
-    # 11: nincs ilyen, a 9/b után egy játszótér, majd a 15 következik.
-    # 13: nincs ilyen, a 9/b után egy játszótér, majd a 15 következik.
     # 21: ez és az Mészáros utca 60/c ugyanaz az épület, bejárat és házszám a Mészáros utcáról van csak.
-    invalid: ['9', '11', '13', '21']
+    invalid: ['9', '21']
   Alkotás utca:
     # 6: nincs ilyen, a MÁV területén van a 2, mellette a 20-24 (benzinkút), köztük nincs kitáblázva más.
     # 28: nincs ilyen, a 20-24 (benzinkút), mellette a Cheap Cheap Csóka a 34-es házszámot használja (földhivatal szerint ez a 32).
     # 32: nincs ilyen, a 20-24 (benzinkút), mellette a Cheap Cheap Csóka a 34-es házszámot használja (földhivatal szerint ez a 32).
     # 38/a: ez a Márvány utca deltája közti park területe, de ott nincsenek épületek.
-    invalid: ['6', '28', '32', '38a']
-  Alsóhegy utca:
-    # 10-16: ez és a Somlói út 49-53. (Mathias Corvinus Collegium) ugyanaz az épület, házszám a Somlói útról van csak, de egy régi 16-18 tábla kint van.
-    # 30: ez a XI. kerületben van.
-    invalid: ['10', '12', '14', '30']
+    invalid: ['28', '32', '38a']
   Apród utca:
-    # 13: nincs ilyen, csak 1-3 van.
     # 2: a páros oldalon csak egy épület van 10-es számmal.
-    invalid: ['13', '2']
+    invalid: ['2']
   Attila út:
     # 5: az 1-3 után a 11 (templom) következik.
     # 7: az 1-3 után a 11 (templom) következik.
@@ -44,8 +37,7 @@ filters:
   Avar utca:
     # 4: ez és a Hegyalja út 30. ugyanaz az épület, házszám a Hegyalja útról van csak.
     # 12: a páros oldalon a 10 az utolsó házszám.
-    # 14: a páros oldalon a 10 az utolsó házszám.
-    invalid: ['4', '12', '14']
+    invalid: ['4', '12']
   Batthyány tér:
     interpolation: 'all'
   Batthyány utca:
@@ -85,9 +77,6 @@ filters:
     # 5: sima 5 nincs, csak 5/a, 5/b, 5/c, 5d.
     # 7: sima 7 nincs, csak 7/a, 7/b, 7/c.
     invalid: ['5', '7']
-  Döbrentei utca:
-    # 1: a páratlan oldalon a 9 az első házszám.
-    invalid: ['1']
   Fazekas utca:
     # 1/c: nincs ilyen, csak sima 1 van.
     # 8: ez a II. kerületben van.
@@ -101,10 +90,6 @@ filters:
     # 20-22: Pavilon de Paris csak 20-nak mondja magát.
     # 38: ez és a Vám utca 5-7. ugyanaz az épület, bejárat és házszám a Vám utcáról van csak.
     invalid: ['37', '22', '38']
-  Gellérthegy utca:
-    # 33/a: nincs ilyen, csak sima 33 van.
-    # 33/c: nincs ilyen, csak sima 33 van.
-    invalid: ['33a', '33c']
   Hadnagy utca:
     # 2: csak a 8-10 (Rác-fürdő) van az utcában.
     # 12: csak a 8-10 (Rác-fürdő) van az utcában.
@@ -117,9 +102,8 @@ filters:
     invalid: ['4']
   Hattyú utca:
     # 2/a: nincs ilyen, csak sima 2 van.
-    # 22: a páros oldalon a 18 az utolsó házszám.
     # 44: a páros oldalon a 18 az utolsó házszám.
-    invalid: ['2a', '22', '44']
+    invalid: ['2a', '44']
   Hegyalja út:
     # 5/m: nincs ilyen, csak sima 5 van.
     # 20: sima 20 nincs, csak 20/a, 20/b.
@@ -153,8 +137,6 @@ filters:
     invalid: ['61', '75a', '75b']
   Krisztina tér:
     interpolation: 'all'
-    # 37: a 10 az utolsó házszám.
-    invalid: ['37']
   Kuny Domokos utca:
     # 1/d: nincs ilyen, csak sima 1 van.
     # 4: sima 4 nincs, csak 4/a, 4/b, 4/c, 4/d.
@@ -169,15 +151,11 @@ filters:
     # 78: sima 78 nincs, csak 78/a, 78/b.
     invalid: ['19', '27', '78']
   Lovas út:
+    # 1-41
     interpolation: 'all'
     # 6: sima 6 nincs, csak 6/a, 6/b.
     # 26-27: csak 26 van kitáblázva.
-    # 57: a 41 az utolsó házszám.
-    invalid: ['6', '27', '57']
-  Málna utca:
-    # 109: az utcában nincsenek házszámok.
-    # 6: az utcában nincsenek házszámok.
-    invalid: ['109', '6']
+    invalid: ['6', '27']
   Márvány utca:
     # 1: sima 1 nincs, csak 1/b, 1/c, 1/d.
     # 3: sima 3 nincs, csak 3/a, 3/b.
@@ -193,11 +171,11 @@ filters:
     # 10/b: nincs ilyen, csak sima 10 van.
     invalid: ['3a', '8', '8d', '10a', '10b']
   Mészáros utca:
-    # 83-85: a páratlan oldalon a 19 az utolsó házszám.
+    # páratlan: 1-19
     # 56: sima 56 nincs, csak 56/a, 56/b.
     # 60: sima 60 nincs, csak 60/a, 60/b, 60/c.
     # 66: ez és a Hegyalja út 23. ugyanaz az épület, házszám a Hegyalja útról van csak.
-    invalid: ['83', '85', '56', '60', '66']
+    invalid: ['56', '60', '66']
   Mihály utca:
     # 16: sima 16 nincs, csak 16/a.
     invalid: ['16']
@@ -224,9 +202,9 @@ filters:
     # 24-26: csak 24 van kitáblázva.
     invalid: ['1', '18', '18c', '20', '26']
   Ostrom utca:
+    # a páros oldalon a 16 az utolsó házszám, az utcatáblán pedig a 18.
     # 8: sima 8 nincs, csak 8/a, 8/b.
-    # 24: a páros oldalon a 16 az utolsó házszám, az utcatáblán pedig a 18.
-    invalid: ['8', '24']
+    invalid: ['8']
   Pálya utca:
     # 2: sima 2 nincs, csak 2/a.
     # 2/b: ez és a Mészáros utca 13. ugyanaz az épület, házszám a Mészáros utcáról van csak.
@@ -244,8 +222,7 @@ filters:
     invalid: ['3']
   Somlói út:
     # 26: ez a XI. kerületben van.
-    # 62/b: ez a XI. kerületben van.
-    invalid: ['26', '62b']
+    invalid: ['26']
   Szabó Ilonka utca:
     # 15/a: nincs ilyen, csak sima 15 van.
     # 15/b: nincs ilyen, csak sima 15 van.
@@ -288,9 +265,6 @@ filters:
     # 9-11: ez a Szentháromság utca, nem a Szentháromság tér.
     # 15: ez a Szentháromság utca, nem a Szentháromság tér.
     invalid: ['1', '3', '4', '9', '10', '11', '15']
-  Szirom utca:
-    # 4/6: nincs ilyen, ez 4-6 lesz.
-    invalid: ['4/6']
   Szirtes út:
     # 3: sima 3 nincs, csak 3/a, 3/b.
     # 5: sima 5 nincs, csak 5/a, 5/b.
@@ -301,12 +275,9 @@ filters:
     # 6/b: ez és a Mihály utca 3/b ugyanaz az épület, házszám a Mihály utcáról van csak.
     # 14/b: nincs ilyen, csak sima 14 van.
     # 28: sima 28 nincs, csak 28/a, 28/b.
-    # 32/a: nincs ilyen, csak sima 32 van.
-    invalid: ['3', '5', '17a', '17b', '27', '6', '6b', '14b', '28', '32a']
-  Táncsics Mihály utca:
-    # 65: a páratlan oldalon a 27 az utolsó házszám.
-    # 58: a páros oldalon a 28 az utolsó házszám.
-    invalid: ['65', '58']
+    invalid: ['3', '5', '17a', '17b', '27', '6', '6b', '14b', '28']
+  # Táncsics Mihály utca:
+    # 1-27, 2-28
   Tigris utca:
     # 29: sima 29 nincs, csak 29/a, 29/b.
     # 29/c: nincs ilyen, csak 29/a, 29/b.
@@ -322,9 +293,6 @@ filters:
     # 72: sima 72 nincs, csak 72/a, 72/b.
     # 74/b: nincs ilyen, csak sima 74 van.
     invalid: ['1', '60m', '62', '64', '72', '74b']
-  Toldy lépcső:
-    # 55: ez a Toldy Ferenc utca 55., a Toldy lépcsőn nincsenek épületek.
-    invalid: ['55']
   Tóth Árpád sétány:
     interpolation: all
   Úri utca:
@@ -336,14 +304,13 @@ filters:
   Várfok utca:
     # 15: sima 15 nincs, csak 15/b, 15/c.
     # 15/a: ez és a Vérmező út 14. ugyanaz a bejárat, házszám a Vérmező útról van csak.
-    # 21: ez a II. kerületben van.
     # 2: sima 2 nincs, csak 2/b.
     # 2/a: ez és a Lovas út 41. ugyanaz az épület, házszám a Lovas útról van csak.
-    invalid: ['15', '15a', '21', '2', '2a']
+    invalid: ['15', '15a', '2', '2a']
   Vérmező út:
     # 1: a páratlan oldal a Széll Kálmán tér, nincsenek épületek.
     # 6/a: nincs ilyen, csak sima 6 van.
-    invalid: ['1', '6a']
+    invalid: ['6a']
   Ybl Miklós tér:
     interpolation: all
   Zerge lépcső:

@@ -168,17 +168,14 @@ filters:
       - {start: '5', end: '99'}
       - {start: '6', end: '98'}
   Felső Zöldmáli út:
-    # 1: 1/a, 1/b, 1/c
-    # 7: 7/a, 7/b
     # 24/b: 24, 24/a
-    # 36/a: csak sima 36
     # 56: 56/a, 56/b
     # 88: 88 A,B,C épület
     # 96: nincs kiírva
     # 98-100: csak 98 van kiírva
     # 101: helyén 99 van kiírva
     # 129b: 2 épületrész, de mindkettőnél csak 129 van kiírva
-    invalid: ['1', '7', '24b', '36a', '56', '88', '96', '100', '101', '129b']
+    invalid: ['24b', '56', '88', '96', '100', '101', '129b']
     ranges:
       - {start: '1', end: '133'}
       - {start: '2', end: '130'}
@@ -197,11 +194,10 @@ filters:
     # 6a: 6 helyette
     # 10a: 10-12 helyette
     # 10b: 10-12 helyette
-    # 50: 50/b helyette
     # 54a: 54 és 54b helyette
     # 64: 64/b helyette
     # 84: /a és/b helyette
-    invalid: ['45', '47', '53', '69a', '75', '6a', '10a', '50', '54a', '64', '84']
+    invalid: ['45', '47', '53', '69a', '75', '6a', '10a', '54a', '64', '84']
   Fő utca:
     # 1-45: I. kerület, 47+ II. kerület
     # 2-60: I. kerület, 62+ II. kerület
@@ -222,34 +218,23 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
   Gábor Áron utca:
-    # 1a = Szilágyi Erzsébet fasor 109.
-    # 5: 5a helyette
     # 47c: 47 helyette
-    # 57: 57a helyette
     # 18: 18ab helyette
-    # 42ab: 42 helyette
     # 44b: 44 helyette
-    # 68: 68b helyette
-    invalid: ['1a', '5', '47c', '57', '18', '42a', '42b', '44b', '68']
+    invalid: ['47c', '18', '44b']
   Gárdonyi Géza út:
     # 1-11: Móricz Zsigmond Gimnázium, számozás nem innen van.
-    # 2 = Törökvész út 46/d
     # 8: 6/b után 10 jön, de az egyik házrészen nincs szám
-    invalid: ['2', '7', '8', '11']
+    invalid: ['8', '11']
   Garas utca:
     # 1-11, 2-30
     # 26a, 26b: 26/a-b van kitáblázva
     invalid: ['26a', '26b', '32']
   Gomba utca:
-    # 4 = régi házszám, ma Muraközi utca 26.
     # 5 = Vend utca 30
     # 9/b: 9 és 9/a
     # 11: 11/a, 11/b, 11/c
-    invalid: ['5', '4', '11']
-  Gyergyó utca:
-    # 2 = Szilágyi Erzsébet fasor 79.
-    # 4 = 4/a, 4/b
-    invalid: ['2', '4']
+    invalid: ['5', '11']
   Guyon Richárd utca:
     # 5: 5 A és B épület
     invalid: ['5']
@@ -262,15 +247,11 @@ filters:
     ranges:
       - {start: '17', end: '31'}
       - {start: '22', end: '48'}
-  Házmán utca:
-    # 1: ez a Budagyöngye, de az a Szilágyi Erzsébet fasor 121.
-    invalid: ['1']
   Hankóczy Jenő utca:
-    # 3: 3/a, 3/b van
     # 13: 13/a, 13/b, 13/c van
     # 27: 27/a, 27/b van
     # 16/a, 16/b: 16 van
-    invalid: ['3', '13', '27', '16a', '16b']
+    invalid: ['13', '27', '16b']
   Herman Ottó út:
     invalid:
       - '19-21' # 19a, 19b, 21 helyette
@@ -295,10 +276,9 @@ filters:
   Keleti Károly utca:
     # 11a: 11/A-B van kitáblázva
     # 18: 18/... van kitáblázva
-    # 20: 20/... van kitáblázva
     # 28: 28/... van kitáblázva
     # 31a: 29/a után 31/b van kitáblázva
-    invalid: ['11a', '18', '20', '28']
+    invalid: ['11a', '18',  '28']
   Kis Rókus utca:
     # 39: 39a és 39b helyette
     invalid: ['39']
@@ -442,8 +422,7 @@ filters:
     invalid: ['6']
   Rhédey utca:
     # 8a: csak 8 van kiírva
-    # 14: nincs
-    invalid: ['8a', '14']
+    invalid: ['8a']
   Ribáry utca:
     ranges:
       - {start: '1', end: '11'}
@@ -582,9 +561,9 @@ filters:
     ranges:
       - {start: '2', end: '4'}
   Vitéz utca:
-    # 3: a 3-5. közötti szakasz a Nagy Imre tér.
+    # A 3-5 közötti szakasz a Nagy Imre tér.
     # 15: sima 15 nincs, csak 15/a, 15/b.
-    invalid: ['3', '15']
+    invalid: ['15']
   Vöröstorony lejtő:
     invalid:
       - '13' # 13a, 13b helyette

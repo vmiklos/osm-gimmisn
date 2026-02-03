@@ -28,9 +28,6 @@ filters:
   Gát utca:
     # 2: nincs tábla, ez a Kaniziusz Szent Péter templom kertje.
     invalid: ['2']
-  Határ út:
-    # 50/a: a Határ út IX. kerületi oldalán nincsenek épületek.
-    invalid: ['50a']
   Hőgyes Endre utca:
     # 17: ez és az Üllői út 39-43. ugyanaz az épület, a Hőgyes Endre utcáról is az Üllői út cím van kitáblázva.
     invalid: ['17']
@@ -38,7 +35,7 @@ filters:
     # 7/c: nincs ilyen, csak sima 7 van.
     # 2: sima 2 nincs, csak 2/a, 2/b.
     # 2-4: nincs ilyen, csak 2/a, 2/b, 6/b (Vaskapu utca), 4/b, 4/c.
-    invalid: ['7c', '2', '4']
+    invalid: ['7c', '2']
   Kálvin tér:
     interpolation: all
     # 10 = Üllői út 1. Aegon
@@ -51,14 +48,10 @@ filters:
     # 2-6: nincs ilyen, csak 2/a, 4-8 van.
     # 12: sima 12 nincs, csak 12/a, 12/b.
     # 18: ez és a Lónyay Utcai Református Gimnázium és Kollégium (Kinizsi utca 1-7.) ugyanaz az épület, házszám a Kinizsi utcáról van csak.
-    # 24/a: nincs ilyen, csak sima 24 van.
-    invalid: ['2', '12', '18', '24a']
+    invalid: ['2', '12', '18']
   Köztelek utca:
     # 8/b: nincs ilyen, csak sima 8 van.
     invalid: ['8b']
-  Ligeti György utca:
-    # 6/b: ez és a Mátyás utca 8. ugyanaz az épület, bejárat és házszám a Mátyás utcáról van csak.
-    invalid: ['6b'] 
   Liliom utca:
     # 3: sima 3 nincs, csak 3/a, 3/b, és azok is csak az utcatáblán.
     # 27: sima 27 nincs, csak 27/a, 27/b.
@@ -72,38 +65,29 @@ filters:
   Mátyás utca:
     # 1-5/a: ez és a Budapesti Corvinus Egyetem C épület (Közraktár utca 4-8) ugyanaz az épület, házszám a Közraktár utcáról van csak.
     # 2: ez és a Közraktár utca 2/a ugyanaz az épület, bejárat és házszám a Közraktár utcáról van csak.
-    invalid: ['1', '3', '5', '5a', '2']
+    invalid: ['1', '3', '5', '2']
   Pápay István utca:
     # 12: ez a NAV épületének hátulja, amely a Vaskapu utca 33-35-re van számozva.
     invalid: ['12']
   Páva utca:
     # 1-3: ez és a Mester utca 30-32 (Pávaház) ugyanaz az épület, bejárat és házszám a Mester utcáról van csak.
-    # 4/b: nincs ilyen, csak sima 4 és 4/a.
-    # 30: sima 30 nincs, csak 30/a az épületen és 30/b az utcatáblán.
     # 30/b: ez és a Tompa utca 15. ugyanaz az épület, bejárat és házszám a Tompa utcáról van csak, a 30/b csak az utcatáblán szerepel.
     # 32: sima 32 nincs, csak 32/a, 32/b.
     # 34/b: nincs ilyan, csak sima 34 van.
     # 36: ez és az Üllői út 55. ugyanaz az épület, bejárat és házszám az Üllői útról van csak.
-    invalid: ['1', '3', '4b', '30', '30b', '32', '34b', '36']
-  Pipa utca:
-    # 2: sima 2 nincs, csak 2/a, 2/b.
-    invalid: ['2']
+    invalid: ['1', '3', '30b', '32', '34b', '36']
   Soroksári út:
     # 1-5: ezek a Duna Házban vannak, de csak 1, 3/a, 3/c, 5 van, sima 3 nincs.
-    # 113/a: nincs ilyen, csak sima 113 van.
-    # 113/b: nincs ilyen, csak sima 113 van.
     # 115/a: nincs ilyen, csak sima 115 van.
-    # 117/d: nincs ilyen, csak sima 117 van.
     # 2-4: ez és az Angyal utca 1-3. ugyanaz az épület, bejárat és házszám az Angyal utcáról van csak.
     # 50-54: csak 54 van kitáblázva, közvetlenül a 48 után.
     # 62: nincs ilyen, a 60 után vasúti felüljáró, majd a Koppány utca 2-4. bevásárlóközpont van, a Koppány utca sarkán lévő utcatáblán pedig már 70-82 a kiírás.
     # 68: nincs ilyen, a 60 után vasúti felüljáró, majd a Koppány utca 2-4. bevásárlóközpont van, a Koppány utca sarkán lévő utcatáblán pedig már 70-82 a kiírás.
-    invalid: ['3', '113a', '113b', '115a', '117d', '2', '4', '50', '52', '62', '68']
+    invalid: ['3', '115a', '2', '4', '62', '68']
   Tompa utca:
-    # 7/a: nincs ilyen, csak sima 7 van.
     # 13: sima 13 nincs, az épületen 13 A/B van kitáblázva, OSM-en 13/a,13b formában van rögzítve.
     # 26: sima 26 nincs, csak 26/a, 26/b.
-    invalid: ['7a', '13', '26']
+    invalid: ['13', '26']
   Török Pál utca:
     # 2: ez és a Kálvin téri református templom ugyanaz az épület, házszám a Török Pál utcáról nincs.
     invalid: ['2']

@@ -26,9 +26,8 @@ filters:
     # 82: sima 82 nincs, csak 82/a, 82/b.
     # 110/a: nincs ilyen, csak sima 110 van.
     # 212: a páros oldalon a 184 az utolsó házszám. Aztán van még 2 telek, amely számózódhat a Bajcsy-Zsilinszky utcáról, de akor is csak legfeljebb 188 lehetne.
-    # 226: a páros oldalon a 184 az utolsó házszám. Aztán van még 2 telek, amely számózódhat a Bajcsy-Zsilinszky utcáról, de akor is csak legfeljebb 188 lehetne.
     # 244/b: a páros oldalon a 184 az utolsó házszám. Aztán van még 2 telek, amely számózódhat a Bajcsy-Zsilinszky utcáról, de akor is csak legfeljebb 188 lehetne.
-    invalid: ['41a', '47', '109', '159', '82', '110a', '212', '226', '244b']
+    invalid: ['41a', '47', '109', '159', '82', '110a', '212', '244b']
   Bánk bán utca:
     # 14: csak páratlan oldal van, a páros oldal a vasút.
     # 802: ez helyrajzi szám, nem házszám.
@@ -193,8 +192,7 @@ filters:
     # 39/a: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 64.
     # 47/a: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 74.
     # 59/b: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 86.
-    # 73/a: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 100.
-    invalid: ['37a', '39a', '47a', '59b', '73a']
+    invalid: ['37a', '39a', '47a', '59b']
 street-filters:
   # Nem igazi utcák
   - Szedres
