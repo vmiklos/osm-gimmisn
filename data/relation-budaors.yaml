@@ -410,7 +410,7 @@ filters:
   Máriavölgy utca:
     # össze vissza számozva, csoda hogy csak ezek hiányoznak
     # újraszámozás alatt: https://budaors.hu/hirek/varosi-ugyek/a-telepulesi-cimmegallapitasi-rendezesi-eljarasok
-    invalid: ['11', '12', '22', '33']
+    invalid: ['11', '12', '33']
   Maros köz:
     # 1, 9 nincs
     invalid: ['1', '9']
@@ -603,12 +603,11 @@ filters:
     # 96: 96 beépítve az újonnan épült 98-ba
     # 181-209 többségében a Holdfény utcára van számozva
     # 242: helyén 214 van kiírva
-    # 314: heléyn 312/a van kírva
     # 360: 358 utcán 362
     # 387: beépítetlen terület
     # 392: 390 van kiírva a helyén, a földhivatallal nem egyezik a számozás
     # 394: 392 van kiírva a helyén, a földhivatallal nem egyezik a számozás
-    invalid: ['6', '8', '10', '12', '16', '28', '29', '31', '144', '153', '314', '387', '394']
+    invalid: ['6', '8', '10', '12', '16', '28', '29', '31', '144', '153', '387', '394']
   Szálláshegy utca:
     interpolation: all
   Szamorodni utca:

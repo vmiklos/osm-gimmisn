@@ -9,12 +9,8 @@ filters:
     interpolation: all
   Árpád fejedelem útja:
     interpolation: all
-    ranges:
-      - {start: '48', end: '69'}
-      - {start: '77', end: '94'}
   Attila utca:
     invalid:
-      - '47'  # a Földhivatal szerint csak 47-51. létezik
       - '57'  # a Csillag Center van…
       - '61'
       - '61-63'
@@ -69,14 +65,11 @@ filters:
     invalid:
       - '6'  # a Földhivatal szerint sem létezik
   Ladik utca:
-    # semmi nincs ki, az utca negy része le van zárva, magánterület, bevásárlóközpontot terveztek ide
-    # a HÉV-vel párhuzamos részen se szám se utcanév
-    invalid: ['2', '6']
-    ranges:
-      - {start: '2', end: '6'}
-      - {start: '1', end: '1'}
-  Lehel utca:
-    invalid: ['1-3']  # külön van az 1. és a 3.
+    # semmi sincs kint, az utca negy része le van zárva, Waterfront City 2 épül
+    # a HÉV-vel párhuzamos része Ungvár utca lett
+    invalid: ['5']
+  # Lehel utca:
+    # invalid: ['1-3']  # külön van az 1. és a 3.
   Pablo Neruda utca:
     interpolation: all
   Papírgyár utca:
@@ -84,30 +77,21 @@ filters:
     invalid:
       - '1'  # Határ út 1.
       - '2'  # Határ út 2.
-      - '59'  # 58-59.
   Rákóczi utca:
     invalid:
-      - '20'  # a Földhivatal szerint sem létezik
-      - '21'  # Lehel utca 26.
       - '22'  # a Földhivatal szerint sem létezik
       - '25'  # Attila utca 14/a
   Reményi Ede utca:
     # 5 nincs kiírva, de 3 után 23 jön
-    invalid: ['5']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
   Rókahegyi út:
     invalid:
       - '6'  # nem létezik
-  Róza köz:
-    invalid:
-      - '1a'  # a Földhivatal szerint sem létezik
-      - '3a'  # valójában csak 3. van, illetve azon belül A (és B) épület
   Seregély köz:
     # 2-4: nincs kiírva, Seregély utca 4 felől megnézebdő
-    # 15: nincs, utolsó ház a 13.
-    invalid: ['2', '4', '15']
+    invalid: ['2', '4']
   Sujtás utca:
     # nincsenek házszámok, csak 20 a művház
     # páratlan oldal Aquincum múzeum
@@ -129,7 +113,7 @@ filters:
   Valéria utca:
     invalid:
       - '1-3'  # a Földhivatal szerint sem létezik
-      - '4-6'  # csak Valéria utca 4.…
+      # - '4-6'  # csak Valéria utca 4.…
       - '6'  # …és Fürdő utca 6. létezik
       - '15'  # a Földhivatal szerint sem létezik
   Vasút sor:

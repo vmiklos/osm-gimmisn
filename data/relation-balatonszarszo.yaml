@@ -15,8 +15,7 @@ filters:
   Gábor Áron utca:
     # 43: sima 43 nincs, csak 43/A, 43/B.
     # 49: sima 49 nincs, csak 49/A, 49/2.
-    # 28: sima 28 nincs, csak 28/A, 28/B.
-    invalid: ['43', '49', '28']
+    invalid: ['43', '49']
   Hunyadi János utca:
     # 20: sima 20 nincs, csak 20/A, 20/B.
     # 22: sima 22 nincs, csak 22/A, 22/B.

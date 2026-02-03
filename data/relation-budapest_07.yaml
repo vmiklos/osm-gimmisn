@@ -6,9 +6,9 @@ filters:
   Baross tér:
     interpolation: all
   Dohány utca:
-    # 2, 2-4: Zsinagóga külön részei, hivatalosan nincs ide számozva semmi.
+    # 2-4: Zsinagóga külön része, hivatalosan nincs ide számozva semmi.
     # 6: Zsinagóga külön részei, hivatalosan nincs ide számozva semmi.
-    invalid: ['2', '4', '6']
+    invalid: ['4', '6']
   Garay tér:
     interpolation: all
   Rózsák tere:

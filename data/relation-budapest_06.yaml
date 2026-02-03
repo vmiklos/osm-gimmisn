@@ -46,8 +46,7 @@ filters:
     invalid: ['5']
   Podmaniczky utca:
     # 37/a: nincs ilyen, csak sima 37 van.
-    # 51/c: nincs ilyen, csak 51. C lépcsőház.
-    invalid: ['37a', '51c']
+    invalid: ['37a']
   Rózsa utca:
     # 94: sima 94 nincs, csak 94/a G lépcsőház, 94/b F lépcsőház.
     invalid: ['94']

@@ -6,9 +6,6 @@ filters:
     # 5a: 5 és 5/1
     # 24: nincs kiírva, fh. szerint létező telken ház nincs
     invalid: ['5a', '24']
-  Ifjúság utca:
-    # 186/A: nincs, max házszám 41 és 44.
-    invalid: ['186a']
   Petőfi utca:
     # 5: nincs semmi, csak a hotel  szennyvíztisztítója
     # 9, 10: üres telkek

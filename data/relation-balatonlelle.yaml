@@ -26,9 +26,6 @@ filters:
     invalid: ['7c']
   Pipacs sor:
     interpolation: 'all'
-    # 2: ez a Spar épülete, de az a Rákóczi útról számozódik: https://www.openstreetmap.org/way/116730869
-    # 66/3: nincs ilyen, csak 66/a, 66/b van.
-    invalid: ['2', '66/3']
   Rákóczi út:
     # 38/1, 38/2, 38/3, 38/4, 38/5, 38/6: a kerítésen egy csempedarabra festett 38/1-6 van kitéve, de ezek inkább ajtónak tűnnek, nem valódi házszámnak, és nincsenek is külön helyrajzi számon, ezért hagyom 38-ként.
     # 58: nincs ilyen, csak 58/b van, lásd: 5413 hrsz., https://www.openstreetmap.org/way/1201565881
