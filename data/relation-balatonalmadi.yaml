@@ -71,10 +71,9 @@ filters:
     # 2/*: csak sima 2, nincsenek se alátörések, se épületek kiírva
     # 5/a: nincs, 5-7 volt az OTP régen
     # 13/3: ez ajtó
-    # 26 = Kálvin utca 1. Egyis sincs kiírva. RESURVEY 2024-07
     # 48/1, 48/3: ezek ajtók
     # 63a: nincs. A Nagyi Kamrája mielőtt bezárt a 63, a másik épületrésze a 65 címet viselte.
-    invalid: ['2b', '2c', '2d', '2f', '5a', '13/3', '26', '48/1', '48/3', '63a']
+    invalid: ['2b', '2c', '2d', '2f', '5a', '13/3', '48/1', '48/3', '63a']
   Bartók Béla út:
     # 2024-12. RESURVEY 2025-06
     # 30 helyén 34
@@ -197,11 +196,10 @@ filters:
     # 3-5: csak 3 van kiírva
     invalid: ['5']
   Felsőörsi út:
-    # 9 = Rózsa utca 8, KCR szerint 2025.03.27 hivatalosan is.
     # 10 = Székely Bertalan utca sarka, épp építik. RESURVEY 2025
     # 23/b: 25 van kiírva, 25 helyén pedig az öreghegyi út 2. RESURVEY 2025
     # 34-36: csak 34 vagy kiírva
-    invalid: ['9', '10', '36', '23b']
+    invalid: ['10', '36', '23b']
   Fény utca:
     # 3-13: 3, 5, 11 van kiírva, utána van még egy ház
     invalid: ['7', '9', '13']
@@ -521,8 +519,7 @@ filters:
     invalid: ['13', '37']
   Sátorhegyi út:
     # 33: csak 33/b van kint
-    # 36/b: nincs kiírva, kérdéses hogy egyáltalán ház van-e
-    invalid: ['33', '36b']
+    invalid: ['33']
   Sirály utca:
     # strandok a páros oldal, páratlanon a Vasút van
     invalid: ['1']

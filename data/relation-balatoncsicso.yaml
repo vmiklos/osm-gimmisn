@@ -6,9 +6,6 @@ filters:
   Fő utca:
     # 2: 4 az első ház, helyi ember nem tudta, hogy van-e 2 a kanyaron túl esetleg
     invalid: ['2']
-  Gyöngyvirág utca:
-    # párataln oldalon semmi sincs kiírva, de alig van ház
-    invalid: ['29']
   Liliom utca:
     # 2: 4 az első ház
     invalid: ['2']

@@ -1,9 +1,5 @@
 missing-streets: 'yes'
 filters:
-  Ifjúság utca:
-    # 225: a páratlan oldalon az 51 az utolsó házszám.
-    # 300/8: a páros oldalon a 46 az utolsó házszám.
-    invalid: ['225', '300/8']
   Kodály Zoltán utca:
     interpolation: 'all'
     # 67: a 64-66 az utolsó házszám.
