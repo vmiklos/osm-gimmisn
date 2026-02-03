@@ -1,5 +1,13 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  # 1-999 felülbírálása tanyáknál
+  Nagyrét:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '1799'}
+  Póstelek tanya:
+    ranges:
+      - {start: '1', end: '2099'}
 street-filters:
   # Tanyák
   - Felsőnyomás tanya

@@ -21,29 +21,18 @@ filters:
     # 20: sima 20 nincs, csak 20/A, 20/B.
     # 22: sima 22 nincs, csak 22/A, 22/B.
     invalid: ['20', '22']
-  Kaza utca:
-    # 115: ez helyrajzi szám, nem házszám.
-    # 358: ez helyrajzi szám, nem házszám.
-    invalid: ['115', '358']
   Kisfaludy Sándor utca:
     # 8/A: nincs ilyen, csak sima 8 van.
     # 44/A: a Kisfaludy Sándor utca és a Tas utca sarkán lévő telken nincs házszám.
     interpolation: 'all'
     invalid: ['8a']
-  Kültelek utca:
-    # 960: ez helyrajzi szám, nem házszám.
-    invalid: ['960']
   # Mikszáth Kálmán utca:
   #   6/B: a 6-os ház osztott telken van, de mindkét felén csak 6. szerepel.
   Móricz Zsigmond utca:
     # 815: ez helyrajzi szám, nem házszám.
-    # 815/6: ez helyrajzi szám, nem házszám.
-    invalid: ['815', '815/6']
+    invalid: ['815']
   # Ond utca:
   #   2/B: nem látszik kitáblázva.
-  Tábor utca:
-    # 954: ez helyrajzi szám, nem házszám.
-    invalid: ['954']
 refstreets:
   # helyesírás
   'Örs utca': 'Őrs utca'
