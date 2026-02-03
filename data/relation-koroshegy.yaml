@@ -6,8 +6,6 @@ refstreets:
   'Kaposvári út': 'Kaposvári utca'
   'Kossuth Lajos út': 'Kossuth Lajos utca'
 street-filters:
-  # place
-  - Maróc puszta  # https://www.openstreetmap.org/relation/11137011
   # dűlők
   - Borkúti dűlő
   - Mocsármány dűlő

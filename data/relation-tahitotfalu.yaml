@@ -159,7 +159,6 @@ street-filters:
   # Dűlők
   - Alsókáposztások dűlő
   - Felsőszérűk dűlő
-  - Nyulas dűlő
   - Villám dűlő
 osm-street-filters:
   # Nem igazi utca

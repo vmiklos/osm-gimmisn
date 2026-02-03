@@ -7,10 +7,6 @@ street-filters:
   # nem igazi utcák
   - Fazekaszugi 5-ös gátőrház
   - Nagylaposi MÁV lakás
-  - külterület tanya
-  - Vasúti őrházak
-  # fent van place-ként
-  - Templomzug
   # tanyák
   # - Tanya III.
   # - Tanya IV.

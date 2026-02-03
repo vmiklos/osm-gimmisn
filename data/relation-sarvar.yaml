@@ -18,7 +18,6 @@ street-filters:
   # nem igazi utcák
   # tanyák
   - Földvárpuszta major
-  - Kanotapuszta
   # településrész
 osm-street-filters:
   # parkok/sétányok

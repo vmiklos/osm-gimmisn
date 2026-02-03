@@ -1,7 +1,6 @@
 missing-streets: 'yes'
 street-filters:
   # place
-  - Bácshegy
   - Halastópuszta  # https://www.openstreetmap.org/node/1133619046
   - Halyagoshegy
   - Kamocsa

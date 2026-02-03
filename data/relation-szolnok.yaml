@@ -4,11 +4,11 @@ refstreets:
   'Bartók Béla utca': 'Bartók Béla út'
   'Báthory István utca': 'Báthori utca'
   'Bocskai István utca': 'Bocskai utca'
+  'Bulcsu utca': 'Bulcsú utca'  # https://www.openstreetmap.org/note/5142626
   'Damjanich út': 'Damjanich utca'
   'Dr. Kronberg János utca': 'dr. Kronberg János utca'
   'Erdész út': 'Erdész utca'
   'Füzér utca': 'Fűzér utca'
-  'Gurító utca': 'Guritó utca'
   'Háromrózsa utca': 'Háromrózsa út'
   'Hétvezér utca': 'Hét vezér utca'
   'Holt-Tisza part': 'Holt-tiszapart út'
@@ -25,6 +25,7 @@ refstreets:
   'Simon Ferenc utca': 'Simon Ferenc út'
   'Szolnok Ispán körút': 'Szolnok ispán körút'
   'Tabántelep': 'Tabán telep'
+  'Temető utca': 'Temető út'  # https://www.openstreetmap.org/note/5142632
   'Vásárhelyi Pál utca': 'Vásárhelyi Pál út'
   'Vásártér utca': 'Vásártér'
   'Zsálya utca': 'Zsálya út'

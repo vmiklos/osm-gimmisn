@@ -41,13 +41,11 @@ street-filters:
   # nem igazi utcák
   - Hattyasi szivattyú telep
   - Repülőtér
-  - Újszegedi MÁV őrház
   # tanyák
   - Balogh tanya
   - Berta tanya
   - Bezdán tanya
   - Biacsi tanya
-  - Bodó tanya
   - Csíkos-ér háti tanya
   - Csipi tanya
   - Domonkos tanya
@@ -60,10 +58,8 @@ street-filters:
   - Fehértói halas 1 tanya
   - Fehértói halas tanya
   - Ferenczi tanya
-  - Fodor tanya
   - Fónai tanya
   - Forrai tanya
-  - Fritz tanya
   - Gaszmann tanya
   - Gergulics-Szalai tanya
   - Guth tanya
@@ -85,7 +81,6 @@ street-filters:
   - Mangó tanya
   - Margineán tanya
   - Márkus tanya
-  - Márton tanya
   - Martus tanya
   - Mester tanya
   - Mika tanya
@@ -98,7 +93,6 @@ street-filters:
   - Pál tanya
   - Papdi tanya
   - Paprika tanya
-  - Petőfi tanya
   - Péter tanya
   - Révész 1 tanya
   - Révész tanya
@@ -121,12 +115,10 @@ street-filters:
   - Szakál 2 tanya
   - Szalakóta tanya
   - Száraz tanya
-  - Szatmári tanya
   - Szőllősi tanya
   - Szőregi tanyák
   - Szuromi tanya
   - Tamás tanya
-  - Tanács tanya
   - Tappancs tanya
   - Tisóczki tanya
   - Tóth 2 tanya
@@ -141,7 +133,6 @@ street-filters:
   - Vetyeháti gátőrház tanya
   # feketeföldek
   - Alsóvárosi feketeföldek
-  - Felsővárosi fföldek
   - Rókusi feketeföldek
   # településrész
 osm-street-filters:

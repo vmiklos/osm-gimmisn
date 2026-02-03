@@ -62,7 +62,6 @@ refstreets:
   # - Új Élet utca: így van az utcanévtáblán. Javítottam.
 street-filters:
   - Keleti üdülő-telep  # helyszínen Panoráma utca van
-  - Kenderföld dűlő  # Balatonszárszói Közös Önkormányzati Hivatal válasza: Kenderföld dűlő elnevezésű közút Balatonszárszó közigazgatási területén hivatalosan nincs.
   # nem igazi utcák
   - Külterület telep
   - Zártkert dűlő
