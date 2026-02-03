@@ -91,7 +91,6 @@ filters:
     # 19: üres
     # 20: üres, de valószínű Rigövölgyi utca inkább a házszám
     # 21: nincs
-    # 22 = Rigóvölgyi utca 4/b
     # 24, 26: nincs kiírva, nta szerint
     # 29: üres, 1393 hrsz.
     # 30: nincs kiírva
@@ -102,7 +101,7 @@ filters:
     # 36, 36/3: itt 1404 hrsz. van kiírva
     # 40, 42, 44: szervizúton, felmérendő
     # 45: nincs
-    invalid: ['11b', '13', '18', '19', '20', '21', '22', '29', '30', '31', '32', '34', '35', '36', '36/3', '45']
+    invalid: ['11b', '13', '18', '19', '20', '21', '29', '30', '31', '32', '34', '35', '36', '36/3', '45']
   Fecske köz:
     # 3/b: nincs, csak 3
     # 17: üres telek
@@ -210,7 +209,7 @@ filters:
     # 22: 2 házszám van kint 14 és 24, mindegyik rossz
     # 31/b: nincs, csak 31
     # 46: helyén 35 van kiírva
-    invalid: ['2a', '4a', '8a', '8b', '13', '16', '19a', '22', '31b', '46']
+    invalid: ['2a', '4a', '8b', '13', '16', '19a', '22', '31b', '46']
   Németh László utca:
     # 2, 4: nincsenek, az első ismert páros házszám a 12
     # 15: üres telek, nincs kiírva
@@ -222,7 +221,7 @@ filters:
     # 2/a: csak sima 2 
     # 27: nincs kiírva
     # 681: hrsz.
-    invalid: ['2a', '2', '681']
+    invalid: ['2a', '681']
   Panoráma utca:
     # 2: a kapun ez van, a kuka címkén Bocskay utca 34 (régi utcanével) 
     # 9: nincs kiírva csak a hrsz: 6061/1
@@ -232,7 +231,7 @@ filters:
     # 24: nincs
     # 50/b: nincs, csak sima 50
     # 63/a: nincs kiírva, csak 63
-    invalid: ['24', '50b', '63a', '11a-b']
+    invalid: ['24', '50b', '63a']
   Partfő utca:
     # 35, 119:nincs, max páratlan a 15/A-B
     invalid: ['35', '119']
