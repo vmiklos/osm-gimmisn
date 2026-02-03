@@ -92,10 +92,9 @@ filters:
   Seregély köz:
     # 2-4: nincs kiírva, Seregély utca 4 felől megnézebdő
     invalid: ['2', '4']
-  Sujtás utca:
+  # Sujtás utca:
     # nincsenek házszámok, csak 20 a művház
     # páratlan oldal Aquincum múzeum
-    invalid: ['3', '10']
   Szentendrei út:
     invalid:
       - '218-220'  # 222-vel kezdődik az útszakasz – a Földhivatal szerint egyik szám sem létezik
@@ -112,10 +111,10 @@ filters:
       - {start: '2', end: '14'}
   Valéria utca:
     invalid:
-      - '1-3'  # a Földhivatal szerint sem létezik
+      # - '1-3'  # a Földhivatal szerint sem létezik
       # - '4-6'  # csak Valéria utca 4.…
       - '6'  # …és Fürdő utca 6. létezik
-      - '15'  # a Földhivatal szerint sem létezik
+      # - '15'  # a Földhivatal szerint sem létezik
   Vasút sor:
     interpolation: all
 street-filters:

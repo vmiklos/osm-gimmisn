@@ -464,9 +464,8 @@ filters:
     # 6a: 6-os ház 2 részből áll, felvettem a 6/a-t arra a felére amin nem volt szám
     # 32: 32/a, 32/b, 32/c, 32/d, 32/e
     # átszámozva: 46a -> 46, 48c-> 54, 48d-> 56; 48 nincs kiírva helyén még a 46c van
-    # 62: 62/a, 62/b, 62/c, 62/d
     # 92, 92b, 94, 96, 98, 100
-    invalid: ['81', '32', '48', '48c', '48d', '62', '66']
+    invalid: ['81', '32', '48', '48c', '48d', '66']
     ranges:
       - {start: '1', end: '91'}
       - {start: '2', end: '104'}
@@ -1159,12 +1158,7 @@ filters:
     # 16: Pulzus régi címe, új cím: Repülőtéri út 4.
     # 37/C-ből lett a Puskapor utca 2/C
     # 37/G-ből lett a Löveg utca 3/G
-  Kőhalom utca:
-    # 1: csak 1/a van
-    invalid: ['1']
-    ranges:
-      - {start: '1', end: '13'}
-      - {start: '2', end: '16'}
+  # Kőhalom utca:
   # Kökörcsin utca:
   Kőoltár utca:
     # 2: játszótér

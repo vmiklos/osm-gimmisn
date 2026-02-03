@@ -7,9 +7,8 @@ filters:
     # 5/d: nincs ilyen, a bejáratra Bodor utca 5. és Dagálysétány D van kiírva.
     # 7: hatalmas építkezés, nincs házszám.
     invalid: ['3c', '5d', '7']
-  Carl Lutz rakpart:
+  # Carl Lutz rakpart:
     # 1: nincsenek állandó épületek, csak hajók XIII/?? raszter vagy ?? kikötő címen futnak.
-    invalid: ['1']
   Felka utca:
     # 5-7: másik utcára van számozva, innen nincs bejárat.
     invalid: ['5', '7']
@@ -17,7 +16,7 @@ filters:
     # 2-4: volt KH épület oldala, építkezés 2021-07
     # 6-18: Pappas oldala
     # 20-26: nincs bejárat, ipartelepnek tűnik
-    invalid: ['2', '4', '24', '26']
+    invalid: ['2', '4']
   Göncöl utca:
     # 93 = Rákospalotai út 47.
     invalid: ['93']
@@ -28,11 +27,10 @@ filters:
     invalid: ['8a']
   Népfürdő utca:
     # 19: sima 19 nincs, csak 19/a-19/f.
-    # 21: sima 21 nincs, csak 21/a-21/f.
     # 22/a: ez valószínűleg a Duna Tower A épülete lesz, de csak sima 22 van kitáblázva.
     # 22/b: ez valószínűleg a Duna Tower B épülete lesz, de csak sima 22 van kitáblázva.
-    # 28-36: a Dagály Termál-, Strandfürdő és Uszoda címe csak simán 36.
-    invalid: ['19', '21', '22a', '22b', '28', '30', '32', '34']
+    # 28-36: a Dagály Termál-, Strandfürdő és Uszoda címe 28-30
+    invalid: ['19', '22a', '22b', '32', '34']
 osm-street-filters:
   # nem igazi utcák
   - Árpád híd

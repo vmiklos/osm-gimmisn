@@ -15,11 +15,7 @@ filters:
     # 25/b: nincs ilyen, csak 23-25 B épület van.
     # 87: a páratlan oldalon a 63-67 az utolsó házszám (Novotel).
     invalid: ['23a', '25b', '87', '44d', '50b', '50c']
-  Alma utca:
-    ranges:
-      - {start: '1', end: '17'}
-      - {start: '2', end: '2'}
-      - {start: '4', end: '12'}
+  # Alma utca:
   Ágnes köz:
     ranges:
       - {start: '1', end: '7'}
@@ -37,10 +33,7 @@ filters:
   Arató köz:
     ranges:
       - {start: '1', end: '5'}
-  Arató utca:
-    ranges:
-      - {start: '1', end: '45'}
-      - {start: '2', end: '44'}
+  # Arató utca:
   Árnyas út:
     # Utcatáblán: 1-17, 2-48
     # 21/a: a páratlan oldalon a 17 az utolsó házszám.
@@ -96,14 +89,10 @@ filters:
     ranges:
       - {start: '3', end: '5'}
       - {start: '2', end: '8'}
-  Denevér út:
+  # Denevér út:
     # 19-31 szakaszon nincs ház
     # 36 után 30 jön
     # 1-5 nincs paratlan oldalon hazszam
-    ranges:
-      - {start: '2', end: '30'}
-      - {start: '36', end: '98'}
-      - {start: '7', end: '17'}
   Deres utca:
     ranges:
       - {start: '1', end: '19'}
@@ -127,9 +116,6 @@ filters:
     # 2/e: nincs ilyen, csak Dolgos utca 2. 5. lépcsőház.
     # 2/h: nincs ilyen, csak Dolgos utca 2. 8.A, 8.B lépcsőház.
     invalid: ['2/2', '2c', '2e', '2h']
-  Edvi Illés út:
-    # lentről nem látszik 27-es, a kerítéshez nem másztam fel
-    invalid: ['27']
   Evetke út:
     invalid: ['12']
   Farkasvölgyi út:
@@ -150,7 +136,7 @@ filters:
     invalid: ['1a']
     ranges:
       - {start: '1', end: '19'}
-      - {start: '2', end: '20'}
+      - {start: '2', end: '22'}
   Hajnalka utca:
     # 16: sima 16 nincs, csak 16/a, 16/b.
     invalid: ['16']

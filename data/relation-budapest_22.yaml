@@ -91,7 +91,6 @@ filters:
     invalid: ['2a', '2b', '4a', '6a']
   Árpád utca:
     # 17/a: ikerháznak tűnik, a Babér köz felől van egy gyalogos bejárat, de csak sima 17 van kitáblázva.
-    # 19: sima 19 nincs, csak 19/a, 19/b, 19/c.
     # 35/a: ez és a Mécses utca 2. közös telken van, bejárat a Mécses utcáról van csak.
     # 35/b: ez és a Kinizsi utca 1. közös telken van, bejárat a Kinizsi utcáról van csak.
     # 71/a: nincs ilyen, csak sima 71 van.
@@ -105,7 +104,7 @@ filters:
     # 78: sima 78 nincs, csak 78/a, 78/b.
     # 80: sima 80 nincs, csak 80/a, 80/b.
     # 140: a páros oldalon a 82 az utolsó házszám.
-    invalid: ['17a', '19', '35a', '35b', '71a', '73', '16', '20a', '26b', '36', '56b', '74a', '78', '80', '140']
+    invalid: ['17a', '35a', '35b', '71a', '73', '16', '20a', '26b', '36', '56b', '74a', '78', '80', '140']
   Attila utca:
     # 5/a: nincs ilyen, csak sima 5 van.
     # 8/a: nincs ilyan, csak sima 8 van.
@@ -202,9 +201,6 @@ filters:
   Bucó utca:
     # 18: a páros oldalon nincsenek házak, ott a vasút megy.
     invalid: ['18']
-  Budatétényi utca:
-    # 11/c: nincs ilyen, csak sima 11 van.
-    invalid: ['11c']
   Csend utca:
     # 1: ez és a Komáromi út 69. közös telken van, házszám és bejárat a Komáromi útról van csak.
     # 11/a: nincs ilyen, csak sima 11 van.
@@ -276,7 +272,7 @@ filters:
     # 14: ez és a Kiránduló utca 22. közös telken van, de házszám a Kiránduló utcáról van csak. TODO: elhagyatott, romos épület, a postaládában is a Kiránduló utcára címzett levelek voltak.
     # 18/a: két 18-as van az utcában, nincs megkülönböztetve A-val. Beszéltem a tulajdonossal is, ő is megerősítette.
     # TODO: a lakatlan 18 azonban lehet 18/a hivatalosan, de a terepen ez nem állapítható meg.
-    invalid: ['14', '18a']
+    invalid: ['14']
   Erdőhegy utca:
     # 1: sima 1 nincs, csak 1/a, 1/b.
     # 15-17: ez láthatóan régen ikerház volt, de az egyik kocsibeálló meg lett szüntetve, és most már családi háznak néz ki. Csak a 15 van kitáblázva.
@@ -526,8 +522,7 @@ filters:
     # 5: sima 5 nincs, csak 5/1, 5/b.
     # 19: sima 19 nincs, csak 19/a, 19/b, 19/c.
     # 24: nincs ilyen, a 22 után a 26 jön.
-    # 50: sima 50 nincs, csak 50/a, 50/b.
-    invalid: ['5', '19', '24', '50']
+    invalid: ['5', '19', '24']
   József Attila utca:
     # 1/b A: nincs ilyen, csak 1/b-A/1, 1/b-A/2, 1/b-B/3, 1/b-B/4.
     # 17/a: nincs ilyen, csak sima 17 van.

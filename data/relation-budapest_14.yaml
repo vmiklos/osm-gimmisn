@@ -20,7 +20,7 @@ filters:
       - {start: '1', end: '18'}
   Bosnyák utca:
     # 2-30, 46-98
-    invalid: ['23d', '23e', '23f']
+    invalid: ['23d', '23e']
   # Dévényi utca:
   # páratlan XIII. páros XIV. (vonat)
   Csertő park:
@@ -67,9 +67,8 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '24'}
-  Hejő utca:
+  # Hejő utca:
     # Csak páros házszámok vannak.
-    invalid: ['9', '19']
   Hungária körút:
     # kisebb számok VIII. kerület, X. kerület
     # 42: Blokkon XIV. kerület van, valójában 42 már XI. kerület
@@ -95,7 +94,7 @@ filters:
     interpolation: all
     invalid: ['3-9']
     ranges:
-      - {start: '1', end: '29'}
+      - {start: '1', end: '34'}
   Kerepesi út:
     ranges:
       - {start: '18', end: '58'}
