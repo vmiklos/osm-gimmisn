@@ -1,15 +1,9 @@
 missing-streets: 'yes'
 filters:
-  Ady Endre utca:
-    invalid: ['64', '95']
   József Attila utca:
     ranges:
       - {start: '81', end: '153'}
       - {start: '28', end: '28'}
-  Körtvélyesi dűlő:
-    invalid: ['13']
-  Sashegyi út:
-    invalid: ['43']
   Szőlővölgy dűlő:
     invalid: ['54']
   Török úti dűlő:

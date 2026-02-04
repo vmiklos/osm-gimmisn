@@ -1,10 +1,10 @@
 missing-streets: 'yes'
 filters:
   Kesztölci utca:
-    invalid: ['80', '116']
+    invalid: ['80']
   Kopaszhegyi dűlő:
     # hrsz
-    invalid: ['42', '44']
+    invalid: ['44']
   Hegyes dűlő:
     # hrsz
     ranges: []

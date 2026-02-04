@@ -17,9 +17,8 @@ filters:
   Árnyas utca:
     interpolation: all
   Balatoni út:
-    # 2/a: nincs, elvileg a kívül lenne a főút mellett
     # 99: kiírva max 19, posta 21
-    invalid: ['2a', '99']
+    invalid: ['99']
   Bartók Béla utca:
     interpolation: all
     invalid: ['3b']

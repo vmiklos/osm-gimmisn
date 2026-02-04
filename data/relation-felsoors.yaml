@@ -100,8 +100,7 @@ filters:
     invalid: ['40']
   Szabadság tér:
     # 8: 8/I van kint
-    # 10, 12: ha volt is, ez a szakasz már Gáty Ferenc tér lett
-    invalid: ['8', '10', '12']
+    invalid: ['8']
   Szegedy Róza utca:
     # 5: 5/a van kiírva
     invalid: ['5']

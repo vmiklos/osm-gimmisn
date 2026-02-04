@@ -83,7 +83,7 @@ filters:
     invalid: ['5', '10', '41b', '48a', '50', '72', '74', '93a', '93b', '104']
   Kert köz:
     # a páros számok azért nincsenek, mert át lett régebben nevezve az a rész Lóvasút közre
-    invalid: ['6', '7b', '8', '9a', '10']
+    invalid: ['6', '8', '10']
   Kisfaludy utca:
     invalid: ['1b', '7b']
   Kossuth utca:
@@ -159,7 +159,7 @@ filters:
       - {start: '1', end: '19'}
       - {start: '2', end: '32'}
   Vácegres utca:
-    invalid: ['5c', '2', '4']
+    invalid: ['2', '4']
   Váchartyán utca:
     invalid: ['7', '8', '30']
   Vácrátót tér:

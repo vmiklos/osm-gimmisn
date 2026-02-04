@@ -47,27 +47,22 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
   Gábor Áron utca:
-    # 57: 57a helyette
-    # 68: 68b helyette
-    invalid: ['57', '68']
     ranges:
       - {start: '51', end: '99'}
       - {start: '56', end: '98'}
   Gárdonyi Géza út:
-    # 1-11: Mórciz Zsigmond Gimnázium, számozás nem innen van.
     # 2 = Törökvész út 46/d
     # 8: 6/b után 10 jön, de az egyik házrészen nincs szám
-    invalid: ['2', '7', '8', '11']
+    invalid: ['8', '11']
     # terület lehatárolás
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '44'}
   Gomba utca:
-    # 4 = régi házszám, ma Muraközi utca 26.
     # 5 = Vend utca 30
     # 11: 11/a, 11/b, 11/c
     # 20/a, 20/b: csak sima 20.
-    invalid: ['5', '4', '11', '20b']
+    invalid: ['5', '11', '20b']
   Kapy utca:
     ranges:
       - {start: '57', end: '63'}

@@ -3,22 +3,14 @@ filters:
   Áprily Lajos utca:
     # hrsz
     invalid: ['794']
-  Bányatelep utca:
-    # hrsz
-    invalid: ['158']
   Bogonhát major:
-    invalid: ['23', '237']
+    invalid: ['23']
   Diófa utca:
     # hrsz
     invalid: ['101']
-  Fácános utca:
-    # hrsz
-    invalid: ['756', '780']
   Kálvária út:
     # hrsz
     invalid: ['249']
-  Málna utca:
-    invalid: ['728']
   Öregkálvária utca:
     # hrsz
     invalid: ['446']

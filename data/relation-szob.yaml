@@ -11,8 +11,6 @@ filters:
       - {start: '1', end: '1'}
   Kiserdő utca:
     invalid: ['34']
-  Rigó utca:
-    invalid: ['16']
   Rév utca:
     invalid: ['625']
   Szabadság tér:

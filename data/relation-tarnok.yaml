@@ -19,9 +19,6 @@ filters:
     # 25: sima 25 nincs, csak 25/1, 25/2.
     # 27: sima 27 nincs, csak 27/1, 27/2.
     invalid: ['1', '1j', '3j', '3k', '15', '17', '19', '21', '23', '25', '27']
-  Duna utca:
-    # 95: a páratlan oldalon a 21 az utolsó házszám.
-    invalid: ['95']
 refstreets:
   # ellenőrzött
   'Jókai Mór utca': 'Jókai utca'  # táblán Jókai Mór utca (2024-06-22)

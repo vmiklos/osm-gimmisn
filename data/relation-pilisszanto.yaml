@@ -1,7 +1,5 @@
 missing-streets: 'yes'
 filters:
-  Pázsit dűlő:
-    invalid: ['103']
   Szél utca:
     # 694/1: hrsz.
     invalid: ['694']

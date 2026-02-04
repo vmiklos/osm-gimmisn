@@ -38,9 +38,6 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  Elekfy Jenő utca:
-    # hrsz szűrés
-    invalid: ['906']
   Farkasverem utca:
     # hrsz szűrés
     invalid: ['258']
@@ -49,7 +46,7 @@ filters:
     invalid: ['909']
   Gyöngyvirág utca:
     # 7 az utolsó ház
-    invalid: ['11', '17']
+    invalid: ['17']
   Háncs utca:
     invalid: ['84']
   Ifjúság út:
@@ -106,7 +103,7 @@ filters:
     invalid: ['60']
   Patak sor:
     # hrsz szűrés
-    invalid: ['465', '474', '896']
+    invalid: ['474', '896']
   Pisztrángos telep út:
     invalid: ['83']
   Pollack Mihály utca:
@@ -143,9 +140,6 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  Villám utca:
-    # 84/1: hrsz.
-    invalid: ['84']
   Zrínyi köz:
     # 7 = 8 van a helyén
     # 27: nincs

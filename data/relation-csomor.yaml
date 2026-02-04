@@ -20,29 +20,14 @@ filters:
   Levendula utca:
     # 100+ az hrsz
     invalid: ['106']
-  Nektár utca:
-    # 300+ az hrsz
-    invalid: ['364', '374']
   Mogyoródi utca:
     show-refstreet: false
   Páskom utca:
     # 100+ az hrsz
     invalid: ['110', '138']
-  Páva út:
-    # 100+ az hrsz
-    invalid: ['532']
   Rét út:
     # 105+ az hrsz
-    invalid: ['141', '145', '147', '494']
-  Rozmaring utca:
-    # 100+ az hrsz
-    invalid: ['381', '391']
-  Szedervölgyi köz:
-    # 100+ az hrsz
-    invalid: ['130']
-  Szedervölgyi út:
-    # 100+ az hrsz
-    invalid: ['119', '129']
+    invalid: ['141', '147']
   Szőlő utca:
     ranges:
       - {start: '1', end: '199'}
@@ -52,7 +37,7 @@ filters:
     invalid: ['63']
   Vadkerti Zsigmond utca:
     # 100+ az hrsz
-    invalid: ['434', '435']
+    invalid: ['434']
   Vízmosás utca:
     # 100+ az hrsz
     invalid: ['259']

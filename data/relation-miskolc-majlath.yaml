@@ -2,8 +2,8 @@ missing-streets: 'no'
 filters:
   Árpád út:
     ranges:
-      - {start: '69', end: '199'}
-      - {start: '72', end: '198'}
+      - {start: '35', end: '199'}
+      - {start: '2', end: '198'}
   Előhegy utca:
     ranges:
       - {start: '1', end: '199'}

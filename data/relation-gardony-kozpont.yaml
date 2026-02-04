@@ -33,6 +33,9 @@ filters:
     interpolation: 'all'
   Rózsa utca:
     interpolation: 'all'
+  Szabadság út:
+    ranges:
+      - {start: '1', end: '19'}
   Szőnyi István tér:
     interpolation: 'all'
 refstreets:

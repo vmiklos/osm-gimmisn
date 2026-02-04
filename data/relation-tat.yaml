@@ -1,9 +1,5 @@
 missing-streets: 'yes'
-filters:
-  Lehár Ferenc utca:
-    invalid: ['12', '43']
-  Váci Mihály utca:
-    invalid: ['693']
+#filters:
 street-filters:
   - Ady Endre főút  # dupla, Ady Endre utca
   # Depó - https://www.openstreetmap.org/way/440187734#map=18/47.75359/18.61468

@@ -9,8 +9,9 @@ filters:
   Görgey Artúr tér:
     interpolation: all
   Károli Gáspár utca:
-    # A szakasz ami ide esik, az Szent Imre térre van számozva
-    ranges: []
+    ranges:
+      - {start: '9', end: '13'}
+      - {start: '10', end: '14'}
   Kossuth Lajos utca:
     ranges:
       - {start: '27', end: '109'}
