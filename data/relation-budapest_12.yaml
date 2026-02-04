@@ -1,13 +1,9 @@
 missing-streets: 'yes'
 filters:
   Abos utca:
-    # 23: sima 23 nincs, csak 23/a, 23/b, 23/c.
     # 8: sima 8 nincs, csak 8/a, 8/b.
-    # 12/a: nincs ilyen, csak sima 12 van.
-    invalid: ['23', '8', '12a']
-  Adorján út:
-    # 14: az utcanévtáblán 2-12 van.
-    invalid: ['14']
+    invalid: ['8']
+  # Adorján út:
   Alkotás utca:
     # 44/d: nincs ilyen, a Testnevelési Egyetem a 42-48.
     # 50/b, 50/c: nincsenek ilyenek, csak sima 50 van, az Alkotás Point Irodaház.
@@ -36,17 +32,12 @@ filters:
   # Arató utca:
   Árnyas út:
     # Utcatáblán: 1-17, 2-48
-    # 21/a: a páratlan oldalon a 17 az utolsó házszám.
-    # 29: a páratlan oldalon a 17 az utolsó házszám.
     # 40/a: nincs ilyen, csak 38-40 A épület.
-    # 40/j: nincs ilyen, csak 38-40 J épület.
-    invalid: ['21a', '29', '40a', '40j']
+    invalid: ['40a']
   Avar utca:
-    # 7: sima 7 nincs, csak 7/a, 7/b.
     # 11/a: nincs ilyen, csak sima 11 van.
-    # 23: sima 23 nincs, csak 23/a, 23/b.
     # 29: nincs ilyen, a 27 és a 31 között park van.
-    invalid: ['7', '11a', '23', '29']
+    invalid: ['11a', '29']
   Bán utca:
     # 1: sima 1 nincs, csak 1/a, 1/b.
     invalid: ['1']
@@ -77,14 +68,11 @@ filters:
     # 13/b: nincs ilyen, csak sima 13 van.
     # 53: sima 53 nincs, csak 53/a, 53/b.
     # 57/a: nincs ilyen, csak sima 57 van.
-    # 10/a: nincs ilyen, a sportközpont címe 2-10, de az utcanévtábla szerint a Hillside Irodaház lenne a 10.
-    invalid: ['13b', '53', '57a', '10a']
+    invalid: ['13b', '53', '57a']
   Dalma út:
     # No housenumbers here.
     ranges: []
-  Dániel köz:
-    # 1-3, 2-4
-    invalid: ['7', '9', '23', '16', '22']
+  # Dániel köz:
   Denevér köz:
     ranges:
       - {start: '3', end: '5'}
@@ -103,30 +91,23 @@ filters:
       - {start: '2', end: '12'}
   Diós árok:
     # 1-75, 2-40, 52-68
-    # 60/a: nincs ilyen, csak sima 60 van.
-    # 60/b: nincs ilyen, csak sima 60 van.
-    # 60/d: nincs ilyen, csak sima 60 van.
-    invalid: ['42', '44', '46', '60a', '60b', '60d']
+    invalid: ['42', '44', '46']
   Diós-árok köz:
     # 1-3, 2-6
     invalid: ['56']
   Dolgos utca:
-    # 2/2: nincs ilyen, csak Dolgos utca 2. 2. lépcsőház.
     # 2/c: nincs ilyen, csak Dolgos utca 2. 3. lépcsőház.
     # 2/e: nincs ilyen, csak Dolgos utca 2. 5. lépcsőház.
     # 2/h: nincs ilyen, csak Dolgos utca 2. 8.A, 8.B lépcsőház.
-    invalid: ['2/2', '2c', '2e', '2h']
-  Evetke út:
-    invalid: ['12']
+    invalid: ['2c', '2e', '2h']
+  # Evetke út:
   Farkasvölgyi út:
     # 2 nincs
     # 9 = Svájci út 13
     invalid: ['2', '9']
   Fülemile út:
-    # 7: nincs ilyen, csak 7/b van.
-    # 9: ez és az Eötvös út 30. ugyanaz az épület, házszám az Eötvös útról van csak, a Fülemile út felül betonfal van.
     # 4-10: ez a megszűnt tábor, de csak 8 van titáblázva.
-    invalid: ['7', '9', '4', '6', '10']
+    invalid: ['4', '6']
   Gaál József út:
     # at least 70-72 looks invalid
     ranges:
@@ -163,45 +144,25 @@ filters:
     # These are all towards the end of the odd side, all non-existing.
     invalid: ['29', '35']
   Hertelendy utca:
-    # 1: sima 1 nincs, csak 1/a, 1/b.
     # 4: sima 4 nincs, csak 4/a, 4/b.
-    invalid: ['1', '4']
+    invalid: ['4']
   Hollós út:
     # 1-9, 2-8
     invalid: ['32']
-  Hóvirág út:
-    # 10/c: nincs ilyen, csak 6-12 C épület van.
-    invalid: ['10c']
+  # Hóvirág út:
   Irhás árok:
     # 33-35: Adorján út 2-re van számozva
     # 43: 41 és 43 nincs beépítve, bódék vannak
-    invalid: ['33', '35', '43']
-    ranges:
-      - {start: '1', end: '105'}
-      - {start: '48', end: '58'}
+    invalid: ['33', '43']
   Istenhegyi út:
-    # 17: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
-    # 17-19: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
-    # 19/5: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
-    # 21: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
-    # 21/b: a 15 után a 23-ig egy park van, illetve az Abos utcáról számozott épületek.
-    # 23/a: nincs ilyen, csak sima 23 van.
-    # 27: sima 27 nincs, csak 27/a, 27/b.
     # 31: sima 31 nincs, csak 31/a, 31/b.
     # 33: sima 33 nincs, csak 33/b, 33/c, 33/d.
-    # 39: sima 39 nincs, csak 39/a, 39/b, 39/c.
-    # 41: sima 41 nincs, csak 41/a, 41/b, 41/c.
     # 43: sima 43 nincs, csak 43/a, 43/b.
-    # 63: sima 63 nincs, csak 63/a, 63/b.
-    # 71/c: nincs ilyen, csak sima 71 van.
-    # 73/a: nincs ilyen, csak 73-75 van.
-    # 79/b: nincs ilyen, csak 77-79 B épület van.
-    invalid: ['17', '19', '19/5', '21', '21b', '23a', '27', '31', '33', '39', '41', '43', '63', '71c', '73a', '79b']
+    invalid: ['31', '33', '43']
   Jagelló út:
-    # 36: sima 36 nincs, csak 36/a, 36/b.
     # 40: sima 40 nincs, csak 40/a, 40/b.
     # 42: sima 42 nincs, csak 42/a, 42/b.
-    invalid: ['36', '40', '42']
+    invalid: ['40', '42']
   János Zsigmond utca:
     ranges:
       - {start: '1', end: '99'}
@@ -209,12 +170,8 @@ filters:
       - {start: '42', end: '44'}
   Járőr utca:
     # 1-15, 2-12
-    invalid: ['31', '35']
-  Kakukk út:
-    ranges:
-      - {start: '1', end: '23'}
-      - {start: '29', end: '29'}
-      - {start: '2', end: '24'}
+    invalid: ['31']
+  # Kakukk út:
   Kapitány utca:
     ranges:
       - {start: '1', end: '3'}
@@ -223,9 +180,8 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '12'}
-  Kikelet utca:
+  # Kikelet utca:
     # 11-59, 14-54
-    invalid: ['1', '4', '6', '8', '10']
   Kikerics utca:
     ranges:
       - {start: '1', end: '21'}
@@ -243,9 +199,8 @@ filters:
     # 30: nincs ilyen, csak 30/b van.
     # 30/a: nincs ilyen, csak 30/b van.
     # 32: sima 32 nincs, csak 32/a, 32/b.
-    # 38/b: nincs ilyen, csak sima 38 van.
     # 48: sima 48 nincs, csak 48/a, 48/b, 48/c.
-    invalid: ['35a', '39c', '47a', '30', '30a', '32', '38b', '48']
+    invalid: ['35a', '39c', '47a', '30', '30a', '32', '48']
   Konkoly-Thege Miklós út:
     # ifi kp 21, kfki 29-33
     invalid: ['24', '38']
@@ -255,10 +210,7 @@ filters:
       - {start: '29', end: '33'}
       - {start: '2', end: '18'}
       - {start: '20', end: '58'}
-  Korompai utca:
-    ranges:
-      - {start: '1', end: '13'}
-      - {start: '2', end: '18'}
+  # Korompai utca:
   Költő utca:
     # 28, 38 and 40 probably do not exist.
     invalid: ['28', '38', '40']
@@ -266,9 +218,8 @@ filters:
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '8'}
-  Kútvölgyi lejtő:
+  # Kútvölgyi lejtő:
     # 1-9, 2-8
-    invalid: ['16']
   Lidérc köz:
     ranges:
       - {start: '1', end: '7'}
@@ -277,13 +228,11 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '14'}
-  Lóránt út:
-    # 1-23, 2-20
-    invalid: ['22']
-  Magasút dűlő:
-    ranges: []
+  # Lóránt út:
+  # Magasút dűlő:
   Magas út:
-    # This is Magasút dűlő, probably.
+    # keveredik a magasút dűlő és magas út utcanév, ráadásul a házak nagy része 2 osztatlan közös telken fekszik
+    # 61 = osm-en Magasút dűlő 61-re számozva
     invalid: ['61']
   Magasúti lejtő:
     ranges:
@@ -294,21 +243,16 @@ filters:
   Márvány utca:
     # 21: sima 21 nincs, csak 21/a, 21/b.
     # 31/a: nincs ilyen, csak sima 31 van.
-    # 24: sima 24 nincs, csak 24/a, 24/b.
-    # 24/c: nincs ilyen, csak 24/a, 24/b.
-    invalid: ['21', '31a', '24', '24c']
-  Mátyás király út:
-    # Anything above 53 on the odd side seems to be forest.
-    invalid: ['55']
+    invalid: ['21', '31a']
+  # Mátyás király út:
   Meredek utca:
     ranges:
       - {start: '1', end: '41'}
   Mese köz:
     # 1-5, 2-10
-    invalid: ['11', '12', '13']
-  Mese utca:
+    invalid: ['12']
+  # Mese utca:
     # 1-15, 2-14
-    invalid: ['21']
   Moha utca:
     # 4-6: csak 4 van kiírva
     # 13: 11-13 helyén 1 db ház épül, régi 11-es szám van kint, 13-as kerítés elbontva
@@ -337,10 +281,7 @@ filters:
     # 9: ez Ordas út, nem Ordas köz házszám.
     # 9/a: ez Ordas út, nem Ordas köz házszám, de ott is csak sima 9 van.
     # 9/b: ez Ordas út, nem Ordas köz házszám, de ott is csak sima 9 van.
-    # 10/a: ez Ordas út, nem Ordas köz házszám.
-    # 10/b: ez Ordas út, nem Ordas köz házszám.
-    # 12: ez Ordas út, nem Ordas köz házszám.
-    invalid: ['3', '9', '9a', '9b', '10a', '10b', '12']
+    invalid: ['3', '9', '9a', '9b']
   Pagony utca:
     ranges:
       - {start: '1', end: '29'}
@@ -355,13 +296,11 @@ filters:
       - {start: '2', end: '16'}
   Rőzse köz:
     # 1-7, 2-4
-    invalid: ['6', '8', '14', '22', '24']
-  Rőzse utca:
+    invalid: ['6', '8']
+  # Rőzse utca:
     # 1-25, 2-24
-    invalid: ['68']
-  Sárospatak út:
-    # ends are 19 and 56
-    invalid: ['27', '45', '189']
+  # Sárospatak út:
+    # 2-19, 2-56
   Sashegyi út:
     ranges:
       - {start: '1', end: '11'}
@@ -395,9 +334,7 @@ filters:
     ranges:
       - {start: '11', end: '21'}
       - {start: '2', end: '4'}
-  Tartsay Vilmos utca:
-    # 21/a: nincs ilyen, csak sima 21 van.
-    invalid: ['21a']
+  # Tartsay Vilmos utca:
   Tatárvirág utca:
     ranges:
       - {start: '7', end: '29'}
@@ -440,7 +377,6 @@ filters:
   Városmajor utca:
     # 27: sima 27 nincs, csak 27/a, 27/b.
     # 47: sima 47 nincs, csak 47/a, 47/b.
-    # 61-71: nincs ilyen, az 59 (iskola) után teniszpályák, majd a 71 (gimnázium) következik.
     # 22: sima 22 nincs, csak 22/a, 22/b.
     # 26: sima 26 nincs, csak 26/a, 26/b, 26/c, 26/d.
     # 28: sima 28 nincs, csak 28/a, 28/b, 28/c.
@@ -448,7 +384,7 @@ filters:
     # 50: sima 50 nincs, csak 50/a, 50/b.
     # 78/a: nincs ilyen, csak sima 78 van.
     # 78/b: nincs ilyen, csak sima 78 van.
-    invalid: ['27', '47', '61', '63', '65', '67', '69', '22', '26', '28', '32a', '50', '78a', '78b']
+    invalid: ['27', '47', '22', '26', '28', '32a', '50', '78a', '78b']
   Vas Gereben utca:
     # 31/a: nincs ilyen, 31-33 A épület van csak.
     # 31/b: nincs ilyen, 31-33 B épület van csak.
