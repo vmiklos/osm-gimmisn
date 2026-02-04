@@ -83,9 +83,6 @@ filters:
     # 13: ez és a Budai út 238. közös telken van, házszám a Budai útról van csak.
     # 33/A: áthúzott táblán lévő régi házszám, az új cím Lublói utca 1.
     invalid: ['1a', '1b', '3', '9a', '9b', '9c', '9d', '13', '33a']
-  Berényi út:
-    # 1/S: nincs ilyen, csak 1, 1/E, 1/F.
-    invalid: ['1s']
   Bereznai utca:
     # 43/A: a páratlan oldalon a 23 az utolsó házszám, ez Donát utca 43/B lehet.
     invalid: ['43a']
@@ -160,20 +157,17 @@ filters:
     invalid: ['47']
   Fáy András lakótelep:
     interpolation: 'all'
-    # 1: sima 1 nincs, csak 1/A, 1/B (lépcsőház).
-    # 1/2: nincs ilyen, csak 1/B (lépcsőház).
     # 2: sima 2 nincs, csak 2/A, 2/B (lépcsőház).
     # 2/1: nincs ilyen, csak 2/A (lépcsőház).
     # 2/2: nincs ilyen, csak 2/B (lépcsőház).
     # 4: sima 4 nincs, csak 4/A, 4/B (lépcsőház).
-    # 6: sima 6 nincs, csak 6/A, 6/B (lépcsőház).
     # 8: sima 8 nincs, csak 8/A, 8/B (lépcsőház).
     # 10: sima 10 nincs, csak 10/A, 10/B, 10/C, 10/D (lépcsőház).
     # 10/E: nincs ilyen, csak 10/A, 10/B, 10/C, 10/D (lépcsőház).
     # 13: sima 13 nincs, csak 13/A, 13/B (lépcsőház).
     # 15: a lakótelepen a 14/A, 14/B az utolsó házszám.
     # 17: a lakótelepen a 14/A, 14/B az utolsó házszám.
-    invalid: ['1', '1/2', '2', '2/1', '2/2', '4', '6', '8', '10', '10e', '13', '15', '17']
+    invalid: ['2', '2/1', '2/2', '4', '8', '10', '10e', '13', '15', '17']
   Fenyőfa utca:
     # 9: nincs ilyen, a 7 után a 11 következik.
     # 11/B: nincs ilyen, csak sima 11 van.
@@ -235,12 +229,8 @@ filters:
     # 11: a páratlan oldalon a 9 az utolsó házszám.
     invalid: ['11']
   Havranek József utca:
-    # 10/A: nincs ilyen, csak sima 10 van.
-    # 10/B: nincs ilyen, csak sima 10 van.
-    # 10/D: nincs ilyen, csak sima 10 van.
-    # 10/E: nincs ilyen, csak sima 10 van.
     # 16/C: nincs ilyen, csak sima 16 van.
-    invalid: ['10a', '10b', '10d', '10e', '16c']
+    invalid: ['16c']
   Homoksor:
     interpolation: 'all'
     # 35/A: nincs ilyen, csak sima 35 van.
@@ -272,10 +262,9 @@ filters:
     invalid: ['53']
   Kassai utca:
     # 21/A: nincs ilyen, csak sima 21 van.
-    # 27/A: nincs ilyen, csak sima 27 van.
     # 29/2: nincs ilyen, csak 29 földszint 2 van.
     # 37/B: nincs ilyen, csak 37, 37/A van.
-    invalid: ['21a', '27a', '29/2', '37b']
+    invalid: ['21a', '29/2', '37b']
   Katica utca:
     # 7: a páratlan oldal fel van parcellázva, de még nincsenek épületek.
     # 9: a páratlan oldal fel van parcellázva, de még nincsenek épületek.
@@ -342,7 +331,6 @@ filters:
     # 8/C: nincs ilyen, csak sima 8 van.
     # 9/C: nincs ilyen, csak sima 9 van.
     # 10/C: nincs ilyen, csak sima 10 van.
-    # 11/A: nincs ilyen, csak sima 11 van.
     # 14/A: nincs ilyen, csak sima 14 van.
     # 17/A: nincs ilyen, csak sima 17 van.
     # 19/A: nincs ilyen, csak sima 19 van.
@@ -356,7 +344,7 @@ filters:
     # 208: a lakótelepen 42 az utolsó házszám, ez Budai úti cím lehet.
     # 212: a lakótelepen 42 az utolsó házszám, ez Budai úti cím lehet.
     # 350: a lakótelepen 42 az utolsó házszám, ez Budai úti cím lehet.
-    invalid: ['2/2', '2a', '3b', '4a', '5/1', '5b', '6b', '7b', '8c', '9c', '10c', '11a', '14a', '17a', '19a', '31/5', '43', '45', '59', '73', '98', '159', '208', '212', '350']
+    invalid: ['2/2', '2a', '3b', '4a', '5/1', '5b', '6b', '7b', '8c', '9c', '10c', '14a', '17a', '19a', '31/5', '43', '45', '59', '73', '98', '159', '208', '212', '350']
   Kőrösi utca:
     # A páros oldalon 190 az utolsó házszám, majd négy utcával keletre, a Bébic utca és a Virág utca között van a 228 (12495/19 hrsz.).
     # 568/93: ez helyrajzi szám, nem házszám.
@@ -374,9 +362,6 @@ filters:
     invalid: ['1', '147', '10', '406']
   Ligetsor:
     interpolation: 'all'
-  Lippai köz:
-    # 15/C: nincs ilyen, csak sima 15 van, ez Lippai utcai cím lehet.
-    invalid: ['15c']
   Lippai utca:
     # 9: nincs ilyen, a 7 után a 11 következik, amely dupla teleknek tűnik.
     # 15: sima 15 nincs, csak 15/A, 15/B, 15/C, 15/D.
@@ -397,16 +382,6 @@ filters:
     # 187: a páratan oldalon a 7 az utolsó házszám.
     # 60: a páros oldalon a 18 az utolsó házszám.
     invalid: ['187', '60']
-  Mezei utca:
-    # 13: a páratlan oldal Sárszentmihály, nem Székesfehérvár.
-    # 33: a páratlan oldal Sárszentmihály, nem Székesfehérvár.
-    # 35: a páratlan oldal Sárszentmihály, nem Székesfehérvár.
-    # 37: a páratlan oldal Sárszentmihály, nem Székesfehérvár.
-    # 39: a páratlan oldal Sárszentmihály, nem Székesfehérvár.
-    invalid: ['13', '33', '35', '37', '39']
-  Móri út:
-    # 354: a páros oldalon a 154 az utolsó házszám.
-    invalid: ['354']
   Munkás utca:
     interpolation: 'all'
   Murányi utca:
@@ -535,11 +510,9 @@ filters:
     # 102/A: nincs ilyen, csak 102, 102/B.
     invalid: ['100', '100/1', '100/2', '102a']
   Szeder köz:
-    # 107: a páratlan oldalon a 3 az utolsó házszám, ez Szeder utcai cím lehet.
     # 10/P: nincs ilyen, a páros oldalon csak a 2 van.
     # 12: a páros oldalon a 2 az egyetlen házszám, ez Szeder utcai cím lehet.
-    # 38: a páros oldalon a 2 az egyetlen házszám, ez Szeder utcai cím lehet.
-    invalid: ['107', '10p', '12', '38']
+    invalid: ['10p', '12']
   Szedres dűlő:
     interpolation: 'all'
     # 27: a 27, 28, 29 egybenyitott telek, de csak a 28 van kitáblázva.
@@ -555,14 +528,6 @@ filters:
     invalid: ['195']
   Széna tér:
     interpolation: 'all'
-  Szent Gellért köz:
-    # 5: a páratlan oldalon a 3 az utolsó házszám, ez Szent Gellért utcai cím lehet.
-    # 19: a páratlan oldalon a 3 az utolsó házszám, ez Szent Gellért utcai cím lehet.
-    # 41: a páratlan oldalon a 3 az utolsó házszám, ez Szent Gellért utcai cím lehet.
-    # 53: a páratlan oldalon a 3 az utolsó házszám, ez Szent Gellért utcai cím lehet.
-    # 99: a páratlan oldalon a 3 az utolsó házszám, ez Szent Gellért utcai cím lehet.
-    # 104: a páros oldalon csak a 14 van, ez Szent Gellért utcai cím lehet.
-    invalid: ['5', '19', '41', '53', '99', '104']
   Szent Gellért utca:
     # 48: sima 48 nincs, csak 48/1, 48/2.
     # 84/A: nincs ilyen, csak sima 84 van.
@@ -580,9 +545,6 @@ filters:
   Szüret utca:
     # 59: a páratlan oldalon a 37 az utolsó házszám.
     invalid: ['59']
-  Tas utca:
-    # 348/B: a páros oldalon a 28 az utolsó házszám.
-    invalid: ['348b']
   Tátra utca:
     # 69: sima 69 nincs, csak 69/A, 69/B, 69/C, 69/D.
     # 2: a páros oldalon a 14 az első házszám, előtte üres telkek vannak.
@@ -617,12 +579,8 @@ filters:
     invalid: ['28b']
   Udvarhelyi köz:
     interpolation: 'all'
-    # 12: a 10 az utolsó házszám, ez az Udvarhelyi utca 12.
     # 24: a 10 az utolsó házszám, ez Udvarhelyi utcai cím lehet.
-    # 31: a 10 az utolsó házszám, ez Udvarhelyi utcai cím lehet.
-    # 31/A: a 10 az utolsó házszám, ez Udvarhelyi utcai cím lehet.
-    # 37: a 10 az utolsó házszám, ez Udvarhelyi utcai cím lehet.
-    invalid: ['12', '24', '31', '31a', '37']
+    invalid: ['24']
   Udvarhelyi utca:
     # 67: a páratlan oldalon az 55 az utolsó házszám.
     # 28: nincs ilyen, a 26 után a 30 következik.

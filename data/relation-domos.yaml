@@ -1,7 +1,5 @@
 missing-streets: 'yes'
-filters:
-  Táncsics Mihály utca:
-    invalid: ['80']
+#filters:
 source: survey
 street-filters:
   # nem igazi utcák / csak hrsz.

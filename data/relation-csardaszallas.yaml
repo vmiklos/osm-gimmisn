@@ -1,8 +1,5 @@
 missing-streets: 'yes'
 filters:
-  Csárda út:
-    # 11: sima 11 nincs, csak 11/1, 11/2, 11/3.
-    invalid: ['11']
   Csárdalapos tanya:
     interpolation: 'all'
   Csárdazug tanya:

@@ -1,8 +1,5 @@
 missing-streets: 'yes'
 filters:
-  Cserfa utca:
-    # hrsz: 63/7, 93/3
-    invalid: ['63', '93']
   Kakashegy utca:
     # 508: nincs
     invalid: ['508']

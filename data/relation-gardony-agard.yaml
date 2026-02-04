@@ -11,7 +11,8 @@ filters:
     ranges:
       - {start: '19', end: '99'}
   Szabadság út:
-    ranges: []
+    ranges:
+      - {start: '21', end: '99'}
   Vasút utca:
     interpolation: 'all'
     show-refstreet: false

@@ -1,11 +1,5 @@
 missing-streets: 'yes'
 filters:
-  Alsó Vasút sor:
-    invalid: ['2']
-  Bécsi út:
-    invalid: ['38/2']
-  Dombhát utca:
-    invalid: ['446', '466', '468']
   Felső Vasút sor:
     ranges:
       - {start: '1', end: '99'}
@@ -15,8 +9,6 @@ filters:
       - {start: '2', end: '98'}
   Meredek utca:
     invalid: ['243']
-  Nagy-Somlyó utca:
-    invalid: ['56', '466']
   Oskola utca:
     ranges:
       - {start: '1', end: '11'}
@@ -25,14 +17,6 @@ filters:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '48'}
-  Szivárvány utca:
-    invalid: ['466']
-  Szélső utca:
-    invalid: ['14a']
-  Tinnyei út:
-    invalid: ['15/6']
-  Zöldlomb utca:
-    invalid: ['468']
 refstreets:
   'Harangvirág út': 'Harangvirág utca'
   'Somlyó-köz': 'Somlyó köz'

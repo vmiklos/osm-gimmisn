@@ -9,36 +9,18 @@ filters:
       - {start: '1', end: '23'}
       - {start: '2', end: '26'}
   # Dunapart
-  Berkenye utca:
-    ranges: []
   Diófa köz:
-    ranges: []
-  Diófa utca:
     ranges: []
   Dunapart utca:
     invalid: ['2', '3', '4', '15', '42', '124']
   Fenyő sétány:
     ranges: []
-  Ibolya utca:
-    ranges: []
-  Mályva utca:
-    ranges: []
-  Nyárfa utca:
-    ranges: []
   Rezeda utca:
     ranges: []
   Vadrózsa utca:
     ranges: []
-  Viola utca:
-    ranges: []
   # Basaharc
   Erdősor utca:  # ez egy benőtt autóval járhatatlan utca..
-    ranges: []
-  Forrás út:
-    ranges: []
-  Kilátó utca:
-    ranges: []
-  Törökugrató utca:
     ranges: []
   # Kp
   Ady Endre utca:
@@ -54,7 +36,7 @@ filters:
     # 44 nincs 42 a vége
     ranges:
       - {start: '1', end: '31'}
-      - {start: '2', end: '40'}
+      - {start: '2', end: '42'}
   Hegyipince sor:
     ranges: []
   Hunyadi János utca:

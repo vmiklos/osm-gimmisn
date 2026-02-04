@@ -19,10 +19,9 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '10'}
   Fillér utca:
-    # 6a: 6 helyette
     # 10a: 10-12 helyette
     # 10b: 10-12 helyette
-    invalid: ['6a', '10a']
+    invalid: ['10a']
     ranges:
       - {start: '1', end: '31'}
       - {start: '2', end: '24'}
@@ -41,11 +40,10 @@ filters:
     # 41 nincs kiírva, helyén a lelkészség van térképezve a tempommal azonos címen
     # 11a: 11/A-B van kitáblázva
     # 18: 18/... van kitáblázva
-    # 20: 20/... van kitáblázva
     # 28: 28/... van kitáblázva
     # 31a: 29/a után 31/b van kitáblázva
     # 37b, 37d: II. Rákóczi Ferenc Gimnázium címe 37
-    invalid: ['11a', '18', '20', '28']
+    invalid: ['11a', '18', '28']
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '54'}

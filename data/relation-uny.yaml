@@ -4,8 +4,6 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '34'}
-  Bercsényi Miklós utca:
-    invalid: ['951']
   Cseri szőlők utca:
     ranges:
       - {start: '1', end: '99'}
@@ -16,8 +14,8 @@ filters:
       - {start: '2', end: '98'}
   Nefelejcs utca:
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      - {start: '1', end: '199'}
+      - {start: '2', end: '198'}
   Öregszőlők utca:
     ranges:
       - {start: '1', end: '99'}
@@ -28,6 +26,7 @@ filters:
       - {start: '2', end: '98'}
   Újtelep:
     # 1,2,3 van
+    interpolation: all
     ranges:
       - {start: '1', end: '9'}
 source: survey

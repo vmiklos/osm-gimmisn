@@ -10,16 +10,6 @@ filters:
   Bérc köz:
     # 20/43: ez helyrajzi szám, nem házszám.
     invalid: ['20']
-  Csévi út:
-    # 113/16: ez helyrajzi szám, nem házszám.
-    # 44: a páros oldalon a 42 az utolsó házszám.
-    # 54: a páros oldalon a 42 az utolsó házszám.
-    # 116/1: ez helyrajzi szám, nem házszám.
-    # 118/8: ez helyrajzi szám, nem házszám.
-    invalid: ['113', '44', '54', '116/1', '118/8']
-  Deák Ferenc utca:
-    # 110: a páros oldalon az 50 az utolsó kitáblázott házszám, utána van még egy dupla telek.
-    invalid: ['110']
   Egyetem köz:
     # 28: nincs ilyen, csak három telek van az utcában.
     invalid: ['28']
@@ -48,9 +38,8 @@ filters:
     # 26: a páros oldalon a 16 az utolsó házszám.
     invalid: ['26']
   Kálvária utca:
-    # 80: ez helyrajzi szám, nem házszám.
     # 80/4: ez helyrajzi szám, nem házszám.
-    invalid: ['80', '80/4']
+    invalid: ['80/4']
   Kenderesi út:
     # 56: a páros oldalon a 38 az utolsó házszám.
     invalid: ['56']
@@ -96,12 +85,6 @@ filters:
     # 62: a páros oldalon a 24 az utolsó házszám.
     # 658: ez helyrajzi szám, nem házszám.
     invalid: ['129', '62', '658']
-  Szent István király útja:
-    # 719: ez helyrajzi szám, nem házszám.
-    invalid: ['719']
-  Szent László király útja:
-    # 108: a páros oldalon a 92 az utolsó házszám.
-    invalid: ['108']
   Vasút utca:
     # 17: a páratlan oldalon a 9 az utolsó házszám.
     # 58-a: a páros oldalon a 14 az utolsó házszám.

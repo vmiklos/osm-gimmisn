@@ -56,7 +56,7 @@ filters:
     # 14/a: csak sima 14 van.
     # 15/2: csak sima 15 van.
     # 165: ez helyrajzi szám, nem házszám.
-    invalid: ['5', '7', '13', '14a', '15', '165']
+    invalid: ['5', '7', '13/2', '13/3', '13/4', '13/5', '13/6', '14a', '15/2', '165']
   Repülőtéri út:
     # 101/6: ez helyrajzi szám, nem házszám.
     invalid: ['101/6']
@@ -76,7 +76,6 @@ filters:
     # 15: sima 15 nincs, csak 15/a, 15/b.
     # 19: sima 19 nincs, csak 19/a, 19/b, 19/c.
     # 25/b: nincs ilyen, csak sima 25 van.
-    # 29/a: ez Szabadság tér 29/a lesz, a Szabadság út 29. egy családi ház.
     # 29/b: ez Szabadság tér 29/b lesz, a Szabadság út 29. egy családi ház.
     # 29/c: ez Szabadság tér 29/c lesz, a Szabadság út 29. egy családi ház.
     # 29/d: ez Szabadság tér 29/d lesz, a Szabadság út 29. egy családi ház.
@@ -84,18 +83,17 @@ filters:
     # 99-105: nincs ilyen, 99/a-c, 101/a-c, 103/a-c, 105/a-c van kitáblázva.
     # 101: sima 101 nincs, csak 101/a, 101/b, 101/c.
     # 105: sima 105 nincs, csak 105/a, 105/b, 105/c.
-    invalid: ['15', '19', '25b', '29a', '29b', '29c', '29d', '29f', '99', '101', '103', '105']
+    invalid: ['15', '19', '25b', '29b', '29c', '29d', '29f', '99', '101', '103', '105']
   Szent János utca:
     # 1: sima 1 nincs, csak 1/a, 1/b, 1/c, 1/d.
     # 2: sima 2 nincs, csak 2/a, 2/b.
     # 4: sima 4 nincs, csak 4/a, 4/b.
-    # 6-8: 6-8 nincs, csak 6, 8/a, 8/b
     # 8: sima 8 nincs, csak 8/a, 8/b.
     # 11: sima 11 nincs, csak 11/a, 11/b, 11/c.
     # 12: sima 12 nincs, csak 12/a, 12/b.
     # 14: sima 14 nincs, csak 14/a, 14/b.
     # 16: sima 16 nincs, csak 16/a, 16/b.
-    invalid: ['1', '2', '4', '6', '8', '11', '12', '14', '16']
+    invalid: ['1', '2', '4', '8', '11', '12', '14', '16']
   Szilhát utca:
     # 17: sima 17 nincs, csak 17/a, 17/b.
     invalid: ['17']

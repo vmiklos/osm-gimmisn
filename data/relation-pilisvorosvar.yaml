@@ -4,7 +4,7 @@ filters:
     # csak hrsz.
     ranges: []
   Budai út:
-    invalid: ['30', '34', '267']
+    invalid: ['30', '34']
   Cinege utca:
     ranges: []
   Csabai út:
@@ -20,8 +20,6 @@ filters:
     invalid: ['179']
   Freiäcker utca:
     invalid: ['9', '13']
-  Kamilla utca:
-    invalid: ['8']
   Kilátó utca:
     # nincsenek kint számok
     ranges: []
@@ -30,10 +28,8 @@ filters:
     ranges:
       - {start: '2', end: '118'}
       - {start: '123', end: '127'}
-  Lepke köz:
-    invalid: ['19', '20']
   Liszt Ferenc utca:
-    invalid: ['1', '3', '5', '9']
+    invalid: ['9']
   Mandula utca:
     ranges:
       - {start: '1', end: '39'}
@@ -48,9 +44,6 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '30'}
-  Tó dűlő:
-    # nincsenek számok és utcatábla sem a helyszínen
-    ranges: []
   Tűzoltó utca:
     ranges:
       - {start: '1', end: '17'}

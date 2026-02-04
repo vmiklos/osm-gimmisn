@@ -1,4 +1,9 @@
 missing-streets: 'yes'
+filters:
+  Diószegi út:
+    ranges:
+      - {start: '1', end: '999'}
+      - {start: '2', end: '1012'}
 refstreets:
   'Almáskert köz': 'Almáskerti köz'
   'Bercsényi utca': 'Bercsényi Miklós utca'

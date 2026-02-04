@@ -19,14 +19,13 @@ filters:
     # hrsz 0164, 0166/6
     invalid: ['164', '166']
   Pistály dűlő:
-    # 20: nincs. 18 után 22
     # 80: nincs kiírva
     # 85: 83 után 87, de egymás mögött vannak a házak
     # 86: nincs. 84 után 88
     # 92: nincs
     # 95-97: nincs épület
     # 120: nincs
-    invalid: ['20', '80', '85', '86', '92', '120']
+    invalid: ['80', '85', '86', '92', '120']
   Sáfrány utca:
     # 1 = Menta utca 1
     # 2: nincs kint

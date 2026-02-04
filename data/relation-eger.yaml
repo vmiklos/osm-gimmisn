@@ -1,24 +1,9 @@
 missing-streets: 'yes'
 filters:
-  Baktai út:
-    invalid: ['374']
-  Cifrakapu utca:
-    invalid: ['258']
-  Görög utca:
-    invalid: ['111']
-  Kárpát utca:
-    invalid: ['922']
   Mekcsey István utca:
     invalid: ['810']
   Pásztorvölgy utca:
     invalid: ['401', '401/6']
-  II. Rákóczi Ferenc utca:
-    invalid: ['631']
-  Remenyik Zsigmond utca:
-    # max házszám 18 körül
-    invalid: ['37', '61/1', '77', '374']
-  Servita utca:
-    invalid: ['215']
   # hrsz szűrések
   Almár-dűlő:
     invalid: ['49']
@@ -26,7 +11,7 @@ filters:
     invalid: ['190/5']
   Egri utca:
     # 158/4, 426/3A2, 235/28, 251/88
-    invalid: ['158', '235', '251', '426']
+    invalid: ['158', '235', '251']
   Galagonyás utca:
     invalid: ['808']
   Kistályai út:
@@ -37,8 +22,6 @@ filters:
   Malomárok utca:
     # 469, 586/18
     invalid: ['469', '586']
-  Paphegy utca:
-    invalid: ['852/2']
   Szalóki út:
     invalid: ['852']
   Vécseyvölgy utca:

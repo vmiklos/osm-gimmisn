@@ -19,8 +19,8 @@ filters:
     # Újpalotán nincs szám
     ranges: []
   Hősök útja:
-    # Újpalotán nincs szám
-    ranges: []
+    ranges:
+      - {start: '1', end: '99'}
   Madách utca:
     # kisebb számok: Pestújhely
     # nagyobb számok: Újpalota
@@ -36,17 +36,15 @@ filters:
     # kisebb számok: Pestújhely
     # nagyobb számok: Újpalota
     ranges:
-      - {start: '53', end: '99'}
-      - {start: '78', end: '98'}
+      - {start: '53', end: '199'}
+      - {start: '78', end: '198'}
   Nyírpalota út:
     # nagyobb számok: Rákospalota
     # kisebb számok: Újpalota
     ranges:
-      - {start: '1', end: '95'}
-      - {start: '2', end: '80'}
-  Rákospalotai határút:
-    # Újpalotán nincs szám
-    ranges: []
+      - {start: '1', end: '111'}
+      - {start: '2', end: '112'}
+  # Rákospalotai határút:
   Rákospalotai körvasút sor:
     # kisebb számok: Rákospalota
     # nagyobb számok: Pestújhely

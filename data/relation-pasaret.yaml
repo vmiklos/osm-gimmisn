@@ -17,20 +17,9 @@ filters:
     ranges:
       - {start: '10', end: '38'}
   Gábor Áron utca:
-    # 1a = Szilágyi Erzsébet fasor 109.
-    # 5: 5a helyette
-    invalid: ['1a', '5']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '16'}
-  Gyergyó utca:
-    # 2 = Szilágyi Erzsébet fasor 79.
-    # 4 = 4/a, 4/b
-    invalid: ['2', '4']
-  Házmán utca:
-    # 1: ez a Budagyöngye, de az a Szilágyi Erzsébet fasor 121.
-    # 25: a páratlan oldalon a 17 az utolsó házszám.
-    invalid: ['1']
   Herman Ottó út:
     ranges:
       - {start: '2', end: '4'}
@@ -83,8 +72,7 @@ filters:
       - {start: '1', end: '7'}
   Rhédey utca:
     # 8a: csak 8 van kiírva
-    # 14: nincs
-    invalid: ['8a', '14']
+    invalid: ['8a']
   Szerb Antal utca:
     # területhatár: kurucles/lipotmezo/pasaret
     ranges:

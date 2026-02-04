@@ -5,14 +5,14 @@ filters:
       - {start: '2', end: '18'}
   Dráva utca:
     ranges:
-      - {start: '1', end: '13'}
+      - {start: '1', end: '17'}
   Hegedűs Gyula utca:
     ranges:
       - {start: '111', end: '127'}
       - {start: '96', end: '112'}
   Kárpát utca:
     ranges:
-      - {start: '41', end: '45'}
+      - {start: '41', end: '53'}
       - {start: '66', end: '70'}
   Meder utca:
     ranges:

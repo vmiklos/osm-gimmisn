@@ -1,40 +1,22 @@
 missing-streets: 'no'
 filters:
-  # Akadémia utca:
-  #   6/1: nincs kitáblázva, de van egy épület a 6 és a 8 között.
   Árnyas utca:
     # 6: a páros oldalon nincsenek épületek, ott erdő van.
     invalid: ['6']
   Bagoly köz:
     # Ez az utca a Sástónál van, nem Mátrafüred településen.
     ranges: []
-  Béke utca:
-    # 3: ez és az Avar utca 3. ugyanaz a telek, de bejárat és házszám csak az Avar utcáról van.
-    invalid: ['3']
   Bene vezér tér:
     interpolation: 'all'
   Dévai Sándor utca:
     # 16: sima 16 nincs, csak 16/A, 16/2.
     invalid: ['16']
   Erdész utca:
-    # 77: a páratlan olalon a 13 az utolsó házszám.
     # 42: ez elírás, helyesen 4/2. A páros oldalon a 38 az utolsó házszám.
-    invalid: ['77', '42']
-  Farkas utca:
-    # Ez az utca a Sástónál van, nem Mátrafüred településen.
-    ranges: []
-  Kékesi utca:
-    # 21: ez elírás, helyesen 2/1. A páratlan oldalon az 5 az utolsó házszám.
-    invalid: ['21']
+    invalid: ['42']
   Parádi út:
     # 45/A: nincs ilyen, csak 45 és 45/1 van.
     invalid: ['45a']
-  Turista utca:
-    # 7: az utca mindkét oldalán 3-3 épület van, a 7-es sehogy sem jön ki.
-    invalid: ['7']
-  Üdülősor utca:
-    # 69: a páratlan oldalon a 67 az utolsó házszám.
-    invalid: ['69']
 refstreets:
   'Kalló utca': 'Kallo utca'
 source: survey

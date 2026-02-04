@@ -28,8 +28,7 @@ filters:
     invalid: ['3', '13', '41', '41b', '47a', '55', '62a', '62b', '62c']
   Bodonkuti utca:
     # 2/a: csak sima 2 van
-    # 9/b: csak sima 9 van.
-    invalid: ['2a', '9b']
+    invalid: ['2a']
   Boróka utca:
     # 1,3: nincs kiírva, fh alapján van felvéve
     # 5: helyén 7 van kiírva, és el van minden csúszva a fh-hoz képest
@@ -41,7 +40,7 @@ filters:
   Csákányhegyi utca:
     # 7, 13: nincs
     # 70: csak 70/b van kiírva
-    invalid: ['7', '13', '70']
+    invalid: ['13', '70']
   Dr. Ferenczy Sándor utca:
     # 1: Jásdi pince, a borterasz az Arany János utca 2 címet használja, erről az utcáról semmi nincs kiírva
     invalid: ['1']
@@ -141,8 +140,7 @@ filters:
     invalid: ['3b', '4', '5', '12-14', '13', '20', '22', '22a', '22b']
   Kiskert utca:
     # 1/a: 1 van kiírva
-    # 248/9: hrsz
-    invalid: ['1a', '248/9']
+    invalid: ['1a']
   Kossuth utca:
     # 8/b: 8 van kiírva
     # 22: 22/a van kiírva
@@ -265,15 +263,13 @@ filters:
     # 12-14: csak 14 van kiírva
     invalid: ['12']
   Szépkilátó utca:
-    # 2: nincs
     # 4/b: csak 4 van kiírva
     # 24: 24/a és 24/b
-    invalid: ['2', '4b', '17', '24']
+    invalid: ['4b', '17', '24']
   Szérüskert utca:
-    # 14/a: 14 és 14/b van kiírva
     # 26: ikerház nincs kiírva semmi
     # 48-50: 45 van kiírva
-    invalid: ['8', '26', '14a', '48-50']
+    invalid: ['8', '26', '48-50']
   Szőlőskert utca:
     # 1: 1/a, 1/b
     # 9: 9/a, 9/b
@@ -297,8 +293,7 @@ filters:
   Veszprémi út:
     # 18/c: 18/a, 18/b
     # 23/a, 23/b: csak sima 23
-    # 32/a, 32/b: csak sima 32
-    invalid: ['18c', '23a', '23b', '32a', '32b']
+    invalid: ['18c', '23a', '23b']
 refstreets:
   # ellenőrizve
   'Arany János út': 'Arany János utca' # táblán Arany János út 2024.10
