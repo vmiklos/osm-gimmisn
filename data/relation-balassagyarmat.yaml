@@ -34,6 +34,8 @@ street-filters:
   # place
   - Homoki szőlő  # Homokiszőlő https://www.openstreetmap.org/node/7340848754
   - O.F.B.földek  # OFB-földek https://www.openstreetmap.org/node/7340848752
+  # nem igazi utcák
+  - 24. MÁV őrház
 osm-street-filters:
   # nem igazi utcák
   - Kamionterminál
