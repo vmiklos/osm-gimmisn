@@ -37,23 +37,14 @@ filters:
   # ide jönnek a szűrők
   # Carl Lutz rakpart:
     # 1: nincsenek állandó épületek, csak hajók XIII/?? raszter vagy ?? kikötő címen futnak.
-  Felka utca:
+  # Felka utca:
     # 5-7 másik utcára van számozva, innen nincs bejárat
-    ranges:
-      - {start: '1', end: '3'}
-      - {start: '2', end: '6'}
-  Garam utca:
+  # Garam utca:
     # 2-4: volt KH épület oldala, építkezés 2021-07
     # 6-18: Pappas oldala
     # 20-26: nincs bejárat, ipartelepnek tűnik
     # 13, 15: valószínű régebben volt itt épület, most a többi ház parkolója van a helyén
-    ranges:
-      - {start: '1', end: '29'}
-      - {start: '28', end: '34'}
-  Gogol utca:
+  # Gogol utca:
     # 19 = Visegrádi utca 60
-    ranges:
-      - {start: '1', end: '31'}
-      - {start: '2', end: '40'}
 source: survey
 inactive: true

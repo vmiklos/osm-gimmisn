@@ -1,8 +1,5 @@
 missing-streets: 'no'
 filters:
-  Árnyas utca:
-    # 6: a páros oldalon nincsenek épületek, ott erdő van.
-    invalid: ['6']
   Bagoly köz:
     # Ez az utca a Sástónál van, nem Mátrafüred településen.
     ranges: []
