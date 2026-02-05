@@ -38,7 +38,7 @@ filters:
     # 34: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
     # 36: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
     # 118-120: átszámozva, már csak 118. (forrás: polgármester).
-    invalid: ['43b', '51a', '93', '97', '127', '217', '30', '32', '34', '36', '120']
+    invalid: ['43b', '51a', '93', '97', '127', '217', '30', '34', '36', '120']
   Móra Ferenc utca:
     interpolation: 'all'
   Nyári Pál utca:

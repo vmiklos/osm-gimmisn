@@ -146,7 +146,7 @@ filters:
   Kisfaludy utca:
     invalid: ['1b', '7b']
   Kossuth utca:
-    invalid: ['21a', '8a', '55']
+    invalid: ['55']
   Kovácsi Kálmán tér:
     # 9 = Csomád utca 2
     interpolation: all
@@ -159,7 +159,7 @@ filters:
     invalid: ['3', '9a', '4', '6']
     ranges:
       - {start: '1', end: '27'}
-      - {start: '2', end: '24'}
+      - {start: '2', end: '30'}
   Közvágóhíd tér:
     interpolation: all
     invalid: ['15', '26a']
