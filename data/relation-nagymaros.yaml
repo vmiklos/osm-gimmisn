@@ -91,7 +91,6 @@ filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Akácos utca': 'Akácos út'
-  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Hatlópatak utca': 'Hatlópatak dűlő'
   'Kisújhegy utca': 'Kisúj-hegy utca'
   'Köbölvölgy dűlő': 'Köböl-völgy dűlő'

@@ -16,8 +16,6 @@ refstreets:
   'Jókai Mór utca': 'Jókai utca'
   'Róbert Károly utca': 'Róbert Károly út'
   'Waldstein János utca': 'Waldstein János út'
-  # rövidítés
-  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca' # - https://www.openstreetmap.org/note/4563443
   # ellenőrzött
   'Dankó Pista utca': 'Dankó utca'  # táblán Dankó P. utca - https://www.openstreetmap.org/note/4563441
   'Hétvezér utca': 'Hétvezér útja'  # táblán Hétvezér utca
