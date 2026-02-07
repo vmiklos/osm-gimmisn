@@ -86,6 +86,7 @@ street-filters:
   # Rigó köz
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'Áprily Lajos völgy': 'Áprily Lajos-völgy'  # táblán Áprily Lajos völgy (2024)
   'Magasköz utca': 'Magas köz'
   'Szentgyörgypusztai út': 'Szentgyörgypuszta út'
   'Temető sor': 'Temetősor utca'
