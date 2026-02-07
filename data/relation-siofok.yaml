@@ -8,8 +8,6 @@ filters:
     interpolation: 'all'
   Csokonai Vitéz Mihály utca:
     show-refstreet: false
-  Kiss János altábornagy utca:
-    show-refstreet: false
   Meggyfa utca:
     interpolation: 'all'
   Őrház utca:
@@ -28,7 +26,6 @@ filters:
     interpolation: 'all'
 refstreets:
    # rövidítés
-  'Kiss János altábornagy utca': 'Kiss János altbn. utca'
   'Tinódi Lantos Sebestyén tér': 'Tinódi L. Sebestyén tér'
    # ellenőrizve, osm=utcatábla
   'Béri Balogh Ádám utca': 'Béri Balog Ádám utca'  # Béri Balogh Ádám utca szerepel az utcanévtáblán is H-val a végén.

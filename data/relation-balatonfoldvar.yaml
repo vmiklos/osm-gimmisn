@@ -113,8 +113,6 @@ filters:
     # 28/b: nincs ilyen, csak 28/1, 28/2.
     invalid: ['3a', '7', '26', '28b']
 refstreets:
-  # rövidítés
-  # 'Kiss János altábornagy utca': 'Kiss János atb. utca'
   # ellenőrizve
   'Camping utca': 'Kemping utca'  # Camping utca van írva a hivatalos utcanévtáblára, de az épületeken Kemping utcaként is szerepel.
   'Jókai Mór utca': 'Jókai utca'  # Jókai Mór utca az egyik sarkon ki van írva teljes névvel, a másikon nincs. A környéken mindenhol teljes névvel vannak az utcák.

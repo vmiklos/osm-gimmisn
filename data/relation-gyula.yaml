@@ -2,8 +2,6 @@ missing-streets: 'yes'
 filters:
   Balázs deák utca:
     show-refstreet: false
-  Kiss János altábornagy utca:
-    show-refstreet: false
   Keleti Schriffert József utca:
     show-refstreet: false
   Körös utca:
@@ -104,7 +102,6 @@ refstreets:
   # helyesírás, rövidítés
   'Balázs deák utca': 'Balázs Deák utca'
   'Keleti Schriffert József utca': 'K. Schriffert József út'
-  'Kiss János altábornagy utca': 'Kiss János atb. utca'
   'Líceum tér': 'Liceum tér'
   'Október 23. tér': 'Október 23-a tér'
   'Szikfű utca': 'Szíkfű utca'  # táblák vegyesen, de a megfelelő helyesírás a szikfű
