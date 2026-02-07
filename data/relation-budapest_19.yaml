@@ -23,8 +23,6 @@ filters:
 street-filters:
   # nem igazi utcák / csak hrsz.
   - MÁV állomás
-  # dupla
-  - Kiss János altábornagy utca  # Kiss János altbgy. utcán vannak a hászámok
   # semmilyen forrásban sem találtam
   - Elmű utca
 osm-street-filters:
@@ -42,8 +40,6 @@ osm-street-filters:
   - Vaslemez utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  # helyesírás, ref hibás
-  'Kiss János altábornagy utca': 'Kiss János altbgy. utca'
   # utcajegyzék = OSM, ref hibás
   'Ferihegyi repülőtérre vezető út': 'Ferihegyi reptérre vezető út'
   'Györffy István tér': 'Győrffy István tér'
