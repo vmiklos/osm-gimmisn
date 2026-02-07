@@ -28,7 +28,7 @@ serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.149"
 serde_yaml = "0.9.34"
 simplelog = "0.12.2"
-time = { version = "0.3.46", features = ["formatting", "macros", "local-offset", "serde-well-known"] }
+time = { version = "0.3.47", features = ["formatting", "macros", "local-offset", "serde-well-known"] }
 toml = "0.9.11"
 unidecode = "0.3.0"
 url = "2.5.8"
