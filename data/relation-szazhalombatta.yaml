@@ -1,7 +1,6 @@
 missing-streets: 'yes'
 refstreets:
    # helyesírás
-  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Röviddűlő': 'Röviddülő'
   # kérdéses
   'Árpád út': 'Árpád utca'

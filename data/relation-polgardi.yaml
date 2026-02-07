@@ -2,7 +2,6 @@ missing-streets: 'yes'
 refstreets:
   # helyesírás/rövidítés
   'Bálint major': 'Bálintmajor'
-  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   # ellenőrzött
   'Balassi Bálint út': 'Balassy Bálint utca'  # nincs tábla, 1 házon van kint Balassi Bálint út 1
 street-filters:

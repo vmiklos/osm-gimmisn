@@ -28,7 +28,6 @@ filters:
     interpolation: 'all'
 refstreets:
    # rövidítés
-  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Kiss János altábornagy utca': 'Kiss János altbn. utca'
   'Tinódi Lantos Sebestyén tér': 'Tinódi L. Sebestyén tér'
    # ellenőrizve, osm=utcatábla
