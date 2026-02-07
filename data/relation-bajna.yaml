@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Hősök tere:
+    # 570: hrsz
+    invalid: ['570']
   Vértes utca:
     ranges:
       - {start: '1', end: '3'}
