@@ -80,8 +80,6 @@ filters:
   Zrínyi utca:
     interpolation: 'all'
 refstreets:
-  # rövidítés
-  'Nyári Pál utca': 'Nyári P. utca'
   # duplázódás
   'Borbála puszta': 'Borbála-puszta puszta'
 street-filters:
