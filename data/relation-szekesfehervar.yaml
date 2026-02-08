@@ -735,6 +735,7 @@ street-filters:
   - Széna utca  # a földhivatal szerint a 8867 hrsz. a Széna utca, de a helyszínen Széna tér van kitáblázva, lásd: https://www.openstreetmap.org/note/4577939
 refstreets:
   # kérdéses
+  'Finn utca': 'Finn út'  # https://www.openstreetmap.org/note/5159324
   'Karinthy Frigyes tér': 'Karinthy tér'   # https://www.openstreetmap.org/note/4343415
   'Kistelekitanya': 'Kisteleki tanya'   # https://www.openstreetmap.org/note/4343428
   'Tigris dűlő': 'Veresvíz utca'
@@ -750,7 +751,6 @@ refstreets:
   'Hosszúsétatér utca': 'Hosszúsétatér'  # táblán Hosszúsétatér u.
   'Körösmezei utca': 'Kőrösmezei utca'   # táblán Körösmezei utca - https://www.openstreetmap.org/note/4343434
   'Körmöci utca': 'Körmőci utca'         # táblán Körmöci utca - https://www.openstreetmap.org/note/4343436
-  'Ligetsor': 'Liget sor'                # táblán Ligetsor - https://www.openstreetmap.org/note/4343438
   'Pénzverővölgy': 'Pénzverő völgy'      # Deponia Nonprofit Kft. székhelye - https://deponia.hu/
   'Tas utca': 'Tass utca'                # nincs tábla - https://www.openstreetmap.org/note/4343464
   'Újlaki utca': 'Ujlaki utca'           # táblán Újlaki utca - https://www.openstreetmap.org/note/4343469
@@ -765,6 +765,7 @@ refstreets:
   # Kereszttöltés út     - https://www.openstreetmap.org/note/4343417
   # Királyerdői utca     - https://www.openstreetmap.org/note/4343421
   # Kölcsey utca         - https://www.openstreetmap.org/note/4352873
+  # Ligetsor             - https://www.openstreetmap.org/note/4343438
   # Madách tér           - https://www.openstreetmap.org/note/4343441
   # Murvás utca          - https://www.openstreetmap.org/note/4343378
   # Pestispincék utca    - https://www.openstreetmap.org/note/4343442

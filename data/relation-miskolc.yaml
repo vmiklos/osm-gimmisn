@@ -47,8 +47,12 @@ osm-street-filters:
   - Láng dűlő
   - Magashegy dűlő
   - Pünkösd dűlő
+  # Kisavas sor néven fut a ref-ben
+  - Kisavas, Első sor
+  - Kisavas, Második sor
+  - Kisavas, Negyedik sor
 street-filters:
-  - Kisavas sor  # Kisavas, Első sor stb..
+  - Kisavas sor  # Kisavas, Első sor stb. osm-en
   - Tiszai pályaudvar  # Van rendes címe
   # - Sporttelep utca  # átnevezve: Vanger Vilmos utca
   # - Vendég utca  # átnevezve: Vanger Vilmos utca
@@ -214,10 +218,6 @@ refstreets:
   'Írisz utca': 'Irisz utca'
   # 3530
   'Hunyadi utca': 'Hunyadi János utca'
-  'Kisavas, Első sor': 'Első sor'
-  'Kisavas, Második sor': 'Második sor'
-  # 'Kisavas, Harmadik sor': 'Harmadik sor'
-  'Kisavas, Negyedik sor': 'Negyedik sor'
   'Mártírok utcája': 'Mártirok utcája'
   'Munkácsy utca': 'Munkácsy Mihály utca'
   'Nagyavas középső sor': 'Nagyavas-közép sor'
