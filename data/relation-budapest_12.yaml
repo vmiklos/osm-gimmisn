@@ -398,6 +398,7 @@ filters:
       - {start: '1', end: '29'}
       - {start: '2', end: '10'}
 street-filters:
+  - Pihenő út  # dupla, Korányi Frigyes út is van
   # Csillebérc létező ösvények, a path szűrés miatt nem dobja fel
   - Pipacs ösvény
   - Perem ösvény  # Perem dűlő van kiírva helyben, a nagy táblán meg Perem ösvény
