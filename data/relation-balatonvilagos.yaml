@@ -44,6 +44,7 @@ refstreets:
   'Táncsics Mihály utca': 'Táncsics utca'  # Táncsics Mihály utca az utcanévtáblán csak Táncsics utca, de minden más utca teljes névvel van, így ez is marad.
 street-filters:
   # nem igazi utcák
+  - Balatonvilágos vasúti megálló
   - Vasútállomás
 osm-street-filters:
   - Emlékpark
