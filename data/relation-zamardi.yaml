@@ -64,7 +64,6 @@ refstreets:
   # kérdéses
   'Római út': 'Római utca'
   'Szőlőhegyi út': 'Szőlőhegyi utca'  # Szőlőhegyi utca a főútnál út, de a dombon mindenhol utca
-  'Rákóczi Ferenc köz': 'Rákóczi köz'
    # 'Vadkacsa utca': 'Vadkacsa sor'  # új táblán Vadkacsa sor
 source: survey
 housenumber-letters: true
