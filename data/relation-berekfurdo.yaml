@@ -5,7 +5,7 @@ filters:
     invalid: ['328']
 street-filters:
   # Tanyák
-  - Tanya
+  - Tanya tanya
   - Üllőparti tanya
 refstreets:
   'Veress Zoltán utca': 'Veres Zoltán utca'
