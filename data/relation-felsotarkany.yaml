@@ -3,7 +3,17 @@ filters: {}
 osm-street-filters:
   # via ferrata
   - Menekülő útvonal
-#street-filters:
+  # turistaút/külterület/átlógó
+  - Bodzás-lápa
+  - Kálmán-hegyi út
+  - Keringő út
+  - Tekerület útja
+  - Török út
+  - Várkút utca
+  - Zsérci-út
+street-filters:
+  # nem igazi utca
+  - Külterület bekötőút
 refstreets:
   'Munkás út': 'Munkás utca'
   'Tagosdűlő utca': 'Tagos-dűlő utca'
