@@ -11,5 +11,6 @@ street-filters:
   - Bárocadűlő dűlő # Báróca
   - Felsőrét dűlő  # Felsőrét
   - Mocsárhegy dűlő # Mocsár
+  - Tő dűlő  # https://www.openstreetmap.org/node/5443150019
 source: survey
 inactive: true
