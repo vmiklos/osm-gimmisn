@@ -192,6 +192,7 @@ refstreets:
   # -- egyéb ---------------------------------------------------------------------
   # Fekete utca -  táblán Fekete utca (2023.04) - https://www.openstreetmap.org/note/3673577 - ref hiba, Fekete utca + Fekete út is volt, excel szerint a régi név a Fekete út
   # Kosdi út/utca - valóban van Kosdi utca, amely a Honvéd utcából nyílik. A Kosdi utcától a vasút utáni körforgalomig viszont Honvéd utca, csak onnantól lesz észak felé Kosdi út, így a Kosdi utca nem a Kosdi útból nyílik.
+  'Külső Rádi út': 'Külső-Rádi út'  # refben mindkettő volt
 source: survey
 housenumber-letters: true
 inactive: false
