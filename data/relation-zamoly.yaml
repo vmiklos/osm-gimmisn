@@ -25,8 +25,6 @@ filters:
     invalid: ['9', '20']
   Harmat utca:
     interpolation: 'all'
-  József Attila utca:
-    show-refstreet: false
   Kossuth utca:
     # 43/b: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
     # 51/a: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
@@ -64,8 +62,6 @@ filters:
     # 8: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
     # 10/b: törlés vagy átszámozás miatt megszűnt (forrás: polgármester).
     invalid: ['8', '10b']
-  Táncsics Mihály utca:
-    show-refstreet: false
   Tó utca:
     interpolation: 'all'
   Vasvári Pál utca:
@@ -85,9 +81,7 @@ filters:
     interpolation: 'all'
 refstreets:
   # rövidítés
-  'József Attila utca': 'József A. utca'
   'Nyári Pál utca': 'Nyári P. utca'
-  'Táncsics Mihály utca': 'Táncsics M. utca'
   # duplázódás
   'Borbála puszta': 'Borbála-puszta puszta'
 street-filters:
