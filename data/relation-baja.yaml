@@ -72,5 +72,7 @@ refstreets:
   # place
   'II. körzet tanya': 'II.körzet tanya'
   'IV. körzet tanya': 'IV.körzet tanya'
+  # megváltozott?
+  'Kisdobos utca': 'Dob utca'
 source: survey
 inactive: false
