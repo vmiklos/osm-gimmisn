@@ -25,7 +25,7 @@ osm-street-filters:
 street-filters:
   # nem mappelhető, dupla utcanév osm-ben
   - Szikáncs Ady Endre utca  # nem mappelhető, mert van sima Ady Endre utca is
-  - Szikáncs Dózsa Gy. utca  # Szikáncs/Kútvölgy is Dózsa György utca osm-en
+  - Szikáncs Dózsa György utca  # Szikáncs/Kútvölgy is Dózsa György utca osm-en
   - Szikáncs Petőfi Sándor utca  # Szikács/Kútvölgy is Petőfi utca osm-en
   - Üdülő Szeder utca  # nem mappelhető, mert van sima Szerer utca is
   - Erzsébet Erzsébet utca  # van Erzsébeti út
@@ -106,11 +106,11 @@ refstreets:
   'Dózsa György utca': 'Kútvölgy Dózsa György út' # Kútvölgy/Szikáncs ugyanaz a név
   'Petőfi utca': 'Kútvölgy Petőfi utca'   # Kútvölgy/Szikáncs ugyanaz a név
   'Rákóczi utca': 'Kútvölgy Rákóczi utca'
-  'Táncsics Mihály utca': 'Kútvölgy Táncsics M. utca'
+  'Táncsics Mihály utca': 'Kútvölgy Táncsics Mihály utca'
   # Szikáncs
   'Ács Lajos utca': 'Szikáncs Ács Lajos utca'
   # 'Ady Endre utca': 'Szikáncs Ady Endre utca'  * nem mappelhető, van sima Ady Endre utca is
-  # 'Dózsa György utca': 'Szikáncs Dózsa Gy. utca' # Kútvölgy/Szikáncs is Dózsa György utca
+  # 'Dózsa György utca': 'Szikáncs Dózsa György utca' # Kútvölgy/Szikáncs is Dózsa György utca
   'Fő utca': 'Szikáncs Fő utca'
   'Hétvezér tér': 'Szikáncs Hét vezér tér'
   # 'Petőfi utca': 'Szikáncs Petőfi Sándor utca' - Kútvölgy/Szikáncs ugyanaz a név nem mappelhető
@@ -118,6 +118,7 @@ refstreets:
   'Árnyas utca': 'Üdülő Árnyas utca'
   'Barkász utca': 'Üdülő Barkász Lajos utca'
   'Csuka utca': 'Üdülő Csuka utca'
+  'Gém utca': 'Üdülő Gém utca'
   'Hal utca': 'Üdülő Hal utca'
   'Keszeg utca': 'Üdülő Keszeg utca'
   'Kócsag utca': 'Üdülő Kócsag utca'
