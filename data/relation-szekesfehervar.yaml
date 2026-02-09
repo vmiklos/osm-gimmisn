@@ -743,7 +743,6 @@ refstreets:
   'Almássy lakótelep': 'Almássy telep'   # földhivatalnál vegyesen, minden házon és régi táblán Almássy telep, a két autós bejáratnál 1-1 új utcanévtáblán Almássy ltp. - https://www.openstreetmap.org/note/4593724
   'Aranka utca': 'Izabella utca'         # átnevezett utca - https://www.openstreetmap.org/note/4594180
   'Bulcsú utca': 'Bulcsu utca'           # az utca egyik végén Bulcsú, másik végén Bulcsu - https://www.openstreetmap.org/note/4343407
-  'Csóri Régi utca': 'Régi Csóri út'     # új táblákon Csóri Régi utca, régi táblán Régi Csóri út
   'Erdő sor': 'Erdősor'                  # táblán Erdő sor - https://www.openstreetmap.org/note/4343414
   'Gellért újsor': 'Gellért új sor'      # táblán Gellért újsor, másik helyen Gellért újsor + Kelemen Béla köz
   'Gólya dűlő': 'Gólya I. dűlő'          # táblán Gólya dűlő
@@ -757,6 +756,7 @@ refstreets:
   # Béla utca            - van pár nem hivatalos Béla út tábla is - https://www.openstreetmap.org/note/4343406
   # Börgöndi Fő utca     - néhány régebbi táblán Fő utca, az összes újon Börgöndi Fő utca - https://www.openstreetmap.org/note/4343362
   # Csiki utca           - https://www.openstreetmap.org/note/4343409
+  # Csóri Régi utca      - új táblákon Csóri Régi utca, régi táblán Régi Csóri út
   # Csóri Új út          - https://www.openstreetmap.org/note/4343412
   # Dévényi utca         - https://www.openstreetmap.org/note/4343413
   # Fáy András lakótelep - https://www.openstreetmap.org/note/4592292
