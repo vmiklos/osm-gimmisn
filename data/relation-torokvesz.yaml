@@ -48,6 +48,13 @@ filters:
     ranges:
       - {start: '102', end: '234'}
       - {start: '103', end: '207'}
+  Branyiszkó út:
+    invalid:
+      - '8' # 6 után 12a
+      - '10'
+      - '13' # 13a, 13b helyette
+      - '37' # páratlan vége 33
+      - '40' # páros vége 38
   Cirok utca:
     ranges:
       - {start: '1', end: '99'}
