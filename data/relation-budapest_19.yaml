@@ -10,6 +10,9 @@ filters:
     interpolation: all
   Kossuth tér:
     interpolation: all
+  Óvodás köz:
+    # 8: nincs
+    invalid: ['8']
   Ötvenhatosok tere:
     # 48: nincs: 1-18 házszámok vannak
     invalid: ['48']
