@@ -98,6 +98,13 @@ filters:
     ranges:
       - {start: '3', end: '13'}
       - {start: '2', end: '14'}
+  Branyiszkó út:
+    invalid:
+      - '8' # 6 után 12a
+      - '10'
+      - '13' # 13a, 13b helyette
+      - '37' # páratlan vége 33
+      - '40' # páros vége 38
   Budakeszi út:
     # 37/a: régi házszám, áthúzva van kitáblázva, az új házszám 33, 35 (nem kötőjellel, mindkét szám kint van).
     # 37/b: régi házszám, már csak sima 37 van.
