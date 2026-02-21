@@ -10,20 +10,20 @@ filters:
 refstreets:
   # ellenőrzött
   # 'Báthori István utca': 'Báthory István utca'  # Báthory István utca Y-nal van kitáblázva (2024-06-22)
-  # 'Fehérkereszti út': 'Fehérkereszti utca'  # nincs tábla, átírtam utcára (2026-02-21) https://www.openstreetmap.org/note/3701569
+  # 'Fehérkereszti út' # nincs tábla (2026-02-21), határozatban út - https://www.openstreetmap.org/note/3701569
   # 'Fenyves utca': 'Fenyves köz'  # táblán Fenyves köz (2023-05-23)
   # 'Gladiolus utca': 'Gladiólusz utca'  # táblán Gladiólusz utca (2023-05-23)
   # 'Hegyaljai út': 'Hegyaljai utca'  # táblán Hegyaljai utca (2024-01-06)
+  # 'Kanász köz': 'Kanász utca'  # csak a Google Térképen van Kanász utca, a valóságban nincs
   # 'Ligetszépe út': 'Ligetszépe utca'  # táblán Ligetszépe utca (2023-05-23)
   # 'Othelló utca': 'Otelló utca'  # Új táblákon Otelló utca, régin Othelló utca (2023-05-23)
-  # 'Mély utca': 'Mély út'  # táblán Mély út (2026-02-21)
+  # 'Mély út'  # táblán Mély út (2026-02-21)
   # 'Szomorodni utca': 'Szamorodni utca'  # táblán Szamorodni utca (2023-05-23)
   # 'Tétényi út': 'Tétényi utca'  # Új táblák vannak, mindegyiken utca van (2023-05-20)
   # 'Tokaj utca': 'Tokaji utca'  #  táblán Tokaji utca (2023-05-23)
   'Bem tér': 'Bem József tér'  # táblán: Bem tér (2025-11)
   'Gereblye köz': 'Gereblye utca'  # táblán: Gereblye köz (2026-02-21) https://www.openstreetmap.org/note/3701520
   'Kálvin tér': 'Calvin tér'  # táblán: Kálvin tér (2023-07-24)
-  'Kanász köz': 'Kanász utca'  # csak a Google Térképen van Kanász utca, a valóságban nincs
   'Loránd utca': 'Lóránd utca'  # az utcanévtáblákon rövid O-val van, a házszámtáblákon hosszú Ó-val. OSM-en hagytam röviden. (2024-06-22)
   'Vízöntő utca': 'Vízöntő út'  # Ipari park: táblán Vízöntő utca (2023-02-18)
   # kérdéses
