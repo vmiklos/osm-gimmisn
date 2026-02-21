@@ -24,6 +24,7 @@ refstreets:
   'Bem tér': 'Bem József tér'  # táblán: Bem tér (2025-11)
   'Gereblye köz': 'Gereblye utca'  # táblán: Gereblye köz (2026-02-21) https://www.openstreetmap.org/note/3701520
   'Kálvin tér': 'Calvin tér'  # táblán: Kálvin tér (2023-07-24)
+  'Kocsi utca': 'Kocsi köz'  # Kocsi utca van az utcanévtáblán, de Kocsi közre van számozva az összes épület (2026-02-21Ö - https://www.openstreetmap.org/note/3701531
   'Loránd utca': 'Lóránd utca'  # az utcanévtáblákon rövid O-val van, a házszámtáblákon hosszú Ó-val. OSM-en hagytam röviden. (2024-06-22)
   'Vízöntő utca': 'Vízöntő út'  # Ipari park: táblán Vízöntő utca (2023-02-18)
   # kérdéses
