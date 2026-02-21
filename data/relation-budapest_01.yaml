@@ -338,6 +338,7 @@ osm-street-filters:
   # Kerülethatáron lévő utca
   - Citadella sétány
   # parkok, sétányok, lépcsők, udvarok
+  - 1686-os emlékpark
   - Citadella lejtő
   - Déli kertek
   - Ellyps sétány
