@@ -46,8 +46,22 @@ street-filters:
   - Gulyás tanya
   - Szőke tanya
   # proposed
-  - Vakond utca   # https://www.openstreetmap.org/way/1481689510
+  - Füleki utca  # https://www.openstreetmap.org/way/1481945457
+  - Lovász utca  # https://www.openstreetmap.org/way/1481984301
+  - Rövid utca   # https://www.openstreetmap.org/way/1481982242
+  - Vakond utca  # https://www.openstreetmap.org/way/1481689510
+  # megszűnt
+  - Sárrét utca  # megszűnt, Sárd utcával párhuzamosan a park felöli telkek másik oldalán futott. A 24614/2 hrsz már nem létezik, helyete a /37 van
+  - Díjnok utca  # https://www.openstreetmap.org/way/22567179
   # hiányzó
+  # Berzsenyi Dániel köz - ismertelen
+  # Dózsa György köz - https://www.openstreetmap.org/note/5176826
+  # József Attila köz - https://www.openstreetmap.org/note/5177240
+  # Judit köz - https://www.openstreetmap.org/note/5177257
+  # Juhász köz - https://www.openstreetmap.org/note/5176832
+  # Lőtér tér - ismertelen
+  # M7-es tér - https://www.openstreetmap.org/note/5176855
+  # Tusnádi tér - https://www.openstreetmap.org/note/5176851
   # Zöldhatár út - https://www.openstreetmap.org/note/3704641
 osm-street-filters:
   # nem igazi utcák
