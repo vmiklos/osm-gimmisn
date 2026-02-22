@@ -421,7 +421,7 @@ fn test_handle_error_json() {
 
 /// Tests handle_stats_housenumberless(): if the output contains #2, but not #1.
 #[test]
-fn test_handle_stats_cityprogress() {
+fn test_handle_stats_housenumberless() {
     let mut test_wsgi = wsgi::tests::TestWsgi::new();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
