@@ -541,6 +541,7 @@ fn handle_stats_cityprogress(
     let mut csv_reader = util::make_csv_reader(&mut read);
     for result in csv_reader.deserialize() {
         let row: util::CityCount = result?;
+        // Lowercase.
         ref_citycounts.insert(row.city, row.count);
     }
     let date_time = ctx.get_time().now();
@@ -553,7 +554,8 @@ fn handle_stats_cityprogress(
     while let Some(row) = rows.next()? {
         let city: String = row.get(0).unwrap();
         let count: String = row.get(1).unwrap();
-        osm_citycounts.insert(city, count.parse()?);
+        // Uppercase, convert to lowercase.
+        osm_citycounts.insert(city.to_lowercase(), count.parse()?);
     }
     let ref_cities: Vec<_> = ref_citycounts
         .keys()
