@@ -45,6 +45,10 @@ street-filters:
   # tanyák
   - Gulyás tanya
   - Szőke tanya
+  # proposed
+  - Vakond utca   # https://www.openstreetmap.org/way/1481689510
+  # hiányzó
+  # Zöldhatár út - https://www.openstreetmap.org/note/3704641
 osm-street-filters:
   # nem igazi utcák
   - Szent István híd
