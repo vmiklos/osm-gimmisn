@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+
+- Resolves: gh#4859 stats, cityprogress: handle when the reference data has lowercase city names
+
 ## 26.2
 
 - Resolves: gh#4671 dark mode support (Máté Gyöngyösi)
