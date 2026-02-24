@@ -64,28 +64,28 @@ street-filters:
   - Tisza szél
   - Vajhát tanya
 refstreets:
-  'Ady Endre utca': 'Ady Endre út'  # van Szikáncs Ady is - https://www.openstreetmap.org/note/4558752
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'  # táblán Bajcsy-Zsilinszky Endre utca
-  'Bánfi utca': 'Bánffy utca'  # https://www.openstreetmap.org/note/4558754
-  'Bárdi utca': 'Bárd utca'  # https://www.openstreetmap.org/note/4558737
   'Báthory utca': 'Báthori utca'  # táblán Báthory utca
   'Béla cigány utca': 'Bélacigány utca'  # táblán Béla cigány utca
-  'Berzsenyi Dániel utca': 'Berzsenyi utca'  # https://www.openstreetmap.org/note/4558755
-  'Bezerédy utca': 'Bezerédi utca'  # https://www.openstreetmap.org/note/4558738
-  'Egressy Béni utca': 'Egressy utca'  # https://www.openstreetmap.org/note/4558762
-  'Kazinczy Ferenc utca': 'Kazinczy utca'  # https://www.openstreetmap.org/note/4558764
+  'Bezerédy utca': 'Bezerédi utca'  # https://www.openstreetmap.org/note/4558738 - Ősrégi utcatáblán, évtizedes házszám táblán, és krétával kapura írva is Y.
   'Kiss Ernő utca': 'Kis Ernő utca'  # táblán Kiss Ernő utca
-  'Kocka utca': 'Koczka utca'  # https://www.openstreetmap.org/note/4558742
-  'Makói út': 'Makói országút'  # https://www.openstreetmap.org/note/4558730
-  'Nyizsnay Gusztáv utca': 'Nyizsnyai Gusztáv utca'  # https://www.openstreetmap.org/note/4558746
   'Ötvenhat mártír utca': 'Ötvenhatmártír utca'  # táblán Ötvenhat mártír utca
-  'Rárósi út': 'Rárósi utca'  # https://www.openstreetmap.org/note/4558766
-  'Sarkalyi utca': 'Sarkaji utca'  # https://www.openstreetmap.org/note/4558735
-  'Serház tér': 'Serháztér utca' # https://www.openstreetmap.org/note/4558768
-  'Szalai utca': 'Szalay utca'  # https://www.openstreetmap.org/note/4558747
   'Szentkirály utca': 'Szentkirályi utca'  # ócska táblán Szentkirály utca
-  'Téglagyári utca': 'Téglagyár utca'  # https://www.openstreetmap.org/note/4558749
-  'Tóth-malom utca': 'Tóth malom utca'
+  # 'Ady Endre utca': 'Ady Endre út'  # van Szikáncs Ady is - https://www.openstreetmap.org/note/4558752 - A körforgalom kihajtóján Ady Endre u., a rendes utcatáblákon mind Ady Endre út 
+  # 'Bánfi utca': 'Bánffy utca'  # https://www.openstreetmap.org/note/4558754 - Bánffy
+  # 'Bárdi utca': 'Bárd utca'  # https://www.openstreetmap.org/note/4558737 - i nélkül.
+  # 'Berzsenyi Dániel utca': 'Berzsenyi utca'  # https://www.openstreetmap.org/note/4558755 - Keresztnév nélkül. 
+  # 'Egressy Béni utca': 'Egressy utca'  # https://www.openstreetmap.org/note/4558762 - Keresztnév nélkül. 
+  # 'Kazinczy Ferenc utca': 'Kazinczy utca'  # https://www.openstreetmap.org/note/4558764 - Az összes táblán csak Kazinczy utca. 
+  # 'Kocka utca': 'Koczka utca'  # https://www.openstreetmap.org/note/4558742 -  A Rákóczi út felé sima c-vel van az összes utcatábla, a Szent István utca felőli darab pedig végig cz-s.
+  # 'Makói út': 'Makói országút'  # https://www.openstreetmap.org/note/4558730 - Országút
+  # 'Nyizsnay Gusztáv utca': 'Nyizsnyai Gusztáv utca'  # https://www.openstreetmap.org/note/4558746 - Bár a híres ember y-os, az utcatáblák i-vel vannak. 
+  # 'Rárósi út': 'Rárósi utca'  # https://www.openstreetmap.org/note/4558766 - Elejétől végéig Rárósi u.-nak van kitáblázva.
+  # 'Sarkalyi utca': 'Sarkaji utca'  # https://www.openstreetmap.org/note/4558735 - an egy ly is, de a nagy többség alapján j-re szavaznék. 
+  # 'Serház tér': 'Serháztér utca' # https://www.openstreetmap.org/note/4558768 - Két újabb táblán "Serháztér u.", a keleti végén egy régi táblán "Serház tér". A középen levő buszmegállónak is ez utóbbi a neve. 
+  # 'Szalai utca': 'Szalay utca'  # https://www.openstreetmap.org/note/4558747 - Kitáblázva y-nal. 
+  # 'Téglagyári utca': 'Téglagyár utca'  # https://www.openstreetmap.org/note/4558749 - i nélkül.
+  # 'Tóth-malom utca': 'Tóth malom utca' -  https://www.openstreetmap.org/note/4558771 - Szóközzel. 
   # Batida
   'Gagarin utca': 'Batida Gagarin utca'
   'Gárdonyi utca': 'Batida Gárdonyi utca'

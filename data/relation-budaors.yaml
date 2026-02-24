@@ -424,7 +424,7 @@ filters:
     # az egyik oldalból Dér utca lett
     # 6/a-c: régi házszámok
     # 54-56: egyértelműen túl nagy számok
-    invalid: ['6a', '6b', '6c', '8/1', '11', '12b', '14/2', '33', '54', '56']
+    invalid: ['6a', '6b', '6c', '8/1', '12b', '14/2', '33', '54', '56']
   Maros köz:
     # 1, 9 nincs
     # 20: 20/a van kiírva
