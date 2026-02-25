@@ -78,6 +78,9 @@ filters:
     invalid: ['1', '5', '12']
   Boglárka utca:
     invalid: ['37']
+  Bokréta köz:
+    # 3/1: csak sima 3
+    invalid: ['3/1']
   Bor utca:
     # 18: 18/A ls 18/B van kiírva
     # 41: 41/A és 41/B van kiírva
@@ -89,7 +92,7 @@ filters:
   Budakeszi utca:
     # össze vissza számozva
     # újraszámozás alatt: https://budaors.hu/hirek/varosi-ugyek/a-telepulesi-cimmegallapitasi-rendezesi-eljarasok
-    invalid: ['7', '14', '15', '16', '17', '19', '22', '23', '24', '25', '26', '27', '28']
+    invalid: ['1b', '1d', '5a', '7', '14', '15', '16', '17', '22', '23', '24', '25', '26', '27', '28']
   Budakeszi köz:
     # újraszámozás alatt: https://budaors.hu/hirek/varosi-ugyek/a-telepulesi-cimmegallapitasi-rendezesi-eljarasok
     invalid: ['13']
@@ -306,7 +309,7 @@ filters:
   Kígyó utca:
     # páros: 2 helyén Sikló utca 1, max a 4
     # páratlan: privát nem felmérhető, terven a max a 17
-    invalid: ['2', '6', '10', '11', '12', '14', '20', '21', '22', '23']
+    invalid: ['2', '6', '10', '11', '12', '20', '21', '22', '23']
   Kikelet utca:
     # így jönnek sorba: 5, 11, 13, 9, 21
     # 25: 23 után 27 a kettő között hátul a 29-es számhoz tartozó 3 ház egyike
@@ -423,8 +426,10 @@ filters:
     # újraszámozás alatt: https://budaors.hu/hirek/varosi-ugyek/a-telepulesi-cimmegallapitasi-rendezesi-eljarasok
     # az egyik oldalból Dér utca lett
     # 6/a-c: régi házszámok
+    # 9/b: régi házszám, először 19, majd 40 lett belőle
+    # 17/b: nincs
     # 54-56: egyértelműen túl nagy számok
-    invalid: ['6a', '6b', '6c', '8/1', '12b', '14/2', '33', '54', '56']
+    invalid: ['6a', '6b', '6c', '8/1', '9b', '12b', '14/2', '17b', '33', '54', '56']
   Maros köz:
     # 1, 9 nincs
     # 20: 20/a van kiírva
@@ -611,18 +616,34 @@ filters:
     interpolation: all
     invalid: ['3', '4']
   Szabadság út:
-    # 2-16: ezek közül 1 nagy társasház 14-es számmal
-    # 28: a színház parkolója
+    # páratlan
     # 29-33 közt épül valami, a kint lévő terven csak 33-at említ
-    # 42: 40 után 44
-    # 96: 96 beépítve az újonnan épült 98-ba
     # 181-209 többségében a Holdfény utcára van számozva
+    # 387: beépítetlen terület
+    # páros:
+    # 2-16: ezek közül 1 nagy társasház 14-es számmal
+    # 24/x: csak 24
+    # 28: a színház parkolója
+    # 30/x: csak 30/1 van kiírva
+    # 32, 32/b: 32/1, 32/2
+    # 34/2: 34 és 34/1
+    # 42: 40 után 44
+    # 48/2: nincs ilyen kiírva
+    # 58*: csak 58
+    # 68/b: nincs kiírva semmi
+    # 78: 78/1, 78/3
+    # 80/b: nincs kint semmi, új ház amit nem sikerül befejezni
+    # 88*: csak 88
+    # 90*: csak 90
+    # 92: 92/a-b
+    # 96: 96 beépítve az újonnan épült 98-ba
+    # 124/1: iker, de csak 124 van kiírva
+    # 126/1: csak 126 van kiírva
     # 242: helyén 214 van kiírva
     # 360: 358 utcán 362
-    # 387: beépítetlen terület
     # 392: 390 van kiírva a helyén, a földhivatallal nem egyezik a számozás
     # 394: 392 van kiírva a helyén, a földhivatallal nem egyezik a számozás
-    invalid: ['6', '8', '10', '12', '16', '28', '29', '31', '144', '153', '387', '394']
+    invalid: ['6', '8', '10', '12', '14/1', '16', '24/1', '24/3', '28', '28b', '29', '30/2', '30/3', '31', '32', '32b', '34/2', '48/2', '58/1', '58/2', '58a', '58d', '68b', '78', '80b', '88/2', '90/2', '90/3', '92/1', '124/1', '126/1', '144', '153', '387', '394']
   Szálláshegy utca:
     interpolation: all
   Szamorodni utca:
@@ -686,7 +707,8 @@ filters:
     interpolation: all
   Templom tér:
     interpolation: all
-    invalid: ['2/2', '10']
+    # 8/2: csak 8/1 van kiírva
+    invalid: ['2/2', '8/2','10']
     ranges:
       - {start: '1', end: '22'}
   Toboz utca:
