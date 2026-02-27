@@ -478,6 +478,12 @@ fn test_house_number_range_get_lowercase_number() {
     assert_eq!(range.get_lowercase_number(), "43b");
     let range = HouseNumberRange::new("44/C*", "");
     assert_eq!(range.get_lowercase_number(), "44c*");
+    let range = HouseNumberRange::new("11/A-B", "");
+    assert_eq!(range.get_lowercase_number(), "11a-b");
+    let range = HouseNumberRange::new("11A", "");
+    assert_eq!(range.get_lowercase_number(), "11a");
+    let range = HouseNumberRange::new("11/1", "");
+    assert_eq!(range.get_lowercase_number(), "11/1");
 }
 
 /// Tests get_housenumber_ranges().
