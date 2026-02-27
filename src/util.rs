@@ -63,13 +63,15 @@ impl HouseNumberRange {
     /// Returns the house number string in '42a' form (as opposed to '42/A').
     pub fn get_lowercase_number(&self) -> String {
         let re = regex::Regex::new(r"^(.*[0-9]+)( |/)([A-Za-z])(.*)$").unwrap();
-        if let Some(cap) = re.captures_iter(&self.number).next() {
+        let number = if let Some(cap) = re.captures_iter(&self.number).next() {
             let prefix = cap[1].to_string();
             let letter = cap[3].to_string();
             let suffix = cap[4].to_string();
-            return format!("{}{}{}", prefix, letter.to_lowercase(), suffix);
-        }
-        self.number.to_string()
+            format!("{}{}{}", prefix, letter, suffix)
+        } else {
+            self.number.to_string()
+        };
+        number.to_lowercase()
     }
 
     /// Returns the comment.
