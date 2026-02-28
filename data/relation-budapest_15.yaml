@@ -217,9 +217,6 @@ osm-street-filters:
   - Palota park
   - Páskom liget
   - Szilas-patak tanösvény
-refstreets:
-  'Erdőmenti út': 'Erdő menti út'
-  'Kékszilva utca': 'Kékszilva út'
 source: survey
 inactive: true
 housenumber-letters: true
