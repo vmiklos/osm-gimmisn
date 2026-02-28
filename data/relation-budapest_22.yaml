@@ -32,13 +32,8 @@ filters:
     # 4: nincs ilyen, 2, 6, 20, 22, ... sorrendben vannak a számok a páros oldalon.
     invalid: ['4']
   Angeli utca:
-    # 935: a páratlan oldalon a 223 az utolsó házszám.
     # 310: a páros oldalon a 198 az utolsó házszám.
-    # 852: a páros oldalon a 198 az utolsó házszám.
-    # 852/1: a páros oldalon a 198 az utolsó házszám.
-    # 952: a páros oldalon a 198 az utolsó házszám.
-    # 978: a páros oldalon a 198 az utolsó házszám.
-    invalid: ['935', '310', '852', '852/1', '952', '978']
+    invalid: ['310']
   Anna utca:
     # 35-45: csak 45 van, 35 és 43 között nincsenek házak.
     # 51/b: ez és a Barkács utca 1 közös telken van, bejárat a Barkács utcáról van, de házszám nincs kitéve.
@@ -119,12 +114,8 @@ filters:
     # 6: ez és a Síp utca 16. közös telken van, házszám a Síp utcáról van csak.
     invalid: ['2a', '6']
   Barackos út:
-    # 855/1: a páratlan oldalon a 187 az utolsó házszám.
-    # 855/2: a páratlan oldalon a 187 az utolsó házszám.
-    # 855/4: a páratlan oldalon a 187 az utolsó házszám.
-    # 885/4: a páratlan oldalon a 187 az utolsó házszám.
     # 236: a páros oldalon a 180 az utolsó házszám.
-    invalid: ['855/1', '855/2', '855/4', '885/4', '236']
+    invalid: ['236']
   Barátcinege utca:
     # 1: sima 1 nincs, csak 1/a, 1/b, 1/c.
     # 3/a: nincs ilyen, csak sima 3 és 3-5 van.
@@ -371,9 +362,6 @@ filters:
   Harangjáték utca:
     # 11: sima 11 nincs, csak 11/1, 11/2.
     invalid: ['11']
-  Harangozó utca:
-    # 815: a páratlan oldalon a 17 az utolsó házszám.
-    invalid: ['815']
   Háros utca:
     # 47/b: nincs ilyen, csak 47-49 B épület.
     # 49/a: nincs ilyen, csak 47-49 A épület.
@@ -680,8 +668,7 @@ filters:
     invalid: ['25', '29', '53', '59', '79a', '32', '34', '48c', '52', '52b', '64b', '78', '80', '80c', '84']
   Kosbor utca:
     # 13: sima 13 nincs, csak 13/a, 13/b.
-    # 912: a páros oldalon a 16 az utolsó házszám.
-    invalid: ['13', '912']
+    invalid: ['13']
   Kossuth Lajos utca:
     # 19: teljesen elbontották, murvával szórták fel és bekerítették, parkolónak használják.
     # 51: a 49-73 között nincsenek házszámok, játszótér, parkoló és a Donszki Árpád utca van ott.
@@ -809,6 +796,12 @@ filters:
     # 33: ez és a Dombóvári utca 8/b. közös telken van, házszám a Dombóvári utcáról van csak.
     # 41: a páratlan oldalon a 31 az utolsó házszám.
     invalid: ['33', '41']
+  Mária utca:
+    # 17: sima 17 nincs, csak 17/1, 17/2.
+    # 33: sima 33 nincs, csak 33/1, 33/2.
+    # 35: sima 35 nincs, csak 35/1, 35/2.
+    # 37: sima 37 nincs, csak 37/1, 37/2.
+    invalid: ['17', '33', '35', '37']
   Mária Terézia utca:
     # 1-7: a 9 előtt nincsenek házszámok, park van ott.
     # 3: a 9 előtt nincsenek házszámok, park van ott.
@@ -1009,8 +1002,7 @@ filters:
     # 122: sima 122 nincs, csak 122/a, 122/b.
     # 136/a: csak sima 136 és 136/b van kitáblázva.
     # 140: sima 155 nincs, csak 140/a, 140/b.
-    # 456/b: a páros oldalon a 162 az utolsó házszám.
-    invalid: ['5a', '47a', '49b', '51a', '97', '99b', '107', '127', '129', '149', '151', '155', '18e', '24b', '48', '76b', '78b', '122', '136a', '140', '456b']
+    invalid: ['5a', '47a', '49b', '51a', '97', '99b', '107', '127', '129', '149', '151', '155', '18e', '24b', '48', '76b', '78b', '122', '136a', '140']
   Petőfi Sándor utca:
     # 185: a páratlan oldalon a 77 az utolsó házszám.
     # 78: a páros oldalon a 66 az utolsó házszám.
@@ -1063,8 +1055,7 @@ filters:
     # 133: sima 133 nincs, csak 133/a, 133/b. (TODO: helyszínen nem ellenőriztem 2020-ban, 2017-ben felrajzolva)
     # 58: területhatár, a páros oldal XI. kerület, Kelenvölgy.
     # 88: területhatár, a páros oldal XI. kerület, Kelenvölgy.
-    # 876: területhatár, a páros oldal XI. kerület, Kelenvölgy.
-    invalid: ['35a', '35b', '59o', '87', '87/6', '107a', '113a', '115a', '133', '58', '88', '876']
+    invalid: ['35a', '35b', '59o', '87', '87/6', '107a', '113a', '115a', '133', '58', '88']
   Rókales utca:
     # 3: sima 3 nincs, csak 3/a, 3/b.
     invalid: ['3']
@@ -1249,8 +1240,7 @@ filters:
     # 6: a páros oldalon a 10 az első házszám.
     # 40/2: TODO: kettő darab 40 van egymás mellett, nem egyértelmű, hogy melyik a 40/2.
     # 58: a páros oldalon az 52 az utolsó házszám.
-    # 614: a páros oldalon az 52 az utolsó házszám.
-    invalid: ['1', '27a', '49a', '4', '6', '58', '614']
+    invalid: ['1', '27a', '49a', '4', '6', '58']
   Törley tér:
     # 13-15: nincs ilyen, az utcanévtáblán 1-2, 4-6 van.
     # 18: nincs ilyen, az utcanévtáblán 1-2, 4-6 van.
@@ -1359,8 +1349,7 @@ filters:
     # 13: sima 13 nincs, csak 13/a, 13/b.
     # 22: sima 22 nincs, csak 22/a, 22/b.
     # 40: sima 40 nincs, csak 40/a, 40/b.
-    # 434: a páratlan oldalon a 43 az utolsó házszám.
-    invalid: ['9', '9d', '11', '13', '22', '40', '434']
+    invalid: ['9', '9d', '11', '13', '22', '40']
   Zoltán utca:
     # 14: sima 14 nincs, csak 14/1, 14/2.
     invalid: ['14']
