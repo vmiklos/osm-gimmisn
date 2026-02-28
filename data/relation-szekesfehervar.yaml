@@ -733,15 +733,20 @@ street-filters:
   - Sóstói lakótelep  # Rádió utca
   # hivatalos név
   - Széna utca  # a földhivatal szerint a 8867 hrsz. a Széna utca, de a helyszínen Széna tér van kitáblázva, lásd: https://www.openstreetmap.org/note/4577939
+  # hiányzó
+  # Csonka utca - https://www.openstreetmap.org/note/5185481
+  # Mákvirág köz - építés alatt - https://www.openstreetmap.org/note/4603707
+  # Rudló köz - https://www.openstreetmap.org/note/5185475
 refstreets:
   # kérdéses
   'Finn utca': 'Finn út'  # https://www.openstreetmap.org/note/5159324
   'Karinthy Frigyes tér': 'Karinthy tér'   # https://www.openstreetmap.org/note/4343415
   'Kistelekitanya': 'Kisteleki tanya'   # https://www.openstreetmap.org/note/4343428
   'Tigris dűlő': 'Veresvíz utca'
+  'Újkúti utca': 'Újkuti utca'  # https://www.openstreetmap.org/note/5185477
   # ellenőrzött
   'Almássy lakótelep': 'Almássy telep'   # földhivatalnál vegyesen, minden házon és régi táblán Almássy telep, a két autós bejáratnál 1-1 új utcanévtáblán Almássy ltp. - https://www.openstreetmap.org/note/4593724
-  'Aranka utca': 'Izabella utca'         # átnevezett utca - https://www.openstreetmap.org/note/4594180
+  # 'Aranka utca': 'Izabella utca'         # átnevezett utca - https://www.openstreetmap.org/note/4594180
   'Bulcsú utca': 'Bulcsu utca'           # az utca egyik végén Bulcsú, másik végén Bulcsu - https://www.openstreetmap.org/note/4343407
   'Erdő sor': 'Erdősor'                  # táblán Erdő sor - https://www.openstreetmap.org/note/4343414
   'Gellért újsor': 'Gellért új sor'      # táblán Gellért újsor, másik helyen Gellért újsor + Kelemen Béla köz
