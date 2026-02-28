@@ -101,6 +101,8 @@ filters:
 street-filters:
   # https://www.ferencvaros.hu/wp-content/uploads/2021/06/325_2021.pdf
   - Helyi kikötő út
+  # megszűnt
+  - Jászai Mari utca  # https://www.openstreetmap.org/way/797531780
 osm-street-filters:
   # Nem valós utcák
   - Boráros tér H
