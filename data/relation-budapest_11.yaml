@@ -338,8 +338,10 @@ filters:
     # 41b: csak sima 41
     # 43: 43/a, 43/b
     # 45-55, 47-49: 45 MTA kutatóház, 47 nincs, laktanya 49-53, 55-71 között nincs szám, 73-75 volt Balassi kollégium telke
+    # 83-91: Rubin hotel másik címe, Dayka Gábor utca 3-ra van számozva
     # 85-99 között gyakorlatilag nincs számozva semmi
     # 105: csak 105/b
+    # 113-115: nincs, Príma a 115-ös címen van
     # 125: 125/a..d
     # 127: 127/a..c
     # 129: 129/a..c
@@ -356,14 +358,14 @@ filters:
     # 80-86: nincs
     # 88-90: ibis Styles Budapest Citywest Hotel
     # 92-110: nincs: 90-nél ér véteg az széles szakasz, 112-vel indul a keskeny szakasz
-    # 122-142: autokereskedes 120, (MOL kut 126 -> Orlen 134), autoklub 138, epulet 142, koztuk nincs semmi kitablazva
+    # 116-142: autokereskedes 118, 120, 122, (MOL kut 126 -> Orlen 128-134), autoklub 138, epulet 142, koztuk nincs semmi kitablazva
     # 146: 146a, 146b, 146c, 146d, 146-148
     # 148a: 148, 148d, 148e
     # 168: nincs, elírt 165
     # 170: Safru
     # 172-188: valójában 172-178
     # max páros: 180
-    invalid: ['23', '23b', '36b', '47', '55', '68', '70', '72', '74', '76', '80', '82', '84', '85', '87', '89', '91', '94', '105', '122', '124', '125', '128', '130', '132', '140', '168', '181', '172-188']
+    invalid: ['23', '23b', '36b', '47', '55', '68', '70', '72', '74', '76', '80', '82', '83-91', '84', '85', '87', '89', '91', '94', '105', '113-115', '116-118', '122', '125', '128', '130', '132', '136', '140', '168', '181', '172-188']
   Bükköny utca:
     # 1 = Albertfalva utca 8, Szent Mihály templom
     # 5: 5/a, 5/b
@@ -834,8 +836,8 @@ filters:
     # pároson csak ez van: 2/a, 2b
     invalid: ['4', '6', '8', '10']
   Higany utca:
-    # 1b; 3a,3b; 5a,5b
-    invalid: ['1']
+    # 1b; 3a,3b, 5a,5b, 6a,-
+    invalid: ['1', '6']
   Holdvilág utca:
     invalid: ['13']
   Hollókő utca:
@@ -1130,7 +1132,8 @@ filters:
     # 10: 10/a, 10/b
     # 12b: 12/a
     # 16 = Szatmárhegy utca 1
-    invalid: ['2', '4', '8', '10', '10k', '12b', '16']
+    # 59 = Óvoda hátulja, Pajkos utca 35
+    invalid: ['2', '8', '10', '10k', '12b', '16', '59']
     ranges:
       - {start: '2', end: '82'}
       - {start: '3', end: '69'}
@@ -1416,8 +1419,10 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '24'}
-  # Nagyszőlős utca:
+  Nagyszőlős utca:
     # 21: Régen volt a b c (survey), most meg 1,2,3 lépcsőház van (KCR). Kint van egy 21/1-is (survey) de ez lépcsőházat jelent. Forrás: https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/ujbudahu/2019_02/skmbt_28319022716080.pdf
+    # 24: Buszgarázs, nem ide van számozva
+    invalid: ['24']
   Nándorfejérvári út:
     # 27: nincs: 25 után 31
     # 29-31: 31 lett belőle
@@ -1689,8 +1694,9 @@ filters:
   Ratkóc utca:
     # 8-tól indulnak a számok a páros oldalon
     # 3: nincs, igazából 9 az első szám a többi a másik utcákra van számozva
+    # 5: Ratkóc köz 2
     # 10/*: csak sima 10 van kiírva, ugyanakkor 10/a a címe a műkörmösnek
-    invalid: ['3', '10b', '10c', '10d']
+    invalid: ['3', '5', '10b', '10c', '10d']
   Rátz László utca:
     # 76-80: 76 és 80 külön bejáratok, 78 nincs
     # 82-86: 82 és 86 külön bejáratok, 84 nincs
@@ -1762,8 +1768,9 @@ filters:
     ranges:
       - {start: '2', end: '130'}
   Rodostó utca:
+    # 4/b: 4 B épület
     # 7: nincs 7/a, csak sima 7
-    invalid: ['7a']
+    invalid: ['4b', '7a']
   Rozmaring utca:
     # not sure about the 16
     # 11/a: 11, 11/b
@@ -1799,7 +1806,8 @@ filters:
     invalid: ['6a', '6c', '6d', '11b', '11c', '70']
   Sáfrány utca:
     # 11/b: nincs
-    invalid: ['11b']
+    # 57: 57/a, 57/b
+    invalid: ['11b', '57']
     ranges:
       - {start: '1', end: '81'}
       - {start: '2', end: '54'}
