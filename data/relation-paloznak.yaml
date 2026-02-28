@@ -115,6 +115,7 @@ street-filters:
 refstreets:
   # ellenőrzött
   'Diófa köz': 'Diófa utca'         # táblán Diófa köz
+  'Kis köz': 'Kisköz utca'          # táblán Kis köz
   # 'Kishegyi út': 'Kishegyi utca'    # táblák vegyesen Kishegyi út és utca
   'Kossuth Lajos utca': 'Kossuth utca'    # táblán Kossuth Lajos utca
   'Mandula út': 'Mandula utca'      # táblán Mandula út
