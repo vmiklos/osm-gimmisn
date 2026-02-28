@@ -19,7 +19,7 @@ street-filters:
   # Ökrös köz - Ökrös utca és a Serpenyő köz között félúton. nincs kiépítve, de táblája kell látszódjon
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Régivám utca': 'Régi vám utca'  # hivatalosan: X. kerület Régi vám utca, XVII. kerület Régivám utca
+  # 'Régivám utca': 'Régi vám utca'  # hivatalosan: X. kerület Régi vám utca, XVII. kerület Régivám utca
   'Forrásmajori dűlőút': 'Forrásmajori dűlő'
   # helyesírás, rövidítés: ref hibás
   'Hizlaló tér': 'Hízlaló tér'
