@@ -289,6 +289,9 @@ filters:
   Kis Rókus utca:
     # 39: 39a és 39b helyette
     invalid: ['39']
+  Krecsányi utca:
+    invalid:
+      - '15' # 13 a vége
   Kút utca:
     ranges:
       - {start: '1', end: '15'}

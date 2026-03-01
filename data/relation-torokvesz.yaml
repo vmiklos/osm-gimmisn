@@ -140,6 +140,9 @@ filters:
     ranges:
       - {start: '1', end: '55'}
       - {start: '2', end: '52'}
+  Krecsányi utca:
+    invalid:
+      - '15' # 13 a vége
   Lorántffy Zsuzsanna út:
     # 20b: 20 és 20a van kitáblázva
     invalid: ['20b']
