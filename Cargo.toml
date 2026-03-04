@@ -6,8 +6,8 @@ license = "MIT"
 
 [dependencies]
 accept-language = "3.1.0"
-anyhow = "1.0.100"
-clap = "4.5.56"
+anyhow = "1.0.102"
+clap = "4.5.60"
 csv = "1.4.0"
 derivative = "2.2.0"
 gettext = "0.4.0"
@@ -18,7 +18,7 @@ isahc = "1.7.2"
 lazy_static = "1.5.0"
 log = "0.4.29"
 once_cell = "1.21.3"
-regex = "1.12.2"
+regex = "1.12.3"
 rouille = "3.6.2"
 rusqlite = { version = "0.38.0", features = ["bundled"] }
 rust_icu_ucol = { version = "5.4.0", optional = true }
@@ -29,12 +29,12 @@ serde_json = "1.0.149"
 serde_yaml = "0.9.34"
 simplelog = "0.12.2"
 time = { version = "0.3.47", features = ["formatting", "macros", "local-offset", "serde-well-known"] }
-toml = "0.9.11"
+toml = "1.0.3"
 unidecode = "0.3.0"
 url = "2.5.8"
 
 [dev-dependencies]
-flate2 = "1.1.8"
+flate2 = "1.1.9"
 sxd-document = "0.3.2"
 sxd-xpath = "0.4.2"
 
