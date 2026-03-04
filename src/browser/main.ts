@@ -47,8 +47,8 @@ async function onGpsClick()
 
     // Get the coordinates.
     createLoader(gps, stats.getString("str-gps-wait"));
-    let latitude = 0;
-    let longitude = 0;
+    let latitude: number;
+    let longitude: number;
     try
     {
         const position = await new Promise<GeolocationPosition>((resolve, reject) => {
