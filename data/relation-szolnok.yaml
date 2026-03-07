@@ -4,7 +4,6 @@ refstreets:
   'Bartók Béla utca': 'Bartók Béla út'
   'Báthory István utca': 'Báthori utca'
   'Bocskai István utca': 'Bocskai utca'
-  'Bulcsu utca': 'Bulcsú utca'  # https://www.openstreetmap.org/note/5142626
   'Damjanich út': 'Damjanich utca'
   'Dr. Kronberg János utca': 'dr. Kronberg János utca'
   'Erdész út': 'Erdész utca'
@@ -25,7 +24,6 @@ refstreets:
   'Simon Ferenc utca': 'Simon Ferenc út'
   'Szolnok Ispán körút': 'Szolnok ispán körút'
   'Tabántelep': 'Tabán telep'
-  'Temető utca': 'Temető út'  # https://www.openstreetmap.org/note/5142632
   'Vásárhelyi Pál utca': 'Vásárhelyi Pál út'
   'Vásártér utca': 'Vásártér'
   'Zsálya utca': 'Zsálya út'
@@ -34,6 +32,9 @@ refstreets:
   'Szent István király utca': 'Szt. István király utca'
   'Szent László király utca': 'Szt. László király utca'
   'Tersánszky Józsi Jenő utca': 'Tersánszky J. Jenő utca'
+  # ellenőrizve
+  'Bulcsu utca': 'Bulcsú utca'  # Táblákon Bulcsu utca - https://www.openstreetmap.org/note/5142626
+  'Temető utca': 'Temető út'  # Tábákon Temető utca - https://www.openstreetmap.org/note/5142632
 street-filters:
   # nem igazi utcák
   - Abonyiút vasúti megálló
