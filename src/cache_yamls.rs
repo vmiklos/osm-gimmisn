@@ -62,7 +62,9 @@ pub fn our_main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
     relation_ids.sort_unstable();
     relation_ids.dedup();
     {
-        let conn = ctx.get_database_connection()?;
+        let conn = ctx
+            .get_database_connection()
+            .context("get_database_connection() failed")?;
         let sql = r#"insert into stats_jsons (category, json) values ('relations', ?1)
                      on conflict(category) do update set json = excluded.json"#;
         conn.execute(sql, [serde_json::to_string(&relation_ids)?])?;
