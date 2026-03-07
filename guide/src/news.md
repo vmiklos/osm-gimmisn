@@ -3,6 +3,8 @@
 ## master
 
 - Resolves: gh#4859 stats, cityprogress: handle when the reference data has lowercase city names
+- Resolves: gh#4738 missing housenumbers, text output: make sure reference data is lowercase,
+  matching the filter house number format
 
 ## 26.2
 
