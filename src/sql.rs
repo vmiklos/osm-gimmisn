@@ -13,11 +13,15 @@
 use anyhow::Context as _;
 
 pub fn init(conn: &mut rusqlite::Connection) -> anyhow::Result<()> {
-    let tx = conn.transaction()?;
+    conn.busy_timeout(std::time::Duration::from_secs(20))?;
+    let tx = conn.transaction().context("transaction() failed")?;
     let user_version: i64 = {
         let mut stmt = tx.prepare("pragma user_version")?;
         let mut rows = stmt.query([])?;
-        let row = rows.next()?.context("no row")?;
+        let row = rows
+            .next()
+            .context("rows next() failed")?
+            .context("no row")?;
         row.get(0).context("no col")?
     };
     if user_version < 1 {
@@ -359,7 +363,7 @@ pub fn init(conn: &mut rusqlite::Connection) -> anyhow::Result<()> {
     }
 
     tx.execute("pragma user_version = 21", [])?;
-    tx.commit()?;
+    tx.commit().context("commit() failed")?;
     Ok(())
 }
 

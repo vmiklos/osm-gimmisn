@@ -70,7 +70,7 @@ pub trait Database {
     /// Opens and initializes a new database connection.
     fn create(&self) -> anyhow::Result<rusqlite::Connection> {
         let mut conn = self.open()?;
-        sql::init(&mut conn)?;
+        sql::init(&mut conn).context("sql::init() failed")?;
         Ok(conn)
     }
 }
@@ -358,7 +358,9 @@ impl Context {
     /// Gets the database connection.
     pub fn get_database_connection(&self) -> anyhow::Result<RefMut<'_, rusqlite::Connection>> {
         let f = || -> anyhow::Result<Rc<RefCell<rusqlite::Connection>>> {
-            Ok(Rc::new(RefCell::new(self.database.create()?)))
+            Ok(Rc::new(RefCell::new(
+                self.database.create().context("create() failed")?,
+            )))
         };
         let connection: &Rc<RefCell<rusqlite::Connection>> = self.connection.get_or_try_init(f)?;
         Ok(connection.borrow_mut())
