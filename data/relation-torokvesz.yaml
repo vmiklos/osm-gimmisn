@@ -178,6 +178,9 @@ filters:
     ranges:
       - {start: '1', end: '91'}
       - {start: '2', end: '60'}
+  Napvirág utca:
+    invalid:
+      - '6' # 6a, 6b, 6c, 6d
   Orsó utca:
     invalid:
       - '29' # 29a, 29b helyette

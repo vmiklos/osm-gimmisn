@@ -370,6 +370,9 @@ filters:
   Nagybányai lépcső:
     # nincs házszám
     invalid: ['62a', '65']
+  Napvirág utca:
+    invalid:
+      - '6' # 6a, 6b, 6c, 6d
   Orsó utca:
     invalid:
       - '29' # 29a, 29b helyette
