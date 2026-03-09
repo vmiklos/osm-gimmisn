@@ -129,6 +129,7 @@ street-filters:
   - Camping utca
 osm-street-filters:
   # park, sétány
+  - Alsó Nagy-liget
   - Kvassay sétány  # Kvassay Jenőról lett elnevezve a sétány. A kikötőben szobra is van.
   # Kőröshegy átlógó utcák
   - Ágos sziget
