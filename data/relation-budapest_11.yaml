@@ -247,6 +247,9 @@ filters:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '46'}
+  Bódog utca:
+    # 4-8: teniszpályák, nincs semmi kiírva
+    invalid: ['4-8']
   #Bogdánfy utca:
   Bogyó utca:
     # valosagban 1-7 a kiirt, de van meg egy epulet
@@ -736,7 +739,9 @@ filters:
     ranges:
       - {start: '1', end: '27'}
       - {start: '2', end: '24'}
-  # Gyoma utca:
+  Gyoma utca:
+    # 16b: 16 és 16/a
+    invalid: ['16b']
   # Györök utca:
   Gyula utca:
     ranges:
@@ -956,9 +961,12 @@ filters:
       - {start: '2', end: '44'}
   Kánai út:
     # páros számok 4-től indulnak
-    # 2a: talán a focipálya, kiírva nincs, 1 sportegyesületi hivatkozás van rá
+    # 2a: uszoda K-i telke, kiírva nincs, 1 sportegyesületi hivatkozás van rá
+    # 2b: uszoda telekkönyvi címe, 2-t használja
     # 3: 3/a, 3/b
-    invalid: ['2a']
+    # 9-11: csak 9 van kiírva
+    # 27: másik utcára számozva
+    invalid: ['2a', '2b', '9-11', '27']
   Kanizsai utca:
     # 2a: 2-10 A épület, az épületen 2-es szám
     invalid: ['1a', '2a']
@@ -966,8 +974,8 @@ filters:
     # 6: 6/a, 6/b, 6/c
     invalid: ['6']
   Kapolcs utca:
-    # Nincs 12 és 14, a 10 után közvetlenül a 16 következik.
-    invalid: ['12']
+    # Nincs 12 és 14, a 10 után közvetlenül a 16 következik, ami az autókereskedés.
+    invalid: ['12', '14']
   Kápolna köz:
     # Nincs 1 és 3, az 5-7 az első épület a páratlan oldalon.
     # Nincs 2, 4, 6, 8, a 10 az első épület a páros oldalon.
@@ -1175,12 +1183,13 @@ filters:
   # Kőrösy József utca:
   Kővirág sor:
     # 2-16 Budafok, ott interpolation: all, a XI. kerületi részen nem
+    # 19-21 = Ivanics, Méhész utca 2-4
     # 37 = Putnok utca 20
     # 63a: csak sima 63 van, illetve osm-ben 63/b, s helyszínen nincs kiírva semmit
     # 95/b: 95, 95/a
     # 97b: csak 97 és 97/a van
     # 113-121: focipálya, innen nincs szám
-    invalid: ['63a', '95b', '97b', '113', '115', '117', '119', '121']
+    invalid: ['19-21', '63a', '95b', '97b', '113', '115', '117', '119', '121']
   Kubikos utca:
     # 1 = Szajol utca 9
     # 2 = nincs ház, valószínű, 2-4 lenne hivatalosan az első ház, de csak 4 van kiírva
@@ -1272,7 +1281,8 @@ filters:
     invalid: ['1']
   Marokszedő utca:
     # 11a: csak sima 11 van már
-    invalid: ['11a']
+    # 26a: 26 és 26/b van
+    invalid: ['11a', '26a']
   Márton Áron tér:
     interpolation: 'all'
     ranges:
@@ -1760,11 +1770,12 @@ filters:
   Ringló út:
     # Területhatár, páratlan: Budafok
     # 2 = Méhész utca 8.
+    # 12/a,b,c: csak 12 van kiírva
     # 44 = Mélykút utca 1
     # 76a, 76b: 76/a és 76/ab van kiírva
     # 80: 80/1, 80/2
     # 120 = Bazsalikom utca 2
-    invalid: ['2', '24', '44', '76b', '80', '120']
+    invalid: ['2', '12a', '12b', '12c', '24', '44', '76b', '80', '120']
     ranges:
       - {start: '2', end: '130'}
   Rodostó utca:
