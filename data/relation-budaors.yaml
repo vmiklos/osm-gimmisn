@@ -146,6 +146,10 @@ filters:
   Dér utca:
     # Máriavölgy utcai régi számok vannak kint. RESURVEY 2027
     invalid: ['13', '15', '17']
+  Diófa utca:
+    # 8a, 8b: 8 és 8/1
+    # 14: semmi + 14/b van kiírva
+    invalid: ['8a', '8b', '14']
   Dózsa György utca:
     # 36: 32 van kiírva, a végét földhivatal szerint újraszámozták, de helyszínen ennek nincs nyoma. RESURVEY 2025.
     invalid: ['36']
@@ -178,8 +182,10 @@ filters:
     # nincsenek kiírva házszámok
     invalid: ['10']
   Farkasréti út:
-    # 40 után 52
-    invalid: ['42', '44']
+    # 42, 44: 40 után 52
+    # 69a: csak sima 69
+    # 77/*: 77, 77/b, 77/c van
+    invalid: ['42', '44', '69a', '77/2', '77a']
   Fehérvirág köz:
     # 1 = Szilva utca 5
     invalid: ['1']
