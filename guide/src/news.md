@@ -5,6 +5,7 @@
 - Resolves: gh#4859 stats, cityprogress: handle when the reference data has lowercase city names
 - Resolves: gh#4738 missing housenumbers, text output: make sure reference data is lowercase,
   matching the filter house number format
+- Resolves: gh#4470 database locking: increase timeout to 20s when waiting for a lock release
 
 ## 26.2
 
