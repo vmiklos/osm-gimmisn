@@ -89,6 +89,9 @@ filters:
     ranges:
       - {start: '61', end: '99'}
       - {start: '2', end: '98'}
+  Fenyves utca:
+    invalid:
+      - '10a' # 10 és 10b helyette
   Fillér utca:
     # 45-47: /a és/b helyette
     # 53: 53/b helyette

@@ -188,6 +188,9 @@ filters:
       - {start: '2', end: '130'}
   Felvinci út:
     invalid: ['39']
+  Fenyves utca:
+    invalid:
+      - '10a' # 10 és 10b helyette
   Ferenchegyi út:
     # 4: 2-16 MNB komplexum oldala, 18/a az első ház a páros oldalon
     ranges:
