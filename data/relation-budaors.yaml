@@ -188,10 +188,12 @@ filters:
   Farkasréti út:
     # 42, 44: 40 után 52
     # 69a: csak sima 69
+    # 71b: csak sima 71
+    # 73: 73/a illetve hátul egy új ház szám nélkül
     # 77/*: 77, 77/b, 77/c van
     # 105/2: csak 105
     # 115: 115/A, 115/B
-    invalid: ['42', '44', '69a', '77/2', '77a', '105/2', '115']
+    invalid: ['42', '44', '69a', '71b', '73', '77/2', '77a', '105/2', '115']
   Fehérvirág köz:
     # 1 = Szilva utca 5
     invalid: ['1']
