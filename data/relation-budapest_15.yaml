@@ -180,6 +180,8 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '20'}
+refstreets:
+  'Kékszilva út': 'Kékszilva utca'  # hivatalosan Kékszilva út, kiépítés alatt: Kékszilva út - https://www.openstreetmap.org/way/1269048299
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Újmajor
@@ -191,7 +193,6 @@ street-filters:
   # - Erdő menti út  # Az SZT-n "Erdőmenti" szerepel.
   - Hagyma utca
   - Káka köz
-  - Kékszilva utca  # kiépítés alatt: Kékszilva út - https://www.openstreetmap.org/way/1269048299
   - Kukorica utca
   - Nadály utca
   - Paszternák utca
