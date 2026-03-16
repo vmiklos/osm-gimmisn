@@ -191,7 +191,7 @@ street-filters:
   # - Erdő menti út  # Az SZT-n "Erdőmenti" szerepel.
   - Hagyma utca
   - Káka köz
-  # - Kékszilva út
+  - Kékszilva utca  # kiépítés alatt: Kékszilva út - https://www.openstreetmap.org/way/1269048299
   - Kukorica utca
   - Nadály utca
   - Paszternák utca
