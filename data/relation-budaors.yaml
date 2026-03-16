@@ -386,7 +386,8 @@ filters:
   Kőhalom utca:
     interpolation: all
   Kőhát utca:
-    invalid: ['11']
+    # 16: 16/A, 16/B
+    invalid: ['11', '16']
     ranges:
       - {start: '1', end: '21'}
       - {start: '4', end: '22'}
@@ -793,8 +794,12 @@ filters:
     invalid: ['1', '7', '9', '19', '51', '62', '72']
   Virág utca:
     invalid: ['3']
+  Virágos utca:
+    # 8: nincs kiírva
+    invalid: ['8']
   Víztorony utca:
-    invalid: ['7']
+    # 9/b: 2 db 9-es ház van egy új és egy régi
+    invalid: ['9b']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '22'}
