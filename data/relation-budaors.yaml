@@ -170,7 +170,8 @@ filters:
     invalid: ['17']
   Erdész utca:
     # 5: csomó bódé, 7-es van csak  kiírva a páratlan oldalon
-    invalid: ['5']
+    # 36: 24 van kiírva a helyén
+    invalid: ['5', '36']
   Erdőalja utca:
     # 2, 12 nincs kiírva, de ez utóbbi egyértelnű
     interpolation: all
@@ -293,6 +294,9 @@ filters:
   Kadarka utca:
     # nincsenek házszámok
     invalid: ['5']
+  Kajszi utca:
+    # 15: utolsó házszám a 13
+    invalid: ['15']
   Kálvária utca:
     ranges:
       - {start: '1', end: '15'}
@@ -743,8 +747,8 @@ filters:
     interpolation: all
     invalid: ['3']
   Tölgy utca:
-    # semmilyen házszám sincs kiírva az utcában
-    invalid: ['1', '3']
+    # semmilyen házszám sincs kiírva az utcában, csak az 1.
+    invalid: ['3', '24']
   Törökugrató utca:
     # 24, 26: 22 után 28
     # 96: max páros 40
@@ -800,10 +804,14 @@ filters:
       - {start: '2', end: '28'}
   Zengő utca:
     # 45 = 44. lakó szerint el van írva a szám, de még nem hivatalos
-    invalid: ['45', '56']
+    # 50/*: nincs kiírva
+    invalid: ['45', '56', '50', '50a', '50b']
   Zichy Péter utca:
     # 32: utolsó szám a 6-os
     invalid: ['32']
+  Zivatar utca:
+    # 7: nincs
+    invalid: ['7']
   Zombori utca:
     # 44: 42 után 48 jön. ETDR szerint 46 épül, földhivatal szerint 42-46 RESURVEY 2023.07
     # 57: 55 után 59 jön, az 55 ikerházm de nincs kiírva az 57, inkább 55/a-nak látszik a kukán
