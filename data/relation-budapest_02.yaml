@@ -59,6 +59,12 @@ filters:
     # 5-9: erdő van a helyén, de már nem sokáig
     # 11-17: csak 17 van kiírva
     invalid: ['11', '13', '15']
+  Battai út:
+    invalid:
+      - '3b' # 3, 3a helyette
+      - '7' # 7a, 7b helyette
+      - '10b' # 10, 10a helyette
+      - '20' # 20b helyette
   Batyu utca:
     invalid:
       - '9b' # 9 helyette
