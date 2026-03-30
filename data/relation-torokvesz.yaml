@@ -28,6 +28,8 @@ filters:
       - {start: '1', end: '9'}
       - {start: '2', end: '12'}
   Battai út:
+    invalid:
+      - '10b' # 10, 10a helyette
     ranges:
       - {start: '2', end: '12'}
   Batyu utca:
