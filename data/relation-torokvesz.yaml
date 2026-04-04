@@ -220,6 +220,9 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '24'}
+  Sövény utca:
+    invalid:
+      - '1' # helyette 1a, 1b
   Törökvész út:
     ranges:
       - {start: '84', end: '126'}

@@ -469,6 +469,9 @@ filters:
       - {start: '1', end: '5'}
       - {start: '2', end: '10'}
   # Rügy utca:
+  Sövény utca:
+    invalid:
+      - '1' # helyette 1a, 1b
   Szilágyi Erzsébet fasor:
     # páros XII. kerület
     # 5a: 5 van kitáblázva
