@@ -289,6 +289,16 @@ filters:
     ranges:
       - {start: '1', end: '63'}
       - {start: '2', end: '52'}
+    invalid:
+      - '1' # helyette 1a, 1b
+      - '41a' # helyette 41
+      - '41b'
+      - '45' # helyette 45a, 45b
+      - '49' # helyette 49a, 49b
+      - '12a' # helyette 12, 12b
+      - '14' # helyette 14a, 14b
+      - '26' # helyette 26a, 26b
+      - '34b' # helyette 34
   Keleti Károly utca:
     # 11a: 11/A-B van kitáblázva
     # 18: 18/... van kitáblázva
