@@ -902,7 +902,7 @@ impl<'a> Relation<'a> {
             }
         }
         // Sort by length, reverse.
-        ongoing_streets.sort_by(|a, b| b.house_numbers.len().cmp(&a.house_numbers.len()));
+        ongoing_streets.sort_by_key(|b| std::cmp::Reverse(b.house_numbers.len()));
 
         Ok(MissingHousenumbers {
             ongoing_streets,
@@ -1151,7 +1151,7 @@ impl<'a> Relation<'a> {
             }
         }
         // Sort by length, reverse.
-        additional.sort_by(|a, b| b.house_numbers.len().cmp(&a.house_numbers.len()));
+        additional.sort_by_key(|b| std::cmp::Reverse(b.house_numbers.len()));
 
         Ok(additional)
     }
