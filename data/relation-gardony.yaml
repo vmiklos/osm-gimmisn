@@ -73,5 +73,7 @@ osm-street-filters:
   - Biblia pihenőpark
   - Pálmajorpuszta  # Pálmajor puszta, nem mappelhető
   - Meggyfa sor / Meggyfasor utca  # településhatár, az utca 2 oldalán eltérő név, OSM-ben a házszámok Meggyfa soron vannak, ezért ezt el kell nyomni
+  - Opál sétány
+  - Fehér sétány
 source: survey
 inactive: true
