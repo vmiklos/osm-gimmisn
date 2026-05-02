@@ -68,7 +68,6 @@ refstreets:
   'Hétvezér tér': 'Hét vezér tér'
   'Kerékkötő utca': 'Kerékkötő út'
   'Rudavszky utca': 'Rudawszky utca'
-  'Rim utca': 'Rím utca'
 source: survey
 inactive: true
 housenumber-letters: true
