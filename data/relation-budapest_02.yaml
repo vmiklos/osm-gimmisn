@@ -194,6 +194,9 @@ filters:
       - {start: '2', end: '130'}
   Felvinci út:
     invalid: ['39']
+  Fenyves lejtő:
+    invalid:
+      - '18' # 18a és 18b helyette
   Fenyves utca:
     invalid:
       - '10a' # 10 és 10b helyette
