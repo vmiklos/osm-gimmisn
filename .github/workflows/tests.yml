@@ -14,10 +14,10 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@v1
         with:
-          toolchain: 1.94.1
+          toolchain: 1.95.0
           components: rustfmt, clippy, llvm-tools-preview
       - name: Rust Cache
-        uses: actions/cache@v5.0.4
+        uses: actions/cache@v5.0.5
         with:
           path: |
             ~/.cargo/bin/
@@ -25,9 +25,9 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-cargo-1.94.1-${{ hashFiles('**/Cargo.toml') }}
+          key: ${{ runner.os }}-cargo-1.95.0-${{ hashFiles('**/Cargo.toml') }}
       - name: Setup Node
-        uses: actions/setup-node@v6.3.0
+        uses: actions/setup-node@v6.4.0
         with:
           node-version: 22
       - name: Run make check
