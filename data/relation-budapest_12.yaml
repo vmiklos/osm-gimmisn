@@ -416,7 +416,7 @@ osm-street-filters:
   - Mozgássérült gyakorlópark
   - Városmajor
   - vsb
-  # Parkok házszám nélkül
+  # Parkok, sétányok házszám nélkül
   - Barabás-villa kertje
   - Csörsz park
   - Diana park
@@ -424,6 +424,7 @@ osm-street-filters:
   - Eötvös Loránd park
   - Gesztenyés kert
   - Mini Városmajor park
+  - Sirály sétány
   - Zugligeti Szent Család Plébánia
   # Hivatalosan nincs, de utcatábla van
   - Kalóz köz
