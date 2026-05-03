@@ -86,6 +86,7 @@ osm-street-filters:
   - M44
   # parkok
   - Diófás
+  - ErdőPark Kecskemét
   - Guba park
   - Hankovszky Zsigmond liget
   - Honvéd park
@@ -95,6 +96,8 @@ osm-street-filters:
   - Nádasdy park
   - Petőfi park
   - Vasútkert
+  #
+  - Árpádvárosi játszótér
 source: survey
 housenumber-letters: false
 inactive: true
