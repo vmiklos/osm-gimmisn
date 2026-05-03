@@ -106,6 +106,7 @@ street-filters:
   - Szinese major
   - Zeli major
 osm-street-filters:
+  - Zanati kerékpárút
   # parkok/sétányok
   - Boldog Brenner János liget
   - Brenner park
@@ -119,6 +120,9 @@ osm-street-filters:
   - Szabó Éva sétány
   - Szent Qurinus sétány
   - Tóth István park
+  - Wagner András sétány
+  #
+  - Saághy István Erdészeti Információs Központ 
 source: survey
 housenumber-letters: true
 inactive: true
