@@ -179,6 +179,8 @@ osm-street-filters:
   - Tömörkény üdülőtelep
   # átlógó
   - Tanya
+  # 2 nevű
+  - Beszterce utca / Rába utca
 source: survey
 housenumber-letters: true
 inactive: true
