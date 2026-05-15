@@ -93,9 +93,18 @@ pub struct StdNetwork {}
 
 // Real network is intentionally mocked.
 impl Network for StdNetwork {
-    fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
+    fn urlopen(
+        &self,
+        url: &str,
+        data: &str,
+        headers: &HashMap<String, String>,
+    ) -> anyhow::Result<String> {
         if !data.is_empty() {
-            let mut response = isahc::Request::post(url)
+            let mut builder = isahc::Request::post(url);
+            for (key, value) in headers {
+                builder = builder.header(key, value);
+            }
+            let mut response = builder
                 .redirect_policy(isahc::config::RedirectPolicy::Limit(1))
                 .timeout(Duration::from_secs(425))
                 .body(data)?
@@ -108,7 +117,11 @@ impl Network for StdNetwork {
             return Ok(ret);
         }
 
-        let mut response = isahc::Request::get(url)
+        let mut builder = isahc::Request::get(url);
+        for (key, value) in headers {
+            builder = builder.header(key, value);
+        }
+        let mut response = builder
             .redirect_policy(isahc::config::RedirectPolicy::Limit(1))
             .timeout(Duration::from_secs(425))
             .body(())?

@@ -288,7 +288,12 @@ impl TestNetwork {
 
 impl Network for TestNetwork {
     /// Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST.
-    fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
+    fn urlopen(
+        &self,
+        url: &str,
+        data: &str,
+        _headers: &HashMap<String, String>,
+    ) -> anyhow::Result<String> {
         let mut ret: String = "".into();
         let mut remove: Option<usize> = None;
         let mut locked_routes = self.routes.borrow_mut();
