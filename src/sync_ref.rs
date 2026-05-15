@@ -54,7 +54,9 @@ pub fn download(
             }
 
             stream.write_all(format!("sync-ref: downloading '{url}'...\n").as_bytes())?;
-            let buf = ctx.get_network().urlopen(&url, "")?;
+            let buf = ctx
+                .get_network()
+                .urlopen(&url, "", &std::collections::HashMap::new())?;
             ctx.get_file_system().write_from_string(&buf, &dest)?;
         }
         for path in ctx
@@ -128,7 +130,9 @@ pub fn our_main(
 
     // Download HTML.
     let url = url.context("missing url")?;
-    let mut html = ctx.get_network().urlopen(url, "")?;
+    let mut html = ctx
+        .get_network()
+        .urlopen(url, "", &std::collections::HashMap::new())?;
     // Work around 'expected attribute key' failure.
     html = html.replace(
         r#"<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">"#,

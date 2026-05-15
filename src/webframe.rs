@@ -33,7 +33,7 @@ pub fn get_footer(last_updated: &str) -> yattag::Doc {
         doc.text(&tr("Version: "));
         doc.append_value(
             util::git_link(
-                git_version::git_version!(args = ["--always", "--long"]),
+                util::VERSION,
                 "https://github.com/vmiklos/osm-gimmisn/commit/",
             )
             .get_value(),

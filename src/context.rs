@@ -15,6 +15,7 @@ use once_cell::unsync::OnceCell;
 use std::cell::Ref;
 use std::cell::RefCell;
 use std::cell::RefMut;
+use std::collections::HashMap;
 use std::io::Read;
 use std::io::Write;
 use std::path::Path;
@@ -80,7 +81,12 @@ pub use system::StdDatabase;
 /// Network interface.
 pub trait Network {
     /// Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST.
-    fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String>;
+    fn urlopen(
+        &self,
+        url: &str,
+        data: &str,
+        headers: &HashMap<String, String>,
+    ) -> anyhow::Result<String>;
 }
 
 pub use system::StdNetwork;

@@ -39,6 +39,9 @@ lazy_static! {
     static ref GIT_HASH: regex::Regex = regex::Regex::new(r".*-g([0-9a-f]+)(-modified)?").unwrap();
 }
 
+/// The version of the application, from git.
+pub const VERSION: &str = git_version::git_version!(args = ["--always", "--long"]);
+
 /// A house number range is a string that may expand to one or more HouseNumber instances in the
 /// future. It can also have a comment.
 #[derive(Clone, Debug)]

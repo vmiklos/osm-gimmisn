@@ -11,6 +11,16 @@
 //! The overpass_query module allows getting data out of the OSM DB without a full download.
 
 use crate::context;
+use crate::util;
+use lazy_static::lazy_static;
+use std::collections::HashMap;
+
+lazy_static! {
+    static ref USER_AGENT: String = format!(
+        "osm-gimmisn/{} (GitHub: vmiklos/osm-gimmisn)",
+        util::VERSION
+    );
+}
 
 #[cfg(not(test))]
 use log::info;
@@ -21,14 +31,18 @@ use std::println as info;
 /// Posts the query string to the overpass API and returns the result string.
 pub fn overpass_query(ctx: &context::Context, query: &str) -> anyhow::Result<String> {
     let url = ctx.get_ini().get_overpass_uri() + "/api/interpreter";
+    let mut headers = HashMap::new();
+    headers.insert("User-Agent".to_string(), USER_AGENT.to_string());
 
-    ctx.get_network().urlopen(&url, query)
+    ctx.get_network().urlopen(&url, query, &headers)
 }
 
 /// Checks if we need to sleep before executing an overpass query.
 pub fn overpass_query_need_sleep(ctx: &context::Context) -> i32 {
     let url = ctx.get_ini().get_overpass_uri() + "/api/status";
-    let status = match ctx.get_network().urlopen(&url, "") {
+    let mut headers = HashMap::new();
+    headers.insert("User-Agent".to_string(), USER_AGENT.to_string());
+    let status = match ctx.get_network().urlopen(&url, "", &headers) {
         Ok(value) => value,
         _ => {
             return 0;
