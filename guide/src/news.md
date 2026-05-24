@@ -6,6 +6,7 @@
 - Resolves: gh#4738 missing housenumbers, text output: make sure reference data is lowercase,
   matching the filter house number format
 - Resolves: gh#4470 database locking: increase timeout to 20s when waiting for a lock release
+- Resolves: gh#4956 set User-Agent as a HTTP header when talking to overpass
 
 ## 26.2
 
