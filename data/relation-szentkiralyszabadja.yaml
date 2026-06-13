@@ -128,8 +128,12 @@ street-filters:
   # - Vödörvölgy
 osm-street-filters:
   # átlógó/határoló utcák
+  - Géza köz
+  - Magyar utca
+  - Othelló utca
   - Pinkóczi út
   - Pint utca
+  - Szürkebarát utca
   - Vödörvölgyi út
   # nem igazi utcák
   - Szent István kerékpárút 
