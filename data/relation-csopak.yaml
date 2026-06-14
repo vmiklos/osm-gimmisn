@@ -313,6 +313,8 @@ street-filters:
   - Haraszti-dűlő utca
 osm-street-filters:
   - Milleneumi park
+  # átlógó
+  - Szőlőkalja utca
 source: survey
 housenumber-letters: true
 inactive: true
