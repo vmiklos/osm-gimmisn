@@ -40,13 +40,34 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
   Bimbó út:
-    # 104: 102 után 106
-    # 131: 131 A, B, C épületek
-    # 168: 168 A, B épületek
-    # 183 = Rügy utca 10
-    # 191 = Balogh Ádám utca 18/a
-    # 208: 206/a, 206, 210
-    invalid: ['104', '131', '168', '183', '191', '208']
+    invalid:
+      # 104: 102 után 106
+      - '104'
+      - '125' # csak 125a van kiírva
+      - '125b' # csak 125a van kiírva
+      # 131: 131 A, B, C épületek
+      - '131'
+      - '150a' # 150, 150b helyette
+      - '152' # a, b helyette
+      - '153' # csak 151 van kiírva
+      - '155a' # 151 után 157
+      - '155b' # 151 után 157
+      - '156' # a, b helyette
+      - '159' # a, b helyette
+      - '161' # a, b helyette
+      # 168: 168 A, B épületek
+      - '168'
+      - '175' # a, b helyette
+      - '176' # 174 után 180
+      - '178' # 174 után 180
+      - '179' # a, b helyette
+      # 183 = Rügy utca 10
+      - '183'
+      # 191 = Balogh Ádám utca 18/a
+      - '191'
+      - '207a' # 207, 207b helyette
+      # 208: 206/a, 206, 210
+      - '208'
     ranges:
       - {start: '102', end: '234'}
       - {start: '103', end: '207'}
