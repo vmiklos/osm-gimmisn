@@ -27,10 +27,10 @@ refstreets:
   'Kálvin tér': 'Calvin tér'  # táblán: Kálvin tér (2023-07-24)
   'Kocsi utca': 'Kocsi köz'  # Kocsi utca van az utcanévtáblán, de Kocsi közre van számozva az összes épület (2026-02-21) - https://www.openstreetmap.org/note/3701531
   'Loránd utca': 'Lóránd utca'  # az utcanévtáblákon rövid O-val van, a házszámtáblákon hosszú Ó-val. OSM-en hagytam röviden. (2024-06-22)
+  'Simonpuszta': 'Simon puszta'  # egybeírják - https://www.openstreetmap.org/note/3701592
   'Vízöntő utca': 'Vízöntő út'  # Ipari park: táblán Vízöntő utca (2023-02-18)
   # kérdéses
   'Sánchegyi út': 'Sánchegyi utca'  # https://www.openstreetmap.org/note/3701589
-  'Simonpuszta': 'Simon puszta'  # https://www.openstreetmap.org/note/3701592
 street-filters:
   # nem igazi utcák
   - Belterület
