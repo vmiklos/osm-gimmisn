@@ -84,6 +84,8 @@ osm-street-filters:
   - Vaszary Gábor emlékpark
   # dűlők
   - Baricska dűlő
+  # átlógó
+  - Erdőalja utca
 source: survey
 housenumber-letters: true
 inactive: true
