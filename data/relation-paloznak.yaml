@@ -108,7 +108,11 @@ osm-street-filters:
   # átlógó Alsóörs
   - Balaton utca
   # átlógó Lovas
+  - Benke út
+  - Forrás köz
   - Határ út
+  # átlógó Csopak
+  - Sirály utca
 street-filters:
   # nem igazi utcák
   - 30-as őrház utca  # 71-es főút lenne, ott nincs nyoma
