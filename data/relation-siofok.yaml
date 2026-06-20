@@ -31,7 +31,6 @@ refstreets:
   'Béri Balogh Ádám utca': 'Béri Balog Ádám utca'  # Béri Balogh Ádám utca szerepel az utcanévtáblán is H-val a végén.
   'Csordahegy köz': 'Csorda-hegy köz'
   'Halápy János utca': 'Halápi János utca'
-  'Hubay Jenő utca': 'Hubai Jenő utca'  # A teljes név van kitáblázva, Y-nal a vezetéknév végén.
   'Medgyessy Ferenc utca': 'Medgyesi Ferenc utca'
   'Szilágyi Erzsébet utca': 'Szilágyi Erzsébet fasor'  # Szilágyi Erzsébet utca szerepel a táblán
   'Szépvölgyi köz': 'Szép-völgyi köz'  # Nincs utcanévtábla, csak az egyik épületre van kiírva egybe írva.
@@ -49,6 +48,7 @@ refstreets:
   # - Cseppkő utca: kint van a Cseppkő utca tábla, de nincs meg az utca :) A FÖMI-n még látszik egy földút, de a Maxaron már parcellázott, beépített terület. Az „utca” valószínűleg a fasor helyén lesz majd valamikor. vagy volt, csak a természet visszahódította.
   # - Patak utca: a vége hiányzott a térképről. Megrajzoltam, elneveztem.
   # - Rákóczi Ferenc utca: teljes névvel és csak vezetéknévvel is ki van táblázva. Az OSM-en átírtam teljes névre.
+  # - Hubay Jenő utca: A teljes név van kitáblázva, Y-nal a vezetéknév végén. ref dupla volt y/i
 street-filters:
   # nem igazi utcák
   - Állami Gazdaság major
@@ -64,11 +64,19 @@ street-filters:
   - Szigeti szőlőhegy
   - Töreki hegy
   - Töreki puszta
+  # kérdéses
+  # Gyümölcs utca - https://www.openstreetmap.org/note/5353324
+  # Hegyhát utca  - https://www.openstreetmap.org/note/5353327
+  # Hegyi utca    - https://www.openstreetmap.org/note/5353332
+  # Illyés Gyula utca - https://www.openstreetmap.org/note/5353378
+  # Kenéz utca    - https://www.openstreetmap.org/note/5353390
+  # Szélső utca   - https://www.openstreetmap.org/note/5353595
 osm-street-filters:
   # Nem valós utcák
   - M7 autópálya
-  # parkok
+  # parkok/sétányok
   - Szent Miklós park
+  - Tamás fasor
   # Balatonviláos
   - Temető utca
   - Vörösmarty utca
