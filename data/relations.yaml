@@ -995,6 +995,10 @@ zanka:
     osmrelation: 1078485
     refcounty: "19"
     refsettlement: "216"
+zirc:
+    osmrelation: 1078490
+    refcounty: "19"
+    refsettlement: "217"
 # 20 - Zala megye
 balatongyorok:
     osmrelation: 1360488
