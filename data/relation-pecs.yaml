@@ -47,7 +47,7 @@ refstreets:
   'Zidina környék': 'Zidina'
   'Zipernovszky Károly utca': 'Zipernowsky Károly utca'
   'Zsebetető utca': 'Zsebe-tető utca'
-  'Zártkerti út': 'Zártkerti utca'
+  # 'Zártkerti út': 'Zártkerti utca' -- Homokvasút utca?
   'Égetthegyi út': 'Égett-hegyi út'
 street-filters:
   # nem igazi utcák
@@ -75,6 +75,8 @@ street-filters:
 osm-street-filters:
   # nem igazi utcák
   - Árpád híd
+  - Ördögárok Cross pálya
+  - Wakeboard park
   # parkok/sétányok
   - A Hősök kertje
   - Ágoston park
@@ -94,6 +96,7 @@ osm-street-filters:
   - Honfoglalás park
   # - Játszótér park
   - Kálvária domb
+  - Kisszkókó park
   - Komarov park
   - Kőbánya park
   - Kőkert
@@ -111,6 +114,7 @@ osm-street-filters:
   # - Wakeboard park
   # turistautak
   - Balog Károly út
+  - Lámpás-völgy
   - Rotary körsétány
   - Stiglicfogdosó
   - Vasasi-árok
