@@ -32,6 +32,8 @@ osm-street-filters:
   - Sziget színház park
   - Üdvözlő park
   - Városháza park
+  # ipari park
+  - ÁTI-Sziget Ipari Park
   # nem igazi utcák
   - Leshegy dűlő  # Nemzeti Közlekedési Hatóság
   - M0
