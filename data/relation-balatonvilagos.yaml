@@ -51,6 +51,7 @@ osm-street-filters:
   # átlógó
   - Cseresznye utca
   - Fenyő utca
+  - Luca utca
 source: survey
 housenumber-letters: true
 inactive: true
