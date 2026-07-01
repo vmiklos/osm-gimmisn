@@ -365,8 +365,6 @@ street-filters:
   - Laci-major
   # Bakony Művek, nincs táblázva semmi, nem eldönthető
   - Szerelde köz
-  # átlógó
-  - Esztergáli-völgy
 osm-street-filters:
   # parkok, sétányok, ösvények
   - Carlos Perez sétány
@@ -387,6 +385,8 @@ osm-street-filters:
   - Hadiút
   # nincs táblázva, nem eldönthető
   - Cserhát utca
+  # átlógó
+  - Esztergáli-völgy
 source: survey
 housenumber-letters: true
 inactive: true
