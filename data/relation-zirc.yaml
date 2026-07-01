@@ -1,3 +1,8 @@
+missing-streets: 'yes'
+filters:
+  Béke utca:
+    # 42: max páros: 38
+    invalid: ['42']
 refstreets:
   'Borzavári út': 'Borzavári utca'
   'Háromhegyi utca': 'Három-hegyi utca'
@@ -7,3 +12,6 @@ refstreets:
   'Pintérhegyi erdősor': 'Pintér-hegyi erdősor'
   # ellenőrzött
   'Jókai utca': 'Jókai Mór utca' # táblán Jókai utca
+source: survey
+housenumber-letters: true
+inactive: false
