@@ -54,6 +54,7 @@ osm-street-filters:
 street-filters:
   - Kisavas sor  # Kisavas, Első sor stb. osm-en
   - Tiszai pályaudvar  # Van rendes címe
+  - Meredély dűlő  # határozat visszavonva - https://minap.hu/miskolc/2026/06/23/visszavontak-meredely-dulo-elnevezest
   # - Sporttelep utca  # átnevezve: Vanger Vilmos utca
   # - Vendég utca  # átnevezve: Vanger Vilmos utca
   # dupla
