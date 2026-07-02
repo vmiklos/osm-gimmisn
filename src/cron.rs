@@ -179,7 +179,7 @@ fn write_city_count_path(
     let mut conn = ctx.get_database_connection()?;
     let tx = conn.transaction()?;
     let now = ctx.get_time().now();
-    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let format = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
     for (key, value) in cities {
         tx.execute(
@@ -203,7 +203,7 @@ fn write_zip_count_path(
     let mut conn = ctx.get_database_connection()?;
     let tx = conn.transaction()?;
     let now = ctx.get_time().now();
-    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let format = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
     for (key, value) in zips {
         tx.execute(
@@ -293,7 +293,7 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
         let mut conn = ctx.get_database_connection()?;
         let tx = conn.transaction()?;
         let now = ctx.get_time().now();
-        let format = time::format_description::parse("[year]-[month]-[day]")?;
+        let format = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
         let today = now.format(&format)?;
         for user in &users {
             tx.execute(
@@ -393,7 +393,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     info!("update_stats: start, updating the whole_country table");
     let statedir = ctx.get_abspath("workdir/stats");
     let now = ctx.get_time().now();
-    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let format = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
 
     if overpass {

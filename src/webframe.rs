@@ -516,7 +516,8 @@ pub fn handle_404() -> yattag::Doc {
 
 /// Formats timestamp as UI date-time.
 pub fn format_timestamp(timestamp: &time::OffsetDateTime) -> anyhow::Result<String> {
-    let format = time::format_description::parse("[year]-[month]-[day] [hour]:[minute]")?;
+    let format =
+        time::format_description::parse_borrowed::<1>("[year]-[month]-[day] [hour]:[minute]")?;
     Ok(timestamp.format(&format)?)
 }
 
@@ -545,7 +546,7 @@ fn handle_stats_cityprogress(
         ref_citycounts.insert(row.city, row.count);
     }
     let date_time = ctx.get_time().now();
-    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let format = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     let today = date_time.format(&format)?;
     let mut osm_citycounts: HashMap<String, u64> = HashMap::new();
     let conn = ctx.get_database_connection()?;
@@ -656,7 +657,7 @@ fn handle_stats_zipprogress(
         ref_zipcounts.insert(row.zip, row.count);
     }
     let now = ctx.get_time().now();
-    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let format = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
     let mut osm_zipcounts: HashMap<String, u64> = HashMap::new();
     let conn = ctx.get_database_connection()?;
