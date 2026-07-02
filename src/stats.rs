@@ -40,7 +40,7 @@ fn handle_progress(ctx: &context::Context, j: &mut serde_json::Value) -> anyhow:
     };
     let today = {
         let now = ctx.get_time().now();
-        let format = time::format_description::parse("[year]-[month]-[day]")?;
+        let format = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
         now.format(&format)?
     };
     let mut num_osm = 0_f64;
@@ -85,7 +85,7 @@ fn handle_capital_progress(
     }
 
     let now = ctx.get_time().now();
-    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let format = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
     let mut osm_count = 0;
     let conn = ctx.get_database_connection()?;
@@ -118,7 +118,7 @@ fn handle_capital_progress(
 fn handle_topusers(ctx: &context::Context, j: &mut serde_json::Value) -> anyhow::Result<()> {
     let today = {
         let now = ctx.get_time().now();
-        let format = time::format_description::parse("[year]-[month]-[day]")?;
+        let format = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
         now.format(&format)?
     };
     let mut ret: Vec<(String, u64)> = Vec::new();
@@ -140,7 +140,7 @@ fn handle_topusers(ctx: &context::Context, j: &mut serde_json::Value) -> anyhow:
 /// Generates a list of cities, sorted by how many new hours numbers they got recently.
 pub fn get_topcities(ctx: &context::Context) -> anyhow::Result<Vec<(String, i64)>> {
     let now = ctx.get_time().now();
-    let ymd = time::format_description::parse("[year]-[month]-[day]")?;
+    let ymd = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     let new_day = now.format(&ymd)?;
     let day_delta = now - time::Duration::days(30);
     let old_day = day_delta.format(&ymd)?;
@@ -196,7 +196,7 @@ fn handle_user_total(
 ) -> anyhow::Result<()> {
     let mut ret: Vec<(String, u64)> = Vec::new();
     let now = ctx.get_time().now();
-    let ymd = time::format_description::parse("[year]-[month]-[day]")?;
+    let ymd = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - time::Duration::days(day_offset);
         let day = day_delta.format(&ymd)?;
@@ -228,7 +228,7 @@ fn handle_daily_new(
     let mut prev_count = 0;
     let mut prev_day: String = "".into();
     let now = ctx.get_time().now();
-    let ymd = time::format_description::parse("[year]-[month]-[day]")?;
+    let ymd = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - time::Duration::days(day_offset);
         let day = day_delta.format(&ymd)?;
@@ -302,7 +302,7 @@ fn handle_monthly_new(
     let mut ret: Vec<(String, i64)> = Vec::new();
     let mut prev_count = 0;
     let mut prev_month: String = "".into();
-    let ym = time::format_description::parse("[year]-[month]")?;
+    let ym = time::format_description::parse_borrowed::<1>("[year]-[month]")?;
     for month_offset in (0..=month_range).rev() {
         let month_delta = get_previous_month(&ctx.get_time().now(), month_offset)?;
         // Get the first day of each month.
@@ -327,7 +327,7 @@ fn handle_monthly_new(
 
     // Also show the current, incomplete month.
     let now = ctx.get_time().now();
-    let ymd = time::format_description::parse("[year]-[month]-[day]")?;
+    let ymd = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     let mut month = now.format(&ymd)?;
     let conn = ctx.get_database_connection()?;
     let mut stmt = conn.prepare("select count from stats_counts where date = ?1")?;
@@ -354,7 +354,7 @@ fn handle_daily_total(
 ) -> anyhow::Result<()> {
     let mut ret: Vec<(String, i64)> = Vec::new();
     let now = ctx.get_time().now();
-    let ymd = time::format_description::parse("[year]-[month]-[day]")?;
+    let ymd = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - time::Duration::days(day_offset);
         let day = day_delta.format(&ymd)?;
@@ -385,8 +385,8 @@ fn handle_monthly_total(
 ) -> anyhow::Result<()> {
     let mut ret: Vec<(String, i64)> = Vec::new();
     let today = ctx.get_time().now();
-    let ym = time::format_description::parse("[year]-[month]")?;
-    let ymd = time::format_description::parse("[year]-[month]-[day]")?;
+    let ym = time::format_description::parse_borrowed::<1>("[year]-[month]")?;
+    let ymd = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     for month_offset in (0..=month_range).rev() {
         let month_delta = get_previous_month(&today, month_offset)?;
         let prev_month_delta = get_previous_month(&today, month_offset + 1)?;
@@ -606,7 +606,7 @@ pub fn update_invalid_addr_cities(ctx: &context::Context) -> anyhow::Result<()> 
     let tx = conn.transaction()?;
     // Also append a row in the stats_invalid_addr_cities_counts table so we can chart this.
     let now = ctx.get_time().now();
-    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let format = time::format_description::parse_borrowed::<1>("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
     for row in &invalids {
         tx.execute("insert into stats_invalid_addr_cities (osm_id, osm_type, postcode, city, street, housenumber, user, timestamp, fixme) values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
