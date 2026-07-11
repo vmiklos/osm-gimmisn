@@ -165,6 +165,8 @@ filters:
     ranges:
       - {start: '19', end: '99'}
       - {start: '4', end: '98'}
+    invalid:
+      - '23' # 23a, 23b helyette
   Kapy utca:
     ranges:
       - {start: '1', end: '55'}
