@@ -86,7 +86,7 @@ pub fn get_missing_housenumbers_json(relation: &mut areas::Relation<'_>) -> anyh
 
     let ctx = relation.get_ctx();
     stats::set_sql_json(ctx, table, &relation.get_name(), &output)?;
-    let table = format!("missing-housenumbers-cache/{}", &relation.get_name());
+    let table = format!("missing-housenumbers-cache/{}", relation.get_name());
     stats::set_sql_mtime(ctx, &table)?;
 
     relation.write_lints()?;
@@ -129,7 +129,7 @@ pub fn get_additional_housenumbers_json(
     output = serde_json::to_string(&additional_housenumbers)?;
 
     stats::set_sql_json(relation.get_ctx(), table, &relation.get_name(), &output)?;
-    let table = format!("additional-housenumbers-cache/{}", &relation.get_name());
+    let table = format!("additional-housenumbers-cache/{}", relation.get_name());
     stats::set_sql_mtime(relation.get_ctx(), &table)?;
     Ok(output)
 }
