@@ -184,6 +184,11 @@ filters:
   Krecsányi utca:
     invalid:
       - '15' # 13 a vége
+  Lévay utca:
+    invalid:
+      - '4' # 4a, 4b helyette
+      - '6' # 6a, 6b helyette
+      - '9' # 9a, 9b helyette
   Lorántffy Zsuzsanna út:
     # 20b: 20 és 20a van kitáblázva
     invalid: ['20b']
