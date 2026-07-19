@@ -80,6 +80,140 @@ fn missing_housenumbers_view_result_json(
     cache::get_missing_housenumbers_json(&mut relation)
 }
 
+/// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/geojson.json.
+fn missing_housenumbers_geojson(
+    ctx: &context::Context,
+    relations: &mut areas::Relations<'_>,
+    request_uri: &str,
+) -> anyhow::Result<String> {
+    let mut tokens = request_uri.split('/');
+    tokens.next_back();
+    let relation_name = tokens.next_back().context("short tokens")?;
+    let mut relation = relations.get_relation(relation_name)?;
+    let ongoing_streets = relation.get_missing_housenumbers()?.ongoing_streets;
+    let mut streets: Vec<String> = Vec::new();
+    for result in ongoing_streets {
+        streets.push(result.street.get_osm_name().into());
+    }
+    let query = areas::make_query_for_streets(&relation, &streets);
+    let overpass = overpass_query::overpass_query_with_retry(ctx, &query)?;
+    overpass_to_geojson(&overpass)
+}
+
+/// Turns one overpass element into a geojson Feature, with the given resolved geometry.
+fn make_geojson_feature(
+    kind: &str,
+    id: i64,
+    tags: &serde_json::Value,
+    geometry: serde_json::Value,
+) -> serde_json::Value {
+    let full_id = format!("{kind}/{id}");
+    // properties is the tags, prefixed with an "@id" pointing to the source object.
+    let mut properties = serde_json::Map::new();
+    properties.insert("@id".into(), serde_json::json!(full_id));
+    if let Some(object) = tags.as_object() {
+        for (key, value) in object {
+            properties.insert(key.clone(), value.clone());
+        }
+    }
+    serde_json::json!({
+        "type": "Feature",
+        "properties": serde_json::Value::Object(properties),
+        "geometry": geometry,
+        "id": full_id,
+    })
+}
+
+/// Converts an overpass JSON response into a geojson FeatureCollection.
+fn overpass_to_geojson(overpass: &str) -> anyhow::Result<String> {
+    let root: serde_json::Value = serde_json::from_str(overpass)?;
+    let elements = root
+        .get("elements")
+        .and_then(|i| i.as_array())
+        .context("no elements array in overpass response")?;
+
+    // Collect node id -> [lon, lat], so way geometries can be resolved below.
+    let mut nodes: HashMap<i64, serde_json::Value> = HashMap::new();
+    for element in elements {
+        if element.get("type").and_then(|i| i.as_str()) != Some("node") {
+            continue;
+        }
+        let (Some(id), Some(lat), Some(lon)) = (
+            element.get("id").and_then(|i| i.as_i64()),
+            element.get("lat").and_then(|i| i.as_f64()),
+            element.get("lon").and_then(|i| i.as_f64()),
+        ) else {
+            continue;
+        };
+        nodes.insert(id, serde_json::json!([lon, lat]));
+    }
+
+    let mut features: Vec<serde_json::Value> = Vec::new();
+    for element in elements {
+        let element_type = element.get("type").and_then(|i| i.as_str()).unwrap_or("");
+        let Some(id) = element.get("id").and_then(|i| i.as_i64()) else {
+            continue;
+        };
+        let tags = element
+            .get("tags")
+            .cloned()
+            .unwrap_or_else(|| serde_json::json!({}));
+        let has_tags = tags.as_object().map(|i| !i.is_empty()).unwrap_or(false);
+        match element_type {
+            "node" => {
+                // Untagged nodes only provide geometry for ways, they are not features.
+                if !has_tags {
+                    continue;
+                }
+                let Some(coordinates) = nodes.get(&id) else {
+                    continue;
+                };
+                let geometry = serde_json::json!({
+                    "type": "Point",
+                    "coordinates": coordinates.clone(),
+                });
+                features.push(make_geojson_feature("node", id, &tags, geometry));
+            }
+            "way" => {
+                // Untagged ways are just relation members / geometry fragments, skip them.
+                if !has_tags {
+                    continue;
+                }
+                let Some(way_nodes) = element.get("nodes").and_then(|i| i.as_array()) else {
+                    continue;
+                };
+                let coordinates: Vec<serde_json::Value> = way_nodes
+                    .iter()
+                    .filter_map(|node| node.as_i64())
+                    .filter_map(|node_id| nodes.get(&node_id).cloned())
+                    .collect();
+                let geometry = serde_json::json!({
+                    "type": "LineString",
+                    "coordinates": coordinates,
+                });
+                features.push(make_geojson_feature("way", id, &tags, geometry));
+            }
+            // Relations are not converted to geometry.
+            _ => {}
+        }
+    }
+
+    let osm3s = root.get("osm3s");
+    let field = |name: &str| -> serde_json::Value {
+        osm3s
+            .and_then(|i| i.get(name))
+            .cloned()
+            .unwrap_or(serde_json::Value::Null)
+    };
+    let geojson = serde_json::json!({
+        "type": "FeatureCollection",
+        "copyright": field("copyright"),
+        "timestamp": field("timestamp_osm_base"),
+        "features": features,
+    });
+    Ok(serde_json::to_string(&geojson)?)
+}
+
 /// Expected request_uri: e.g. /osm/additional-housenumbers/ormezo/view-result.json.
 fn additional_housenumbers_view_result_json(
     relations: &mut areas::Relations<'_>,
@@ -106,8 +240,12 @@ pub fn our_application_json(
     } else if request_uri.starts_with(&format!("{prefix}/street-housenumbers/")) {
         output = street_housenumbers_update_result_json(ctx, relations, request_uri)?;
     } else if request_uri.starts_with(&format!("{prefix}/missing-housenumbers/")) {
-        // Assume request_uri ends with view-result.json.
-        output = missing_housenumbers_view_result_json(relations, request_uri)?;
+        if request_uri.ends_with("/geojson.json") {
+            output = missing_housenumbers_geojson(ctx, relations, request_uri)?;
+        } else {
+            // Assume request_uri ends with view-result.json.
+            output = missing_housenumbers_view_result_json(relations, request_uri)?;
+        }
     } else if request_uri
         == format!("{prefix}/lints/whole-country/invalid-addr-cities/update-result.json")
     {

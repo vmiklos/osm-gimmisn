@@ -333,6 +333,179 @@ fn test_missing_housenumbers_view_result_json() {
     assert_eq!(ongoing_street.house_numbers.len(), 4);
 }
 
+/// Tests missing_housenumbers_geojson(): the geojson output from overpass.
+#[test]
+fn test_missing_housenumbers_geojson() {
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+    let routes = vec![context::tests::URLRoute::new(
+        /*url=*/ "https://overpass-api.de/api/interpreter",
+        /*data_path=*/ "",
+        /*result_path=*/ "src/fixtures/network/overpass-turbo-gazdagret.json",
+    )];
+    let network = context::tests::TestNetwork::new(&routes);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.get_ctx().set_network(network_rc);
+    let mut file_system = context::tests::TestFileSystem::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "budafok": {
+                "refcounty": "0",
+                "refsettlement": "0",
+                "osmrelation": 42,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        test_wsgi.get_ctx(),
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    file_system.set_files(&files);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '34', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('budafok', '458338075', 'Vöröskúti határsor', '', '', '', '', '');"
+        )
+        .unwrap();
+    }
+
+    let result = test_wsgi.get_json_for_path("/missing-housenumbers/budafok/geojson.json");
+
+    // The overpass response is converted to a geojson FeatureCollection.
+    let root = result.as_object().unwrap();
+    assert_eq!(root["type"], "FeatureCollection");
+    let features = root["features"].as_array().unwrap();
+    // The single tagged way becomes one LineString feature.
+    assert_eq!(features.len(), 1);
+    let feature = features[0].as_object().unwrap();
+    assert_eq!(feature["id"], "way/100");
+    assert_eq!(feature["geometry"]["type"], "LineString");
+    assert_eq!(
+        feature["geometry"]["coordinates"].as_array().unwrap().len(),
+        2
+    );
+    assert_eq!(feature["properties"]["name"], "Vöröskúti határsor");
+}
+
+/// Tests make_geojson_feature(): the case when the tags are not a json object.
+#[test]
+fn test_make_geojson_feature_tags_not_object() {
+    // tags is not an object, so it contributes no properties.
+    let tags = serde_json::json!(null);
+    let geometry = serde_json::json!({"type": "Point", "coordinates": [19.0, 47.0]});
+
+    let feature = crate::wsgi_json::make_geojson_feature("node", 42, &tags, geometry);
+
+    let object = feature.as_object().unwrap();
+    assert_eq!(object["id"], "node/42");
+    // properties contains only the "@id" entry.
+    let properties = object["properties"].as_object().unwrap();
+    assert_eq!(properties.len(), 1);
+    assert_eq!(properties["@id"], "node/42");
+}
+
+/// Tests overpass_to_geojson(): a node without coordinates is skipped.
+#[test]
+fn test_overpass_to_geojson_node_without_coordinates() {
+    // The node has no lat/lon, so it can't provide geometry and is ignored.
+    let overpass = r#"{"elements": [{"type": "node", "id": 1}]}"#;
+
+    let geojson = crate::wsgi_json::overpass_to_geojson(overpass).unwrap();
+
+    let root: serde_json::Value = serde_json::from_str(&geojson).unwrap();
+    assert_eq!(root["type"], "FeatureCollection");
+    assert_eq!(root["features"].as_array().unwrap().is_empty(), true);
+}
+
+/// Tests overpass_to_geojson(): an element without an id is skipped.
+#[test]
+fn test_overpass_to_geojson_element_without_id() {
+    // The way has no id, so it can't be turned into a feature.
+    let overpass = r#"{"elements": [{"type": "way"}]}"#;
+
+    let geojson = crate::wsgi_json::overpass_to_geojson(overpass).unwrap();
+
+    let root: serde_json::Value = serde_json::from_str(&geojson).unwrap();
+    assert_eq!(root["type"], "FeatureCollection");
+    assert_eq!(root["features"].as_array().unwrap().is_empty(), true);
+}
+
+/// Tests overpass_to_geojson(): a tagged node becomes a Point feature.
+#[test]
+fn test_overpass_to_geojson_tagged_node() {
+    // The node has tags, so it is emitted as a standalone Point feature.
+    let overpass = r#"{"elements": [{"type": "node", "id": 1, "lat": 47.5, "lon": 19.0, "tags": {"name": "Foo"}}]}"#;
+
+    let geojson = crate::wsgi_json::overpass_to_geojson(overpass).unwrap();
+
+    let root: serde_json::Value = serde_json::from_str(&geojson).unwrap();
+    let features = root["features"].as_array().unwrap();
+    assert_eq!(features.len(), 1);
+    let feature = features[0].as_object().unwrap();
+    assert_eq!(feature["id"], "node/1");
+    assert_eq!(feature["geometry"]["type"], "Point");
+    assert_eq!(
+        feature["geometry"]["coordinates"].as_array().unwrap(),
+        &vec![serde_json::json!(19.0), serde_json::json!(47.5),]
+    );
+    assert_eq!(feature["properties"]["name"], "Foo");
+}
+
+/// Tests overpass_to_geojson(): a tagged node without coordinates is skipped.
+#[test]
+fn test_overpass_to_geojson_tagged_node_without_coordinates() {
+    // The node has tags but no lat/lon, so it never entered the node map and has no geometry.
+    let overpass = r#"{"elements": [{"type": "node", "id": 1, "tags": {"name": "Foo"}}]}"#;
+
+    let geojson = crate::wsgi_json::overpass_to_geojson(overpass).unwrap();
+
+    let root: serde_json::Value = serde_json::from_str(&geojson).unwrap();
+    assert_eq!(root["type"], "FeatureCollection");
+    assert_eq!(root["features"].as_array().unwrap().is_empty(), true);
+}
+
+/// Tests overpass_to_geojson(): an untagged way is skipped.
+#[test]
+fn test_overpass_to_geojson_way_without_tags() {
+    // The way has no tags, so it's just a geometry fragment and not emitted as a feature.
+    let overpass = r#"{"elements": [{"type": "way", "id": 100, "nodes": [1, 2]}]}"#;
+
+    let geojson = crate::wsgi_json::overpass_to_geojson(overpass).unwrap();
+
+    let root: serde_json::Value = serde_json::from_str(&geojson).unwrap();
+    assert_eq!(root["type"], "FeatureCollection");
+    assert_eq!(root["features"].as_array().unwrap().is_empty(), true);
+}
+
+/// Tests overpass_to_geojson(): a tagged way without a node list is skipped.
+#[test]
+fn test_overpass_to_geojson_way_without_nodes() {
+    // The way has tags but no "nodes" array, so its geometry can't be built.
+    let overpass = r#"{"elements": [{"type": "way", "id": 100, "tags": {"name": "Foo"}}]}"#;
+
+    let geojson = crate::wsgi_json::overpass_to_geojson(overpass).unwrap();
+
+    let root: serde_json::Value = serde_json::from_str(&geojson).unwrap();
+    assert_eq!(root["type"], "FeatureCollection");
+    assert_eq!(root["features"].as_array().unwrap().is_empty(), true);
+}
+
+/// Tests overpass_to_geojson(): a relation is not converted to geometry.
+#[test]
+fn test_overpass_to_geojson_relation() {
+    // Relations (and any non-node, non-way types) are ignored.
+    let overpass = r#"{"elements": [{"type": "relation", "id": 5, "tags": {"name": "Foo"}}]}"#;
+
+    let geojson = crate::wsgi_json::overpass_to_geojson(overpass).unwrap();
+
+    let root: serde_json::Value = serde_json::from_str(&geojson).unwrap();
+    assert_eq!(root["type"], "FeatureCollection");
+    assert_eq!(root["features"].as_array().unwrap().is_empty(), true);
+}
+
 /// Tests additional_housenumbers_view_result_json().
 #[test]
 fn test_additional_housenumbers_view_result_json() {

@@ -1893,7 +1893,9 @@ fn normalize_housenumber_letters(
 }
 
 /// Creates an overpass query that shows all streets from a missing housenumbers table.
-pub fn make_turbo_query_for_streets(relation: &Relation<'_>, streets: &[String]) -> String {
+/// Creates an overpass query that shows the streets from a list, without the overpass-turbo
+/// specific MapCSS style block, so it can be sent to the raw overpass API.
+pub fn make_query_for_streets(relation: &Relation<'_>, streets: &[String]) -> String {
     let header = r#"[out:json][timeout:425];
 rel(@RELATION@)->.searchRelation;
 area(@AREA@)->.searchArea;
@@ -1908,7 +1910,13 @@ area(@AREA@)->.searchArea;
 out body;
 >;
 out skel qt;
-{{style:
+"#;
+    query
+}
+
+pub fn make_turbo_query_for_streets(relation: &Relation<'_>, streets: &[String]) -> String {
+    let mut query = make_query_for_streets(relation, streets);
+    query += r#"{{style:
 relation{width:3}
 way{color:blue; width:4;}
 }}"#;
