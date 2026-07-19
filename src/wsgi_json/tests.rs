@@ -407,6 +407,57 @@ fn test_make_geojson_feature_tags_not_object() {
     assert_eq!(properties["@id"], "node/42");
 }
 
+/// Tests that missing_housenumbers_geojson() sends a CORS header, so tools like geojson.io can
+/// fetch the result from their own origin.
+#[test]
+fn test_missing_housenumbers_geojson_cors_header() {
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+    let routes = vec![context::tests::URLRoute::new(
+        /*url=*/ "https://overpass-api.de/api/interpreter",
+        /*data_path=*/ "",
+        /*result_path=*/ "src/fixtures/network/overpass-turbo-gazdagret.json",
+    )];
+    let network = context::tests::TestNetwork::new(&routes);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.get_ctx().set_network(network_rc);
+    let mut file_system = context::tests::TestFileSystem::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "budafok": {
+                "refcounty": "0",
+                "refsettlement": "0",
+                "osmrelation": 42,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        test_wsgi.get_ctx(),
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    file_system.set_files(&files);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values ('0', '0', 'Vöröskúti határsor', '34', '');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('budafok', '458338075', 'Vöröskúti határsor', '', '', '', '', '');"
+        )
+        .unwrap();
+    }
+
+    let ctx = test_wsgi.get_ctx();
+    let prefix = ctx.get_ini().get_uri_prefix();
+    let abspath = format!("{prefix}/missing-housenumbers/budafok/geojson.json");
+    let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
+    let response = wsgi::application(&request, ctx);
+
+    assert_eq!(response.status_code, 200);
+    let headers_map: std::collections::HashMap<_, _> = response.headers.into_iter().collect();
+    assert_eq!(headers_map["Access-Control-Allow-Origin"], "*");
+}
+
 /// Tests overpass_to_geojson(): a node without coordinates is skipped.
 #[test]
 fn test_overpass_to_geojson_node_without_coordinates() {

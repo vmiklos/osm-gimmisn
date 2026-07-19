@@ -242,6 +242,8 @@ pub fn our_application_json(
     } else if request_uri.starts_with(&format!("{prefix}/missing-housenumbers/")) {
         if request_uri.ends_with("/geojson.json") {
             output = missing_housenumbers_geojson(ctx, relations, request_uri)?;
+            // Allow tools like geojson.io to fetch this from their own origin.
+            headers.push(("Access-Control-Allow-Origin".into(), "*".into()));
         } else {
             // Assume request_uri ends with view-result.json.
             output = missing_housenumbers_view_result_json(relations, request_uri)?;
