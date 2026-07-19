@@ -888,6 +888,10 @@ szekszard:
     refcounty: "17"
     refsettlement: "095"
 # 18 - Vas megye
+buk:
+    osmrelation: 1131486
+    refcounty: "18"
+    refsettlement: "018"
 oriszentpeter:
     osmrelation: 1131459
     refcounty: "18"
