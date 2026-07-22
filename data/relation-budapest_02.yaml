@@ -506,6 +506,11 @@ filters:
     # 35: üres telek, építkezés nyomati vannak. RESURVEY 2026-12
     # 59/a: csak 59 és 59/b van kiírva
     invalid: ['8', '14', '21a', '28b', '34', '35', '59a']
+  Rókushegyi lépcső:
+    invalid:
+      - '3' # 3a, 3b helyette
+      - '7' #7a, 7b helyette
+      - '8' # 8a..8d helyette
   Rómer Flóris utca:
     # 59 = Levél utca 2
     # 61: sportpálya
