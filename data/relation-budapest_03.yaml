@@ -155,7 +155,7 @@ refstreets:
   'Kis Csikós köz': 'Kiscsikós köz'  # nincs tábla
   'Montevideo utca': 'Montevideo út'  # utcatábla Montevideo utca
   'Nagy-Kevély utca': 'Nagykevély utca'  # régi kép van
-  'Római sétány': 'Római út'  # vegyesen vannak a táblák
+  # 'Római sétány': 'Római út'  # vegyesen vannak a táblák
   'Stefan Wyszyński utca': 'Stefan Wyszynski utca'  # határozatban a Stefan Wyszyński van
   'Schön Győző utca': 'Schőn Győző utca'  # utcatábla Schön Győző utca
   # egyéb
