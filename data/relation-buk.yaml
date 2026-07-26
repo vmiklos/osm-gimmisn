@@ -1,0 +1,24 @@
+missing-streets: 'yes'
+source: survey
+osm-street-filters:
+  # ösvények/parkok
+  - Eötvös-park
+  - Répce menti tanösvény
+  # átlógó utcák
+  # egyéb
+#street-filters:
+#  - Marx utca
+refstreets:
+  # OSM Name 1: Ref Name 1
+  'Ady Endre utca': 'Ady utca'
+  'Deák Ferenc utca': 'Deák utca'
+  'Dózsa György utca': 'Dózsa utca'
+  'Hunyadi János utca': 'Hunyadi utca'
+  'Hévíz utca': 'Héviz utca'
+  'Jókai Mór utca': 'Jókai utca'
+  'Kossuth Lajos utca': 'Kossuth utca'
+  'Rákóczi Ferenc utca': 'Rákóczi utca'
+  'Széchenyi István utca': 'Széchenyi utca'
+  'Táncsics Mihály utca': 'Táncsics utca'
+  'Vog utca': 'Vog út'
+inactive: true
