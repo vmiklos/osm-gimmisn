@@ -1,4 +1,9 @@
 missing-streets: 'yes'
+filters:
+  Petőfi utca:
+    invalid:
+      - '19' # 17 után 21
+      - '84' # 82 a vége
 source: survey
 osm-street-filters:
   # ösvények/parkok
