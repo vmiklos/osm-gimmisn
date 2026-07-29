@@ -1,0 +1,11 @@
+missing-streets: 'yes'
+source: survey
+#osm-street-filters:
+  # ösvények/parkok
+  # átlógó utcák
+  # egyéb
+refstreets:
+  # OSM Name 1: Ref Name 1
+  'Sárvári út': 'Sárvári utca'
+  'Váti út': 'Váti utca'
+inactive: true
