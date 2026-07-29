@@ -14,8 +14,6 @@ osm-street-filters:
   - Répce menti tanösvény
   # átlógó utcák
   # egyéb
-#street-filters:
-#  - Marx utca
 refstreets:
   # OSM Name 1: Ref Name 1
   'Ady Endre utca': 'Ady utca'
@@ -26,6 +24,7 @@ refstreets:
   'Jókai Mór utca': 'Jókai utca'
   'Kossuth Lajos utca': 'Kossuth utca'
   'Rákóczi Ferenc utca': 'Rákóczi utca'
+  'Marx Károly utca': 'Marx utca'
   'Széchenyi István utca': 'Széchenyi utca'
   'Táncsics Mihály utca': 'Táncsics utca'
   'Vog utca': 'Vog út'
