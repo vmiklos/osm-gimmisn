@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Golf út:
+    invalid:
+      - '1' # csak páros van
   Petőfi utca:
     invalid:
       - '19' # 17 után 21
