@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## 26.8
 
 - Resolves: gh#4859 stats, cityprogress: handle when the reference data has lowercase city names
 - Resolves: gh#4738 missing housenumbers, text output: make sure reference data is lowercase,

@@ -1420,7 +1420,7 @@ checksum = "7c87def4c32ab89d880effc9e097653c8da5d6ef28e6b539d313baaacfbafcbe"
 
 [[package]]
 name = "osm-gimmisn"
-version = "26.2.0"
+version = "26.8.0"
 dependencies = [
  "accept-language",
  "anyhow",
