@@ -19,6 +19,7 @@ YAML_TEST_OBJECTS = \
 TS_OBJECTS = \
 	src/browser/config.ts \
 	src/browser/main.ts \
+	src/browser/map.ts \
 	src/browser/stats.ts \
 	src/browser/types.d.ts \
 
@@ -128,11 +129,16 @@ package-lock.json: package.json
 	npm install
 	touch $@
 
-css: target/browser/osm.min.css
+css: target/browser/osm.min.css target/browser/leaflet.css
 
 target/browser/osm.min.css: static/osm.css package-lock.json
 	mkdir -p workdir
 	[ -x "./node_modules/.bin/cleancss" ] && npx cleancss -o $@ $< || cp -a $< $@
+
+# Leaflet's own CSS is shipped as-is (not minified/inlined), the map page links to it.
+target/browser/leaflet.css: package-lock.json
+	mkdir -p target/browser
+	cp -a node_modules/leaflet/dist/leaflet.css $@
 
 # Intentionally don't update this when the source changes.
 workdir/wsgi.ini:

@@ -7,6 +7,7 @@
 import * as config from './config';
 import 'sorttable'; // only for its side-effects
 import * as stats from './stats';
+import * as map from './map';
 
 /**
  * Creates a loading indicator element.
@@ -352,6 +353,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     initRedirects();
     initTriggerUpdate();
     stats.initStats();
+    map.initMap();
 });
 
 // vim: shiftwidth=4 softtabstop=4 expandtab:

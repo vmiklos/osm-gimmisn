@@ -1450,6 +1450,36 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> an
     Ok(())
 }
 
+/// Expected request_uri: e.g. /osm/map. Shows a fullscreen leaflet map.
+fn handle_map(
+    ctx: &context::Context,
+    _relations: &mut areas::Relations<'_>,
+    _request_uri: &str,
+) -> anyhow::Result<yattag::Doc> {
+    let prefix = ctx.get_ini().get_uri_prefix();
+    let doc = yattag::Doc::new();
+    // Leaflet's own stylesheet, shipped as-is and only needed on this page.
+    doc.tag(
+        "link",
+        &[
+            ("rel", "stylesheet"),
+            ("href", &format!("{prefix}/static/leaflet.css")),
+        ],
+    );
+    // The map fills the whole viewport, browser/map.ts renders the geojson into it.
+    doc.tag(
+        "div",
+        &[
+            ("id", "map"),
+            (
+                "style",
+                "position: absolute; top: 0; bottom: 0; left: 0; right: 0;",
+            ),
+        ],
+    );
+    Ok(doc)
+}
+
 /// Dispatches GPX requests based on their URIs.
 fn our_application_gpx(
     ctx: &context::Context,
@@ -1551,6 +1581,7 @@ lazy_static! {
         ret.insert("/missing-housenumbers/".into(), handle_missing_housenumbers);
         ret.insert("/housenumber-stats/".into(), webframe::handle_stats);
         ret.insert("/lints/".into(), webframe::handle_lints);
+        ret.insert("/map".into(), handle_map);
         ret
     };
 }

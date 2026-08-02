@@ -2628,3 +2628,15 @@ fn test_handle_main_filters_refcounty_filter_no_settlements() {
         "<a href=\"/osm/filter-for/refcounty/01/whole-county\">Budapest</a>"
     );
 }
+
+/// Tests handle_map(): the fullscreen leaflet map page.
+#[test]
+fn test_map() {
+    let mut test_wsgi = TestWsgi::new();
+
+    let root = test_wsgi.get_dom_for_path("/map");
+
+    // The page has a single div with the "map" id, browser/map.ts renders into it.
+    let results = TestWsgi::find_all(&root, "body/div[@id='map']");
+    assert_eq!(results.len(), 1);
+}
