@@ -351,14 +351,36 @@ fn missing_housenumbers_view_res_html(
         doc.text(".");
         doc.stag("br");
         {
-            let a = doc.tag(
-                "a",
-                &[(
-                    "href",
-                    &format!("{prefix}/missing-housenumbers/{relation_name}/view-turbo"),
-                )],
-            );
-            a.text(&tr("Overpass turbo query for the below streets"));
+            doc.text(&tr("Query the below streets:"));
+            doc.text(" ");
+            {
+                let geojson = format!("{prefix}/missing-housenumbers/{relation_name}/geojson.json");
+                let query = url::form_urlencoded::Serializer::new(String::new())
+                    .append_pair("geojson", &geojson)
+                    .finish();
+                let a = doc.tag(
+                    "a",
+                    &[
+                        ("id", "streets-map"),
+                        ("href", &format!("{prefix}/map?{query}")),
+                    ],
+                );
+                a.text(&tr("map"));
+            }
+            doc.text(" ¦ ");
+            {
+                let a = doc.tag(
+                    "a",
+                    &[
+                        ("id", "streets-overpass"),
+                        (
+                            "href",
+                            &format!("{prefix}/missing-housenumbers/{relation_name}/view-turbo"),
+                        ),
+                    ],
+                );
+                a.text(&tr("overpass turbo"));
+            }
         }
         doc.stag("br");
         {
