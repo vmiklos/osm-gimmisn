@@ -573,9 +573,9 @@ fn test_per_relation_lints_out_of_range() {
     );
 }
 
-/// Tests the missing house numbers page: if the output is well-formed.
+/// Tests the missing house numbers page.
 #[test]
-fn test_missing_housenumbers_well_formed() {
+fn test_missing_housenumbers() {
     let mut test_wsgi = TestWsgi::new();
     let mut file_system = context::tests::TestFileSystem::new();
     let yamls_cache = serde_json::json!({
@@ -637,6 +637,19 @@ fn test_missing_housenumbers_well_formed() {
     // refstreets: >0 invalid ref name
     results = TestWsgi::find_all(&root, "body/div[@id='ref-invalids-container']");
     assert_eq!(results.len(), 1);
+
+    // The "map" link points to the map endpoint with the geojson of the streets.
+    results = TestWsgi::find_all(&root, "body//a[@id='streets-map']/@href");
+    assert_eq!(
+        results,
+        vec!["/osm/map?geojson=%2Fosm%2Fmissing-housenumbers%2Fgazdagret%2Fgeojson.json"]
+    );
+    // The "overpass turbo" link points to the old view-turbo endpoint.
+    results = TestWsgi::find_all(&root, "body//a[@id='streets-overpass']/@href");
+    assert_eq!(
+        results,
+        vec!["/osm/missing-housenumbers/gazdagret/view-turbo"]
+    );
 }
 
 /// Tests the missing house numbers page: the output for a non-existing relation.
