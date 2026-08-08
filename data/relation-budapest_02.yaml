@@ -164,6 +164,11 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '8'}
+  Csévi köz:
+    invalid:
+      - '7' # 7a helyette
+      - '8' # csak páratlan
+      - '9' # 9a, 9b, 9c helyette
   Csévi utca:
     invalid:
       - '17a' # 17 és 17b helyette

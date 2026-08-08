@@ -93,6 +93,11 @@ filters:
       - '43' # 43a, 43b helyette
       - '4c' # csak 4a, 4b van
       - '8' # 8a helyette
+  Csévi köz:
+    invalid:
+      - '7' # 7a helyette
+      - '8' # csak páratlan
+      - '9' # 9a, 9b, 9c helyette
   Csévi utca:
     invalid:
       - '17a' # 17 és 17b helyette
