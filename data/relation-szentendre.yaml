@@ -48,9 +48,10 @@ refstreets:
   'Apáti Abkarovics Béla utca': 'Apáti Abkarovics B. utca'
   # helyesírás
   'Íjász utca': 'Ijász utca'
+  # nincs tábla
+  'Réti utca': 'Réti sétány'
   # kérdéses
   'Alsó Duna köz': 'Alsó-Duna köz'
-  # 'Annavölgyi út': 'Annavölgy'
   'Árboc utca': 'Árbóc utca'
   'Árvácska köz': 'Árvácska utca'
   'Beg utca': 'Bég utca'
@@ -58,9 +59,7 @@ refstreets:
   'Bessenyei köz': 'Bessenyei utca'
   'Bogdányi utca': 'Bogdányi út'
   'Fakopáncs utca': 'Fakopács utca'
-  # 'Farkas utca': 'Farkasles utca'
   'Jókai utca': 'Jókai Mór utca'
-  # 'Kőhegyi út': 'Kőhegy'
   'Leander utca': 'Leánder utca'
   'Lévay utca': 'Lévai utca'
   'Ljubojevics Demeter utca': 'Lyubojevics Demeter utca'
@@ -68,9 +67,7 @@ refstreets:
   'Patak Sor utca': 'Patak sor utca'
   'Pátriárka utca': 'Pátriarka utca'
   'Petőfi Sándor utca': 'Petőfi utca'
-  # 'Pismány utca': 'Pismány'
   'Rakódczay Pál utca': 'Rakodczay Pál utca'
-  'Réti utca': 'Réti sétány'
   'Rózsakert': 'Rózsa kert'
   'Smolnyica sétány': 'Szmolnica sétány'
   'Stromfeld Aurél utca': 'Stromfeld utca'
@@ -78,9 +75,7 @@ refstreets:
   'Szikla utca': 'Sziklás utca'
   'Szőlő utca': 'Szőlő köz'
   'Szent Erzsébet tér': 'Árpádházi Szent Erzsébet tér'
-  # 'Sztaravodai út': 'Sztaravoda'
   'Táncsics utca': 'Táncsics Mihály utca'
   'Tyúkos dűlő': 'Tyúkosdűlő'
-  # 'Törökvölgyi út': 'Törökvölgy'
   'Vanilia utca': 'Vanília utca'
 inactive: false
