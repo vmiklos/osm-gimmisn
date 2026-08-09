@@ -1,5 +1,10 @@
 # Changelog
 
+## master
+
+- Resolves: gh#4464 new `/map` endpoint to show the streets with missing house numbers on a
+  leaflet map, linked from the missing house numbers page
+
 ## 26.8
 
 - Resolves: gh#4859 stats, cityprogress: handle when the reference data has lowercase city names
