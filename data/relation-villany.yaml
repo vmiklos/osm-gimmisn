@@ -1,0 +1,17 @@
+missing-streets: 'yes'
+# filters:
+source: survey
+# osm-street-filters:
+  # ösvények/parkok
+  # átlógó utcák
+  # egyéb
+refstreets:
+  # OSM Name 1: Ref Name 1
+  'Batthyány utca': 'Batthyány Lajos utca'
+  'Damjanich utca': 'Damjanich János utca'
+  'Hohmann utca': 'Hohmann József utca'
+  'Kis köz': 'Kisköz utca'
+  'Kőbánya utca': 'Kőbánya'
+  # kérdéses
+  'Zalka Máté utca': 'Erdőszél utca'
+inactive: true
