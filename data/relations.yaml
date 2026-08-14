@@ -225,6 +225,10 @@ pecs:
     osmrelation: 575380
     refcounty: "02"
     refsettlement: "217"
+villany:
+    osmrelation: 575387
+    refcounty: "02"
+    refsettlement: "295"
 # 03 - Bács-Kiskun megye
 baja:
     osmrelation: 1130381
