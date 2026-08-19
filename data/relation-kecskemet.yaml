@@ -8,6 +8,8 @@ refstreets:
   # írásmód
   'Bajcsy-Zsilinszky Endre körút': 'Bajcsy-Zsilinszky E. körút'
   'Szív utca': 'Sziv utca'
+  # megváltozott
+  'Bessenyő utca': 'Besenyő utca'
   # tanyák
   #'Kőrösi hegy': 'Kőrösihegy tanya'
   'Műkert': 'Műkert város'
