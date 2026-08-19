@@ -12,6 +12,4 @@ refstreets:
   'Hohmann utca': 'Hohmann József utca'
   'Kis köz': 'Kisköz utca'
   'Kőbánya utca': 'Kőbánya'
-  # kérdéses
-  'Zalka Máté utca': 'Erdőszél utca'
 inactive: true
