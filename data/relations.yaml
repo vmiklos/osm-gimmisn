@@ -917,6 +917,10 @@ alsoors:
     osmrelation: 1078460
     refcounty: "19"
     refsettlement: "004"
+bakonybel:
+    osmrelation: 1078629
+    refcounty: "19"
+    refsettlement: "010"
 balatonakarattya:
     osmrelation: 3854416
     refcounty: "19"
