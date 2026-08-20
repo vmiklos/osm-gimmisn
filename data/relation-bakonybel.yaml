@@ -1,0 +1,19 @@
+missing-streets: 'yes'
+# filters:
+source: survey
+# osm-street-filters:
+  # ösvények/parkok
+  # átlógó utcák
+  # egyéb
+refstreets:
+  # OSM Name 1: Ref Name 1
+  'Ady Endre utca': 'Ady utca'
+  'Deák Ferenc utca': 'Deák utca'
+  'Jókai Mór utca': 'Jókai utca'
+  'Kossuth Lajos utca': 'Kossuth utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Pápai út': 'Pápai utca'
+  'Somhegy puszta': 'Somhegy utca'
+  'Táncsics Mihály utca': 'Táncsics utca'
+  'Zrínyi Miklós utca': 'Zrínyi utca'
+inactive: true
