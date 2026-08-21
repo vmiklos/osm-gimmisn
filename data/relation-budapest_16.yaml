@@ -39,6 +39,8 @@ osm-street-filters:
   - Vazul utca
   # XVII. kerület
   - Naplás út
+  # Csömör
+  - Híd utca
   # Kistarcsa
   - Külső raktár körút
 refstreets:
