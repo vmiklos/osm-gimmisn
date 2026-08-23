@@ -5,5 +5,8 @@ street-filters:
   # nem igazi utcák
   # - Gombászó
   - MTSZ major
+osm-street-filters:
+  # nem igazi utcák
+  - Színpad
 source: survey
 inactive: false
