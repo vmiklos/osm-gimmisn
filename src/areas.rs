@@ -1805,14 +1805,13 @@ fn normalize<'a>(
         house_numbers = iter.next().unwrap().into();
         comment = iter.next().unwrap().into();
     }
-    let separator: &str;
-    if house_numbers.contains(';') {
-        separator = ";";
+    let separator: &str = if house_numbers.contains(';') {
+        ";"
     } else if house_numbers.contains(',') {
-        separator = ",";
+        ","
     } else {
-        separator = "-";
-    }
+        "-"
+    };
 
     // Determine suffix which is not normalized away.
     let mut suffix: String = "".into();

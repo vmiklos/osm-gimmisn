@@ -281,15 +281,14 @@ pub fn additional_housenumbers_view_result(
     let relation_name = tokens.next_back().context("next_back() failed")?;
     let mut relation = relations.get_relation(relation_name)?;
 
-    let doc: yattag::Doc;
     let prefix = ctx.get_ini().get_uri_prefix();
-    if !stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
-        doc = webframe::handle_no_osm_streets(&prefix, relation_name);
+    let doc: yattag::Doc = if !stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
+        webframe::handle_no_osm_streets(&prefix, relation_name)
     } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{relation_name}"))? {
-        doc = webframe::handle_no_osm_housenumbers(&prefix, relation_name);
+        webframe::handle_no_osm_housenumbers(&prefix, relation_name)
     } else {
-        doc = additional_housenumbers_view_result_html(&mut relation)?;
-    }
+        additional_housenumbers_view_result_html(&mut relation)?
+    };
     Ok(doc)
 }
 
