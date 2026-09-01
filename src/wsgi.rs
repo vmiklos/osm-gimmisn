@@ -440,17 +440,16 @@ fn missing_housenumbers_view_res(
     tokens.next_back();
     let relation_name = tokens.next_back().context("no relation_name")?;
 
-    let doc: yattag::Doc;
     let mut relation = relations.get_relation(relation_name)?;
     let prefix = ctx.get_ini().get_uri_prefix();
-    if !stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
-        doc = webframe::handle_no_osm_streets(&prefix, relation_name);
+    let doc: yattag::Doc = if !stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
+        webframe::handle_no_osm_streets(&prefix, relation_name)
     } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{relation_name}"))? {
-        doc = webframe::handle_no_osm_housenumbers(&prefix, relation_name);
+        webframe::handle_no_osm_housenumbers(&prefix, relation_name)
     } else {
         let ret = missing_housenumbers_view_res_html(ctx, &mut relation);
-        doc = ret.context("get_missing_housenumbers_html() failed")?;
-    }
+        ret.context("get_missing_housenumbers_html() failed")?
+    };
     Ok(doc)
 }
 
@@ -604,11 +603,10 @@ fn missing_housenumbers_view_chkl(
     let relation_name = tokens.next_back().context("no relation_name")?;
     let mut relation = relations.get_relation(relation_name)?;
 
-    let output: String;
-    if !stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
-        output = tr("No existing streets");
+    let output: String = if !stats::has_sql_mtime(ctx, &format!("streets/{relation_name}"))? {
+        tr("No existing streets")
     } else if !stats::has_sql_mtime(ctx, &format!("housenumbers/{relation_name}"))? {
-        output = tr("No existing house numbers");
+        tr("No existing house numbers")
     } else {
         let ongoing_streets = relation.get_missing_housenumbers()?.ongoing_streets;
 
@@ -646,8 +644,8 @@ fn missing_housenumbers_view_chkl(
             }
         }
         table.sort_by_key(|i| util::get_sort_key(i));
-        output = table.join("\n");
-    }
+        table.join("\n")
+    };
     Ok((output, relation_name.into()))
 }
 
