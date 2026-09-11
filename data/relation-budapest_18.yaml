@@ -50,6 +50,8 @@ street-filters:
   # semmilyen forrásban sem találtam
   - Soroksári összekötő út
   - Templom tér
+  # létezik, de átlóg
+  - Aratás utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás, rövidítés: ref hibás
