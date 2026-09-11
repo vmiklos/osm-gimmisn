@@ -19,6 +19,7 @@ refstreets:
 osm-street-filters:
   # átlógó/területhatár
   - Gyár utca / Muskátli utca
+  - Diótörő utca
 source: survey
 housenumber-letters: true
 inactive: true
