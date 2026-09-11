@@ -71,6 +71,9 @@ osm-street-filters:
   # településrész
   - Hosszúrét
   # településhatár/átlógó
+  - Csóka utca
+  - Darázs utca
+  - Légimentő utca
   - Méhecske utca
   - Temető utca
 street-filters:
