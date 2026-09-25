@@ -146,7 +146,7 @@ impl FileSystem for TestFileSystem {
 
     fn open_read(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         if self.hide_paths.borrow().contains(&path.to_string()) {
-            return Err(anyhow::anyhow!("'{}' is hidden", path));
+            anyhow::bail!("'{}' is hidden", path);
         }
 
         if self.files.contains_key(path) {
@@ -162,10 +162,7 @@ impl FileSystem for TestFileSystem {
 
     fn open_write(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
         if !self.files.contains_key(path) {
-            return Err(anyhow::anyhow!(
-                "open_write: self.files doesn't contain '{}'",
-                path
-            ));
+            anyhow::bail!("open_write: self.files doesn't contain '{}'", path);
         }
 
         let mut hide_paths = self.hide_paths.borrow_mut();
@@ -184,7 +181,7 @@ impl FileSystem for TestFileSystem {
     fn unlink(&self, path: &str) -> anyhow::Result<()> {
         let mut hide_paths = self.hide_paths.borrow_mut();
         if !self.files.contains_key(path) || hide_paths.contains(&path.to_string()) {
-            return Err(anyhow::anyhow!("unlink: {}: no such file", path));
+            anyhow::bail!("unlink: {}: no such file", path);
         }
 
         hide_paths.push(path.to_string());
@@ -309,7 +306,7 @@ impl Network for TestNetwork {
 
             if route.result_path.is_empty() {
                 locked_routes.remove(index);
-                return Err(anyhow::anyhow!("empty result_path for url '{}'", url));
+                anyhow::bail!("empty result_path for url '{}'", url);
             }
             ret = std::fs::read_to_string(&route.result_path)?;
             remove = Some(index);
@@ -317,7 +314,7 @@ impl Network for TestNetwork {
         }
 
         if ret.is_empty() {
-            return Err(anyhow::anyhow!("url missing from route list: '{}'", url));
+            anyhow::bail!("url missing from route list: '{}'", url);
         }
         // Allow specifying multiple results for the same URL.
         locked_routes.remove(remove.unwrap());

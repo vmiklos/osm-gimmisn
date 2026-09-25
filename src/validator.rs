@@ -271,7 +271,7 @@ pub fn our_main(
         for error in errors {
             stream.write_all(format!("{error}\n").as_bytes())?;
         }
-        return Err(anyhow::anyhow!("failed to validate {}", yaml_path));
+        anyhow::bail!("failed to validate {}", yaml_path);
     }
 
     Ok(())
