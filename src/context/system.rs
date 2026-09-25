@@ -111,7 +111,7 @@ impl Network for StdNetwork {
                 .send()?;
             let status = response.status();
             if !status.is_success() {
-                return Err(anyhow::anyhow!("status is not success: {status}"));
+                anyhow::bail!("status is not success: {status}");
             }
             let ret = response.text()?;
             return Ok(ret);
@@ -128,7 +128,7 @@ impl Network for StdNetwork {
             .send()?;
         let status = response.status();
         if !status.is_success() {
-            return Err(anyhow::anyhow!("status is not success: {status}"));
+            anyhow::bail!("status is not success: {status}");
         }
         let ret = response.text()?;
         Ok(ret)

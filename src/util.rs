@@ -18,7 +18,6 @@ use crate::overpass_query;
 use crate::ranges;
 use crate::yattag;
 use anyhow::Context;
-use anyhow::anyhow;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
 use std::collections::HashSet;
@@ -352,7 +351,7 @@ impl HouseNumber {
                     groups.push(cap[index].to_string());
                 }
             } else {
-                return Err(anyhow!("ValueError"));
+                anyhow::bail!("ValueError");
             }
         }
 

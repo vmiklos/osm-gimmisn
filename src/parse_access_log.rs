@@ -196,7 +196,7 @@ pub fn our_main(
     ctx: &context::Context,
 ) -> anyhow::Result<()> {
     if argv.len() < 2 {
-        return Err(anyhow::anyhow!("missing parameter: logfile"));
+        anyhow::bail!("missing parameter: logfile");
     }
 
     let log_file = &argv[1];
