@@ -7,5 +7,4 @@ source: survey
 refstreets:
   # OSM Name 1: Ref Name 1
   'Sárvári út': 'Sárvári utca'
-  'Váti út': 'Váti utca'
 inactive: true
