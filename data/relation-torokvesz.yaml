@@ -166,6 +166,10 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '6', end: '98'}
+  Hegyi utca:
+    invalid:
+      - '9' # Csévi köz 9
+      - '12' # Csévi köz 12
   Hidász utca:
     ranges:
       - {start: '19', end: '99'}

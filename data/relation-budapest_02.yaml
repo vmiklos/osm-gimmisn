@@ -302,6 +302,10 @@ filters:
     # 27: 27/a, 27/b van
     # 16/a, 16/b: 16 van
     invalid: ['13', '27', '16b']
+  Hegyi utca:
+    invalid:
+      - '9' # Csévi köz 9
+      - '12' # Csévi köz 12
   Herman Ottó út:
     invalid:
       - '19-21' # 19a, 19b, 21 helyette
