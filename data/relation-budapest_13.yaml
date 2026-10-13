@@ -51,6 +51,10 @@ osm-street-filters:
   - Rokolya park
   - Vizafogó Pihenőkert
   - Vizafogó Pihenőpark
+  - Vizafogó I. udvar
+  - Vizafogó II. udvar
+  - Vizafogó III. udvar
+  - Vizafogó IV. udvar
 street-filters:
   # semmilyen forrásban sem találtam
   - Aliga út
