@@ -6,6 +6,7 @@ filters:
       - {start: '15', end: '199'}
       - {start: '2', end: '198'}
 refstreets:
+  'Szőnyi István utca': 'Szőnyi István út'  # táblán Szőnyi I. utca
   # kérdéses
   'Akác domb': 'Akácdomb utca'
   'Almáskert utca': 'Almás kert'
