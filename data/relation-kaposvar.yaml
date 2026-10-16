@@ -69,6 +69,7 @@ street-filters:
 osm-street-filters:
   # nem igazi utcák
   - Alakulótér
+  - Kapos völgye kerékpárút
   # parkok/sétányok
   - Agg József sétány 
   - Béke park
