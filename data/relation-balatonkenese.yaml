@@ -13,6 +13,9 @@ filters:
     # 5/a: nincs kiírva csak 5 a nyeles telek végén lévő kapun, a másik ikerfelen semmi nincs
     # 14/b: 14 van kiírva a kapun, hátul vannak még házak, más felirat nincs
     invalid: ['5a', '14b']
+  Ágnes utca:
+    # 4/A, 4/B: csak 4
+    invalid: ['4a', '4b']
   Árvácska utca:
     # 9: Még Móricz Zsigmond utca 25-re számozva
     invalid: ['9']
@@ -289,7 +292,11 @@ filters:
     # 21-23: erre a házra is 19 van kiírva
     # 34/b: csak 34 van kiírva.
     # 50: csak 50/a van kiírva, a másik ház Útalja utca 28-ra számozva
-    invalid: ['2b', '5', '19a', '23', '34b', '50']
+    # 78: nincs, Útalja utca 18
+    # 85: max házszám 63
+    # 88: nincs, Útalja utca 12/A
+    # 98/b: csak 98 van kiírva
+    invalid: ['2b', '5', '19a', '23', '34b', '50', '85', '88', '98b']
   Szegfű utca:
     # Az utcában 1 db sorház van
     # 14: sorház 14/1 .. 14/7
