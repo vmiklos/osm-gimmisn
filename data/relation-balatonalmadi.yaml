@@ -125,6 +125,9 @@ filters:
     # 1: 1/a van kiírva, van még egy ház a telken, azon nincs kiírva semmi
     # 28-32: nincs kiírva. kuka szerda. RESURVEY 2025
     invalid: ['1', '28', '30', '32']
+  Corvin János utca:
+    # 2 = Dukai Takách Jenő utca 16/A van kiírva
+    invalid: ['2']
   Csaba köz:
     invalid: ['1']
   Csalogány utca:
