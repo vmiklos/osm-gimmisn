@@ -8,6 +8,8 @@ filters:
     # 15: nincs beépítve
     # 54-62: az utca végét újraszámozták: 60 kint van, de a 92 még látszik, 62 helyén 94 van kiírva
     invalid: ['9', '11b', '15', '54']
+  Álmos vezér utca:
+    invalid: ['6']
   Arany János utca:
     # 3: 2 házon is rajta van, a fh szerint az egyik az 5
     # 5/a: nincs kiírva csak 5 a nyeles telek végén lévő kapun, a másik ikerfelen semmi nincs
@@ -296,7 +298,7 @@ filters:
     # 85: max házszám 63
     # 88: nincs, Útalja utca 12/A
     # 98/b: csak 98 van kiírva
-    invalid: ['2b', '5', '19a', '23', '34b', '50', '85', '88', '98b']
+    invalid: ['2b', '5', '19a', '23', '34b', '50', '78', '85', '88', '98b']
   Szegfű utca:
     # Az utcában 1 db sorház van
     # 14: sorház 14/1 .. 14/7
