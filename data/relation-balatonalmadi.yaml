@@ -23,9 +23,10 @@ filters:
     invalid: ['2']
   Árpád utca:
     # 2: 2 helyett 2/a és 2/b van kiírva
+    # 4/b: nincs kint házszám, de valósznű 4
     # 25: 25-27, de csak 27 van kiírva
     # 19/b: 19 van kiírva
-    invalid: ['2', '19b', '25']
+    invalid: ['2', '4b', '19b', '25']
   Asztalos Sándor utca:
     # 7/a, 7/b: 1 ház van, ott 7 van kiírva
     # 25: 25/a és 25/b van kiírva, ahogy a szabályozási terven is szerepel, földhivatalnál viszont 25 van
@@ -559,8 +560,8 @@ filters:
     # 19/b: az első ház, itt 19 van a falon
     invalid: ['19a', '19b']
   Szent István sétány:
-    # 4-6: Wesselényi Strand: csak a 6 van használatban
-    invalid: ['4', '6c']
+    # 4-6: Wesselényi Strand
+    invalid: ['6c']
   Szinyei Merse Pál utca:
     # 12-14: csak 12 van kiírva
     invalid: ['14']
@@ -633,13 +634,15 @@ filters:
   Veszprémi út:
     # 1: Az első ház a 3.
     # 5, 7: 3 után 9 jön, valahol belül lehet, de ott nincs több ház
+    # 25/a, b: 2 épület van, de csak 25 van kiírva
     # 46-48: csak 48 van kiírva
     # 83 templom kellene leyen, de más források szerint a kolostor, de ott 85 van kiírva
     # 89: Máltai alapszabályában 89, a facebook oldalukon 87-es házszám van
     # 91: nincs kint házszám
     # 101: 99 után 103
     # 102-104  nincs kiírva RESURVEY 2025
-    invalid: ['1', '5', '7', '44', '46', '83', '91', '101', '102', '104']
+    # 133: 133/a-133/e
+    invalid: ['1', '5', '7', '25a', '25b', '44', '46', '83', '91', '101', '102', '104', '133']
   Vidovszky Béla utca:
     # 26: Tisza utca 12-14 van kiírva
     invalid: ['26']
