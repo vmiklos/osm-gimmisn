@@ -363,6 +363,9 @@ filters:
     ranges:
       - {start: '1', end: '41'}
       - {start: '2', end: '34'}
+  Lepke utca:
+    invalid:
+      - '21' # 21a, 21b helyette
   Lévay utca:
     invalid:
       - '4' # 4a, 4b helyette

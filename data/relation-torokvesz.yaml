@@ -193,6 +193,9 @@ filters:
   Krecsányi utca:
     invalid:
       - '15' # 13 a vége
+  Lepke utca:
+    invalid:
+      - '21' # 21a, 21b helyette
   Lévay utca:
     invalid:
       - '4' # 4a, 4b helyette
