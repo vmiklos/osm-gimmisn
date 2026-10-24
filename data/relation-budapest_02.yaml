@@ -533,7 +533,10 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '10'}
-  # Rügy utca:
+  Rügy utca:
+    invalid:
+      - '22a' # 22 helyette
+      - '52' # 24 a vége
   Sövény utca:
     invalid:
       - '1' # helyette 1a, 1b
