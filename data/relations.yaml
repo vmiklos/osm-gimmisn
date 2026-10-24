@@ -908,6 +908,10 @@ sarvar:
     osmrelation: 1131510
     refcounty: "18"
     refsettlement: "167"
+sitke:
+    osmrelation: 1131437
+    refcounty: "18"
+    refsettlement: "170"
 szombathely:
     osmrelation: 1131673
     refcounty: "18"
