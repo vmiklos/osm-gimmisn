@@ -1,0 +1,13 @@
+missing-streets: 'yes'
+source: survey
+refstreets:
+  # kérdéses
+  'Dózsa György utca': 'Dózsa utca'
+  'Hunyadi János utca': 'Hunyadi utca'
+  'Kossuth Lajos utca': 'Kossuth utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Zrínyi Miklós utca': 'Zrínyi utca'
+osm-street-filters:
+  # egyéb
+  - Kissitkei fogolytábor emlékhely
+inactive: true
