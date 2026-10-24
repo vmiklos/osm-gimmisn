@@ -10,4 +10,6 @@ refstreets:
 osm-street-filters:
   # egyéb
   - Kissitkei fogolytábor emlékhely
+  # átlógó
+  - Ostffyasszonyfai utca  # Sárvár
 inactive: true
