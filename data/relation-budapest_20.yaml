@@ -11,7 +11,11 @@ filters:
 osm-street-filters:
   - Duna sétány
   # Területhatáron lévő utca/átlógó
+  - Írisz utca
+  - Könyves utca
   - Meddőhányó utca
+  - Mesgye utca
+  - Újtelep út
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Helsinki hévállomás
