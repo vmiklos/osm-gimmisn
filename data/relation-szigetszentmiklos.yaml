@@ -21,13 +21,15 @@ street-filters:
   - Lapály utca  # átnevezve Levendula utcára
   - Mező utca  # nincs, valószínű Mező köz duplikátum
 osm-street-filters:
-  # parkok
+  # parkok, sétányok
   - Batya és Tanösvény park
+  - Csepeli Akácfa utcai kiserdő
+  - Gyula Deák sétány
   - Kéktó Szabadidőpark
   - Kőpark
   - Nemzeti Összetartozás park
+  - Nóra sétány
   - Lakihegyi közösségi tér
-  #- Nóra sétány
   - Református gyülekezet park
   - Sziget színház park
   - Üdvözlő park
