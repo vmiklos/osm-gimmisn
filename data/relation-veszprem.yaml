@@ -313,6 +313,8 @@ filters:
     # 31/2: nincs kiírva, se ez se 31
     # 34/1: nincs
     invalid: ['28/1', '31/2', '34/1']
+  Veszprémvölgyi utca:
+    invalid: ['5/3']
   Zirci utca:
     # 37: 37/1, 37/2
     # 52/a: nincs, csak 52
