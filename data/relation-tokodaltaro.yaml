@@ -39,6 +39,7 @@ osm-street-filters:
   # Határon lévő, átlógó
   - Kossuth Lajos utca
   - Nixbród dűlő
+  - OVIT telep
   - Várberek dűlő
 refstreets:
   'Akácos utca': 'Akácos út'
