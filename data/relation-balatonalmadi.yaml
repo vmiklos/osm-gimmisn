@@ -84,12 +84,13 @@ filters:
     # 44-46 helyén 48a, 48b
     # 48-50 helyén 50, 50
     # 59 helyén 57/b van kírva, a házon és a kukán is
+    # 65: 65/a, b, c
     # 69 helyén 61 van kiírva
     # 71 nincs kiírva és ház sincs
-    # 65: 65/a, b, c
+    # 72 nincs kiírva és ház sincs
     # 130: üres telek
     # 158: mintha hátul lenne egy viskó, kiírva nincs semmi
-    invalid: ['30', '44', '46', '48', '59', '71', '130', '158']
+    invalid: ['30', '44', '46', '48', '59', '65', '71', '72', '130', '158']
   Báthory utca:
     show-refstreet: false
   Batthyány utca:
@@ -657,11 +658,11 @@ filters:
   Vöröshegyi utca:
     # 1 táblán, illetve némely házon Vöröshegyi út van, de a hivatalos utcatáblán Vöröshegyi utca
     # külső részen alig vannak táblázva
-    # 13: nincs kiírva
+    # 11-13: nincs kiírva
     # 24-26: csak 26 van a házon
     # 33: nincs kiírva
     # 38-40: HÉSZ szerinti helyén 36 van táblázva
-    invalid: ['24', '33', '38', '40']
+    invalid: ['11-13', '24', '33', '38', '40']
     show-refstreet: false
   Vöröskő utca:
     # 8: 3 van kiírva
