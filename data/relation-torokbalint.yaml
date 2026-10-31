@@ -73,10 +73,13 @@ osm-street-filters:
   # településhatár/átlógó
   - Csóka utca
   - Darázs utca
+  - Haraszt utca
+  - Jávorfa utca
   - Légimentő utca
   - Méhecske utca
   - Temető utca
   - Tetőfedő utca
+  - Törökbálinti út
 street-filters:
   # tanyák
   - Csalogány tanya
