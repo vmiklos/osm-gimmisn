@@ -5,6 +5,9 @@ filters:
       - '29' # 27 a vége
       - '37'
       - '38' # 28 a vége
+  Petőfi Sándor utca:
+    invalid:
+      - '24' # 22 a vége
 source: survey
 refstreets:
   # kérdéses
