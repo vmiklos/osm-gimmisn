@@ -47,7 +47,6 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = OSM, ref hibás
   'Ferihegyi repülőtérre vezető út': 'Ferihegyi reptérre vezető út'
-  'Györffy István tér': 'Győrffy István tér'
   'Körös köz': 'Kőrös köz'
   # utcajegyzék = REF, OSM eltér
   'Citroën utca': 'Citroen utca'  # utcatábla = OSM
