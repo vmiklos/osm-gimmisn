@@ -340,6 +340,7 @@ osm-street-filters:
   # parkok, sétányok, lépcsők, udvarok
   - 1686-os emlékpark
   - Citadella lejtő
+  - Csikós-udvar
   - Déli kertek
   - Ellyps sétány
   - Eszperantó park
@@ -361,6 +362,7 @@ osm-street-filters:
   - Savoyai terasz
   - Stöckl-lépcső
   - Szabadság sétány
+  - Törökkert
   - Vérmező
 source: survey
 inactive: false
