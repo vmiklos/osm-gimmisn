@@ -2,7 +2,7 @@ missing-streets: 'yes'
 filters:
   Almavirág tér:
     interpolation: all
-  Györffy István tér:
+  Győrffy István tér:
     interpolation: all
   Hunyadi tér:
     interpolation: all
