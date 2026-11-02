@@ -1,14 +1,5 @@
 missing-streets: 'yes'
-refstreets:
-  'Arany János utca': 'Arany János út'
-  'Árpád utca': 'Árpád út'
-  'Dózsa György utca': 'Dózsa György út'
-  'Hunyadi utca': 'Hunyadi út'
-  'Kossuth Lajos utca': 'Kossuth Lajos út'
-  'Liget utca': 'Liget út'
-  'Móricz Zsigmond utca': 'Móricz Zsigmond út'
-  'Rákóczi Ferenc utca': 'Rákóczi Ferenc út'
-  'Táncsics Mihály utca': 'Táncsics Mihály út'
+# refstreets:
 # street-filters:
   # nem igazi utcák
 # osm-street-filters:
