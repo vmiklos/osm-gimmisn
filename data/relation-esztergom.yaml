@@ -6,9 +6,6 @@ filters:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '98'}
-  Bánomi dűlő:
-    # hrsz szűrés - 0701/4
-    invalid: ['701']
   Bánomi út:
     ranges:
       - {start: '1', end: '99'}
