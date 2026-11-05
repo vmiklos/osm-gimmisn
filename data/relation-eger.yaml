@@ -113,7 +113,7 @@ refstreets:
   'Foglár utca': 'Foglár György utca'  # Táblán Foglár u. - 2023.07 - https://www.openstreetmap.org/note/2803211
   # note
   # Akácfa utca - Akácos utca: dupla nem mappelhető
-  'Borház sor': 'Borház sor utca' # Note 4178003
+  # 'Borház sor': 'Borház sor utca' # Note 4178003 - kérdéses továbbra is
   # 'Bem tábornok utca': 'Bem tábornok tér'  # Note 2803168 - táblák vegyesen
   # 'Deméndi utca': 'Deméndi út'  # Note 2803218
   'Disznófő-sor': 'Disznófősor'  # Note 2803215
