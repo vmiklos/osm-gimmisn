@@ -282,6 +282,9 @@ filters:
   Sövény utca:
     invalid:
       - '1' # helyette 1a, 1b
+  Szilfa utca:
+    invalid:
+      - '1' # helyette 1a, 1b
   Törökvész út:
     ranges:
       - {start: '84', end: '126'}
