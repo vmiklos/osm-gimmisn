@@ -566,6 +566,9 @@ filters:
   # Szépvölgyi út:
     # páratlan: III. kerület
     # páros: II. kerület
+  Szilfa utca:
+    invalid:
+      - '1' # helyette 1a, 1b
   Tapolcsányi utca:
     ranges:
       - {start: '3', end: '13'}
