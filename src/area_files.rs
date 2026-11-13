@@ -27,13 +27,13 @@ pub struct OsmStreet {
     /// Street name.
     pub name: String,
     /// Object type.
-    pub object_type: Option<String>,
+    pub object_type: String,
 }
 
 impl OsmStreet {
-    fn new(id: u64, name: &str, object_type: &Option<String>) -> Self {
+    fn new(id: u64, name: &str, object_type: &str) -> Self {
         let name = name.to_string();
-        let object_type = object_type.clone();
+        let object_type = object_type.to_string();
         OsmStreet {
             id,
             name,
@@ -64,7 +64,7 @@ impl RelationFiles {
             let id: String = row.get(0).unwrap();
             let name: String = row.get(1).unwrap();
             let object_type: String = row.get(2).unwrap();
-            ret.push(OsmStreet::new(id.parse()?, &name, &Some(object_type)));
+            ret.push(OsmStreet::new(id.parse()?, &name, &object_type));
         }
         Ok(ret)
     }
