@@ -526,9 +526,7 @@ impl<'a> Relation<'a> {
                 &row.name, /*ref_name=*/ "", /*show_ref_street=*/ true,
                 /*osm_id=*/ row.id,
             );
-            if let Some(value) = row.object_type {
-                street.set_osm_type(&value);
-            }
+            street.set_osm_type(&row.object_type);
             street.set_source(&tr("street"));
             ret.push(street)
         }
