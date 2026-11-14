@@ -2231,6 +2231,9 @@ fn test_relation_get_additional_housenumbers() {
                 "Second Only In OSM utca": {
                     "valid": ['1'],
                 },
+                "Only In OSM utca": {
+                    "invalid": [],
+                },
             },
             "refstreets": {
                 "OSM Name 1": "Ref Name 1",
