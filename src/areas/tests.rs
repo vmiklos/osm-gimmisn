@@ -1243,6 +1243,47 @@ fn test_relation_get_ref_streets() {
     );
 }
 
+/// Tests Relation::get_invalid_refstreets(): OSM and ref streets are both found.
+#[test]
+fn test_relation_get_invalid_refstreets() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "refcounty": "0",
+                "refsettlement": "0",
+                "osmrelation": 42,
+            },
+        },
+        "relation-gazdagret.yaml": {
+            "refstreets": {
+                "OSM Name 1": "Ref Name 1",
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', '1', 'OSM Name 1', '', '', '', '', '');
+             insert into ref_streets (county_code, settlement_code, street) values ('0', '0', 'Ref Name 1');",
+        )
+        .unwrap();
+    }
+    let mut relations = Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("gazdagret").unwrap();
+    let (osm_invalids, ref_invalids) = relation.get_invalid_refstreets().unwrap();
+    // Both the OSM and the ref street are valid, so there is nothing to report.
+    assert!(osm_invalids.is_empty());
+    assert!(ref_invalids.is_empty());
+}
+
 /// Tests Relation::get_osm_housenumbers().
 #[test]
 fn test_relation_get_osm_housenumbers() {
