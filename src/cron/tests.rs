@@ -1376,3 +1376,56 @@ fn test_clean_osm_data() {
         assert_eq!(count, 0);
     }
 }
+
+/// Tests clean_osm_data(): rows of a still existing relation are kept.
+#[test]
+fn test_clean_osm_data_valid_relation() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "myrelation": {},
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            "insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('myrelation', '1', 'mystreet', '', '', '', '', '');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('myrelation', '2', 'mystreet', '1', '', '', '', '', '', '', '', '', '', 'node');
+             insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('stale', '3', 'stalestreet', '', '', '', '', '');
+             insert into osm_housenumbers (relation, osm_id, street, housenumber, postcode, place, housename, conscriptionnumber, flats, floor, door, unit, name, osm_type) values ('stale', '4', 'stalestreet', '2', '', '', '', '', '', '', '', '', '', 'node');",
+        )
+        .unwrap();
+    }
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+
+    clean_osm_data(&ctx, &mut relations).unwrap();
+
+    let conn = ctx.get_database_connection().unwrap();
+    {
+        let mut stmt = conn.prepare("select relation from osm_streets").unwrap();
+        let mut rows = stmt.query([]).unwrap();
+        let mut street_relations: Vec<String> = Vec::new();
+        while let Some(row) = rows.next().unwrap() {
+            street_relations.push(row.get(0).unwrap());
+        }
+        assert_eq!(street_relations, ["myrelation"]);
+    }
+    {
+        let mut stmt = conn
+            .prepare("select relation from osm_housenumbers")
+            .unwrap();
+        let mut rows = stmt.query([]).unwrap();
+        let mut housenumber_relations: Vec<String> = Vec::new();
+        while let Some(row) = rows.next().unwrap() {
+            housenumber_relations.push(row.get(0).unwrap());
+        }
+        assert_eq!(housenumber_relations, ["myrelation"]);
+    }
+}
