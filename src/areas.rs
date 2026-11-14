@@ -1791,10 +1791,8 @@ fn normalize<'a>(
     {
         // If addr:unit is available then assume that housenumber is addr:housenumber + / +
         // addr:unit, unless addr:housenumber contains a slash already.
-        let mut it = housenumber.unit.split(" ");
-        if let Some(token) = it.next() {
-            house_numbers += &("/".to_string() + token);
-        }
+        let token = housenumber.unit.split(" ").next().unwrap();
+        house_numbers += &("/".to_string() + token);
     }
 
     if house_numbers.contains('\t') {
