@@ -2133,7 +2133,7 @@ fn test_handle_stats_cityprogress_well_formed() {
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute_batch(
-            "insert into stats_citycounts (date, city, count) values ('2020-05-10', 'Budapest_11', '11');
+            "insert into stats_citycounts (date, city, count) values ('2020-05-10', 'Budapest_11', '100');
              insert into stats_citycounts (date, city, count) values ('2020-05-10', 'Budapest_12', '12');",
         )
         .unwrap();
