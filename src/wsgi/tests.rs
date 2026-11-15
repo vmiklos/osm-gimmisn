@@ -2153,7 +2153,7 @@ fn test_handle_stats_zipprogress_well_formed() {
     {
         let conn = test_wsgi.ctx.get_database_connection().unwrap();
         conn.execute_batch(
-            "insert into stats_zipcounts (date, zip, count) values ('2020-05-10', '1111', '10');
+            "insert into stats_zipcounts (date, zip, count) values ('2020-05-10', '1111', '100');
              insert into stats_zipcounts (date, zip, count) values ('2020-05-10', '1121', '20');",
         )
         .unwrap();
