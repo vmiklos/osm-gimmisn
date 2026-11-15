@@ -1081,14 +1081,10 @@ fn create_filter_for_refcounty(refcounty_filter: &str) -> Box<RelationFilter> {
 
 /// Creates a function that filters for the specified relations.
 fn create_filter_for_relations(relation_filter: &str) -> Box<RelationFilter> {
-    let mut relations: Vec<u64> = Vec::new();
-    if !relation_filter.is_empty() {
-        for relation in relation_filter.split(',') {
-            if let Ok(val) = relation.parse() {
-                relations.push(val);
-            }
-        }
-    }
+    let relations: Vec<u64> = relation_filter
+        .split(',')
+        .filter_map(|relation| relation.parse().ok())
+        .collect();
     let relations_arc = Arc::new(relations);
     let relations = relations_arc;
     Box::new(move |_complete, relation| {
@@ -1530,11 +1526,7 @@ fn our_application_txt(
     let mut content_type = "text/plain; charset=utf-8";
     let mut headers: webframe::Headers = Vec::new();
     let prefix = ctx.get_ini().get_uri_prefix();
-    let mut chkl = false;
-    let tokens: Vec<_> = request_uri.split('.').collect();
-    if let Some((last, _elements)) = tokens.split_last() {
-        chkl = last == &"chkl";
-    }
+    let chkl = request_uri.rsplit('.').next() == Some("chkl");
     let data: Vec<u8>;
     if request_uri.starts_with(&format!("{prefix}/missing-streets/")) {
         let (output, relation_name) = missing_streets_view_txt(ctx, relations, request_uri, chkl)?;
@@ -1644,11 +1636,7 @@ fn our_application(
         }
     }
 
-    let mut ext: String = "".into();
-    let tokens: Vec<_> = request_uri.split('.').collect();
-    if let Some((last, _elements)) = tokens.split_last() {
-        ext = (*last).into();
-    }
+    let ext = request_uri.rsplit('.').next().unwrap_or_default();
 
     if ext == "txt" || ext == "chkl" {
         return our_application_txt(ctx, &mut relations, &request_uri);
