@@ -652,6 +652,54 @@ fn test_missing_housenumbers() {
     );
 }
 
+/// Tests the missing house numbers page: an error from get_invalid_refstreets() is ignored.
+#[test]
+fn test_missing_housenumbers_invalid_refstreets_error() {
+    let mut test_wsgi = TestWsgi::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "refcounty": "0",
+                "refsettlement": "0",
+                "osmrelation": 42,
+            },
+        },
+        "relation-gazdagret.yaml": {
+            "refstreets": {
+                "OSM Name 1": "Ref Name 1",
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.ctx.set_file_system(&file_system);
+    {
+        let conn = test_wsgi.ctx.get_database_connection().unwrap();
+        conn.execute_batch(
+            r#"insert into missing_housenumbers_cache (relation, json) values ('gazdagret', '{"ongoing-streets":[],"done-streets":[]}');
+               insert into mtimes (page, last_modified) values ('streets/gazdagret', '0');
+               insert into mtimes (page, last_modified) values ('housenumbers/gazdagret', '0');
+               insert into osm_streets (relation, osm_id, name, highway, service, surface, leisure, osm_type) values ('gazdagret', 'invalid', 'OSM Name 1', '', '', '', '', '');"#,
+        )
+        .unwrap();
+    }
+    stats::set_sql_mtime(&test_wsgi.ctx, "missing-housenumbers-cache/gazdagret").unwrap();
+
+    let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
+
+    let results = TestWsgi::find_all(&root, "body/table");
+    assert_eq!(results.len(), 1);
+    // The invalid osm_id makes get_invalid_refstreets() fail, so that section is skipped.
+    let results = TestWsgi::find_all(&root, "body/div[@id='osm-invalids-container']");
+    assert_eq!(results.len(), 0);
+    let results = TestWsgi::find_all(&root, "body/div[@id='ref-invalids-container']");
+    assert_eq!(results.len(), 0);
+}
+
 /// Tests the missing house numbers page: the output for a non-existing relation.
 #[test]
 fn test_missing_housenumbers_no_such_relation() {
