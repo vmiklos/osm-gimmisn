@@ -512,6 +512,14 @@ fn test_git_link() {
     assert_eq!(actual, expected);
 }
 
+/// Tests git_link(): the version has no git hash.
+#[test]
+fn test_git_link_no_hash() {
+    let actual = git_link("v1", "http://www.example.com/").get_value();
+    let expected = "<a href=\"http://www.example.com/\">v1</a>";
+    assert_eq!(actual, expected);
+}
+
 /// Tests sort_numerically(): numbers.
 #[test]
 fn test_sort_numerically_numbers() {
