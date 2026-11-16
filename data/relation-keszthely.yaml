@@ -67,6 +67,9 @@ osm-street-filters:
   # külterület
   - Alsópáhoki út
   - Szendreytelepi út # nincs tábla, de akár lehet is, van rá hivatkozás, de lehet Újmajori út is
+  # proposed
+  - Dr. Bartoss Lajos utca
+  - Lackfi István utca
 refstreets:
   'György bíró utca': 'György Biró utca'  # marad így, helyesírásilag ez a forma jó, utcanévtábla uppercase és rövid
   # ellenőrzött 2020-06, utcatábán az osm név
