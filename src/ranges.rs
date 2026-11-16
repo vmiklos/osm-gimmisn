@@ -34,11 +34,7 @@ impl Range {
             return false;
         }
 
-        if self.start <= item && item <= self.end {
-            return true;
-        }
-
-        false
+        self.start <= item && item <= self.end
     }
 }
 
