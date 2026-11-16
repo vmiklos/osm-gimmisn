@@ -82,6 +82,9 @@ osm-street-filters:
   #
   - Belsőnyír
   # átlógó utcák
+  - Barackvirág utca
+  - Kajszibarack utca
+  - Papp Sándor tér
   # nem igazi utcák
   - Ladánybenei elágazás
   - Hetényegyházi elkerülő
