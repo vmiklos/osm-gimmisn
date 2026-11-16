@@ -1449,15 +1449,11 @@ impl<'a> Relations<'a> {
 
         let osm_housenumber_coverage_exists = relation.has_osm_housenumber_coverage().unwrap();
         let osm_street_coverage_exists = relation.has_osm_street_coverage().unwrap();
-        if stats::has_sql_mtime(self.ctx, &format!("streets/{}", relation.get_name())).unwrap()
+        !(stats::has_sql_mtime(self.ctx, &format!("streets/{}", relation.get_name())).unwrap()
             && stats::has_sql_mtime(self.ctx, &format!("housenumbers/{}", relation.get_name()))
                 .unwrap()
             && osm_street_coverage_exists
-            && osm_housenumber_coverage_exists
-        {
-            return false;
-        }
-        true
+            && osm_housenumber_coverage_exists)
     }
 
     fn is_invalid(&self, relation: &Relation<'a>) -> anyhow::Result<bool> {
