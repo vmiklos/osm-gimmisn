@@ -7,6 +7,7 @@ osm-street-filters:
   # Nem igazi utcák
   - Kastélypark
   - Brunszvik-kert
+  - Brunszvik sétány
 street-filters:
   # Nem igazi utcák
   - Bulgárház  # külterület, mezőgazdasági jellegű lakótelep: https://www.openstreetmap.org/node/5532635145
