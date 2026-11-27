@@ -254,6 +254,10 @@ pahi:
     osmrelation: 1130352
     refcounty: "03"
     refsettlement: "091"
+tiszaug:
+    osmrelation: 1130424
+    refcounty: "03"
+    refsettlement: "112"
 # 04 - Békés megye
 bekes:
     osmrelation: 1026148
@@ -448,6 +452,10 @@ polgar:
     refcounty: "09"
     refsettlement: "062"
 # 10 - Heves
+detk:
+    osmrelation: 1418106
+    refcounty: "10"
+    refsettlement: "021"
 eger:
     osmrelation: 1418156
     refcounty: "10"
@@ -468,6 +476,10 @@ hatvan:
     osmrelation: 1418333
     refcounty: "10"
     refsettlement: "046"
+matraszentimre:
+    osmrelation: 1417366
+    refcounty: "10"
+    refsettlement: "069"
 sarud:
     osmrelation: 1325122
     refcounty: "10"
@@ -579,10 +591,18 @@ batonyterenye:
     osmrelation: 1417377
     refcounty: "13"
     refsettlement: "006"
+jobbagyi:
+    osmrelation: 1370531
+    refcounty: "13"
+    refsettlement: "047"
 kazar:
     osmrelation: 1372091
     refcounty: "13"
     refsettlement: "053"
+matraverebely:
+    osmrelation: 1372112
+    refcounty: "13"
+    refsettlement: "075"
 paszto:
     osmrelation: 1417422
     refcounty: "13"
@@ -599,6 +619,10 @@ szecseny:
     osmrelation: 1370535
     refcounty: "13"
     refsettlement: "114"
+szurdokpuspooki:
+    osmrelation: 1417421
+    refcounty: "13"
+    refsettlement: "119"
 tar:
     osmrelation: 1372130
     refcounty: "13"
