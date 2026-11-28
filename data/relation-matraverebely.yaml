@@ -1,0 +1,31 @@
+missing-streets: 'yes'
+refstreets:
+  'A sor': 'Kányás A sor'
+  'Arany János utca': 'Kányás Arany János út'
+  'Ady Endre utca': 'Ady Endre út'
+  'Alkotmány utca': 'Alkotmány út'
+  'B sor': 'Kányás B sor'
+  'Béke utca': 'Béke út'
+  'C sor': 'Kányás C sor'
+  'Damjanich utca': 'Damjanich út'
+  'Dózsa György utca': 'Dózsa György út'
+  'Fenyves utca': 'Fenyves út'
+  'Kossuth Lajos utca': 'Kossuth Lajos út'
+  'Liget utca': 'Liget út'
+  'Petőfi Sándor utca': 'Petőfi út'
+  'Rákóczi Ferenc utca': 'Rákóczi út'
+  'Rózsadomb utca': 'Rózsadomb'
+  'Sport utca': 'Sport út'
+  'Szabadság utca': 'Szabadság út'
+  'Szentkút utca': 'Szentkút'
+  'Vasút utca': 'Vasút út'
+  'Zagyva utca': 'Zagyva út'
+# street-filters:
+  # tanya
+# osm-street-filters:
+  # átlógó utcák
+  # nem igazi utcák
+  # parkok, sétányok
+source: survey
+housenumber-letters: true
+inactive: false
