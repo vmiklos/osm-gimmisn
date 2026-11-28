@@ -3,11 +3,14 @@ refstreets:
   'Kis Tisza utca': 'Kis-Tisza utca'
   'Rózsa Ferenc út': 'Rózsa út'
   'Táncsics Mihály utca': 'Táncsics Mihály út'
+  'Radwány út': 'Ságvári Endre út'
 street-filters:
   # tanya
   # - Bundaszárító szőlő
+  - Bokros tanya
   - Cserepes tanya
   - Felsőmajor
+  - Gátőrház telep
   - Temetősor tanya
   - Tanya
 # osm-street-filters:
