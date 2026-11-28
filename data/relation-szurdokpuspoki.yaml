@@ -1,0 +1,11 @@
+missing-streets: 'yes'
+refstreets:
+  'Almási utca': 'Almási út'
+  'Laposatanya': 'Lapos tanya'
+# street-filters:
+  # tanya
+# osm-street-filters:
+  # parkok
+source: survey
+housenumber-letters: true
+inactive: false
