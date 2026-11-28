@@ -1,0 +1,18 @@
+missing-streets: 'yes'
+refstreets:
+  'Gólyavár utca': 'Galyavár utca'
+  'Jókai út': 'Jókai Mór utca'
+  # 'Kodály Zoltán sétány': 'Kodály Zoltán utca'
+  'Kossuth utca': 'Kossuth Lajos utca'
+  'Narád út': 'Narád utca'
+  'Zrínyi utca': 'Zrínyi Miklós utca'
+  # 'Ágasvári út': 'Ágasvár telep'
+# street-filters:
+  # tanya
+# osm-street-filters:
+  # átlógó utcák
+  # nem igazi utcák
+  # parkok, sétányok
+source: survey
+housenumber-letters: true
+inactive: false
