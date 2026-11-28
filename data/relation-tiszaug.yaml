@@ -1,0 +1,19 @@
+missing-streets: 'yes'
+refstreets:
+  'Kis Tisza utca': 'Kis-Tisza utca'
+  'Rózsa Ferenc út': 'Rózsa út'
+  'Táncsics Mihály utca': 'Táncsics Mihály út'
+street-filters:
+  # tanya
+  # - Bundaszárító szőlő
+  - Cserepes tanya
+  - Felsőmajor
+  - Temetősor tanya
+  - Tanya
+# osm-street-filters:
+  # átlógó utcák
+  # nem igazi utcák
+  # parkok, sétányok
+source: survey
+housenumber-letters: true
+inactive: false
