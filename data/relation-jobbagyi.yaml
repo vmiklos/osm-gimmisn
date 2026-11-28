@@ -1,0 +1,9 @@
+missing-streets: 'yes'
+street-filters:
+  # nem igazi utcák
+  - 61-es őrház
+  - Zártkert
+# osm-street-filters:
+source: survey
+housenumber-letters: true
+inactive: false
