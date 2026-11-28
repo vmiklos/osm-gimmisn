@@ -1,0 +1,18 @@
+missing-streets: 'yes'
+refstreets:
+  'Ady Endre utca': 'Ady Endre út'
+  'Dózsa György utca': 'Dózsa György út'
+  'Jókai utca': 'Jókai Mór utca'
+  'József Attila utca': 'József Attila út'
+  'Sugár utca': 'Sugár út'
+  'Szabadság út': 'Szabadság utca'
+# street-filters:
+  # tanya
+osm-street-filters:
+  # átlógó utcák
+  # nem igazi utcák
+  # parkok, sétányok
+  - Milleniumi Emlékpark
+source: survey
+housenumber-letters: true
+inactive: false
